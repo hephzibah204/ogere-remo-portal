@@ -91,14 +91,28 @@ export default function DonateModal({ isOpen, onClose }) {
         </button>
 
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '1.8rem' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.4rem' }}>💛</div>
-          <p className="cinzel" style={{ fontSize: '0.65rem', letterSpacing: '0.25em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-            Support Our Community Initiative
-          </p>
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.4rem' }}>🌟</div>
+          <div
+            style={{
+              display: 'inline-block',
+              background: 'linear-gradient(135deg, rgba(201,150,58,0.25), rgba(181,69,27,0.3))',
+              border: '1px solid var(--gold)',
+              borderRadius: '20px',
+              padding: '0.35rem 1rem',
+              marginBottom: '0.8rem',
+            }}
+          >
+            <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'var(--gold)', fontWeight: 700, textTransform: 'uppercase' }}>
+              🇳🇬 Pioneering Nigeria's 1st Digital Town
+            </span>
+          </div>
           <h2 className="playfair" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.1rem)', color: 'var(--cream)', margin: 0, fontWeight: 700 }}>
-            Fund the Ogere Remo Portal
+            Make Ogere Nigeria's 1st Digital Town
           </h2>
+          <p style={{ fontSize: '0.86rem', color: 'rgba(240,208,128,0.9)', fontStyle: 'italic', margin: '0.5rem 0 0 0' }}>
+            By supporting this project, you are helping Ogere Remo make history as the very first fully digitalized indigenous town in Nigeria!
+          </p>
         </div>
 
         {/* Rationale Box */}
@@ -116,7 +130,7 @@ export default function DonateModal({ isOpen, onClose }) {
           className="baskerville"
         >
           <p style={{ margin: '0 0 0.8rem 0' }}>
-            The <strong>Ogere Remo Digital Portal</strong> is an ambitious, civic-led digital transformation initiative. Sustaining this high-performance community infrastructure requires substantial continuous funding for:
+            To bring this historic vision to life and build a sustainable, world-class municipal digital ecosystem for Ogere Remo, continuous funding is vital to support:
           </p>
           <ul style={{ margin: 0, paddingLeft: '1.2rem', display: 'grid', gap: '0.35rem', fontSize: '0.84rem' }}>
             <li>💻 <strong>Software Developers & Technical Engineers</strong></li>

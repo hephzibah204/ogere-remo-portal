@@ -155,13 +155,13 @@ export default function Footer() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.2rem' }}>
             <div style={{ flex: 1, minWidth: 'min(280px, 100%)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
-                <span style={{ fontSize: '1.4rem' }}>💛</span>
+                <span style={{ fontSize: '1.4rem' }}>🌟</span>
                 <span className="cinzel" style={{ fontSize: '0.68rem', fontWeight: 900, color: 'var(--gold)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  Support & Fund This Project
+                  Make Ogere Nigeria's 1st Digital Town · Support This Project
                 </span>
               </div>
-              <p style={{ fontSize: '0.82rem', lineHeight: 1.65, color: 'rgba(245,237,216,0.8)', margin: '0 0 0.6rem 0' }}>
-                This portal requires substantial funding to keep running — supporting <strong>developers, designers, project managers, cloud hosting, domain web hosting, and continuous system maintenance</strong>.
+              <p style={{ fontSize: '0.82rem', lineHeight: 1.65, color: 'rgba(245,237,216,0.85)', margin: '0 0 0.6rem 0' }}>
+                By supporting this initiative, you are helping Ogere Remo pioneer history as the <strong>first fully digitalized town in Nigeria</strong>. Continuous funding empowers our dedicated <strong>developers, designers, project managers, cloud hosting, domain web hosting, and 24/7 maintenance</strong>.
               </p>
               <div style={{ fontSize: '0.78rem', color: 'rgba(245,237,216,0.9)' }}>
                 🏦 <strong>Opay:</strong> <span style={{ color: 'var(--gold)', fontWeight: 700 }}>6101307590</span> · <em>Hephtech Multimedia & Innovations</em>

@@ -58,7 +58,7 @@ export default function AiChat() {
       return 'Visit our Community Marketplace at /marketplace to buy and sell local produce like fresh Ogere yams, handcrafted Adire fabrics, catering services, and artisan trades!';
     }
     if (q.includes('donate') || q.includes('fund') || q.includes('sponsor') || q.includes('opay') || q.includes('support')) {
-      return '💛 Support & Fund the Ogere Remo Portal:\nThis community initiative needs funding for developers, designers, project managers, cloud app hosting, and domain maintenance.\n• Bank: Opay\n• Account Number: 6101307590\n• Account Name: Hephtech Multimedia & Innovations\n• Call/WhatsApp: 09077780156\nẸ ṣéun púpọ̀ for your generous support!';
+      return '🌟 Make Ogere Nigeria\'s 1st Digital Town!\nBy supporting this project, you are helping Ogere Remo pioneer history as the very first fully digitalized indigenous town in Nigeria.\n\nFunding directly supports developers, designers, project managers, cloud app hosting, and domain maintenance.\n• Bank: Opay\n• Account Number: 6101307590\n• Account Name: Hephtech Multimedia & Innovations\n• Call/WhatsApp: 09077780156\nẸ ṣéun púpọ̀ for your generous support!';
     }
     if (q.includes('scholarship') || q.includes('grant') || q.includes('student')) {
       return 'Educational empowerment grants and bursaries are available at /scholarships for secondary, undergraduate, and tech students from Ogere Remo.';
