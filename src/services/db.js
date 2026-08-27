@@ -184,6 +184,22 @@ export const SEED_DATA = {
   ],
   marketplace: [
     {
+      id: 'MKT-000',
+      cat: 'Services',
+      title: 'Hephzibah Edutech — Software Dev, AI & Cloud Bootcamp',
+      desc: '12-week intensive digital bootcamp for Ogere youth & professionals. Learn Fullstack Web, Python AI, and Cloud Architecture. Certificate & internship placement included.',
+      price: '₦35,000 / Cohort',
+      seller: 'Hephzibah Edutech & Innovation Hub',
+      quarter: 'Oke-Ogere',
+      phone: '08038920110',
+      whatsapp: '2348038920110',
+      icon: '🚀',
+      badge: 'featured',
+      verified: true,
+      status: 'active',
+      createdAt: '2026-08-26T10:00:00Z',
+    },
+    {
       id: 'MKT-001',
       cat: 'Farm Produce',
       title: 'Fresh Ogere Yam — Grade A (Tuber & Bulk Bags)',

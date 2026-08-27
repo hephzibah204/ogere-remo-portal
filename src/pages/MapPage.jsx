@@ -7,6 +7,22 @@ import { MAP_LOCATIONS, CAT_COLORS } from '../data/mapLocations';
 
 const KEY_PLACES = [
   {
+    id: 'hephzibah_hub',
+    name: 'Hephzibah Edutech & Innovation Campus',
+    cat: 'Education',
+    icon: '🚀',
+    color: '#0891b2',
+    address: 'Palace Way / Expressway Corridor, Ogere Remo',
+    lat: 6.9378,
+    lng: 3.6360,
+    zoom: 17,
+    note: 'Pioneering digital research, AI bootcamps, full-stack software development, and STEM empowerment for youth across Ogere Remo.',
+    hours: 'Mon–Sat: 8:00 AM – 7:00 PM',
+    phone: '+234 803 892 0110',
+    googleQuery: 'Ogere+Remo+Ogun+State',
+    highlight: 'Tech & Digital Innovation Centre',
+  },
+  {
     id: 'palace',
     name: 'Aafin Ologere Palace & Royal Court',
     cat: 'Heritage',

@@ -13,6 +13,19 @@ const CATS = ['All', 'Food & Dining', 'Hospitality', 'Education', 'Trade', 'Tran
 
 const STATIC = [
   {
+    id: 'biz_hephzibah',
+    name: 'Hephzibah Edutech & Innovation Hub',
+    cat: 'Technology',
+    ic: '🚀',
+    desc: 'Premier digital innovation and education hub empowering Ogere Remo youth and diaspora with cutting-edge software engineering bootcamps, AI research, cloud architecture, and STEM certification.',
+    phone: '+234 803 892 0110',
+    website: 'https://hephzibahedutech.com',
+    address: 'Innovation Campus, Palace Way / Expressway Axis, Ogere Remo',
+    rating: '5.0★ (Featured)',
+    tier: 'Premium',
+    image: '/images/Ogere%20Resort.png',
+  },
+  {
     id: 'biz1',
     name: 'Ogere Resort & International Convention Centre',
     cat: 'Hospitality',
