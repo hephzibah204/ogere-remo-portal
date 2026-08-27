@@ -3,7 +3,7 @@ import Hero from '../components/Hero';
 import AdireDivider from '../components/AdireDivider';
 import Section from '../components/Section';
 import SEO from '../components/SEO';
-import { dbGetAll, dbInsert } from '../services/db';
+import { dbGetAll, dbInsert, SEED_DATA } from '../services/db';
 
 const CATEGORIES = [
   { id: 'All', label: 'All Items', icon: '🛍️' },
@@ -98,7 +98,12 @@ export default function MarketplacePage() {
   });
 
   const loadData = async () => {
-    const data = await dbGetAll('marketplace');
+    let data = await dbGetAll('marketplace');
+    if (!data || data.length < 5) {
+      if (SEED_DATA && SEED_DATA.marketplace) {
+        data = SEED_DATA.marketplace;
+      }
+    }
     setListings(data || []);
   };
 
