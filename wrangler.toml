@@ -1,0 +1,7 @@
+name = "ogere"
+compatibility_date = "2024-03-20"
+pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "OGERE_KV"
+id = "b84ccd7e28644e93bbe6219ddc765638"
