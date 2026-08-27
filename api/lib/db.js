@@ -14,7 +14,12 @@ export function getDb() {
 export async function sqlQuery(queryText, params = []) {
   try {
     const sql = getDb();
-    return await sql(queryText, params);
+    if (params && params.length > 0) {
+      const result = await sql.query(queryText, params);
+      return result.rows || result;
+    }
+    const result = await sql(queryText);
+    return result.rows || result;
   } catch (err) {
     console.error('[Neon Postgres Error]:', err.message);
     throw err;
