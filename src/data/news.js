@@ -10,7 +10,7 @@ const NEWS_DEFAULTS = [
     ic: '🌐',
     readTime: '3 min read',
     author: 'OCDA Communications',
-    image: '/images/Ogere Town.jpg',
+    image: '/images/news/ogere-digital-portal-preview.jpg',
     featured: true,
   },
   {
@@ -22,7 +22,7 @@ const NEWS_DEFAULTS = [
     ic: '🕊️',
     readTime: '4 min read',
     author: 'Faith & Heritage Bureau',
-    image: '/images/The Church Of The Lord Aladuara.jpg',
+    image: '/images/news/ogere-tabieorar-2026-candlelight.jpg',
   },
   {
     id: 'n-hospitality',
@@ -33,7 +33,7 @@ const NEWS_DEFAULTS = [
     ic: '🏨',
     readTime: '3 min read',
     author: 'Commerce & Tourism Bureau',
-    image: '/images/Ogere Resort.png',
+    image: '/images/news/hospitality-events-centre.jpg',
   },
   {
     id: 'n-yemogun',
@@ -44,7 +44,7 @@ const NEWS_DEFAULTS = [
     ic: '🛣️',
     readTime: '3 min read',
     author: 'State Infrastructure Desk',
-    image: '/images/Ogere Community.jpg',
+    image: '/images/news/yemogun-street-construction.jpg',
   },
   {
     id: 'n-security',
@@ -66,7 +66,7 @@ const NEWS_DEFAULTS = [
     ic: '💻',
     readTime: '4 min read',
     author: 'OYDA Media Bureau',
-    image: '/images/OSitelu Memorial College.jpeg',
+    image: '/images/news/youth-tech-bootcamp.jpg',
   },
   {
     id: 'n3',
@@ -88,7 +88,7 @@ const NEWS_DEFAULTS = [
     ic: '🏥',
     readTime: '3 min read',
     author: 'Health & Welfare Board',
-    image: '/images/Ogere Community.jpg',
+    image: '/images/news/health-centre-solar-upgrade.jpg',
   },
   {
     id: 'n5',
@@ -99,7 +99,7 @@ const NEWS_DEFAULTS = [
     ic: '🚦',
     readTime: '4 min read',
     author: 'Palace Press Secretariat',
-    image: '/images/Ogere FRSC2.jpg',
+    image: '/images/frsc-office-commissioning.jpg',
   },
   {
     id: 'n-lipakala-prep',
@@ -121,7 +121,7 @@ const NEWS_DEFAULTS = [
     ic: '⛽',
     readTime: '4 min read',
     author: 'Economic & Industrial Desk',
-    image: '/images/Ogere Town.jpg',
+    image: '/images/news/cng-facility-ogere.jpg',
   },
   {
     id: 'n-remoyouth',

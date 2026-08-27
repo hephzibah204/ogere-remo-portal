@@ -5,6 +5,7 @@ import Section from '../components/Section';
 import SEO from '../components/SEO';
 
 const festivals = [
+  { n: 'Mount Tabieorar Festival', ic: '🕊️', period: 'August 22 (Annual)', origin: 'Est. 1937 by Prophet Josiah Olunowo Ositelu', desc: 'The landmark annual spiritual convocation at Mount Tabieorar, The Church of the Lord (Aladura) World Headquarters in Ogere Remo, drawing tens of thousands of pilgrims and dignitaries worldwide.', sacred: false, img: '/images/news/ogere-tabieorar-2026-crowd.jpg' },
   { n: 'Lipakala Day', ic: '🎊', period: 'October–November (Annual)', origin: 'Initiated ~1977 by OCDA', desc: 'The flagship festival of Ogere Remo, held annually at the Wesley School Playground. The 49th edition was celebrated in October 2025.', sacred: false, img: '/images/Olipakala 2025.jpg' },
   { n: 'Oro Festival (Isemo)', ic: '🌙', period: 'July (Annual, Nocturnal)', origin: 'Pre-colonial ancestral institution', desc: 'Ogere\'s most sacred ancestral festival, observed nocturnally by the Oro Society. Movement restrictions apply for women and non-initiates.', sacred: true },
   { n: 'Obalufon Festival', ic: '🌿', period: 'October (Annual)', origin: 'Honours Yemogun — guardian mother of Ogere', desc: 'Annual festival honouring Yemogun — the deified companion of Olipakala. Ceremonies are held at Yemogun Grove (Igbo Yeye).', sacred: true },
