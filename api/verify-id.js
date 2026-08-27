@@ -1,47 +1,6 @@
-// Mock database records / serverless resolver for Ogere Digital IDs
-const VERIFIED_IDS = {
-  'OGR-782910': {
-    id: 'OGR-782910',
-    fullName: 'Adewale Babatunde Ogunleke',
-    cardType: 'indigene',
-    dob: '1992-06-14',
-    compound: 'Kankanbina',
-    quarter: 'Oke-Ogere',
-    occupation: 'Civil Engineer',
-    status: 'approved',
-    issuedDate: '2024-01-15',
-    expiryDate: '2027-01-15',
-    verifiedBy: 'HRH Ologere Palace Office',
-  },
-  'OGR-D-492019': {
-    id: 'OGR-D-492019',
-    fullName: 'Dr. Folashade Adeyemi-Clark',
-    cardType: 'diaspora',
-    dob: '1985-11-22',
-    compound: 'Ejigboye',
-    quarter: 'Isale-Ogere',
-    occupation: 'Consultant Surgeon',
-    status: 'approved',
-    issuedDate: '2024-03-01',
-    expiryDate: '2027-03-01',
-    verifiedBy: 'OCDA Diaspora Secretariat',
-  },
-  'OGR-R-839201': {
-    id: 'OGR-R-839201',
-    fullName: 'Chief Emeka Okafor',
-    cardType: 'resident',
-    dob: '1978-04-09',
-    compound: 'Other',
-    quarter: 'Ajura Zone',
-    occupation: 'Logistics Director',
-    status: 'approved',
-    issuedDate: '2023-11-12',
-    expiryDate: '2026-11-12',
-    verifiedBy: 'Ogere Central Community Council',
-  },
-};
+import { sqlQuery } from './lib/db.js';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -60,21 +19,45 @@ export default function handler(req, res) {
     });
   }
 
-  const found = VERIFIED_IDS[lookupKey];
+  try {
+    const rows = await sqlQuery(
+      'SELECT id, full_name, card_type, dob, compound, quarter, occupation, status, issued_date, expiry_date, verified_by FROM id_cards WHERE UPPER(id) = $1 LIMIT 1',
+      [lookupKey]
+    );
 
-  if (found) {
-    return res.status(200).json({
-      success: true,
-      valid: true,
-      data: found,
-      verificationTimestamp: new Date().toISOString(),
-      issuer: 'Kingdom of Ogere Remo Official Registry',
+    if (rows && rows.length > 0) {
+      const card = rows[0];
+      return res.status(200).json({
+        success: true,
+        valid: card.status === 'approved',
+        data: {
+          id: card.id,
+          fullName: card.full_name,
+          cardType: card.card_type,
+          dob: card.dob,
+          compound: card.compound,
+          quarter: card.quarter,
+          occupation: card.occupation,
+          status: card.status,
+          issuedDate: card.issued_date,
+          expiryDate: card.expiry_date,
+          verifiedBy: card.verified_by || 'HRH Ologere Palace Office',
+        },
+        verificationTimestamp: new Date().toISOString(),
+        issuer: 'Kingdom of Ogere Remo Official Registry',
+      });
+    }
+
+    return res.status(404).json({
+      success: false,
+      valid: false,
+      message: `No active official community ID record found in Neon database matching reference "${lookupKey}".`,
+    });
+  } catch (err) {
+    console.error('Verify ID database error:', err);
+    return res.status(500).json({
+      success: false,
+      error: 'Internal database query error while verifying ID card.',
     });
   }
-
-  return res.status(404).json({
-    success: false,
-    valid: false,
-    message: `No active official community ID record found matching reference "${lookupKey}".`,
-  });
 }

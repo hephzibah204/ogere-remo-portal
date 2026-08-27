@@ -194,6 +194,30 @@ CREATE TABLE IF NOT EXISTS quiz_leaderboard (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 12. Miss Olipakala Beauty Pageant Registrations
+CREATE TABLE IF NOT EXISTS pageant_registrations (
+    id VARCHAR(64) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(32) NOT NULL,
+    age INT NOT NULL,
+    height VARCHAR(32),
+    address TEXT,
+    occupation VARCHAR(128),
+    reason TEXT,
+    status VARCHAR(32) NOT NULL DEFAULT 'pending', -- pending, shortlisted, approved, rejected
+    submitted_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 13. Live Stream Event Subscribers
+CREATE TABLE IF NOT EXISTS live_subscribers (
+    id VARCHAR(64) PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(32),
+    events TEXT[],
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- ==========================================================
 -- SEED DATA INSERTIONS (Initial Portal Data)
 -- ==========================================================
@@ -209,4 +233,9 @@ VALUES
 ('biz_hephzibah', 'Hephzibah Edutech & Innovation Hub', 'Technology', 'Premium', 'Digital innovation hub offering software bootcamps, AI training, and STEM certification.', '+234 803 892 0110', 'https://hephzibahedutech.com', 'Innovation Campus, Palace Way / Expressway Axis', '5.0★ (Featured)'),
 ('biz1', 'Ogere Resort & International Convention Centre', 'Hospitality', 'Premium', 'Premier retreat destination with 140+ luxury chalets and conference auditoriums.', '+234 906 247 0474', 'https://ogereresort.com', 'KM 67, Lagos–Ibadan Expressway, Ogere 121107', '4.4★ (558 reviews)'),
 ('biz2', 'Ositelu Memorial College (OMCOOSA)', 'Education', 'Premium', 'The flagship secondary educational institution of Ogere Remo.', '+234 806 215 8840', NULL, 'Awomosu Agbato Drive, Ogere 121107', '4.8★')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO pageant_registrations (id, name, email, phone, age, height, address, occupation, reason, status)
+VALUES
+('PGN-2026-001', 'Adetoun Kikelomo Solarin', 'adetoun.solarin@gmail.com', '08034567812', 22, '5''7"', 'Isale-Ogere (Living in Lagos)', 'Undergraduate (Mass Comm)', 'Passionate about Yoruba cultural preservation, girl-child education in Remo, and serving as a worthy cultural ambassador for Ogere Remo worldwide.', 'pending')
 ON CONFLICT (id) DO NOTHING;

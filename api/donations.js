@@ -1,4 +1,6 @@
-export default function handler(req, res) {
+import { sqlQuery } from './lib/db.js';
+
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -7,60 +9,55 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  const PROJECTS = [
-    {
-      id: 'civic_centre',
-      title: 'Ogere Civic Hall & Town Hall Modernisation',
-      goal: 10000000,
-      raised: 6850000,
-      donorsCount: 42,
-    },
-    {
-      id: 'ict_hub',
-      title: 'Ogere Youth ICT & Solar Tech Hub',
-      goal: 5000000,
-      raised: 3400000,
-      donorsCount: 28,
-    },
-    {
-      id: 'lipakala_jubilee',
-      title: '50th Lipakala Day Golden Jubilee Cultural Fund',
-      goal: 8000000,
-      raised: 5100000,
-      donorsCount: 65,
-    },
-    {
-      id: 'maternity_clinic',
-      title: 'Ogere Maternity Ward & Emergency Clinic Upgrade',
-      goal: 6500000,
-      raised: 4200000,
-      donorsCount: 37,
-    },
-  ];
-
   if (req.method === 'POST') {
     const body = req.body || {};
-    const donationRecord = {
-      id: `DON-${Date.now()}`,
-      projectId: body.projectId || 'civic_centre',
-      donorName: body.donorName || 'Anonymous Diaspora Member',
-      donorEmail: body.donorEmail || '',
-      amount: Number(body.amount || 0),
-      reference: body.reference || `PSK_${Date.now()}`,
-      status: 'confirmed',
-      timestamp: new Date().toISOString(),
-    };
+    const donationId = `DON-${Date.now()}`;
 
-    return res.status(201).json({
-      success: true,
-      message: 'Donation recorded successfully in community endowment fund.',
-      data: donationRecord,
-    });
+    try {
+      await sqlQuery(
+        `INSERT INTO project_donations
+          (id, project_id, project_title, donor_name, donor_email, amount_naira, paystack_reference, status)
+         VALUES
+          ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        [
+          donationId,
+          body.projectId || 'civic_centre',
+          body.projectTitle || 'Community Civic Project',
+          body.donorName || 'Anonymous Diaspora Member',
+          body.donorEmail || 'diaspora@ogereremo.ng',
+          Number(body.amount || 25000),
+          body.reference || `PSK_${Date.now()}`,
+          'success',
+        ]
+      );
+
+      return res.status(201).json({
+        success: true,
+        message: 'Donation recorded and credited in Neon PostgreSQL ledger.',
+        data: { id: donationId, ...body },
+      });
+    } catch (err) {
+      console.error('Donation SQL error:', err);
+      return res.status(500).json({ success: false, error: err.message });
+    }
   }
 
-  return res.status(200).json({
-    success: true,
-    totalProjects: PROJECTS.length,
-    data: PROJECTS,
-  });
+  try {
+    const rows = await sqlQuery(`
+      SELECT 
+        project_id,
+        COUNT(*) as total_donors,
+        COALESCE(SUM(amount_naira), 0) as total_raised
+      FROM project_donations 
+      WHERE status = 'success'
+      GROUP BY project_id
+    `);
+
+    return res.status(200).json({
+      success: true,
+      data: rows,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 }
