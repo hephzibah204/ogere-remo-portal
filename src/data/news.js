@@ -22,7 +22,7 @@ const NEWS_DEFAULTS = [
     ic: '🕊️',
     readTime: '4 min read',
     author: 'Faith & Heritage Bureau',
-    image: '/images/Mount Tabieorar Ogere.jpg',
+    image: '/images/The Church Of The Lord Aladuara.jpg',
   },
   {
     id: 'n-hospitality',
@@ -33,7 +33,7 @@ const NEWS_DEFAULTS = [
     ic: '🏨',
     readTime: '3 min read',
     author: 'Commerce & Tourism Bureau',
-    image: '/images/Ogere Resort.jpg',
+    image: '/images/Ogere Resort.png',
   },
   {
     id: 'n-yemogun',
@@ -132,7 +132,7 @@ const NEWS_DEFAULTS = [
     ic: '🌱',
     readTime: '4 min read',
     author: 'Remo Youth Desk',
-    image: '/images/Ogere Community.jpg',
+    image: '/images/Olipakala Ogere Indigines.jpg',
   },
   {
     id: 'n8',
@@ -154,7 +154,7 @@ const NEWS_DEFAULTS = [
     ic: '🎊',
     readTime: '4 min read',
     author: 'OCDA Cultural Bureau',
-    image: '/images/Lipakala DaY.jpg',
+    image: '/images/Oluwakemisola Adeola Miss Lipakal 2025.jpg',
   },
   {
     id: 'n-pastry',

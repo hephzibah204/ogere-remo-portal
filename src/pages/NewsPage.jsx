@@ -416,23 +416,37 @@ export default function NewsPage() {
                     {n.image ? (
                       <div
                         style={{
-                          width: '80px',
-                          height: '80px',
+                          width: 'clamp(90px, 14vw, 130px)',
+                          height: 'clamp(90px, 14vw, 120px)',
                           borderRadius: '8px',
-                          background: `url(${n.image}) center/cover no-repeat`,
+                          overflow: 'hidden',
                           flexShrink: 0,
-                          border: '1px solid rgba(201,150,58,.2)',
-                          display: 'none',
+                          border: '1px solid rgba(201,150,58,.3)',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
                         }}
-                        className="news-thumb"
-                      />
+                      >
+                        <img
+                          src={n.image}
+                          alt={n.headline}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block',
+                            transition: 'transform 0.3s ease',
+                          }}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      </div>
                     ) : (
                       <div
                         style={{
                           fontSize: '2rem',
                           flexShrink: 0,
-                          width: '54px',
-                          height: '54px',
+                          width: '64px',
+                          height: '64px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
