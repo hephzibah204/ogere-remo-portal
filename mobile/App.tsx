@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/services/authContext';
+import { AdminAuthProvider } from './src/services/adminAuthContext';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { initOfflineStorage } from './src/database/sqlite';
 import { syncManager } from './src/database/syncManager';
@@ -54,8 +55,10 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <StatusBar style="light" />
-        <RootNavigator ref={navigationRef} />
+        <AdminAuthProvider>
+          <StatusBar style="light" />
+          <RootNavigator ref={navigationRef} />
+        </AdminAuthProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

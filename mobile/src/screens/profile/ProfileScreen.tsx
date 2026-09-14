@@ -311,6 +311,17 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
               <Text style={styles.toolActionText}>Active ✓</Text>
             </TouchableOpacity>
           )}
+
+          <TouchableOpacity
+            style={[styles.toolRow, { borderBottomWidth: 0 }]}
+            onPress={() => navigation.navigate('AdminLogin')}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.toolTitle, { color: Colors.gold }]}>🛡️ Officer & Protocol Terminal</Text>
+              <Text style={styles.toolDesc}>Switch to Security Dispatch, Royal Protocol or OCDA Desk.</Text>
+            </View>
+            <Text style={[styles.toolActionText, { color: Colors.gold }]}>Open ➔</Text>
+          </TouchableOpacity>
         </Card>
 
         {user && (

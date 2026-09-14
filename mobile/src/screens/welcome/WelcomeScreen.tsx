@@ -113,6 +113,20 @@ export const WelcomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
           </Text>
         </TouchableOpacity>
 
+        {/* Dedicated Entry for Officers & Protocol */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AdminLogin')}
+          style={styles.officerTerminalBtn}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.officerTerminalEmoji}>🛡️</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.officerTerminalTitle}>Security & Palace Protocol Portal</Text>
+            <Text style={styles.officerTerminalSub}>Police · Vigilante · Protocol · OCDA Admin</Text>
+          </View>
+          <Text style={styles.officerTerminalArrow}>➔</Text>
+        </TouchableOpacity>
+
         <Text style={styles.disclaimer}>
           Access town news, emergency lines, and royal history without logging in.
         </Text>
@@ -223,6 +237,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: Colors.primary,
+  },
+  officerTerminalBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: '#0c0604',
+    borderWidth: 1,
+    borderColor: 'rgba(201, 150, 58, 0.4)',
+    borderRadius: Radius.md,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  officerTerminalEmoji: {
+    fontSize: 22,
+  },
+  officerTerminalTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: Colors.goldLight,
+  },
+  officerTerminalSub: {
+    fontSize: 10,
+    color: 'rgba(245, 237, 216, 0.7)',
+    marginTop: 2,
+  },
+  officerTerminalArrow: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: Colors.gold,
   },
   disclaimer: {
     fontSize: 11,

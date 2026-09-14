@@ -126,7 +126,44 @@ export default async function handler(req, res) {
     }
   }
 
-  // 4. Get Donations & Summary Stats
+  // 4. Fundraising Stats — GET /api/donations?stats=true
+  // Used by ComingSoonPage to show live ₦ raised + donor count.
+  if (req.method === 'GET' && req.query.stats === 'true') {
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
+    try {
+      const rows = await sqlQuery(`
+        SELECT
+          COALESCE(SUM(amount_naira), 0)::numeric AS total_raised,
+          COUNT(DISTINCT COALESCE(donor_email, id))::int  AS donor_count
+        FROM project_donations
+        WHERE status = 'success'
+      `);
+      const row = rows?.[0] || {};
+      return res.status(200).json({
+        success:      true,
+        total_raised: Number(row.total_raised  ?? 0),
+        donor_count:  Number(row.donor_count   ?? 0),
+        target:       10_000_000,
+        currency:     'NGN',
+        launch_date:  '2026-11-04',
+        updated_at:   new Date().toISOString(),
+      });
+    } catch (err) {
+      console.error('[donations?stats] DB error:', err);
+      return res.status(200).json({
+        success:      false,
+        total_raised: 0,
+        donor_count:  0,
+        target:       10_000_000,
+        currency:     'NGN',
+        launch_date:  '2026-11-04',
+        updated_at:   new Date().toISOString(),
+        error:        err.message,
+      });
+    }
+  }
+
+  // 5. Get All Donations & Summary (original GET)
   try {
     const rows = await sqlQuery(`
       SELECT 

@@ -3,6 +3,7 @@ import AiSearch from './AiSearch';
 import DonateModal from './DonateModal';
 import SosHeaderModal from './SosHeaderModal';
 import { useState, useEffect } from 'react';
+import { getSaasConfig } from '../services/saasConfig';
 
 const MENU_GROUPS = [
   {
@@ -99,16 +100,77 @@ export default function Nav() {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  const [saasConfig, setSaasConfig] = useState(getSaasConfig());
+
+  useEffect(() => {
+    const handleUpdate = () => setSaasConfig(getSaasConfig());
+    window.addEventListener('saas-config-updated', handleUpdate);
+    window.addEventListener('ogere-broadcast-updated', handleUpdate);
+    return () => {
+      window.removeEventListener('saas-config-updated', handleUpdate);
+      window.removeEventListener('ogere-broadcast-updated', handleUpdate);
+    };
+  }, []);
+
   const isActive = (id) => currentPage === id;
   const isGroupActive = (group) => group.items.some(item => item.id === currentPage);
 
+  const broadcast = saasConfig.broadcast;
+
   return (
     <>
+      {broadcast && broadcast.enabled && broadcast.message && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1001,
+            padding: '0.35rem 1rem',
+            fontSize: '0.72rem',
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.6rem',
+            background:
+              broadcast.type === 'royal' ? 'linear-gradient(90deg, #1a0d06, #2c1a0e, #1a0d06)' :
+              broadcast.type === 'festival' ? 'linear-gradient(90deg, #14301a, #1b4324, #14301a)' :
+              broadcast.type === 'alert' ? 'linear-gradient(90deg, #3b0d0c, #5c1412, #3b0d0c)' :
+              'linear-gradient(90deg, #0d1b2a, #1b263b, #0d1b2a)',
+            borderBottom: `1px solid ${
+              broadcast.type === 'royal' ? 'var(--gold)' :
+              broadcast.type === 'festival' ? '#4ade80' :
+              broadcast.type === 'alert' ? '#f87171' : '#60a5fa'
+            }`,
+            color: '#F5EDD8',
+          }}
+        >
+          <span>{broadcast.type === 'royal' ? '👑' : broadcast.type === 'festival' ? '🎉' : broadcast.type === 'alert' ? '🚨' : 'ℹ️'}</span>
+          <span>{broadcast.message}</span>
+          {broadcast.ctaLabel && broadcast.ctaLink && (
+            <Link
+              to={broadcast.ctaLink}
+              style={{
+                color: 'var(--gold)',
+                fontWeight: 700,
+                textDecoration: 'underline',
+                marginLeft: '0.4rem',
+                fontSize: '0.7rem',
+              }}
+            >
+              {broadcast.ctaLabel} →
+            </Link>
+          )}
+        </div>
+      )}
+
       <nav
         className="glass"
         style={{
           position: 'fixed',
-          top: 'var(--demo-offset, 0px)',
+          top: broadcast && broadcast.enabled && broadcast.message ? '28px' : 'var(--demo-offset, 0px)',
           left: 0,
           right: 0,
           zIndex: 1000,

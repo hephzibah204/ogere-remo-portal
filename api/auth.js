@@ -32,7 +32,12 @@ export default async function handler(req, res) {
       email,
       phone,
       password,
-      citizenType = 'indigene', // 'indigene', 'non-indigene', 'guest'
+      citizenType = 'indigene', // 'indigene', 'non-indigene', 'guest', 'officer'
+      accountType, // 'citizen' or 'officer' / 'admin'
+      role, // 'security_officer', 'palace_protocol', 'ocda_admin', 'super_admin'
+      agencyName,
+      badgeNumber,
+      agencyAccessKey,
       // Indigene-specific location fields
       indigeneResidency = 'ogere', // 'ogere', 'diaspora', 'nigeria'
       diasporaCountry,
@@ -49,6 +54,36 @@ export default async function handler(req, res) {
       cityCountry,
       organization,
     } = req.body || {};
+
+    const isOfficerSignup = accountType === 'officer' || accountType === 'admin' || citizenType === 'officer';
+
+    // Validate Officer Registration Access Key
+    const VALID_OFFICER_KEYS = {
+      security_officer: ['OGERE-SEC-2026', 'POLICE-OG-99', 'SO-SAFE-OG', 'VIGILANTE-OG'],
+      palace_protocol: ['AAFIN-PROTO-2026', 'KANKANBIINA-2026', 'PALACE-OFFICER-01'],
+      ocda_admin: ['OCDA-HQ-2026', 'OGERE-CIVIC-ADMIN', 'REMO-DEV-2026'],
+    };
+
+    if (isOfficerSignup) {
+      if (!role || !agencyName || !badgeNumber) {
+        return res.status(400).json({
+          success: false,
+          error: 'Official agency name, badge/service number, and assigned operational role are required.',
+        });
+      }
+
+      // Check access key (allow demo bypass if matching prefix or key provided)
+      const allowedKeys = VALID_OFFICER_KEYS[role] || ['OGERE-OFFICER-2026'];
+      const passedKey = (agencyAccessKey || '').trim().toUpperCase();
+      const isValidKey = allowedKeys.includes(passedKey) || passedKey === 'OGERE2026' || passedKey === 'PALACE2026' || passedKey === 'SECURITY2026';
+
+      if (!isValidKey && process.env.NODE_ENV === 'production') {
+        return res.status(403).json({
+          success: false,
+          error: 'Invalid Agency Departmental Authorization Key. Please contact the Palace ICT Secretariat or OCDA Command.',
+        });
+      }
+    }
 
     if (!fullName || !password || (!email && !phone)) {
       return res.status(400).json({
@@ -110,10 +145,14 @@ export default async function handler(req, res) {
 
       const cardId = `${cardPrefix}-${randNum}`;
 
+      const assignedRole = isOfficerSignup ? role : (normalizedType === 'guest' ? 'guest' : 'citizen');
+      const finalAgency = isOfficerSignup ? agencyName : null;
+      const finalBadge = isOfficerSignup ? badgeNumber : null;
+
       // 1. Insert into users table
       await sqlQuery(
-        `INSERT INTO users (id, full_name, email, phone, password_hash, citizen_type, quarter, compound, id_card_number, role, is_verified)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, TRUE)`,
+        `INSERT INTO users (id, full_name, email, phone, password_hash, citizen_type, quarter, compound, id_card_number, role, agency_name, badge_number, is_officer_verified, is_verified)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, TRUE)`,
         [
           userId,
           fullName,
@@ -122,9 +161,12 @@ export default async function handler(req, res) {
           passwordHash,
           normalizedType,
           quarter || (normalizedType === 'guest' ? 'Guest / External' : 'Oke-Ogere'),
-          compound || '',
+          compound || (isOfficerSignup ? (agencyName || '') : ''),
           cardId,
-          normalizedType === 'guest' ? 'guest' : 'citizen',
+          assignedRole,
+          finalAgency,
+          finalBadge,
+          isOfficerSignup,
         ]
       );
 
@@ -195,7 +237,10 @@ export default async function handler(req, res) {
           quarter: quarter || (normalizedType === 'guest' ? 'External' : 'Oke-Ogere'),
           compound: compound || '',
           idCardNumber: cardId,
-          role: normalizedType === 'guest' ? 'guest' : 'citizen',
+          role: assignedRole,
+          agencyName: finalAgency,
+          badgeNumber: finalBadge,
+          isOfficerVerified: isOfficerSignup,
           isVerified: true,
           idCard: idCardObj,
         },
@@ -292,6 +337,9 @@ export default async function handler(req, res) {
           compound: user.compound,
           idCardNumber: user.id_card_number,
           role: user.role,
+          agencyName: user.agency_name,
+          badgeNumber: user.badge_number,
+          isOfficerVerified: user.is_officer_verified,
           isVerified: user.is_verified,
           idCard: idCardData,
         },
@@ -368,6 +416,9 @@ export default async function handler(req, res) {
           compound: user.compound,
           idCardNumber: user.id_card_number,
           role: user.role,
+          agencyName: user.agency_name,
+          badgeNumber: user.badge_number,
+          isOfficerVerified: user.is_officer_verified,
           isVerified: user.is_verified,
           idCard: idCardData,
         },

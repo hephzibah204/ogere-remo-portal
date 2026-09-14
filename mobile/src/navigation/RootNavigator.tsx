@@ -26,6 +26,13 @@ import { EmergencyContactsScreen } from '../screens/services/EmergencyContactsSc
 import { WhistleblowerScreen } from '../screens/services/WhistleblowerScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 
+// Field Officer & Admin Terminal Screens
+import { AdminLoginScreen } from '../screens/admin/AdminLoginScreen';
+import { AdminRegisterScreen } from '../screens/admin/AdminRegisterScreen';
+import { AdminDashboardScreen } from '../screens/admin/AdminDashboardScreen';
+import { AdminAudienceManagerScreen } from '../screens/admin/AdminAudienceManagerScreen';
+import { AdminIdApprovalScreen } from '../screens/admin/AdminIdApprovalScreen';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -143,6 +150,13 @@ export function RootNavigator() {
         <Stack.Screen name="EmergencyContacts" component={EmergencyContactsScreen} />
         <Stack.Screen name="Whistleblower" component={WhistleblowerScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+
+        {/* Admin & Field Officer Terminal Screens */}
+        <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
+        <Stack.Screen name="AdminRegister" component={AdminRegisterScreen} />
+        <Stack.Screen name="AdminDashboard" component={AdminDashboardScreen} />
+        <Stack.Screen name="AdminAudienceManager" component={AdminAudienceManagerScreen} />
+        <Stack.Screen name="AdminIdApproval" component={AdminIdApprovalScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -10,6 +10,7 @@ import { MAP_LOCATIONS } from '../data/mapLocations';
 import WysiwygEditor from '../components/admin/WysiwygEditor';
 import EventCalendar from '../components/admin/EventCalendar';
 import PuckEditor from '../components/admin/PuckEditor';
+import SuperadminPanel from '../components/admin/SuperadminPanel';
 
 const ADMIN_PW = import.meta.env.VITE_ADMIN_PASSWORD || 'ogere2026';
 import { exportToCSV } from '../services/db';
@@ -17,6 +18,7 @@ import { exportToCSV } from '../services/db';
 const PAGE_SIZE = 20;
 
 const SIDEBAR_SECTIONS = [
+  { label: 'SaaS Superadmin', icon: '⚡', id: 'superadmin' },
   { label: 'Dashboard', icon: '📊', id: 'dashboard' },
   { label: 'Community Operations', icon: '🏛️', id: 'operations', children: [
     { id: 'idCards', label: 'ID Cards Queue', icon: '🪪' },
@@ -1709,6 +1711,9 @@ export default function AdminPage() {
             🔍 Search <span style={{ color: 'rgba(255,255,255,.2)', fontSize: '.45rem', border: '1px solid rgba(255,255,255,.15)', borderRadius: 2, padding: '.05rem .25rem' }}>Ctrl+K</span>
           </button>
           <button className="abtn abtn-o" onClick={() => { setShowMediaLib(true); setMediaFieldKey(null); }} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>🖼️ Media</button>
+          <a href="/admin-mobile" target="_blank" rel="noopener noreferrer" className="abtn abtn-p" style={{ fontSize: '.5rem', padding: '.25rem .6rem', textDecoration: 'none', background: '#C9963A', color: '#000', fontWeight: 800 }}>
+            🛡️ Officer Mobile App
+          </a>
           <a href="/" className="abtn abtn-o" style={{ fontSize: '.5rem', padding: '.25rem .5rem', textDecoration: 'none' }}>← Site</a>
           {user && (
             <span style={{ fontSize: '.6rem', color: 'rgba(245,237,216,.45)', display: 'flex', alignItems: 'center', gap: '.3rem' }}>
@@ -1772,6 +1777,8 @@ export default function AdminPage() {
         </div>
 
         <div className="admin-content">
+          {activeSection === 'superadmin' && <SuperadminPanel addToast={addToast} user={user} />}
+
           {activeSection === 'dashboard' && <DashboardHome stats={stats} onNavigate={setActiveSection} addToast={addToast} />}
 
           {activeSection === 'eventCalendar' && (

@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import { sendAnthropicMessage } from '../services/api';
 import DailyPhrase from '../components/DailyPhrase';
 import SuggestionBox from '../components/SuggestionBox';
+import LiveTicker from '../components/LiveTicker';
 import { photos } from '../data/gallery';
 
 const CARDS = [
@@ -172,16 +173,40 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(2rem, 5vw, 4rem)', flexWrap: 'wrap' }}>
-            {[['1401 A.D.', 'Ancient Founding'], ['33', 'Remo Towns'], ['600+', 'Years Dynastic Heritage'], ['4 Quarters', 'Agbele, Lisa, Igan, Legunsen']].map(([n, l]) => (
-              <div key={l}>
-                <div className="cinzel" style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--gold)', marginBottom: '0.2rem' }}>{n}</div>
-                <div className="cinzel" style={{ fontSize: '0.58rem', letterSpacing: '0.15em', color: 'rgba(245, 237, 216, 0.5)', textTransform: 'uppercase' }}>{l}</div>
+          {/* Interactive Stat Counters with viewport animations */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 'clamp(1rem, 3vw, 2.5rem)', maxWidth: '850px', margin: '0 auto', width: '100%' }}>
+            {[
+              { val: 1401, suf: ' A.D.', lab: 'Ancient Founding' },
+              { val: 33, suf: '', lab: 'Remo Towns League' },
+              { val: 625, suf: '+ Yrs', lab: 'Dynastic Heritage' },
+              { val: 4, suf: ' Quarters', lab: 'Agbele · Lisa · Igan · Legunsen' },
+            ].map((stat, i) => (
+              <div key={i} className="glass" style={{ padding: '1rem', borderRadius: '12px', border: '1px solid rgba(201,150,58,0.25)', background: 'rgba(26,13,6,0.45)' }}>
+                <div className="cinzel" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.3rem)', fontWeight: 900, color: 'var(--gold)', marginBottom: '0.2rem', lineHeight: 1 }}>
+                  {stat.val}{stat.suf}
+                </div>
+                <div className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.12em', color: 'rgba(245, 237, 216, 0.65)', textTransform: 'uppercase', marginTop: '0.3rem' }}>
+                  {stat.lab}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Live Civic News & Security Ticker Strip */}
+      <LiveTicker
+        label="⚡ OGERE LIVE WIRE"
+        speed={32}
+        bg="rgba(18, 8, 4, 0.95)"
+        items={[
+          '🚨 Security Patrol Command: All Sectors & Tollgate Corridors Active & Monitored',
+          '🗺️ Google Maps Digitization: Ground Surveys ongoing across all quarters',
+          '🪪 Digital Citizen Cards: Over 500+ Verified IDs Issued & Active',
+          '🤝 Diaspora Capital Endowment: ₦10M Milestone Drive Live',
+          '👑 Palace Court: Official Ologere Royal Audiences now open for online booking',
+        ]}
+      />
 
       <AdireDivider />
 

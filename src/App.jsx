@@ -49,6 +49,7 @@ import VerifyIdPage from './pages/VerifyIdPage';
 import SecurityDashboardPage from './pages/SecurityDashboardPage';
 import TrackIncidentPage from './pages/TrackIncidentPage';
 import MobilePreviewPage from './pages/MobilePreviewPage';
+import AdminMobilePreviewPage from './pages/AdminMobilePreviewPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AiChat from './components/AiChat';
 import ToastProvider from './components/ToastProvider';
@@ -231,6 +232,8 @@ export default function App() {
               <Route path="/track/:id" element={<TrackIncidentPage />} />
               <Route path="/mobile-preview" element={<MobilePreviewPage />} />
               <Route path="/mobile" element={<MobilePreviewPage />} />
+              <Route path="/admin-mobile" element={<AdminMobilePreviewPage />} />
+              <Route path="/mobile-admin" element={<AdminMobilePreviewPage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

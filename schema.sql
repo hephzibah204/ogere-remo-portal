@@ -251,15 +251,24 @@ CREATE TABLE IF NOT EXISTS users (
     quarter VARCHAR(128),
     compound VARCHAR(128),
     id_card_number VARCHAR(64),
-    role VARCHAR(32) NOT NULL DEFAULT 'citizen', -- citizen, leader, admin
+    role VARCHAR(32) NOT NULL DEFAULT 'citizen', -- citizen, leader, admin, security_officer, palace_protocol, ocda_admin, super_admin
+    agency_name VARCHAR(128), -- e.g. Nigeria Police Force, Palace Protocol, OCDA
+    badge_number VARCHAR(64), -- e.g. NPF-OG-4891, PAL-PRO-002
+    is_officer_verified BOOLEAN DEFAULT FALSE,
     is_verified BOOLEAN DEFAULT FALSE,
     last_login TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE users ADD COLUMN IF NOT EXISTS agency_name VARCHAR(128);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS badge_number VARCHAR(64);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS is_officer_verified BOOLEAN DEFAULT FALSE;
+
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_phone ON users(phone);
+CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+CREATE INDEX IF NOT EXISTS idx_users_badge ON users(badge_number);
 
 -- 15. Content Synchronization Version Tracking
 CREATE TABLE IF NOT EXISTS content_sync (
@@ -459,5 +468,13 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO community_broadcasts (id, title, message, severity, target_sector, author_role, is_active, created_at)
 VALUES
 ('bcast_init', 'Expressway Night Visibility Advisory', 'Heavy fog and tanker traffic reported along KM 66-68 Lagos-Ibadan Expressway. Joint patrol units active. Drive cautiously and report suspicious roadside stationary vehicles.', 'ADVISORY', 'Lagos-Ibadan Expressway Corridor', 'Palace Security Secretariat', TRUE, CURRENT_TIMESTAMP)
+ON CONFLICT (id) DO NOTHING;
+
+-- Seed Admin and Officer Accounts
+INSERT INTO users (id, full_name, email, phone, password_hash, citizen_type, quarter, compound, id_card_number, role, agency_name, badge_number, is_officer_verified, is_verified)
+VALUES
+('usr_sec_01', 'ASP Babatunde Oladipo', 'police@ogereremo.org', '08031112233', '4e55e09f2d1e041355447b971a812be2:53457a412c98d6c706d860d5b62b7ffbc5c07b7bbfb56345ec41b07223697eb4b23d9b049d58a8a25c798ce857864f77c385a4a3ae04469e32f5f14e9f783100', 'indigene', 'Expressway Axis', 'Police Command', 'OGR-SEC-01', 'security_officer', 'Nigeria Police Force (Ogere Divisional Command)', 'NPF-OG-4891', TRUE, TRUE),
+('usr_pal_01', 'Chief Adebisi Adeleke', 'protocol@ogereremo.org', '08032223344', '4e55e09f2d1e041355447b971a812be2:53457a412c98d6c706d860d5b62b7ffbc5c07b7bbfb56345ec41b07223697eb4b23d9b049d58a8a25c798ce857864f77c385a4a3ae04469e32f5f14e9f783100', 'indigene', 'Oke-Ogere', 'Aafin Ologere', 'OGR-PAL-01', 'palace_protocol', 'Aafin Ologere Protocol Secretariat', 'PAL-PRO-002', TRUE, TRUE),
+('usr_adm_01', 'Engr. Olufemi Balogun', 'admin@ogereremo.org', '08033334455', '4e55e09f2d1e041355447b971a812be2:53457a412c98d6c706d860d5b62b7ffbc5c07b7bbfb56345ec41b07223697eb4b23d9b049d58a8a25c798ce857864f77c385a4a3ae04469e32f5f14e9f783100', 'indigene', 'Isale-Ogere', 'OCDA Central', 'OGR-ADM-01', 'ocda_admin', 'Ogere Community Development Association (OCDA)', 'OCDA-ADM-101', TRUE, TRUE)
 ON CONFLICT (id) DO NOTHING;
 

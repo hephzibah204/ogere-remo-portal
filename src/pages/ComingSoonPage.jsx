@@ -50,7 +50,7 @@ export default function ComingSoonPage({ onUnlock }) {
   const [stats, setStats] = useState({ raised: 0, donors: 0, loading: true });
   const fetchStats = useCallback(async () => {
     try {
-      const res = await fetch('/api/donation-stats');
+      const res = await fetch('/api/donations?stats=true');
       if (!res.ok) throw new Error('Failed');
       const data = await res.json();
       setStats({ raised: data.total_raised || 0, donors: data.donor_count || 0, loading: false });
@@ -168,6 +168,12 @@ export default function ComingSoonPage({ onUnlock }) {
 
   const FEATURES = [
     {
+      icon: '🚨',
+      title: 'Emergency SOS Radar & Blood Donors Bank',
+      tag: 'Security & Rapid Response',
+      desc: '24/7 one-tap emergency panic dispatch linked to Ogere Police, FRSC Highway Patrol, So-Safe Corps, and instant life-saving blood donor matching registry.',
+    },
+    {
       icon: '🪪',
       title: 'Digital Citizen & Diaspora ID Cards',
       tag: 'Identity & Civic',
@@ -202,12 +208,6 @@ export default function ComingSoonPage({ onUnlock }) {
       title: 'Schools & Educational Directory',
       tag: 'Education',
       desc: 'Centralized directory of historic community schools, academic resources, alumni networks, and educational bursary announcements.',
-    },
-    {
-      icon: '🚨',
-      title: 'Emergency Alerts & Blood Donors Bank',
-      tag: 'Security & Health',
-      desc: '24/7 citizen incident reporting desk connected to community watchmen and an active emergency blood donor matching registry.',
     },
     {
       icon: '👸',
