@@ -29,18 +29,20 @@ const CARDS = [
   { id: 'history', ic: '📖', t: 'Founding History', d: '600-year chronicles from Prince Olipakala to modern era.' },
   { id: 'timeline', ic: '⏳', t: 'Dynastic Timeline', d: 'Chronological reigns of all Ologere of Ogere Remo.' },
   { id: 'forum', ic: '💬', t: 'Community Forum', d: 'Public deliberations, community notices & discussions.' },
-  { id: 'alerts', ic: '🚨', t: 'Security Command', d: 'Incident reporting and 24/7 emergency dispatch numbers.' },
+  { id: 'security-dashboard', ic: '🛡️', t: 'Security Command Radar', d: 'Multi-agency dispatch console, live WhatsApp-style radar & CCTV scanner.' },
+  { id: 'alerts', ic: '🚨', t: 'Report Incident / SOS', d: 'Instant hazard alert dispatch and 24/7 emergency rescue lines.' },
   { id: 'gallery', ic: '📸', t: 'Media Archives', d: 'Historic photo collections, pageants, and civic ceremonies.' },
   { id: 'miss-olipakala', ic: '👸', t: 'Miss Olipakala Pageant', d: 'Annual cultural beauty pageant celebrating our daughters.' },
   { id: 'contact', ic: '📬', t: 'Contact OCDA', d: 'Reach the central secretariat and community liaison desk.' },
 ];
 
 const QUICK_ACTIONS = [
+  { ti: '🚨 Emergency SOS', path: '/alerts', sub: 'Instant Rescue' },
+  { ti: '🛡️ Security Console', path: '/security-dashboard', sub: 'Live Radar' },
   { ti: '🪪 Digital ID Card', path: '/id-card', sub: 'Apply Online' },
   { ti: '👑 Royal Audience', path: '/royal-audience', sub: 'Book Appointment' },
   { ti: '🛒 Marketplace', path: '/marketplace', sub: 'Buy & Sell Local' },
   { ti: '🗺️ Google Maps', path: '/map', sub: 'Explore Landmarks' },
-  { ti: '🎁 Diaspora Giving', path: '/diaspora', sub: 'Fund Projects' },
   { ti: '🧠 Heritage Quiz', path: '/quiz', sub: 'Earn Certificate' },
 ];
 
@@ -182,6 +184,123 @@ export default function HomePage() {
       </div>
 
       <AdireDivider />
+
+      {/* 24/7 Security & Rapid Emergency Response Ribbon */}
+      <div style={{ maxWidth: 1100, margin: '2rem auto 1rem', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
+        <div
+          className="glass-lift"
+          style={{
+            background: 'linear-gradient(135deg, rgba(30, 10, 8, 0.95) 0%, rgba(15, 7, 5, 0.95) 100%)',
+            border: '1.5px solid rgba(239, 68, 68, 0.6)',
+            borderRadius: '16px',
+            padding: '1.3rem 1.6rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1.2rem',
+            flexWrap: 'wrap',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(239, 68, 68, 0.25)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, minWidth: '280px' }}>
+            <div
+              style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '50%',
+                background: 'rgba(239, 68, 68, 0.2)',
+                border: '2px solid #ef4444',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.7rem',
+                animation: 'pulseGlow 2s infinite',
+                flexShrink: 0,
+              }}
+            >
+              🚨
+            </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <span className="cinzel" style={{ fontSize: '1.05rem', fontWeight: 900, color: '#fca5a5', letterSpacing: '0.05em' }}>
+                  24/7 MULTI-AGENCY SECURITY RADAR
+                </span>
+                <span
+                  style={{
+                    fontSize: '0.68rem',
+                    fontWeight: 800,
+                    background: '#ef4444',
+                    color: '#ffffff',
+                    padding: '2px 8px',
+                    borderRadius: '20px',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  LIVE PATROL
+                </span>
+              </div>
+              <p style={{ fontSize: '0.86rem', color: '#e2e8f0', margin: '4px 0 0 0', lineHeight: 1.4 }}>
+                Direct dispatch to Ogere Police, FRSC Highway Rescue, So-Safe Corps, and Palace Vigilante with real-time GPS tracking.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-sos-modal'))}
+              style={{
+                background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+                border: '1px solid #f87171',
+                borderRadius: '8px',
+                padding: '0.65rem 1.1rem',
+                color: '#ffffff',
+                fontWeight: 800,
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                boxShadow: '0 4px 14px rgba(220, 38, 38, 0.45)',
+              }}
+            >
+              <span>📞</span>
+              <span>Fast Emergency Dial</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/alerts')}
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '8px',
+                padding: '0.65rem 1rem',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+              }}
+            >
+              Report Incident ➔
+            </button>
+
+            <button
+              onClick={() => navigate('/security-dashboard')}
+              style={{
+                background: 'rgba(201, 150, 58, 0.15)',
+                border: '1px solid #d97706',
+                borderRadius: '8px',
+                padding: '0.65rem 1rem',
+                color: '#fef3c7',
+                fontWeight: 800,
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+              }}
+            >
+              Command Console ➔
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Weather Forecast Banner */}
       {weather && (

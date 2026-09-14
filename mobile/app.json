@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "Ogere Remo Civic Portal",
+    "slug": "ogere-remo-portal",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#064e3b"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ogeremo.civicportal",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Use Face ID to securely log into your Ogere Remo Civic Citizen account.",
+        "NSLocationWhenInUseUsageDescription": "Your location is used to dispatch rapid security assistance and share live location during emergencies.",
+        "NSCameraUsageDescription": "Camera access is needed to capture photos for citizen incident reporting and ID verification.",
+        "NSPhotoLibraryUsageDescription": "Photo library access is needed to attach evidence to incident reports."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#064e3b"
+      },
+      "package": "com.ogeremo.civicportal",
+      "permissions": [
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Ogere Remo Civic App to use Face ID."
+        }
+      ]
+    ]
+  }
+}

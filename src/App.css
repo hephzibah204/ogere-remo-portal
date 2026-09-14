@@ -466,3 +466,62 @@ select.inp option {
     display: none !important;
   }
 }
+
+/* ── Modern Tactile Micro-Interactions & Animations ── */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 35px rgba(220, 38, 38, 0.4);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(201, 150, 58, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(201, 150, 58, 0.6);
+  }
+}
+
+@keyframes radarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom Sleek Royal Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0604;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 150, 58, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 150, 58, 0.7);
+}
+
+/* Glass Card Interactive Lift */
+.glass-lift {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-lift:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 150, 58, 0.6) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 18px rgba(201, 150, 58, 0.25);
+}
+
+/* Fast SOS Nav Button Hover */
+.btn-sos-nav:hover {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.7) !important;
+}
+

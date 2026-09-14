@@ -612,6 +612,549 @@ function SubmissionListView({ type, def, items, onRefresh, addToast }) {
   );
 }
 
+function RoyalAudiencesAdminView({ addToast }) {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [metrics, setMetrics] = useState({ total: 0, pending: 0, confirmed: 0, postponed: 0, declined: 0 });
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [search, setSearch] = useState('');
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [passBooking, setPassBooking] = useState(null);
+  const [actionTab, setActionTab] = useState('confirm');
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const [confirmedDate, setConfirmedDate] = useState('');
+  const [confirmedTime, setConfirmedTime] = useState('11:00 AM');
+  const [palaceChamber, setPalaceChamber] = useState('Inner Royal Council Chamber');
+  const [protocolNotes, setProtocolNotes] = useState('Traditional attire required. Arrive 15 mins prior for screening.');
+  const [actionReason, setActionReason] = useState('');
+  const [officialName, setOfficialName] = useState('Chief of Royal Protocol');
+
+  const fetchAudiences = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/royal-audiences');
+      if (res.ok) {
+        const json = await res.json();
+        setItems(json.data || []);
+        if (json.metrics) setMetrics(json.metrics);
+      } else {
+        const local = await loadItems('royalAudiences');
+        setItems(local || []);
+      }
+    } catch {
+      const local = await loadItems('royalAudiences');
+      setItems(local || []);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAudiences();
+  }, []);
+
+  const openDecisionModal = (booking) => {
+    setSelectedBooking(booking);
+    setActionTab(booking.status === 'confirmed' ? 'postpone' : 'confirm');
+    setConfirmedDate(booking.confirmed_date || booking.booking_date || booking.date || '');
+    setConfirmedTime(booking.confirmed_time || booking.time_slot || booking.time || '11:00 AM');
+    setPalaceChamber(booking.palace_chamber || 'Inner Royal Council Chamber');
+    setProtocolNotes(booking.palace_notes || 'Traditional Yoruba attire recommended. Arrive 15 mins prior.');
+    setActionReason(booking.postponed_reason || booking.decline_reason || '');
+  };
+
+  const handleExecuteAction = async (targetStatus) => {
+    if (!selectedBooking) return;
+    setIsProcessing(true);
+
+    try {
+      const payload = {
+        action: 'update_status',
+        id: selectedBooking.id,
+        status: targetStatus,
+        palaceChamber,
+        confirmedDate,
+        confirmedTime,
+        reason: actionReason,
+        palaceNotes: protocolNotes,
+        officialName,
+      };
+
+      const res = await fetch('/api/royal-audiences', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        addToast(`Royal audience marked as ${targetStatus.toUpperCase()} and automated letter dispatched to ${selectedBooking.email || selectedBooking.full_name}!`, 'success');
+        setSelectedBooking(null);
+        fetchAudiences();
+      } else {
+        const err = await res.json().catch(() => ({}));
+        addToast(err.error || 'Failed to update status', 'error');
+      }
+    } catch {
+      addToast('Network error while updating audience status', 'error');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const filtered = items.filter(b => {
+    const st = (b.status || 'pending').toLowerCase();
+    if (statusFilter !== 'all' && st !== statusFilter) return false;
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (
+      (b.full_name || b.fullName || '').toLowerCase().includes(q) ||
+      (b.id || '').toLowerCase().includes(q) ||
+      (b.email || '').toLowerCase().includes(q) ||
+      (b.phone || '').toLowerCase().includes(q) ||
+      (b.purpose || '').toLowerCase().includes(q) ||
+      (b.address || '').toLowerCase().includes(q)
+    );
+  });
+
+  return (
+    <div>
+      {/* Header Banner */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.2rem', flexWrap: 'wrap', gap: '.6rem' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '1.6rem' }}>👑</span>
+            <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', margin: 0 }}>
+              Royal Audiences & Palace Secretariat
+            </h2>
+          </div>
+          <p style={{ color: 'rgba(245,237,216,.45)', fontSize: '.72rem', marginTop: '.2rem' }}>
+            Aafin Ologere of Ogere Remo · Audience Registry, Protocol Confirmation & Automated Royal Letters
+          </p>
+        </div>
+        <button
+          onClick={fetchAudiences}
+          className="abtn abtn-o"
+          style={{ fontSize: '.65rem', padding: '.4rem .8rem' }}
+        >
+          🔄 Refresh Queue
+        </button>
+      </div>
+
+      {/* Metrics Ribbon */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '.6rem', marginBottom: '1.2rem' }}>
+        {[
+          { label: 'Total Requests', val: items.length, icon: '📋', color: '#C9963A' },
+          { label: 'Pending Review', val: items.filter(i => (i.status || 'pending') === 'pending').length, icon: '⏳', color: '#fbbf24' },
+          { label: 'Confirmed & Scheduled', val: items.filter(i => i.status === 'confirmed').length, icon: '✓', color: '#4ade80' },
+          { label: 'Postponed / Rescheduled', val: items.filter(i => i.status === 'postponed').length, icon: '⚠️', color: '#f59e0b' },
+          { label: 'Declined / Referred', val: items.filter(i => i.status === 'declined').length, icon: '✕', color: '#f87171' },
+        ].map(m => (
+          <div key={m.label} style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '.8rem', textAlign: 'center' }}>
+            <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{m.icon}</div>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: m.color, fontFamily: "'Cinzel',serif" }}>{m.val}</div>
+            <div style={{ fontSize: '.58rem', color: 'rgba(245,237,216,.5)', textTransform: 'uppercase', letterSpacing: '.08em', marginTop: '2px' }}>{m.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filter & Search Bar */}
+      <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center', flexWrap: 'wrap', marginBottom: '1rem', background: 'rgba(0,0,0,.25)', padding: '.6rem', borderRadius: 6, border: '1px solid rgba(201,150,58,.1)' }}>
+        <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
+          <span style={{ position: 'absolute', left: '.6rem', top: '50%', transform: 'translateY(-50%)', opacity: .4 }}>🔍</span>
+          <input
+            className="ainp"
+            style={{ paddingLeft: '1.8rem', fontSize: '.75rem', width: '100%' }}
+            placeholder="Search by name, email, phone, address, purpose, or reference code..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+        <div style={{ display: 'flex', gap: '.3rem', flexWrap: 'wrap' }}>
+          {[
+            { id: 'all', label: 'All' },
+            { id: 'pending', label: '⏳ Pending' },
+            { id: 'confirmed', label: '🟢 Confirmed' },
+            { id: 'postponed', label: '🟡 Postponed' },
+            { id: 'declined', label: '🔴 Declined' },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              className={`abtn ${statusFilter === tab.id ? 'abtn-p' : 'abtn-o'}`}
+              onClick={() => setStatusFilter(tab.id)}
+              style={{ fontSize: '.55rem', padding: '.3rem .6rem' }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Audience Cards Table / List */}
+      {loading ? (
+        <div style={{ padding: '3rem', textAlign: 'center', color: 'rgba(245,237,216,.3)' }}>⏳ Loading Palace Queue...</div>
+      ) : filtered.length === 0 ? (
+        <div style={{ padding: '3rem', textAlign: 'center', background: 'rgba(201,150,58,.03)', border: '1px dashed rgba(201,150,58,.2)', borderRadius: 8 }}>
+          <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>👑</div>
+          <div style={{ fontSize: '.85rem', color: '#C9963A', fontWeight: 700 }}>No royal audience records found.</div>
+          <div style={{ fontSize: '.7rem', color: 'rgba(245,237,216,.4)', marginTop: '4px' }}>Incoming requests submitted online or via the mobile app will appear here.</div>
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gap: '.8rem' }}>
+          {filtered.map((b, idx) => {
+            const st = (b.status || 'pending').toLowerCase();
+            const isPending = st === 'pending';
+            const isConfirmed = st === 'confirmed';
+            const isPostponed = st === 'postponed';
+            const isDeclined = st === 'declined';
+
+            const borderCol = isConfirmed ? '#166534' : isPostponed ? '#d97706' : isDeclined ? '#991b1b' : '#C9963A';
+            const badgeBg = isConfirmed ? 'rgba(34,197,94,0.15)' : isPostponed ? 'rgba(245,158,11,0.15)' : isDeclined ? 'rgba(239,68,68,0.15)' : 'rgba(201,150,58,0.15)';
+            const badgeColor = isConfirmed ? '#86efac' : isPostponed ? '#fde047' : isDeclined ? '#fca5a5' : '#fef08a';
+
+            return (
+              <div
+                key={b.id || idx}
+                style={{
+                  background: 'rgba(20,10,5,0.7)',
+                  border: `1px solid ${borderCol}40`,
+                  borderLeft: `4px solid ${borderCol}`,
+                  borderRadius: 8,
+                  padding: '1rem',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '.5rem', marginBottom: '.6rem' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '1rem', fontWeight: 800, color: '#F5EDD8' }}>
+                        {b.full_name || b.fullName || 'Concerned Citizen'}
+                      </span>
+                      <span style={{ background: badgeBg, color: badgeColor, border: `1px solid ${borderCol}`, fontSize: '.55rem', fontWeight: 800, padding: '2px 8px', borderRadius: 12, textTransform: 'uppercase', letterSpacing: '.05em' }}>
+                        {st}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: '.65rem', color: '#C9963A', fontFamily: 'monospace', marginTop: '2px' }}>
+                      Ref: {b.id} · Submitted: {b.created_at ? new Date(b.created_at).toLocaleDateString() : 'Online'}
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '.4rem', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={() => openDecisionModal(b)}
+                      className="abtn abtn-p"
+                      style={{ fontSize: '.6rem', padding: '.35rem .75rem', background: '#064e3b', borderColor: '#C9963A' }}
+                    >
+                      👑 Review & Decide
+                    </button>
+                    {isConfirmed && (
+                      <button
+                        onClick={() => setPassBooking(b)}
+                        className="abtn abtn-o"
+                        style={{ fontSize: '.6rem', padding: '.35rem .6rem', color: '#86efac', borderColor: '#166534' }}
+                      >
+                        🖨️ Entry Pass
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Dossier Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '.6rem', background: 'rgba(0,0,0,.2)', padding: '.6rem .8rem', borderRadius: 6, fontSize: '.72rem', marginBottom: '.6rem' }}>
+                  <div>
+                    <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>CONTACT</span>
+                    <div style={{ color: '#F5EDD8' }}>📞 {b.phone || '—'}</div>
+                    <div style={{ color: '#F5EDD8' }}>✉️ {b.email || '—'}</div>
+                  </div>
+                  <div>
+                    <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>RESIDENTIAL / ORIGIN ADDRESS</span>
+                    <div style={{ color: '#F5EDD8' }}>📍 {b.address || 'Not specified'}</div>
+                  </div>
+                  <div>
+                    <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>PURPOSE & PARTY SIZE</span>
+                    <div style={{ color: '#C9963A', fontWeight: 700 }}>{b.purpose || 'General Royal Consultation'}</div>
+                    <div style={{ color: 'rgba(245,237,216,.6)' }}>Delegation: {b.group_size || b.groupSize || '1'} person(s)</div>
+                  </div>
+                  <div>
+                    <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>SCHEDULE & VENUE</span>
+                    <div style={{ color: isConfirmed ? '#86efac' : isPostponed ? '#fde047' : '#F5EDD8', fontWeight: 700 }}>
+                      📅 {b.confirmed_date || b.booking_date || b.date || '—'} @ {b.confirmed_time || b.time_slot || b.time || '—'}
+                    </div>
+                    <div style={{ color: '#C9963A', fontSize: '.62rem' }}>
+                      🏛️ {b.palace_chamber || 'Palace Chambers'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Message / Statement */}
+                {(b.message || b.description) && (
+                  <div style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.7)', background: 'rgba(201,150,58,.03)', padding: '.5rem .8rem', borderRadius: 4, borderLeft: '2px solid rgba(201,150,58,.3)', marginBottom: '.4rem', lineHeight: 1.5 }}>
+                    <strong>Matter Statement:</strong> {b.message || b.description}
+                  </div>
+                )}
+
+                {/* Palace Decision Notes */}
+                {(b.palace_notes || b.postponed_reason || b.decline_reason) && (
+                  <div style={{ fontSize: '.68rem', color: isDeclined ? '#fca5a5' : isPostponed ? '#fef08a' : '#86efac', background: 'rgba(0,0,0,.3)', padding: '.4rem .8rem', borderRadius: 4 }}>
+                    <strong>Palace Official Log ({b.official_name || 'Secretariat'}):</strong> {b.postponed_reason || b.decline_reason || b.palace_notes}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ── PALACE DECISION & OFFICIAL ACTION MODAL ── */}
+      {selectedBooking && (
+        <div className="amodal-overlay" onClick={e => { if (e.target === e.currentTarget) setSelectedBooking(null); }}>
+          <div className="amodal" style={{ maxWidth: 680, background: '#140a05', border: '2px solid #C9963A', borderRadius: 12, padding: '1.5rem', color: '#F5EDD8' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(201,150,58,.2)', paddingBottom: '.6rem' }}>
+              <div>
+                <div className="cinzel" style={{ fontSize: '.65rem', color: '#C9963A', letterSpacing: '.15em', textTransform: 'uppercase' }}>
+                  AAFIN OLOGERE PROTOCOL SECRETARIAT
+                </div>
+                <h3 style={{ margin: '2px 0 0', fontSize: '1.2rem', fontFamily: "'Playfair Display',serif", color: '#fff' }}>
+                  Review Audience: {selectedBooking.full_name || selectedBooking.fullName}
+                </h3>
+              </div>
+              <button onClick={() => setSelectedBooking(null)} className="abtn abtn-d">✕</button>
+            </div>
+
+            {/* Applicant Summary */}
+            <div style={{ background: 'rgba(201,150,58,.06)', border: '1px solid rgba(201,150,58,.2)', padding: '.8rem', borderRadius: 6, fontSize: '.72rem', marginBottom: '1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.4rem' }}>
+              <div><strong>Reference:</strong> <span style={{ color: '#C9963A' }}>{selectedBooking.id}</span></div>
+              <div><strong>Email:</strong> {selectedBooking.email || '—'}</div>
+              <div><strong>Phone:</strong> {selectedBooking.phone || '—'}</div>
+              <div><strong>Address:</strong> {selectedBooking.address || '—'}</div>
+              <div style={{ gridColumn: '1/-1' }}><strong>Purpose:</strong> {selectedBooking.purpose}</div>
+            </div>
+
+            {/* Action Selection Tabs */}
+            <div style={{ display: 'flex', gap: '.4rem', marginBottom: '1.2rem' }}>
+              {[
+                { id: 'confirm', label: '🟢 Confirm & Schedule', bg: '#064e3b', col: '#86efac' },
+                { id: 'postpone', label: '🟡 Postpone / Reschedule', bg: '#78350f', col: '#fde047' },
+                { id: 'decline', label: '🔴 Decline / Regrets', bg: '#7f1d1d', col: '#fca5a5' },
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActionTab(tab.id)}
+                  style={{
+                    flex: 1,
+                    padding: '.5rem',
+                    borderRadius: 6,
+                    fontSize: '.7rem',
+                    fontWeight: 800,
+                    border: actionTab === tab.id ? '2px solid #C9963A' : '1px solid rgba(255,255,255,.1)',
+                    background: actionTab === tab.id ? tab.bg : 'rgba(0,0,0,.3)',
+                    color: actionTab === tab.id ? '#ffffff' : 'rgba(245,237,216,.6)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* TAB 1: CONFIRM APPOINTMENT */}
+            {actionTab === 'confirm' && (
+              <div style={{ display: 'grid', gap: '.6rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.6rem' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '.6rem', color: '#C9963A', textTransform: 'uppercase', marginBottom: '3px' }}>CONFIRMED DATE *</label>
+                    <input type="date" className="ainp" value={confirmedDate} onChange={e => setConfirmedDate(e.target.value)} style={{ width: '100%', fontSize: '.75rem' }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '.6rem', color: '#C9963A', textTransform: 'uppercase', marginBottom: '3px' }}>TIME SLOT *</label>
+                    <select className="ainp" value={confirmedTime} onChange={e => setConfirmedTime(e.target.value)} style={{ width: '100%', fontSize: '.75rem' }}>
+                      <option>09:00 AM - 10:00 AM</option>
+                      <option>10:00 AM - 11:00 AM</option>
+                      <option>11:00 AM - 12:00 PM</option>
+                      <option>02:00 PM - 03:00 PM</option>
+                      <option>03:00 PM - 04:00 PM</option>
+                      <option>04:00 PM - 05:00 PM</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '.6rem', color: '#C9963A', textTransform: 'uppercase', marginBottom: '3px' }}>PALACE CHAMBER ALLOCATION *</label>
+                  <select className="ainp" value={palaceChamber} onChange={e => setPalaceChamber(e.target.value)} style={{ width: '100%', fontSize: '.75rem' }}>
+                    <option>Inner Royal Council Chamber (High Chiefs & Royal Court)</option>
+                    <option>Oba's State Reception Hall (Official Delegations & Dignitaries)</option>
+                    <option>Palace Secretariat Court (Administrative & Chieftaincy Desk)</option>
+                    <option>Private Royal Audience Room (Confidential Civic Consultations)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '.6rem', color: '#C9963A', textTransform: 'uppercase', marginBottom: '3px' }}>PROTOCOL & DRESS CODE INSTRUCTIONS</label>
+                  <textarea
+                    className="ainp"
+                    rows={2}
+                    value={protocolNotes}
+                    onChange={e => setProtocolNotes(e.target.value)}
+                    style={{ width: '100%', fontSize: '.72rem' }}
+                  />
+                </div>
+
+                <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid #166534', padding: '.6rem', borderRadius: 6, fontSize: '.65rem', color: '#86efac' }}>
+                  ✉️ <strong>Automated Royal Email:</strong> Confirming this appointment will immediately generate and dispatch a formal royal letter with the seal of the Ologere to <strong>{selectedBooking.email}</strong>.
+                </div>
+
+                <button
+                  onClick={() => handleExecuteAction('confirmed')}
+                  disabled={isProcessing}
+                  className="abtn abtn-p"
+                  style={{ background: '#166534', borderColor: '#86efac', marginTop: '.4rem', padding: '.6rem' }}
+                >
+                  {isProcessing ? 'Dispatching...' : '👑 Confirm Appointment & Send Royal Letter'}
+                </button>
+              </div>
+            )}
+
+            {/* TAB 2: POSTPONE / RESCHEDULE */}
+            {actionTab === 'postpone' && (
+              <div style={{ display: 'grid', gap: '.6rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.6rem' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '.6rem', color: '#f59e0b', textTransform: 'uppercase', marginBottom: '3px' }}>NEW PROPOSED DATE *</label>
+                    <input type="date" className="ainp" value={confirmedDate} onChange={e => setConfirmedDate(e.target.value)} style={{ width: '100%', fontSize: '.75rem' }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '.6rem', color: '#f59e0b', textTransform: 'uppercase', marginBottom: '3px' }}>NEW TIME SLOT *</label>
+                    <select className="ainp" value={confirmedTime} onChange={e => setConfirmedTime(e.target.value)} style={{ width: '100%', fontSize: '.75rem' }}>
+                      <option>10:00 AM - 11:00 AM</option>
+                      <option>11:00 AM - 12:00 PM</option>
+                      <option>02:00 PM - 03:00 PM</option>
+                      <option>03:00 PM - 04:00 PM</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '.6rem', color: '#f59e0b', textTransform: 'uppercase', marginBottom: '3px' }}>POSTPONEMENT REASON (CONVEYED TO APPLICANT) *</label>
+                  <textarea
+                    className="ainp"
+                    rows={3}
+                    placeholder="e.g. Urgent Council of Remo Traditional Rulers meeting called at Sagamu; or ongoing Olipakala festival rites."
+                    value={actionReason}
+                    onChange={e => setActionReason(e.target.value)}
+                    style={{ width: '100%', fontSize: '.72rem' }}
+                  />
+                </div>
+
+                <div style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid #78350f', padding: '.6rem', borderRadius: 6, fontSize: '.65rem', color: '#fde047' }}>
+                  ✉️ <strong>Automated Reschedule Notice:</strong> A polite royal postponement letter with the revised date will be emailed to <strong>{selectedBooking.email}</strong>.
+                </div>
+
+                <button
+                  onClick={() => handleExecuteAction('postponed')}
+                  disabled={isProcessing}
+                  className="abtn abtn-p"
+                  style={{ background: '#78350f', borderColor: '#fde047', marginTop: '.4rem', padding: '.6rem' }}
+                >
+                  {isProcessing ? 'Updating...' : '⚠️ Postpone & Dispatch Reschedule Notice'}
+                </button>
+              </div>
+            )}
+
+            {/* TAB 3: DECLINE REQUEST */}
+            {actionTab === 'decline' && (
+              <div style={{ display: 'grid', gap: '.6rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '.6rem', color: '#f87171', textTransform: 'uppercase', marginBottom: '3px' }}>OFFICIAL REASON / RECOMMENDATION *</label>
+                  <textarea
+                    className="ainp"
+                    rows={3}
+                    placeholder="e.g. Matter relates to community land under court litigation; applicant respectfully referred to Ward Baale of Agbele for initial mediation."
+                    value={actionReason}
+                    onChange={e => setActionReason(e.target.value)}
+                    style={{ width: '100%', fontSize: '.72rem' }}
+                  />
+                </div>
+
+                <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid #7f1d1d', padding: '.6rem', borderRadius: 6, fontSize: '.65rem', color: '#fca5a5' }}>
+                  ✉️ <strong>Formal Regrets Notice:</strong> A dignified letter from the Palace Secretariat explaining the reason will be emailed to <strong>{selectedBooking.email}</strong>.
+                </div>
+
+                <button
+                  onClick={() => handleExecuteAction('declined')}
+                  disabled={isProcessing}
+                  className="abtn abtn-d"
+                  style={{ marginTop: '.4rem', padding: '.6rem' }}
+                >
+                  {isProcessing ? 'Dispatching...' : '🔴 Decline Request & Send Formal Notice'}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── PRINTABLE GATE ENTRY PASS MODAL ── */}
+      {passBooking && (
+        <div className="amodal-overlay" onClick={e => { if (e.target === e.currentTarget) setPassBooking(null); }}>
+          <div className="amodal" style={{ maxWidth: 540, background: '#ffffff', color: '#0f172a', padding: '2rem', borderRadius: 12, border: '3px solid #C9963A' }}>
+            {/* Printable Pass Container */}
+            <div style={{ textAlign: 'center', borderBottom: '2px solid #C9963A', paddingBottom: '12px', marginBottom: '14px' }}>
+              <div style={{ fontSize: '2.5rem' }}>👑</div>
+              <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 900, fontSize: '1rem', color: '#064e3b', letterSpacing: '1px' }}>
+                PALACE OF THE OLOGERE OF OGERE REMO
+              </div>
+              <div style={{ fontSize: '.7rem', color: '#d97706', fontWeight: 800 }}>
+                OFFICIAL ROYAL AUDIENCE GATE PASS & VOUCHER
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gap: '8px', fontSize: '.8rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }}>
+                <span style={{ color: '#64748b' }}>Pass Reference:</span>
+                <strong style={{ fontFamily: 'monospace', color: '#b45309' }}>{passBooking.id}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }}>
+                <span style={{ color: '#64748b' }}>Applicant:</span>
+                <strong>{passBooking.full_name || passBooking.fullName}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }}>
+                <span style={{ color: '#64748b' }}>Residential Address:</span>
+                <span style={{ textAlign: 'right', maxWidth: '60%' }}>{passBooking.address || 'Verified Indigene'}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }}>
+                <span style={{ color: '#64748b' }}>Scheduled Date:</span>
+                <strong style={{ color: '#059669' }}>{passBooking.confirmed_date || passBooking.booking_date || passBooking.date}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }}>
+                <span style={{ color: '#64748b' }}>Allocated Time:</span>
+                <strong>{passBooking.confirmed_time || passBooking.time_slot || passBooking.time}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }}>
+                <span style={{ color: '#64748b' }}>Designated Chamber:</span>
+                <strong style={{ color: '#064e3b' }}>{passBooking.palace_chamber || 'Inner Royal Council Chamber'}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '4px' }}>
+                <span style={{ color: '#64748b' }}>Party Size:</span>
+                <strong>{passBooking.group_size || passBooking.groupSize || '1'} Person(s)</strong>
+              </div>
+            </div>
+
+            <div style={{ background: '#f8fafc', border: '1px dashed #cbd5e1', padding: '10px', borderRadius: 8, margin: '14px 0', textAlign: 'center', fontSize: '.68rem', color: '#475569' }}>
+              <div>[QR SECURITY SEAL: PALACE-PASS-VERIFIED]</div>
+              <div style={{ marginTop: '4px' }}>Bearer is granted formal entry through the Main Palace Gate. Present this pass to Palace Security & Protocol Aides upon arrival.</div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+              <button onClick={() => setPassBooking(null)} className="abtn abtn-o" style={{ color: '#334155' }}>Close</button>
+              <button onClick={() => window.print()} className="abtn abtn-p" style={{ background: '#064e3b' }}>🖨️ Print Voucher</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function MediaLibrary({ onClose, addToast, onSelect, standalone }) {
   const [media, setMedia] = useState([]);
   const [url, setUrl] = useState('');
@@ -1249,7 +1792,11 @@ export default function AdminPage() {
 
           {activeSection === 'settings' && <SettingsPanel addToast={addToast} user={user} />}
 
-          {currentDef && activeSection !== 'dashboard' && activeSection !== 'settings' && activeSection !== 'media' && (
+          {activeSection === 'royalAudiences' && (
+            <RoyalAudiencesAdminView addToast={addToast} />
+          )}
+
+          {currentDef && activeSection !== 'dashboard' && activeSection !== 'settings' && activeSection !== 'media' && activeSection !== 'royalAudiences' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem', flexWrap: 'wrap', gap: '.4rem' }}>
                 <div>

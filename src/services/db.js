@@ -509,10 +509,56 @@ function initCollection(collectionName) {
 }
 
 /**
- * Get all items from a collection
+ * Sync with Cloud Backend API in background (SWR pattern)
+ */
+export async function dbSyncCloud(collectionName) {
+  const API_MAP = {
+    id_cards: '/api/id-cards',
+    royal_audiences: '/api/royal-audiences',
+    marketplace: '/api/marketplace',
+    land_registry: '/api/land-registry',
+    donations: '/api/donations',
+    scholarships: '/api/scholarships',
+  };
+
+  const endpoint = API_MAP[collectionName];
+  if (!endpoint) return;
+
+  try {
+    const res = await fetch(endpoint);
+    if (!res.ok) return;
+    const json = await res.json();
+    const cloudItems = json.data;
+
+    if (Array.isArray(cloudItems) && cloudItems.length > 0) {
+      // Merge cloud items with local state
+      const localItems = initCollection(collectionName);
+      const mergedMap = new Map();
+      
+      // Add local items first
+      localItems.forEach(item => mergedMap.set(item.id, item));
+      // Overwrite/enrich with verified cloud items
+      cloudItems.forEach(item => mergedMap.set(item.id, { ...mergedMap.get(item.id), ...item }));
+
+      const mergedList = Array.from(mergedMap.values());
+      memoryCache.set(collectionName, mergedList);
+      localStorage.setItem(`${STORAGE_PREFIX}${collectionName}`, JSON.stringify(mergedList));
+      window.dispatchEvent(new CustomEvent(`db-${collectionName}-updated`, { detail: mergedList }));
+    }
+  } catch (err) {
+    // Silent background fallback
+    console.debug(`[dbSyncCloud] ${collectionName} offline mode.`);
+  }
+}
+
+/**
+ * Get all items from a collection (returns immediately from cache & initiates cloud sync)
  */
 export async function dbGetAll(collectionName) {
-  return initCollection(collectionName);
+  const items = initCollection(collectionName);
+  // Trigger background cloud refresh
+  dbSyncCloud(collectionName).catch(() => {});
+  return items;
 }
 
 /**
@@ -540,6 +586,25 @@ export async function dbInsert(collectionName, item) {
 
   // Dispatch custom window event for real-time reactivity across components
   window.dispatchEvent(new CustomEvent(`db-${collectionName}-updated`, { detail: updated }));
+
+  // Post to Cloud API in background
+  const API_POST_MAP = {
+    id_cards: '/api/id-cards',
+    royal_audiences: '/api/royal-audiences',
+    marketplace: '/api/marketplace',
+    scholarships: '/api/scholarships',
+    donations: '/api/donations',
+  };
+
+  const endpoint = API_POST_MAP[collectionName];
+  if (endpoint) {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newItem),
+    }).catch(e => console.warn(`[Cloud Sync POST Fallback] ${collectionName}:`, e.message));
+  }
+
   return newItem;
 }
 
@@ -556,6 +621,31 @@ export async function dbUpdate(collectionName, id, updates) {
   localStorage.setItem(`${STORAGE_PREFIX}${collectionName}`, JSON.stringify(items));
 
   window.dispatchEvent(new CustomEvent(`db-${collectionName}-updated`, { detail: items }));
+
+  // Admin action cloud sync
+  const ACTION_MAP = {
+    id_cards: 'id_card_status',
+    royal_audiences: 'royal_audience_status',
+    land_registry: 'land_registry_status',
+    scholarships: 'scholarship_status',
+    marketplace: 'marketplace_status',
+    incident_reports: 'incident_status',
+  };
+
+  const actionType = ACTION_MAP[collectionName];
+  if (actionType && updates.status) {
+    fetch('/api/admin-actions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        actionType,
+        targetId: id,
+        status: updates.status,
+        notes: updates.verifiedBy || updates.palaceNotes || updates.notes,
+      }),
+    }).catch(e => console.warn(`[Admin Action Cloud Sync Fallback]:`, e.message));
+  }
+
   return items[index];
 }
 

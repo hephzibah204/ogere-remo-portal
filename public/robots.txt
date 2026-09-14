@@ -1,0 +1,7 @@
+# Robots.txt for Ogere Remo Community Portal
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://ogereremo.vercel.app/sitemap.xml

@@ -1,0 +1,54 @@
+name: Ogere Remo Portal CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  web-build:
+    name: Build & Validate Web Portal
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Root Dependencies
+        run: npm ci
+
+      - name: Validate Web Build
+        run: npm run build
+        env:
+          VITE_COMING_SOON: false
+          VITE_SITE_URL: https://ogeremo.org
+
+  mobile-validate:
+    name: Validate Mobile App Config
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./mobile
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Mobile Dependencies
+        run: npm ci
+
+      - name: Validate Expo Configuration
+        run: npx expo config --type public

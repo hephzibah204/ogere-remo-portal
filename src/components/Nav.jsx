@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import AiSearch from './AiSearch';
 import DonateModal from './DonateModal';
+import SosHeaderModal from './SosHeaderModal';
 import { useState, useEffect } from 'react';
 
 const MENU_GROUPS = [
@@ -48,6 +49,7 @@ const MENU_GROUPS = [
     label: 'Governance',
     items: [
       { id: 'governance', label: '📊 Dashboard' },
+      { id: 'security-dashboard', label: '🚨 Security Command' },
       { id: 'land-registry', label: '📋 Land Registry' },
       { id: 'royal-audience', label: '👑 Book Royal Audience' },
       { id: 'id-card', label: '🪪 Digital ID Card' },
@@ -58,6 +60,7 @@ const MENU_GROUPS = [
 ];
 
 const STANDALONE_PAGES = [
+  { id: 'mobile-preview', label: '📱 Mobile App' },
   { id: 'quiz', label: '🧠 Heritage Quiz' },
   { id: 'miss-olipakala', label: '👑 Miss Olipakala' },
   { id: 'contact', label: 'Contact' },
@@ -71,13 +74,19 @@ export default function Nav() {
   const [openGroup, setOpenGroup] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDonateOpen, setIsDonateOpen] = useState(false);
+  const [isSosOpen, setIsSosOpen] = useState(false);
 
   const currentPage = location.pathname.replace('/', '') || 'home';
 
   useEffect(() => {
     const handleOpenDonate = () => setIsDonateOpen(true);
+    const handleOpenSos = () => setIsSosOpen(true);
     window.addEventListener('open-donate-modal', handleOpenDonate);
-    return () => window.removeEventListener('open-donate-modal', handleOpenDonate);
+    window.addEventListener('open-sos-modal', handleOpenSos);
+    return () => {
+      window.removeEventListener('open-donate-modal', handleOpenDonate);
+      window.removeEventListener('open-sos-modal', handleOpenSos);
+    };
   }, []);
 
   useEffect(() => {
@@ -99,7 +108,7 @@ export default function Nav() {
         className="glass"
         style={{
           position: 'fixed',
-          top: 0,
+          top: 'var(--demo-offset, 0px)',
           left: 0,
           right: 0,
           zIndex: 1000,
@@ -177,6 +186,30 @@ export default function Nav() {
             ))}
             
             <button
+              onClick={() => setIsSosOpen(true)}
+              className="btn-sos-nav"
+              title="Immediate Emergency Rescue & Security Forces"
+              style={{
+                fontSize: '0.68rem',
+                padding: '0.42rem 0.85rem',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+                border: '1px solid #f87171',
+                color: '#fff',
+                cursor: 'pointer',
+                fontWeight: 800,
+                boxShadow: '0 2px 10px rgba(220, 38, 38, 0.45)',
+                animation: 'pulseGlow 2.5s infinite',
+              }}
+            >
+              <span>🚨</span>
+              <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.08em', fontWeight: 900 }}>SOS Emergency</span>
+            </button>
+
+            <button
               onClick={() => setIsDonateOpen(true)}
               className="btn-p"
               style={{
@@ -238,29 +271,53 @@ export default function Nav() {
           overflowY: 'auto', display: 'flex', flexDirection: 'column'
         }}>
           <div className="container" style={{ padding: '2rem' }}>
-             <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center', marginBottom: '1.5rem' }}>
-               <button
-                 onClick={() => {
-                   setIsMobileMenuOpen(false);
-                   setIsDonateOpen(true);
-                 }}
-                 className="btn-p"
-                 style={{
-                   flex: 1,
-                   padding: '0.7rem',
-                   fontSize: '0.8rem',
-                   background: 'linear-gradient(135deg, #C9963A, #B5451B)',
-                   border: 'none',
-                   display: 'flex',
-                   alignItems: 'center',
-                   justifyContent: 'center',
-                   gap: '0.4rem',
-                 }}
-               >
-                 <span>💛</span>
-                 <span className="cinzel" style={{ letterSpacing: '0.1em' }}>Donate & Support Portal</span>
-               </button>
-             </div>
+              <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsSosOpen(true);
+                  }}
+                  className="btn-p"
+                  style={{
+                    flex: 1,
+                    padding: '0.7rem',
+                    fontSize: '0.8rem',
+                    background: 'linear-gradient(135deg, #dc2626, #991b1b)',
+                    border: '1px solid #f87171',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.4rem',
+                    color: '#fff',
+                    boxShadow: '0 4px 12px rgba(220, 38, 38, 0.4)',
+                  }}
+                >
+                  <span>🚨</span>
+                  <span className="cinzel" style={{ letterSpacing: '0.1em', fontWeight: 900 }}>SOS Emergency</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsDonateOpen(true);
+                  }}
+                  className="btn-p"
+                  style={{
+                    flex: 1,
+                    padding: '0.7rem',
+                    fontSize: '0.8rem',
+                    background: 'linear-gradient(135deg, #C9963A, #B5451B)',
+                    border: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.4rem',
+                  }}
+                >
+                  <span>💛</span>
+                  <span className="cinzel" style={{ letterSpacing: '0.1em' }}>Donate</span>
+                </button>
+              </div>
              <AiSearch />
              <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <Link to="/" className="cinzel" style={{ fontSize: '1.2rem', color: isActive('home') ? 'var(--gold)' : 'var(--cream)' }}>Home</Link>
@@ -291,6 +348,7 @@ export default function Nav() {
       )}
 
       <DonateModal isOpen={isDonateOpen} onClose={() => setIsDonateOpen(false)} />
+      <SosHeaderModal isOpen={isSosOpen} onClose={() => setIsSosOpen(false)} />
 
       <style>{`
         .nav-link {

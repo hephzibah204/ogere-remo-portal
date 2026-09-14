@@ -195,7 +195,7 @@ export default function DonateModal({ isOpen, onClose }) {
             border: '1px solid rgba(201,150,58,0.2)',
             borderRadius: '12px',
             padding: '1.2rem',
-            marginBottom: '1.8rem',
+            marginBottom: '1.5rem',
             textAlign: 'center',
           }}
         >
@@ -238,6 +238,25 @@ export default function DonateModal({ isOpen, onClose }) {
               💬 WhatsApp Us
             </a>
           </div>
+        </div>
+
+        {/* Diaspora International Donor Note */}
+        <div
+          style={{
+            background: 'rgba(201,150,58,0.08)',
+            border: '1px solid rgba(201,150,58,0.2)',
+            borderRadius: '10px',
+            padding: '0.9rem 1.2rem',
+            marginBottom: '1.5rem',
+            fontSize: '0.82rem',
+            color: 'rgba(245,237,216,0.85)',
+            lineHeight: 1.6,
+            textAlign: 'center',
+          }}
+          className="baskerville"
+        >
+          🌍 <strong>Diaspora Donors (UK, USA, Canada, Europe):</strong><br />
+          For international wire, Remitly, WorldRemit, Zelle, or PayPal options, please contact our diaspora finance desk on WhatsApp at <strong style={{ color: 'var(--gold)' }}>+2349077780156</strong>.
         </div>
 
         {/* Footer Note */}

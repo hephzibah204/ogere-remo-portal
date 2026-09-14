@@ -312,11 +312,16 @@ export default function AlertsPage() {
 
           {!showReport && !reportSubmitted && (
             <div style={{ textAlign: 'center' }}>
-              <button className="btn-p" onClick={() => setShowReport(true)} style={{ fontSize: '0.75rem', padding: '1rem 2.5rem' }}>
-                🚨 Submit a Community Report
-              </button>
-              <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: 'rgba(245,237,216,0.35)' }}>
-                For life-threatening emergencies, call <strong style={{ color: '#ef4444' }}>112</strong> immediately. Do not use this form.
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+                <button className="btn-p" onClick={() => setShowReport(true)} style={{ fontSize: '0.75rem', padding: '1rem 2.5rem' }}>
+                  🚨 Submit a Community Report
+                </button>
+                <a href="/security-dashboard" className="btn-o" style={{ fontSize: '0.75rem', padding: '1rem 2rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <span>🛡️</span> Security Agencies Dispatch Console →
+                </a>
+              </div>
+              <p style={{ fontSize: '0.75rem', color: 'rgba(245,237,216,0.35)' }}>
+                For life-threatening emergencies (Armed Robbery, Gunfire, Kidnapping, Tanker Explosion), call <strong style={{ color: '#ef4444' }}>112</strong> or Ogere DPO <strong style={{ color: 'var(--gold)' }}>08081762371</strong> immediately.
               </p>
             </div>
           )}
@@ -329,7 +334,18 @@ export default function AlertsPage() {
                     <label className="cinzel" style={{ display: 'block', fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.15em', marginBottom: '0.5rem', textTransform: 'uppercase' }}>Incident Type *</label>
                     <select required className="inp" value={report.type} onChange={e => setR('type', e.target.value)} style={{ background: 'rgba(201,150,58,0.05)' }}>
                       <option value="">Select type...</option>
-                      {['Theft / Robbery', 'Suspicious Activity', 'Road Accident', 'Fire / Flooding', 'Land Dispute', 'Noise / Disturbance', 'Missing Person', 'Medical Emergency', 'Other'].map(t => <option key={t} value={t}>{t}</option>)}
+                      {[
+                        'Armed Robbery / Banditry',
+                        'Terrorism / Active Gunfire',
+                        'Kidnapping Incident',
+                        'Highway Road Accident / Entrapment',
+                        'Fuel Tanker Fire / Explosion',
+                        'CNG Pipeline Gas Leak',
+                        'Land Boundary Dispute',
+                        'Suspicious Movements / Strangers',
+                        'Medical Emergency',
+                        'Other Hazard'
+                      ].map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
                   </div>
                   <div>

@@ -1,0 +1,589 @@
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+  Linking,
+} from 'react-native';
+import { Header } from '../../components/Header';
+import { OfflineNotice } from '../../components/OfflineNotice';
+import { Card } from '../../components/Card';
+import { Colors, Spacing, Radius, Typography, Shadows } from '../../theme';
+import { useAuth } from '../../services/authContext';
+import { getLocalNews, getLocalKings, SeedNewsItem, SeedKingItem } from '../../database/sqlite';
+import { syncManager } from '../../database/syncManager';
+
+export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const { user, isGuest } = useAuth();
+  const [news, setNews] = useState<SeedNewsItem[]>([]);
+  const [currentKing, setCurrentKing] = useState<SeedKingItem | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    loadContent();
+  }, []);
+
+  const loadContent = async () => {
+    const newsList = await getLocalNews();
+    setNews(newsList);
+    const kingsList = await getLocalKings();
+    const reigning = kingsList.find(k => k.isCurrent) || kingsList[0];
+    setCurrentKing(reigning);
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await syncManager.performDeltaSync();
+    await loadContent();
+    setRefreshing(false);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Header
+        onProfilePress={() => navigation.navigate('Profile')}
+      />
+      <OfflineNotice />
+
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[Colors.primary]}
+          />
+        }
+      >
+        {/* Royal Welcome Banner with Citizen Status */}
+        <View style={styles.welcomeBanner}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <View style={styles.avatarCircle}>
+              <Text style={styles.avatarLetter}>
+                {user ? user.fullName.charAt(0).toUpperCase() : '👑'}
+              </Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.welcomeGreeting}>
+                {user ? `Ẹ káàbọ̀, ${user.fullName.split(' ')[0]}!` : 'Ẹ káàbọ̀! Welcome to Ogere'}
+              </Text>
+              <View style={styles.badgeRow}>
+                <View style={[styles.verifiedPill, { backgroundColor: user ? '#ecfdf5' : '#f1f5f9' }]}>
+                  <Text style={[styles.verifiedPillText, { color: user ? '#059669' : '#64748b' }]}>
+                    {user ? `✓ CERTIFIED ${user.citizenType.toUpperCase()}` : 'GUEST EXPLORER'}
+                  </Text>
+                </View>
+                {user && (
+                  <Text style={styles.quarterText}>· {user.quarter}</Text>
+                )}
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* 24/7 Security & Rapid Emergency Ribbon */}
+        <TouchableOpacity
+          style={styles.emergencyBannerTop}
+          onPress={() => navigation.navigate('IncidentReport')}
+          activeOpacity={0.85}
+        >
+          <View style={styles.emergencyIconTop}>
+            <Text style={{ fontSize: 24 }}>🚨</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Text style={styles.emergencyTitleTop}>24/7 Security & Fast Rescue</Text>
+              <View style={styles.livePulsePill}>
+                <Text style={styles.livePulseText}>LIVE</Text>
+              </View>
+            </View>
+            <Text style={styles.emergencySubtitleTop}>Multi-agency Police, FRSC & Vigilante dispatch</Text>
+          </View>
+          <View style={styles.callPillTop}>
+            <Text style={styles.callPillTextTop}>REPORT SOS</Text>
+          </View>
+        </TouchableOpacity>
+
+        {/* Civic & Tactical Quick Action Grid (6 Items) */}
+        <View style={styles.quickGrid}>
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('WalkWithMe')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🚶‍♂️</Text>
+            <Text style={styles.quickLabel}>Walk With Me</Text>
+            <Text style={styles.quickSub}>Safe Escort</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('IncidentReport')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🚨</Text>
+            <Text style={styles.quickLabel}>Report SOS</Text>
+            <Text style={styles.quickSub}>Armed Alert</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('Profile')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🪪</Text>
+            <Text style={styles.quickLabel}>ID Wallet</Text>
+            <Text style={styles.quickSub}>Digital Card</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('RoyalAudience')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🏛️</Text>
+            <Text style={styles.quickLabel}>Audience</Text>
+            <Text style={styles.quickSub}>With Kabiyesi</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('News')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>📰</Text>
+            <Text style={styles.quickLabel}>Town News</Text>
+            <Text style={styles.quickSub}>Bulletins</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('Heritage')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>👑</Text>
+            <Text style={styles.quickLabel}>Kings Lineage</Text>
+            <Text style={styles.quickSub}>Obas History</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Current Monarch Spotlight */}
+        {currentKing && (
+          <Card style={styles.monarchCard}>
+            <View style={styles.monarchHeader}>
+              <View style={styles.monarchCrownBadge}>
+                <Text style={styles.crownEmoji}>👑</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.monarchTag}>CURRENT REIGNING MONARCH</Text>
+                <Text style={styles.monarchName}>{currentKing.name}</Text>
+                <Text style={styles.monarchTitle}>{currentKing.title}</Text>
+              </View>
+            </View>
+            <Text style={styles.monarchNote}>{currentKing.note}</Text>
+            {currentKing.oriki && (
+              <View style={styles.orikiBox}>
+                <Text style={styles.orikiText}>"{currentKing.oriki}"</Text>
+              </View>
+            )}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Heritage')}
+              style={styles.exploreKingsLink}
+            >
+              <Text style={styles.exploreKingsText}>
+                View Complete Historical Obas Lineage ➔
+              </Text>
+            </TouchableOpacity>
+          </Card>
+        )}
+
+        {/* Latest News & Royal Proclamations */}
+        <View style={styles.sectionHeaderRow}>
+          <Text style={styles.sectionTitle}>Palace & Community Bulletins</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('News')}>
+            <Text style={styles.seeAllText}>See All ({news.length})</Text>
+          </TouchableOpacity>
+        </View>
+
+        {news.slice(0, 3).map(item => (
+          <Card
+            key={item.id}
+            style={styles.newsCard}
+            onPress={() => navigation.navigate('NewsDetail', { item })}
+          >
+            <View style={styles.newsBadgeRow}>
+              <View style={styles.categoryBadge}>
+                <Text style={styles.categoryBadgeText}>{item.category}</Text>
+              </View>
+              {item.isBreaking && (
+                <View style={styles.breakingBadge}>
+                  <Text style={styles.breakingText}>BREAKING</Text>
+                </View>
+              )}
+              <Text style={styles.newsDate}>{item.date}</Text>
+            </View>
+            <Text style={styles.newsTitle}>{item.title}</Text>
+            <Text style={styles.newsSummary} numberOfLines={2}>
+              {item.summary}
+            </Text>
+            <View style={styles.newsFooter}>
+              <Text style={styles.newsAuthor}>By {item.author}</Text>
+              <Text style={styles.newsReadTime}>{item.readTime}</Text>
+            </View>
+          </Card>
+        ))}
+
+        {/* Emergency Fast Call Banner */}
+        <TouchableOpacity
+          style={styles.emergencyBanner}
+          onPress={() => Linking.openURL('tel:122')}
+          activeOpacity={0.8}
+        >
+          <View style={styles.emergencyIcon}>
+            <Text style={{ fontSize: 24 }}>🚨</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.emergencyTitle}>24/7 Expressway & Police Response</Text>
+            <Text style={styles.emergencySubtitle}>Tap for immediate emergency assistance</Text>
+          </View>
+          <View style={styles.callPill}>
+            <Text style={styles.callPillText}>DIAL 122</Text>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  scrollContent: {
+    padding: Spacing.md,
+    paddingBottom: Spacing.xxl,
+    gap: 16,
+  },
+  welcomeBanner: {
+    backgroundColor: Colors.surface,
+    padding: Spacing.md,
+    borderRadius: Radius.lg,
+    borderLeftWidth: 4,
+    borderLeftColor: Colors.gold,
+    ...Shadows.subtle,
+  },
+  avatarCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.primary,
+    borderWidth: 1.5,
+    borderColor: Colors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarLetter: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: '800',
+  },
+  welcomeGreeting: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: Colors.textPrimary,
+  },
+  badgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 4,
+  },
+  verifiedPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: Radius.full,
+  },
+  verifiedPillText: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  quarterText: {
+    fontSize: 12,
+    color: Colors.textSecondary,
+    fontWeight: '600',
+  },
+  emergencyBannerTop: {
+    backgroundColor: '#7f1d1d',
+    borderWidth: 1.5,
+    borderColor: '#ef4444',
+    borderRadius: Radius.lg,
+    padding: Spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    ...Shadows.elevated,
+  },
+  emergencyIconTop: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emergencyTitleTop: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  emergencySubtitleTop: {
+    fontSize: 11,
+    color: '#fecaca',
+    marginTop: 2,
+  },
+  livePulsePill: {
+    backgroundColor: '#ef4444',
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 4,
+  },
+  livePulseText: {
+    color: '#ffffff',
+    fontSize: 9,
+    fontWeight: '900',
+    letterSpacing: 0.5,
+  },
+  callPillTop: {
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: Radius.md,
+  },
+  callPillTextTop: {
+    color: '#b91c1c',
+    fontWeight: '900',
+    fontSize: 10,
+    letterSpacing: 0.5,
+  },
+  quickGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  quickCard: {
+    width: '31.5%',
+    backgroundColor: Colors.surface,
+    paddingVertical: 12,
+    paddingHorizontal: 4,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.surfaceBorder,
+    ...Shadows.subtle,
+  },
+  quickEmoji: {
+    fontSize: 22,
+    marginBottom: 4,
+  },
+  quickLabel: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: Colors.textPrimary,
+    textAlign: 'center',
+  },
+  quickSub: {
+    fontSize: 9,
+    fontWeight: '600',
+    color: Colors.textMuted,
+    marginTop: 1,
+  },
+  monarchCard: {
+    backgroundColor: '#064e3b',
+    borderWidth: 1,
+    borderColor: Colors.gold,
+  },
+  monarchHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 10,
+  },
+  monarchCrownBadge: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    backgroundColor: 'rgba(217, 119, 6, 0.25)',
+    borderWidth: 1,
+    borderColor: Colors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  crownEmoji: {
+    fontSize: 22,
+  },
+  monarchTag: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: Colors.goldSoft,
+    letterSpacing: 0.5,
+  },
+  monarchName: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  monarchTitle: {
+    fontSize: 12,
+    color: '#a7f3d0',
+    marginTop: 2,
+  },
+  monarchNote: {
+    fontSize: 13,
+    color: '#e2e8f0',
+    lineHeight: 19,
+    marginBottom: 10,
+  },
+  orikiBox: {
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    padding: 10,
+    borderRadius: Radius.sm,
+    marginBottom: 10,
+  },
+  orikiText: {
+    fontSize: 12,
+    color: Colors.goldSoft,
+    fontStyle: 'italic',
+    lineHeight: 17,
+  },
+  exploreKingsLink: {
+    alignSelf: 'flex-start',
+    paddingVertical: 4,
+  },
+  exploreKingsText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Colors.goldLight,
+  },
+  sectionHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: Colors.textPrimary,
+  },
+  seeAllText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+  newsCard: {
+    gap: 8,
+  },
+  newsBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  categoryBadge: {
+    backgroundColor: Colors.primaryMuted,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: Radius.sm,
+  },
+  categoryBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
+  breakingBadge: {
+    backgroundColor: '#fee2e2',
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: Radius.sm,
+  },
+  breakingText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#dc2626',
+  },
+  newsDate: {
+    fontSize: 11,
+    color: Colors.textMuted,
+    marginLeft: 'auto',
+  },
+  newsTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.textPrimary,
+    lineHeight: 21,
+  },
+  newsSummary: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    lineHeight: 18,
+  },
+  newsFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 6,
+    borderTopWidth: 1,
+    borderTopColor: Colors.surfaceBorder,
+  },
+  newsAuthor: {
+    fontSize: 11,
+    color: Colors.textMuted,
+  },
+  newsReadTime: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: Colors.primary,
+  },
+  emergencyBanner: {
+    backgroundColor: '#b91c1c',
+    borderRadius: Radius.lg,
+    padding: Spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    ...Shadows.elevated,
+  },
+  emergencyIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emergencyTitle: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  emergencySubtitle: {
+    color: '#fecaca',
+    fontSize: 11,
+  },
+  callPill: {
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: Radius.sm,
+  },
+  callPillText: {
+    color: '#b91c1c',
+    fontSize: 11,
+    fontWeight: '800',
+  },
+});

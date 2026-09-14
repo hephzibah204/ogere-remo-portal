@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { STATIC_NEWS, newsCatColor } from '../data/news';
 import { dbGet, dbSet } from '../services/storage';
 import { sendAnthropicMessage } from '../services/api';
@@ -177,20 +178,27 @@ export default function NewsPage() {
                 <p className="baskerville" style={{ fontSize: '1rem', color: 'rgba(245,237,216,.8)', lineHeight: 1.7, marginBottom: '1.5rem' }}>
                   {featuredArticle.body}
                 </p>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <button
+                <div style={{ display: 'flex', gap: '.8rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Link
+                    to={`/news/${featuredArticle.id}`}
                     className="btn-p"
-                    onClick={() => setExpand(expand === featuredArticle.id ? null : featuredArticle.id)}
-                    style={{ fontSize: '.75rem', padding: '.6rem 1.4rem' }}
+                    style={{ fontSize: '.75rem', padding: '.6rem 1.4rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '.4rem' }}
                   >
-                    {expand === featuredArticle.id ? 'Collapse Full Article ▲' : 'Read Full Coverage →'}
+                    Read Dedicated Page →
+                  </Link>
+                  <button
+                    className="btn-o"
+                    onClick={() => setExpand(expand === featuredArticle.id ? null : featuredArticle.id)}
+                    style={{ fontSize: '.75rem', padding: '.6rem 1.2rem' }}
+                  >
+                    {expand === featuredArticle.id ? 'Quick Collapse ▲' : 'Quick Preview ▼'}
                   </button>
                   <button
                     className="btn-o"
                     onClick={(e) => handleShare(e, featuredArticle)}
                     style={{ fontSize: '.75rem', padding: '.6rem 1.2rem' }}
                   >
-                    {copiedId === featuredArticle.id ? '✓ Copied Headline' : '🔗 Share Story'}
+                    {copiedId === featuredArticle.id ? '✓ Copied Link' : '🔗 Share Story'}
                   </button>
                 </div>
               </div>
@@ -511,15 +519,42 @@ export default function NewsPage() {
                           fontWeight: 700,
                         }}
                       >
-                        {n.headline}
+                        <Link
+                          to={`/news/${n.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          style={{ color: '#F5EDD8', textDecoration: 'none', transition: 'color .2s ease' }}
+                          onMouseOver={(e) => (e.currentTarget.style.color = 'var(--gold)')}
+                          onMouseOut={(e) => (e.currentTarget.style.color = '#F5EDD8')}
+                        >
+                          {n.headline}
+                        </Link>
                       </h3>
 
                       {/* Excerpt or Preview */}
                       {!isExpanded && (
-                        <p className="baskerville" style={{ fontSize: '.92rem', color: 'rgba(245,237,216,.65)', lineHeight: 1.6, margin: 0 }}>
-                          {(n.body || '').slice(0, 140)}…
-                          <span style={{ color: 'var(--gold)', marginLeft: '.5rem', fontWeight: 600 }}>Read more →</span>
-                        </p>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '.6rem' }}>
+                          <p className="baskerville" style={{ fontSize: '.92rem', color: 'rgba(245,237,216,.65)', lineHeight: 1.6, margin: 0, flex: 1 }}>
+                            {(n.summary || n.body || '').slice(0, 140)}…
+                          </p>
+                          <Link
+                            to={`/news/${n.id}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="cinzel"
+                            style={{
+                              fontSize: '.62rem',
+                              color: 'var(--gold)',
+                              textDecoration: 'none',
+                              padding: '.25rem .6rem',
+                              background: 'rgba(201,150,58,0.1)',
+                              border: '1px solid rgba(201,150,58,0.3)',
+                              borderRadius: '4px',
+                              fontWeight: 600,
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            Full Page ↗
+                          </Link>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -559,16 +594,23 @@ export default function NewsPage() {
                         <div className="cinzel" style={{ fontSize: '.6rem', color: 'rgba(245,237,216,.45)' }}>
                           DISPATCH ID: {n.id} • PUBLISHED BY OGERE REMO MEDIA BUREAU
                         </div>
-                        <div style={{ display: 'flex', gap: '.8rem' }}>
+                        <div style={{ display: 'flex', gap: '.8rem', flexWrap: 'wrap' }}>
+                          <Link
+                            to={`/news/${n.id}`}
+                            className="btn-p"
+                            style={{ fontSize: '.65rem', padding: '.4rem .9rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '.3rem' }}
+                          >
+                            Open Full Article Page ↗
+                          </Link>
                           <button
                             className="btn-o"
                             onClick={(e) => handleShare(e, n)}
                             style={{ fontSize: '.65rem', padding: '.4rem .9rem' }}
                           >
-                            {copiedId === n.id ? '✓ Copied Headline' : '🔗 Copy Headline'}
+                            {copiedId === n.id ? '✓ Copied Link' : '🔗 Share Story'}
                           </button>
                           <button
-                            className="btn-p"
+                            className="btn-o"
                             onClick={() => setExpand(null)}
                             style={{ fontSize: '.65rem', padding: '.4rem .9rem' }}
                           >
