@@ -37,6 +37,70 @@
   ],
   "rewrites": [
     {
+      "source": "/api/verify-id",
+      "destination": "/api/id-cards"
+    },
+    {
+      "source": "/api/paystack-verify",
+      "destination": "/api/donations"
+    },
+    {
+      "source": "/api/paystack-webhook",
+      "destination": "/api/donations"
+    },
+    {
+      "source": "/api/donation-stats",
+      "destination": "/api/donations"
+    },
+    {
+      "source": "/api/incidents",
+      "destination": "/api/security"
+    },
+    {
+      "source": "/api/cctv",
+      "destination": "/api/security"
+    },
+    {
+      "source": "/api/escort",
+      "destination": "/api/security"
+    },
+    {
+      "source": "/api/live-location",
+      "destination": "/api/security"
+    },
+    {
+      "source": "/api/patrol-checkin",
+      "destination": "/api/security"
+    },
+    {
+      "source": "/api/whistleblower",
+      "destination": "/api/security"
+    },
+    {
+      "source": "/api/broadcasts",
+      "destination": "/api/security"
+    },
+    {
+      "source": "/api/forum",
+      "destination": "/api/community"
+    },
+    {
+      "source": "/api/scholarships",
+      "destination": "/api/community"
+    },
+    {
+      "source": "/api/contacts",
+      "destination": "/api/community"
+    },
+    {
+      "source": "/api/sync",
+      "destination": "/api/community"
+    },
+    {
+      "source": "/api/push-tokens",
+      "destination": "/api/community"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     },
