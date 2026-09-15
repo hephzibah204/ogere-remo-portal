@@ -50,6 +50,7 @@ import SecurityDashboardPage from './pages/SecurityDashboardPage';
 import TrackIncidentPage from './pages/TrackIncidentPage';
 import MobilePreviewPage from './pages/MobilePreviewPage';
 import AdminMobilePreviewPage from './pages/AdminMobilePreviewPage';
+import MessagesPage from './pages/MessagesPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AiChat from './components/AiChat';
 import ToastProvider from './components/ToastProvider';
@@ -107,7 +108,7 @@ function Layout({ children, onLockDemo, showDemoBanner }) {
           className="cinzel"
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '.4rem', fontWeight: 600 }}>
-            <span style={{ fontSize: '.8rem' }}>🟢</span> LIVE DEMO MODE (UNLOCKED VIA STAKEHOLDER PIN)
+            <span style={{ fontSize: '.8rem' }}>🟢</span> STAKEHOLDER REVIEW SESSION (AUTHENTICATED PREVIEW)
           </span>
           <button
             onClick={onLockDemo}
@@ -124,7 +125,7 @@ function Layout({ children, onLockDemo, showDemoBanner }) {
             }}
             title="Return to Coming Soon landing view"
           >
-            🔒 Lock / Return to Coming Soon
+            🔒 Exit Session / Return to Landing
           </button>
         </div>
       )}
@@ -232,6 +233,9 @@ export default function App() {
               <Route path="/track/:id" element={<TrackIncidentPage />} />
               <Route path="/mobile-preview" element={<MobilePreviewPage />} />
               <Route path="/mobile" element={<MobilePreviewPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/chat" element={<MessagesPage />} />
+              <Route path="/whatsapp" element={<MessagesPage />} />
               <Route path="/admin-mobile" element={<AdminMobilePreviewPage />} />
               <Route path="/mobile-admin" element={<AdminMobilePreviewPage />} />
               <Route path="/admin" element={<AdminPage />} />

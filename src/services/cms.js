@@ -339,6 +339,31 @@ export async function updateItem(type, index, item) {
   const items = await loadItems(type);
   if (index < 0 || index >= items.length) return false;
   items[index] = item;
+
+  // Cloud admin action sync
+  const ACTION_MAP = {
+    idCards: 'id_card_status',
+    royalAudiences: 'royal_audience_status',
+    landRegistry: 'land_registry_status',
+    scholarships: 'scholarship_status',
+    marketplaceAdmin: 'marketplace_status',
+    incidentReports: 'incident_status',
+  };
+
+  const actionType = ACTION_MAP[type];
+  if (actionType && item.id && item.status) {
+    fetch('/api/admin-actions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        actionType,
+        targetId: item.id,
+        status: item.status,
+        notes: item.verifiedBy || item.palaceNotes || item.notes || 'Updated via Admin Console',
+      }),
+    }).catch(e => console.warn('[CMS Admin Action Notice]:', e.message));
+  }
+
   return await saveItems(type, items);
 }
 

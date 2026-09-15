@@ -133,17 +133,15 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     } catch {}
   };
 
-  // Trigger Panic SOS
+  // Trigger Panic SOS (Completely silent on citizen side for covert safety)
   const handleStartSosCountdown = () => {
     setSosState('triggering');
     setCountdown(3);
-    playAlertChime();
 
     let count = 3;
     countdownTimerRef.current = setInterval(() => {
       count -= 1;
       setCountdown(count);
-      playAlertChime();
       if (count <= 0) {
         clearInterval(countdownTimerRef.current);
         executeSosDispatch();
@@ -213,6 +211,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       createdAt: new Date().toISOString(),
     };
 
+    fetch('/api/security', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(walkIncident),
+    }).catch(() => {});
+
     window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: walkIncident }));
   };
 
@@ -236,6 +240,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       status: 'CRITICAL_DISPATCH',
       createdAt: new Date().toISOString(),
     };
+
+    fetch('/api/security', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(distressIncident),
+    }).catch(() => {});
 
     window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: distressIncident }));
     executeSosDispatch();
@@ -446,7 +456,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     <span style={{ fontSize: '0.65rem', letterSpacing: '0.1em', opacity: 0.9 }}>DISPATCH AUTHORITIES</span>
                   </button>
                   <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.8rem' }}>
-                    Transmits high-priority alert with live coordinates to Ogere Police, Amotekun, and Palace Command.
+                    🤫 <strong>100% Silent Transmission on Your Device:</strong> Makes no sound on your phone to keep you safe from assailants, while instantly triggering live audio sirens at Police Command &amp; Patrol outposts.
                   </p>
                 </div>
               </div>

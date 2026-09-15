@@ -1,0 +1,8 @@
+node_modules
+mobile/node_modules
+mobile/.expo
+.git
+.vercel
+.env
+.env.*
+*.log

@@ -29,6 +29,7 @@ const MENU_GROUPS = [
       { id: 'faith', label: 'Faith & Religion' },
       { id: 'events', label: 'Events' },
       { id: 'news', label: 'News' },
+      { id: 'messages', label: '💬 Town Chat (WhatsApp)' },
       { id: 'forum', label: 'Forum' },
       { id: 'diaspora', label: 'Diaspora' },
       { id: 'miss-olipakala', label: 'Miss Olipakala' },
@@ -51,6 +52,7 @@ const MENU_GROUPS = [
     items: [
       { id: 'governance', label: '📊 Dashboard' },
       { id: 'security-dashboard', label: '🚨 Security Command' },
+      { id: 'admin-mobile', label: '🛡️ Officer Terminal' },
       { id: 'land-registry', label: '📋 Land Registry' },
       { id: 'royal-audience', label: '👑 Book Royal Audience' },
       { id: 'id-card', label: '🪪 Digital ID Card' },

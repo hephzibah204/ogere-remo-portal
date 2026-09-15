@@ -251,6 +251,68 @@ export default function AdminMobilePreviewPage() {
     showToast(`🎉 Registration approved! Welcome Officer ${newOfficer.name}.`);
   };
 
+  // Poll live incidents and listen to real-time SOS transmissions
+  useEffect(() => {
+    const fetchLiveIncidents = async () => {
+      try {
+        const res = await fetch('/api/security');
+        if (res.ok) {
+          const data = await res.json();
+          const list = data.incidents || data.data || [];
+          if (list.length > 0) {
+            setIncidents(list);
+            const openCount = list.filter((i) => i.status !== 'resolved').length;
+            const codeRed = list.filter((i) => i.threat_level === 'CODE_RED' && i.status !== 'resolved').length;
+            const dispatched = list.filter((i) => i.status === 'dispatched' || i.status === 'CRITICAL_DISPATCH').length;
+            setStats((prev) => ({
+              ...prev,
+              incidents: { total: list.length, code_red: codeRed, open_count: openCount, dispatched_count: dispatched },
+            }));
+          }
+        }
+      } catch (_) {}
+    };
+
+    fetchLiveIncidents();
+    const interval = setInterval(fetchLiveIncidents, 4000);
+
+    const handleSosEvent = (e) => {
+      const sosItem = e.detail;
+      if (sosItem) {
+        setIncidents((prev) => [
+          {
+            id: sosItem.id,
+            threat_level: 'CODE_RED',
+            category: sosItem.category || '🚨 SOS Emergency Panic',
+            location: sosItem.location || 'Ogere Remo Corridor',
+            description: sosItem.description || 'Emergency SOS trigger received from citizen mobile app.',
+            reporter_name: sosItem.reporterName || 'Citizen Mobile App',
+            status: 'CRITICAL_DISPATCH',
+            assigned_agency: 'Police / Joint Patrol Command',
+            created_at: new Date().toISOString(),
+          },
+          ...prev,
+        ]);
+        setStats((prev) => ({
+          ...prev,
+          incidents: {
+            ...prev.incidents,
+            open_count: prev.incidents.open_count + 1,
+            code_red: prev.incidents.code_red + 1,
+            dispatched_count: prev.incidents.dispatched_count + 1,
+          },
+        }));
+        showToast(`🚨 CODE RED ALARM: ${sosItem.category || 'SOS Emergency'} at ${sosItem.location}! Response team dispatched.`);
+      }
+    };
+
+    window.addEventListener('ogere-sos-triggered', handleSosEvent);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('ogere-sos-triggered', handleSosEvent);
+    };
+  }, []);
+
   return (
     <div style={{ minHeight: '100vh', background: '#090503', color: '#F5EDD8', padding: '1.5rem 1rem 4rem' }}>
       <SEO
@@ -592,7 +654,7 @@ export default function AdminMobilePreviewPage() {
                     onChange={(e) => setRegForm({ ...regForm, accessKey: e.target.value })}
                   />
                   <div style={{ fontSize: '.55rem', color: 'rgba(245,237,216,0.5)', marginTop: 2 }}>
-                    Authorized demo passkey: <code style={{ color: '#C9963A' }}>OGERE2026</code> or <code style={{ color: '#C9963A' }}>OGERE-SEC-2026</code>
+                    Authorized agency passkey: <code style={{ color: '#C9963A' }}>OGERE2026</code> or <code style={{ color: '#C9963A' }}>OGERE-SEC-2026</code>
                   </div>
                 </div>
 
@@ -1076,7 +1138,7 @@ export default function AdminMobilePreviewPage() {
           </div>
 
           <div style={{ background: '#120804', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '1rem' }}>
-            <h4 style={{ margin: '0 0 .5rem', fontSize: '.85rem', color: '#fff' }}>Demo Access Passkeys</h4>
+            <h4 style={{ margin: '0 0 .5rem', fontSize: '.85rem', color: '#fff' }}>Agency Access Authorization Keys</h4>
             <div style={{ fontSize: '.7rem', color: 'rgba(245,237,216,0.6)', lineHeight: 1.6 }}>
               • Police / Security: <code style={{ color: '#f87171' }}>OGERE-SEC-2026</code><br />
               • Palace Protocol: <code style={{ color: '#C9963A' }}>AAFIN-PROTO-2026</code><br />

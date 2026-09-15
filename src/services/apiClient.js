@@ -16,22 +16,21 @@ export async function apiRequest(endpoint, options = {}) {
 
     if (!res.ok) {
       const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.message || `API error (${res.status})`);
+      throw new Error(errData.message || errData.error || `API error (${res.status})`);
     }
 
     return await res.json();
   } catch (err) {
-    console.warn(`[Backend API Client] Endpoint ${endpoint} fallback:`, err.message);
+    console.warn(`[Backend API Client] Endpoint ${endpoint} notice:`, err.message);
     return null;
   }
 }
 
-// 1. Verify Community ID
+// ── 1. Community ID Card Registry ──
 export async function verifyIdOnline(code) {
   return await apiRequest(`/api/verify-id?code=${encodeURIComponent(code)}`);
 }
 
-// 2. Submit ID Card Application
 export async function submitIdApplication(data) {
   return await apiRequest('/api/id-cards', {
     method: 'POST',
@@ -39,7 +38,11 @@ export async function submitIdApplication(data) {
   });
 }
 
-// 3. Book Royal Audience
+export async function fetchIdCards() {
+  return await apiRequest('/api/id-cards');
+}
+
+// ── 2. Royal Audiences ──
 export async function bookRoyalAudience(data) {
   return await apiRequest('/api/royal-audiences', {
     method: 'POST',
@@ -47,7 +50,40 @@ export async function bookRoyalAudience(data) {
   });
 }
 
-// 4. Query & Submit Marketplace
+export async function trackRoyalAudience(code) {
+  return await apiRequest(`/api/royal-audiences?action=track&code=${encodeURIComponent(code)}`);
+}
+
+export async function fetchRoyalAudiences() {
+  return await apiRequest('/api/royal-audiences');
+}
+
+// ── 3. Digital Land Registry ──
+export async function searchLandPlot(plotId) {
+  return await apiRequest(`/api/land-registry?plotId=${encodeURIComponent(plotId)}`);
+}
+
+export async function fetchLandRegistry(area = 'All') {
+  const q = area && area !== 'All' ? `?area=${encodeURIComponent(area)}` : '';
+  return await apiRequest(`/api/land-registry${q}`);
+}
+
+export async function registerLandPlot(data) {
+  return await apiRequest('/api/land-registry', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+// ── 4. Community Marketplace ──
+export async function fetchMarketplaceListings(category = 'All', quarter = 'All Quarters') {
+  const params = new URLSearchParams();
+  if (category && category !== 'All') params.set('category', category);
+  if (quarter && quarter !== 'All Quarters') params.set('quarter', quarter);
+  const q = params.toString() ? `?${params.toString()}` : '';
+  return await apiRequest(`/api/marketplace${q}`);
+}
+
 export async function submitMarketplaceListing(data) {
   return await apiRequest('/api/marketplace', {
     method: 'POST',
@@ -55,15 +91,66 @@ export async function submitMarketplaceListing(data) {
   });
 }
 
-// 5. Query Land Registry
-export async function searchLandPlot(plotId) {
-  return await apiRequest(`/api/land-registry?plotId=${encodeURIComponent(plotId)}`);
-}
-
-// 6. Record Diaspora Donation
+// ── 5. Diaspora Donations & Fundraising ──
 export async function recordProjectDonation(data) {
   return await apiRequest('/api/donations', {
     method: 'POST',
     body: JSON.stringify(data),
   });
+}
+
+export async function fetchDonationStats() {
+  return await apiRequest('/api/donations?stats=true');
+}
+
+export async function fetchDonationsSummary() {
+  return await apiRequest('/api/donations');
+}
+
+// ── 6. Scholarships & Bursaries ──
+export async function fetchScholarships() {
+  return await apiRequest('/api/scholarships');
+}
+
+export async function submitScholarship(data) {
+  return await apiRequest('/api/scholarships', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+// ── 7. Community Forum ──
+export async function fetchForumPosts() {
+  return await apiRequest('/api/forum');
+}
+
+export async function submitForumPost(data) {
+  return await apiRequest('/api/forum', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+// ── 8. Security & Emergency Operations ──
+export async function fetchIncidents() {
+  return await apiRequest('/api/incidents');
+}
+
+export async function submitIncident(data) {
+  return await apiRequest('/api/incidents', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+// ── 9. Administrative Governance ──
+export async function submitAdminAction(actionType, targetId, status, notes) {
+  return await apiRequest('/api/admin-actions', {
+    method: 'POST',
+    body: JSON.stringify({ actionType, targetId, status, notes }),
+  });
+}
+
+export async function fetchHealth() {
+  return await apiRequest('/api/health');
 }

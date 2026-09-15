@@ -101,6 +101,14 @@
       "destination": "/api/community"
     },
     {
+      "source": "/api/messages",
+      "destination": "/api/community"
+    },
+    {
+      "source": "/api/chat",
+      "destination": "/api/community"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     },

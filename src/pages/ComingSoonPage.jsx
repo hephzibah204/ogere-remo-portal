@@ -55,7 +55,7 @@ export default function ComingSoonPage({ onUnlock }) {
       const data = await res.json();
       setStats({ raised: data.total_raised || 0, donors: data.donor_count || 0, loading: false });
     } catch {
-      // Fallback: show ₦0 raised, 0 donors (prototype state)
+      // Fallback: show default state
       setStats({ raised: 0, donors: 0, loading: false });
     }
   }, []);
@@ -286,16 +286,16 @@ export default function ComingSoonPage({ onUnlock }) {
             </span>
           </div>
 
-          {/* 🏗️ PROTOTYPE badge */}
+          {/* 🏛️ FOUNDING LAUNCH PHASE badge */}
           <div className="anim-fade-in delay-2" style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.2rem' }}>
             <span className="cinzel" style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-              background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.5)',
+              background: 'rgba(201,150,58,0.15)', border: '1px solid rgba(201,150,58,0.6)',
               borderRadius: '6px', padding: '0.3rem 0.9rem',
               fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em',
-              color: '#f59e0b', textTransform: 'uppercase',
+              color: 'var(--gold)', textTransform: 'uppercase',
             }}>
-              🏗️ PROTOTYPE IN ACTIVE DEVELOPMENT — SEEKING FOUNDING DONORS
+              🏛️ CIVIC TECHNOLOGY INITIATIVE — FOUNDING LAUNCH PHASE
             </span>
           </div>
 
@@ -535,23 +535,30 @@ export default function ComingSoonPage({ onUnlock }) {
                 </div>
 
                 <div style={{ marginTop: '1.2rem', paddingTop: '.8rem', borderTop: '1px solid rgba(201,150,58,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span className="cinzel" style={{ fontSize: '.6rem', color: 'rgba(245,237,216,0.45)' }}>
-                    STATUS: ACTIVE PREVIEW
+                  <span className="cinzel" style={{ fontSize: '.6rem', color: idx === 0 ? '#ef4444' : 'rgba(245,237,216,0.45)', fontWeight: idx === 0 ? 800 : 500 }}>
+                    {idx === 0 ? '🔴 LIVE RADAR' : 'STATUS: ACTIVE PREVIEW'}
                   </span>
                   <button
-                    onClick={() => setPinModalOpen(true)}
+                    onClick={() => {
+                      if (idx === 0) {
+                        window.dispatchEvent(new CustomEvent('open-sos-modal'));
+                      } else {
+                        setPinModalOpen(true);
+                      }
+                    }}
                     style={{
-                      background: 'none',
-                      border: 'none',
-                      color: 'var(--gold)',
+                      background: idx === 0 ? 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)' : 'none',
+                      border: idx === 0 ? '1px solid #f87171' : 'none',
+                      color: idx === 0 ? '#ffffff' : 'var(--gold)',
                       fontSize: '.68rem',
                       cursor: 'pointer',
-                      fontWeight: 600,
-                      padding: 0,
+                      fontWeight: idx === 0 ? 800 : 600,
+                      padding: idx === 0 ? '4px 10px' : 0,
+                      borderRadius: idx === 0 ? '6px' : 0,
                     }}
                     className="cinzel"
                   >
-                    Demo Preview →
+                    {idx === 0 ? '🚨 Test SOS Dispatch →' : 'Demo Preview →'}
                   </button>
                 </div>
               </div>

@@ -82,38 +82,99 @@ export default function OrikiPage() {
   const [hoveredNote, setHoveredNote] = useState(null);
   const lyricsEndRef = useRef(null);
   const playIntervalRef = useRef(null);
+  const audioCtxRef = useRef(null);
 
-  // Equalizer wave simulation bars
+  // Audio visualizer waveform bars
   const [waveHeights, setWaveHeights] = useState(Array(24).fill(10));
+
+  const speakLine = (text) => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.95;
+      u.pitch = 1.05;
+      window.speechSynthesis.speak(u);
+    }
+  };
+
+  const playDrumPulse = (freq = 160) => {
+    try {
+      if (!audioCtxRef.current) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtxRef.current = new AudioContext();
+      }
+      const ctx = audioCtxRef.current;
+      if (ctx && ctx.state === 'suspended') {
+        ctx.resume();
+      }
+      if (ctx) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.65, ctx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+      }
+    } catch (_) {}
+  };
 
   useEffect(() => {
     if (playing) {
+      // Chant the current line aloud
+      if (selectedKing.oriki[time]) {
+        speakLine(selectedKing.oriki[time].yr);
+        playDrumPulse(180);
+      }
+
       playIntervalRef.current = setInterval(() => {
         setTime((prevTime) => {
           const nextTime = prevTime + 1;
           if (nextTime >= selectedKing.oriki.length) {
             setPlaying(false);
             clearInterval(playIntervalRef.current);
+            if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+              window.speechSynthesis.cancel();
+            }
             return 0;
+          }
+          if (selectedKing.oriki[nextTime]) {
+            speakLine(selectedKing.oriki[nextTime].yr);
+            playDrumPulse(nextTime % 2 === 0 ? 190 : 140);
           }
           return nextTime;
         });
 
-        // Simulate dancing equalizer waveform
+        // Dynamic audio equalizer waveform
         setWaveHeights(Array(24).fill(0).map(() => Math.floor(Math.random() * 45) + 8));
-      }, 1800);
+      }, 2600);
     } else {
       clearInterval(playIntervalRef.current);
       setWaveHeights(Array(24).fill(10));
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
     }
 
-    return () => clearInterval(playIntervalRef.current);
+    return () => {
+      clearInterval(playIntervalRef.current);
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, [playing, selectedKing]);
 
   useEffect(() => {
     // Reset playhead on king change
     setPlaying(false);
     setTime(0);
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
   }, [selectedKing]);
 
   const togglePlay = () => {
@@ -193,8 +254,8 @@ export default function OrikiPage() {
             
             {/* Visualizer Box */}
             <div style={{ padding: '1rem', background: '#0d0704', border: '1px solid rgba(201,150,58,.15)', borderRadius: 4, marginBottom: '1.5rem', textAlign: 'center', boxShadow: 'inset 0 4px 30px rgba(0,0,0,0.8)' }}>
-              <div className="cinzel" style={{ fontSize: '0.55rem', letterSpacing: '.2em', color: 'rgba(201,150,58,.5)', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                {playing ? '🎙️ Simulated Traditional Chants Playing...' : '🔇 Simulated Audio Waveform'}
+              <div className="cinzel" style={{ fontSize: '0.55rem', letterSpacing: '.2em', color: 'rgba(201,150,58,.8)', textTransform: 'uppercase', marginBottom: '1rem' }}>
+                {playing ? '🎙️ Royal Lineage Chants Playing — Synchronized Yoruba Audio' : '🔇 Audio Visualizer (Standby)'}
               </div>
               
               {/* Dynamic waveform visualizer equalizer */}

@@ -5,3 +5,6 @@ dist/
 .DS_Store
 
 .vercel
+mobile/node_modules/
+mobile/.expo/
+*.log

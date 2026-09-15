@@ -83,19 +83,57 @@ export default function MobilePreviewPage() {
   const [newGuardianPhone, setNewGuardianPhone] = useState('');
   const [newGuardianRel, setNewGuardianRel] = useState('Sibling');
 
-  const handleTransmitSos = () => {
+  const getLoggedInCitizen = () => {
+    try {
+      const savedUser = localStorage.getItem('ogere_user');
+      if (savedUser) {
+        const parsed = JSON.parse(savedUser);
+        return {
+          name: parsed.fullName || 'Verified Ogere Resident',
+          phone: parsed.phone || '08081762371',
+        };
+      }
+    } catch (_) {}
+    return { name: 'Adebayo Ogunlesi (Mobile App)', phone: '08081762371' };
+  };
+
+  const handleTransmitSos = async () => {
     setIsSubmittingSos(true);
-    setTimeout(() => {
-      setIsSubmittingSos(false);
-      setSosActiveBeacon({
-        id: 'OGR-SOS-' + Math.floor(1000 + Math.random() * 9000),
-        category: sosCategory,
-        severity: sosSeverity,
-        landmark: sosLandmark,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        status: 'POLICE & VIGILANTE DISPATCHED',
+    const incId = 'OGR-SOS-' + Math.floor(1000 + Math.random() * 9000);
+    const citizen = getLoggedInCitizen();
+    const payload = {
+      id: incId,
+      category: sosCategory,
+      severity: sosSeverity,
+      threatLevel: 'CODE_RED',
+      location: sosLandmark,
+      description: `EMERGENCY SOS TRIGGERED from Mobile App by Citizen. Nearest Sector: ${sosLandmark}. Details: ${sosDetails || 'Rapid emergency armed intervention required.'}`,
+      reporterName: citizen.name,
+      reporterPhone: citizen.phone,
+      assignedAgency: 'Police / So-Safe Area Command',
+      isLiveTracking: sosLiveTracking,
+    };
+
+    try {
+      await fetch('/api/security', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
-    }, 800);
+    } catch (_) {}
+
+    // Dispatch global window event so Security Dashboard alarms sound in live presentations
+    window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: payload }));
+
+    setIsSubmittingSos(false);
+    setSosActiveBeacon({
+      id: incId,
+      category: sosCategory,
+      severity: sosSeverity,
+      landmark: sosLandmark,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      status: 'POLICE & VIGILANTE DISPATCHED',
+    });
   };
 
   const handleAddGuardian = () => {
@@ -135,16 +173,41 @@ export default function MobilePreviewPage() {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  const handleEscortCheckin = () => {
+  const handleEscortCheckin = async () => {
     if (escortPin === '9999') {
       setDuressTriggered(true);
       setIsEscortActive(false);
       setEscortPin('');
-      alert('Safe arrival confirmed. Thank you for using Walk With Me.\n\n[SIMULATOR NOTE: Secret CODE_RED Armed Hostage Alert Dispatched silently to Police & SWAT!]');
+      const citizen = getLoggedInCitizen();
+
+      const duressPayload = {
+        id: 'DURESS-' + Math.floor(1000 + Math.random() * 9000),
+        category: 'Armed Hostage / Covert Duress (Walk With Me)',
+        severity: 'Critical',
+        threatLevel: 'CODE_RED',
+        location: 'Agbele Farmlands Corridor',
+        description: 'COVERT DURESS PIN ENTERED (9999). Citizen forced by assailants to cancel escort. Tactical silent response dispatched without sirens.',
+        reporterName: citizen.name,
+        reporterPhone: citizen.phone,
+        assignedAgency: 'Police / SWAT Anti-Kidnapping Unit',
+        status: 'CRITICAL_DISPATCH',
+      };
+
+      try {
+        await fetch('/api/security', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(duressPayload),
+        });
+      } catch (_) {}
+
+      window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: duressPayload }));
+
+      alert('Safe arrival confirmed. Thank you for using Walk With Me. Your session has been safely concluded.');
     } else if (escortPin.length === 4) {
       setIsEscortActive(false);
       setEscortPin('');
-      alert('Safe Arrival Confirmed! 🛡️ Virtual Escort session successfully concluded.');
+      alert('Safe Arrival Confirmed! 🛡️ Virtual Escort session successfully concluded and logged with Palace Watch.');
     } else {
       alert('Please enter your 4-digit PIN');
     }
@@ -573,6 +636,16 @@ export default function MobilePreviewPage() {
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Certified indigene badge with QR security seal</div>
                       </div>
                     </div>
+
+                    <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#059669', marginTop: '6px' }}>💬 COMMUNITY CONNECT</div>
+
+                    <a href="/messages" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '1.4rem' }}>💬</span>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#059669' }}>Town Chat (WhatsApp Messenger)</div>
+                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Real-time civic rooms: Public Square, Diaspora, Trade & Security</div>
+                      </div>
+                    </a>
                   </div>
                 )}
 

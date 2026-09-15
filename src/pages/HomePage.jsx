@@ -38,6 +38,7 @@ const CARDS = [
 ];
 
 const QUICK_ACTIONS = [
+  { ti: '💬 Town Chat', path: '/messages', sub: 'WhatsApp Hub' },
   { ti: '🚨 Emergency SOS', path: '/alerts', sub: 'Instant Rescue' },
   { ti: '🛡️ Security Console', path: '/security-dashboard', sub: 'Live Radar' },
   { ti: '🪪 Digital ID Card', path: '/id-card', sub: 'Apply Online' },

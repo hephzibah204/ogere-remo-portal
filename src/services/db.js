@@ -519,6 +519,10 @@ export async function dbSyncCloud(collectionName) {
     land_registry: '/api/land-registry',
     donations: '/api/donations',
     scholarships: '/api/scholarships',
+    incident_reports: '/api/incidents',
+    forum: '/api/forum',
+    forum_posts: '/api/forum',
+    security_broadcasts: '/api/broadcasts',
   };
 
   const endpoint = API_MAP[collectionName];
@@ -592,8 +596,12 @@ export async function dbInsert(collectionName, item) {
     id_cards: '/api/id-cards',
     royal_audiences: '/api/royal-audiences',
     marketplace: '/api/marketplace',
+    land_registry: '/api/land-registry',
     scholarships: '/api/scholarships',
     donations: '/api/donations',
+    incident_reports: '/api/incidents',
+    forum: '/api/forum',
+    forum_posts: '/api/forum',
   };
 
   const endpoint = API_POST_MAP[collectionName];

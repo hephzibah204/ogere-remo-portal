@@ -116,20 +116,32 @@ function MainTabs() {
   );
 }
 
+import * as Application from 'expo-application';
+import Constants from 'expo-constants';
+
 export function RootNavigator() {
   const { user, isGuest, isLoading } = useAuth();
+  const appId = Application.applicationId || '';
+  const appVariant = Constants.expoConfig?.extra?.appVariant || (appId.includes('officer') ? 'officer' : 'citizen');
+  const isOfficerApp = appVariant === 'officer' || appId.includes('officer');
 
   if (isLoading) {
     return (
       <View style={styles.loadingScreen}>
-        <Text style={{ fontSize: 40, marginBottom: 12 }}>👑</Text>
-        <Text style={styles.loadingTitle}>OGERE REMO CIVIC PORTAL</Text>
-        <Text style={styles.loadingSub}>Loading Local Offline Registry...</Text>
+        <Text style={{ fontSize: 40, marginBottom: 12 }}>{isOfficerApp ? '🛡️' : '👑'}</Text>
+        <Text style={styles.loadingTitle}>
+          {isOfficerApp ? 'OGERE FIELD COMMAND' : 'OGERE REMO CIVIC PORTAL'}
+        </Text>
+        <Text style={styles.loadingSub}>
+          {isOfficerApp ? 'Loading Tactical Operations Terminal...' : 'Loading Local Offline Registry...'}
+        </Text>
       </View>
     );
   }
 
-  const initialRoute = user || isGuest ? 'Main' : 'Welcome';
+  const initialRoute = isOfficerApp 
+    ? 'AdminLogin' 
+    : (user || isGuest ? 'Main' : 'Welcome');
 
   return (
     <NavigationContainer>
