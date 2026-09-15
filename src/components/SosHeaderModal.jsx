@@ -71,6 +71,22 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const [countdown, setCountdown] = useState(3);
   const [dispatchedData, setDispatchedData] = useState(null);
 
+  // Live Camera & Audio Streaming States
+  const [cameraEnabled, setCameraEnabled] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(false);
+  const [isMediaStarting, setIsMediaStarting] = useState(false);
+  const [mediaError, setMediaError] = useState('');
+  const [facingMode, setFacingMode] = useState('environment'); // 'environment' (back) or 'user' (front)
+  const [audioLevel, setAudioLevel] = useState(0);
+
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
+  const canvasRef = useRef(null);
+  const audioCtxRef = useRef(null);
+  const audioAnalyserRef = useRef(null);
+  const audioAnimFrameRef = useRef(null);
+  const snapshotIntervalRef = useRef(null);
+
   // Walk With Me State
   const [walkOrigin, setWalkOrigin] = useState(OGERE_SECTORS[0]);
   const [walkDest, setWalkDest] = useState(OGERE_SECTORS[2]);
@@ -82,14 +98,184 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const countdownTimerRef = useRef(null);
   const walkIntervalRef = useRef(null);
 
+  // Stop all camera and microphone tracks and audio context
+  const stopMediaStream = () => {
+    if (snapshotIntervalRef.current) {
+      clearInterval(snapshotIntervalRef.current);
+      snapshotIntervalRef.current = null;
+    }
+    if (audioAnimFrameRef.current) {
+      cancelAnimationFrame(audioAnimFrameRef.current);
+      audioAnimFrameRef.current = null;
+    }
+    if (audioCtxRef.current) {
+      try {
+        audioCtxRef.current.close();
+      } catch (_) {}
+      audioCtxRef.current = null;
+    }
+    if (streamRef.current) {
+      try {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      } catch (_) {}
+      streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+    setAudioLevel(0);
+  };
+
+  // Start media stream based on flags
+  const startMedia = async (useVideo, useAudio, facing = facingMode) => {
+    setMediaError('');
+    if (!useVideo && !useAudio) {
+      stopMediaStream();
+      return;
+    }
+    try {
+      setIsMediaStarting(true);
+      // Stop old tracks first
+      if (streamRef.current) {
+        try {
+          streamRef.current.getTracks().forEach((t) => t.stop());
+        } catch (_) {}
+      }
+      if (audioAnimFrameRef.current) {
+        cancelAnimationFrame(audioAnimFrameRef.current);
+        audioAnimFrameRef.current = null;
+      }
+      if (audioCtxRef.current) {
+        try {
+          audioCtxRef.current.close();
+        } catch (_) {}
+        audioCtxRef.current = null;
+      }
+
+      const constraints = {
+        video: useVideo
+          ? {
+              facingMode: facing,
+              width: { ideal: 640 },
+              height: { ideal: 480 },
+            }
+          : false,
+        audio: useAudio ? { echoCancellation: true, noiseSuppression: true } : false,
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      streamRef.current = stream;
+
+      if (videoRef.current && useVideo) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play().catch(() => {});
+      }
+
+      // Audio analysis if audio is enabled
+      if (useAudio) {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) {
+            const actx = new AudioCtx();
+            audioCtxRef.current = actx;
+            const src = actx.createMediaStreamSource(stream);
+            const analyser = actx.createAnalyser();
+            analyser.fftSize = 64;
+            src.connect(analyser);
+            audioAnalyserRef.current = analyser;
+
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+            const checkAudio = () => {
+              if (!audioAnalyserRef.current) return;
+              analyser.getByteFrequencyData(dataArray);
+              let sum = 0;
+              for (let i = 0; i < dataArray.length; i++) {
+                sum += dataArray[i];
+              }
+              const avg = sum / dataArray.length;
+              setAudioLevel(Math.min(100, Math.round((avg / 128) * 100)));
+              audioAnimFrameRef.current = requestAnimationFrame(checkAudio);
+            };
+            checkAudio();
+          }
+        } catch (_) {}
+      }
+
+      setIsMediaStarting(false);
+    } catch (err) {
+      console.warn('getUserMedia error:', err);
+      setIsMediaStarting(false);
+      setMediaError(
+        err.name === 'NotAllowedError'
+          ? 'Permission denied. Please tap the lock icon in your browser address bar to allow Camera and Microphone.'
+          : 'Could not connect to camera/mic on this device. Please check hardware permissions.'
+      );
+    }
+  };
+
+  const toggleCamera = () => {
+    const nextVal = !cameraEnabled;
+    setCameraEnabled(nextVal);
+    startMedia(nextVal, audioEnabled, facingMode);
+  };
+
+  const toggleAudio = () => {
+    const nextVal = !audioEnabled;
+    setAudioEnabled(nextVal);
+    startMedia(cameraEnabled, nextVal, facingMode);
+  };
+
+  const flipCamera = () => {
+    const nextFacing = facingMode === 'environment' ? 'user' : 'environment';
+    setFacingMode(nextFacing);
+    if (cameraEnabled) {
+      startMedia(true, audioEnabled, nextFacing);
+    }
+  };
+
+  const captureSnapshot = () => {
+    if (!videoRef.current || !cameraEnabled) return null;
+    try {
+      const v = videoRef.current;
+      if (v.videoWidth === 0 || v.videoHeight === 0) return null;
+      let canvas = canvasRef.current;
+      if (!canvas) {
+        canvas = document.createElement('canvas');
+        canvasRef.current = canvas;
+      }
+      const maxW = 480;
+      const scale = Math.min(1, maxW / v.videoWidth);
+      canvas.width = v.videoWidth * scale;
+      canvas.height = v.videoHeight * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(v, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL('image/jpeg', 0.55);
+    } catch (err) {
+      return null;
+    }
+  };
+
   // Reset states on modal close
   useEffect(() => {
     if (!isOpen) {
       setSosState('idle');
       setCountdown(3);
       if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+      stopMediaStream();
+      setCameraEnabled(false);
+      setAudioEnabled(false);
     }
   }, [isOpen]);
+
+  // Make sure video srcObject stays connected when video element mounts/updates
+  useEffect(() => {
+    if (cameraEnabled && streamRef.current && videoRef.current) {
+      if (videoRef.current.srcObject !== streamRef.current) {
+        videoRef.current.srcObject = streamRef.current;
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  }, [cameraEnabled, sosState]);
 
   // Walk with me timer
   useEffect(() => {
@@ -151,12 +337,21 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
   const handleCancelSos = () => {
     if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+    if (snapshotIntervalRef.current) {
+      clearInterval(snapshotIntervalRef.current);
+      snapshotIntervalRef.current = null;
+    }
+    stopMediaStream();
+    setCameraEnabled(false);
+    setAudioEnabled(false);
     setSosState('idle');
     setCountdown(3);
   };
 
   const executeSosDispatch = async () => {
     const incidentId = `SOS-${Date.now().toString().slice(-6)}`;
+    const initialSnapshot = captureSnapshot();
+
     const newSos = {
       id: incidentId,
       title: `🚨 CRITICAL SOS PANIC: ${sector}`,
@@ -164,11 +359,15 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       severity: 'CRITICAL_DISPATCH',
       threatLevel: 'CODE_RED',
       location: sector,
-      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}). Immediate tactical dispatch required.`,
+      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}). Immediate tactical dispatch required. ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
       reporterName: callerName || 'Citizen SOS Alert',
       reporterPhone: callerPhone || 'Emergency Caller',
       assignedAgency: 'Police / Amotekun Area Command',
       status: 'CRITICAL_DISPATCH',
+      cameraFeedActive: cameraEnabled,
+      audioFeedActive: audioEnabled,
+      mediaUrl: initialSnapshot,
+      mediaType: initialSnapshot ? 'image/jpeg' : null,
       createdAt: new Date().toISOString(),
     };
 
@@ -187,6 +386,24 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
     // Broadcast sitewide so Security Dashboard and Admin get instant audio alert
     window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: newSos }));
+
+    // Start recurring live video snapshot broadcaster (every 3.5s) if camera is active
+    if (cameraEnabled || audioEnabled) {
+      snapshotIntervalRef.current = setInterval(() => {
+        const snap = captureSnapshot();
+        fetch('/api/security', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: incidentId,
+            cameraFeedActive: cameraEnabled,
+            audioFeedActive: audioEnabled,
+            mediaUrl: snap || undefined,
+            mediaType: snap ? 'image/jpeg' : undefined,
+          }),
+        }).catch(() => {});
+      }, 3500);
+    }
 
     setDispatchedData(newSos);
     setSosState('dispatched');
@@ -426,6 +643,179 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                   </div>
                 </div>
 
+                {/* ── LIVE CAMERA & AMBIENT AUDIO SURVEILLANCE EVIDENCE TOGGLES ── */}
+                <div
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '10px',
+                    padding: '0.85rem',
+                    marginBottom: '1.2rem',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#fca5a5', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span>📡</span>
+                      <span>LIVE SURVEILLANCE EVIDENCE (TACTICAL FEED)</span>
+                    </div>
+                    <span style={{ fontSize: '0.65rem', background: 'rgba(239,68,68,0.2)', color: '#f87171', padding: '2px 6px', borderRadius: '4px', fontWeight: 700 }}>
+                      DISPATCH EVIDENCE
+                    </span>
+                  </div>
+
+                  <p style={{ fontSize: '0.72rem', color: '#94a3b8', margin: '0 0 0.8rem 0' }}>
+                    Share real-time visual and audio evidence with the Ogere Police Command Desk. Runs silently on your device.
+                  </p>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
+                    {/* Camera Toggle */}
+                    <button
+                      type="button"
+                      onClick={toggleCamera}
+                      style={{
+                        background: cameraEnabled
+                          ? 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)'
+                          : 'rgba(255, 255, 255, 0.06)',
+                        border: cameraEnabled ? '1px solid #f87171' : '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '6px',
+                        padding: '0.6rem 0.8rem',
+                        color: '#ffffff',
+                        fontSize: '0.76rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.4rem',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <span>📹</span>
+                      <span>{cameraEnabled ? 'Live Camera: ON' : 'Share Camera Feed'}</span>
+                    </button>
+
+                    {/* Microphone Toggle */}
+                    <button
+                      type="button"
+                      onClick={toggleAudio}
+                      style={{
+                        background: audioEnabled
+                          ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
+                          : 'rgba(255, 255, 255, 0.06)',
+                        border: audioEnabled ? '1px solid #34d399' : '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '6px',
+                        padding: '0.6rem 0.8rem',
+                        color: '#ffffff',
+                        fontSize: '0.76rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.4rem',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <span>🎙️</span>
+                      <span>{audioEnabled ? 'Ambient Mic: ON' : 'Share Ambient Audio'}</span>
+                    </button>
+                  </div>
+
+                  {/* Permission / Hardware Error Notice */}
+                  {mediaError && (
+                    <div style={{ marginTop: '0.6rem', padding: '0.5rem', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid #ef4444', borderRadius: '6px', fontSize: '0.7rem', color: '#fca5a5' }}>
+                      ⚠️ {mediaError}
+                    </div>
+                  )}
+
+                  {/* Active Camera Viewfinder Preview */}
+                  {cameraEnabled && (
+                    <div style={{ marginTop: '0.8rem', position: 'relative', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ef4444', background: '#000000' }}>
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        muted
+                        style={{
+                          width: '100%',
+                          height: '160px',
+                          objectFit: 'cover',
+                          display: 'block',
+                          transform: facingMode === 'user' ? 'scaleX(-1)' : 'none',
+                        }}
+                      />
+                      {/* Live HUD overlay */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '8px',
+                          left: '8px',
+                          background: 'rgba(0, 0, 0, 0.7)',
+                          padding: '3px 8px',
+                          borderRadius: '4px',
+                          fontSize: '0.65rem',
+                          fontWeight: 800,
+                          color: '#f87171',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                        }}
+                      >
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444', display: 'inline-block', animation: 'pulseGlow 1s infinite' }} />
+                        🔴 LIVE TO POLICE COMMAND
+                      </div>
+
+                      {/* Flip Camera Button */}
+                      <button
+                        type="button"
+                        onClick={flipCamera}
+                        style={{
+                          position: 'absolute',
+                          top: '8px',
+                          right: '8px',
+                          background: 'rgba(0, 0, 0, 0.75)',
+                          border: '1px solid rgba(255, 255, 255, 0.3)',
+                          padding: '3px 8px',
+                          borderRadius: '4px',
+                          color: '#ffffff',
+                          fontSize: '0.65rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        🔄 {facingMode === 'environment' ? 'Selfie Cam' : 'Rear Cam'}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Active Ambient Mic Level Bar */}
+                  {audioEnabled && (
+                    <div style={{ marginTop: '0.8rem', background: 'rgba(5, 46, 22, 0.5)', border: '1px solid #22c55e', borderRadius: '6px', padding: '0.6rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem', fontSize: '0.7rem' }}>
+                        <span style={{ color: '#4ade80', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span>🎙️</span> Ambient Sound Broadcast Active
+                        </span>
+                        <span style={{ color: '#86efac', fontSize: '0.65rem', fontFamily: 'monospace' }}>
+                          Level: {audioLevel}%
+                        </span>
+                      </div>
+                      <div style={{ height: '6px', width: '100%', background: 'rgba(0, 0, 0, 0.5)', borderRadius: '3px', overflow: 'hidden' }}>
+                        <div
+                          style={{
+                            height: '100%',
+                            width: `${Math.min(100, Math.max(5, audioLevel))}%`,
+                            background: audioLevel > 70 ? '#ef4444' : audioLevel > 40 ? '#f59e0b' : '#22c55e',
+                            transition: 'width 0.1s ease',
+                          }}
+                        />
+                      </div>
+                      <div style={{ fontSize: '0.62rem', color: '#94a3b8', marginTop: '0.3rem' }}>
+                        🤫 Silently monitoring room and background noise for emergency responders.
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 {/* Big Red Panic Button */}
                 <div style={{ textAlign: 'center', margin: '1.5rem 0' }}>
                   <button
@@ -505,7 +895,36 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                   <div>📍 <strong>Location:</strong> {dispatchedData.location}</div>
                   <div>🚨 <strong>Status:</strong> <span style={{ color: '#ef4444', fontWeight: 800 }}>CODE RED — TACTICAL UNITS ALERTED</span></div>
                   <div>🛡️ <strong>Agencies Notified:</strong> Ogere Police Command, So-Safe / Amotekun Corps, Palace Rapid Vigilante</div>
+                  {(cameraEnabled || audioEnabled) && (
+                    <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                      <span style={{ color: '#86efac', fontWeight: 800 }}>📡 Live Feeds Transmitting: </span>
+                      {cameraEnabled && <span style={{ background: '#ef4444', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700, marginRight: '4px' }}>📹 Camera Snapshots</span>}
+                      {audioEnabled && <span style={{ background: '#059669', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700 }}>🎙️ Ambient Audio</span>}
+                    </div>
+                  )}
                 </div>
+
+                {/* Active camera viewfinder during dispatch */}
+                {cameraEnabled && (
+                  <div style={{ marginBottom: '1.2rem', position: 'relative', borderRadius: '8px', overflow: 'hidden', border: '1px solid #22c55e', background: '#000000' }}>
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      style={{
+                        width: '100%',
+                        height: '140px',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transform: facingMode === 'user' ? 'scaleX(-1)' : 'none',
+                      }}
+                    />
+                    <div style={{ position: 'absolute', top: '6px', left: '8px', background: 'rgba(0,0,0,0.7)', padding: '2px 6px', borderRadius: '4px', fontSize: '0.65rem', fontWeight: 800, color: '#4ade80' }}>
+                      🟢 BROADCASTING LIVE VIDEO EVIDENCE TO DISPATCH DESK
+                    </div>
+                  </div>
+                )}
 
                 <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center' }}>
                   <button

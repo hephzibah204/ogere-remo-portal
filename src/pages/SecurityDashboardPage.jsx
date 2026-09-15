@@ -63,6 +63,7 @@ export default function SecurityDashboardPage() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true); // ON by default — agents always hear alarms
   const [lastAlertTime, setLastAlertTime] = useState(null);
+  const [fullscreenMedia, setFullscreenMedia] = useState(null);
   const [newIncidentForm, setNewIncidentForm] = useState(false);
   const [manualReport, setManualReport] = useState({
     category: 'Armed Robbery / Banditry',
@@ -349,10 +350,10 @@ export default function SecurityDashboardPage() {
 
     const liveInterval = setInterval(() => {
       fetchLiveDetails();
-    }, activeIncident.is_live_tracking ? 3500 : 7000);
+    }, (activeIncident.is_live_tracking || activeIncident.camera_feed_active || activeIncident.audio_feed_active) ? 3500 : 7000);
 
     return () => clearInterval(liveInterval);
-  }, [activeIncident?.id, activeIncident?.is_live_tracking]);
+  }, [activeIncident?.id, activeIncident?.is_live_tracking, activeIncident?.camera_feed_active, activeIncident?.audio_feed_active]);
 
   useEffect(() => {
     fetchBroadcasts();
@@ -915,6 +916,40 @@ export default function SecurityDashboardPage() {
                           </span>
                         )}
 
+                        {(inc.camera_feed_active || inc.media_url) && (
+                          <span style={{
+                            background: '#450a0a',
+                            color: '#fca5a5',
+                            border: '1px solid #ef4444',
+                            fontSize: '0.6rem',
+                            fontWeight: 900,
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '4px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.2rem',
+                          }}>
+                            📹 CAM
+                          </span>
+                        )}
+
+                        {inc.audio_feed_active && (
+                          <span style={{
+                            background: '#064e3b',
+                            color: '#6ee7b7',
+                            border: '1px solid #10b981',
+                            fontSize: '0.6rem',
+                            fontWeight: 900,
+                            padding: '0.15rem 0.5rem',
+                            borderRadius: '4px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.2rem',
+                          }}>
+                            🎙️ AUDIO
+                          </span>
+                        )}
+
                         <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--gold)' }}>
                           ID: {inc.id}
                         </span>
@@ -1021,6 +1056,120 @@ export default function SecurityDashboardPage() {
                   <span style={{ color: 'var(--gold)', fontWeight: 700 }}>Location: </span>
                   <span style={{ color: '#ffffff' }}>{activeIncident.location}</span>
                 </div>
+
+                {/* ── Citizen Live Tactical Camera & Audio Surveillance Feed ── */}
+                {(activeIncident.camera_feed_active || activeIncident.audio_feed_active || activeIncident.media_url) && (
+                  <div
+                    style={{
+                      background: 'linear-gradient(180deg, rgba(35, 10, 10, 0.95) 0%, rgba(18, 6, 6, 0.98) 100%)',
+                      border: '2px solid #ef4444',
+                      borderRadius: '8px',
+                      padding: '0.9rem',
+                      boxShadow: '0 0 25px rgba(239, 68, 68, 0.35)',
+                      animation: 'pulseGlow 2.5s infinite',
+                    }}
+                  >
+                    {/* Header */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#fca5a5', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <span style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#ef4444', display: 'inline-block', animation: 'liveTargetBeacon 0.8s infinite' }} />
+                        <span>CITIZEN LIVE TACTICAL SURVEILLANCE FEED</span>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.3rem' }}>
+                        {(activeIncident.camera_feed_active || activeIncident.media_url) && (
+                          <span style={{ fontSize: '0.62rem', background: '#ef4444', color: '#ffffff', padding: '0.15rem 0.45rem', borderRadius: '3px', fontWeight: 800 }}>
+                            📹 CAM LIVE
+                          </span>
+                        )}
+                        {activeIncident.audio_feed_active && (
+                          <span style={{ fontSize: '0.62rem', background: '#10b981', color: '#ffffff', padding: '0.15rem 0.45rem', borderRadius: '3px', fontWeight: 800 }}>
+                            🎙️ MIC LIVE
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Camera Snapshot / Video Stream Frame */}
+                    {(activeIncident.camera_feed_active || activeIncident.media_url) && (
+                      <div style={{ position: 'relative', borderRadius: '6px', overflow: 'hidden', border: '1px solid rgba(239,68,68,0.5)', background: '#000000', marginBottom: '0.6rem' }}>
+                        {activeIncident.media_url ? (
+                          <img
+                            src={activeIncident.media_url}
+                            alt="Live Citizen Camera Evidence Feed"
+                            style={{ width: '100%', maxHeight: '240px', objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
+                            onClick={() => setFullscreenMedia(activeIncident.media_url)}
+                          />
+                        ) : (
+                          <div style={{ height: '130px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fca5a5', fontSize: '0.75rem', gap: '0.4rem' }}>
+                            <span style={{ fontSize: '1.8rem' }}>📡</span>
+                            <span>Citizen Camera Active · Awaiting First Frame Packet...</span>
+                          </div>
+                        )}
+
+                        <div style={{ position: 'absolute', bottom: '6px', left: '6px', background: 'rgba(0,0,0,0.75)', padding: '2px 6px', borderRadius: '4px', fontSize: '0.62rem', color: '#f87171', fontWeight: 800 }}>
+                          SECURE TACTICAL UPLINK · CITIZEN IN DISTRESS
+                        </div>
+
+                        {activeIncident.media_url && (
+                          <button
+                            type="button"
+                            onClick={() => setFullscreenMedia(activeIncident.media_url)}
+                            style={{
+                              position: 'absolute',
+                              top: '6px',
+                              right: '6px',
+                              background: 'rgba(0,0,0,0.75)',
+                              border: '1px solid rgba(255,255,255,0.3)',
+                              color: '#fff',
+                              borderRadius: '4px',
+                              padding: '2px 7px',
+                              fontSize: '0.65rem',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🔍 Fullscreen View
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Ambient Audio Monitor Bar */}
+                    {activeIncident.audio_feed_active && (
+                      <div style={{ background: 'rgba(6, 78, 59, 0.45)', border: '1px solid #10b981', borderRadius: '6px', padding: '0.55rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ fontSize: '1.1rem' }}>🎙️</span>
+                          <div>
+                            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#6ee7b7' }}>
+                              AMBIENT AUDIO SURVEILLANCE ACTIVE
+                            </div>
+                            <div style={{ fontSize: '0.62rem', color: '#a7f3d0' }}>
+                              Citizen device is silently streaming background audio & acoustics.
+                            </div>
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '18px' }}>
+                          {[40, 75, 100, 60, 85, 45, 90, 65].map((h, idx) => (
+                            <span
+                              key={idx}
+                              style={{
+                                width: '3px',
+                                height: `${h}%`,
+                                background: '#10b981',
+                                borderRadius: '1px',
+                                animation: `liveTargetBeacon ${0.4 + idx * 0.1}s infinite alternate`,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div style={{ fontSize: '0.64rem', color: '#fca5a5', marginTop: '0.4rem', textAlign: 'center' }}>
+                      ⚡ Feeds are verified & saved in Palace Command Evidence Log for prosecution.
+                    </div>
+                  </div>
+                )}
 
                 {/* ── WhatsApp-Style Live Radar HUD (When is_live_tracking is active) ── */}
                 {activeIncident.is_live_tracking && (
@@ -1721,6 +1870,78 @@ export default function SecurityDashboardPage() {
                     <span style={{ color: '#34d399' }}>{new Date(rc.checked_in_at).toLocaleTimeString()}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Fullscreen Citizen Surveillance Media Modal */}
+        {fullscreenMedia && (
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: 'rgba(0,0,0,0.95)',
+              zIndex: 999999,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1.5rem',
+            }}
+            onClick={() => setFullscreenMedia(null)}
+          >
+            <div
+              style={{
+                position: 'relative',
+                maxWidth: '90vw',
+                maxHeight: '85vh',
+                border: '2px solid #ef4444',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                background: '#000',
+                boxShadow: '0 0 40px rgba(239, 68, 68, 0.6)',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={fullscreenMedia}
+                alt="High Definition Tactical Snapshot"
+                style={{ width: '100%', height: 'auto', maxHeight: '80vh', objectFit: 'contain', display: 'block' }}
+              />
+              <div
+                style={{
+                  padding: '0.8rem 1.2rem',
+                  background: 'rgba(15, 6, 6, 0.95)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <div>
+                  <div style={{ color: '#f87171', fontWeight: 900, fontSize: '0.85rem' }}>
+                    🔴 CITIZEN LIVE EVIDENCE TRANSMISSION
+                  </div>
+                  <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.72rem' }}>
+                    Incident ID: {activeIncident?.id} · {activeIncident?.location}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFullscreenMedia(null)}
+                  style={{
+                    background: '#ef4444',
+                    border: 'none',
+                    borderRadius: '4px',
+                    color: '#fff',
+                    padding: '0.4rem 1rem',
+                    fontWeight: 800,
+                    fontSize: '0.8rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  ✕ Close View
+                </button>
               </div>
             </div>
           </div>

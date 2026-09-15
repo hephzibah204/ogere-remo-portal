@@ -145,6 +145,27 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
           </View>
         </Card>
 
+        {/* Live Incident & Radar Tracker */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('TrackIncident', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#fee2e2' }]}>
+              <Text style={{ fontSize: 24 }}>📡</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Live Incident & Radar Tracker</Text>
+              <Text style={styles.serviceDesc}>
+                Track live dispatch progress of any SOS distress call or reported emergency using your reference number.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#dc2626', fontWeight: '700', marginTop: 4 }}>
+                🟢 Real-time police & vigilante SITREPs
+              </Text>
+            </View>
+          </View>
+        </Card>
+
         {/* SECTION 2: ROYAL & CIVIC SERVICES */}
         <View style={[styles.sectionHeader, { marginTop: 12 }]}>
           <Text style={styles.sectionTitle}>👑 Royal & Civic Operations</Text>
@@ -185,6 +206,27 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
               <Text style={styles.serviceTitle}>Digital ID Card Wallet</Text>
               <Text style={styles.serviceDesc}>
                 View your certified community ID badge with QR security seal.
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Digital Land & Property Registry */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('LandRegistry', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#fef3c7' }]}>
+              <Text style={{ fontSize: 24 }}>📜</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Digital Land & Property Registry</Text>
+              <Text style={styles.serviceDesc}>
+                Search cadastral plots, verify boundary ownership, and register new community land allocations.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#b45309', fontWeight: '700', marginTop: 4 }}>
+                🏛️ Palace surveyor & gazette archives
               </Text>
             </View>
           </View>
@@ -289,6 +331,48 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
               <Text style={styles.serviceTitle}>Civic Emergency & Business Directory</Text>
               <Text style={styles.serviceDesc}>
                 Complete contact book for emergency lines, safety bulletins, and local enterprises in Ogere Remo.
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Events & Festivals Calendar */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('Events', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#dcfce7' }]}>
+              <Text style={{ fontSize: 24 }}>📅</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Events & Festivals Calendar</Text>
+              <Text style={styles.serviceDesc}>
+                Olipakala Festival, Royal Coronation Anniversary, civic town halls, and medical outreach dates.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#059669', fontWeight: '700', marginTop: 4 }}>
+                🥁 Traditional festivals & reminders
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Town Hall Discussion Forum */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('Forum', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#e0e7ff' }]}>
+              <Text style={{ fontSize: 24 }}>🗣️</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Town Hall Discussion Forum</Text>
+              <Text style={styles.serviceDesc}>
+                Propose community development projects, debate local initiatives, and deliberate with town leaders.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#4338ca', fontWeight: '700', marginTop: 4 }}>
+                🏛️ Democratic civic participation
               </Text>
             </View>
           </View>

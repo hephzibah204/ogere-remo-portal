@@ -10,6 +10,8 @@ interface HeaderProps {
   subtitle?: string;
   showProfile?: boolean;
   onProfilePress?: () => void;
+  showBack?: boolean;
+  onBack?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,6 +19,8 @@ export const Header: React.FC<HeaderProps> = ({
   subtitle = 'Community & Royal Portal',
   showProfile = true,
   onProfilePress,
+  showBack = false,
+  onBack,
 }) => {
   const { user } = useAuth();
   const [sosVisible, setSosVisible] = useState(false);
@@ -30,6 +34,15 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <View style={styles.header}>
+        {showBack && (
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={onBack}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.backArrow}>‹</Text>
+          </TouchableOpacity>
+        )}
         <View style={styles.titleContainer}>
           <View style={styles.badgeRow}>
             <Text style={styles.royalEmblem}>👑</Text>
@@ -126,6 +139,17 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#ffffff',
     letterSpacing: 1,
+  },
+  backButton: {
+    paddingRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backArrow: {
+    fontSize: 28,
+    color: '#ffffff',
+    fontWeight: '700',
+    lineHeight: 28,
   },
   subtitle: {
     fontSize: 11,

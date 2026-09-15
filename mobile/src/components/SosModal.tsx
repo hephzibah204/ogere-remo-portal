@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -63,10 +63,14 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
   const { user } = useAuth();
   const [selectedSector, setSelectedSector] = useState(SECTORS[0]);
   const [isSending, setIsSending] = useState(false);
+  const [shareCamera, setShareCamera] = useState(false);
+  const [shareAudio, setShareAudio] = useState(false);
   const [liveState, setLiveState] = useState<LiveTrackingState>(liveTrackingService.getState());
 
-  React.useEffect(() => {
-    const unsub = liveTrackingService.subscribe(setLiveState);
+  useEffect(() => {
+    const unsub = liveTrackingService.subscribe((state) => {
+      setLiveState(state);
+    });
     return unsub;
   }, []);
 
@@ -88,13 +92,15 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
       longitude: selectedSector.lng,
       landmark: isSilent ? 'Covert Citizen Panic' : 'One-Tap Panic Alert',
       description: isSilent
-        ? `[SILENT PANIC ALERT - COVERT TRIGGER] Citizen activated covert distress alert at ${selectedSector.name} (GPS: ${selectedSector.lat}, ${selectedSector.lng}). Immediate tactical armed response required. DO NOT SIREN APPROACH.`
-        : `EMERGENCY SOS: Citizen requested immediate emergency intervention at ${selectedSector.name} (${cat}). GPS: ${selectedSector.lat}, ${selectedSector.lng}`,
+        ? `[SILENT PANIC ALERT - COVERT TRIGGER] Citizen activated covert distress alert at ${selectedSector.name} (GPS: ${selectedSector.lat}, ${selectedSector.lng}). Immediate tactical armed response required. DO NOT SIREN APPROACH. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim()
+        : `EMERGENCY SOS: Citizen requested immediate emergency intervention at ${selectedSector.name} (${cat}). GPS: ${selectedSector.lat}, ${selectedSector.lng}. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim(),
       reporterName: isSilent ? 'Covert Citizen in Danger' : (user?.fullName || 'Distressed Citizen'),
       reporterPhone: user?.phone || 'Emergency Phone',
       isSos: true,
       isSilentPanic: isSilent,
       isLiveTracking: true,
+      cameraFeedActive: shareCamera,
+      audioFeedActive: shareAudio,
       timestamp: new Date().toISOString(),
     };
 
@@ -223,6 +229,53 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                 </TouchableOpacity>
               ))}
             </ScrollView>
+
+            {/* Live Camera & Ambient Audio Evidence Toggles */}
+            <View style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: 10, marginVertical: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
+              <Text style={{ color: '#fca5a5', fontSize: 11, fontWeight: '700', marginBottom: 6 }}>
+                📡 LIVE SURVEILLANCE EVIDENCE (OPTIONAL)
+              </Text>
+              <View style={{ flexDirection: 'row', gap: 8 }}>
+                <TouchableOpacity
+                  onPress={() => setShareCamera(!shareCamera)}
+                  style={{
+                    flex: 1,
+                    backgroundColor: shareCamera ? '#dc2626' : 'rgba(255,255,255,0.06)',
+                    borderRadius: 6,
+                    padding: 8,
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: shareCamera ? '#f87171' : 'rgba(255,255,255,0.12)',
+                  }}
+                >
+                  <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>
+                    📹 {shareCamera ? 'Camera: ON' : 'Share Camera'}
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => setShareAudio(!shareAudio)}
+                  style={{
+                    flex: 1,
+                    backgroundColor: shareAudio ? '#059669' : 'rgba(255,255,255,0.06)',
+                    borderRadius: 6,
+                    padding: 8,
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: shareAudio ? '#34d399' : 'rgba(255,255,255,0.12)',
+                  }}
+                >
+                  <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>
+                    🎙️ {shareAudio ? 'Audio: ON' : 'Share Mic'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              {(shareCamera || shareAudio) && (
+                <Text style={{ color: '#94a3b8', fontSize: 10, marginTop: 6 }}>
+                  🤫 Broadcasts visual and ambient sound evidence silently without emitting noise on this phone.
+                </Text>
+              )}
+            </View>
 
             {/* Panic Broadcast Buttons: Standard SOS, Silent Panic, and Terrorism Alert */}
             <TouchableOpacity

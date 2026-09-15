@@ -508,6 +508,10 @@ export default async function handler(req, res) {
 
     const severity = body.severity || (body.category?.includes('🚨') || body.category?.includes('Robbery') || body.isSos ? 'Critical' : 'Medium');
     const threatLevel = body.threatLevel || (severity === 'Critical' ? 'CODE_RED' : severity === 'High' ? 'CODE_ORANGE' : 'CODE_YELLOW');
+    const cameraFeedActive = Boolean(body.cameraFeedActive || body.camera_feed_active || body.hasLiveCamera);
+    const audioFeedActive = Boolean(body.audioFeedActive || body.audio_feed_active || body.hasLiveAudio);
+    const mediaUrl = body.mediaUrl || body.media_url || null;
+    const mediaType = body.mediaType || body.media_type || (mediaUrl ? 'video' : null);
 
     const newIncident = {
       id: incidentId,
@@ -516,6 +520,10 @@ export default async function handler(req, res) {
       threat_level: threatLevel,
       is_silent_panic: Boolean(body.isSilentPanic || body.is_silent_panic),
       is_live_tracking: Boolean(body.isLiveTracking || body.is_live_tracking),
+      camera_feed_active: cameraFeedActive,
+      audio_feed_active: audioFeedActive,
+      media_url: mediaUrl,
+      media_type: mediaType,
       assigned_agency: body.assignedAgency || (threatLevel === 'CODE_RED' ? 'Police / Joint Patrol Command' : 'All Agencies Broadcast'),
       responding_unit: body.respondingUnit || 'Dispatched Intercept Unit',
       agency_notes: body.agencyNotes || 'Incident received and logged into Ogere Joint Command Center.',
@@ -532,10 +540,17 @@ export default async function handler(req, res) {
     memoryIncidents.unshift(newIncident);
 
     try {
+      await sqlQuery(`
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS camera_feed_active BOOLEAN DEFAULT FALSE;
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS audio_feed_active BOOLEAN DEFAULT FALSE;
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS media_url TEXT;
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS media_type VARCHAR(32);
+      `).catch(() => {});
+
       await sqlQuery(
         `INSERT INTO incident_reports 
-          (id, category, severity, threat_level, is_silent_panic, is_live_tracking, assigned_agency, responding_unit, agency_notes, location, latitude, longitude, description, reporter_name, reporter_phone, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+          (id, category, severity, threat_level, is_silent_panic, is_live_tracking, camera_feed_active, audio_feed_active, media_url, media_type, assigned_agency, responding_unit, agency_notes, location, latitude, longitude, description, reporter_name, reporter_phone, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`,
         [
           incidentId,
           newIncident.category,
@@ -543,6 +558,10 @@ export default async function handler(req, res) {
           newIncident.threat_level,
           newIncident.is_silent_panic,
           newIncident.is_live_tracking,
+          newIncident.camera_feed_active,
+          newIncident.audio_feed_active,
+          newIncident.media_url,
+          newIncident.media_type,
           newIncident.assigned_agency,
           newIncident.responding_unit,
           newIncident.agency_notes,
@@ -565,9 +584,9 @@ export default async function handler(req, res) {
     });
   }
 
-  // PATCH: Update Incident (Status, Agency, Unit notes)
+  // PATCH: Update Incident (Status, Agency, Unit notes, Live Media Feeds)
   if (req.method === 'PATCH') {
-    const { id, status, assignedAgency, respondingUnit, agencyNotes } = req.body || {};
+    const { id, status, assignedAgency, respondingUnit, agencyNotes, cameraFeedActive, audioFeedActive, mediaUrl, mediaType } = req.body || {};
     if (!id) {
       return res.status(400).json({ success: false, error: 'Incident id required.' });
     }
@@ -578,6 +597,10 @@ export default async function handler(req, res) {
       if (assignedAgency) inc.assigned_agency = assignedAgency;
       if (respondingUnit) inc.responding_unit = respondingUnit;
       if (agencyNotes) inc.agency_notes = agencyNotes;
+      if (typeof cameraFeedActive === 'boolean') inc.camera_feed_active = cameraFeedActive;
+      if (typeof audioFeedActive === 'boolean') inc.audio_feed_active = audioFeedActive;
+      if (mediaUrl) inc.media_url = mediaUrl;
+      if (mediaType) inc.media_type = mediaType;
     }
 
     try {
@@ -587,9 +610,13 @@ export default async function handler(req, res) {
              assigned_agency = COALESCE($2, assigned_agency),
              responding_unit = COALESCE($3, responding_unit),
              agency_notes = COALESCE($4, agency_notes),
+             camera_feed_active = COALESCE($5, camera_feed_active),
+             audio_feed_active = COALESCE($6, audio_feed_active),
+             media_url = COALESCE($7, media_url),
+             media_type = COALESCE($8, media_type),
              resolved_at = CASE WHEN $1 = 'resolved' THEN CURRENT_TIMESTAMP ELSE resolved_at END
-         WHERE id = $5`,
-        [status, assignedAgency, respondingUnit, agencyNotes, id]
+         WHERE id = $9`,
+        [status, assignedAgency, respondingUnit, agencyNotes, cameraFeedActive, audioFeedActive, mediaUrl, mediaType, id]
       ).catch(() => {});
     } catch (_) {}
 

@@ -60,6 +60,8 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [reporterPhone, setReporterPhone] = useState(user?.phone || '');
   const [enableLiveTracking, setEnableLiveTracking] = useState(true);
+  const [cameraFeedActive, setCameraFeedActive] = useState(false);
+  const [audioFeedActive, setAudioFeedActive] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleCall = (phone: string) => {
@@ -103,6 +105,8 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
       isAnonymous,
       isSos: severity === 'Critical',
       isLiveTracking: enableLiveTracking,
+      cameraFeedActive,
+      audioFeedActive,
       timestamp: new Date().toISOString(),
     };
 
@@ -339,6 +343,37 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                 {enableLiveTracking ? '🟢 ACTIVE' : 'DISABLED'}
               </Text>
             </TouchableOpacity>
+          </View>
+
+          {/* 7. Live Camera & Ambient Audio Evidence Toggles */}
+          <View style={[styles.liveToggleCard, { flexDirection: 'column', gap: 10 }]}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Text style={{ fontSize: 14 }}>🛡️</Text>
+              <Text style={styles.liveToggleTitle}>Live Surveillance Evidence (Camera & Audio)</Text>
+            </View>
+            <Text style={styles.liveToggleSub}>
+              Attach covert camera snapshots and ambient audio feeds to aid police and rescue units.
+            </Text>
+
+            <View style={{ flexDirection: 'row', gap: 10 }}>
+              <TouchableOpacity
+                onPress={() => setCameraFeedActive(!cameraFeedActive)}
+                style={[styles.toggleBtn, { flex: 1, height: 38 }, cameraFeedActive && styles.liveToggleBtnActive]}
+              >
+                <Text style={[styles.toggleBtnText, cameraFeedActive && styles.liveToggleBtnTextActive]}>
+                  📹 {cameraFeedActive ? 'Camera: ON' : 'Share Camera'}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => setAudioFeedActive(!audioFeedActive)}
+                style={[styles.toggleBtn, { flex: 1, height: 38 }, audioFeedActive && styles.liveToggleBtnActive]}
+              >
+                <Text style={[styles.toggleBtnText, audioFeedActive && styles.liveToggleBtnTextActive]}>
+                  🎙️ {audioFeedActive ? 'Ambient Mic: ON' : 'Share Mic'}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           {/* Submit Button */}

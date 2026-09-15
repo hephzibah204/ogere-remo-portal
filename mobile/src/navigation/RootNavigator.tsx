@@ -30,6 +30,10 @@ import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { MapScreen } from '../screens/map/MapScreen';
 import { DonationScreen } from '../screens/donation/DonationScreen';
 import { MarketplaceScreen } from '../screens/marketplace/MarketplaceScreen';
+import { LandRegistryScreen } from '../screens/services/LandRegistryScreen';
+import { EventsScreen } from '../screens/events/EventsScreen';
+import { TrackIncidentScreen } from '../screens/services/TrackIncidentScreen';
+import { ForumScreen } from '../screens/community/ForumScreen';
 
 // Field Officer & Admin Terminal Screens
 import { AdminLoginScreen } from '../screens/admin/AdminLoginScreen';
@@ -173,6 +177,10 @@ export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
         <Stack.Screen name="Donation" component={DonationScreen} />
         <Stack.Screen name="Marketplace" component={MarketplaceScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="LandRegistry" component={LandRegistryScreen} />
+        <Stack.Screen name="Events" component={EventsScreen} />
+        <Stack.Screen name="TrackIncident" component={TrackIncidentScreen} />
+        <Stack.Screen name="Forum" component={ForumScreen} />
 
         {/* Admin & Field Officer Terminal Screens */}
         <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />

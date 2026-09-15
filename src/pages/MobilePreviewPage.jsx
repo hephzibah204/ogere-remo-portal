@@ -813,6 +813,14 @@ export default function MobilePreviewPage() {
                       </div>
                     </div>
 
+                    <a href="/land-registry" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '1.4rem' }}>📜</span>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#b45309' }}>Digital Land & Property Registry</div>
+                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Cadastral parcel search, C-of-O & boundary dispute clearance</div>
+                      </div>
+                    </a>
+
                     <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#059669', marginTop: '6px' }}>💬 COMMUNITY CONNECT</div>
 
                     <a href="/messages" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -820,6 +828,30 @@ export default function MobilePreviewPage() {
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#059669' }}>Town Chat (WhatsApp Messenger)</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Real-time civic rooms: Public Square, Diaspora, Trade & Security</div>
+                      </div>
+                    </a>
+
+                    <a href="/events" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '1.4rem' }}>📅</span>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#047857' }}>Community Events & Festivals</div>
+                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Olipakala Festival, Royal Anniversaries & meetings calendar</div>
+                      </div>
+                    </a>
+
+                    <a href="/forum" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '1.4rem' }}>🗣️</span>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#4338ca' }}>Town Hall Discussion Forum</div>
+                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Civic proposals, public deliberation & community voting</div>
+                      </div>
+                    </a>
+
+                    <a href="/track/OGR-SOS-8419" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '1.4rem' }}>📡</span>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#dc2626' }}>Live Radar Incident Tracker</div>
+                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Track live police & vigilante intercept status by ID</div>
                       </div>
                     </a>
                   </div>

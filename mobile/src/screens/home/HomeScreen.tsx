@@ -189,6 +189,46 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             <Text style={styles.quickLabel}>Directory</Text>
             <Text style={styles.quickSub}>Civic Contacts</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('Events')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>📅</Text>
+            <Text style={styles.quickLabel}>Events</Text>
+            <Text style={styles.quickSub}>Festival Dates</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('LandRegistry')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>📜</Text>
+            <Text style={styles.quickLabel}>Land Registry</Text>
+            <Text style={styles.quickSub}>Cadastral Plots</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('Forum')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🗣️</Text>
+            <Text style={styles.quickLabel}>Town Forum</Text>
+            <Text style={styles.quickSub}>Deliberations</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('TrackIncident', { incidentId: 'OGR-SOS-8419' })}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>📡</Text>
+            <Text style={styles.quickLabel}>Radar Track</Text>
+            <Text style={styles.quickSub}>Live Dispatch</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Current Monarch Spotlight */}
