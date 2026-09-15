@@ -358,6 +358,32 @@ export default function SecurityDashboardPage() {
     fetchBroadcasts();
     fetchTips();
     fetchPatrolData();
+
+    // Listen to real-time SOS panic dispatches from any page or modal
+    const handleSosEvent = (e) => {
+      const sosItem = e.detail;
+      if (sosItem) {
+        setIncidents((prev) => [
+          {
+            id: sosItem.id,
+            threat_level: 'CODE_RED',
+            category: sosItem.category || 'SOS Emergency Panic',
+            location: sosItem.location || 'Ogere Remo Sector',
+            description: sosItem.description || 'Emergency SOS trigger received.',
+            reporter_name: sosItem.reporterName || 'Citizen Caller',
+            status: 'CRITICAL_DISPATCH',
+            assigned_agency: 'Police / Amotekun Area Command',
+            created_at: new Date().toISOString(),
+          },
+          ...prev,
+        ]);
+        triggerAudioAlarm(true);
+        setLastAlertTime(new Date().toLocaleTimeString());
+      }
+    };
+
+    window.addEventListener('ogere-sos-triggered', handleSosEvent);
+    return () => window.removeEventListener('ogere-sos-triggered', handleSosEvent);
   }, []);
 
   useEffect(() => {

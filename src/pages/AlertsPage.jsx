@@ -132,6 +132,72 @@ export default function AlertsPage() {
         </span>
       </div>
 
+      {/* Emergency Action Buttons */}
+      <div style={{ background: '#120704', padding: '1.2rem 0', borderBottom: '1px solid rgba(239,68,68,0.3)' }}>
+        <div className="container" style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-sos-modal'))}
+            style={{
+              background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+              border: '2px solid #f87171',
+              borderRadius: '8px',
+              padding: '0.75rem 1.4rem',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              boxShadow: '0 4px 15px rgba(220, 38, 38, 0.4)',
+            }}
+          >
+            <span>🚨</span>
+            <span>TRIGGER SOS EMERGENCY PANIC</span>
+          </button>
+
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-sos-modal'))}
+            style={{
+              background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+              border: '1px solid #38bdf8',
+              borderRadius: '8px',
+              padding: '0.75rem 1.4rem',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}
+          >
+            <span>🛡️</span>
+            <span>ACTIVATE "WALK WITH ME" ESCORT</span>
+          </button>
+
+          <a
+            href="/security-dashboard"
+            style={{
+              background: 'rgba(201, 150, 58, 0.15)',
+              border: '1px solid #C9963A',
+              borderRadius: '8px',
+              padding: '0.75rem 1.4rem',
+              color: '#fef08a',
+              fontWeight: 800,
+              fontSize: '0.9rem',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}
+          >
+            <span>🛰️</span>
+            <span>LIVE SECURITY CONSOLE →</span>
+          </a>
+        </div>
+      </div>
+
       {/* Stats bar */}
       <div style={{ background: '#0d0704', borderBottom: '1px solid rgba(201,150,58,0.1)', padding: '1rem 0' }}>
         <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '1rem', textAlign: 'center' }}>
