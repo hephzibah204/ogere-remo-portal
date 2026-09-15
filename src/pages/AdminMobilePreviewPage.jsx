@@ -56,6 +56,18 @@ export default function AdminMobilePreviewPage() {
   const [currentOfficer, setCurrentOfficer] = useState(SEED_OFFICERS[1]);
   const [showSplashScreen, setShowSplashScreen] = useState(false);
 
+  useEffect(() => {
+    let timer;
+    if (showSplashScreen) {
+      timer = setTimeout(() => {
+        setShowSplashScreen(false);
+      }, 2600);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [showSplashScreen]);
+
   // Command metrics
   const [stats, setStats] = useState({
     incidents: { total: 14, code_red: 1, open_count: 3, dispatched_count: 2 },
@@ -476,6 +488,178 @@ export default function AdminMobilePreviewPage() {
             overflow: 'hidden',
           }}
         >
+          {/* Animated Splash Screen Overlay */}
+          {showSplashScreen && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 9999,
+                background: 'linear-gradient(180deg, #09090b 0%, #0f172a 50%, #020617 100%)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '40px 24px',
+                textAlign: 'center',
+                boxSizing: 'border-box',
+                animation: 'fadeIn 0.3s ease-out',
+              }}
+            >
+              {/* Skip button */}
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={() => setShowSplashScreen(false)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#e2e8f0',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    padding: '4px 10px',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Skip ✕
+                </button>
+              </div>
+
+              {/* Center Royal/Tactical Emblem & Typography */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 10 }}>
+                <div style={{ position: 'relative', marginBottom: '24px' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      width: '120px',
+                      height: '120px',
+                      borderRadius: '50%',
+                      background: 'rgba(201, 150, 58, 0.15)',
+                      border: '2px solid rgba(201, 150, 58, 0.4)',
+                      top: '-15px',
+                      left: '-15px',
+                      animation: 'pulseRing 2s infinite ease-in-out',
+                    }}
+                  />
+                  <div
+                    style={{
+                      width: '90px',
+                      height: '90px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+                      border: '3px solid #C9963A',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '2.5rem',
+                      boxShadow: '0 0 25px rgba(201, 150, 58, 0.3)',
+                    }}
+                  >
+                    🛡️
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    color: '#C9963A',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    letterSpacing: '3px',
+                    textTransform: 'uppercase',
+                    marginBottom: '4px',
+                  }}
+                >
+                  KINGDOM OF OGERE REMO
+                </div>
+
+                <div
+                  className="cinzel"
+                  style={{
+                    color: '#ffffff',
+                    fontSize: '1.5rem',
+                    fontWeight: 900,
+                    letterSpacing: '1px',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  OFFICER COMMAND
+                </div>
+
+                <div
+                  style={{
+                    width: '40px',
+                    height: '3px',
+                    background: '#C9963A',
+                    borderRadius: '2px',
+                    margin: '12px auto',
+                  }}
+                />
+
+                <div
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.85)',
+                    fontSize: '0.76rem',
+                    lineHeight: 1.4,
+                    maxWidth: '250px',
+                  }}
+                >
+                  Tactical Response · Palace Protocol · OCDA Civic Verification
+                </div>
+
+                <div
+                  style={{
+                    marginTop: '16px',
+                    padding: '4px 12px',
+                    borderRadius: '16px',
+                    background: 'rgba(201, 150, 58, 0.15)',
+                    border: '1px solid rgba(201, 150, 58, 0.35)',
+                    color: '#F5EDD8',
+                    fontSize: '0.62rem',
+                    fontWeight: 800,
+                    letterSpacing: '1px',
+                  }}
+                >
+                  SECURITY & PROTOCOL ARCHITECTURE
+                </div>
+              </div>
+
+              {/* Bottom Progress Loading Bar */}
+              <div style={{ width: '85%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 10 }}>
+                <div
+                  style={{
+                    width: '100%',
+                    height: '4px',
+                    background: 'rgba(255, 255, 255, 0.15)',
+                    borderRadius: '2px',
+                    overflow: 'hidden',
+                    position: 'relative',
+                  }}
+                >
+                  <div
+                    style={{
+                      height: '100%',
+                      background: '#C9963A',
+                      borderRadius: '2px',
+                      animation: 'loadingProgress 2.2s infinite ease-in-out',
+                      width: '75%',
+                    }}
+                  />
+                </div>
+
+                <div style={{ fontSize: '0.65rem', color: '#cbd5e1', fontWeight: 600 }}>
+                  Synchronizing Encrypted Field Logs & Rapid Dispatch...
+                </div>
+
+                <div style={{ fontSize: '0.58rem', color: 'rgba(255, 255, 255, 0.4)' }}>
+                  v6.0.0 · Field Command Terminal
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Top Notch / Status Bar */}
           <div style={{ height: 38, background: '#140a05', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 1.2rem', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
             <span style={{ fontSize: '.72rem', fontWeight: 800, color: '#F5EDD8' }}>09:41</span>
