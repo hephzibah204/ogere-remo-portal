@@ -8,8 +8,10 @@ import {
   removePendingSubmission,
 } from './sqlite';
 
+declare const process: any;
+
 // Default API Base URL - In development points to local or Vercel production deployment
-export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://ogereremo.vercel.app';
+export const API_BASE_URL = (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_API_URL) || 'https://ogereremo.vercel.app';
 
 export interface SyncStatus {
   isOnline: boolean;
@@ -26,20 +28,28 @@ class SyncManager {
   private listeners: Set<SyncListener> = new Set();
 
   constructor() {
-    // Listen for network connectivity changes
-    NetInfo.addEventListener((state: NetInfoState) => {
-      const online = Boolean(state.isConnected && state.isInternetReachable !== false);
-      const changed = online !== this.isOnline;
-      this.isOnline = online;
-      
-      if (changed) {
-        this.notify();
-        if (online) {
-          // Immediately perform background sync when network is restored
-          this.performDeltaSync().catch(console.error);
+    // Listen for network connectivity changes — wrapped in try/catch
+    // because the native NetInfo module may not be ready on first launch
+    try {
+      NetInfo.addEventListener((state: NetInfoState) => {
+        try {
+          const online = Boolean(state.isConnected && state.isInternetReachable !== false);
+          const changed = online !== this.isOnline;
+          this.isOnline = online;
+          
+          if (changed) {
+            this.notify();
+            if (online) {
+              this.performDeltaSync().catch(() => {});
+            }
+          }
+        } catch (err) {
+          console.warn('[SyncManager] NetInfo callback error:', err);
         }
-      }
-    });
+      });
+    } catch (err) {
+      console.warn('[SyncManager] NetInfo.addEventListener failed safely:', err);
+    }
   }
 
   public subscribe(listener: SyncListener): () => void {
@@ -118,7 +128,7 @@ class SyncManager {
         let endpoint = '';
         if (item.type === 'audience') endpoint = '/api/royal-audiences';
         if (item.type === 'id_card') endpoint = '/api/id-cards';
-        if (item.type === 'incident') endpoint = '/api/incident-reports';
+        if (item.type === 'incident') endpoint = '/api/incidents';
 
         if (endpoint) {
           const res = await fetch(`${API_BASE_URL}${endpoint}`, {

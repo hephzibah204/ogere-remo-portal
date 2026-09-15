@@ -10,6 +10,8 @@ import {
   SeedEmergencyContact,
 } from './seedData';
 
+export type { SeedNewsItem, SeedKingItem, SeedBusinessItem, SeedEmergencyContact };
+
 const KEYS = {
   NEWS: '@ogere_offline_news',
   KINGS: '@ogere_offline_kings',

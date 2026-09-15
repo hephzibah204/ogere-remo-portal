@@ -108,8 +108,38 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           </View>
         </TouchableOpacity>
 
-        {/* Civic & Tactical Quick Action Grid (6 Items) */}
+        {/* Civic & Tactical Quick Action Grid */}
         <View style={styles.quickGrid}>
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('Messages')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>💬</Text>
+            <Text style={styles.quickLabel}>Town Chat</Text>
+            <Text style={styles.quickSub}>WhatsApp Direct</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('Map')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🗺️</Text>
+            <Text style={styles.quickLabel}>Town Map</Text>
+            <Text style={styles.quickSub}>GPS Sectors</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('Donation')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>💰</Text>
+            <Text style={styles.quickLabel}>10M Fund</Text>
+            <Text style={styles.quickSub}>Endowment</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.quickCard}
             onPress={() => navigation.navigate('WalkWithMe')}
@@ -122,22 +152,12 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.quickCard}
-            onPress={() => navigation.navigate('IncidentReport')}
+            onPress={() => navigation.navigate('Marketplace')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🚨</Text>
-            <Text style={styles.quickLabel}>Report SOS</Text>
-            <Text style={styles.quickSub}>Armed Alert</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.quickCard}
-            onPress={() => navigation.navigate('Profile')}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.quickEmoji}>🪪</Text>
-            <Text style={styles.quickLabel}>ID Wallet</Text>
-            <Text style={styles.quickSub}>Digital Card</Text>
+            <Text style={styles.quickEmoji}>🛍️</Text>
+            <Text style={styles.quickLabel}>Marketplace</Text>
+            <Text style={styles.quickSub}>Adire & Produce</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -152,22 +172,22 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.quickCard}
-            onPress={() => navigation.navigate('News')}
+            onPress={() => navigation.navigate('Profile')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>📰</Text>
-            <Text style={styles.quickLabel}>Town News</Text>
-            <Text style={styles.quickSub}>Bulletins</Text>
+            <Text style={styles.quickEmoji}>🪪</Text>
+            <Text style={styles.quickLabel}>ID Wallet</Text>
+            <Text style={styles.quickSub}>Digital Card</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.quickCard}
-            onPress={() => navigation.navigate('Heritage')}
+            onPress={() => navigation.navigate('Directory')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>👑</Text>
-            <Text style={styles.quickLabel}>Kings Lineage</Text>
-            <Text style={styles.quickSub}>Obas History</Text>
+            <Text style={styles.quickEmoji}>🏢</Text>
+            <Text style={styles.quickLabel}>Directory</Text>
+            <Text style={styles.quickSub}>Civic Contacts</Text>
           </TouchableOpacity>
         </View>
 
@@ -191,7 +211,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               </View>
             )}
             <TouchableOpacity
-              onPress={() => navigation.navigate('Heritage')}
+              onPress={() => navigation.navigate('HeritageTab')}
               style={styles.exploreKingsLink}
             >
               <Text style={styles.exploreKingsText}>
@@ -204,7 +224,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         {/* Latest News & Royal Proclamations */}
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Palace & Community Bulletins</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('News')}>
+          <TouchableOpacity onPress={() => navigation.navigate('NewsTab')}>
             <Text style={styles.seeAllText}>See All ({news.length})</Text>
           </TouchableOpacity>
         </View>

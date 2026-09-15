@@ -77,9 +77,25 @@ export default async function handler(req, res) {
   // ─────────────────────────────────────────────────────────────────────────────
   if (subroute === 'live-location' || pathname.includes('/live-location')) {
     if (req.method === 'POST') {
-      const { incidentId, latitude, longitude, heading, speed, accuracy } = req.body || {};
-      if (!incidentId || !latitude || !longitude) {
-        return res.status(400).json({ success: false, error: 'incidentId, latitude, longitude required.' });
+      const { incidentId, latitude, longitude, heading, speed, accuracy, isEnded } = req.body || {};
+      if (!incidentId) {
+        return res.status(400).json({ success: false, error: 'incidentId required.' });
+      }
+
+      if (isEnded) {
+        try {
+          await sqlQuery(
+            `UPDATE incident_reports SET is_live_tracking = FALSE WHERE id = $1`,
+            [incidentId]
+          ).catch(() => {});
+        } catch (_) {}
+        const inc = memoryIncidents.find((i) => i.id === incidentId);
+        if (inc) inc.is_live_tracking = false;
+        return res.status(200).json({ success: true, message: 'Live tracking session ended.' });
+      }
+
+      if (!latitude || !longitude) {
+        return res.status(400).json({ success: false, error: 'latitude and longitude required.' });
       }
 
       const ping = {
@@ -391,6 +407,7 @@ export default async function handler(req, res) {
       return res.status(201).json({
         success: true,
         message: 'Intel transmitted with zero personal trace.',
+        token: tipToken,
         tipToken,
         tip: newTip,
       });
@@ -410,6 +427,24 @@ export default async function handler(req, res) {
         ).catch(() => {});
       } catch (_) {}
       return res.status(200).json({ success: true, message: 'Tip updated.', tip });
+    }
+
+    const queryToken = searchParams.get('token');
+    if (queryToken) {
+      const tokenUpper = queryToken.trim().toUpperCase();
+      try {
+        const rows = await sqlQuery('SELECT * FROM anonymous_tips WHERE UPPER(tip_token) = $1 LIMIT 1', [tokenUpper]).catch(() => []);
+        const found = rows[0] || memoryTips.find((t) => (t.tip_token || '').toUpperCase() === tokenUpper);
+        if (found) {
+          return res.status(200).json({ success: true, tip: found });
+        } else {
+          return res.status(404).json({ success: false, error: 'No intelligence record found with this tracking token.' });
+        }
+      } catch (_) {
+        const found = memoryTips.find((t) => (t.tip_token || '').toUpperCase() === tokenUpper);
+        if (found) return res.status(200).json({ success: true, tip: found });
+        return res.status(404).json({ success: false, error: 'No intelligence record found with this tracking token.' });
+      }
     }
 
     try {

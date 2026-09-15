@@ -31,13 +31,11 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const alarmActiveRef = useRef(false);   // track if CODE_RED alarm is running
+  const alertedIncidentsRef = useRef<Set<string>>(new Set()); // track acknowledged incident IDs
   const alarmIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Trigger repeating haptic + vibration pattern for CODE_RED
-  const triggerHapticAlarm = () => {
-    if (alarmActiveRef.current) return; // don't stack alarms
-    alarmActiveRef.current = true;
-
+  const triggerHapticAlarm = (newCodeRedIds: string[]) => {
     // Vibration pattern: 200ms on, 100ms off × 6 = 1.8s burst
     const pattern = [0, 200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 200];
     Vibration.vibrate(pattern, false);
@@ -45,16 +43,17 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
     // Also trigger heavy haptic
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => {});
 
-    // Show a one-time alert (non-blocking modal)
-    Alert.alert(
-      '🚨 CODE RED — ARMED INCIDENT',
-      'Active emergency detected in your sector. Check incident feed immediately.',
-      [{ text: 'ACKNOWLEDGED', style: 'destructive', onPress: () => { alarmActiveRef.current = false; } }],
-      { cancelable: false }
-    );
+    if (newCodeRedIds.length > 0 && !alarmActiveRef.current) {
+      alarmActiveRef.current = true;
+      newCodeRedIds.forEach(id => alertedIncidentsRef.current.add(id));
 
-    // Auto-reset after 15s if not dismissed
-    setTimeout(() => { alarmActiveRef.current = false; }, 15000);
+      Alert.alert(
+        '🚨 CODE RED — ARMED INCIDENT',
+        'Active emergency detected in your sector. Tactical patrol units notified.',
+        [{ text: 'ACKNOWLEDGED', style: 'destructive', onPress: () => { alarmActiveRef.current = false; } }],
+        { cancelable: true, onDismiss: () => { alarmActiveRef.current = false; } }
+      );
+    }
   };
 
   const stopHapticAlarm = () => {
@@ -78,13 +77,19 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
         const incoming = data.incidents || [];
         setIncidents(incoming);
 
-        // Trigger alarm for active CODE_RED
-        const hasCodeRed = incoming.some(
+        // Find any unacknowledged CODE_RED incidents
+        const newCodeReds = incoming
+          .filter((i: any) => i.threat_level === 'CODE_RED' && i.status !== 'resolved')
+          .map((i: any) => i.id)
+          .filter((id: string) => !alertedIncidentsRef.current.has(id));
+
+        const hasActiveCodeRed = incoming.some(
           (i: any) => i.threat_level === 'CODE_RED' && i.status !== 'resolved'
         );
-        if (hasCodeRed) {
-          triggerHapticAlarm();
-        } else {
+
+        if (newCodeReds.length > 0) {
+          triggerHapticAlarm(newCodeReds);
+        } else if (!hasActiveCodeRed) {
           stopHapticAlarm();
         }
       }

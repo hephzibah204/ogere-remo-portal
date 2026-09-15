@@ -69,8 +69,9 @@ export const WhistleblowerScreen: React.FC<{ navigation: any }> = ({ navigation 
       });
 
       const data = await res.json();
-      if (res.ok && data.token) {
-        setGeneratedToken(data.token);
+      const token = data.token || data.tipToken;
+      if (res.ok && token) {
+        setGeneratedToken(token);
         setDescription('');
         setLocation('');
         setPasscode('');

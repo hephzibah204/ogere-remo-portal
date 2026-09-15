@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(201,150,58,0.3)',
     gap: 12,
-    ...Shadows.md,
+    ...Shadows.card,
   },
   errorBox: {
     backgroundColor: 'rgba(239,68,68,0.15)',

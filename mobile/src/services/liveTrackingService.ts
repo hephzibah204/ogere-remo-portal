@@ -120,7 +120,7 @@ class LiveTrackingService {
             enableHighAccuracy: true,
             distanceFilter: 2, // Every 2 meters of movement
             maximumAge: 3000,
-          }
+          } as any
         );
       } catch (e) {
         console.warn('[LiveTracking] Could not attach watchPosition:', e);

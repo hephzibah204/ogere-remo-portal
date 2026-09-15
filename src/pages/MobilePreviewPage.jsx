@@ -40,6 +40,7 @@ const EMERGENCY_LINES = [
 ];
 
 export default function MobilePreviewPage() {
+  const [showSplashScreen, setShowSplashScreen] = useState(false);
   const [activeTab, setActiveTab] = useState('home'); // home, news, sos, heritage, services
   const [activeServiceScreen, setActiveServiceScreen] = useState(null); // null, 'walk', 'report', 'guardians', 'whistle', 'id', 'audience'
   const [deviceFrame, setDeviceFrame] = useState('iphone'); // 'iphone', 'android', 'none'
@@ -282,6 +283,25 @@ export default function MobilePreviewPage() {
                 🖥️ Frameless
               </button>
             </div>
+
+            <button
+              onClick={() => setShowSplashScreen(true)}
+              style={{
+                background: 'rgba(217, 119, 6, 0.15)',
+                color: 'var(--gold)',
+                border: '1px solid var(--gold)',
+                padding: '6px 16px',
+                borderRadius: '20px',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}
+            >
+              👑 Replay Mobile Splash Screen
+            </button>
           </div>
         </div>
 
@@ -322,6 +342,162 @@ export default function MobilePreviewPage() {
                 }}>
                   <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#047857' }} />
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#1e293b' }} />
+                </div>
+              )}
+
+              {/* ── SPLASH SCREEN OVERLAY (Simulated Native App Splash) ── */}
+              {showSplashScreen && (
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 99999,
+                  background: 'linear-gradient(145deg, #053327 0%, #032018 100%)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '50px 24px 40px',
+                  color: '#ffffff',
+                  animation: 'fadeIn 0.3s ease-out',
+                }}>
+                  {/* Decorative Background Vignettes */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '-80px',
+                    right: '-70px',
+                    width: '240px',
+                    height: '240px',
+                    borderRadius: '50%',
+                    background: 'rgba(217, 119, 6, 0.1)',
+                    filter: 'blur(30px)',
+                    pointerEvents: 'none',
+                  }} />
+
+                  {/* Top Skip / Close Button */}
+                  <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', zIndex: 10 }}>
+                    <button
+                      onClick={() => setShowSplashScreen(false)}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        border: '1px solid rgba(217, 119, 6, 0.3)',
+                        color: 'var(--gold)',
+                        padding: '4px 10px',
+                        borderRadius: '12px',
+                        fontSize: '0.65rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Skip ➔
+                    </button>
+                  </div>
+
+                  {/* Central Emblem & Brand Identity */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', zIndex: 10 }}>
+                    {/* Pulsing Royal Crest Circle */}
+                    <div style={{
+                      width: '110px',
+                      height: '110px',
+                      borderRadius: '55px',
+                      background: '#0a4233',
+                      border: '3px solid #d97706',
+                      boxShadow: '0 0 35px rgba(217, 119, 6, 0.45)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '3.2rem',
+                      marginBottom: '20px',
+                      position: 'relative',
+                    }}>
+                      👑
+                      <div style={{
+                        position: 'absolute',
+                        inset: '3px',
+                        borderRadius: '50%',
+                        border: '1px solid rgba(255, 255, 255, 0.25)',
+                      }} />
+                    </div>
+
+                    <div style={{
+                      color: '#a7f3d0',
+                      fontSize: '0.72rem',
+                      fontWeight: 800,
+                      letterSpacing: '3px',
+                      textTransform: 'uppercase',
+                      marginBottom: '4px',
+                    }}>
+                      KINGDOM OF OGERE REMO
+                    </div>
+
+                    <div className="cinzel" style={{
+                      color: '#ffffff',
+                      fontSize: '1.6rem',
+                      fontWeight: 900,
+                      letterSpacing: '1px',
+                      lineHeight: 1.2,
+                    }}>
+                      CIVIC PORTAL
+                    </div>
+
+                    <div style={{
+                      width: '40px',
+                      height: '3px',
+                      background: '#d97706',
+                      borderRadius: '2px',
+                      margin: '12px auto',
+                    }} />
+
+                    <div style={{
+                      color: 'rgba(255, 255, 255, 0.85)',
+                      fontSize: '0.78rem',
+                      lineHeight: 1.4,
+                      maxWidth: '240px',
+                    }}>
+                      Gateway Kingdom of Heritage, Unity & Enterprise
+                    </div>
+
+                    <div style={{
+                      marginTop: '16px',
+                      padding: '4px 12px',
+                      borderRadius: '16px',
+                      background: 'rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(217, 119, 6, 0.35)',
+                      color: '#fef3c7',
+                      fontSize: '0.62rem',
+                      fontWeight: 800,
+                      letterSpacing: '1px',
+                    }}>
+                      REMO TRADITIONAL COUNCIL · OGUN STATE
+                    </div>
+                  </div>
+
+                  {/* Bottom Progress Loading Bar */}
+                  <div style={{ width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 10 }}>
+                    <div style={{
+                      width: '100%',
+                      height: '4px',
+                      background: 'rgba(255, 255, 255, 0.15)',
+                      borderRadius: '2px',
+                      overflow: 'hidden',
+                      position: 'relative',
+                    }}>
+                      <div style={{
+                        height: '100%',
+                        background: '#d97706',
+                        borderRadius: '2px',
+                        animation: 'loadingProgress 2.2s infinite ease-in-out',
+                        width: '75%',
+                      }} />
+                    </div>
+
+                    <div style={{ fontSize: '0.65rem', color: '#a7f3d0', fontWeight: 600 }}>
+                      Synchronizing Palace Registry & Offline Archives...
+                    </div>
+
+                    <div style={{ fontSize: '0.58rem', color: 'rgba(255, 255, 255, 0.4)' }}>
+                      v6.0.0 · 100% Offline Capable
+                    </div>
+                  </div>
                 </div>
               )}
 

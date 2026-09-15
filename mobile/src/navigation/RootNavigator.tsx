@@ -9,6 +9,7 @@ import { Colors } from '../theme';
 
 // Screens
 import { WelcomeScreen } from '../screens/welcome/WelcomeScreen';
+import { SplashScreen } from '../screens/welcome/SplashScreen';
 import { LoginScreen } from '../screens/auth/LoginScreen';
 import { RegisterScreen } from '../screens/auth/RegisterScreen';
 import { HomeScreen } from '../screens/home/HomeScreen';
@@ -24,7 +25,11 @@ import { SecurityDashboardScreen } from '../screens/services/SecurityDashboardSc
 import { WalkWithMeScreen } from '../screens/services/WalkWithMeScreen';
 import { EmergencyContactsScreen } from '../screens/services/EmergencyContactsScreen';
 import { WhistleblowerScreen } from '../screens/services/WhistleblowerScreen';
+import { MessagesScreen } from '../screens/messages/MessagesScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
+import { MapScreen } from '../screens/map/MapScreen';
+import { DonationScreen } from '../screens/donation/DonationScreen';
+import { MarketplaceScreen } from '../screens/marketplace/MarketplaceScreen';
 
 // Field Officer & Admin Terminal Screens
 import { AdminLoginScreen } from '../screens/admin/AdminLoginScreen';
@@ -32,6 +37,9 @@ import { AdminRegisterScreen } from '../screens/admin/AdminRegisterScreen';
 import { AdminDashboardScreen } from '../screens/admin/AdminDashboardScreen';
 import { AdminAudienceManagerScreen } from '../screens/admin/AdminAudienceManagerScreen';
 import { AdminIdApprovalScreen } from '../screens/admin/AdminIdApprovalScreen';
+
+import * as Application from 'expo-application';
+import Constants from 'expo-constants';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -116,26 +124,24 @@ function MainTabs() {
   );
 }
 
-import * as Application from 'expo-application';
-import Constants from 'expo-constants';
-
-export function RootNavigator() {
+export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
   const { user, isGuest, isLoading } = useAuth();
+  const [showSplash, setShowSplash] = React.useState(true);
   const appId = Application.applicationId || '';
   const appVariant = Constants.expoConfig?.extra?.appVariant || (appId.includes('officer') ? 'officer' : 'citizen');
   const isOfficerApp = appVariant === 'officer' || appId.includes('officer');
 
-  if (isLoading) {
+  // Display Splash Screen until auth/registry is ready or splash timer finishes
+  if (showSplash || isLoading) {
     return (
-      <View style={styles.loadingScreen}>
-        <Text style={{ fontSize: 40, marginBottom: 12 }}>{isOfficerApp ? '🛡️' : '👑'}</Text>
-        <Text style={styles.loadingTitle}>
-          {isOfficerApp ? 'OGERE FIELD COMMAND' : 'OGERE REMO CIVIC PORTAL'}
-        </Text>
-        <Text style={styles.loadingSub}>
-          {isOfficerApp ? 'Loading Tactical Operations Terminal...' : 'Loading Local Offline Registry...'}
-        </Text>
-      </View>
+      <SplashScreen
+        isOfficerApp={isOfficerApp}
+        onFinish={() => {
+          if (!isLoading) {
+            setShowSplash(false);
+          }
+        }}
+      />
     );
   }
 
@@ -144,7 +150,7 @@ export function RootNavigator() {
     : (user || isGuest ? 'Main' : 'Welcome');
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={ref}>
       <Stack.Navigator
         initialRouteName={initialRoute}
         screenOptions={{ headerShown: false }}
@@ -161,6 +167,11 @@ export function RootNavigator() {
         <Stack.Screen name="WalkWithMe" component={WalkWithMeScreen} />
         <Stack.Screen name="EmergencyContacts" component={EmergencyContactsScreen} />
         <Stack.Screen name="Whistleblower" component={WhistleblowerScreen} />
+        <Stack.Screen name="Directory" component={DirectoryScreen} />
+        <Stack.Screen name="Messages" component={MessagesScreen} />
+        <Stack.Screen name="Map" component={MapScreen} />
+        <Stack.Screen name="Donation" component={DonationScreen} />
+        <Stack.Screen name="Marketplace" component={MarketplaceScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
 
         {/* Admin & Field Officer Terminal Screens */}
@@ -172,7 +183,7 @@ export function RootNavigator() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+});
 
 const styles = StyleSheet.create({
   tabIconContainer: {

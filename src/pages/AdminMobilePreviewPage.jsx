@@ -54,6 +54,7 @@ export default function AdminMobilePreviewPage() {
   const [activeScreen, setActiveScreen] = useState('dashboard'); // 'login', 'register', 'dashboard', 'audiences', 'idCards'
   const [currentRole, setCurrentRole] = useState('palace_protocol'); // 'security_officer', 'palace_protocol', 'ocda_admin'
   const [currentOfficer, setCurrentOfficer] = useState(SEED_OFFICERS[1]);
+  const [showSplashScreen, setShowSplashScreen] = useState(false);
 
   // Command metrics
   const [stats, setStats] = useState({
@@ -403,28 +404,50 @@ export default function AdminMobilePreviewPage() {
           </div>
         </div>
 
-        {/* Device Frame Switcher */}
-        <div style={{ display: 'flex', gap: '.4rem', alignItems: 'center' }}>
-          <span style={{ fontSize: '.72rem', color: 'rgba(245,237,216,0.5)' }}>Device Chassis:</span>
-          {['iphone', 'android', 'none'].map((f) => (
-            <button
-              key={f}
-              onClick={() => setDeviceFrame(f)}
-              style={{
-                padding: '.3rem .6rem',
-                borderRadius: 4,
-                border: deviceFrame === f ? '1px solid #C9963A' : '1px solid rgba(255,255,255,0.1)',
-                background: deviceFrame === f ? '#C9963A' : 'transparent',
-                color: deviceFrame === f ? '#000' : '#fff',
-                fontSize: '.68rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                textTransform: 'capitalize',
-              }}
-            >
-              {f === 'none' ? 'Frameless' : f}
-            </button>
-          ))}
+        {/* Device Frame Switcher & Splash Replayer */}
+        <div style={{ display: 'flex', gap: '.6rem', alignItems: 'center' }}>
+          <button
+            onClick={() => setShowSplashScreen(true)}
+            style={{
+              padding: '.35rem .75rem',
+              borderRadius: 6,
+              border: '1px solid #C9963A',
+              background: 'linear-gradient(135deg, rgba(201,150,58,0.2) 0%, rgba(201,150,58,0.05) 100%)',
+              color: '#F5EDD8',
+              fontSize: '.72rem',
+              fontWeight: 800,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            <span>🛡️</span>
+            <span>Replay Officer Splash</span>
+          </button>
+
+          <div style={{ display: 'flex', gap: '.3rem', alignItems: 'center' }}>
+            <span style={{ fontSize: '.72rem', color: 'rgba(245,237,216,0.5)' }}>Device Chassis:</span>
+            {['iphone', 'android', 'none'].map((f) => (
+              <button
+                key={f}
+                onClick={() => setDeviceFrame(f)}
+                style={{
+                  padding: '.3rem .6rem',
+                  borderRadius: 4,
+                  border: deviceFrame === f ? '1px solid #C9963A' : '1px solid rgba(255,255,255,0.1)',
+                  background: deviceFrame === f ? '#C9963A' : 'transparent',
+                  color: deviceFrame === f ? '#000' : '#fff',
+                  fontSize: '.68rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  textTransform: 'capitalize',
+                }}
+              >
+                {f === 'none' ? 'Frameless' : f}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

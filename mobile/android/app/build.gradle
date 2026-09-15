@@ -105,7 +105,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 
 
-kotlin { jvmToolchain(21) }
+kotlin { jvmToolchain(17) }
 
 android {
     ndkVersion rootProject.ext.ndkVersion

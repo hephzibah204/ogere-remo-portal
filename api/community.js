@@ -87,9 +87,62 @@ export default async function handler(req, res) {
     }
   }
 
-  // 3. Registered Citizens & Civic Contacts Directory
+  // Memory fallback for emergency contacts and push tokens
+  if (!global._memoryEmergencyContacts) global._memoryEmergencyContacts = [];
+  if (!global._memoryPushTokens) global._memoryPushTokens = [];
+
+  // 3. Emergency Guardian Contacts & Civic Users Directory
   const isContacts = pathname.includes('contacts') || pathname.includes('users') || req.query.type === 'contacts' || req.query.type === 'users';
   if (isContacts) {
+    const action = req.body?.action || req.query?.action;
+    const userId = req.body?.userId || req.query?.userId;
+
+    // Handle Emergency Contacts operations
+    if (action === 'list' || req.query?.userId) {
+      try {
+        const rows = await sqlQuery('SELECT * FROM emergency_contacts WHERE user_id = $1 ORDER BY created_at DESC', [userId || 'default_user']).catch(() => []);
+        const results = rows.length > 0 ? rows : global._memoryEmergencyContacts.filter(c => c.user_id === userId || !userId);
+        return res.status(200).json({ success: true, contacts: results });
+      } catch (_) {
+        const results = global._memoryEmergencyContacts.filter(c => c.user_id === userId || !userId);
+        return res.status(200).json({ success: true, contacts: results });
+      }
+    }
+
+    if (req.method === 'POST') {
+      const body = req.body || {};
+      if (body.action === 'add') {
+        const newContact = {
+          id: `ec_${Date.now()}`,
+          user_id: body.userId || 'default_user',
+          name: body.name || 'Guardian',
+          phone: body.phone || '',
+          relationship: body.relationship || 'Kin',
+          notify_on_sos: body.notifyOnSos !== false,
+          created_at: new Date().toISOString(),
+        };
+        global._memoryEmergencyContacts.push(newContact);
+        try {
+          await sqlQuery(
+            `INSERT INTO emergency_contacts (id, user_id, name, phone, relationship, notify_on_sos)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [newContact.id, newContact.user_id, newContact.name, newContact.phone, newContact.relationship, newContact.notify_on_sos]
+          ).catch(() => {});
+        } catch (_) {}
+        return res.status(201).json({ success: true, message: 'Guardian contact added.', contact: newContact });
+      }
+
+      if (body.action === 'delete') {
+        const id = body.id;
+        global._memoryEmergencyContacts = global._memoryEmergencyContacts.filter(c => c.id !== id);
+        try {
+          await sqlQuery('DELETE FROM emergency_contacts WHERE id = $1', [id]).catch(() => {});
+        } catch (_) {}
+        return res.status(200).json({ success: true, message: 'Guardian contact deleted.' });
+      }
+    }
+
+    // Default users directory query
     try {
       const rows = await sqlQuery(
         `SELECT id, full_name, role, citizen_type, quarter, compound, agency_name, id_card_number, created_at 
@@ -106,6 +159,7 @@ export default async function handler(req, res) {
         success: true,
         total: rows.length,
         users: rows,
+        contacts: rows,
       });
     } catch (err) {
       console.warn('[Community Users Directory Fallback]:', err.message);
@@ -113,6 +167,7 @@ export default async function handler(req, res) {
         success: true,
         total: 0,
         users: [],
+        contacts: [],
       });
     }
   }
@@ -235,6 +290,37 @@ export default async function handler(req, res) {
         messages: [],
       });
     }
+  }
+
+  // 5. Delta Sync Handler: /api/sync
+  const isSync = pathname.includes('sync') || req.query.type === 'sync';
+  if (isSync) {
+    return res.status(200).json({
+      success: true,
+      delta: {
+        news: [],
+        businesses: [],
+      },
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  // 6. Push Tokens Registration: /api/push-tokens
+  const isPushTokens = pathname.includes('push-tokens') || pathname.includes('push') || req.query.type === 'push-tokens';
+  if (isPushTokens) {
+    if (req.method === 'POST') {
+      const { token, userId, role } = req.body || {};
+      if (token) {
+        global._memoryPushTokens.push({
+          token,
+          user_id: userId || 'anonymous',
+          role: role || 'citizen',
+          updated_at: new Date().toISOString(),
+        });
+      }
+      return res.status(200).json({ success: true, message: 'Push token registered successfully.' });
+    }
+    return res.status(200).json({ success: true, tokensCount: global._memoryPushTokens.length });
   }
 
   // Default community status

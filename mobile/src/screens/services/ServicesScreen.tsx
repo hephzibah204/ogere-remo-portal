@@ -190,30 +190,105 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
           </View>
         </Card>
 
-        {/* SECTION 3: MULTI-AGENCY FIELD COMMAND */}
+        {/* SECTION 4: COMMUNITY, COMMERCE & DEVELOPMENT */}
         <View style={[styles.sectionHeader, { marginTop: 12 }]}>
-          <Text style={styles.sectionTitle}>🛡️ Multi-Agency Field Command</Text>
+          <Text style={styles.sectionTitle}>💬 Community, Commerce & Endowment</Text>
           <Text style={styles.sectionSubtitle}>
-            Tactical operational dashboard for security forces on active patrol.
+            Direct messaging, town digitization, local commerce, and civic transformation.
           </Text>
         </View>
 
-        {/* Security Agency Command Console */}
+        {/* Town Messenger Service */}
         <Card
           style={styles.serviceCard}
-          onPress={() => handleServicePress('SecurityDashboard', true)}
+          onPress={() => handleServicePress('Messages', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#dcfce7' }]}>
+              <Text style={{ fontSize: 24 }}>💬</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Town Messenger & 1-on-1 Chat</Text>
+              <Text style={styles.serviceDesc}>
+                Confidential private messaging with palace protocol, security command, OCDA, and registered community members.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#059669', fontWeight: '700', marginTop: 4 }}>
+                🟢 Real-time database chat & channels
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Town Map & GPS Sectors */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('Map', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#e0e7ff' }]}>
+              <Text style={{ fontSize: 24 }}>🗺️</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Town Map & Digitized Sectors</Text>
+              <Text style={styles.serviceDesc}>
+                Explore palace landmarks, emergency sectors, health facilities, and open Google Maps navigation.
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* ₦10M Transformation Endowment */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('Donation', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: Colors.goldSoft }]}>
+              <Text style={{ fontSize: 24 }}>💰</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>₦10M Ogere Transformation Fund</Text>
+              <Text style={styles.serviceDesc}>
+                Track live endowment progress, countdown to Nov 4th 2026 launch, and support solar healthcare & streetlights.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#c9963a', fontWeight: '800', marginTop: 4 }}>
+                🎯 Target: ₦10,000,000 · Paystack & Direct Transfer
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Local Marketplace */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('Marketplace', false)}
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#fef3c7' }]}>
-              <Text style={{ fontSize: 24 }}>🛡️</Text>
+              <Text style={{ fontSize: 24 }}>🛍️</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.serviceTitle}>Security Agency Dispatch Console</Text>
+              <Text style={styles.serviceTitle}>Local Crafts & Adire Marketplace</Text>
               <Text style={styles.serviceDesc}>
-                Field patrol monitor for Police, FRSC, So-Safe, and Palace Vigilante units responding to emergency alerts.
+                Browse verified local sellers for authentic Yoruba Adire indigo fabrics, farm produce, and artisan services.
               </Text>
-              <Text style={{ fontSize: 11, color: '#d97706', fontWeight: '700', marginTop: 4 }}>
-                🚨 Real-time multi-agency response queue
+            </View>
+          </View>
+        </Card>
+
+        {/* Civic Directory */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('Directory', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#f1f5f9' }]}>
+              <Text style={{ fontSize: 24 }}>🏢</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Civic Emergency & Business Directory</Text>
+              <Text style={styles.serviceDesc}>
+                Complete contact book for emergency lines, safety bulletins, and local enterprises in Ogere Remo.
               </Text>
             </View>
           </View>
