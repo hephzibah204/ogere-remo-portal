@@ -130,21 +130,17 @@ function MainTabs() {
 
 export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
   const { user, isGuest, isLoading } = useAuth();
-  const [showSplash, setShowSplash] = React.useState(true);
+  const [splashTimerDone, setSplashTimerDone] = React.useState(false);
   const appId = Application.applicationId || '';
   const appVariant = Constants.expoConfig?.extra?.appVariant || (appId.includes('officer') ? 'officer' : 'citizen');
   const isOfficerApp = appVariant === 'officer' || appId.includes('officer');
 
-  // Display Splash Screen until auth/registry is ready or splash timer finishes
-  if (showSplash || isLoading) {
+  // Display Splash Screen until splash timer finishes AND auth/registry is ready
+  if (!splashTimerDone || isLoading) {
     return (
       <SplashScreen
         isOfficerApp={isOfficerApp}
-        onFinish={() => {
-          if (!isLoading) {
-            setShowSplash(false);
-          }
-        }}
+        onFinish={() => setSplashTimerDone(true)}
       />
     );
   }

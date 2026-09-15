@@ -83,14 +83,14 @@ export const Header: React.FC<HeaderProps> = ({
         </View>
       </View>
 
-      {/* Omnipresent WhatsApp-Style Live Location Radar Strip */}
+      {/* Omnipresent Real-Time Live Location Radar Strip */}
       {liveState.isActive && (
         <View style={styles.liveStrip}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flex: 1 }}>
             <Text style={{ fontSize: 13 }}>🟢</Text>
             <View style={{ flex: 1 }}>
               <Text style={styles.liveStripTitle}>
-                LIVE LOCATION STREAMING ON (WHATSAPP STYLE)
+                LIVE REAL-TIME LOCATION RADAR ON
               </Text>
               <Text style={styles.liveStripSub}>
                 Ogere Security Command tracking · {liveState.pingCount} pings · {liveState.currentCoords?.speed || 0} km/h

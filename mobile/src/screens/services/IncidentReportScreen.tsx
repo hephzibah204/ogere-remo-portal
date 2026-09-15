@@ -324,12 +324,12 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
             )}
           </View>
 
-          {/* 6. WhatsApp-Style Live Moving Location Toggle */}
+          {/* 6. Real-Time Live Moving Location Toggle */}
           <View style={styles.liveToggleCard}>
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 <Text style={{ fontSize: 14 }}>📡</Text>
-                <Text style={styles.liveToggleTitle}>Live Location Radar (WhatsApp Style)</Text>
+                <Text style={styles.liveToggleTitle}>Live Location Radar (Real-Time GPS)</Text>
               </View>
               <Text style={styles.liveToggleSub}>
                 Perpetually stream your moving coordinates to Ogere Security Command while moving

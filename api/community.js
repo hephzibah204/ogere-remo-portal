@@ -172,7 +172,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // 4. WhatsApp-Style Community Messaging System
+  // 4. Civic Community Messaging & Chat System
   const isMessages = pathname.includes('messages') || pathname.includes('chat') || req.query.type === 'messages';
   if (isMessages) {
     // Ensure table exists

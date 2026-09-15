@@ -1,6 +1,6 @@
 /**
  * liveTrackingService.ts
- * Ogere Remo Civic App — WhatsApp-Style Perpetual Live Location Sharing Engine
+ * Ogere Remo Civic App — Real-Time Tactical GPS Location Radar Engine
  *
  * Allows a citizen during an emergency/hostage/robbery/corridor transit
  * to perpetually stream their moving GPS coordinates, speed, and heading to Ogere
@@ -76,7 +76,7 @@ class LiveTrackingService {
 
   /**
    * Start perpetual live location sharing for a given emergency incident
-   * Pings every 4 seconds with high-frequency telemetry (WhatsApp style)
+   * Pings every 4 seconds with high-frequency telemetry radar
    */
   public startTracking(incidentId: string, initialCoords?: { lat: number; lng: number }) {
     if (this.activeIncidentId === incidentId) return;
@@ -92,7 +92,7 @@ class LiveTrackingService {
       this.currentLng = initialCoords.lng;
     }
 
-    console.log(`[LiveTracking] Started WhatsApp-style live location for incident: ${incidentId}`);
+    console.log(`[LiveTracking] Started real-time live location radar for incident: ${incidentId}`);
 
     // Try standard Geolocation API if available
     const geo = typeof navigator !== 'undefined' ? navigator.geolocation : null;

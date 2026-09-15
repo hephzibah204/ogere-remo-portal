@@ -29,7 +29,7 @@ const MENU_GROUPS = [
       { id: 'faith', label: 'Faith & Religion' },
       { id: 'events', label: 'Events' },
       { id: 'news', label: 'News' },
-      { id: 'messages', label: '💬 Town Chat (WhatsApp)' },
+      { id: 'messages', label: '💬 Town Chat & Messages' },
       { id: 'forum', label: 'Forum' },
       { id: 'diaspora', label: 'Diaspora' },
       { id: 'miss-olipakala', label: 'Miss Olipakala' },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import OfficerMobilePhone from '../components/OfficerMobilePhone';
 
 const SEED_NEWS = [
   {
@@ -44,6 +45,7 @@ export default function MobilePreviewPage() {
   const [activeTab, setActiveTab] = useState('home'); // home, news, sos, heritage, services
   const [activeServiceScreen, setActiveServiceScreen] = useState(null); // null, 'walk', 'report', 'guardians', 'whistle', 'id', 'audience'
   const [deviceFrame, setDeviceFrame] = useState('iphone'); // 'iphone', 'android', 'none'
+  const [previewMode, setPreviewMode] = useState('dual'); // 'dual', 'citizen', 'officer'
   const [isEscortActive, setIsEscortActive] = useState(false);
   const [escortSeconds, setEscortSeconds] = useState(1200); // 20 mins
   const [escortPin, setEscortPin] = useState('');
@@ -221,94 +223,158 @@ export default function MobilePreviewPage() {
         description="Preview and interact with the Ogere Remo Civic Mobile App directly inside your browser. Test Virtual Escort, Emergency Dispatch, and Heritage Archives."
       />
 
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        {/* Page Header */}
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span style={{ fontSize: '0.72rem', letterSpacing: '0.25em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 800 }}>
-            OGERE REMO CIVIC APP (REACT NATIVE / EXPO)
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+        {/* Distraction-Free Header */}
+        <div style={{ textAlign: 'center', marginBottom: '1.8rem' }}>
+          <span style={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 800 }}>
+            OGERE REMO CIVIC APP TERMINAL
           </span>
-          <h1 className="cinzel" style={{ fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: 900, color: 'var(--cream)', margin: '0.4rem 0 0.8rem' }}>
-            Interactive Mobile App Preview
+          <h1 className="cinzel" style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 900, color: 'var(--cream)', margin: '0.2rem 0 0.8rem' }}>
+            Interactive Mobile Preview
           </h1>
-          <p style={{ maxWidth: 680, margin: '0 auto', color: '#cbd5e1', fontSize: '0.95rem', lineHeight: 1.6 }}>
-            Experience the offline-first civic mobile app designed for citizens, diaspora, and palace administration. Interact with the screen below or run it directly on your smartphone.
-          </p>
 
           {/* Controls Bar */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', background: 'rgba(255,255,255,0.06)', padding: '4px', borderRadius: '30px', border: '1px solid rgba(201,150,58,0.3)' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.8rem', marginTop: '0.8rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* View Mode Switcher */}
+            <div style={{ display: 'flex', background: 'rgba(255,255,255,0.06)', padding: '4px', borderRadius: '30px', border: '1px solid rgba(201,150,58,0.4)' }}>
               <button
+                type="button"
+                onClick={() => setPreviewMode('dual')}
+                style={{
+                  background: previewMode === 'dual' ? 'var(--gold)' : 'transparent',
+                  color: previewMode === 'dual' ? '#000' : '#fff',
+                  border: 'none',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                📱 Dual View (Both)
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreviewMode('citizen')}
+                style={{
+                  background: previewMode === 'citizen' ? 'var(--gold)' : 'transparent',
+                  color: previewMode === 'citizen' ? '#000' : '#fff',
+                  border: 'none',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                👤 Citizen App
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreviewMode('officer')}
+                style={{
+                  background: previewMode === 'officer' ? 'var(--gold)' : 'transparent',
+                  color: previewMode === 'officer' ? '#000' : '#fff',
+                  border: 'none',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                🛡️ Officer Terminal
+              </button>
+            </div>
+
+            {/* Chassis Toggle */}
+            <div style={{ display: 'flex', background: 'rgba(255,255,255,0.04)', padding: '4px', borderRadius: '30px', border: '1px solid rgba(255,255,255,0.15)' }}>
+              <button
+                type="button"
                 onClick={() => setDeviceFrame('iphone')}
                 style={{
-                  background: deviceFrame === 'iphone' ? 'var(--gold)' : 'transparent',
-                  color: deviceFrame === 'iphone' ? '#000' : '#fff',
+                  background: deviceFrame === 'iphone' ? 'rgba(255,255,255,0.18)' : 'transparent',
+                  color: '#fff',
                   border: 'none',
-                  padding: '6px 14px',
-                  borderRadius: '20px',
-                  fontSize: '0.78rem',
-                  fontWeight: 800,
+                  padding: '5px 12px',
+                  borderRadius: '16px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
                   cursor: 'pointer',
                 }}
               >
-                📱 iPhone 15 Pro
+                iPhone
               </button>
               <button
+                type="button"
                 onClick={() => setDeviceFrame('android')}
                 style={{
-                  background: deviceFrame === 'android' ? 'var(--gold)' : 'transparent',
-                  color: deviceFrame === 'android' ? '#000' : '#fff',
+                  background: deviceFrame === 'android' ? 'rgba(255,255,255,0.18)' : 'transparent',
+                  color: '#fff',
                   border: 'none',
-                  padding: '6px 14px',
-                  borderRadius: '20px',
-                  fontSize: '0.78rem',
-                  fontWeight: 800,
+                  padding: '5px 12px',
+                  borderRadius: '16px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
                   cursor: 'pointer',
                 }}
               >
-                🤖 Android Galaxy
+                Android
               </button>
               <button
+                type="button"
                 onClick={() => setDeviceFrame('none')}
                 style={{
-                  background: deviceFrame === 'none' ? 'var(--gold)' : 'transparent',
-                  color: deviceFrame === 'none' ? '#000' : '#fff',
+                  background: deviceFrame === 'none' ? 'rgba(255,255,255,0.18)' : 'transparent',
+                  color: '#fff',
                   border: 'none',
-                  padding: '6px 14px',
-                  borderRadius: '20px',
-                  fontSize: '0.78rem',
-                  fontWeight: 800,
+                  padding: '5px 12px',
+                  borderRadius: '16px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
                   cursor: 'pointer',
                 }}
               >
-                🖥️ Frameless
+                Frameless
               </button>
             </div>
 
             <button
+              type="button"
               onClick={() => setShowSplashScreen(true)}
               style={{
                 background: 'rgba(217, 119, 6, 0.15)',
                 color: 'var(--gold)',
                 border: '1px solid var(--gold)',
-                padding: '6px 16px',
+                padding: '6px 14px',
                 borderRadius: '20px',
-                fontSize: '0.78rem',
+                fontSize: '0.74rem',
                 fontWeight: 800,
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
+                gap: '5px',
               }}
             >
-              👑 Replay Mobile Splash Screen
+              👑 Replay Splash
             </button>
           </div>
         </div>
 
-        {/* Layout Grid: Phone Simulator & Instructions */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(340px, 420px) 1fr', gap: '3rem', alignItems: 'start', justifyContent: 'center' }}>
-          {/* ── LEFT: PHONE BEZEL SIMULATOR ── */}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {/* Distraction-Free Display: Only Citizen & Officer Previews */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '2.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+          {/* ── 1. CITIZEN PHONE PREVIEW ── */}
+          {(previewMode === 'dual' || previewMode === 'citizen') && (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <span style={{ fontSize: '1.2rem' }}>👤</span>
+                <span style={{ fontWeight: 800, fontSize: '0.85rem', color: '#86efac', letterSpacing: '0.05em' }}>
+                  CITIZEN MOBILE APP
+                </span>
+                <span style={{ fontSize: '0.62rem', background: '#052e16', color: '#4ade80', border: '1px solid #22c55e', padding: '1px 6px', borderRadius: '4px', fontWeight: 800 }}>
+                  CIVIC
+                </span>
+              </div>
             <div
               style={{
                 width: '380px',
@@ -826,7 +892,7 @@ export default function MobilePreviewPage() {
                     <a href="/messages" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <span style={{ fontSize: '1.4rem' }}>💬</span>
                       <div>
-                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#059669' }}>Town Chat (WhatsApp Messenger)</div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#059669' }}>Town Chat & Resident Messaging</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Real-time civic rooms: Public Square, Diaspora, Trade & Security</div>
                       </div>
                     </a>
@@ -1389,7 +1455,7 @@ export default function MobilePreviewPage() {
                           />
                         </div>
 
-                        {/* WhatsApp Live Location Radar Toggle */}
+                        {/* Real-Time Live Location Radar Toggle */}
                         <div
                           onClick={() => setSosLiveTracking(!sosLiveTracking)}
                           style={{
@@ -1406,7 +1472,7 @@ export default function MobilePreviewPage() {
                           <span style={{ fontSize: '1.2rem' }}>📡</span>
                           <div style={{ flex: 1 }}>
                             <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#065f46' }}>
-                              Live Location Radar (WhatsApp-Style)
+                              Live Location Radar (Real-Time GPS)
                             </div>
                             <div style={{ fontSize: '0.58rem', color: '#047857' }}>
                               Perpetually stream moving GPS coordinates to Police command
@@ -1606,74 +1672,12 @@ export default function MobilePreviewPage() {
               </div>
             </div>
           </div>
+          )}
 
-          {/* ── RIGHT: INSTRUCTIONS & REAL PHONE SETUP GUIDE ── */}
-          <div style={{ display: 'grid', gap: '1.5rem' }}>
-            <div className="glass" style={{ padding: '1.8rem', borderRadius: '16px', border: '1px solid rgba(201,150,58,0.3)' }}>
-              <div className="cinzel" style={{ fontSize: '1.15rem', color: 'var(--gold)', fontWeight: 800, marginBottom: '0.8rem' }}>
-                🚀 Run on Your Physical Smartphone (Expo Go)
-              </div>
-              <p style={{ fontSize: '0.88rem', color: '#cbd5e1', lineHeight: 1.6, margin: 0 }}>
-                You can run this exact native application directly on your physical iPhone or Android smartphone with zero cables:
-              </p>
-
-              <ol style={{ paddingLeft: '1.2rem', marginTop: '1rem', fontSize: '0.85rem', color: '#e2e8f0', lineHeight: 1.8 }}>
-                <li>
-                  Install the free <strong>Expo Go</strong> app from the{' '}
-                  <a href="https://apps.apple.com/app/expo-go/id982107779" target="_blank" rel="noreferrer" style={{ color: 'var(--gold)' }}>App Store</a> (iOS) or{' '}
-                  <a href="https://play.google.com/store/apps/details?id=host.exp.exponent" target="_blank" rel="noreferrer" style={{ color: 'var(--gold)' }}>Google Play Store</a> (Android).
-                </li>
-                <li>In your terminal, navigate to the <code style={{ color: 'var(--gold)' }}>mobile</code> directory:
-                  <div style={{ background: 'rgba(0,0,0,0.5)', padding: '0.6rem 0.8rem', borderRadius: '6px', margin: '0.5rem 0', fontFamily: 'monospace' }}>
-                    cd mobile<br />
-                    npx expo start
-                  </div>
-                </li>
-                <li>
-                  Open your <strong>Camera app</strong> (iOS) or the <strong>Expo Go app</strong> (Android) and scan the QR code printed in the terminal.
-                </li>
-              </ol>
-            </div>
-
-            {/* Feature Highlights Card */}
-            <div className="glass" style={{ padding: '1.8rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <div className="cinzel" style={{ fontSize: '1.1rem', color: '#ffffff', fontWeight: 800, marginBottom: '1rem' }}>
-                ✨ Tested Mobile Capabilities in This App
-              </div>
-              <div style={{ display: 'grid', gap: '0.8rem', fontSize: '0.84rem', color: '#cbd5e1' }}>
-                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                  <span>🛡️</span>
-                  <div>
-                    <strong style={{ color: '#fff' }}>Virtual Safe Escort ("Walk With Me"):</strong> Destination countdown timer with Covert Hostage Duress PIN (<code>9999</code>) that silently summons SWAT without alerting the attacker.
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                  <span>🟢</span>
-                  <div>
-                    <strong style={{ color: '#fff' }}>WhatsApp-Style Live GPS Streaming:</strong> High-frequency 4.5s perpetual coordinates streaming directly to the Ogere Security Command console.
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                  <span>👨‍👩‍👧‍👦</span>
-                  <div>
-                    <strong style={{ color: '#fff' }}>Guardian Family Circles:</strong> Instant SMS dispatches with a dedicated live tracking link (<code>/track/:id</code>) during an emergency.
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                  <span>🔒</span>
-                  <div>
-                    <strong style={{ color: '#fff' }}>Zero-Trace Whistleblower Line:</strong> Cryptographic token tracking with officer SITREPs and two-way anonymous messaging.
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-                  <span>📴</span>
-                  <div>
-                    <strong style={{ color: '#fff' }}>100% Offline-First SQLite Cache:</strong> News, Obas succession lineage, and emergency helplines work without internet or mobile reception.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* ── 2. FIELD OFFICER MOBILE TERMINAL PREVIEW ── */}
+          {(previewMode === 'dual' || previewMode === 'officer') && (
+            <OfficerMobilePhone deviceFrame={deviceFrame} />
+          )}
         </div>
       </div>
     </div>

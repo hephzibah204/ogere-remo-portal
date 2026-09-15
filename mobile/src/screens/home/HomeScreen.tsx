@@ -117,7 +117,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           >
             <Text style={styles.quickEmoji}>💬</Text>
             <Text style={styles.quickLabel}>Town Chat</Text>
-            <Text style={styles.quickSub}>WhatsApp Direct</Text>
+            <Text style={styles.quickSub}>Town Messaging</Text>
           </TouchableOpacity>
 
           <TouchableOpacity

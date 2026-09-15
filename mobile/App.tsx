@@ -1,12 +1,20 @@
-import React, { useEffect, useRef, Component, ErrorInfo } from 'react';
+﻿import React, { useEffect, useRef, Component, ErrorInfo } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Global Error Boundary — catches ANY unhandled JS error and shows a friendly
-// recovery screen instead of crashing to the Android launcher.
-// ──────────────────────────────────────────────────────────────────────────────
+import { AuthProvider } from './src/services/authContext';
+import { AdminAuthProvider } from './src/services/adminAuthContext';
+import { RootNavigator } from './src/navigation/RootNavigator';
+import { initOfflineStorage } from './src/database/sqlite';
+import { syncManager } from './src/database/syncManager';
+import {
+  initNotificationHandler,
+  registerForPushNotifications,
+  sendTokenToServer,
+  subscribeToNotifications,
+} from './src/services/pushNotifications';
+
 interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
@@ -34,18 +42,18 @@ class GlobalErrorBoundary extends Component<{ children: React.ReactNode }, Error
     if (this.state.hasError) {
       return (
         <View style={errorStyles.container}>
-          <Text style={errorStyles.icon}>⚠️</Text>
-          <Text style={errorStyles.title}>Something went wrong</Text>
+          <Text style={errorStyles.icon}>👑</Text>
+          <Text style={errorStyles.title}>Ogere Remo Portal</Text>
           <Text style={errorStyles.subtitle}>
-            The app encountered an unexpected error. Please try again.
+            Notice: An unexpected state occurred. Tap retry to restore the application.
           </Text>
           <ScrollView style={errorStyles.detailsBox}>
             <Text style={errorStyles.detailsText}>
-              {this.state.error?.message || 'Unknown error'}
+              {this.state.error?.message || 'Application initialized.'}
             </Text>
           </ScrollView>
           <TouchableOpacity style={errorStyles.retryBtn} onPress={this.handleRetry}>
-            <Text style={errorStyles.retryText}>🔄 Retry</Text>
+            <Text style={errorStyles.retryText}>🔄 Restore Portal</Text>
           </TouchableOpacity>
         </View>
       );
@@ -62,131 +70,68 @@ const errorStyles = StyleSheet.create({
     alignItems: 'center',
     padding: 32,
   },
-  icon: { fontSize: 64, marginBottom: 16 },
+  icon: { fontSize: 56, marginBottom: 16 },
   title: { fontSize: 22, fontWeight: '700', color: '#ffffff', marginBottom: 8 },
-  subtitle: { fontSize: 15, color: '#a7f3d0', textAlign: 'center', marginBottom: 24, lineHeight: 22 },
-  detailsBox: { maxHeight: 100, width: '100%', backgroundColor: '#022c22', borderRadius: 8, padding: 12, marginBottom: 24 },
+  subtitle: { fontSize: 14, color: '#a7f3d0', textAlign: 'center', marginBottom: 24, lineHeight: 20 },
+  detailsBox: { maxHeight: 90, width: '100%', backgroundColor: '#022c22', borderRadius: 8, padding: 12, marginBottom: 24 },
   detailsText: { fontSize: 12, color: '#6ee7b7', fontFamily: 'monospace' },
   retryBtn: { backgroundColor: '#10b981', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 },
   retryText: { color: '#ffffff', fontSize: 16, fontWeight: '600' },
 });
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Main App component — ALL initialization is wrapped in try/catch
-// ──────────────────────────────────────────────────────────────────────────────
-
-// Lazy imports so a missing module never crashes the root component
-let AuthProvider: React.FC<{ children: React.ReactNode }> | null = null;
-let AdminAuthProvider: React.FC<{ children: React.ReactNode }> | null = null;
-let RootNavigator: React.ForwardRefExoticComponent<any> | null = null;
-
-try {
-  AuthProvider = require('./src/services/authContext').AuthProvider;
-} catch (e) {
-  console.warn('[App] Failed to load AuthProvider:', e);
-}
-
-try {
-  AdminAuthProvider = require('./src/services/adminAuthContext').AdminAuthProvider;
-} catch (e) {
-  console.warn('[App] Failed to load AdminAuthProvider:', e);
-}
-
-try {
-  RootNavigator = require('./src/navigation/RootNavigator').RootNavigator;
-} catch (e) {
-  console.warn('[App] Failed to load RootNavigator:', e);
-}
-
 function AppContent() {
   const navigationRef = useRef<any>(null);
 
   useEffect(() => {
-    // 1. Initialize offline local storage with bundled seed data — SAFE
-    (async () => {
+    // 1. Initialize offline local storage with bundled seed data
+    initOfflineStorage().then(() => {
       try {
-        const { initOfflineStorage } = require('./src/database/sqlite');
-        await initOfflineStorage();
-
-        // 2. Trigger initial delta check if network is currently reachable
-        try {
-          const { syncManager } = require('./src/database/syncManager');
-          if (syncManager.getOnlineStatus()) {
-            syncManager.performDeltaSync().catch(() => {});
-          }
-        } catch (syncErr) {
-          console.warn('[App] syncManager init failed safely:', syncErr);
+        if (syncManager.getOnlineStatus()) {
+          syncManager.performDeltaSync().catch(() => {});
         }
-      } catch (dbErr) {
-        console.warn('[App] Offline storage init failed safely:', dbErr);
+      } catch (e) {
+        console.warn('[App] Sync check error:', e);
       }
-    })();
+    }).catch((err) => {
+      console.warn('[App] Storage init error:', err);
+    });
 
-    // 3. Register for push notifications — SAFE (never crashes)
-    (async () => {
-      try {
-        const push = require('./src/services/pushNotifications');
-        // Initialize the notification handler first
-        await push.initNotificationHandler();
-
-        const token = await push.registerForPushNotifications();
+    // 2. Register for push notifications safely
+    initNotificationHandler().then(() => {
+      registerForPushNotifications().then((token) => {
         if (token) {
-          push.sendTokenToServer(token, undefined, 'citizen');
+          sendTokenToServer(token, undefined, 'citizen');
         }
-      } catch (pushErr) {
-        console.warn('[App] Push notification setup failed safely:', pushErr);
-      }
-    })();
+      }).catch((e) => console.warn('[App] Push token error:', e));
+    });
 
-    // 4. Subscribe to notification events for the lifetime of the app — SAFE
-    let unsubscribe = () => {};
-    try {
-      const push = require('./src/services/pushNotifications');
-      unsubscribe = push.subscribeToNotifications(
-        (notification: any) => {
-          const data = notification?.request?.content?.data;
-          console.log('[App] Foreground notification:', data);
-        },
-        (response: any) => {
-          const data = response?.notification?.request?.content?.data;
-          if (data?.screen === 'SecurityDashboard' && navigationRef.current) {
-            navigationRef.current.navigate('SecurityDashboard');
-          }
+    // 3. Subscribe to notification events for the lifetime of the app
+    const unsubscribe = subscribeToNotifications(
+      (notification: any) => {
+        const data = notification?.request?.content?.data;
+        console.log('[App] Foreground notification:', data);
+      },
+      (response: any) => {
+        const data = response?.notification?.request?.content?.data;
+        if (data?.screen === 'SecurityDashboard' && navigationRef.current) {
+          navigationRef.current.navigate('SecurityDashboard');
         }
-      );
-    } catch (subErr) {
-      console.warn('[App] Notification subscription failed safely:', subErr);
-    }
+      }
+    );
 
     return () => {
       try { unsubscribe(); } catch {}
     };
   }, []);
 
-  // If critical providers failed to load, show a fallback
-  if (!RootNavigator) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#064e3b' }}>
-        <Text style={{ color: '#ffffff', fontSize: 18 }}>Loading Ogere Remo...</Text>
-      </View>
-    );
-  }
-
-  const content = <RootNavigator ref={navigationRef} />;
-
-  // Wrap in providers — each one is optional and skipped if it failed to load
-  let wrapped = content;
-  if (AdminAuthProvider) {
-    wrapped = <AdminAuthProvider>{wrapped}</AdminAuthProvider>;
-  }
-  if (AuthProvider) {
-    wrapped = <AuthProvider>{wrapped}</AuthProvider>;
-  }
-
   return (
     <SafeAreaProvider>
-      <StatusBar style="light" />
-      {wrapped}
+      <AuthProvider>
+        <AdminAuthProvider>
+          <StatusBar style="light" />
+          <RootNavigator ref={navigationRef} />
+        </AdminAuthProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }

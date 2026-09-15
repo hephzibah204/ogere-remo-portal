@@ -1171,7 +1171,7 @@ export default function SecurityDashboardPage() {
                   </div>
                 )}
 
-                {/* ── WhatsApp-Style Live Radar HUD (When is_live_tracking is active) ── */}
+                {/* ── Real-Time Live Radar HUD (When is_live_tracking is active) ── */}
                 {activeIncident.is_live_tracking && (
                   <div style={{
                     background: 'rgba(5, 46, 22, 0.6)',
@@ -1182,7 +1182,7 @@ export default function SecurityDashboardPage() {
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                       <span style={{ fontSize: '0.75rem', fontWeight: 900, color: '#4ade80', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                        <span style={{ animation: 'liveTargetBeacon 1s infinite' }}>🟢</span> LIVE MOVING TARGET (WHATSAPP STYLE)
+                        <span style={{ animation: 'liveTargetBeacon 1s infinite' }}>🟢</span> LIVE MOVING TARGET RADAR
                       </span>
                       <span style={{ fontSize: '0.65rem', background: '#22c55e', color: '#052e16', padding: '0.1rem 0.4rem', borderRadius: '3px', fontWeight: 800 }}>
                         STREAMING

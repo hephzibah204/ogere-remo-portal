@@ -30,7 +30,7 @@ const CARDS = [
   { id: 'history', ic: '📖', t: 'Founding History', d: '600-year chronicles from Prince Olipakala to modern era.' },
   { id: 'timeline', ic: '⏳', t: 'Dynastic Timeline', d: 'Chronological reigns of all Ologere of Ogere Remo.' },
   { id: 'forum', ic: '💬', t: 'Community Forum', d: 'Public deliberations, community notices & discussions.' },
-  { id: 'security-dashboard', ic: '🛡️', t: 'Security Command Radar', d: 'Multi-agency dispatch console, live WhatsApp-style radar & CCTV scanner.' },
+  { id: 'security-dashboard', ic: '🛡️', t: 'Security Command Radar', d: 'Multi-agency dispatch console, real-time tactical radar & CCTV scanner.' },
   { id: 'alerts', ic: '🚨', t: 'Report Incident / SOS', d: 'Instant hazard alert dispatch and 24/7 emergency rescue lines.' },
   { id: 'gallery', ic: '📸', t: 'Media Archives', d: 'Historic photo collections, pageants, and civic ceremonies.' },
   { id: 'miss-olipakala', ic: '👸', t: 'Miss Olipakala Pageant', d: 'Annual cultural beauty pageant celebrating our daughters.' },
@@ -38,7 +38,7 @@ const CARDS = [
 ];
 
 const QUICK_ACTIONS = [
-  { ti: '💬 Town Chat', path: '/messages', sub: 'WhatsApp Hub' },
+  { ti: '💬 Town Chat', path: '/messages', sub: 'Town Messaging' },
   { ti: '🚨 Emergency SOS', path: '/alerts', sub: 'Instant Rescue' },
   { ti: '🛡️ Security Console', path: '/security-dashboard', sub: 'Live Radar' },
   { ti: '🪪 Digital ID Card', path: '/id-card', sub: 'Apply Online' },

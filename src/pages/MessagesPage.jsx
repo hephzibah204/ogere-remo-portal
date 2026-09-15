@@ -575,7 +575,7 @@ export default function MessagesPage() {
             background: '#0b141a',
             position: 'relative',
           }}>
-            {/* WhatsApp Wallpaper Pattern */}
+            {/* Chat Wallpaper Pattern */}
             <div style={{
               position: 'absolute',
               inset: 0,

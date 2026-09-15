@@ -87,7 +87,7 @@ export default function TrackIncidentPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{ fontSize: '1.2rem' }}>{inc?.is_live_tracking ? '🟢' : '⚪'}</span>
                   <span style={{ fontSize: '0.85rem', fontWeight: 900, color: inc?.is_live_tracking ? '#4ade80' : 'var(--gold)' }}>
-                    {inc?.is_live_tracking ? 'WHATSAPP-STYLE LIVE MOVEMENT STREAMING' : 'STATIC LAST KNOWN POSITION'}
+                    {inc?.is_live_tracking ? 'REAL-TIME LIVE MOVEMENT RADAR' : 'STATIC LAST KNOWN POSITION'}
                   </span>
                 </div>
                 <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)' }}>

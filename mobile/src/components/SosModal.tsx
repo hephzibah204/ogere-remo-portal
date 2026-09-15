@@ -186,7 +186,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
           </View>
 
           <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
-            {/* Live Radar HUD (WhatsApp-Style Live Tracking) */}
+            {/* Live Radar HUD (Real-Time GPS Live Tracking) */}
             {liveState.isActive && (
               <View style={styles.liveRadarCard}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>

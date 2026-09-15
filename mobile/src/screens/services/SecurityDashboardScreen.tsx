@@ -254,7 +254,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                 <Text style={styles.categoryTitle}>{inc.category}</Text>
                 <Text style={styles.descText}>{inc.description}</Text>
 
-                {/* Live Movement Telemetry HUD if in WhatsApp-style live tracking */}
+                {/* Live Movement Telemetry HUD if in real-time live radar */}
                 {inc.is_live_tracking && (
                   <View style={styles.liveMovementHud}>
                     <Text style={styles.liveMovementTitle}>
