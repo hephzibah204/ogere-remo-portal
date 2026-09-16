@@ -109,7 +109,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
   const handleBroadcastSos = async (isSilent: boolean = false, categoryOverride?: string) => {
     setIsSending(true);
 
-    // Refresh exact GPS coordinates and IP address at moment of trigger
+    // Refresh exact GPS + full device intelligence at moment of trigger
     let currentLoc = deviceLoc;
     try {
       currentLoc = await getExactDeviceLocation();
@@ -121,6 +121,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
     const accuracy = currentLoc?.accuracy ?? null;
     const ipAddress = currentLoc?.ipAddress ?? 'Unknown IP';
     const googleMapsUrl = currentLoc ? currentLoc.googleMapsUrl : `https://www.google.com/maps?q=${lat},${lng}`;
+    const dev = currentLoc?.device;
 
     const cat = categoryOverride || (isSilent ? 'ARMED ROBBERY / HOSTAGE (SILENT)' : 'CRITICAL SOS BROADCAST');
     const accuracyText = accuracy ? ` (GPS Accuracy: ±${Math.round(accuracy)}m)` : '';
@@ -136,9 +137,20 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
       ipAddress,
       googleMapsUrl,
       landmark: isSilent ? 'Covert Citizen Panic' : 'One-Tap Panic Alert',
+      // Full device intelligence
+      deviceModel: dev?.deviceModel || null,
+      deviceOs: dev ? `${dev.platform} ${dev.osVersion}` : null,
+      networkType: dev?.networkType || null,
+      networkGeneration: dev?.networkGeneration || null,
+      carrier: dev?.carrier || null,
+      batteryLevel: dev?.batteryLevel ?? null,
+      screenResolution: dev ? `${dev.screenWidth}x${dev.screenHeight}` : null,
+      locale: dev?.locale || null,
+      timezone: dev?.timezone || null,
+      appVersion: dev?.appVersion || null,
       description: isSilent
-        ? `[SILENT PANIC ALERT - COVERT TRIGGER] Citizen activated covert distress alert at ${selectedSector.name}. Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}. IP: ${ipAddress}. Maps Pin: ${googleMapsUrl}. Immediate tactical armed response required. DO NOT SIREN APPROACH. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim()
-        : `EMERGENCY SOS: Citizen requested immediate emergency intervention at ${selectedSector.name} (${cat}). Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}. IP: ${ipAddress}. Maps Pin: ${googleMapsUrl}. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim(),
+        ? `[SILENT PANIC ALERT - COVERT TRIGGER] Citizen activated covert distress alert at ${selectedSector.name}. Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}. IP: ${ipAddress}. Maps Pin: ${googleMapsUrl}. Device: ${dev?.deviceModel || 'Unknown'} (${dev?.platform || '?'} ${dev?.osVersion || ''}). Network: ${dev?.networkType || '?'}${dev?.networkGeneration ? '/'+dev.networkGeneration : ''}. Battery: ${dev?.batteryLevel != null ? dev.batteryLevel+'%' : '?'}. Immediate tactical armed response required. DO NOT SIREN APPROACH. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim()
+        : `EMERGENCY SOS: Citizen requested immediate emergency intervention at ${selectedSector.name} (${cat}). Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}. IP: ${ipAddress}. Maps Pin: ${googleMapsUrl}. Device: ${dev?.deviceModel || 'Unknown'} (${dev?.platform || '?'} ${dev?.osVersion || ''}). Network: ${dev?.networkType || '?'}${dev?.networkGeneration ? '/'+dev.networkGeneration : ''}. Battery: ${dev?.batteryLevel != null ? dev.batteryLevel+'%' : '?'}. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim(),
       reporterName: isSilent ? 'Covert Citizen in Danger' : (user?.fullName || 'Distressed Citizen'),
       reporterPhone: user?.phone || 'Emergency Phone',
       isSos: true,
@@ -260,6 +272,68 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                 </View>
               </View>
             )}
+
+            {/* ── Device Telemetry HUD ── */}
+            <View style={styles.deviceHud}>
+              <View style={styles.deviceHudHeader}>
+                <Text style={styles.deviceHudTitle}>🛰️ DEVICE INTELLIGENCE {isLocating ? '— Acquiring...' : '— Ready'}</Text>
+                {!isLocating && (
+                  <TouchableOpacity onPress={() => {
+                    setIsLocating(true);
+                    getExactDeviceLocation().then(setDeviceLoc).finally(() => setIsLocating(false));
+                  }}>
+                    <Text style={styles.deviceHudRefresh}>🔄</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+              <View style={styles.deviceHudGrid}>
+                <View style={styles.deviceHudItem}>
+                  <Text style={styles.deviceHudLabel}>GPS</Text>
+                  <Text style={styles.deviceHudValue} numberOfLines={1}>
+                    {deviceLoc ? `${deviceLoc.latitude.toFixed(4)}, ${deviceLoc.longitude.toFixed(4)}` : '—'}
+                  </Text>
+                </View>
+                <View style={styles.deviceHudItem}>
+                  <Text style={styles.deviceHudLabel}>ACCURACY</Text>
+                  <Text style={[styles.deviceHudValue, { color: deviceLoc?.isGpsPrecise ? '#4ade80' : '#fde047' }]}>
+                    {deviceLoc?.accuracy ? `±${Math.round(deviceLoc.accuracy)}m` : '—'}
+                  </Text>
+                </View>
+                <View style={styles.deviceHudItem}>
+                  <Text style={styles.deviceHudLabel}>PUBLIC IP</Text>
+                  <Text style={styles.deviceHudValue} numberOfLines={1}>{deviceLoc?.ipAddress || '—'}</Text>
+                </View>
+                <View style={styles.deviceHudItem}>
+                  <Text style={styles.deviceHudLabel}>DEVICE</Text>
+                  <Text style={styles.deviceHudValue} numberOfLines={1}>{deviceLoc?.device?.deviceModel || '—'}</Text>
+                </View>
+                <View style={styles.deviceHudItem}>
+                  <Text style={styles.deviceHudLabel}>OS</Text>
+                  <Text style={styles.deviceHudValue}>
+                    {deviceLoc?.device ? `${deviceLoc.device.platform.toUpperCase()} ${deviceLoc.device.osVersion}` : '—'}
+                  </Text>
+                </View>
+                <View style={styles.deviceHudItem}>
+                  <Text style={styles.deviceHudLabel}>NETWORK</Text>
+                  <Text style={[styles.deviceHudValue, {
+                    color: deviceLoc?.device?.networkType === 'wifi' ? '#4ade80'
+                         : deviceLoc?.device?.networkType === 'cellular' ? '#38bdf8' : '#fde047'
+                  }]}>
+                    {deviceLoc?.device?.networkType === 'cellular'
+                      ? `${(deviceLoc.device.networkGeneration || 'Cell').toUpperCase()} · ${deviceLoc.device.carrier || '?'}`
+                      : (deviceLoc?.device?.networkType || '—').toUpperCase()}
+                  </Text>
+                </View>
+                {(deviceLoc?.device?.batteryLevel ?? null) !== null && (
+                  <View style={styles.deviceHudItem}>
+                    <Text style={styles.deviceHudLabel}>BATTERY</Text>
+                    <Text style={[styles.deviceHudValue, { color: (deviceLoc!.device!.batteryLevel! > 20) ? '#4ade80' : '#ef4444' }]}>
+                      {deviceLoc!.device!.batteryLevel}%
+                    </Text>
+                  </View>
+                )}
+              </View>
+            </View>
 
             {/* Sector Selector */}
             <Text style={styles.sectionLabel}>Select Your Current Location / Sector:</Text>
@@ -652,5 +726,53 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 10,
     fontWeight: '800',
+  },
+  deviceHud: {
+    backgroundColor: '#0f172a',
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderColor: '#1e3a5f',
+    padding: 10,
+    marginBottom: 10,
+  },
+  deviceHudHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  deviceHudTitle: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#38bdf8',
+    letterSpacing: 0.5,
+  },
+  deviceHudRefresh: {
+    fontSize: 14,
+  },
+  deviceHudGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  deviceHudItem: {
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderRadius: 4,
+    padding: 6,
+    minWidth: '30%',
+    flex: 1,
+  },
+  deviceHudLabel: {
+    fontSize: 8,
+    fontWeight: '900',
+    color: '#475569',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  deviceHudValue: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#e2e8f0',
+    fontFamily: 'monospace' as any,
   },
 });

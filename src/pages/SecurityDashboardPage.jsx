@@ -934,7 +934,7 @@ export default function SecurityDashboardPage() {
                         📍 <strong>{inc.location}</strong>
                         {inc.latitude && inc.longitude && (
                           <a
-                            href={`https://www.google.com/maps?q=${inc.latitude},${inc.longitude}&z=18`}
+                            href={inc.google_maps_url || `https://www.google.com/maps?q=${inc.latitude},${inc.longitude}&z=18`}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={e => e.stopPropagation()}
@@ -957,6 +957,26 @@ export default function SecurityDashboardPage() {
                         </span>
                       )}
                     </div>
+                    {/* Telemetry row: GPS, accuracy, reporter IP */}
+                    {(inc.latitude || inc.ip_address || inc.accuracy) && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.5rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(255,255,255,0.07)', fontSize: '0.65rem' }}>
+                        {inc.latitude && inc.longitude && (
+                          <span style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#38bdf8', fontFamily: 'monospace', fontWeight: 700 }}>
+                            🎯 {Number(inc.latitude).toFixed(4)}°N, {Number(inc.longitude).toFixed(4)}°E
+                          </span>
+                        )}
+                        {inc.accuracy && (
+                          <span style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#4ade80', fontWeight: 700 }}>
+                            📏 ±{Math.round(inc.accuracy)}m
+                          </span>
+                        )}
+                        {inc.ip_address && (
+                          <span style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#94a3b8', fontFamily: 'monospace' }}>
+                            🌐 IP: {inc.ip_address}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })

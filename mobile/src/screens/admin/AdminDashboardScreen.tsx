@@ -268,26 +268,86 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
               {urgentIncidents.length === 0 ? (
                 <Text style={styles.emptyText}>No open incident alerts at this time.</Text>
               ) : (
-                urgentIncidents.slice(0, 3).map((inc: any) => (
-                  <View key={inc.id} style={styles.incidentRow}>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.incidentTitle}>{inc.category}</Text>
+                urgentIncidents.slice(0, 5).map((inc: any) => (
+                  <TouchableOpacity
+                    key={inc.id}
+                    style={styles.incidentRow}
+                    onPress={() => navigation.navigate('SosIntercept', { incident: inc })}
+                    activeOpacity={0.7}
+                  >
+                    <View style={{ flex: 1, gap: 3 }}>
+                      {/* Category + threat level */}
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <Text style={styles.incidentTitle}>{inc.category}</Text>
+                        {inc.threat_level === 'CODE_RED' && (
+                          <View style={{ backgroundColor: '#dc2626', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 1 }}>
+                            <Text style={{ color: '#fff', fontSize: 8, fontWeight: '900' }}>CODE RED</Text>
+                          </View>
+                        )}
+                      </View>
+                      {/* Truncated description */}
                       <Text style={styles.incidentDesc} numberOfLines={1}>{inc.description}</Text>
+                      {/* Location */}
                       <Text style={styles.incidentLoc}>📍 {inc.location}</Text>
+                      {/* GPS + IP + Battery telemetry badges */}
+                      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4, marginTop: 2 }}>
+                        {inc.latitude && inc.longitude && (
+                          <View style={{ backgroundColor: 'rgba(56,189,248,0.15)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(56,189,248,0.3)' }}>
+                            <Text style={{ color: '#38bdf8', fontSize: 8, fontWeight: '700', fontFamily: 'monospace' }}>
+                              🛰️ {parseFloat(inc.latitude).toFixed(4)}, {parseFloat(inc.longitude).toFixed(4)}
+                            </Text>
+                          </View>
+                        )}
+                        {inc.accuracy && (
+                          <View style={{ backgroundColor: 'rgba(34,197,94,0.1)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)' }}>
+                            <Text style={{ color: '#4ade80', fontSize: 8, fontWeight: '700' }}>±{Math.round(parseFloat(inc.accuracy))}m</Text>
+                          </View>
+                        )}
+                        {inc.ip_address && (
+                          <View style={{ backgroundColor: 'rgba(148,163,184,0.1)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(148,163,184,0.2)' }}>
+                            <Text style={{ color: '#94a3b8', fontSize: 8 }}>🌐 {inc.ip_address}</Text>
+                          </View>
+                        )}
+                        {inc.battery_level != null && (
+                          <View style={{ backgroundColor: inc.battery_level > 20 ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.15)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: inc.battery_level > 20 ? 'rgba(34,197,94,0.3)' : '#ef4444' }}>
+                            <Text style={{ color: inc.battery_level > 20 ? '#4ade80' : '#f87171', fontSize: 8, fontWeight: '800' }}>🔋{inc.battery_level}%</Text>
+                          </View>
+                        )}
+                        {inc.device_model && (
+                          <View style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
+                            <Text style={{ color: '#64748b', fontSize: 8 }}>📱 {inc.device_model}</Text>
+                          </View>
+                        )}
+                      </View>
                     </View>
-                    <TouchableOpacity
-                      onPress={() => {
-                        if (inc.latitude && inc.longitude) {
-                          Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${inc.latitude},${inc.longitude}`);
-                        }
-                      }}
-                      style={styles.mapSmallBtn}
-                    >
-                      <Text style={styles.mapSmallBtnText}>Map</Text>
-                    </TouchableOpacity>
-                  </View>
+                    {/* Right side: Map shortcut + tap indicator */}
+                    <View style={{ alignItems: 'center', gap: 6 }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          const lat = inc.latitude;
+                          const lng = inc.longitude;
+                          if (lat && lng) {
+                            Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`);
+                          }
+                        }}
+                        style={styles.mapSmallBtn}
+                      >
+                        <Text style={styles.mapSmallBtnText}>🧭</Text>
+                      </TouchableOpacity>
+                      <Text style={{ color: '#475569', fontSize: 9 }}>Tap row</Text>
+                      <Text style={{ color: '#475569', fontSize: 9 }}>for full brief</Text>
+                    </View>
+                  </TouchableOpacity>
                 ))
               )}
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SecurityDashboard')}
+                style={{ paddingTop: 8, alignItems: 'center' }}
+              >
+                <Text style={{ color: Colors.gold, fontSize: 11, fontWeight: '700' }}>
+                View Full Agency Feed ➔
+                </Text>
+              </TouchableOpacity>
             </Card>
           </View>
         )}

@@ -80,16 +80,20 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     setLocationStatus('acquiring');
     let lat = null, lng = null, accuracy = null, isGps = false;
 
+    // Helper: fetch with timeout (works on all browsers, avoids AbortSignal.timeout)
+    const fetchWithTimeout = (url, ms = 4000) => {
+      const ctrl = new AbortController();
+      const id = setTimeout(() => ctrl.abort(), ms);
+      return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(id));
+    };
+
     // 1. Try browser Geolocation (prompts the user for permission)
     const gpsResult = await new Promise((resolve) => {
       if (!navigator.geolocation) return resolve(null);
       navigator.geolocation.getCurrentPosition(
         (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy }),
-        (err) => {
-          console.warn('[SOS] GPS denied or unavailable:', err.message);
-          resolve(null);
-        },
-        { enableHighAccuracy: true, timeout: 7000, maximumAge: 0 }
+        (err) => { console.warn('[SOS] GPS denied or unavailable:', err.message); resolve(null); },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     });
 
@@ -100,35 +104,80 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       isGps = true;
     }
 
-    // 2. Fetch public IP (always)
+    // 2. Fetch public IP — try 3 services in sequence
     let ip = 'Unknown';
     try {
-      const ipRes = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(3500) });
-      if (ipRes.ok) { const d = await ipRes.json(); ip = d.ip || ip; }
-    } catch (_) {
+      const r = await fetchWithTimeout('https://api.ipify.org?format=json', 4000);
+      if (r.ok) { const d = await r.json(); ip = d.ip || ip; }
+    } catch (_) {}
+
+    if (ip === 'Unknown') {
       try {
-        const ipRes2 = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3500) });
-        if (ipRes2.ok) { const d2 = await ipRes2.json(); ip = d2.ip || ip; }
-      } catch (__) {}
+        const r2 = await fetchWithTimeout('https://ipapi.co/json/', 4000);
+        if (r2.ok) { const d2 = await r2.json(); ip = d2.ip || ip; }
+      } catch (_) {}
+    }
+
+    if (ip === 'Unknown') {
+      try {
+        const r3 = await fetchWithTimeout('https://api4.my-ip.io/ip.json', 4000);
+        if (r3.ok) { const d3 = await r3.json(); ip = d3.ip || ip; }
+      } catch (_) {}
     }
 
     // 3. IP-based geolocation fallback if GPS failed
     if (!isGps && ip !== 'Unknown') {
+      // Try ipapi.co
       try {
-        const geoRes = await fetch(`https://ipapi.co/${ip}/json/`, { signal: AbortSignal.timeout(4000) });
+        const geoRes = await fetchWithTimeout(`https://ipapi.co/${ip}/json/`, 5000);
         if (geoRes.ok) {
           const gd = await geoRes.json();
-          if (typeof gd.latitude === 'number') {
-            lat = gd.latitude;
-            lng = gd.longitude;
-            accuracy = 500; // ~500m for IP-based
-          }
+          if (typeof gd.latitude === 'number') { lat = gd.latitude; lng = gd.longitude; accuracy = 500; }
         }
       } catch (_) {}
+
+      // Fallback to ipinfo.io
+      if (lat === null) {
+        try {
+          const geoRes2 = await fetchWithTimeout(`https://ipinfo.io/${ip}/json`, 5000);
+          if (geoRes2.ok) {
+            const gd2 = await geoRes2.json();
+            if (gd2.loc) {
+              const [la, lo] = gd2.loc.split(',').map(Number);
+              if (!isNaN(la) && !isNaN(lo)) { lat = la; lng = lo; accuracy = 1000; }
+            }
+          }
+        } catch (_) {}
+      }
     }
 
+    // 4. Browser Device Intelligence
+    const ua = navigator.userAgent || '';
+    const platform = navigator.platform || navigator.userAgentData?.platform || 'Web';
+    const language = navigator.language || 'en';
+    const timezone = Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || 'UTC';
+    const screenW = window.screen?.width || 0;
+    const screenH = window.screen?.height || 0;
+    const screenResolution = screenW && screenH ? `${screenW}x${screenH}` : null;
+
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const networkType = conn?.effectiveType || conn?.type || 'unknown';
+    const networkDownlink = conn?.downlink ? `${conn.downlink}Mbps` : null;
+
+    let batteryLevel = null;
+    try {
+      if (typeof navigator.getBattery === 'function') {
+        const bat = await navigator.getBattery();
+        batteryLevel = Math.round(bat.level * 100);
+      }
+    } catch (_) {}
+
     const mapsUrl = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
-    const loc = { lat, lng, accuracy, ip, mapsUrl, isGps };
+    const loc = {
+      lat, lng, accuracy, ip, mapsUrl, isGps,
+      userAgent: ua, platform, language, timezone,
+      screenResolution, networkType, networkDownlink, batteryLevel,
+    };
     setDeviceLocation(loc);
     locationRef.current = loc;
     setLocationStatus(lat ? (isGps ? 'acquired' : 'acquired_ip') : 'error');
@@ -447,7 +496,16 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       accuracy: loc?.accuracy || null,
       ipAddress: loc?.ip || null,
       googleMapsUrl: loc?.mapsUrl || null,
-      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}). Immediate tactical dispatch required.${loc?.lat ? ` GPS: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)} (±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m).` : ''} ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
+      // Browser device intelligence
+      deviceModel: loc?.platform || 'Web Browser',
+      deviceOs: loc?.userAgent ? (loc.userAgent.includes('Android') ? 'Android' : loc.userAgent.includes('iPhone') || loc.userAgent.includes('iPad') ? 'iOS' : 'Desktop') : 'Web',
+      networkType: loc?.networkType || null,
+      batteryLevel: loc?.batteryLevel ?? null,
+      screenResolution: loc?.screenResolution || null,
+      locale: loc?.language || navigator.language || null,
+      timezone: loc?.timezone || null,
+      appVersion: 'web-portal',
+      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}). Immediate tactical dispatch required.${loc?.lat ? ` GPS: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)} (±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m).` : ''} Network: ${loc?.networkType || '?'}. Battery: ${loc?.batteryLevel != null ? loc.batteryLevel + '%' : '?'}. ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
       reporterName: callerName || 'Citizen SOS Alert',
       reporterPhone: callerPhone || 'Emergency Caller',
       assignedAgency: 'Police / Amotekun Area Command',
@@ -949,6 +1007,30 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>PUBLIC IP</div>
                         <div style={{ color: '#94a3b8', fontWeight: 700, fontFamily: 'monospace' }}>{deviceLocation.ip}</div>
                       </div>
+                      {deviceLocation.networkType && (
+                        <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
+                          <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>NETWORK</div>
+                          <div style={{ color: '#38bdf8', fontWeight: 700 }}>📶 {deviceLocation.networkType.toUpperCase()}{deviceLocation.networkDownlink ? ` · ${deviceLocation.networkDownlink}` : ''}</div>
+                        </div>
+                      )}
+                      {deviceLocation.batteryLevel != null && (
+                        <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
+                          <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>BATTERY</div>
+                          <div style={{ color: deviceLocation.batteryLevel > 20 ? '#4ade80' : '#ef4444', fontWeight: 800 }}>🔋 {deviceLocation.batteryLevel}%</div>
+                        </div>
+                      )}
+                      {deviceLocation.screenResolution && (
+                        <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
+                          <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>SCREEN</div>
+                          <div style={{ color: '#94a3b8', fontWeight: 700 }}>🖥️ {deviceLocation.screenResolution}</div>
+                        </div>
+                      )}
+                      {deviceLocation.timezone && (
+                        <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
+                          <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>TIMEZONE</div>
+                          <div style={{ color: '#94a3b8', fontWeight: 700, fontSize: '0.65rem' }}>🕒 {deviceLocation.timezone}</div>
+                        </div>
+                      )}
                       {deviceLocation.mapsUrl && (
                         <a href={deviceLocation.mapsUrl} target="_blank" rel="noopener noreferrer"
                           style={{ background: 'rgba(22,163,74,0.2)', border: '1px solid #22c55e', padding: '0.35rem 0.5rem', borderRadius: '4px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', color: '#4ade80', fontWeight: 800, fontSize: '0.7rem' }}>
@@ -1062,6 +1144,18 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       <span style={{ color: '#86efac', fontWeight: 800 }}>📡 Live Feeds Transmitting: </span>
                       {cameraEnabled && <span style={{ background: '#ef4444', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700, marginRight: '4px' }}>📹 Camera Snapshots</span>}
                       {audioEnabled && <span style={{ background: '#059669', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700 }}>🎙️ Ambient Audio</span>}
+                    </div>
+                  )}
+                  {/* Device Intelligence row */}
+                  {dispatchedData.deviceModel && (
+                    <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                      <span style={{ background: 'rgba(56,189,248,0.15)', border: '1px solid rgba(56,189,248,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#38bdf8', fontSize: '0.65rem', fontWeight: 700 }}>
+                        📱 {dispatchedData.deviceModel} · {dispatchedData.deviceOs}
+                      </span>
+                      {dispatchedData.networkType && <span style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#4ade80', fontSize: '0.65rem', fontWeight: 700 }}>📶 {dispatchedData.networkType}</span>}
+                      {dispatchedData.batteryLevel != null && <span style={{ background: dispatchedData.batteryLevel > 20 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)', border: `1px solid ${dispatchedData.batteryLevel > 20 ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: '4px', padding: '2px 6px', color: dispatchedData.batteryLevel > 20 ? '#4ade80' : '#f87171', fontSize: '0.65rem', fontWeight: 700 }}>🔋 {dispatchedData.batteryLevel}%</span>}
+                      {dispatchedData.screenResolution && <span style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#94a3b8', fontSize: '0.65rem' }}>🖥️ {dispatchedData.screenResolution}</span>}
+                      {dispatchedData.timezone && <span style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#94a3b8', fontSize: '0.65rem' }}>🕒 {dispatchedData.timezone}</span>}
                     </div>
                   )}
                 </div>

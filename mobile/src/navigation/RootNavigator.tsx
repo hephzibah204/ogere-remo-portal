@@ -41,6 +41,7 @@ import { AdminRegisterScreen } from '../screens/admin/AdminRegisterScreen';
 import { AdminDashboardScreen } from '../screens/admin/AdminDashboardScreen';
 import { AdminAudienceManagerScreen } from '../screens/admin/AdminAudienceManagerScreen';
 import { AdminIdApprovalScreen } from '../screens/admin/AdminIdApprovalScreen';
+import { SosInterceptScreen } from '../screens/admin/SosInterceptScreen';
 
 import * as Application from 'expo-application';
 import Constants from 'expo-constants';
@@ -184,6 +185,7 @@ export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
         <Stack.Screen name="AdminDashboard" component={AdminDashboardScreen} />
         <Stack.Screen name="AdminAudienceManager" component={AdminAudienceManagerScreen} />
         <Stack.Screen name="AdminIdApproval" component={AdminIdApprovalScreen} />
+        <Stack.Screen name="SosIntercept" component={SosInterceptScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

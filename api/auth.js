@@ -85,7 +85,11 @@ export default async function handler(req, res) {
       }
     }
 
-    if (!fullName || !password || (!email && !phone)) {
+    const cleanFullName = (fullName || '').trim();
+    const cleanEmail = email ? email.trim().toLowerCase() : null;
+    const cleanPhone = phone ? phone.trim().replace(/[^\d+]/g, '') : null;
+
+    if (!cleanFullName || !password || (!cleanEmail && !cleanPhone)) {
       return res.status(400).json({
         success: false,
         error: 'Full name, password, and at least email or phone are required.',
@@ -96,7 +100,7 @@ export default async function handler(req, res) {
       // Check if user already exists
       const existing = await sqlQuery(
         'SELECT id, email, phone FROM users WHERE (email IS NOT NULL AND email = $1) OR (phone IS NOT NULL AND phone = $2)',
-        [email || null, phone || null]
+        [cleanEmail || null, cleanPhone || null]
       );
 
       if (existing.length > 0) {
@@ -253,19 +257,21 @@ export default async function handler(req, res) {
 
   // --- 2. USER LOGIN ---
   if (req.method === 'POST' && action === 'login') {
-    const { identifier, password } = req.body || {};
-
-    if (!identifier || !password) {
+    const rawIdent = (identifier || '').trim();
+    if (!rawIdent || !password) {
       return res.status(400).json({
         success: false,
-        error: 'Email/Phone identifier and password are required.',
+        error: 'Email, phone, ID number, or badge identifier and password are required.',
       });
     }
 
+    const cleanIdent = rawIdent.toLowerCase();
+    const cleanPhone = rawIdent.replace(/[^\d+]/g, '');
+
     try {
       const rows = await sqlQuery(
-        'SELECT * FROM users WHERE email = $1 OR phone = $1 LIMIT 1',
-        [identifier]
+        'SELECT * FROM users WHERE LOWER(email) = $1 OR phone = $1 OR LOWER(badge_number) = $1 OR LOWER(id_card_number) = $1 LIMIT 1',
+        [cleanIdent]
       );
 
       if (rows.length === 0) {

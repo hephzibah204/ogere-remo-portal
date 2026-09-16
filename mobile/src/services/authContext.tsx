@@ -128,11 +128,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signIn = async (identifier: string, pass: string) => {
+    const cleanIdent = (identifier || '').trim().toLowerCase();
+    const cleanPhone = cleanIdent.replace(/\D/g, '');
+
     try {
       const res = await fetch(`${API_BASE_URL}/api/auth?action=login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, password: pass }),
+        body: JSON.stringify({ identifier: cleanIdent, password: pass }),
       });
 
       const data = await res.json();
@@ -153,7 +156,71 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       return { success: true };
     } catch (err: any) {
-      return { success: false, error: 'Network error. Please try again when online.' };
+      // Offline fallback authentication
+      try {
+        const rawOffline = await AsyncStorage.getItem('ogere_offline_users');
+        const offlineUsers: any[] = rawOffline ? JSON.parse(rawOffline) : [];
+
+        const found = offlineUsers.find(u => {
+          const uEmail = (u.email || '').toLowerCase().trim();
+          const uPhone = (u.phone || '').replace(/\D/g, '');
+          const uCard = (u.idCardNumber || '').toLowerCase().trim();
+          const matches = uEmail === cleanIdent || (cleanPhone && uPhone === cleanPhone) || uCard === cleanIdent;
+          return matches && u.password === pass;
+        });
+
+        if (found) {
+          const { password: _, ...cleanUser } = found;
+          const mockToken = 'offline_jwt_' + Date.now();
+          setToken(mockToken);
+          setUser(cleanUser);
+          setIsGuest(false);
+          await AsyncStorage.setItem(USER_KEY, JSON.stringify(cleanUser));
+          return { success: true };
+        }
+
+        // Demo citizen fallback
+        if ((cleanIdent === 'adewale.ogunleke@gmail.com' || cleanPhone === '08034512345' || cleanIdent === 'ogr-782910') && pass === 'ogere2026') {
+          const demoCitizen: CitizenUser = {
+            id: 'usr_cit_001',
+            fullName: 'Adewale Babatunde Ogunleke',
+            email: 'adewale.ogunleke@gmail.com',
+            phone: '08034512345',
+            citizenType: 'indigene',
+            subCategoryLabel: 'Indigene · Resident in Ogere',
+            locationSummary: 'Resident in Ogere Remo (Oke-Ogere)',
+            indigeneResidency: 'ogere',
+            quarter: 'Oke-Ogere',
+            compound: 'Kankanbina',
+            idCardNumber: 'OGR-782910',
+            role: 'citizen',
+            isVerified: true,
+            idCard: {
+              id: 'OGR-782910',
+              fullName: 'Adewale Babatunde Ogunleke',
+              cardType: 'indigene',
+              subCategoryLabel: 'Indigene · Resident in Ogere',
+              locationSummary: 'Resident in Ogere Remo (Oke-Ogere)',
+              indigeneResidency: 'ogere',
+              quarter: 'Oke-Ogere',
+              compound: 'Kankanbina',
+              status: 'approved',
+              issuedDate: '2024-01-15',
+              expiryDate: '2027-01-15',
+              verifiedBy: 'HRH Ologere Palace Office',
+              qrCodeUrl: 'https://ogereremo.vercel.app/verify-id/OGR-782910',
+            },
+          };
+          const mockToken = 'demo_citizen_token';
+          setToken(mockToken);
+          setUser(demoCitizen);
+          setIsGuest(false);
+          await AsyncStorage.setItem(USER_KEY, JSON.stringify(demoCitizen));
+          return { success: true };
+        }
+      } catch (_) {}
+
+      return { success: false, error: 'Unable to connect to server. Please check your credentials or internet connection.' };
     }
   };
 
@@ -271,6 +338,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await AsyncStorage.setItem(TOKEN_KEY, mockToken);
     }
     await AsyncStorage.setItem(USER_KEY, JSON.stringify(localUser));
+
+    try {
+      const rawOffline = await AsyncStorage.getItem('ogere_offline_users');
+      const offlineList: any[] = rawOffline ? JSON.parse(rawOffline) : [];
+      offlineList.unshift({ ...localUser, password: formData.password });
+      await AsyncStorage.setItem('ogere_offline_users', JSON.stringify(offlineList));
+    } catch (_) {}
 
     return { success: true };
   };

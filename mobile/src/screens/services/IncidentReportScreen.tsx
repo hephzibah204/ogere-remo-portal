@@ -303,6 +303,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
 
               {deviceLocation ? (
                 <View style={styles.gpsDetailsGrid}>
+                  {/* Location Stats */}
                   <View style={styles.gpsStatItem}>
                     <Text style={styles.gpsStatLabel}>EXACT COORDINATES</Text>
                     <Text style={styles.gpsStatValue}>
@@ -310,21 +311,48 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                     </Text>
                   </View>
                   <View style={styles.gpsStatItem}>
-                    <Text style={styles.gpsStatLabel}>ACCURACY</Text>
+                    <Text style={styles.gpsStatLabel}>GPS ACCURACY</Text>
                     <Text style={[styles.gpsStatValue, { color: deviceLocation.isGpsPrecise ? '#4ade80' : '#fde047' }]}>
-                      {deviceLocation.accuracy ? `±${Math.round(deviceLocation.accuracy)}m (${deviceLocation.isGpsPrecise ? 'Precise GPS' : 'Cell/IP'})` : 'Estimated'}
+                      {deviceLocation.accuracy ? `±${Math.round(deviceLocation.accuracy)}m` : 'Est.'} {deviceLocation.isGpsPrecise ? '(Satellite)' : '(IP/Cell)'}
                     </Text>
                   </View>
                   <View style={styles.gpsStatItem}>
-                    <Text style={styles.gpsStatLabel}>DEVICE PUBLIC IP</Text>
-                    <Text style={styles.gpsStatValue}>
-                      {deviceLocation.ipAddress}
+                    <Text style={styles.gpsStatLabel}>PUBLIC IP ADDRESS</Text>
+                    <Text style={styles.gpsStatValue}>{deviceLocation.ipAddress}</Text>
+                  </View>
+                  {/* Device Intelligence */}
+                  <View style={styles.gpsStatItem}>
+                    <Text style={styles.gpsStatLabel}>DEVICE MODEL</Text>
+                    <Text style={styles.gpsStatValue} numberOfLines={1}>{deviceLocation.device?.deviceModel || 'Unknown'}</Text>
+                  </View>
+                  <View style={styles.gpsStatItem}>
+                    <Text style={styles.gpsStatLabel}>OS VERSION</Text>
+                    <Text style={styles.gpsStatValue}>{(deviceLocation.device?.platform || '?').toUpperCase()} {deviceLocation.device?.osVersion || ''}</Text>
+                  </View>
+                  <View style={styles.gpsStatItem}>
+                    <Text style={styles.gpsStatLabel}>NETWORK</Text>
+                    <Text style={[styles.gpsStatValue, { color: deviceLocation.device?.networkType === 'wifi' ? '#4ade80' : deviceLocation.device?.networkType === 'cellular' ? '#38bdf8' : '#fde047' }]}>
+                      {deviceLocation.device?.networkType === 'cellular'
+                        ? `${(deviceLocation.device?.networkGeneration || 'Cell').toUpperCase()} · ${deviceLocation.device?.carrier || '?'}`
+                        : (deviceLocation.device?.networkType || 'Unknown').toUpperCase()}
                     </Text>
+                  </View>
+                  {deviceLocation.device?.batteryLevel !== null && deviceLocation.device?.batteryLevel !== undefined && (
+                    <View style={styles.gpsStatItem}>
+                      <Text style={styles.gpsStatLabel}>BATTERY</Text>
+                      <Text style={[styles.gpsStatValue, { color: (deviceLocation.device.batteryLevel || 0) > 20 ? '#4ade80' : '#ef4444' }]}>
+                        {deviceLocation.device.batteryLevel}%
+                      </Text>
+                    </View>
+                  )}
+                  <View style={styles.gpsStatItem}>
+                    <Text style={styles.gpsStatLabel}>TIMEZONE</Text>
+                    <Text style={styles.gpsStatValue} numberOfLines={1}>{deviceLocation.device?.timezone || 'UTC'}</Text>
                   </View>
                 </View>
               ) : (
                 <Text style={styles.gpsDetectingText}>
-                  {fetchingLocation ? 'Acquiring satellite lock and network IP...' : 'Tap Refresh GPS to acquire exact satellite coordinates'}
+                  {fetchingLocation ? 'Acquiring satellite lock, IP & device intelligence...' : 'Tap Refresh GPS to acquire exact coordinates & device info'}
                 </Text>
               )}
 

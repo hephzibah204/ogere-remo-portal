@@ -536,7 +536,21 @@ export default async function handler(req, res) {
     const latitude = !isNaN(parsedLat) ? parsedLat : 6.9388;
     const longitude = !isNaN(parsedLng) ? parsedLng : 3.6437;
     const accuracy = body.accuracy ? parseFloat(body.accuracy) : null;
-    const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    const googleMapsUrl = body.googleMapsUrl || `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+    // 3. Device Intelligence
+    const deviceModel = body.deviceModel || null;
+    const deviceOs = body.deviceOs || null;
+    const networkType = body.networkType || null;
+    const networkGeneration = body.networkGeneration || null;
+    const carrier = body.carrier || null;
+    const batteryLevel = body.batteryLevel !== undefined && body.batteryLevel !== null ? parseFloat(body.batteryLevel) : null;
+    const screenResolution = body.screenResolution || null;
+    const locale = body.locale || null;
+    const timezone = body.timezone || null;
+    const appVersion = body.appVersion || null;
+    // User-Agent as fallback device info for web clients
+    const userAgent = req.headers['user-agent'] || null;
 
     const severity = body.severity || (body.category?.includes('🚨') || body.category?.includes('Robbery') || body.isSos ? 'Critical' : 'Medium');
     const threatLevel = body.threatLevel || (severity === 'Critical' ? 'CODE_RED' : severity === 'High' ? 'CODE_ORANGE' : 'CODE_YELLOW');
@@ -565,6 +579,18 @@ export default async function handler(req, res) {
       accuracy,
       ip_address: clientIp,
       google_maps_url: googleMapsUrl,
+      // Device Intelligence fields
+      device_model: deviceModel,
+      device_os: deviceOs,
+      network_type: networkType,
+      network_generation: networkGeneration,
+      carrier,
+      battery_level: batteryLevel,
+      screen_resolution: screenResolution,
+      locale,
+      timezone,
+      app_version: appVersion,
+      user_agent: userAgent,
       description: body.description || body.details || 'Emergency incident alert dispatched from mobile terminal.',
       reporter_name: body.isAnonymous ? 'Anonymous Citizen' : (body.reporterName || 'Concerned Citizen'),
       reporter_phone: body.isAnonymous ? null : (body.reporterPhone || 'N/A'),
@@ -583,12 +609,28 @@ export default async function handler(req, res) {
         ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS ip_address VARCHAR(64);
         ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS google_maps_url TEXT;
         ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS accuracy DOUBLE PRECISION;
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS device_model VARCHAR(128);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS device_os VARCHAR(64);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS network_type VARCHAR(32);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS network_generation VARCHAR(16);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS carrier VARCHAR(64);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS battery_level SMALLINT;
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS screen_resolution VARCHAR(32);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS locale VARCHAR(16);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS timezone VARCHAR(64);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS app_version VARCHAR(32);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS user_agent TEXT;
       `).catch(() => {});
 
       await sqlQuery(
-        `INSERT INTO incident_reports 
-          (id, category, severity, threat_level, is_silent_panic, is_live_tracking, camera_feed_active, audio_feed_active, media_url, media_type, assigned_agency, responding_unit, agency_notes, location, latitude, longitude, description, reporter_name, reporter_phone, ip_address, google_maps_url, accuracy, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
+        `INSERT INTO incident_reports
+          (id, category, severity, threat_level, is_silent_panic, is_live_tracking, camera_feed_active, audio_feed_active,
+           media_url, media_type, assigned_agency, responding_unit, agency_notes, location,
+           latitude, longitude, accuracy, description, reporter_name, reporter_phone,
+           ip_address, google_maps_url,
+           device_model, device_os, network_type, network_generation, carrier,
+           battery_level, screen_resolution, locale, timezone, app_version, user_agent, status)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34)`,
         [
           incidentId,
           newIncident.category,
@@ -606,12 +648,23 @@ export default async function handler(req, res) {
           newIncident.location,
           newIncident.latitude,
           newIncident.longitude,
+          newIncident.accuracy,
           newIncident.description,
           newIncident.reporter_name,
           newIncident.reporter_phone,
           newIncident.ip_address,
           newIncident.google_maps_url,
-          newIncident.accuracy,
+          newIncident.device_model,
+          newIncident.device_os,
+          newIncident.network_type,
+          newIncident.network_generation,
+          newIncident.carrier,
+          newIncident.battery_level,
+          newIncident.screen_resolution,
+          newIncident.locale,
+          newIncident.timezone,
+          newIncident.app_version,
+          newIncident.user_agent,
           'open',
         ]
       ).catch(() => {});

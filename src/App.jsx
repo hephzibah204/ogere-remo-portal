@@ -211,7 +211,9 @@ export default function App() {
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<PostPage />} />
               <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/register" element={<SignUpPage />} />
               <Route path="/signin" element={<SignInPage />} />
+              <Route path="/login" element={<SignInPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/miss-olipakala" element={<MissOlipakalaPage />} />
               <Route path="/timeline" element={<TimelinePage />} />

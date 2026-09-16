@@ -4,6 +4,7 @@ import DonateModal from './DonateModal';
 import SosHeaderModal from './SosHeaderModal';
 import { useState, useEffect } from 'react';
 import { getSaasConfig } from '../services/saasConfig';
+import { getSession } from '../services/auth';
 
 const MENU_GROUPS = [
   {
@@ -78,8 +79,34 @@ export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDonateOpen, setIsDonateOpen] = useState(false);
   const [isSosOpen, setIsSosOpen] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
 
   const currentPage = location.pathname.replace('/', '') || 'home';
+
+  useEffect(() => {
+    getSession().then(u => setAuthUser(u));
+
+    const handleAuthChange = (e) => {
+      setAuthUser(e.detail);
+    };
+    window.addEventListener('ogere-auth-changed', handleAuthChange);
+    return () => window.removeEventListener('ogere-auth-changed', handleAuthChange);
+  }, []);
+
+  useEffect(() => {
+    getSession().then(u => setAuthUser(u));
+  }, [location.pathname]);
+
+  const standalonePages = [
+    { id: 'mobile-preview', label: '📱 Mobile App' },
+    { id: 'quiz', label: '🧠 Heritage Quiz' },
+    { id: 'miss-olipakala', label: '👑 Miss Olipakala' },
+    { id: 'contact', label: 'Contact' },
+    authUser
+      ? { id: 'dashboard', label: `👤 ${authUser.name ? authUser.name.split(' ')[0] : 'Dashboard'}` }
+      : { id: 'signin', label: '🔑 Sign In' },
+    { id: 'admin', label: '⚙ Admin' },
+  ];
 
   useEffect(() => {
     const handleOpenDonate = () => setIsDonateOpen(true);
@@ -238,7 +265,7 @@ export default function Nav() {
               </div>
             ))}
 
-            {STANDALONE_PAGES.map(page => (
+            {standalonePages.map(page => (
               <Link key={page.id} to={`/${page.id}`} className="nav-link" style={{
                 color: isActive(page.id) ? 'var(--gold)' : 'var(--cream)',
                 padding: page.id === 'quiz' ? '0.4rem 0.8rem' : '0.5rem',
@@ -401,7 +428,7 @@ export default function Nav() {
 
                 <div style={{ height: '1px', background: 'rgba(201, 150, 58, 0.2)', margin: '1rem 0' }} />
 
-                {STANDALONE_PAGES.map(page => (
+                {standalonePages.map(page => (
                   <Link key={page.id} to={`/${page.id}`} className="cinzel" style={{ fontSize: '1.1rem', color: isActive(page.id) ? 'var(--gold)' : 'var(--cream)' }}>
                     {page.label}
                   </Link>

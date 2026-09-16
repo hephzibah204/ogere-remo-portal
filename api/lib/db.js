@@ -6,6 +6,74 @@ let neonSql = null;
 
 // Initialize in-memory fallback store
 const fallbackStore = {
+  users: [
+    {
+      id: 'usr_admin_001',
+      full_name: 'Engr. Olufemi Balogun (Admin)',
+      email: 'admin@ogereremo.org',
+      phone: '08033334455',
+      password_hash: 'a1b2c3d4e5f60718:b920824b5f5b276c0ce73a4b033f16f60e0a9c2d550ce6fcb7ffe2243dfb14b1215f9de7a1aa464994c607b8c9f0c229f98b09f4052b4948ff1f20a9bc9fd8d9',
+      citizen_type: 'indigene',
+      quarter: 'Oke-Ogere',
+      compound: 'OCDA Central Command',
+      id_card_number: 'OGR-ADM-101',
+      role: 'ocda_admin',
+      agency_name: 'Ogere Community Development Association (OCDA)',
+      badge_number: 'OCDA-ADM-101',
+      is_officer_verified: true,
+      is_verified: true,
+      created_at: '2024-01-01T00:00:00Z',
+    },
+    {
+      id: 'usr_sec_001',
+      full_name: 'Insp. Kayode Adeleke',
+      email: 'police@ogereremo.org',
+      phone: '08031112233',
+      password_hash: 'a1b2c3d4e5f60718:b920824b5f5b276c0ce73a4b033f16f60e0a9c2d550ce6fcb7ffe2243dfb14b1215f9de7a1aa464994c607b8c9f0c229f98b09f4052b4948ff1f20a9bc9fd8d9',
+      citizen_type: 'officer',
+      quarter: 'Expressway Axis',
+      compound: 'Nigeria Police Force HQ',
+      id_card_number: 'NPF-OG-4891',
+      role: 'security_officer',
+      agency_name: 'Nigeria Police Force (NPF)',
+      badge_number: 'NPF-OG-4891',
+      is_officer_verified: true,
+      is_verified: true,
+      created_at: '2024-01-01T00:00:00Z',
+    },
+    {
+      id: 'usr_pal_001',
+      full_name: 'Prince Olawale Babatunde',
+      email: 'protocol@ogereremo.org',
+      phone: '08032223344',
+      password_hash: 'a1b2c3d4e5f60718:b920824b5f5b276c0ce73a4b033f16f60e0a9c2d550ce6fcb7ffe2243dfb14b1215f9de7a1aa464994c607b8c9f0c229f98b09f4052b4948ff1f20a9bc9fd8d9',
+      citizen_type: 'indigene',
+      quarter: 'Oke-Ogere',
+      compound: 'Aafin Ologere',
+      id_card_number: 'PAL-PRO-002',
+      role: 'palace_protocol',
+      agency_name: 'Aafin Ologere Palace Secretariat',
+      badge_number: 'PAL-PRO-002',
+      is_officer_verified: true,
+      is_verified: true,
+      created_at: '2024-01-01T00:00:00Z',
+    },
+    {
+      id: 'usr_cit_001',
+      full_name: 'Adewale Babatunde Ogunleke',
+      email: 'adewale.ogunleke@gmail.com',
+      phone: '08034512345',
+      password_hash: 'a1b2c3d4e5f60718:b920824b5f5b276c0ce73a4b033f16f60e0a9c2d550ce6fcb7ffe2243dfb14b1215f9de7a1aa464994c607b8c9f0c229f98b09f4052b4948ff1f20a9bc9fd8d9',
+      citizen_type: 'indigene',
+      quarter: 'Oke-Ogere',
+      compound: 'Kankanbina',
+      id_card_number: 'OGR-782910',
+      role: 'citizen',
+      is_officer_verified: false,
+      is_verified: true,
+      created_at: '2024-01-10T10:00:00Z',
+    },
+  ],
   id_cards: [
     {
       id: 'OGR-782910',
@@ -386,6 +454,37 @@ function executeInMemoryFallback(queryText, params = []) {
   if (upper.startsWith('SELECT') && tableName && fallbackStore[tableName]) {
     let rows = [...fallbackStore[tableName]];
 
+    // Check for user login/registration queries
+    if (tableName === 'users') {
+      if (upper.includes('EMAIL = $1 OR PHONE = $1') || upper.includes('PHONE = $1 OR EMAIL = $1')) {
+        const ident = params[0] ? String(params[0]).trim().toLowerCase() : '';
+        const cleanPhone = ident.replace(/\D/g, '');
+        rows = rows.filter(u => {
+          const userEmail = (u.email || '').toLowerCase().trim();
+          const userPhone = (u.phone || '').replace(/\D/g, '');
+          return (ident && userEmail === ident) || (cleanPhone && userPhone === cleanPhone);
+        });
+        return rows;
+      }
+
+      if (upper.includes('EMAIL = $1') || upper.includes('PHONE = $2')) {
+        const emailParam = params[0] ? String(params[0]).trim().toLowerCase() : '';
+        const phoneParam = params[1] ? String(params[1]).replace(/\D/g, '') : '';
+        rows = rows.filter(u => {
+          const userEmail = (u.email || '').toLowerCase().trim();
+          const userPhone = (u.phone || '').replace(/\D/g, '');
+          return (emailParam && userEmail === emailParam) || (phoneParam && userPhone === phoneParam);
+        });
+        return rows;
+      }
+
+      if (upper.includes('WHERE ID =')) {
+        const targetId = params[0] ? String(params[0]).trim() : '';
+        rows = rows.filter(u => u.id === targetId);
+        return rows;
+      }
+    }
+
     // Check for ID filter: WHERE UPPER(id) = $1 or WHERE id = $1
     if (upper.includes('WHERE UPPER(ID) =') || upper.includes('WHERE ID =')) {
       const targetId = params[0] ? String(params[0]).toUpperCase() : '';
@@ -436,6 +535,10 @@ function executeInMemoryFallback(queryText, params = []) {
     const targetId = params[params.length - 1];
     const index = fallbackStore[tableName].findIndex(r => String(r.id).toUpperCase() === String(targetId).toUpperCase());
     if (index >= 0) {
+      if (tableName === 'users' && upper.includes('LAST_LOGIN')) {
+        fallbackStore.users[index].last_login = new Date().toISOString();
+        return [fallbackStore.users[index]];
+      }
       if (params[0]) fallbackStore[tableName][index].status = params[0];
       if (params[1] && tableName === 'id_cards') fallbackStore[tableName][index].verified_by = params[1];
       if (params[1] && tableName === 'royal_audiences') fallbackStore[tableName][index].palace_notes = params[1];
