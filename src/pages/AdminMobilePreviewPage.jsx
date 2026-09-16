@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import sirenSound from '../services/sirenSound';
 
 const SEED_OFFICERS = [
   {
@@ -316,6 +317,7 @@ export default function AdminMobilePreviewPage() {
           },
         }));
         showToast(`🚨 CODE RED ALARM: ${sosItem.category || 'SOS Emergency'} at ${sosItem.location}! Response team dispatched.`);
+        sirenSound.startEmergencySiren();
       }
     };
 
@@ -323,6 +325,7 @@ export default function AdminMobilePreviewPage() {
     return () => {
       clearInterval(interval);
       window.removeEventListener('ogere-sos-triggered', handleSosEvent);
+      sirenSound.stop();
     };
   }, []);
 

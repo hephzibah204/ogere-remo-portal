@@ -15,6 +15,9 @@ let memoryIncidents = [
     location: 'KM 67 Tollgate Expressway Corridor, Ogere Remo',
     latitude: 6.9388,
     longitude: 3.6437,
+    accuracy: 4.5,
+    ip_address: '197.210.54.12',
+    google_maps_url: 'https://www.google.com/maps?q=6.9388,3.6437',
     description: 'Armed robbery beacon triggered along expressway bypass. Intercept team en route.',
     reporter_name: 'Concerned Motorist',
     reporter_phone: '08033221144',
@@ -34,6 +37,9 @@ let memoryIncidents = [
     location: 'Ogere Trailer Park South Gate',
     latitude: 6.9366,
     longitude: 3.6344,
+    accuracy: 8.0,
+    ip_address: '105.112.98.45',
+    google_maps_url: 'https://www.google.com/maps?q=6.9366,3.6344',
     description: 'Diesel truck overheating at truck parking depot.',
     reporter_name: 'Depot Marshal',
     reporter_phone: '08099887766',
@@ -117,11 +123,12 @@ export default async function handler(req, res) {
           [incidentId, latitude, longitude, heading || null, speed || null, accuracy || null]
         ).catch(() => {});
 
+        const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
         await sqlQuery(
           `UPDATE incident_reports
-           SET latitude = $1, longitude = $2, last_ping_at = CURRENT_TIMESTAMP, is_live_tracking = TRUE
-           WHERE id = $3`,
-          [latitude, longitude, incidentId]
+           SET latitude = $1, longitude = $2, accuracy = $3, google_maps_url = $4, last_ping_at = CURRENT_TIMESTAMP, is_live_tracking = TRUE
+           WHERE id = $5`,
+          [latitude, longitude, accuracy || null, mapsUrl, incidentId]
         ).catch(() => {});
       } catch (_) {}
 
@@ -130,6 +137,8 @@ export default async function handler(req, res) {
       if (inc) {
         inc.latitude = parseFloat(latitude);
         inc.longitude = parseFloat(longitude);
+        inc.accuracy = accuracy ? parseFloat(accuracy) : null;
+        inc.google_maps_url = `https://www.google.com/maps?q=${latitude},${longitude}`;
         inc.last_ping_at = ping.created_at;
         inc.is_live_tracking = true;
       }
@@ -262,11 +271,14 @@ export default async function handler(req, res) {
           memoryIncidents.unshift(duressIncident);
           if (esc) esc.status = 'duress_triggered';
 
+          duressIncident.ip_address = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || '127.0.0.1';
+          duressIncident.google_maps_url = `https://www.google.com/maps?q=${duressIncident.latitude},${duressIncident.longitude}`;
+
           try {
             await sqlQuery(
               `INSERT INTO incident_reports 
-                (id, category, severity, threat_level, is_silent_panic, is_live_tracking, assigned_agency, responding_unit, location, latitude, longitude, description, reporter_name, status)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
+                (id, category, severity, threat_level, is_silent_panic, is_live_tracking, assigned_agency, responding_unit, location, latitude, longitude, description, reporter_name, ip_address, google_maps_url, status)
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
               [
                 incidentId,
                 duressIncident.category,
@@ -281,6 +293,8 @@ export default async function handler(req, res) {
                 duressIncident.longitude,
                 duressIncident.description,
                 'Covert Panic Beacon',
+                duressIncident.ip_address,
+                duressIncident.google_maps_url,
                 'open',
               ]
             ).catch(() => {});
@@ -506,6 +520,24 @@ export default async function handler(req, res) {
     const body = req.body || {};
     const incidentId = body.id || `INC-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
+    // 1. Extract Real Client IP Address
+    const rawIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+                  req.headers['x-real-ip'] ||
+                  req.socket?.remoteAddress ||
+                  req.connection?.remoteAddress ||
+                  body.ipAddress ||
+                  body.ip_address ||
+                  '127.0.0.1';
+    const clientIp = rawIp.replace(/^::ffff:/, '');
+
+    // 2. Exact GPS Coordinates & Google Maps Link
+    const parsedLat = parseFloat(body.latitude ?? body.lat);
+    const parsedLng = parseFloat(body.longitude ?? body.lng);
+    const latitude = !isNaN(parsedLat) ? parsedLat : 6.9388;
+    const longitude = !isNaN(parsedLng) ? parsedLng : 3.6437;
+    const accuracy = body.accuracy ? parseFloat(body.accuracy) : null;
+    const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
     const severity = body.severity || (body.category?.includes('🚨') || body.category?.includes('Robbery') || body.isSos ? 'Critical' : 'Medium');
     const threatLevel = body.threatLevel || (severity === 'Critical' ? 'CODE_RED' : severity === 'High' ? 'CODE_ORANGE' : 'CODE_YELLOW');
     const cameraFeedActive = Boolean(body.cameraFeedActive || body.camera_feed_active || body.hasLiveCamera);
@@ -528,8 +560,11 @@ export default async function handler(req, res) {
       responding_unit: body.respondingUnit || 'Dispatched Intercept Unit',
       agency_notes: body.agencyNotes || 'Incident received and logged into Ogere Joint Command Center.',
       location: body.location || body.landmark || 'Ogere Remo Corridor',
-      latitude: body.latitude || 6.9388,
-      longitude: body.longitude || 3.6437,
+      latitude,
+      longitude,
+      accuracy,
+      ip_address: clientIp,
+      google_maps_url: googleMapsUrl,
       description: body.description || body.details || 'Emergency incident alert dispatched from mobile terminal.',
       reporter_name: body.isAnonymous ? 'Anonymous Citizen' : (body.reporterName || 'Concerned Citizen'),
       reporter_phone: body.isAnonymous ? null : (body.reporterPhone || 'N/A'),
@@ -545,12 +580,15 @@ export default async function handler(req, res) {
         ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS audio_feed_active BOOLEAN DEFAULT FALSE;
         ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS media_url TEXT;
         ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS media_type VARCHAR(32);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS ip_address VARCHAR(64);
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS google_maps_url TEXT;
+        ALTER TABLE incident_reports ADD COLUMN IF NOT EXISTS accuracy DOUBLE PRECISION;
       `).catch(() => {});
 
       await sqlQuery(
         `INSERT INTO incident_reports 
-          (id, category, severity, threat_level, is_silent_panic, is_live_tracking, camera_feed_active, audio_feed_active, media_url, media_type, assigned_agency, responding_unit, agency_notes, location, latitude, longitude, description, reporter_name, reporter_phone, status)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`,
+          (id, category, severity, threat_level, is_silent_panic, is_live_tracking, camera_feed_active, audio_feed_active, media_url, media_type, assigned_agency, responding_unit, agency_notes, location, latitude, longitude, description, reporter_name, reporter_phone, ip_address, google_maps_url, accuracy, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
         [
           incidentId,
           newIncident.category,
@@ -571,6 +609,9 @@ export default async function handler(req, res) {
           newIncident.description,
           newIncident.reporter_name,
           newIncident.reporter_phone,
+          newIncident.ip_address,
+          newIncident.google_maps_url,
+          newIncident.accuracy,
           'open',
         ]
       ).catch(() => {});

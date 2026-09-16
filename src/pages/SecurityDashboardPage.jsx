@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import SEO from '../components/SEO';
 import Section from '../components/Section';
+import sirenSound from '../services/sirenSound';
 
 const AGENCIES = [
   { id: 'all', name: 'All Security Agencies', icon: '🌐' },
@@ -79,65 +80,17 @@ export default function SecurityDashboardPage() {
 
   // Stop any currently looping alarm
   const stopAlarm = () => {
-    if (alarmIntervalRef.current) {
-      clearInterval(alarmIntervalRef.current);
-      alarmIntervalRef.current = null;
-    }
+    sirenSound.stop();
   };
 
-  // Play a single siren wail cycle (police wail: low→high→low over 0.8s)
-  const playSirenCycle = (ctx, startTime) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sawtooth';
-    const t = startTime;
-    // Wail: 650Hz → 1350Hz → 650Hz (full police siren sweep)
-    osc.frequency.setValueAtTime(650, t);
-    osc.frequency.linearRampToValueAtTime(1350, t + 0.4);
-    osc.frequency.linearRampToValueAtTime(650, t + 0.8);
-    // Loud gain: 0.45 peak
-    gain.gain.setValueAtTime(0.0, t);
-    gain.gain.linearRampToValueAtTime(0.45, t + 0.05);
-    gain.gain.setValueAtTime(0.45, t + 0.75);
-    gain.gain.linearRampToValueAtTime(0.0, t + 0.8);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(t);
-    osc.stop(t + 0.82);
-  };
-
-  // Trigger a repeating loud alarm for CODE_RED (loops every 1.2s until stopAlarm() called)
+  // Trigger a repeating loud alarm for CODE_RED or brief chime
   const triggerAudioAlarm = (isCodeRed = false) => {
     if (!audioEnabled) return;
     try {
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      const ctx = audioCtxRef.current;
-      if (ctx.state === 'suspended') ctx.resume();
-
       if (isCodeRed) {
-        // CODE RED: Continuous looping alarm — 4 rapid cycles then pause, repeat
-        stopAlarm(); // clear any existing loop
-        let cycle = 0;
-        const playBurst = () => {
-          if (!audioCtxRef.current) return;
-          const now = audioCtxRef.current.currentTime;
-          // Play 3 rapid cycles (0.8s each, 0.05s gap = 2.55s burst)
-          for (let i = 0; i < 3; i++) {
-            playSirenCycle(audioCtxRef.current, now + i * 0.85);
-          }
-          cycle++;
-        };
-        playBurst(); // immediate first burst
-        alarmIntervalRef.current = setInterval(playBurst, 3000); // repeat every 3s
+        sirenSound.startEmergencySiren();
       } else {
-        // CODE ORANGE / YELLOW: single 2-cycle alert tone
-        stopAlarm();
-        const now = ctx.currentTime;
-        for (let i = 0; i < 2; i++) {
-          playSirenCycle(ctx, now + i * 0.85);
-        }
+        sirenSound.playTestChime();
       }
     } catch (_) {}
   };

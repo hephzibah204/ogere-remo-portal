@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import OfficerMobilePhone from '../components/OfficerMobilePhone';
+import sirenSound from '../services/sirenSound';
 
 const SEED_NEWS = [
   {
@@ -46,6 +47,13 @@ export default function MobilePreviewPage() {
   const [activeServiceScreen, setActiveServiceScreen] = useState(null); // null, 'walk', 'report', 'guardians', 'whistle', 'id', 'audience'
   const [deviceFrame, setDeviceFrame] = useState('iphone'); // 'iphone', 'android', 'none'
   const [previewMode, setPreviewMode] = useState('dual'); // 'dual', 'citizen', 'officer'
+  const [sirenActive, setSirenActive] = useState(false);
+
+  useEffect(() => {
+    const unsub = sirenSound.subscribe(({ isPlaying }) => setSirenActive(isPlaying));
+    return unsub;
+  }, []);
+
   const [isEscortActive, setIsEscortActive] = useState(false);
   const [escortSeconds, setEscortSeconds] = useState(1200); // 20 mins
   const [escortPin, setEscortPin] = useState('');
@@ -125,7 +133,8 @@ export default function MobilePreviewPage() {
       });
     } catch (_) {}
 
-    // Dispatch global window event so Security Dashboard alarms sound in live presentations
+    // Unlock audio context on user click and trigger security siren alarm
+    sirenSound.unlockAudio();
     window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: payload }));
 
     setIsSubmittingSos(false);
@@ -204,6 +213,7 @@ export default function MobilePreviewPage() {
         });
       } catch (_) {}
 
+      sirenSound.unlockAudio();
       window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: duressPayload }));
 
       alert('Safe arrival confirmed. Thank you for using Walk With Me. Your session has been safely concluded.');
@@ -358,8 +368,52 @@ export default function MobilePreviewPage() {
             >
               👑 Replay Splash
             </button>
+
+              {sirenActive ? (
+                <button
+                  type="button"
+                  onClick={() => sirenSound.stop()}
+                  style={{
+                    background: '#dc2626',
+                    color: '#ffffff',
+                    border: '1px solid #ef4444',
+                    padding: '6px 14px',
+                    borderRadius: '20px',
+                    fontSize: '0.74rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 0 15px rgba(239,68,68,0.7)',
+                  }}
+                >
+                  🚨 Mute Siren
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => sirenSound.playTestChime()}
+                  title="Test security officer siren wail"
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.15)',
+                    color: '#fca5a5',
+                    border: '1px solid rgba(239, 68, 68, 0.4)',
+                    padding: '6px 14px',
+                    borderRadius: '20px',
+                    fontSize: '0.74rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  🔊 Test Siren
+                </button>
+              )}
+            </div>
           </div>
-        </div>
 
         {/* Distraction-Free Display: Only Citizen & Officer Previews */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '2.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>

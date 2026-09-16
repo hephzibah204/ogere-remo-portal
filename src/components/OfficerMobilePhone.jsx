@@ -1,4 +1,5 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import sirenSound from '../services/sirenSound';
 
 const SEED_OFFICERS = [
   {
@@ -50,6 +51,16 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
   const [activeScreen, setActiveScreen] = useState('dashboard');
   const [currentRole, setCurrentRole] = useState('security_officer');
   const [currentOfficer, setCurrentOfficer] = useState(SEED_OFFICERS[0]);
+  const [isSirenActive, setIsSirenActive] = useState(false);
+  const [isSirenMuted, setIsSirenMuted] = useState(false);
+
+  useEffect(() => {
+    const unsub = sirenSound.subscribe(({ isPlaying, isMuted }) => {
+      setIsSirenActive(isPlaying);
+      setIsSirenMuted(isMuted);
+    });
+    return unsub;
+  }, []);
 
   const [stats, setStats] = useState({
     incidents: { total: 14, code_red: 1, open_count: 3, dispatched_count: 2 },
@@ -164,9 +175,17 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
     const handleSosEvent = (e) => {
       const sosItem = e.detail;
       if (sosItem) {
+        // Automatically switch to security officer view so alert is front and center
+        setCurrentRole('security_officer');
+        setCurrentOfficer(SEED_OFFICERS[0]);
+        setActiveScreen('dashboard');
+
+        // TRIGGER HIGH-DECIBEL SIREN ALARM FOR SECURITY
+        sirenSound.startEmergencySiren();
+
         setIncidents((prev) => [
           {
-            id: sosItem.id,
+            id: sosItem.id || `INC-${Date.now().toString().slice(-4)}`,
             threat_level: 'CODE_RED',
             category: sosItem.category || '🚨 SOS Emergency Panic',
             location: sosItem.location || 'Ogere Remo Corridor',
@@ -196,6 +215,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
     window.addEventListener('ogere-sos-triggered', handleSosEvent);
     return () => {
       window.removeEventListener('ogere-sos-triggered', handleSosEvent);
+      sirenSound.stop();
     };
   }, []);
 
@@ -206,8 +226,15 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         height: '760px',
         background: '#0c0604',
         borderRadius: deviceFrame === 'iphone' ? '48px' : deviceFrame === 'android' ? '32px' : '14px',
-        border: deviceFrame === 'none' ? '2px solid rgba(201,150,58,0.4)' : '10px solid #1e293b',
-        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.9), 0 0 25px rgba(201,150,58,0.2)',
+        border: isSirenActive
+          ? '10px solid #ef4444'
+          : deviceFrame === 'none'
+          ? '2px solid rgba(201,150,58,0.4)'
+          : '10px solid #1e293b',
+        boxShadow: isSirenActive
+          ? '0 0 50px rgba(239, 68, 68, 0.95), 0 25px 50px -12px rgba(0,0,0,0.9)'
+          : '0 25px 50px -12px rgba(0,0,0,0.9), 0 0 25px rgba(201,150,58,0.2)',
+        transition: 'all 0.25s ease',
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -233,7 +260,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             padding: '0 10px',
           }}
         >
-          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#dc2626' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: isSirenActive ? '#ef4444' : '#dc2626' }} />
           <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#334155' }} />
         </div>
       )}
@@ -258,6 +285,104 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           <span>100%</span>
         </div>
       </div>
+
+      {/* High-Decibel Siren Alert HUD */}
+      {isSirenActive ? (
+        <div
+          style={{
+            background: 'linear-gradient(90deg, #b91c1c 0%, #dc2626 50%, #b91c1c 100%)',
+            color: '#ffffff',
+            padding: '7px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            zIndex: 30,
+            boxShadow: '0 4px 14px rgba(220, 38, 38, 0.6)',
+            borderBottom: '1px solid #f87171',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '1.05rem' }}>🚨</span>
+            <div>
+              <div style={{ fontSize: '0.72rem', fontWeight: 900, letterSpacing: '0.04em' }}>
+                CODE RED SIREN ACTIVE!
+              </div>
+              <div style={{ fontSize: '0.58rem', color: '#fecaca' }}>
+                Tactical Rapid Intercept Alert
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => sirenSound.stop()}
+            style={{
+              background: '#ffffff',
+              color: '#b91c1c',
+              border: 'none',
+              padding: '4px 9px',
+              borderRadius: '6px',
+              fontSize: '0.66rem',
+              fontWeight: 900,
+              cursor: 'pointer',
+              boxShadow: '0 2px 5px rgba(0,0,0,0.3)',
+            }}
+          >
+            🔇 Silence
+          </button>
+        </div>
+      ) : (
+        <div
+          style={{
+            background: 'rgba(239, 68, 68, 0.1)',
+            borderBottom: '1px solid rgba(239, 68, 68, 0.22)',
+            padding: '4px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '0.64rem',
+            zIndex: 10,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#fca5a5' }}>
+            <span>🔊</span>
+            <span style={{ fontWeight: 800 }}>SECURITY SIREN ARMED</span>
+          </div>
+          <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+            <button
+              type="button"
+              onClick={() => sirenSound.playTestChime()}
+              title="Test the police siren wail"
+              style={{
+                background: 'rgba(239, 68, 68, 0.25)',
+                color: '#fecaca',
+                border: '1px solid rgba(239, 68, 68, 0.45)',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                fontSize: '0.58rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              ▶ Test Siren
+            </button>
+            <button
+              type="button"
+              onClick={() => sirenSound.toggleMute()}
+              style={{
+                background: isSirenMuted ? '#4b5563' : 'rgba(255, 255, 255, 0.1)',
+                color: isSirenMuted ? '#cbd5e1' : '#ffffff',
+                border: 'none',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                fontSize: '0.58rem',
+                cursor: 'pointer',
+              }}
+            >
+              {isSirenMuted ? '🔕 Muted' : '🔔 Mute'}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Officer Header Strip */}
       <div
