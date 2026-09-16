@@ -71,6 +71,82 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const [countdown, setCountdown] = useState(3);
   const [dispatchedData, setDispatchedData] = useState(null);
 
+  // ─── Real GPS & IP Telemetry (Reporter Location) ─────────────────────────────
+  const [deviceLocation, setDeviceLocation] = useState(null); // { lat, lng, accuracy, ip, mapsUrl, isGps }
+  const [locationStatus, setLocationStatus] = useState('idle'); // idle, acquiring, acquired, denied, error
+  const locationRef = useRef(null); // keeps latest location for use in executeSosDispatch
+
+  const acquireExactLocation = async () => {
+    setLocationStatus('acquiring');
+    let lat = null, lng = null, accuracy = null, isGps = false;
+
+    // 1. Try browser Geolocation (prompts the user for permission)
+    const gpsResult = await new Promise((resolve) => {
+      if (!navigator.geolocation) return resolve(null);
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy }),
+        (err) => {
+          console.warn('[SOS] GPS denied or unavailable:', err.message);
+          resolve(null);
+        },
+        { enableHighAccuracy: true, timeout: 7000, maximumAge: 0 }
+      );
+    });
+
+    if (gpsResult) {
+      lat = gpsResult.lat;
+      lng = gpsResult.lng;
+      accuracy = gpsResult.accuracy;
+      isGps = true;
+    }
+
+    // 2. Fetch public IP (always)
+    let ip = 'Unknown';
+    try {
+      const ipRes = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(3500) });
+      if (ipRes.ok) { const d = await ipRes.json(); ip = d.ip || ip; }
+    } catch (_) {
+      try {
+        const ipRes2 = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3500) });
+        if (ipRes2.ok) { const d2 = await ipRes2.json(); ip = d2.ip || ip; }
+      } catch (__) {}
+    }
+
+    // 3. IP-based geolocation fallback if GPS failed
+    if (!isGps && ip !== 'Unknown') {
+      try {
+        const geoRes = await fetch(`https://ipapi.co/${ip}/json/`, { signal: AbortSignal.timeout(4000) });
+        if (geoRes.ok) {
+          const gd = await geoRes.json();
+          if (typeof gd.latitude === 'number') {
+            lat = gd.latitude;
+            lng = gd.longitude;
+            accuracy = 500; // ~500m for IP-based
+          }
+        }
+      } catch (_) {}
+    }
+
+    const mapsUrl = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
+    const loc = { lat, lng, accuracy, ip, mapsUrl, isGps };
+    setDeviceLocation(loc);
+    locationRef.current = loc;
+    setLocationStatus(lat ? (isGps ? 'acquired' : 'acquired_ip') : 'error');
+    return loc;
+  };
+
+  // Acquire location on modal open
+  useEffect(() => {
+    if (isOpen && locationStatus === 'idle') {
+      acquireExactLocation();
+    }
+    if (!isOpen) {
+      setLocationStatus('idle');
+      setDeviceLocation(null);
+      locationRef.current = null;
+    }
+  }, [isOpen]);
+
   // Live Camera & Audio Streaming States
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(false);
@@ -352,6 +428,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     const incidentId = `SOS-${Date.now().toString().slice(-6)}`;
     const initialSnapshot = captureSnapshot();
 
+    // Use live-acquired GPS/IP — re-acquire if not ready yet
+    let loc = locationRef.current;
+    if (!loc) {
+      loc = await acquireExactLocation();
+    }
+
     const newSos = {
       id: incidentId,
       title: `🚨 CRITICAL SOS PANIC: ${sector}`,
@@ -359,7 +441,13 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       severity: 'CRITICAL_DISPATCH',
       threatLevel: 'CODE_RED',
       location: sector,
-      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}). Immediate tactical dispatch required. ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
+      // Real GPS telemetry — precise latitude/longitude from device
+      latitude: loc?.lat || null,
+      longitude: loc?.lng || null,
+      accuracy: loc?.accuracy || null,
+      ipAddress: loc?.ip || null,
+      googleMapsUrl: loc?.mapsUrl || null,
+      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}). Immediate tactical dispatch required.${loc?.lat ? ` GPS: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)} (±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m).` : ''} ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
       reporterName: callerName || 'Citizen SOS Alert',
       reporterPhone: callerPhone || 'Emergency Caller',
       assignedAgency: 'Police / Amotekun Area Command',
@@ -414,6 +502,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     setIsWalking(true);
     setWalkSecondsLeft(walkDuration * 60);
 
+    const walkLoc = locationRef.current;
     const walkIncident = {
       id: `WALK-${Date.now().toString().slice(-6)}`,
       title: `🛡️ Virtual Escort Active: ${walkOrigin} → ${walkDest}`,
@@ -421,7 +510,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       severity: 'Monitoring',
       threatLevel: 'CODE_YELLOW',
       location: `${walkOrigin} → ${walkDest}`,
-      description: `Virtual Escort activated for ${walkDuration} mins. Emergency contact: ${walkContact || 'Palace Night Watch'}.`,
+      latitude: walkLoc?.lat || null,
+      longitude: walkLoc?.lng || null,
+      accuracy: walkLoc?.accuracy || null,
+      ipAddress: walkLoc?.ip || null,
+      googleMapsUrl: walkLoc?.mapsUrl || null,
+      description: `Virtual Escort activated for ${walkDuration} mins. Emergency contact: ${walkContact || 'Palace Night Watch'}.${walkLoc?.lat ? ` Start GPS: ${walkLoc.lat.toFixed(5)}, ${walkLoc.lng.toFixed(5)}.` : ''}`,
       reporterName: callerName || 'Walking Citizen',
       reporterPhone: callerPhone || 'Walk Contact',
       status: 'active_escort',
@@ -444,6 +538,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
   const handleWalkDistress = (reason = 'USER_PANIC') => {
     setIsWalking(false);
+    const distressLoc = locationRef.current;
     const distressIncident = {
       id: `WALK-PANIC-${Date.now().toString().slice(-6)}`,
       title: `🚨 VIRTUAL ESCORT DISTRESS: ${walkOrigin} → ${walkDest}`,
@@ -451,7 +546,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       severity: 'CRITICAL_DISPATCH',
       threatLevel: 'CODE_RED',
       location: `${walkOrigin} → ${walkDest}`,
-      description: `DISTRESS ALERT from Virtual Escort (${reason}). User did not check in safely. Immediate patrol intercept needed.`,
+      latitude: distressLoc?.lat || null,
+      longitude: distressLoc?.lng || null,
+      accuracy: distressLoc?.accuracy || null,
+      ipAddress: distressLoc?.ip || null,
+      googleMapsUrl: distressLoc?.mapsUrl || null,
+      description: `DISTRESS ALERT from Virtual Escort (${reason}). User did not check in safely. Immediate patrol intercept needed.${distressLoc?.lat ? ` Last GPS: ${distressLoc.lat.toFixed(5)}, ${distressLoc.lng.toFixed(5)}.` : ''}`,
       reporterName: callerName || 'Walking Citizen in Danger',
       reporterPhone: callerPhone || walkContact || 'Emergency Contact',
       status: 'CRITICAL_DISPATCH',
@@ -816,6 +916,54 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                   )}
                 </div>
 
+                {/* ═══ Real GPS & IP Telemetry Status Banner ═══ */}
+                <div style={{ margin: '0.8rem 0', border: '1px solid', borderRadius: '8px', padding: '0.8rem',
+                  borderColor: locationStatus === 'acquired' ? '#22c55e' : locationStatus === 'acquired_ip' ? '#f59e0b' : locationStatus === 'acquiring' ? '#38bdf8' : 'rgba(239,68,68,0.5)',
+                  background: locationStatus === 'acquired' ? 'rgba(5,46,22,0.6)' : locationStatus === 'acquiring' ? 'rgba(15,23,42,0.8)' : 'rgba(15,23,42,0.8)',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 800,
+                      color: locationStatus === 'acquired' ? '#4ade80' : locationStatus === 'acquired_ip' ? '#fde047' : locationStatus === 'acquiring' ? '#38bdf8' : '#f87171'
+                    }}>
+                      🛰️ {locationStatus === 'acquired' ? 'EXACT GPS LOCKED' : locationStatus === 'acquired_ip' ? 'IP-BASED LOCATION ESTIMATED' : locationStatus === 'acquiring' ? 'ACQUIRING SATELLITE LOCK...' : 'LOCATION NOT DETECTED'}
+                    </span>
+                    {locationStatus !== 'acquiring' && (
+                      <button onClick={acquireExactLocation} style={{ background: 'rgba(56,189,248,0.15)', border: '1px solid #38bdf8', borderRadius: '4px', padding: '2px 8px', color: '#38bdf8', fontSize: '0.65rem', fontWeight: 800, cursor: 'pointer' }}>
+                        🔄 Refresh
+                      </button>
+                    )}
+                  </div>
+                  {deviceLocation?.lat ? (
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', fontSize: '0.7rem' }}>
+                      <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
+                        <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>COORDINATES</div>
+                        <div style={{ color: '#ffffff', fontWeight: 800, fontFamily: 'monospace' }}>{deviceLocation.lat.toFixed(5)}°N, {deviceLocation.lng.toFixed(5)}°E</div>
+                      </div>
+                      <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
+                        <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>ACCURACY</div>
+                        <div style={{ color: locationStatus === 'acquired' ? '#4ade80' : '#fde047', fontWeight: 800 }}>
+                          {deviceLocation.accuracy ? `±${Math.round(deviceLocation.accuracy)}m` : 'Est.'} ({locationStatus === 'acquired' ? 'Precise GPS' : 'Cell/IP'})
+                        </div>
+                      </div>
+                      <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
+                        <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>PUBLIC IP</div>
+                        <div style={{ color: '#94a3b8', fontWeight: 700, fontFamily: 'monospace' }}>{deviceLocation.ip}</div>
+                      </div>
+                      {deviceLocation.mapsUrl && (
+                        <a href={deviceLocation.mapsUrl} target="_blank" rel="noopener noreferrer"
+                          style={{ background: 'rgba(22,163,74,0.2)', border: '1px solid #22c55e', padding: '0.35rem 0.5rem', borderRadius: '4px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', color: '#4ade80', fontWeight: 800, fontSize: '0.7rem' }}>
+                          🗺️ Preview on Google Maps
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+                      {locationStatus === 'acquiring' ? '⏳ Contacting GPS satellites and IP geolocation services...' :
+                       'ℹ️ Allow location access when prompted to help police find you faster.'}
+                    </div>
+                  )}
+                </div>
+
                 {/* Big Red Panic Button */}
                 <div style={{ textAlign: 'center', margin: '1.5rem 0' }}>
                   <button
@@ -893,6 +1041,20 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
                 <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: '8px', padding: '1rem', textAlign: 'left', marginBottom: '1.2rem', fontSize: '0.8rem', display: 'grid', gap: '0.4rem' }}>
                   <div>📍 <strong>Location:</strong> {dispatchedData.location}</div>
+                  {dispatchedData.latitude && dispatchedData.longitude && (
+                    <div>🎯 <strong>GPS Coordinates:</strong> <span style={{ fontFamily: 'monospace', color: '#38bdf8' }}>{Number(dispatchedData.latitude).toFixed(5)}°N, {Number(dispatchedData.longitude).toFixed(5)}°E {dispatchedData.accuracy ? `(±${Math.round(dispatchedData.accuracy)}m)` : ''}</span></div>
+                  )}
+                  {dispatchedData.ipAddress && (
+                    <div>🌐 <strong>Reporter IP:</strong> <span style={{ fontFamily: 'monospace', color: '#94a3b8' }}>{dispatchedData.ipAddress}</span></div>
+                  )}
+                  {dispatchedData.googleMapsUrl && (
+                    <div>
+                      <a href={dispatchedData.googleMapsUrl} target="_blank" rel="noopener noreferrer"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(22,163,74,0.2)', border: '1px solid #22c55e', borderRadius: '4px', padding: '3px 10px', color: '#4ade80', fontWeight: 800, textDecoration: 'none', fontSize: '0.75rem' }}>
+                        🗺️ Open Reporter Location on Google Maps →
+                      </a>
+                    </div>
+                  )}
                   <div>🚨 <strong>Status:</strong> <span style={{ color: '#ef4444', fontWeight: 800 }}>CODE RED — TACTICAL UNITS ALERTED</span></div>
                   <div>🛡️ <strong>Agencies Notified:</strong> Ogere Police Command, So-Safe / Amotekun Corps, Palace Rapid Vigilante</div>
                   {(cameraEnabled || audioEnabled) && (

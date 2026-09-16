@@ -213,6 +213,27 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
               <Text style={styles.landmarkText}>📍 {incident.landmark}</Text>
               <Text style={styles.timeText}>🕒 Reported: {incident.timestamp}</Text>
 
+              {/* Coordinates & Google Maps Button */}
+              <View style={styles.coordBox}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.coordLabel}>EXACT LOCATION COORDINATES</Text>
+                  <Text style={styles.coordValue}>{incident.coordinates}</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.mapsBtn}
+                  onPress={() => {
+                    const urlMap = `https://www.google.com/maps?q=${incident.coordinates.replace(/[^\d.,\s-]/g, '').trim().split(/\s*,\s*/).join(',')}&z=18`;
+                    Linking.openURL(
+                      incident.isLiveTracking
+                        ? `https://www.google.com/maps/dir/?api=1&destination=${incident.coordinates.replace(/[^\d.,\s-]/g, '').trim().split(/\s*,\s*/).join(',')}`
+                        : urlMap
+                    ).catch(() => Alert.alert('Google Maps', `Coordinates: ${incident.coordinates}`));
+                  }}
+                >
+                  <Text style={styles.mapsBtnText}>{incident.isLiveTracking ? '⚡ Navigate' : '🗺️ View Map'}</Text>
+                </TouchableOpacity>
+              </View>
+
               {/* Progress Flow Pipeline */}
               <View style={styles.stepperContainer}>
                 {[
@@ -528,6 +549,43 @@ const styles = StyleSheet.create({
   callBtnText: {
     color: '#ffffff',
     fontSize: 12,
+    fontWeight: '800',
+  },
+  coordBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#0f172a',
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: '#38bdf8',
+    padding: 10,
+    marginBottom: 14,
+    gap: 8,
+  },
+  coordLabel: {
+    fontSize: 9,
+    fontWeight: '900',
+    color: '#64748b',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  coordValue: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#ffffff',
+    fontFamily: 'monospace',
+  },
+  mapsBtn: {
+    backgroundColor: '#0369a1',
+    borderRadius: Radius.sm,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mapsBtnText: {
+    color: '#ffffff',
+    fontSize: 11,
     fontWeight: '800',
   },
 });

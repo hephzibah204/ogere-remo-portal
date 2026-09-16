@@ -275,13 +275,36 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                   </Text>
                 </View>
 
+                {/* Telemetry: Reporter IP & GPS Precision */}
+                {(inc.ip_address || inc.accuracy || (inc.latitude && inc.longitude)) && (
+                  <View style={styles.telemetryCard}>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                      {inc.latitude && inc.longitude && (
+                        <Text style={styles.telemetryItem}>
+                          🎯 GPS: <Text style={styles.telemetryBold}>{Number(inc.latitude).toFixed(5)}°N, {Number(inc.longitude).toFixed(5)}°E</Text>
+                        </Text>
+                      )}
+                      {inc.accuracy && (
+                        <Text style={styles.telemetryItem}>
+                          📏 Accuracy: <Text style={styles.telemetryBold}>±{Math.round(inc.accuracy)}m</Text>
+                        </Text>
+                      )}
+                      {inc.ip_address && (
+                        <Text style={styles.telemetryItem}>
+                          🌐 Reporter IP: <Text style={styles.telemetryBold}>{inc.ip_address}</Text>
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                )}
+
                 {/* Open incident GPS location in Google Maps / Turn-by-Turn Intercept */}
                 {inc.latitude && inc.longitude && (
                   <TouchableOpacity
                     onPress={() => {
                       const url = inc.is_live_tracking
                         ? `https://www.google.com/maps/dir/?api=1&destination=${inc.latitude},${inc.longitude}`
-                        : `https://www.google.com/maps?q=${inc.latitude},${inc.longitude}&z=18`;
+                        : (inc.google_maps_url || `https://www.google.com/maps?q=${inc.latitude},${inc.longitude}&z=18`);
                       Linking.openURL(url).catch(() => Alert.alert('Maps unavailable', 'Install Google Maps to view location.'));
                     }}
                     style={[styles.mapBtn, inc.is_live_tracking && styles.interceptBtn]}
@@ -289,7 +312,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                     <Text style={[styles.mapBtnText, inc.is_live_tracking && styles.interceptBtnText]}>
                       {inc.is_live_tracking
                         ? '⚡ Intercept Moving Target (Google Maps Navigation)'
-                        : '🗺️ Open Incident Location on Google Maps'}
+                        : '🗺️ Open Exact Pin on Google Maps'}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -618,5 +641,21 @@ const styles = StyleSheet.create({
   interceptBtnText: {
     color: '#ffffff',
     fontWeight: '900',
+  },
+  telemetryCard: {
+    backgroundColor: '#0f172a',
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: '#38bdf8',
+    padding: 8,
+    marginVertical: 4,
+  },
+  telemetryItem: {
+    fontSize: 10,
+    color: '#94a3b8',
+  },
+  telemetryBold: {
+    color: '#38bdf8',
+    fontWeight: '800',
   },
 });

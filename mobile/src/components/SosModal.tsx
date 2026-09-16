@@ -15,6 +15,11 @@ import { syncManager, API_BASE_URL } from '../database/syncManager';
 import { queueOfflineSubmission } from '../database/sqlite';
 import { useAuth } from '../services/authContext';
 import { liveTrackingService, LiveTrackingState } from '../services/liveTrackingService';
+import {
+  getExactDeviceLocation,
+  openInGoogleMaps,
+  DeviceLocationData,
+} from '../services/locationService';
 
 interface SosModalProps {
   visible: boolean;
@@ -66,6 +71,27 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
   const [shareCamera, setShareCamera] = useState(false);
   const [shareAudio, setShareAudio] = useState(false);
   const [liveState, setLiveState] = useState<LiveTrackingState>(liveTrackingService.getState());
+  const [deviceLoc, setDeviceLoc] = useState<DeviceLocationData | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
+
+  // When modal opens, acquire live GPS and public IP immediately
+  useEffect(() => {
+    if (visible) {
+      setIsLocating(true);
+      getExactDeviceLocation()
+        .then((loc) => {
+          setDeviceLoc(loc);
+          // Auto-match nearest sector if close
+          const nearest = SECTORS.reduce((prev, curr) => {
+            const dPrev = Math.hypot(prev.lat - loc.latitude, prev.lng - loc.longitude);
+            const dCurr = Math.hypot(curr.lat - loc.latitude, curr.lng - loc.longitude);
+            return dCurr < dPrev ? curr : prev;
+          });
+          if (nearest) setSelectedSector(nearest);
+        })
+        .finally(() => setIsLocating(false));
+    }
+  }, [visible]);
 
   useEffect(() => {
     const unsub = liveTrackingService.subscribe((state) => {
@@ -82,18 +108,37 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
 
   const handleBroadcastSos = async (isSilent: boolean = false, categoryOverride?: string) => {
     setIsSending(true);
+
+    // Refresh exact GPS coordinates and IP address at moment of trigger
+    let currentLoc = deviceLoc;
+    try {
+      currentLoc = await getExactDeviceLocation();
+      setDeviceLoc(currentLoc);
+    } catch (_) {}
+
+    const lat = currentLoc ? currentLoc.latitude : selectedSector.lat;
+    const lng = currentLoc ? currentLoc.longitude : selectedSector.lng;
+    const accuracy = currentLoc?.accuracy ?? null;
+    const ipAddress = currentLoc?.ipAddress ?? 'Unknown IP';
+    const googleMapsUrl = currentLoc ? currentLoc.googleMapsUrl : `https://www.google.com/maps?q=${lat},${lng}`;
+
     const cat = categoryOverride || (isSilent ? 'ARMED ROBBERY / HOSTAGE (SILENT)' : 'CRITICAL SOS BROADCAST');
+    const accuracyText = accuracy ? ` (GPS Accuracy: ±${Math.round(accuracy)}m)` : '';
+
     const payload = {
       category: cat,
       severity: 'Critical',
       threatLevel: 'CODE_RED',
       location: selectedSector.name,
-      latitude: selectedSector.lat,
-      longitude: selectedSector.lng,
+      latitude: lat,
+      longitude: lng,
+      accuracy,
+      ipAddress,
+      googleMapsUrl,
       landmark: isSilent ? 'Covert Citizen Panic' : 'One-Tap Panic Alert',
       description: isSilent
-        ? `[SILENT PANIC ALERT - COVERT TRIGGER] Citizen activated covert distress alert at ${selectedSector.name} (GPS: ${selectedSector.lat}, ${selectedSector.lng}). Immediate tactical armed response required. DO NOT SIREN APPROACH. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim()
-        : `EMERGENCY SOS: Citizen requested immediate emergency intervention at ${selectedSector.name} (${cat}). GPS: ${selectedSector.lat}, ${selectedSector.lng}. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim(),
+        ? `[SILENT PANIC ALERT - COVERT TRIGGER] Citizen activated covert distress alert at ${selectedSector.name}. Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}. IP: ${ipAddress}. Maps Pin: ${googleMapsUrl}. Immediate tactical armed response required. DO NOT SIREN APPROACH. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim()
+        : `EMERGENCY SOS: Citizen requested immediate emergency intervention at ${selectedSector.name} (${cat}). Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}. IP: ${ipAddress}. Maps Pin: ${googleMapsUrl}. ${shareCamera ? '[CAMERA EVIDENCE ACTIVE]' : ''} ${shareAudio ? '[AMBIENT AUDIO ACTIVE]' : ''}`.trim(),
       reporterName: isSilent ? 'Covert Citizen in Danger' : (user?.fullName || 'Distressed Citizen'),
       reporterPhone: user?.phone || 'Emergency Phone',
       isSos: true,
@@ -118,15 +163,15 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
           const data = await res.json();
           const incId = data.incident?.id;
           if (incId) {
-            // Automatically initiate WhatsApp-style live location stream!
-            liveTrackingService.startTracking(incId, { lat: selectedSector.lat, lng: selectedSector.lng });
+            // Automatically initiate live moving location stream with exact coordinates!
+            liveTrackingService.startTracking(incId, { lat, lng });
           }
         }
       } catch {}
     } else {
       await queueOfflineSubmission('incident', payload);
-      // Trigger emergency SMS fallback
-      const emergencySms = `SMSTO:08081762371:CODE RED ${cat} at ${selectedSector.name}. Contact: ${user?.phone || 'Citizen'}.`;
+      // Trigger emergency SMS fallback with exact GPS and Google Maps link
+      const emergencySms = `SMSTO:08081762371:CODE RED ${cat} at ${selectedSector.name}. GPS: ${lat.toFixed(5)},${lng.toFixed(5)}. Maps: ${googleMapsUrl}. Contact: ${user?.phone || 'Citizen'}.`;
       Linking.openURL(emergencySms).catch(() => {});
     }
 
@@ -135,16 +180,26 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
     if (isSilent) {
       Alert.alert(
         '🤫 SILENT PANIC TRANSMITTED',
-        `Covert GPS & Sector distress signal sent to Ogere Police DPO & Patrol Command for ${selectedSector}. Response teams are alerted for non-siren tactical approach. Stay quiet and seek cover.`,
-        [{ text: 'Dismiss Screen Silently', onPress: onClose }]
+        `Covert GPS & Sector distress signal sent to Ogere Police DPO & Patrol Command for ${selectedSector.name}.\n\n📍 Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}\n🌐 IP: ${ipAddress}\n\nResponse teams are alerted for non-siren tactical approach. Stay quiet and seek cover.`,
+        [
+          {
+            text: '🗺️ View My Google Maps Pin',
+            onPress: () => openInGoogleMaps(lat, lng),
+          },
+          { text: 'Dismiss Screen Silently', onPress: onClose },
+        ]
       );
       return;
     }
 
     Alert.alert(
       '🚨 SOS BROADCAST SENT',
-      `Emergency broadcast recorded for ${selectedSector}. First responders and Palace Security have been notified. Please call the immediate hotline below.`,
+      `Emergency broadcast recorded for ${selectedSector.name}.\n\n📍 Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}\n🌐 IP: ${ipAddress}\n\nFirst responders and Palace Security have been dispatched to your exact coordinates.`,
       [
+        {
+          text: '🗺️ View Location on Google Maps',
+          onPress: () => openInGoogleMaps(lat, lng),
+        },
         {
           text: 'Call FRSC 122',
           onPress: () => handleCall('122'),

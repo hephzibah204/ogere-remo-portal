@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import OfficerMobilePhone from '../components/OfficerMobilePhone';
 import sirenSound from '../services/sirenSound';
+import DuressPinSettings from '../components/DuressPinSettings';
+import { getSafePin, getDuressPin } from '../utils/pinStorage';
 
 const SEED_NEWS = [
   {
@@ -59,6 +61,15 @@ export default function MobilePreviewPage() {
   const [escortPin, setEscortPin] = useState('');
   const [duressTriggered, setDuressTriggered] = useState(false);
   const [whistleToken, setWhistleToken] = useState(null);
+
+  // Configurable PINs loaded from localStorage
+  const [storedSafePin, setStoredSafePin] = useState('');
+  const [storedDuressPin, setStoredDuressPin] = useState('9999');
+
+  useEffect(() => {
+    setStoredSafePin(getSafePin());
+    setStoredDuressPin(getDuressPin());
+  }, []);
 
   // Royal Audience Simulator state
   const [audienceTab, setAudienceTab] = useState('book'); // 'book' or 'track'
@@ -186,7 +197,14 @@ export default function MobilePreviewPage() {
   };
 
   const handleEscortCheckin = async () => {
-    if (escortPin === '9999') {
+    if (escortPin.length !== 4) {
+      alert('Please enter your 4-digit PIN');
+      return;
+    }
+
+    // ── DURESS PIN MATCH ──
+    // Compare against user-configured duress PIN (default: 9999)
+    if (escortPin === storedDuressPin) {
       setDuressTriggered(true);
       setIsEscortActive(false);
       setEscortPin('');
@@ -198,7 +216,7 @@ export default function MobilePreviewPage() {
         severity: 'Critical',
         threatLevel: 'CODE_RED',
         location: 'Agbele Farmlands Corridor',
-        description: 'COVERT DURESS PIN ENTERED (9999). Citizen forced by assailants to cancel escort. Tactical silent response dispatched without sirens.',
+        description: 'COVERT DURESS PIN ENTERED. Citizen forced by assailants to cancel escort. Tactical silent response dispatched.',
         reporterName: citizen.name,
         reporterPhone: citizen.phone,
         assignedAgency: 'Police / SWAT Anti-Kidnapping Unit',
@@ -216,14 +234,15 @@ export default function MobilePreviewPage() {
       sirenSound.unlockAudio();
       window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: duressPayload }));
 
+      // Covert: citizen side shows generic success (no alarm, no warning)
       alert('Safe arrival confirmed. Thank you for using Walk With Me. Your session has been safely concluded.');
-    } else if (escortPin.length === 4) {
-      setIsEscortActive(false);
-      setEscortPin('');
-      alert('Safe Arrival Confirmed! 🛡️ Virtual Escort session successfully concluded and logged with Palace Watch.');
-    } else {
-      alert('Please enter your 4-digit PIN');
+      return;
     }
+
+    // ── SAFE ARRIVAL PIN MATCH (or any other 4-digit PIN) ──
+    setIsEscortActive(false);
+    setEscortPin('');
+    alert('Safe Arrival Confirmed! 🛡️ Virtual Escort session successfully concluded and logged with Palace Watch.');
   };
 
   return (
@@ -887,7 +906,15 @@ export default function MobilePreviewPage() {
                       <span style={{ fontSize: '1.4rem' }}>🚶‍♂️</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Virtual Safe Escort ("Walk With Me")</div>
-                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Arrival countdown timer + Covert Duress PIN (9999)</div>
+                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Arrival countdown timer + Covert Duress PIN protection</div>
+                      </div>
+                    </div>
+
+                    <div onClick={() => setActiveServiceScreen('pin-settings')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '1.4rem' }}>🔐</span>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Security PIN Settings</div>
+                        <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Configure Safe Arrival & Covert Duress PINs</div>
                       </div>
                     </div>
 
@@ -1048,9 +1075,42 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', padding: '10px', borderRadius: '8px', fontSize: '0.65rem', color: '#7f1d1d' }}>
-                      <span style={{ fontWeight: 900 }}>⚠️ Covert Duress PIN (9999):</span> If forced or held at gunpoint to cancel this escort, entering 9999 pretends to exit peacefully while silently alerting SWAT and Police!
+                      <span style={{ fontWeight: 900 }}>⚠️ Covert Duress PIN:</span> If forced or held at gunpoint to cancel this escort, entering your duress PIN pretends to exit peacefully while silently alerting SWAT and Police!
                     </div>
+
+                    <button
+                      onClick={() => setActiveServiceScreen('pin-settings')}
+                      style={{
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        padding: '10px',
+                        borderRadius: '10px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        gap: '8px',
+                        alignItems: 'center',
+                        width: '100%',
+                        textAlign: 'left',
+                      }}
+                    >
+                      <span style={{ fontSize: '1.2rem' }}>🔐</span>
+                      <div>
+                        <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Configure Security PINs</div>
+                        <div style={{ fontSize: '0.58rem', color: '#64748b' }}>Set your Safe Arrival & Covert Duress PINs</div>
+                      </div>
+                    </button>
                   </div>
+                )}
+
+                {/* ── SUB-SCREEN: SECURITY PIN SETTINGS ── */}
+                {activeServiceScreen === 'pin-settings' && (
+                  <DuressPinSettings
+                    onClose={() => setActiveServiceScreen('walk')}
+                    onSave={(safe, duress) => {
+                      setStoredSafePin(safe);
+                      setStoredDuressPin(duress);
+                    }}
+                  />
                 )}
 
                 {/* ── SUB-SCREEN: WHISTLEBLOWER LINE ── */}

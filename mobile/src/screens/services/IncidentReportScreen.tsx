@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
@@ -18,6 +19,11 @@ import { useAuth } from '../../services/authContext';
 import { syncManager, API_BASE_URL } from '../../database/syncManager';
 import { queueOfflineSubmission } from '../../database/sqlite';
 import { liveTrackingService } from '../../services/liveTrackingService';
+import {
+  getExactDeviceLocation,
+  openInGoogleMaps,
+  DeviceLocationData,
+} from '../../services/locationService';
 
 const INCIDENT_CATEGORIES = [
   { id: 'armed_robbery', label: '🚨 Armed Robbery / Banditry', severity: 'Critical', threatLevel: 'CODE_RED' },
@@ -64,6 +70,27 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
   const [audioFeedActive, setAudioFeedActive] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Precision Telemetry State: Real GPS & Device Public IP
+  const [deviceLocation, setDeviceLocation] = useState<DeviceLocationData | null>(null);
+  const [fetchingLocation, setFetchingLocation] = useState(false);
+  const [useLiveGps, setUseLiveGps] = useState(true);
+
+  const acquireLocation = async () => {
+    setFetchingLocation(true);
+    try {
+      const loc = await getExactDeviceLocation();
+      setDeviceLocation(loc);
+    } catch (err) {
+      console.warn('[IncidentReportScreen] Location acquisition warning:', err);
+    } finally {
+      setFetchingLocation(false);
+    }
+  };
+
+  useEffect(() => {
+    acquireLocation();
+  }, []);
+
   const handleCall = (phone: string) => {
     Linking.openURL(`tel:${phone}`).catch(() => {
       Alert.alert('Unable to Dial', `Please call: ${phone}`);
@@ -91,14 +118,23 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
     const selectedItem = INCIDENT_CATEGORIES.find(c => c.label === selectedCategory);
     const threatLevel = selectedItem?.threatLevel || (severity === 'Critical' ? 'CODE_RED' : 'CODE_YELLOW');
 
+    const effectiveLat = (useLiveGps && deviceLocation) ? deviceLocation.latitude : landmark.lat;
+    const effectiveLng = (useLiveGps && deviceLocation) ? deviceLocation.longitude : landmark.lng;
+    const accuracy = (useLiveGps && deviceLocation) ? deviceLocation.accuracy : null;
+    const ipAddress = deviceLocation?.ipAddress || null;
+    const googleMapsUrl = deviceLocation?.googleMapsUrl || `https://www.google.com/maps?q=${effectiveLat},${effectiveLng}`;
+
     const payload = {
       category: selectedCategory,
       severity,
       threatLevel,
       location: fullLoc,
       landmark: landmark.name,
-      latitude: landmark.lat,
-      longitude: landmark.lng,
+      latitude: effectiveLat,
+      longitude: effectiveLng,
+      accuracy,
+      ipAddress,
+      googleMapsUrl,
       description: description.trim(),
       reporterName: isAnonymous ? 'Anonymous Citizen' : (user?.fullName || 'Concerned Citizen'),
       reporterPhone: isAnonymous ? null : reporterPhone.trim(),
@@ -124,7 +160,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
           const data = await res.json().catch(() => null);
           const incId = data?.incident?.id;
           if (enableLiveTracking && incId) {
-            liveTrackingService.startTracking(incId, { lat: landmark.lat, lng: landmark.lng });
+            liveTrackingService.startTracking(incId, { lat: effectiveLat, lng: effectiveLng });
           }
           setLoading(false);
           postSubmitPrompt(true);
@@ -247,7 +283,73 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
 
           {/* 3. Location & Landmark Selection */}
           <View style={styles.field}>
-            <Text style={styles.sectionLabel}>3. Nearest Sector / Landmark *</Text>
+            <Text style={styles.sectionLabel}>3. Incident Location & Landmark *</Text>
+            
+            {/* Live GPS Telemetry Box */}
+            <View style={styles.gpsTelemetryBox}>
+              <View style={styles.gpsTelemetryHeader}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Text style={{ fontSize: 14 }}>🛰️</Text>
+                  <Text style={styles.gpsTelemetryTitle}>Exact Reporter GPS & IP Telemetry</Text>
+                </View>
+                {fetchingLocation ? (
+                  <ActivityIndicator size="small" color="#22c55e" />
+                ) : (
+                  <TouchableOpacity onPress={acquireLocation} style={styles.refreshGpsBtn}>
+                    <Text style={styles.refreshGpsBtnText}>🔄 Refresh GPS</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              {deviceLocation ? (
+                <View style={styles.gpsDetailsGrid}>
+                  <View style={styles.gpsStatItem}>
+                    <Text style={styles.gpsStatLabel}>EXACT COORDINATES</Text>
+                    <Text style={styles.gpsStatValue}>
+                      {deviceLocation.latitude.toFixed(5)}°N, {deviceLocation.longitude.toFixed(5)}°E
+                    </Text>
+                  </View>
+                  <View style={styles.gpsStatItem}>
+                    <Text style={styles.gpsStatLabel}>ACCURACY</Text>
+                    <Text style={[styles.gpsStatValue, { color: deviceLocation.isGpsPrecise ? '#4ade80' : '#fde047' }]}>
+                      {deviceLocation.accuracy ? `±${Math.round(deviceLocation.accuracy)}m (${deviceLocation.isGpsPrecise ? 'Precise GPS' : 'Cell/IP'})` : 'Estimated'}
+                    </Text>
+                  </View>
+                  <View style={styles.gpsStatItem}>
+                    <Text style={styles.gpsStatLabel}>DEVICE PUBLIC IP</Text>
+                    <Text style={styles.gpsStatValue}>
+                      {deviceLocation.ipAddress}
+                    </Text>
+                  </View>
+                </View>
+              ) : (
+                <Text style={styles.gpsDetectingText}>
+                  {fetchingLocation ? 'Acquiring satellite lock and network IP...' : 'Tap Refresh GPS to acquire exact satellite coordinates'}
+                </Text>
+              )}
+
+              <View style={styles.gpsActionsRow}>
+                <TouchableOpacity
+                  onPress={() => setUseLiveGps(!useLiveGps)}
+                  style={[styles.useGpsToggleBtn, useLiveGps && styles.useGpsToggleActive]}
+                >
+                  <Text style={[styles.useGpsToggleText, useLiveGps && styles.useGpsToggleTextActive]}>
+                    {useLiveGps ? '✓ Using Exact Device GPS' : 'Using Reference Landmark'}
+                  </Text>
+                </TouchableOpacity>
+
+                {deviceLocation && (
+                  <TouchableOpacity
+                    onPress={() => openInGoogleMaps(deviceLocation.latitude, deviceLocation.longitude, 'Reported Incident Location')}
+                    style={styles.openMapsBtn}
+                  >
+                    <Text style={styles.openMapsBtnText}>🗺️ Preview on Google Maps</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
+
+            <Text style={[styles.sectionSublabel, { marginTop: 8 }]}>Select Nearest Ogere Sector / Landmark:</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.catScroll}>
               {LANDMARKS.map(lm => {
                 const isSelected = landmark.name === lm.name;
@@ -645,5 +747,114 @@ const styles = StyleSheet.create({
   },
   liveToggleBtnTextActive: {
     color: '#052e16',
+  },
+  sectionSublabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.textSecondary,
+    marginBottom: 4,
+  },
+  gpsTelemetryBox: {
+    backgroundColor: '#0f172a',
+    borderRadius: Radius.md,
+    borderWidth: 1.5,
+    borderColor: '#38bdf8',
+    padding: 12,
+    gap: 8,
+    marginVertical: 4,
+  },
+  gpsTelemetryHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  gpsTelemetryTitle: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#38bdf8',
+  },
+  refreshGpsBtn: {
+    backgroundColor: 'rgba(56, 189, 248, 0.15)',
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#38bdf8',
+  },
+  refreshGpsBtnText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#38bdf8',
+  },
+  gpsDetailsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 2,
+  },
+  gpsStatItem: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    flex: 1,
+    minWidth: 90,
+  },
+  gpsStatLabel: {
+    fontSize: 8,
+    fontWeight: '900',
+    color: '#94a3b8',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  gpsStatValue: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  gpsDetectingText: {
+    fontSize: 11,
+    color: '#94a3b8',
+    fontStyle: 'italic',
+  },
+  gpsActionsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 4,
+    flexWrap: 'wrap',
+  },
+  useGpsToggleBtn: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
+    borderColor: '#64748b',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+  },
+  useGpsToggleActive: {
+    backgroundColor: '#0369a1',
+    borderColor: '#38bdf8',
+  },
+  useGpsToggleText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#94a3b8',
+  },
+  useGpsToggleTextActive: {
+    color: '#ffffff',
+    fontWeight: '800',
+  },
+  openMapsBtn: {
+    backgroundColor: 'rgba(34, 197, 94, 0.15)',
+    borderWidth: 1,
+    borderColor: '#22c55e',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+  },
+  openMapsBtnText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#4ade80',
   },
 });
