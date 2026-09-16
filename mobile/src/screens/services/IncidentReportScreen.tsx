@@ -296,10 +296,31 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                   <ActivityIndicator size="small" color="#22c55e" />
                 ) : (
                   <TouchableOpacity onPress={acquireLocation} style={styles.refreshGpsBtn}>
-                    <Text style={styles.refreshGpsBtnText}>🔄 Refresh GPS</Text>
+                    <Text style={styles.refreshGpsBtnText}>🔄 Refresh</Text>
                   </TouchableOpacity>
                 )}
               </View>
+
+              {/* Prominent "Get My Actual Current Location" Button */}
+              <TouchableOpacity
+                onPress={acquireLocation}
+                style={styles.acquireGpsBtn}
+                disabled={fetchingLocation}
+              >
+                {fetchingLocation ? (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <ActivityIndicator size="small" color="#ffffff" />
+                    <Text style={styles.acquireGpsBtnText}>Locking Onto Satellites & Acquiring GPS...</Text>
+                  </View>
+                ) : (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Text style={{ fontSize: 16 }}>📍</Text>
+                    <Text style={styles.acquireGpsBtnText}>
+                      {deviceLocation ? '📍 Re-acquire My Exact Current Location' : '📍 Get My Actual Current Location (GPS & IP)'}
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
 
               {deviceLocation ? (
                 <View style={styles.gpsDetailsGrid}>
@@ -884,5 +905,27 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '800',
     color: '#4ade80',
+  },
+  acquireGpsBtn: {
+    backgroundColor: '#15803d',
+    borderWidth: 1.5,
+    borderColor: '#22c55e',
+    borderRadius: Radius.sm,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 6,
+    shadowColor: '#22c55e',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  acquireGpsBtnText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '900',
+    letterSpacing: 0.3,
   },
 });

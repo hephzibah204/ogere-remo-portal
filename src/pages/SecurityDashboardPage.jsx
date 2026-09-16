@@ -1326,6 +1326,58 @@ export default function SecurityDashboardPage() {
                     </a>
                   )}
                 </div>
+
+                {/* ── Device & Signal Intelligence Grid ── */}
+                {(activeIncident.device_model || activeIncident.device_os || activeIncident.network_type || activeIncident.battery_level != null || activeIncident.ip_address) && (
+                  <div style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(201,150,58,0.3)', borderRadius: '6px', padding: '0.65rem', marginTop: '0.2rem' }}>
+                    <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--gold)', letterSpacing: '0.05em', marginBottom: '0.4rem' }}>
+                      📱 DEVICE & TELEMETRY INTEL
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.35rem', fontSize: '0.65rem' }}>
+                      {activeIncident.device_model && (
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.45rem', borderRadius: '4px' }}>
+                          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.55rem', fontWeight: 800 }}>DEVICE</div>
+                          <div style={{ color: '#ffffff', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activeIncident.device_model}</div>
+                        </div>
+                      )}
+                      {activeIncident.device_os && (
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.45rem', borderRadius: '4px' }}>
+                          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.55rem', fontWeight: 800 }}>OS</div>
+                          <div style={{ color: '#ffffff', fontWeight: 700 }}>{activeIncident.device_os}</div>
+                        </div>
+                      )}
+                      {activeIncident.battery_level != null && (
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.45rem', borderRadius: '4px' }}>
+                          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.55rem', fontWeight: 800 }}>BATTERY</div>
+                          <div style={{ color: activeIncident.battery_level > 20 ? '#4ade80' : '#ef4444', fontWeight: 900 }}>
+                            🔋 {activeIncident.battery_level}% {activeIncident.battery_level <= 20 ? '⚠️ LOW' : ''}
+                          </div>
+                        </div>
+                      )}
+                      {activeIncident.network_type && (
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.45rem', borderRadius: '4px' }}>
+                          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.55rem', fontWeight: 800 }}>NETWORK</div>
+                          <div style={{ color: '#38bdf8', fontWeight: 700 }}>
+                            📶 {activeIncident.network_type.toUpperCase()}{activeIncident.network_generation ? ` · ${activeIncident.network_generation}` : ''}
+                          </div>
+                        </div>
+                      )}
+                      {activeIncident.ip_address && (
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.45rem', borderRadius: '4px' }}>
+                          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.55rem', fontWeight: 800 }}>PUBLIC IP</div>
+                          <div style={{ color: '#94a3b8', fontFamily: 'monospace', fontWeight: 700 }}>{activeIncident.ip_address}</div>
+                        </div>
+                      )}
+                      {activeIncident.timezone && (
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.3rem 0.45rem', borderRadius: '4px' }}>
+                          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.55rem', fontWeight: 800 }}>TIMEZONE</div>
+                          <div style={{ color: '#cbd5e1', fontWeight: 700 }}>🕒 {activeIncident.timezone}</div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 <div>
                   <span style={{ color: 'var(--gold)', fontWeight: 700 }}>Telemetry Description: </span>
                   <p style={{ background: 'rgba(0,0,0,0.4)', padding: '0.6rem', borderRadius: '4px', color: '#f5edd8', marginTop: '0.3rem', fontSize: '0.75rem', lineHeight: 1.5 }}>

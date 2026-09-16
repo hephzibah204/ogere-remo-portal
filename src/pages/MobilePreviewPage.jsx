@@ -119,17 +119,80 @@ export default function MobilePreviewPage() {
     return { name: 'Adebayo Ogunlesi (Mobile App)', phone: '08081762371' };
   };
 
+  const liveStreamIntervalRef = useRef(null);
+
   const handleTransmitSos = async () => {
     setIsSubmittingSos(true);
     const incId = 'OGR-SOS-' + Math.floor(1000 + Math.random() * 9000);
     const citizen = getLoggedInCitizen();
+
+    // 1. Acquire real GPS coordinates
+    let lat = 6.9388;
+    let lng = 3.6437;
+    let accuracy = 8;
+    try {
+      if (navigator.geolocation) {
+        const pos = await new Promise((resolve) => {
+          navigator.geolocation.getCurrentPosition(
+            resolve,
+            () => resolve(null),
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+          );
+        });
+        if (pos?.coords) {
+          lat = pos.coords.latitude;
+          lng = pos.coords.longitude;
+          accuracy = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : 5;
+        }
+      }
+    } catch (_) {}
+
+    // 2. Acquire Public IP
+    let ip = 'Unknown';
+    try {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 3000);
+      const ipRes = await fetch('https://api.ipify.org?format=json', { signal: ctrl.signal });
+      clearTimeout(tid);
+      if (ipRes.ok) {
+        const d = await ipRes.json();
+        ip = d.ip || ip;
+      }
+    } catch (_) {}
+
+    // 3. Acquire Battery & Network
+    let batteryLevel = null;
+    try {
+      if (typeof navigator.getBattery === 'function') {
+        const bat = await navigator.getBattery();
+        batteryLevel = Math.round(bat.level * 100);
+      }
+    } catch (_) {}
+
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const networkType = conn?.effectiveType || conn?.type || '4g';
+    const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+
     const payload = {
       id: incId,
       category: sosCategory,
       severity: sosSeverity,
       threatLevel: 'CODE_RED',
       location: sosLandmark,
-      description: `EMERGENCY SOS TRIGGERED from Mobile App by Citizen. Nearest Sector: ${sosLandmark}. Details: ${sosDetails || 'Rapid emergency armed intervention required.'}`,
+      latitude: lat,
+      longitude: lng,
+      accuracy,
+      ipAddress: ip,
+      ip_address: ip,
+      googleMapsUrl,
+      google_maps_url: googleMapsUrl,
+      deviceModel: navigator.userAgent.includes('Android') ? 'Android Mobile' : navigator.userAgent.includes('iPhone') ? 'Apple iPhone' : 'Mobile Web Client',
+      deviceOs: navigator.userAgent.includes('Android') ? 'Android 14' : navigator.userAgent.includes('iPhone') ? 'iOS 17' : 'Web OS',
+      batteryLevel,
+      battery_level: batteryLevel,
+      networkType,
+      network_type: networkType,
+      description: `EMERGENCY SOS TRIGGERED from Mobile App by Citizen. Nearest Sector: ${sosLandmark}. GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)} (±${accuracy}m). IP: ${ip}. Battery: ${batteryLevel ? batteryLevel + '%' : '?'}. Details: ${sosDetails || 'Rapid emergency armed intervention required.'}`,
       reporterName: citizen.name,
       reporterPhone: citizen.phone,
       assignedAgency: 'Police / So-Safe Area Command',
@@ -144,6 +207,31 @@ export default function MobilePreviewPage() {
       });
     } catch (_) {}
 
+    // Start live location streaming (WhatsApp style)
+    if (sosLiveTracking && navigator.geolocation) {
+      if (liveStreamIntervalRef.current) clearInterval(liveStreamIntervalRef.current);
+      liveStreamIntervalRef.current = setInterval(() => {
+        navigator.geolocation.getCurrentPosition(
+          (p) => {
+            fetch('/api/live-location', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                incidentId: incId,
+                latitude: p.coords.latitude,
+                longitude: p.coords.longitude,
+                heading: p.coords.heading ?? null,
+                speed: p.coords.speed ? Math.round(p.coords.speed * 3.6) : null,
+                accuracy: p.coords.accuracy ? Math.round(p.coords.accuracy) : null,
+              }),
+            }).catch(() => {});
+          },
+          () => {},
+          { enableHighAccuracy: true, timeout: 3500, maximumAge: 1000 }
+        );
+      }, 4000);
+    }
+
     // Unlock audio context on user click and trigger security siren alarm
     sirenSound.unlockAudio();
     window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: payload }));
@@ -154,6 +242,12 @@ export default function MobilePreviewPage() {
       category: sosCategory,
       severity: sosSeverity,
       landmark: sosLandmark,
+      latitude: lat,
+      longitude: lng,
+      accuracy,
+      ip,
+      batteryLevel,
+      googleMapsUrl,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       status: 'POLICE & VIGILANTE DISPATCHED',
     });
@@ -1467,6 +1561,25 @@ export default function MobilePreviewPage() {
                           <div style={{ color: '#cbd5e1', fontSize: '0.62rem' }}>
                             🚓 Ogere Police Cruiser #04 & So-Safe Armed Patrol en route.
                           </div>
+
+                          {sosActiveBeacon.latitude && (
+                            <div style={{ marginTop: '8px', borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: '6px' }}>
+                              <div style={{ color: '#38bdf8', fontWeight: 800 }}>
+                                🛰️ GPS: {Number(sosActiveBeacon.latitude).toFixed(5)}°N, {Number(sosActiveBeacon.longitude).toFixed(5)}°E (±{sosActiveBeacon.accuracy}m)
+                              </div>
+                              <div style={{ color: '#94a3b8', fontSize: '0.62rem', marginTop: '2px' }}>
+                                🌐 IP: {sosActiveBeacon.ip} {sosActiveBeacon.batteryLevel ? `· 🔋 ${sosActiveBeacon.batteryLevel}%` : ''}
+                              </div>
+                              <a
+                                href={sosActiveBeacon.googleMapsUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{ display: 'inline-block', marginTop: '6px', background: '#16a34a', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem' }}
+                              >
+                                🗺️ Preview My Pin on Google Maps ➔
+                              </a>
+                            </div>
+                          )}
                         </div>
 
                         {sosLiveTracking && (

@@ -172,10 +172,17 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
               </Text>
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SecurityDashboard')}
+              onPress={() => {
+                const codeRed = urgentIncidents.find((i: any) => i.threat_level === 'CODE_RED') || urgentIncidents[0];
+                if (codeRed) {
+                  navigation.navigate('SosIntercept', { incident: codeRed });
+                } else {
+                  navigation.navigate('SecurityDashboard');
+                }
+              }}
               style={styles.codeRedAction}
             >
-              <Text style={styles.codeRedActionText}>Intercept</Text>
+              <Text style={styles.codeRedActionText}>Intercept ➔</Text>
             </TouchableOpacity>
           </View>
         )}

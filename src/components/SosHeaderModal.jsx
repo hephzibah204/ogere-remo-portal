@@ -211,6 +211,8 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const audioAnalyserRef = useRef(null);
   const audioAnimFrameRef = useRef(null);
   const snapshotIntervalRef = useRef(null);
+  const liveLocationIntervalRef = useRef(null);
+  const currentIncidentIdRef = useRef(null);
 
   // Walk With Me State
   const [walkOrigin, setWalkOrigin] = useState(OGERE_SECTORS[0]);
@@ -223,8 +225,20 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const countdownTimerRef = useRef(null);
   const walkIntervalRef = useRef(null);
 
-  // Stop all camera and microphone tracks and audio context
+  // Stop all camera, microphone tracks, audio context, and live location streaming
   const stopMediaStream = () => {
+    if (liveLocationIntervalRef.current) {
+      clearInterval(liveLocationIntervalRef.current);
+      liveLocationIntervalRef.current = null;
+    }
+    if (currentIncidentIdRef.current) {
+      fetch('/api/live-location', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ incidentId: currentIncidentIdRef.current, isEnded: true }),
+      }).catch(() => {});
+      currentIncidentIdRef.current = null;
+    }
     if (snapshotIntervalRef.current) {
       clearInterval(snapshotIntervalRef.current);
       snapshotIntervalRef.current = null;
@@ -510,12 +524,16 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       reporterPhone: callerPhone || 'Emergency Caller',
       assignedAgency: 'Police / Amotekun Area Command',
       status: 'CRITICAL_DISPATCH',
+      isLiveTracking: true,
+      isSos: true,
       cameraFeedActive: cameraEnabled,
       audioFeedActive: audioEnabled,
       mediaUrl: initialSnapshot,
       mediaType: initialSnapshot ? 'image/jpeg' : null,
       createdAt: new Date().toISOString(),
     };
+
+    currentIncidentIdRef.current = incidentId;
 
     try {
       await dbInsert('incident_reports', newSos);
@@ -532,6 +550,31 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
     // Broadcast sitewide so Security Dashboard and Admin get instant audio alert
     window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: newSos }));
+
+    // Start WhatsApp-style Continuous Live Location Streamer (every 4s)
+    if (navigator.geolocation) {
+      liveLocationIntervalRef.current = setInterval(() => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            fetch('/api/live-location', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                incidentId,
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude,
+                heading: pos.coords.heading ?? null,
+                speed: pos.coords.speed ? Math.round(pos.coords.speed * 3.6) : null,
+                accuracy: pos.coords.accuracy ? Math.round(pos.coords.accuracy) : null,
+                isEnded: false,
+              }),
+            }).catch(() => {});
+          },
+          () => {},
+          { enableHighAccuracy: true, timeout: 3500, maximumAge: 1000 }
+        );
+      }, 4000);
+    }
 
     // Start recurring live video snapshot broadcaster (every 3.5s) if camera is active
     if (cameraEnabled || audioEnabled) {
@@ -979,7 +1022,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                   borderColor: locationStatus === 'acquired' ? '#22c55e' : locationStatus === 'acquired_ip' ? '#f59e0b' : locationStatus === 'acquiring' ? '#38bdf8' : 'rgba(239,68,68,0.5)',
                   background: locationStatus === 'acquired' ? 'rgba(5,46,22,0.6)' : locationStatus === 'acquiring' ? 'rgba(15,23,42,0.8)' : 'rgba(15,23,42,0.8)',
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
                     <span style={{ fontSize: '0.72rem', fontWeight: 800,
                       color: locationStatus === 'acquired' ? '#4ade80' : locationStatus === 'acquired_ip' ? '#fde047' : locationStatus === 'acquiring' ? '#38bdf8' : '#f87171'
                     }}>
@@ -991,6 +1034,40 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       </button>
                     )}
                   </div>
+
+                  {/* Prominent Full-Width Get Actual Location Button */}
+                  <button
+                    type="button"
+                    onClick={acquireExactLocation}
+                    disabled={locationStatus === 'acquiring'}
+                    style={{
+                      width: '100%',
+                      background: locationStatus === 'acquired' ? 'linear-gradient(135deg, #15803d, #166534)' : 'linear-gradient(135deg, #0284c7, #0369a1)',
+                      color: '#ffffff',
+                      border: locationStatus === 'acquired' ? '1.5px solid #4ade80' : '1.5px solid #38bdf8',
+                      padding: '0.65rem 1rem',
+                      borderRadius: '6px',
+                      fontWeight: 800,
+                      fontSize: '0.76rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem',
+                      cursor: locationStatus === 'acquiring' ? 'wait' : 'pointer',
+                      boxShadow: locationStatus === 'acquired' ? '0 4px 12px rgba(34, 197, 94, 0.3)' : '0 4px 12px rgba(2, 132, 199, 0.3)',
+                      marginBottom: '0.6rem',
+                    }}
+                  >
+                    <span style={{ fontSize: '1rem' }}>📍</span>
+                    <span>
+                      {locationStatus === 'acquiring'
+                        ? 'Acquiring Satellite Lock & GPS Coordinates...'
+                        : locationStatus === 'acquired'
+                        ? '📍 Re-acquire My Exact Current Location'
+                        : '📍 Get My Actual Current Location (GPS & IP)'}
+                    </span>
+                  </button>
+
                   {deviceLocation?.lat ? (
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', fontSize: '0.7rem' }}>
                       <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>

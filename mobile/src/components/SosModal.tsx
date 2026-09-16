@@ -8,6 +8,7 @@ import {
   Linking,
   Alert,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { Colors, Spacing, Radius, Shadows } from '../theme';
 import { Button } from './Button';
@@ -334,6 +335,48 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                 )}
               </View>
             </View>
+
+            {/* Dedicated "Get My Actual Current Location" Button */}
+            <TouchableOpacity
+              style={styles.getCurrentLocBtn}
+              onPress={async () => {
+                setIsLocating(true);
+                try {
+                  const loc = await getExactDeviceLocation();
+                  setDeviceLoc(loc);
+                  Alert.alert(
+                    '📍 Actual Location Captured',
+                    `Exact GPS: ${loc.latitude.toFixed(5)}°N, ${loc.longitude.toFixed(5)}°E\nAccuracy: ±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m\nPublic IP: ${loc.ipAddress}\nDevice: ${loc.device?.deviceModel || 'Mobile'}`,
+                    [
+                      {
+                        text: '🗺️ Preview on Google Maps',
+                        onPress: () => openInGoogleMaps(loc.latitude, loc.longitude),
+                      },
+                      { text: 'Done', style: 'default' },
+                    ]
+                  );
+                } catch (e: any) {
+                  Alert.alert('Location Alert', 'Could not acquire satellite GPS. Using network fallback.');
+                } finally {
+                  setIsLocating(false);
+                }
+              }}
+              disabled={isLocating}
+            >
+              {isLocating ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <ActivityIndicator size="small" color="#ffffff" />
+                  <Text style={styles.getCurrentLocBtnText}>Acquiring Exact GPS & Satellite Lock...</Text>
+                </View>
+              ) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Text style={{ fontSize: 16 }}>📍</Text>
+                  <Text style={styles.getCurrentLocBtnText}>
+                    {deviceLoc ? '📍 Refresh My Actual Current Location' : '📍 Get My Actual Current Location'}
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
 
             {/* Sector Selector */}
             <Text style={styles.sectionLabel}>Select Your Current Location / Sector:</Text>
@@ -774,5 +817,27 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#e2e8f0',
     fontFamily: 'monospace' as any,
+  },
+  getCurrentLocBtn: {
+    backgroundColor: '#15803d',
+    borderWidth: 1.5,
+    borderColor: '#22c55e',
+    borderRadius: Radius.sm,
+    paddingVertical: 11,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 8,
+    shadowColor: '#22c55e',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  getCurrentLocBtnText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '900',
+    letterSpacing: 0.3,
   },
 });

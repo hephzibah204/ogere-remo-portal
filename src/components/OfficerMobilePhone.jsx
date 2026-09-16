@@ -126,6 +126,15 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       category: '🚨 Armed Robbery / Banditry',
       description: 'Suspicious armed suspects sighted along KM 67 boundary.',
       location: 'KM 67 Tollgate Expressway, Ogere',
+      latitude: 6.9388,
+      longitude: 3.6437,
+      accuracy: 6,
+      ip_address: '197.210.54.12',
+      device_model: 'Samsung Galaxy A54',
+      device_os: 'Android 14',
+      battery_level: 68,
+      network_type: '4G · MTN',
+      is_live_tracking: true,
       severity: 'Critical',
       threat_level: 'CODE_RED',
       status: 'DISPATCHED',
@@ -133,6 +142,8 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       time: '12 mins ago',
     },
   ]);
+
+  const [selectedIncident, setSelectedIncident] = useState(null);
 
   const [selectedAudience, setSelectedAudience] = useState(null);
   const [audienceAction, setAudienceAction] = useState('confirmed');
@@ -183,23 +194,34 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         // TRIGGER HIGH-DECIBEL SIREN ALARM FOR SECURITY
         sirenSound.startEmergencySiren();
 
-        setIncidents((prev) => [
-          {
-            id: sosItem.id || `INC-${Date.now().toString().slice(-4)}`,
-            threat_level: 'CODE_RED',
-            category: sosItem.category || '🚨 SOS Emergency Panic',
-            location: sosItem.location || 'Ogere Remo Corridor',
-            description: sosItem.description || 'Emergency SOS trigger received from citizen mobile app.',
-            reporter_name: sosItem.reporterName || 'Citizen Mobile App',
-            status: 'CRITICAL_DISPATCH',
-            assigned_agency: 'Police / Joint Patrol Command',
-            camera_feed_active: sosItem.cameraFeedActive,
-            audio_feed_active: sosItem.audioFeedActive,
-            media_url: sosItem.mediaUrl,
-            created_at: new Date().toISOString(),
-          },
-          ...prev,
-        ]);
+        const newInc = {
+          id: sosItem.id || `INC-${Date.now().toString().slice(-4)}`,
+          threat_level: 'CODE_RED',
+          category: sosItem.category || '🚨 SOS Emergency Panic',
+          location: sosItem.location || 'Ogere Remo Corridor',
+          latitude: sosItem.latitude || 6.9388,
+          longitude: sosItem.longitude || 3.6437,
+          accuracy: sosItem.accuracy || 5,
+          ip_address: sosItem.ipAddress || sosItem.ip_address || '197.210.54.12',
+          google_maps_url: sosItem.googleMapsUrl || `https://www.google.com/maps?q=${sosItem.latitude || 6.9388},${sosItem.longitude || 3.6437}`,
+          device_model: sosItem.deviceModel || 'Mobile Device',
+          device_os: sosItem.deviceOs || 'Android 14',
+          battery_level: sosItem.batteryLevel ?? 75,
+          network_type: sosItem.networkType || '4G',
+          is_live_tracking: true,
+          description: sosItem.description || 'Emergency SOS trigger received from citizen mobile app.',
+          reporter_name: sosItem.reporterName || 'Citizen Mobile App',
+          reporter_phone: sosItem.reporterPhone || '08081762371',
+          status: 'CRITICAL_DISPATCH',
+          assigned_agency: 'Police / Joint Patrol Command',
+          camera_feed_active: sosItem.cameraFeedActive,
+          audio_feed_active: sosItem.audioFeedActive,
+          media_url: sosItem.mediaUrl,
+          created_at: new Date().toISOString(),
+        };
+
+        setIncidents((prev) => [newInc, ...prev.filter(i => i.id !== newInc.id)]);
+        setSelectedIncident(newInc);
         setStats((prev) => ({
           ...prev,
           incidents: {
@@ -448,64 +470,171 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             </div>
 
             {/* Incidents Section */}
-            <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#C9963A', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>🚨 ACTIVE EMERGENCY FEED</span>
-              <span style={{ fontSize: '0.6rem', color: '#ef4444' }}>LIVE</span>
-            </div>
+            {selectedIncident ? (
+              /* TACTICAL SOS RADAR & MAP INTERCEPT SCREEN */
+              <div style={{ display: 'grid', gap: '8px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <button
+                    onClick={() => setSelectedIncident(null)}
+                    style={{ background: '#334155', color: '#fff', border: 'none', padding: '4px 8px', borderRadius: '4px', fontSize: '0.65rem', fontWeight: 800, cursor: 'pointer' }}
+                  >
+                    ← Back to Feed
+                  </button>
+                  <span style={{ fontSize: '0.62rem', background: '#dc2626', color: '#fff', padding: '2px 6px', borderRadius: '3px', fontWeight: 900 }}>
+                    🚨 CODE RED INTERCEPT
+                  </span>
+                </div>
 
-            <div style={{ display: 'grid', gap: '8px' }}>
-              {incidents.map((inc) => (
-                <div
-                  key={inc.id}
-                  style={{
-                    background: inc.threat_level === 'CODE_RED' ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.04)',
-                    border: inc.threat_level === 'CODE_RED' ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '8px',
-                    padding: '10px',
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-                    <span style={{ fontSize: '0.62rem', background: '#ef4444', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontWeight: 800 }}>
-                      CODE RED
-                    </span>
-                    <span style={{ fontSize: '0.62rem', color: '#94a3b8' }}>{inc.id}</span>
-                  </div>
-                  <div style={{ fontSize: '0.76rem', fontWeight: 800, color: '#ffffff', marginBottom: '3px' }}>
-                    {inc.category}
-                  </div>
-                  <div style={{ fontSize: '0.68rem', color: '#fca5a5', marginBottom: '6px' }}>
-                    📍 {inc.location}
-                  </div>
-                  <div style={{ fontSize: '0.66rem', color: '#cbd5e1', marginBottom: '8px', lineHeight: 1.3 }}>
-                    {inc.description}
-                  </div>
-
-                  {(inc.camera_feed_active || inc.audio_feed_active) && (
-                    <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
-                      {inc.camera_feed_active && <span style={{ fontSize: '0.6rem', background: '#ef4444', color: '#fff', padding: '1px 4px', borderRadius: '2px' }}>📹 Live Camera</span>}
-                      {inc.audio_feed_active && <span style={{ fontSize: '0.6rem', background: '#059669', color: '#fff', padding: '1px 4px', borderRadius: '2px' }}>🎙️ Live Audio</span>}
-                    </div>
-                  )}
-
-                  <div style={{ display: 'flex', gap: '6px' }}>
-                    <button
-                      onClick={() => alert(`Patrol dispatch acknowledged for incident ${inc.id}. Units deployed.`)}
-                      style={{ flex: 1, background: '#16a34a', color: '#fff', border: 'none', borderRadius: '4px', padding: '5px', fontSize: '0.68rem', fontWeight: 800, cursor: 'pointer' }}
-                    >
-                      ✓ Acknowledge
-                    </button>
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(inc.location)}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ flex: 1, textAlign: 'center', background: '#2563eb', color: '#fff', textDecoration: 'none', borderRadius: '4px', padding: '5px', fontSize: '0.68rem', fontWeight: 800 }}
-                    >
-                      🗺️ Intercept GPS
-                    </a>
+                {/* Embedded Live Map */}
+                <div style={{ borderRadius: '8px', overflow: 'hidden', border: '2px solid #22c55e', position: 'relative' }}>
+                  <iframe
+                    title="officer-live-map"
+                    width="100%"
+                    height="180"
+                    frameBorder="0"
+                    style={{ display: 'block' }}
+                    src={`https://maps.google.com/maps?q=${selectedIncident.latitude || 6.9388},${selectedIncident.longitude || 3.6437}&z=16&output=embed`}
+                  />
+                  <div style={{ position: 'absolute', top: '6px', left: '6px', background: 'rgba(5, 46, 22, 0.9)', padding: '2px 6px', borderRadius: '4px', border: '1px solid #22c55e', fontSize: '0.6rem', color: '#4ade80', fontWeight: 800 }}>
+                    🟢 LIVE MOVING TARGET RADAR
                   </div>
                 </div>
-              ))}
-            </div>
+
+                {/* Telemetry Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', fontSize: '0.62rem' }}>
+                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>GPS COORDS</div>
+                    <div style={{ color: '#38bdf8', fontWeight: 800, fontFamily: 'monospace' }}>
+                      {Number(selectedIncident.latitude || 6.9388).toFixed(4)}, {Number(selectedIncident.longitude || 3.6437).toFixed(4)}
+                    </div>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>ACCURACY</div>
+                    <div style={{ color: '#4ade80', fontWeight: 800 }}>±{selectedIncident.accuracy || 5}m</div>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>BATTERY</div>
+                    <div style={{ color: (selectedIncident.battery_level ?? 74) > 20 ? '#4ade80' : '#ef4444', fontWeight: 900 }}>
+                      🔋 {selectedIncident.battery_level ?? 74}%
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '0.62rem' }}>
+                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>DEVICE MODEL</div>
+                    <div style={{ color: '#e2e8f0', fontWeight: 700 }}>{selectedIncident.device_model || 'Samsung Galaxy A54'}</div>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>PUBLIC IP</div>
+                    <div style={{ color: '#cbd5e1', fontFamily: 'monospace' }}>{selectedIncident.ip_address || '197.210.54.12'}</div>
+                  </div>
+                </div>
+
+                {/* Turn-by-Turn Navigation */}
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${selectedIncident.latitude || 6.9388},${selectedIncident.longitude || 3.6437}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ background: '#16a34a', color: '#fff', textAlign: 'center', padding: '8px', borderRadius: '6px', textDecoration: 'none', fontWeight: 900, fontSize: '0.72rem', display: 'block' }}
+                >
+                  ⚡ Intercept Target (Google Maps Navigation) ➔
+                </a>
+
+                {/* SITREP Details */}
+                <div style={{ background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '6px', fontSize: '0.65rem', lineHeight: 1.4 }}>
+                  <div>📍 <strong>Sector:</strong> {selectedIncident.location}</div>
+                  <div>🚨 <strong>Threat:</strong> {selectedIncident.category}</div>
+                  <div>👤 <strong>Reporter:</strong> {selectedIncident.reporter_name || 'Citizen'} ({selectedIncident.reporter_phone || 'Unlisted'})</div>
+                  <div style={{ marginTop: '4px', color: '#f5edd8' }}>{selectedIncident.description}</div>
+                </div>
+
+                {/* Call Reporter */}
+                {selectedIncident.reporter_phone && (
+                  <a
+                    href={`tel:${selectedIncident.reporter_phone}`}
+                    style={{ background: '#047857', color: '#fff', textAlign: 'center', padding: '6px', borderRadius: '6px', textDecoration: 'none', fontWeight: 800, fontSize: '0.68rem', display: 'block' }}
+                  >
+                    📞 Call Reporter: {selectedIncident.reporter_phone}
+                  </a>
+                )}
+              </div>
+            ) : (
+              <div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#C9963A', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>🚨 ACTIVE EMERGENCY FEED</span>
+                  <span style={{ fontSize: '0.6rem', color: '#ef4444' }}>LIVE</span>
+                </div>
+
+                <div style={{ display: 'grid', gap: '8px' }}>
+                  {incidents.map((inc) => (
+                    <div
+                      key={inc.id}
+                      style={{
+                        background: inc.threat_level === 'CODE_RED' ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.04)',
+                        border: inc.threat_level === 'CODE_RED' ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '8px',
+                        padding: '10px',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+                        <span style={{ fontSize: '0.62rem', background: '#ef4444', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontWeight: 800 }}>
+                          CODE RED
+                        </span>
+                        <span style={{ fontSize: '0.62rem', color: '#94a3b8' }}>{inc.id}</span>
+                      </div>
+                      <div style={{ fontSize: '0.76rem', fontWeight: 800, color: '#ffffff', marginBottom: '3px' }}>
+                        {inc.category}
+                      </div>
+                      <div style={{ fontSize: '0.68rem', color: '#fca5a5', marginBottom: '4px' }}>
+                        📍 {inc.location}
+                      </div>
+
+                      {/* Telemetry Badge Strip */}
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', margin: '4px 0 6px' }}>
+                        <span style={{ background: 'rgba(56,189,248,0.15)', border: '1px solid rgba(56,189,248,0.3)', borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: '#38bdf8', fontFamily: 'monospace' }}>
+                          🛰️ {Number(inc.latitude || 6.9388).toFixed(4)}, {Number(inc.longitude || 3.6437).toFixed(4)}
+                        </span>
+                        <span style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: '#4ade80' }}>
+                          ±{inc.accuracy || 5}m
+                        </span>
+                        {inc.battery_level != null && (
+                          <span style={{ background: inc.battery_level > 20 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.2)', border: '1px solid ' + (inc.battery_level > 20 ? 'rgba(34,197,94,0.3)' : '#ef4444'), borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: inc.battery_level > 20 ? '#4ade80' : '#fca5a5', fontWeight: 800 }}>
+                            🔋 {inc.battery_level}%
+                          </span>
+                        )}
+                        {inc.device_model && (
+                          <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: '#cbd5e1' }}>
+                            📱 {inc.device_model}
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ fontSize: '0.66rem', color: '#cbd5e1', marginBottom: '8px', lineHeight: 1.3 }}>
+                        {inc.description}
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <button
+                          onClick={() => setSelectedIncident(inc)}
+                          style={{ flex: 1, background: '#16a34a', color: '#fff', border: 'none', borderRadius: '4px', padding: '6px', fontSize: '0.68rem', fontWeight: 800, cursor: 'pointer' }}
+                        >
+                          🗺️ View Radar & Map
+                        </button>
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${inc.latitude || 6.9388},${inc.longitude || 3.6437}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ flex: 1, textAlign: 'center', background: '#2563eb', color: '#fff', textDecoration: 'none', borderRadius: '4px', padding: '6px', fontSize: '0.68rem', fontWeight: 800 }}
+                        >
+                          ⚡ Intercept GPS
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

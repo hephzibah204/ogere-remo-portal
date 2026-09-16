@@ -8,10 +8,13 @@ import {
   TouchableOpacity,
   Linking,
   TextInput,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
+import { getExactDeviceLocation } from '../../services/locationService';
 
 interface Landmark {
   id: string;
@@ -132,6 +135,7 @@ const CATEGORIES = [
 export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLocating, setIsLocating] = useState(false);
 
   const filteredLandmarks = OGERE_LANDMARKS.filter((lm) => {
     const matchesCat = selectedCategory === 'all' || lm.category === selectedCategory;
@@ -170,6 +174,47 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Text style={styles.gpsSubtitle}>Lat: 6.9233° N · Long: 3.5827° E · Elevation: 88m</Text>
           <Text style={styles.gpsDistrict}>Ikenne Local Government Area, Ogun State, Nigeria</Text>
         </View>
+      </View>
+
+      {/* Locate Me Action Button */}
+      <View style={{ paddingHorizontal: 16, marginBottom: 10 }}>
+        <TouchableOpacity
+          style={styles.locateMeBtn}
+          onPress={async () => {
+            setIsLocating(true);
+            try {
+              const loc = await getExactDeviceLocation();
+              Alert.alert(
+                '📍 My Exact Location',
+                `Latitude: ${loc.latitude.toFixed(5)}°N\nLongitude: ${loc.longitude.toFixed(5)}°E\nAccuracy: ±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m\nPublic IP: ${loc.ipAddress}\nDevice: ${loc.device?.deviceModel || 'Mobile'}`,
+                [
+                  {
+                    text: '🗺️ Open Pin on Google Maps',
+                    onPress: () => openInGoogleMaps(loc.latitude, loc.longitude, 'My Location'),
+                  },
+                  { text: 'Done', style: 'default' },
+                ]
+              );
+            } catch {
+              Alert.alert('Location Error', 'Unable to acquire satellite GPS. Please ensure Location is enabled in Settings.');
+            } finally {
+              setIsLocating(false);
+            }
+          }}
+          disabled={isLocating}
+        >
+          {isLocating ? (
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <ActivityIndicator size="small" color="#ffffff" />
+              <Text style={styles.locateMeBtnText}>Acquiring Satellite GPS & Lock...</Text>
+            </View>
+          ) : (
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Text style={{ fontSize: 16 }}>📍</Text>
+              <Text style={styles.locateMeBtnText}>Get My Actual Current Location</Text>
+            </View>
+          )}
+        </TouchableOpacity>
       </View>
 
       {/* Category Pills Bar */}
@@ -455,5 +500,26 @@ const styles = StyleSheet.create({
     color: '#dc2626',
     fontSize: 11,
     fontWeight: '800',
+  },
+  locateMeBtn: {
+    backgroundColor: '#15803d',
+    borderWidth: 1.5,
+    borderColor: '#22c55e',
+    borderRadius: Radius.sm,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#22c55e',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  locateMeBtnText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '900',
+    letterSpacing: 0.3,
   },
 });

@@ -317,6 +317,16 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                   </TouchableOpacity>
                 )}
 
+                {/* View Full Tactical SOS Radar Screen */}
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('SosIntercept', { incident: inc })}
+                  style={styles.radarScreenBtn}
+                >
+                  <Text style={styles.radarScreenBtnText}>
+                    🚨 View Full Tactical SOS Radar & Live Intel ➔
+                  </Text>
+                </TouchableOpacity>
+
                 {inc.reporter_phone && (
                   <TouchableOpacity
                     onPress={() => handleCall(inc.reporter_phone)}
@@ -657,5 +667,19 @@ const styles = StyleSheet.create({
   telemetryBold: {
     color: '#38bdf8',
     fontWeight: '800',
+  },
+  radarScreenBtn: {
+    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    borderWidth: 1.5,
+    borderColor: '#ef4444',
+    borderRadius: Radius.sm,
+    paddingVertical: 10,
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  radarScreenBtnText: {
+    color: '#fca5a5',
+    fontWeight: '900',
+    fontSize: 12,
   },
 });

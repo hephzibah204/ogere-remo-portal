@@ -140,24 +140,51 @@ class LiveTrackingService {
 
   /**
    * Send a live telemetry ping to the Ogere Security Command API
+   * Queries real hardware GPS on every tick to capture actual user movement (like WhatsApp Live Location)
    */
   private async sendPing() {
     if (!this.activeIncidentId) return;
 
-    // Dead-reckoning micro jitter simulation if stationary on emulator/web
-    const jitterLat = (Math.random() - 0.5) * 0.00012;
-    const jitterLng = (Math.random() - 0.5) * 0.00012;
+    // Attempt to query real-time hardware GPS on each tick
+    const geo = typeof navigator !== 'undefined' ? navigator.geolocation : null;
+    if (geo && typeof geo.getCurrentPosition === 'function') {
+      try {
+        await new Promise<void>((resolve) => {
+          geo.getCurrentPosition(
+            (pos) => {
+              const { latitude, longitude, heading, speed, accuracy } = pos.coords;
+              this.currentLat = latitude;
+              this.currentLng = longitude;
+              this.currentCoords = {
+                latitude,
+                longitude,
+                heading: heading ?? null,
+                speed: speed ? Math.round(speed * 3.6) : null, // km/h
+                accuracy: accuracy ? Math.round(accuracy) : null,
+                timestamp: new Date().toISOString(),
+              };
+              resolve();
+            },
+            (err) => {
+              console.warn('[LiveTracking] Periodic GPS poll fallback:', err.message);
+              resolve();
+            },
+            { enableHighAccuracy: true, timeout: 3500, maximumAge: 1000 } as any
+          );
+        });
+      } catch (_) {}
+    }
 
-    const lat = this.currentCoords ? this.currentCoords.latitude : this.currentLat + jitterLat;
-    const lng = this.currentCoords ? this.currentCoords.longitude : this.currentLng + jitterLng;
+    const lat = this.currentCoords ? this.currentCoords.latitude : this.currentLat;
+    const lng = this.currentCoords ? this.currentCoords.longitude : this.currentLng;
 
     const payload = {
       incidentId: this.activeIncidentId,
       latitude: lat,
       longitude: lng,
-      heading: this.currentCoords?.heading ?? Math.floor(Math.random() * 360),
-      speed: this.currentCoords?.speed ?? Math.floor(12 + Math.random() * 18), // ~12-30 km/h vehicle/runner speed
-      accuracy: this.currentCoords?.accuracy ?? 5, // ~5 meters accuracy
+      heading: this.currentCoords?.heading ?? null,
+      speed: this.currentCoords?.speed ?? null,
+      accuracy: this.currentCoords?.accuracy ?? null,
       isEnded: false,
     };
 
