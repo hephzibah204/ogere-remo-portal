@@ -65,8 +65,10 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('sos'); // sos, walk, directory
   const [sector, setSector] = useState(OGERE_SECTORS[0]);
+  const [manualLandmark, setManualLandmark] = useState('');
   const [callerName, setCallerName] = useState('');
   const [callerPhone, setCallerPhone] = useState('');
+  const [backupPhone, setBackupPhone] = useState('');
   const [sosState, setSosState] = useState('idle'); // idle, triggering, dispatched
   const [countdown, setCountdown] = useState(3);
   const [dispatchedData, setDispatchedData] = useState(null);
@@ -497,13 +499,17 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       loc = await acquireExactLocation();
     }
 
+    const finalLocation = manualLandmark.trim() || sector;
+    const finalBackup = backupPhone.trim();
+
     const newSos = {
       id: incidentId,
-      title: `🚨 CRITICAL SOS PANIC: ${sector}`,
+      title: `🚨 CRITICAL SOS PANIC: ${finalLocation}`,
       category: 'Armed Response / Distress',
       severity: 'CRITICAL_DISPATCH',
       threatLevel: 'CODE_RED',
-      location: sector,
+      location: finalLocation,
+      landmark: finalLocation,
       // Real GPS telemetry — precise latitude/longitude from device
       latitude: loc?.lat || null,
       longitude: loc?.lng || null,
@@ -519,9 +525,11 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       locale: loc?.language || navigator.language || null,
       timezone: loc?.timezone || null,
       appVersion: 'web-portal',
-      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}). Immediate tactical dispatch required.${loc?.lat ? ` GPS: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)} (±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m).` : ''} Network: ${loc?.networkType || '?'}. Battery: ${loc?.batteryLevel != null ? loc.batteryLevel + '%' : '?'}. ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
+      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}${finalBackup ? ` | Kin: ${finalBackup}` : ''}). Location: ${finalLocation}. Immediate tactical dispatch required.${loc?.lat ? ` GPS: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)} (±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m).` : ''} Network: ${loc?.networkType || '?'}. Battery: ${loc?.batteryLevel != null ? loc.batteryLevel + '%' : '?'}. ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
       reporterName: callerName || 'Citizen SOS Alert',
       reporterPhone: callerPhone || 'Emergency Caller',
+      backupPhone: finalBackup,
+      backup_phone: finalBackup,
       assignedAgency: 'Police / Amotekun Area Command',
       status: 'CRITICAL_DISPATCH',
       isLiveTracking: true,
@@ -821,25 +829,53 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     className="ainp"
                     value={sector}
                     onChange={(e) => setSector(e.target.value)}
-                    style={{ width: '100%', marginBottom: '0.8rem', background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid #ef4444', borderRadius: '6px' }}
+                    style={{ width: '100%', marginBottom: '0.4rem', background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid #ef4444', borderRadius: '6px' }}
                   >
                     {OGERE_SECTORS.map((sec) => (
                       <option key={sec} value={sec}>{sec}</option>
                     ))}
                   </select>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
+                  <div style={{ display: 'flex', gap: '6px', marginBottom: '0.8rem' }}>
                     <input
-                      placeholder="Your Name (Optional)"
+                      placeholder="Or type specific street, junction, building or landmark..."
+                      value={manualLandmark}
+                      onChange={(e) => setManualLandmark(e.target.value)}
+                      style={{ flex: 1, background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '6px', fontSize: '0.78rem' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const q = (manualLandmark || sector).trim();
+                        const fullQ = encodeURIComponent(q.toLowerCase().includes('ogere') ? q : `${q}, Ogere Remo, Ogun State, Nigeria`);
+                        window.open(`https://www.google.com/maps/search/?api=1&query=${fullQ}`, '_blank');
+                      }}
+                      style={{ background: 'rgba(56,189,248,0.15)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.4)', padding: '0 10px', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                    >
+                      🗺️ Map Lookup ➔
+                    </button>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem', marginBottom: '0.5rem' }}>
+                    <input
+                      placeholder="Your Full Name (Optional)"
                       value={callerName}
                       onChange={(e) => setCallerName(e.target.value)}
                       style={{ background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', fontSize: '0.8rem' }}
                     />
                     <input
-                      placeholder="Phone Number (Optional)"
+                      placeholder="Your Phone Number"
                       value={callerPhone}
                       onChange={(e) => setCallerPhone(e.target.value)}
                       style={{ background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', fontSize: '0.8rem' }}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      placeholder="Emergency Backup / Next-of-Kin Phone (Optional)"
+                      value={backupPhone}
+                      onChange={(e) => setBackupPhone(e.target.value)}
+                      style={{ width: '100%', background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', fontSize: '0.8rem' }}
                     />
                   </div>
                 </div>

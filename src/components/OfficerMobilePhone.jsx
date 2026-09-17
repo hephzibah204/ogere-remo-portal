@@ -610,21 +610,36 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
 
                 {/* SITREP Details */}
                 <div style={{ background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '6px', fontSize: '0.65rem', lineHeight: 1.4 }}>
-                  <div>📍 <strong>Sector:</strong> {selectedIncident.location}</div>
+                  <div>📍 <strong>Sector / Landmark:</strong> {selectedIncident.location}</div>
                   <div>🚨 <strong>Threat:</strong> {selectedIncident.category}</div>
-                  <div>👤 <strong>Reporter:</strong> {selectedIncident.reporter_name || 'Citizen'} ({selectedIncident.reporter_phone || 'Unlisted'})</div>
+                  <div>👤 <strong>Primary Contact:</strong> {selectedIncident.reporter_name || 'Citizen'} ({selectedIncident.reporter_phone || 'Unlisted'})</div>
+                  {(selectedIncident.backup_phone || selectedIncident.backupPhone) && (
+                    <div style={{ color: '#38bdf8', fontWeight: 800 }}>
+                      👥 <strong>Next-of-Kin / Backup:</strong> {selectedIncident.backup_phone || selectedIncident.backupPhone}
+                    </div>
+                  )}
                   <div style={{ marginTop: '4px', color: '#f5edd8' }}>{selectedIncident.description}</div>
                 </div>
 
-                {/* Call Reporter */}
-                {selectedIncident.reporter_phone && (
-                  <a
-                    href={`tel:${selectedIncident.reporter_phone}`}
-                    style={{ background: '#047857', color: '#fff', textAlign: 'center', padding: '6px', borderRadius: '6px', textDecoration: 'none', fontWeight: 800, fontSize: '0.68rem', display: 'block' }}
-                  >
-                    📞 Call Reporter: {selectedIncident.reporter_phone}
-                  </a>
-                )}
+                {/* Call Primary & Next-of-Kin */}
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  {selectedIncident.reporter_phone && (
+                    <a
+                      href={`tel:${selectedIncident.reporter_phone}`}
+                      style={{ flex: 1, background: '#047857', color: '#fff', textAlign: 'center', padding: '6px', borderRadius: '6px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem', display: 'block' }}
+                    >
+                      📞 Call Primary ({selectedIncident.reporter_phone})
+                    </a>
+                  )}
+                  {(selectedIncident.backup_phone || selectedIncident.backupPhone) && (
+                    <a
+                      href={`tel:${selectedIncident.backup_phone || selectedIncident.backupPhone}`}
+                      style={{ flex: 1, background: '#0284c7', color: '#fff', textAlign: 'center', padding: '6px', borderRadius: '6px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem', display: 'block' }}
+                    >
+                      👥 Call Kin ({selectedIncident.backup_phone || selectedIncident.backupPhone})
+                    </a>
+                  )}
+                </div>
               </div>
             ) : (
               <div>

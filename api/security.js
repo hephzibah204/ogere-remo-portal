@@ -596,6 +596,22 @@ export default async function handler(req, res) {
       reporter_phone: body.isAnonymous ? null : (body.reporterPhone || 'N/A'),
       status: 'open',
       created_at: new Date().toISOString(),
+      // SLA & Tactical Defense Engine
+      sla_target_minutes: threatLevel === 'CODE_RED' ? 3 : threatLevel === 'CODE_ORANGE' ? 5 : 15,
+      acknowledged_at: null,
+      dispatched_at: null,
+      arrived_at: null,
+      resolved_at: null,
+      sla_breached: false,
+      voice_note_url: body.voiceNoteUrl || body.voice_note_url || null,
+      evidence_files: Array.isArray(body.evidenceFiles) ? body.evidenceFiles : (body.evidenceFile ? [body.evidenceFile] : []),
+      sitreps: [
+        {
+          timestamp: new Date().toISOString(),
+          author: 'System Dispatch Engine',
+          message: `Incident registered with threat level ${threatLevel}. Primary Agency: ${body.assignedAgency || 'Joint Command'}.`,
+        }
+      ],
     };
 
     memoryIncidents.unshift(newIncident);
@@ -678,23 +694,73 @@ export default async function handler(req, res) {
     });
   }
 
-  // PATCH: Update Incident (Status, Agency, Unit notes, Live Media Feeds)
+  // PATCH: Update Incident (Status, Agency, Unit notes, Live Media Feeds, SLA & SITREPs)
   if (req.method === 'PATCH') {
-    const { id, status, assignedAgency, respondingUnit, agencyNotes, cameraFeedActive, audioFeedActive, mediaUrl, mediaType } = req.body || {};
+    const {
+      id,
+      status,
+      assignedAgency,
+      respondingUnit,
+      agencyNotes,
+      cameraFeedActive,
+      audioFeedActive,
+      mediaUrl,
+      mediaType,
+      sitrepMessage,
+      sitrepAuthor,
+      evidenceFile,
+    } = req.body || {};
+
     if (!id) {
       return res.status(400).json({ success: false, error: 'Incident id required.' });
     }
 
     const inc = memoryIncidents.find((i) => i.id === id);
+    const nowIso = new Date().toISOString();
+
     if (inc) {
-      if (status) inc.status = status;
+      if (status) {
+        inc.status = status;
+        if (!inc.acknowledged_at && status !== 'open') {
+          inc.acknowledged_at = nowIso;
+        }
+        if (status === 'dispatched' && !inc.dispatched_at) {
+          inc.dispatched_at = nowIso;
+        }
+        if ((status === 'intercepting' || status === 'on_scene') && !inc.arrived_at) {
+          inc.arrived_at = nowIso;
+        }
+        if (status === 'resolved' && !inc.resolved_at) {
+          inc.resolved_at = nowIso;
+        }
+      }
       if (assignedAgency) inc.assigned_agency = assignedAgency;
-      if (respondingUnit) inc.responding_unit = respondingUnit;
+      if (respondingUnit) {
+        inc.responding_unit = respondingUnit;
+        if (!inc.dispatched_at) inc.dispatched_at = nowIso;
+      }
       if (agencyNotes) inc.agency_notes = agencyNotes;
       if (typeof cameraFeedActive === 'boolean') inc.camera_feed_active = cameraFeedActive;
       if (typeof audioFeedActive === 'boolean') inc.audio_feed_active = audioFeedActive;
       if (mediaUrl) inc.media_url = mediaUrl;
       if (mediaType) inc.media_type = mediaType;
+
+      if (!Array.isArray(inc.sitreps)) inc.sitreps = [];
+      if (sitrepMessage) {
+        inc.sitreps.push({
+          timestamp: nowIso,
+          author: sitrepAuthor || 'Command Radio Dispatch',
+          message: sitrepMessage,
+        });
+      }
+
+      if (!Array.isArray(inc.evidence_files)) inc.evidence_files = [];
+      if (evidenceFile) {
+        inc.evidence_files.push({
+          ...evidenceFile,
+          timestamp: nowIso,
+        });
+      }
     }
 
     try {

@@ -97,10 +97,24 @@ export default function MobilePreviewPage() {
   const [sosCategory, setSosCategory] = useState('🚨 Armed Robbery / Banditry');
   const [sosSeverity, setSosSeverity] = useState('Critical');
   const [sosLandmark, setSosLandmark] = useState('KM 66-68 Expressway Axis');
+  const [sosCustomLandmark, setSosCustomLandmark] = useState('');
+  const [sosReporterPhone, setSosReporterPhone] = useState('08081762371');
+  const [sosBackupPhone, setSosBackupPhone] = useState('08034567890');
   const [sosLiveTracking, setSosLiveTracking] = useState(true);
   const [sosDetails, setSosDetails] = useState('');
   const [sosActiveBeacon, setSosActiveBeacon] = useState(null);
   const [isSubmittingSos, setIsSubmittingSos] = useState(false);
+
+  // Walk With Me custom destination and contact state
+  const [escortCustomDestination, setEscortCustomDestination] = useState('');
+  const [escortReporterPhone, setEscortReporterPhone] = useState('08081762371');
+  const [escortBackupPhone, setEscortBackupPhone] = useState('08034567890');
+
+  const handleLookupGoogleMaps = (queryText) => {
+    const q = (queryText || 'Ogere Remo').trim();
+    const fullQuery = encodeURIComponent(q.toLowerCase().includes('ogere') ? q : `${q}, Ogere Remo, Ogun State, Nigeria`);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${fullQuery}`, '_blank');
+  };
 
   // Guardians screen state
   const [guardiansList, setGuardiansList] = useState([
@@ -132,6 +146,9 @@ export default function MobilePreviewPage() {
     setIsSubmittingSos(true);
     const incId = 'OGR-SOS-' + Math.floor(1000 + Math.random() * 9000);
     const citizen = getLoggedInCitizen();
+    const finalLandmark = sosCustomLandmark.trim() || sosLandmark;
+    const finalPhone = sosReporterPhone.trim() || citizen.phone;
+    const finalBackup = sosBackupPhone.trim();
 
     // 1. Acquire real GPS coordinates
     let lat = 6.9388;
@@ -143,7 +160,7 @@ export default function MobilePreviewPage() {
           navigator.geolocation.getCurrentPosition(
             resolve,
             () => resolve(null),
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
           );
         });
         if (pos?.coords) {
@@ -185,7 +202,8 @@ export default function MobilePreviewPage() {
       category: sosCategory,
       severity: sosSeverity,
       threatLevel: 'CODE_RED',
-      location: sosLandmark,
+      location: finalLandmark,
+      landmark: finalLandmark,
       latitude: lat,
       longitude: lng,
       accuracy,
@@ -199,9 +217,11 @@ export default function MobilePreviewPage() {
       battery_level: batteryLevel,
       networkType,
       network_type: networkType,
-      description: `EMERGENCY SOS TRIGGERED from Mobile App by Citizen. Nearest Sector: ${sosLandmark}. GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)} (±${accuracy}m). IP: ${ip}. Battery: ${batteryLevel ? batteryLevel + '%' : '?'}. Details: ${sosDetails || 'Rapid emergency armed intervention required.'}`,
+      description: `EMERGENCY SOS TRIGGERED from Mobile App. Landmark: ${finalLandmark}. Direct Line: ${finalPhone}${finalBackup ? ` | Backup Line: ${finalBackup}` : ''}. GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)} (±${accuracy}m). IP: ${ip}. Battery: ${batteryLevel ? batteryLevel + '%' : '?'}. Details: ${sosDetails || 'Rapid emergency armed intervention required.'}`,
       reporterName: citizen.name,
-      reporterPhone: citizen.phone,
+      reporterPhone: finalPhone,
+      backupPhone: finalBackup,
+      backup_phone: finalBackup,
       assignedAgency: 'Police / So-Safe Area Command',
       isLiveTracking: sosLiveTracking,
     };
@@ -248,15 +268,17 @@ export default function MobilePreviewPage() {
       id: incId,
       category: sosCategory,
       severity: sosSeverity,
-      landmark: sosLandmark,
+      landmark: finalLandmark,
+      phone: finalPhone,
+      backupPhone: finalBackup,
+      timestamp: new Date().toLocaleTimeString(),
+      status: 'DISPATCHED_TACTICAL_CRUISER',
+      googleMapsUrl,
       latitude: lat,
       longitude: lng,
       accuracy,
       ip,
       batteryLevel,
-      googleMapsUrl,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      status: 'POLICE & VIGILANTE DISPATCHED',
     });
   };
 
@@ -284,6 +306,7 @@ export default function MobilePreviewPage() {
     setGuardiansList(prev => prev.filter(g => g.id !== id));
   };
 
+  // Push notification permission request handler
   const handleRequestNotifications = async () => {
     const granted = await requestNotificationPermission();
     setNotifPermission(getNotificationPermission());
@@ -306,6 +329,9 @@ export default function MobilePreviewPage() {
     }
 
     const citizen = getLoggedInCitizen();
+    const finalDestination = escortCustomDestination.trim() || escortDestination;
+    const finalPhone = escortReporterPhone.trim() || citizen.phone;
+    const finalBackup = escortBackupPhone.trim();
     const sessionId = 'ESC-' + Math.floor(1000 + Math.random() * 9000);
     const durationSeconds = escortDurationMins * 60;
 
@@ -331,9 +357,11 @@ export default function MobilePreviewPage() {
     const escortPayload = {
       id: sessionId,
       citizenName: citizen.name,
-      citizenPhone: citizen.phone,
+      citizenPhone: finalPhone,
+      backupPhone: finalBackup,
+      backup_phone: finalBackup,
       origin: 'Ogere Central Corridor',
-      destination: escortDestination,
+      destination: finalDestination,
       durationMinutes: escortDurationMins,
       remainingSeconds: durationSeconds,
       startTime: new Date().toISOString(),
@@ -1386,7 +1414,7 @@ export default function MobilePreviewPage() {
                         <div style={{ display: 'grid', gap: '8px', marginTop: '10px' }}>
                           <div style={{ textAlign: 'left' }}>
                             <label style={{ fontSize: '0.58rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase' }}>
-                              Select Route Corridor
+                              Select Route Corridor or Type Custom Landmark
                             </label>
                             <select
                               value={escortDestination}
@@ -1407,7 +1435,47 @@ export default function MobilePreviewPage() {
                               <option value="Palace Way / Town Square">Palace Way / Town Square</option>
                               <option value="Isale-Ogere Market Road">Isale-Ogere Market Road</option>
                               <option value="Ajura Industrial Bypass">Ajura Industrial Bypass</option>
+                              <option value="OMCOOSA College Junction">OMCOOSA College Junction</option>
+                              <option value="Trailer Park Commercial Axis">Trailer Park Commercial Axis</option>
                             </select>
+
+                            <input
+                              type="text"
+                              value={escortCustomDestination}
+                              onChange={(e) => setEscortCustomDestination(e.target.value)}
+                              placeholder="Or type custom destination / building / street..."
+                              style={{
+                                width: '100%',
+                                padding: '6px 8px',
+                                borderRadius: '6px',
+                                border: '1px solid #475569',
+                                background: '#0f172a',
+                                color: '#ffffff',
+                                fontSize: '0.7rem',
+                                marginTop: '4px',
+                              }}
+                            />
+
+                            <button
+                              type="button"
+                              onClick={() => handleLookupGoogleMaps(escortCustomDestination || escortDestination)}
+                              style={{
+                                background: 'rgba(56, 189, 248, 0.15)',
+                                color: '#38bdf8',
+                                border: '1px solid rgba(56, 189, 248, 0.35)',
+                                padding: '3px 8px',
+                                borderRadius: '4px',
+                                fontSize: '0.6rem',
+                                fontWeight: 800,
+                                cursor: 'pointer',
+                                marginTop: '4px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                              }}
+                            >
+                              🗺️ Lookup on Google Maps ➔
+                            </button>
                           </div>
 
                           <div style={{ textAlign: 'left' }}>
@@ -1437,6 +1505,35 @@ export default function MobilePreviewPage() {
                               <option value={30}>30 Minutes (Extended Route)</option>
                               <option value={0.166}>10 Seconds (⚡ Fast Radar Test)</option>
                             </select>
+                          </div>
+
+                          {/* Emergency Contact Numbers */}
+                          <div style={{ textAlign: 'left', background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '6px', border: '1px solid #334155' }}>
+                            <label style={{ fontSize: '0.58rem', color: '#34d399', fontWeight: 900, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
+                              📞 Emergency Contact Numbers
+                            </label>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                              <div>
+                                <div style={{ fontSize: '0.55rem', color: '#94a3b8' }}>YOUR DIRECT LINE</div>
+                                <input
+                                  type="tel"
+                                  value={escortReporterPhone}
+                                  onChange={(e) => setEscortReporterPhone(e.target.value)}
+                                  placeholder="Your Phone"
+                                  style={{ width: '100%', padding: '4px 6px', borderRadius: '4px', border: '1px solid #475569', background: '#0f172a', color: '#fff', fontSize: '0.68rem' }}
+                                />
+                              </div>
+                              <div>
+                                <div style={{ fontSize: '0.55rem', color: '#94a3b8' }}>BACKUP / NEXT-OF-KIN</div>
+                                <input
+                                  type="tel"
+                                  value={escortBackupPhone}
+                                  onChange={(e) => setEscortBackupPhone(e.target.value)}
+                                  placeholder="Kin Phone"
+                                  style={{ width: '100%', padding: '4px 6px', borderRadius: '4px', border: '1px solid #475569', background: '#0f172a', color: '#fff', fontSize: '0.68rem' }}
+                                />
+                              </div>
+                            </div>
                           </div>
 
                           <button
@@ -2000,12 +2097,12 @@ export default function MobilePreviewPage() {
 
                         <div>
                           <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#0f172a', marginBottom: '4px' }}>
-                            3. NEAREST SECTOR / LANDMARK
+                            3. NEAREST SECTOR & MANUAL LANDMARK
                           </div>
                           <select
                             value={sosLandmark}
                             onChange={(e) => setSosLandmark(e.target.value)}
-                            style={{ width: '100%', fontSize: '0.72rem', padding: '6px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                            style={{ width: '100%', fontSize: '0.72rem', padding: '6px', borderRadius: '6px', border: '1px solid #cbd5e1', marginBottom: '4px' }}
                           >
                             <option>KM 66-68 Expressway Axis</option>
                             <option>Ogere Tollgate Corridor</option>
@@ -2016,11 +2113,96 @@ export default function MobilePreviewPage() {
                             <option>Oke-Ogere Market Complex</option>
                             <option>Agbele Farmland Axis</option>
                           </select>
+
+                          <input
+                            type="text"
+                            value={sosCustomLandmark}
+                            onChange={(e) => setSosCustomLandmark(e.target.value)}
+                            placeholder="Or type specific street, junction, building or compound name..."
+                            style={{ width: '100%', fontSize: '0.7rem', padding: '6px', borderRadius: '6px', border: '1px solid #94a3b8', background: '#f8fafc', marginBottom: '4px' }}
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => handleLookupGoogleMaps(sosCustomLandmark || sosLandmark)}
+                            style={{
+                              background: '#eff6ff',
+                              color: '#2563eb',
+                              border: '1px solid #93c5fd',
+                              padding: '3px 8px',
+                              borderRadius: '4px',
+                              fontSize: '0.6rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                            }}
+                          >
+                            🗺️ Lookup Landmark on Google Maps ➔
+                          </button>
+                        </div>
+
+                        {/* 4. EMERGENCY CONTACT NUMBERS */}
+                        <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '8px' }}>
+                          <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#0f172a', marginBottom: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span>4. CURRENT EMERGENCY NUMBERS</span>
+                            <span style={{ fontSize: '0.55rem', color: '#16a34a', fontWeight: 800 }}>DIRECT DISPATCH</span>
+                          </div>
+
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                            <div>
+                              <div style={{ fontSize: '0.55rem', color: '#64748b', fontWeight: 700 }}>YOUR ACTIVE LINE *</div>
+                              <input
+                                type="tel"
+                                value={sosReporterPhone}
+                                onChange={(e) => setSosReporterPhone(e.target.value)}
+                                placeholder="Your Phone Number"
+                                style={{ width: '100%', fontSize: '0.7rem', padding: '5px', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                              />
+                            </div>
+                            <div>
+                              <div style={{ fontSize: '0.55rem', color: '#64748b', fontWeight: 700 }}>BACKUP / NEXT-OF-KIN</div>
+                              <input
+                                type="tel"
+                                value={sosBackupPhone}
+                                onChange={(e) => setSosBackupPhone(e.target.value)}
+                                placeholder="Next-of-Kin Phone"
+                                style={{ width: '100%', fontSize: '0.7rem', padding: '5px', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Quick Guardian Selector Chips */}
+                          {guardiansList.length > 0 && (
+                            <div style={{ marginTop: '6px', display: 'flex', flexWrap: 'wrap', gap: '4px', alignItems: 'center' }}>
+                              <span style={{ fontSize: '0.55rem', color: '#94a3b8' }}>Quick Pick Kin:</span>
+                              {guardiansList.map((g) => (
+                                <button
+                                  key={g.id}
+                                  type="button"
+                                  onClick={() => setSosBackupPhone(g.phone)}
+                                  style={{
+                                    background: sosBackupPhone === g.phone ? '#dcfce7' : '#ffffff',
+                                    border: sosBackupPhone === g.phone ? '1px solid #16a34a' : '1px solid #e2e8f0',
+                                    color: sosBackupPhone === g.phone ? '#15803d' : '#475569',
+                                    borderRadius: '12px',
+                                    padding: '1px 6px',
+                                    fontSize: '0.55rem',
+                                    fontWeight: 700,
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  👤 {g.name}
+                                </button>
+                              ))}
+                            </div>
+                          )}
                         </div>
 
                         <div>
                           <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#0f172a', marginBottom: '4px' }}>
-                            4. DETAILS / CASUALTIES
+                            5. DETAILS / CASUALTIES
                           </div>
                           <textarea
                             value={sosDetails}
