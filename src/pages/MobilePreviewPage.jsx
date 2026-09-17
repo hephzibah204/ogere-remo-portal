@@ -315,7 +315,11 @@ export default function MobilePreviewPage() {
     try {
       if (navigator.geolocation) {
         const pos = await new Promise((res) => {
-          navigator.geolocation.getCurrentPosition(res, () => res(null), { timeout: 3000 });
+          navigator.geolocation.getCurrentPosition(
+            res,
+            () => res(null),
+            { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+          );
         });
         if (pos?.coords) {
           lat = pos.coords.latitude;
