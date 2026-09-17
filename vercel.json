@@ -81,6 +81,10 @@
       "destination": "/api/security"
     },
     {
+      "source": "/api/geocode",
+      "destination": "/api/security"
+    },
+    {
       "source": "/api/forum",
       "destination": "/api/community"
     },

@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { dbInsert } from '../services/db';
 import sirenSound from '../services/sirenSound';
 import { resolveOgereLocation, getOgereMapUrls, isInsideOgere } from '../services/ogereGeoEngine';
+import {
+  reverseGeocodeLocation,
+  searchAddressInRealtime,
+  acquirePreciseGpsLocation,
+  getStandardMapUrls,
+} from '../services/liveLocationEngine';
 
 const EMERGENCY_SERVICES = [
   {
@@ -68,6 +74,9 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState('sos'); // sos, walk, directory
   const [sector, setSector] = useState(OGERE_SECTORS[0]);
   const [manualLandmark, setManualLandmark] = useState('');
+  const [fullAddress, setFullAddress] = useState('');
+  const [addressSuggestions, setAddressSuggestions] = useState([]);
+  const [isSearchingAddress, setIsSearchingAddress] = useState(false);
   const [callerName, setCallerName] = useState('');
   const [callerPhone, setCallerPhone] = useState('');
   const [backupPhone, setBackupPhone] = useState('');
@@ -76,7 +85,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const [dispatchedData, setDispatchedData] = useState(null);
 
   // ─── Real GPS & IP Telemetry (Reporter Location) ─────────────────────────────
-  const [deviceLocation, setDeviceLocation] = useState(null); // { lat, lng, accuracy, ip, mapsUrl, isGps }
+  const [deviceLocation, setDeviceLocation] = useState(null); // { lat, lng, accuracy, ip, mapsUrl, isGps, fullAddress, directionsUrl }
   const [locationStatus, setLocationStatus] = useState('idle'); // idle, acquiring, acquired, denied, error
   const locationRef = useRef(null); // keeps latest location for use in executeSosDispatch
 
@@ -183,11 +192,24 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     }
 
     const ogereLoc = resolveOgereLocation(lat, lng, accuracy);
-    const mapUrls = getOgereMapUrls(lat, lng, 'Ogere Citizen Emergency');
-    const mapsUrl = mapUrls.satellitePin;
+    let resolvedFullAddress = '';
+    let stdMaps = getStandardMapUrls(lat || 6.9388, lng || 3.6437);
+    if (lat && lng) {
+      try {
+        const rev = await reverseGeocodeLocation(lat, lng);
+        resolvedFullAddress = rev.fullAddress;
+        setFullAddress((prev) => prev || rev.fullAddress);
+        stdMaps = rev;
+      } catch (_) {}
+    }
 
     const loc = {
-      lat, lng, accuracy, ip, mapsUrl, isGps,
+      lat, lng, accuracy, ip,
+      mapsUrl: stdMaps.googleMapsUrl,
+      directionsUrl: stdMaps.directionsUrl,
+      satelliteMapsUrl: stdMaps.satelliteMapsUrl,
+      fullAddress: resolvedFullAddress,
+      isGps,
       userAgent: ua, platform, language, timezone,
       screenResolution, networkType, networkDownlink, batteryLevel, isCharging,
       ogereLoc, isInsideOgere: isInsideOgere(lat, lng),
@@ -196,6 +218,48 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     locationRef.current = loc;
     setLocationStatus(lat ? (isGps ? 'acquired' : 'acquired_ip') : 'error');
     return loc;
+  };
+
+  const handleAddressSearch = async (val) => {
+    if (!val || val.length < 2) {
+      setAddressSuggestions([]);
+      return;
+    }
+    setIsSearchingAddress(true);
+    try {
+      const res = await searchAddressInRealtime(val);
+      setAddressSuggestions(res);
+    } catch (_) {
+      setAddressSuggestions([]);
+    } finally {
+      setIsSearchingAddress(false);
+    }
+  };
+
+  const handleLockExactGps = async () => {
+    setLocationStatus('acquiring');
+    try {
+      const fix = await acquirePreciseGpsLocation({ timeoutMs: 12000, targetAccuracyMeters: 15 });
+      const rev = await reverseGeocodeLocation(fix.latitude, fix.longitude);
+      setFullAddress(rev.fullAddress);
+      setManualLandmark(rev.nearestLandmark);
+      const loc = {
+        lat: fix.latitude,
+        lng: fix.longitude,
+        accuracy: fix.accuracy,
+        isGps: fix.isGpsPrecise,
+        fullAddress: rev.fullAddress,
+        mapsUrl: fix.googleMapsUrl,
+        directionsUrl: fix.directionsUrl,
+        satelliteMapsUrl: fix.satelliteMapsUrl,
+      };
+      setDeviceLocation((prev) => ({ ...prev, ...loc }));
+      locationRef.current = { ...(locationRef.current || {}), ...loc };
+      setLocationStatus('acquired');
+    } catch (err) {
+      console.warn('GPS lock error:', err);
+      setLocationStatus('error');
+    }
   };
 
   // Acquire location on modal open
@@ -515,6 +579,8 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     }
 
     const finalLocation = manualLandmark.trim() || sector;
+    const finalFullAddress = fullAddress.trim() || loc?.fullAddress || `${finalLocation}, Ogere Remo, Ogun State, Nigeria`;
+    const finalDirectionsUrl = loc?.directionsUrl || `https://www.google.com/maps/dir/?api=1&destination=${loc?.lat || 6.9388},${loc?.lng || 3.6437}&travelmode=driving`;
     const finalBackup = backupPhone.trim();
 
     const newSos = {
@@ -525,6 +591,10 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       threatLevel: 'CODE_RED',
       location: finalLocation,
       landmark: finalLocation,
+      fullAddress: finalFullAddress,
+      full_address: finalFullAddress,
+      directionsUrl: finalDirectionsUrl,
+      directions_url: finalDirectionsUrl,
       // Real GPS telemetry — precise latitude/longitude from device
       latitude: loc?.lat || null,
       longitude: loc?.lng || null,

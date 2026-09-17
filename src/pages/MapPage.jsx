@@ -1,9 +1,15 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import Hero from '../components/Hero';
 import AdireDivider from '../components/AdireDivider';
 import Section from '../components/Section';
 import SEO from '../components/SEO';
 import { MAP_LOCATIONS, CAT_COLORS } from '../data/mapLocations';
+import {
+  acquirePreciseGpsLocation,
+  reverseGeocodeLocation,
+  searchAddressInRealtime,
+  getStandardMapUrls,
+} from '../services/liveLocationEngine';
 
 const KEY_PLACES = [
   {
@@ -196,6 +202,84 @@ export default function MapPage() {
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
   const [mapType, setMapType] = useState('m'); // 'm' for Roadmap, 'k' for Satellite
+  
+  // Real-Time Address Lookup & GPS State
+  const [addressSuggestions, setAddressSuggestions] = useState([]);
+  const [isSearchingAddress, setIsSearchingAddress] = useState(false);
+  const [isLocatingGps, setIsLocatingGps] = useState(false);
+  const [gpsStatus, setGpsStatus] = useState(null); // { accuracy, address, isPrecise }
+  const searchTimerRef = useRef(null);
+
+  // Debounced real-time address lookup as the user types
+  useEffect(() => {
+    if (!search.trim() || search.trim().length < 2) {
+      setAddressSuggestions([]);
+      return;
+    }
+
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = setTimeout(async () => {
+      setIsSearchingAddress(true);
+      try {
+        const results = await searchAddressInRealtime(search.trim());
+        setAddressSuggestions(results);
+      } catch (_) {
+        setAddressSuggestions([]);
+      } finally {
+        setIsSearchingAddress(false);
+      }
+    }, 320);
+
+    return () => {
+      if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    };
+  }, [search]);
+
+  // Acquire exact device GPS with progressive satellite lock and real-time reverse geocode
+  const handleLocateExactPosition = async () => {
+    setIsLocatingGps(true);
+    setGpsStatus({ message: 'Locking onto GPS satellites...' });
+
+    try {
+      const fix = await acquirePreciseGpsLocation({ timeoutMs: 12000, targetAccuracyMeters: 15 });
+      const rev = await reverseGeocodeLocation(fix.latitude, fix.longitude);
+
+      const customPin = {
+        id: 'user_exact_gps',
+        name: 'My Exact GPS Location',
+        cat: 'Emergency',
+        icon: '🎯',
+        color: '#ef4444',
+        address: rev.fullAddress,
+        lat: fix.latitude,
+        lng: fix.longitude,
+        zoom: 18,
+        note: `Precision Satellite Lock (±${fix.accuracy ? Math.round(fix.accuracy) : '?'}m). Nearest Ogere landmark: ${rev.landmarkFormatted}.`,
+        googleQuery: `${fix.latitude},${fix.longitude}`,
+        googleMapsUrl: fix.googleMapsUrl,
+        directionsUrl: fix.directionsUrl,
+        satelliteMapsUrl: fix.satelliteMapsUrl,
+        highlight: 'Live Real-Time User Coordinate',
+      };
+
+      setSelectedPlace(customPin);
+      setGpsStatus({
+        accuracy: fix.accuracy,
+        address: rev.fullAddress,
+        isPrecise: fix.isGpsPrecise,
+        message: fix.isGpsPrecise
+          ? `🛰️ Exact GPS Locked: ±${Math.round(fix.accuracy)}m accuracy`
+          : `📶 Position Acquired: ±${Math.round(fix.accuracy || 100)}m (Refining...)`,
+      });
+    } catch (err) {
+      setGpsStatus({
+        error: true,
+        message: 'Could not acquire GPS. Please verify location permissions.',
+      });
+    } finally {
+      setIsLocatingGps(false);
+    }
+  };
 
   const filteredPlaces = useMemo(() => {
     return KEY_PLACES.filter(p => {
@@ -213,17 +297,25 @@ export default function MapPage() {
     });
   }, [filter, search]);
 
-  // Construct dynamic Google Maps iframe URL with embed parameter
+  // Construct dynamic Google Maps iframe URL with embed parameter centered on exact coordinates
   const getGoogleMapsUrl = () => {
     if (!selectedPlace) {
       return `https://maps.google.com/maps?q=Ogere+Remo,+Ogun+State,+Nigeria&t=${mapType}&z=14&ie=UTF8&iwloc=&output=embed`;
+    }
+    if (selectedPlace.lat && selectedPlace.lng) {
+      return `https://maps.google.com/maps?q=${selectedPlace.lat},${selectedPlace.lng}&t=${mapType}&z=${selectedPlace.zoom || 17}&ie=UTF8&iwloc=&output=embed`;
     }
     const query = selectedPlace.googleQuery || encodeURIComponent(`${selectedPlace.name}, Ogere Remo`);
     return `https://maps.google.com/maps?q=${query}&t=${mapType}&z=${selectedPlace.zoom || 16}&ie=UTF8&iwloc=&output=embed`;
   };
 
   const getDirectDirectionsUrl = (place) => {
-    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${place.name}, Ogere Remo, Ogun State, Nigeria`)}`;
+    if (!place) return 'https://www.google.com/maps/dir/?api=1&destination=6.9388,3.6437&travelmode=driving';
+    if (place.directionsUrl) return place.directionsUrl;
+    if (place.lat && place.lng) {
+      return `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=driving`;
+    }
+    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${place.name}, Ogere Remo, Ogun State, Nigeria`)}&travelmode=driving`;
   };
 
   return (
@@ -262,17 +354,97 @@ export default function MapPage() {
             }}
           >
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-              {/* Search bar */}
-              <div style={{ flex: 1, minWidth: 'min(260px, 100%)', position: 'relative' }}>
+              {/* Search bar with Real-Time Address Lookup */}
+              <div style={{ flex: 1, minWidth: 'min(280px, 100%)', position: 'relative' }}>
                 <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', opacity: 0.5 }}>🔍</span>
                 <input
                   className="inp"
                   style={{ paddingLeft: '2.5rem', borderRadius: '30px' }}
-                  placeholder="Search key places, palace, resort, market, schools..."
+                  placeholder="Type any address, street, landmark, or coordinates..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                 />
+
+                {/* Real-time Address Lookup Autocomplete Dropdown */}
+                {addressSuggestions.length > 0 && (
+                  <div style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 4px)',
+                    left: 0,
+                    right: 0,
+                    background: '#160b08',
+                    border: '1px solid var(--gold)',
+                    borderRadius: '10px',
+                    boxShadow: '0 12px 30px rgba(0,0,0,0.8)',
+                    zIndex: 9999,
+                    maxHeight: '240px',
+                    overflowY: 'auto',
+                  }}>
+                    <div style={{ padding: '0.4rem 0.8rem', background: 'rgba(201,150,58,0.15)', fontSize: '0.62rem', fontWeight: 800, color: 'var(--gold)' }}>
+                      📍 REAL-TIME ADDRESS MATCHES (CLICK TO DROP PIN):
+                    </div>
+                    {addressSuggestions.map(item => (
+                      <div
+                        key={item.id}
+                        onClick={() => {
+                          setSelectedPlace({
+                            id: item.id,
+                            name: item.name,
+                            address: item.address,
+                            lat: item.latitude,
+                            lng: item.longitude,
+                            zoom: 18,
+                            googleQuery: `${item.latitude},${item.longitude}`,
+                            directionsUrl: item.directionsUrl,
+                            googleMapsUrl: item.googleMapsUrl,
+                            satelliteMapsUrl: item.satelliteMapsUrl,
+                            color: '#38bdf8',
+                            icon: '📍',
+                            highlight: item.isLocal ? 'Ogere Remo Landmark' : 'Live Geocoded Address',
+                            note: `Address: ${item.address}. Coordinates: ${item.latitude.toFixed(6)}°N, ${item.longitude.toFixed(6)}°E.`,
+                          });
+                          setAddressSuggestions([]);
+                        }}
+                        style={{
+                          padding: '0.6rem 0.8rem',
+                          borderBottom: '1px solid rgba(255,255,255,0.06)',
+                          cursor: 'pointer',
+                          transition: 'background 0.15s ease',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(201,150,58,0.1)'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#f8fafc' }}>
+                          {item.isLocal ? '👑 ' : '📍 '} {item.name}
+                        </div>
+                        <div style={{ fontSize: '0.65rem', color: 'rgba(245,237,216,0.6)', marginTop: '2px' }}>
+                          {item.address}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
+
+              {/* Real-Time GPS "Locate My Exact Position" Button */}
+              <button
+                type="button"
+                onClick={handleLocateExactPosition}
+                disabled={isLocatingGps}
+                className="btn-p"
+                style={{
+                  fontSize: '0.68rem',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <span>{isLocatingGps ? '🛰️' : '🎯'}</span>
+                <span>{isLocatingGps ? 'Locking Satellites...' : 'Get My Exact Location'}</span>
+              </button>
 
               {/* Map View Toggle (Roadmap vs Satellite) */}
               <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
@@ -293,6 +465,36 @@ export default function MapPage() {
                 </button>
               </div>
             </div>
+
+            {/* GPS Lock Feedback Ribbon */}
+            {gpsStatus && (
+              <div style={{
+                background: gpsStatus.error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(34, 197, 94, 0.15)',
+                border: `1px solid ${gpsStatus.error ? '#ef4444' : '#22c55e'}`,
+                borderRadius: '8px',
+                padding: '0.5rem 0.8rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '6px',
+                fontSize: '0.72rem',
+              }}>
+                <div style={{ color: gpsStatus.error ? '#fca5a5' : '#86efac', fontWeight: 700 }}>
+                  {gpsStatus.message} {gpsStatus.address ? `· ${gpsStatus.address}` : ''}
+                </div>
+                {selectedPlace?.directionsUrl && (
+                  <a
+                    href={selectedPlace.directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#38bdf8', fontWeight: 800, textDecoration: 'none', fontSize: '0.68rem' }}
+                  >
+                    🚗 Open Driving Navigation ↗
+                  </a>
+                )}
+              </div>
+            )}
 
             {/* Category Filter Pills */}
             <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', paddingTop: '0.8rem', borderTop: '1px solid rgba(201,150,58,0.1)' }}>
@@ -412,13 +614,13 @@ export default function MapPage() {
                       </a>
                     )}
                     <a
-                      href="https://maps.google.com/?q=Ogere+Remo,+Ogun+State,+Nigeria"
+                      href={selectedPlace?.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${selectedPlace?.lat || 6.9388},${selectedPlace?.lng || 3.6437}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-o"
                       style={{ fontSize: '0.62rem', padding: '0.4rem 0.9rem', textDecoration: 'none' }}
                     >
-                      Open in App ↗
+                      Open Pin on Google Maps ↗
                     </a>
                   </div>
                 </div>
