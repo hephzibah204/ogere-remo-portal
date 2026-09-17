@@ -62,6 +62,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
   const [severity, setSeverity] = useState('Critical');
   const [landmark, setLandmark] = useState(LANDMARKS[0]);
   const [specificLocation, setSpecificLocation] = useState('');
+  const [fullAddress, setFullAddress] = useState('');
   const [description, setDescription] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [reporterPhone, setReporterPhone] = useState(user?.phone || '');
@@ -80,6 +81,9 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
     try {
       const loc = await getExactDeviceLocation();
       setDeviceLocation(loc);
+      if (loc.fullAddress && !fullAddress) {
+        setFullAddress(loc.fullAddress);
+      }
     } catch (err) {
       console.warn('[IncidentReportScreen] Location acquisition warning:', err);
     } finally {
@@ -122,7 +126,9 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
     const effectiveLng = (useLiveGps && deviceLocation) ? deviceLocation.longitude : landmark.lng;
     const accuracy = (useLiveGps && deviceLocation) ? deviceLocation.accuracy : null;
     const ipAddress = deviceLocation?.ipAddress || null;
-    const googleMapsUrl = deviceLocation?.googleMapsUrl || `https://www.google.com/maps?q=${effectiveLat},${effectiveLng}`;
+    const googleMapsUrl = deviceLocation?.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${effectiveLat},${effectiveLng}`;
+    const directionsUrl = deviceLocation?.directionsUrl || `https://www.google.com/maps/dir/?api=1&destination=${effectiveLat},${effectiveLng}&travelmode=driving`;
+    const resolvedFullAddress = fullAddress.trim() || deviceLocation?.fullAddress || `${fullLoc}, Ogere Remo, Ogun State, Nigeria`;
 
     const payload = {
       category: selectedCategory,
@@ -130,6 +136,10 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
       threatLevel,
       location: fullLoc,
       landmark: landmark.name,
+      fullAddress: resolvedFullAddress,
+      full_address: resolvedFullAddress,
+      directionsUrl,
+      directions_url: directionsUrl,
       latitude: effectiveLat,
       longitude: effectiveLng,
       accuracy,
@@ -324,6 +334,12 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
 
               {deviceLocation ? (
                 <View style={styles.gpsDetailsGrid}>
+                  {deviceLocation.fullAddress && (
+                    <View style={[styles.gpsStatItem, { width: '100%', marginBottom: 4 }]}>
+                      <Text style={styles.gpsStatLabel}>RESOLVED VENUE ADDRESS</Text>
+                      <Text style={[styles.gpsStatValue, { color: '#fef08a', fontSize: 11 }]}>{deviceLocation.fullAddress}</Text>
+                    </View>
+                  )}
                   {/* Location Stats */}
                   <View style={styles.gpsStatItem}>
                     <Text style={styles.gpsStatLabel}>EXACT COORDINATES</Text>
@@ -392,11 +408,32 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                     onPress={() => openInGoogleMaps(deviceLocation.latitude, deviceLocation.longitude, 'Reported Incident Location')}
                     style={styles.openMapsBtn}
                   >
-                    <Text style={styles.openMapsBtnText}>🗺️ Preview on Google Maps</Text>
+                    <Text style={styles.openMapsBtnText}>🗺️ Maps Pin</Text>
+                  </TouchableOpacity>
+                )}
+
+                {deviceLocation && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      const url = deviceLocation.directionsUrl || `https://www.google.com/maps/dir/?api=1&destination=${deviceLocation.latitude},${deviceLocation.longitude}&travelmode=driving`;
+                      Linking.openURL(url).catch(() => Alert.alert('Error', 'Unable to open Google Maps directions.'));
+                    }}
+                    style={[styles.openMapsBtn, { backgroundColor: '#0284c7' }]}
+                  >
+                    <Text style={styles.openMapsBtnText}>🚗 Directions</Text>
                   </TouchableOpacity>
                 )}
               </View>
             </View>
+
+            <Text style={[styles.sectionSublabel, { marginTop: 12 }]}>Full Street Address / Venue:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="e.g. 14 Oba Adegbesan Way, Hospital Junction, Ogere"
+              placeholderTextColor={Colors.textMuted}
+              value={fullAddress}
+              onChangeText={setFullAddress}
+            />
 
             <Text style={[styles.sectionSublabel, { marginTop: 8 }]}>Select Nearest Ogere Sector / Landmark:</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.catScroll}>

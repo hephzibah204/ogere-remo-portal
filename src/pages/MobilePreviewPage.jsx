@@ -7,6 +7,12 @@ import { resolveOgereLocation, getOgereMapUrls, isInsideOgere } from '../service
 import DuressPinSettings from '../components/DuressPinSettings';
 import { getSafePin, getDuressPin } from '../utils/pinStorage';
 import { getNotificationPermission, requestNotificationPermission, sendEscortNotification } from '../services/pushNotification';
+import {
+  acquirePreciseGpsLocation,
+  reverseGeocodeLocation,
+  searchAddressInRealtime,
+  getStandardMapUrls,
+} from '../services/liveLocationEngine';
 
 const SEED_NEWS = [
   {
@@ -99,12 +105,65 @@ export default function MobilePreviewPage() {
   const [sosSeverity, setSosSeverity] = useState('Critical');
   const [sosLandmark, setSosLandmark] = useState('KM 66-68 Expressway Axis');
   const [sosCustomLandmark, setSosCustomLandmark] = useState('');
+  const [sosFullAddress, setSosFullAddress] = useState('');
+  const [sosAddressSuggestions, setSosAddressSuggestions] = useState([]);
+  const [isSearchingSosAddress, setIsSearchingSosAddress] = useState(false);
+  const [isLockingSosGps, setIsLockingSosGps] = useState(false);
+  const [sosDirectionsUrl, setSosDirectionsUrl] = useState('');
   const [sosReporterPhone, setSosReporterPhone] = useState('08081762371');
   const [sosBackupPhone, setSosBackupPhone] = useState('08034567890');
   const [sosLiveTracking, setSosLiveTracking] = useState(true);
   const [sosDetails, setSosDetails] = useState('');
   const [sosActiveBeacon, setSosActiveBeacon] = useState(null);
   const [isSubmittingSos, setIsSubmittingSos] = useState(false);
+
+  const handleSosAddressSearch = async (val) => {
+    if (!val || val.length < 2) {
+      setSosAddressSuggestions([]);
+      return;
+    }
+    setIsSearchingSosAddress(true);
+    try {
+      const res = await searchAddressInRealtime(val);
+      setSosAddressSuggestions(res);
+    } catch (_) {
+      setSosAddressSuggestions([]);
+    } finally {
+      setIsSearchingSosAddress(false);
+    }
+  };
+
+  const handleSelectSosAddress = (item) => {
+    const chosenAddress = item.fullAddress || item.displayName || item.name;
+    setSosFullAddress(chosenAddress);
+    if (item.nearestSector) {
+      setSosLandmark(item.nearestSector);
+    }
+    if (item.name) {
+      setSosCustomLandmark(item.name);
+    }
+    if (item.latitude && item.longitude) {
+      const urls = getStandardMapUrls(item.latitude, item.longitude);
+      setSosDirectionsUrl(urls.directionsUrl);
+    }
+    setSosAddressSuggestions([]);
+  };
+
+  const handleLockSosGps = async () => {
+    setIsLockingSosGps(true);
+    try {
+      const fix = await acquirePreciseGpsLocation({ timeoutMs: 12000, targetAccuracyMeters: 15 });
+      const rev = await reverseGeocodeLocation(fix.latitude, fix.longitude);
+      setSosFullAddress(rev.fullAddress);
+      setSosCustomLandmark(rev.nearestLandmark);
+      setSosLandmark(rev.nearestSector);
+      setSosDirectionsUrl(fix.directionsUrl);
+    } catch (err) {
+      console.warn('GPS lock error in mobile preview:', err);
+    } finally {
+      setIsLockingSosGps(false);
+    }
+  };
 
   // Walk With Me custom destination and contact state
   const [escortCustomDestination, setEscortCustomDestination] = useState('');
@@ -162,24 +221,21 @@ export default function MobilePreviewPage() {
     const finalPhone = sosReporterPhone.trim() || citizen.phone;
     const finalBackup = sosBackupPhone.trim();
 
-    // 1. Acquire real GPS coordinates
+    // 1. Acquire real GPS coordinates with progressive precision
     let lat = 6.9388;
     let lng = 3.6437;
-    let accuracy = 8;
+    let accuracy = 10;
+    let resolvedFullAddress = sosFullAddress.trim();
+
     try {
-      if (navigator.geolocation) {
-        const pos = await new Promise((resolve) => {
-          navigator.geolocation.getCurrentPosition(
-            resolve,
-            () => resolve(null),
-            { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
-          );
-        });
-        if (pos?.coords) {
-          lat = pos.coords.latitude;
-          lng = pos.coords.longitude;
-          accuracy = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : 5;
-        }
+      const fix = await acquirePreciseGpsLocation({ timeoutMs: 10000, targetAccuracyMeters: 15 });
+      lat = fix.latitude;
+      lng = fix.longitude;
+      accuracy = fix.accuracy;
+      if (!resolvedFullAddress) {
+        const rev = await reverseGeocodeLocation(lat, lng);
+        resolvedFullAddress = rev.fullAddress;
+        setSosFullAddress(rev.fullAddress);
       }
     } catch (_) {}
 
@@ -213,11 +269,13 @@ export default function MobilePreviewPage() {
     }
 
     const ogereLoc = resolveOgereLocation(lat, lng, accuracy);
-    const mapUrls = getOgereMapUrls(lat, lng, 'Ogere Citizen SOS');
+    const mapUrls = getStandardMapUrls(lat, lng);
+    const finalFullAddress = resolvedFullAddress || (sosCustomLandmark.trim() || sosLandmark) + ', Ogere Remo, Ogun State, Nigeria';
+    const finalDirectionsUrl = sosDirectionsUrl || mapUrls.directionsUrl;
 
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     const networkType = conn?.effectiveType || conn?.type || '4g';
-    const googleMapsUrl = mapUrls.satellitePin;
+    const googleMapsUrl = mapUrls.googleMapsUrl;
 
     const payload = {
       id: incId,
@@ -226,6 +284,10 @@ export default function MobilePreviewPage() {
       threatLevel: 'CODE_RED',
       location: finalLandmark,
       landmark: ogereLoc.formattedText,
+      fullAddress: finalFullAddress,
+      full_address: finalFullAddress,
+      directionsUrl: finalDirectionsUrl,
+      directions_url: finalDirectionsUrl,
       latitude: lat,
       longitude: lng,
       accuracy,
@@ -239,7 +301,7 @@ export default function MobilePreviewPage() {
       battery_level: batteryLevel,
       networkType,
       network_type: networkType,
-      description: `EMERGENCY SOS: ${ogereLoc.formattedText}. Sector: ${ogereLoc.sector}. Direct: ${finalPhone}${finalBackup ? ` | Backup: ${finalBackup}` : ''}. GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)} (±${accuracy}m - ${ogereLoc.accuracyRating}). IP: ${ip}. Battery: ${batteryLevel}%${isCharging ? ' ⚡' : ''}. Details: ${sosDetails || 'Rapid armed patrol intercept required.'}`,
+      description: `EMERGENCY SOS: ${ogereLoc.formattedText}. Sector: ${ogereLoc.sector}. Address: ${finalFullAddress}. Direct: ${finalPhone}${finalBackup ? ` | Backup: ${finalBackup}` : ''}. GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)} (±${accuracy}m - ${ogereLoc.accuracyRating}). IP: ${ip}. Battery: ${batteryLevel}%${isCharging ? ' ⚡' : ''}. Details: ${sosDetails || 'Rapid armed patrol intercept required.'}`,
       reporterName: citizen.name,
       reporterPhone: finalPhone,
       backupPhone: finalBackup,
@@ -291,11 +353,13 @@ export default function MobilePreviewPage() {
       category: sosCategory,
       severity: sosSeverity,
       landmark: finalLandmark,
+      fullAddress: finalFullAddress,
       phone: finalPhone,
       backupPhone: finalBackup,
       timestamp: new Date().toLocaleTimeString(),
       status: 'DISPATCHED_TACTICAL_CRUISER',
       googleMapsUrl,
+      directionsUrl: finalDirectionsUrl,
       latitude: lat,
       longitude: lng,
       accuracy,
@@ -2021,13 +2085,16 @@ export default function MobilePreviewPage() {
 
                         <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px', borderRadius: '8px', margin: '10px 0', textAlign: 'left', fontSize: '0.68rem', lineHeight: 1.5 }}>
                           <div>📍 <strong>Sector:</strong> {sosActiveBeacon.landmark}</div>
+                          {sosActiveBeacon.fullAddress && (
+                            <div>🏠 <strong>Full Address / Venue:</strong> <span style={{ color: '#fef08a' }}>{sosActiveBeacon.fullAddress}</span></div>
+                          )}
                           <div>⚡ <strong>Threat:</strong> {sosActiveBeacon.category} ({sosActiveBeacon.severity})</div>
                           <div>⏱️ <strong>Dispatched:</strong> {sosActiveBeacon.timestamp}</div>
                           <div style={{ color: '#86efac', marginTop: '4px', fontWeight: 800 }}>
                             ✓ Status: {sosActiveBeacon.status}
                           </div>
                           <div style={{ color: '#cbd5e1', fontSize: '0.62rem' }}>
-                            🚓 Ogere Police Cruiser #04 & So-Safe Armed Patrol en route.
+                            🚓 Ogere Police Cruiser #04 &amp; So-Safe Armed Patrol en route.
                           </div>
 
                           {sosActiveBeacon.latitude && (
@@ -2038,14 +2105,26 @@ export default function MobilePreviewPage() {
                               <div style={{ color: '#94a3b8', fontSize: '0.62rem', marginTop: '2px' }}>
                                 🌐 IP: {sosActiveBeacon.ip} {sosActiveBeacon.batteryLevel ? `· 🔋 ${sosActiveBeacon.batteryLevel}%` : ''}
                               </div>
-                              <a
-                                href={sosActiveBeacon.googleMapsUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                style={{ display: 'inline-block', marginTop: '6px', background: '#16a34a', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem' }}
-                              >
-                                🗺️ Preview My Pin on Google Maps ➔
-                              </a>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '6px' }}>
+                                <a
+                                  href={sosActiveBeacon.googleMapsUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  style={{ background: '#16a34a', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem' }}
+                                >
+                                  🗺️ Pin on Maps ➔
+                                </a>
+                                {sosActiveBeacon.directionsUrl && (
+                                  <a
+                                    href={sosActiveBeacon.directionsUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    style={{ background: '#0284c7', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem' }}
+                                  >
+                                    🚗 Directions to Venue ➔
+                                  </a>
+                                )}
+                              </div>
                             </div>
                           )}
                         </div>
@@ -2137,9 +2216,27 @@ export default function MobilePreviewPage() {
                         </div>
 
                         <div>
-                          <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#0f172a', marginBottom: '4px' }}>
-                            3. NEAREST SECTOR & MANUAL LANDMARK
+                          <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#0f172a', marginBottom: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span>3. VENUE, SECTOR &amp; FULL ADDRESS</span>
+                            <button
+                              type="button"
+                              onClick={handleLockSosGps}
+                              disabled={isLockingSosGps}
+                              style={{
+                                background: '#f0fdf4',
+                                color: '#15803d',
+                                border: '1px solid #86efac',
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                                fontSize: '0.58rem',
+                                fontWeight: 800,
+                                cursor: 'pointer',
+                              }}
+                            >
+                              {isLockingSosGps ? '⏳ Locking GPS...' : '🎯 Lock Exact GPS'}
+                            </button>
                           </div>
+
                           <select
                             value={sosLandmark}
                             onChange={(e) => setSosLandmark(e.target.value)}
@@ -2155,33 +2252,112 @@ export default function MobilePreviewPage() {
                             <option>Agbele Farmland Axis</option>
                           </select>
 
+                          {/* Full Address Input with Real-time Suggestions */}
+                          <div style={{ position: 'relative', marginBottom: '4px' }}>
+                            <input
+                              type="text"
+                              value={sosFullAddress}
+                              onChange={(e) => {
+                                setSosFullAddress(e.target.value);
+                                handleSosAddressSearch(e.target.value);
+                              }}
+                              placeholder="Full Street Address / Venue (e.g. 14 Oba Adegbesan Way)..."
+                              style={{ width: '100%', fontSize: '0.7rem', padding: '6px', borderRadius: '6px', border: '1px solid #94a3b8', background: '#f8fafc', boxSizing: 'border-box' }}
+                            />
+                            {sosAddressSuggestions.length > 0 && (
+                              <div
+                                style={{
+                                  position: 'absolute',
+                                  top: '100%',
+                                  left: 0,
+                                  right: 0,
+                                  zIndex: 50,
+                                  background: '#ffffff',
+                                  border: '1px solid #38bdf8',
+                                  borderRadius: '6px',
+                                  boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+                                  maxHeight: '140px',
+                                  overflowY: 'auto',
+                                  marginTop: '2px',
+                                }}
+                              >
+                                {sosAddressSuggestions.map((item, idx) => (
+                                  <div
+                                    key={idx}
+                                    onClick={() => handleSelectSosAddress(item)}
+                                    style={{
+                                      padding: '5px 8px',
+                                      borderBottom: idx < sosAddressSuggestions.length - 1 ? '1px solid #f1f5f9' : 'none',
+                                      cursor: 'pointer',
+                                      fontSize: '0.66rem',
+                                      color: '#0f172a',
+                                    }}
+                                  >
+                                    <div style={{ fontWeight: 800, color: '#0284c7' }}>📍 {item.name}</div>
+                                    <div style={{ color: '#64748b', fontSize: '0.6rem' }}>{item.displayName}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+
                           <input
                             type="text"
                             value={sosCustomLandmark}
                             onChange={(e) => setSosCustomLandmark(e.target.value)}
-                            placeholder="Or type specific street, junction, building or compound name..."
-                            style={{ width: '100%', fontSize: '0.7rem', padding: '6px', borderRadius: '6px', border: '1px solid #94a3b8', background: '#f8fafc', marginBottom: '4px' }}
+                            placeholder="Or specific landmark, junction, or building..."
+                            style={{ width: '100%', fontSize: '0.7rem', padding: '6px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#ffffff', marginBottom: '6px', boxSizing: 'border-box' }}
                           />
 
-                          <button
-                            type="button"
-                            onClick={() => handleLookupGoogleMaps(sosCustomLandmark || sosLandmark)}
-                            style={{
-                              background: '#eff6ff',
-                              color: '#2563eb',
-                              border: '1px solid #93c5fd',
-                              padding: '3px 8px',
-                              borderRadius: '4px',
-                              fontSize: '0.6rem',
-                              fontWeight: 800,
-                              cursor: 'pointer',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                            }}
-                          >
-                            🗺️ Lookup Landmark on Google Maps ➔
-                          </button>
+                          <div style={{ display: 'flex', gap: '6px' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleLookupGoogleMaps(sosFullAddress || sosCustomLandmark || sosLandmark)}
+                              style={{
+                                flex: 1,
+                                background: '#eff6ff',
+                                color: '#2563eb',
+                                border: '1px solid #93c5fd',
+                                padding: '4px 6px',
+                                borderRadius: '4px',
+                                fontSize: '0.62rem',
+                                fontWeight: 800,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '4px',
+                              }}
+                            >
+                              🗺️ Map Pin
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const dest = (sosFullAddress || sosCustomLandmark || sosLandmark).trim();
+                                const destQ = encodeURIComponent(dest.toLowerCase().includes('ogere') ? dest : `${dest}, Ogere Remo, Ogun State, Nigeria`);
+                                window.open(`https://www.google.com/maps/dir/?api=1&destination=${destQ}&travelmode=driving`, '_blank');
+                              }}
+                              style={{
+                                flex: 1,
+                                background: '#f0fdf4',
+                                color: '#16a34a',
+                                border: '1px solid #86efac',
+                                padding: '4px 6px',
+                                borderRadius: '4px',
+                                fontSize: '0.62rem',
+                                fontWeight: 800,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '4px',
+                              }}
+                            >
+                              🚗 Directions to Venue
+                            </button>
+                          </div>
                         </div>
 
                         {/* 4. EMERGENCY CONTACT NUMBERS */}

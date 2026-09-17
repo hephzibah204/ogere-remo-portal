@@ -5,7 +5,7 @@
 
 import { Linking, Alert } from 'react-native';
 import { OGERE_LANDMARKS, resolveOgereLocation } from './ogereGeoEngine';
-import { API_BASE_URL } from '../config';
+import { API_BASE_URL } from '../database/syncManager';
 
 export interface GeocodedPlace {
   id: string;

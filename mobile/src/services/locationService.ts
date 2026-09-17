@@ -58,6 +58,7 @@ export interface DeviceLocationData {
   googleMapsUrl: string;
   satelliteMapsUrl: string;
   turnByTurnUrl: string;
+  directionsUrl: string;
   isGpsPrecise: boolean;
   isInsideOgere: boolean;
   timestamp: string;
@@ -404,6 +405,7 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
     googleMapsUrl: revGeo.googleMapsUrl,
     satelliteMapsUrl: revGeo.satelliteMapsUrl,
     turnByTurnUrl: revGeo.directionsUrl,
+    directionsUrl: revGeo.directionsUrl,
     isGpsPrecise,
     isInsideOgere: insideOgere,
     timestamp: new Date().toISOString(),

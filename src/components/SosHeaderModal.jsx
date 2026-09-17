@@ -236,6 +236,35 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     }
   };
 
+  const handleSelectAddress = (item) => {
+    const chosenAddress = item.fullAddress || item.displayName || item.name;
+    setFullAddress(chosenAddress);
+    if (item.nearestSector) {
+      setSector(item.nearestSector);
+    }
+    if (item.name) {
+      setManualLandmark(item.name);
+    }
+    if (item.latitude && item.longitude) {
+      const urls = getStandardMapUrls(item.latitude, item.longitude);
+      const updatedLoc = {
+        ...(deviceLocation || {}),
+        lat: item.latitude,
+        lng: item.longitude,
+        accuracy: 10,
+        isGps: true,
+        fullAddress: chosenAddress,
+        mapsUrl: urls.googleMapsUrl,
+        directionsUrl: urls.directionsUrl,
+        satelliteMapsUrl: urls.satelliteMapsUrl,
+      };
+      setDeviceLocation(updatedLoc);
+      locationRef.current = updatedLoc;
+      setLocationStatus('acquired');
+    }
+    setAddressSuggestions([]);
+  };
+
   const handleLockExactGps = async () => {
     setLocationStatus('acquiring');
     try {
@@ -907,37 +936,189 @@ export default function SosHeaderModal({ isOpen, onClose }) {
             {sosState === 'idle' && (
               <div>
                 <div style={{ background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: '8px', padding: '1rem', marginBottom: '1.2rem' }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#fca5a5', marginBottom: '0.6rem' }}>
-                    📍 Set Your Current Location in Ogere:
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#fca5a5' }}>
+                      📍 Emergency Location &amp; Venue in Ogere:
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleLockExactGps}
+                      disabled={locationStatus === 'acquiring'}
+                      style={{
+                        background: locationStatus === 'acquired' ? 'rgba(34,197,94,0.2)' : 'rgba(56,189,248,0.2)',
+                        border: `1px solid ${locationStatus === 'acquired' ? '#22c55e' : '#38bdf8'}`,
+                        color: locationStatus === 'acquired' ? '#4ade80' : '#38bdf8',
+                        borderRadius: '4px',
+                        padding: '3px 8px',
+                        fontSize: '0.7rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                    >
+                      {locationStatus === 'acquiring' ? '⏳ Locking GPS...' : '🎯 Get Exact GPS'}
+                    </button>
                   </div>
-                  <select
-                    className="ainp"
-                    value={sector}
-                    onChange={(e) => setSector(e.target.value)}
-                    style={{ width: '100%', marginBottom: '0.4rem', background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid #ef4444', borderRadius: '6px' }}
-                  >
-                    {OGERE_SECTORS.map((sec) => (
-                      <option key={sec} value={sec}>{sec}</option>
-                    ))}
-                  </select>
 
-                  <div style={{ display: 'flex', gap: '6px', marginBottom: '0.8rem' }}>
+                  {/* Sector selector */}
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <label style={{ fontSize: '0.7rem', color: '#cbd5e1', display: 'block', marginBottom: '3px', fontWeight: 600 }}>
+                      Primary Sector / Ward:
+                    </label>
+                    <select
+                      className="ainp"
+                      value={sector}
+                      onChange={(e) => setSector(e.target.value)}
+                      style={{ width: '100%', background: '#0a0503', color: '#fff', padding: '0.55rem', border: '1px solid rgba(239,68,68,0.4)', borderRadius: '6px', fontSize: '0.8rem' }}
+                    >
+                      {OGERE_SECTORS.map((sec) => (
+                        <option key={sec} value={sec}>{sec}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Full Address Input with Real-Time Google Maps Lookup */}
+                  <div style={{ position: 'relative', marginBottom: '0.5rem' }}>
+                    <label style={{ fontSize: '0.7rem', color: '#cbd5e1', display: 'block', marginBottom: '3px', fontWeight: 600 }}>
+                      Full Street Address / Venue:
+                    </label>
                     <input
-                      placeholder="Or type specific street, junction, building or landmark..."
+                      placeholder="e.g. 14 Oba Adegbesan Way, Hospital Junction, Ogere"
+                      value={fullAddress}
+                      onChange={(e) => {
+                        setFullAddress(e.target.value);
+                        handleAddressSearch(e.target.value);
+                      }}
+                      style={{
+                        width: '100%',
+                        background: '#0a0503',
+                        color: '#fff',
+                        padding: '0.6rem',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        borderRadius: '6px',
+                        fontSize: '0.8rem',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+
+                    {/* Real-time Address Lookup Suggestions Dropdown */}
+                    {addressSuggestions.length > 0 && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '100%',
+                          left: 0,
+                          right: 0,
+                          zIndex: 50,
+                          background: '#111827',
+                          border: '1px solid #38bdf8',
+                          borderRadius: '6px',
+                          boxShadow: '0 8px 24px rgba(0,0,0,0.8)',
+                          maxHeight: '180px',
+                          overflowY: 'auto',
+                          marginTop: '2px',
+                        }}
+                      >
+                        {addressSuggestions.map((item, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => handleSelectAddress(item)}
+                            style={{
+                              padding: '0.55rem 0.8rem',
+                              borderBottom: idx < addressSuggestions.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                              cursor: 'pointer',
+                              fontSize: '0.74rem',
+                              color: '#f1f5f9',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: '2px',
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(56,189,248,0.15)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                          >
+                            <span style={{ fontWeight: 700, color: '#38bdf8' }}>📍 {item.name}</span>
+                            <span style={{ color: '#94a3b8', fontSize: '0.68rem' }}>{item.displayName}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Manual Landmark or Specific Note */}
+                  <div style={{ marginBottom: '0.8rem' }}>
+                    <label style={{ fontSize: '0.7rem', color: '#cbd5e1', display: 'block', marginBottom: '3px', fontWeight: 600 }}>
+                      Specific Landmark / Compound / Building:
+                    </label>
+                    <input
+                      placeholder="e.g. Opposite Central Mosque, Beside Total Filling Station"
                       value={manualLandmark}
                       onChange={(e) => setManualLandmark(e.target.value)}
-                      style={{ flex: 1, background: '#0a0503', color: '#fff', padding: '0.6rem', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '6px', fontSize: '0.78rem' }}
+                      style={{ width: '100%', background: '#0a0503', color: '#fff', padding: '0.55rem', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', fontSize: '0.78rem', boxSizing: 'border-box' }}
                     />
+                  </div>
+
+                  {/* Realtime Map & Directions Preview Buttons */}
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '0.8rem' }}>
                     <button
                       type="button"
                       onClick={() => {
-                        const q = (manualLandmark || sector).trim();
-                        const fullQ = encodeURIComponent(q.toLowerCase().includes('ogere') ? q : `${q}, Ogere Remo, Ogun State, Nigeria`);
-                        window.open(`https://www.google.com/maps/search/?api=1&query=${fullQ}`, '_blank');
+                        if (deviceLocation?.mapsUrl) {
+                          window.open(deviceLocation.mapsUrl, '_blank');
+                        } else {
+                          const q = (fullAddress || manualLandmark || sector).trim();
+                          const fullQ = encodeURIComponent(q.toLowerCase().includes('ogere') ? q : `${q}, Ogere Remo, Ogun State, Nigeria`);
+                          window.open(`https://www.google.com/maps/search/?api=1&query=${fullQ}`, '_blank');
+                        }
                       }}
-                      style={{ background: 'rgba(56,189,248,0.15)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.4)', padding: '0 10px', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                      style={{
+                        flex: 1,
+                        background: 'rgba(56,189,248,0.15)',
+                        color: '#38bdf8',
+                        border: '1px solid rgba(56,189,248,0.4)',
+                        padding: '0.45rem',
+                        borderRadius: '6px',
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px',
+                      }}
                     >
-                      🗺️ Map Lookup ➔
+                      🗺️ View Pin on Maps
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (deviceLocation?.directionsUrl) {
+                          window.open(deviceLocation.directionsUrl, '_blank');
+                        } else {
+                          const dest = (fullAddress || manualLandmark || sector).trim();
+                          const destQ = encodeURIComponent(dest.toLowerCase().includes('ogere') ? dest : `${dest}, Ogere Remo, Ogun State, Nigeria`);
+                          window.open(`https://www.google.com/maps/dir/?api=1&destination=${destQ}&travelmode=driving`, '_blank');
+                        }
+                      }}
+                      style={{
+                        flex: 1,
+                        background: 'rgba(34,197,94,0.15)',
+                        color: '#4ade80',
+                        border: '1px solid rgba(34,197,94,0.4)',
+                        padding: '0.45rem',
+                        borderRadius: '6px',
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px',
+                      }}
+                    >
+                      🚗 Directions to Venue
                     </button>
                   </div>
 
@@ -1249,6 +1430,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                           🗺️ Preview on Google Maps
                         </a>
                       )}
+                      {deviceLocation.directionsUrl && (
+                        <a href={deviceLocation.directionsUrl} target="_blank" rel="noopener noreferrer"
+                          style={{ background: 'rgba(56,189,248,0.2)', border: '1px solid #38bdf8', padding: '0.35rem 0.5rem', borderRadius: '4px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', color: '#38bdf8', fontWeight: 800, fontSize: '0.7rem' }}>
+                          🚗 Directions to Venue
+                        </a>
+                      )}
                     </div>
                   ) : (
                     <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
@@ -1334,21 +1521,30 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                 </p>
 
                 <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: '8px', padding: '1rem', textAlign: 'left', marginBottom: '1.2rem', fontSize: '0.8rem', display: 'grid', gap: '0.4rem' }}>
-                  <div>📍 <strong>Location:</strong> {dispatchedData.location}</div>
+                  <div>📍 <strong>Location / Sector:</strong> {dispatchedData.location}</div>
+                  {dispatchedData.fullAddress && (
+                    <div>🏠 <strong>Full Address / Venue:</strong> <span style={{ color: '#fef08a', fontWeight: 600 }}>{dispatchedData.fullAddress}</span></div>
+                  )}
                   {dispatchedData.latitude && dispatchedData.longitude && (
                     <div>🎯 <strong>GPS Coordinates:</strong> <span style={{ fontFamily: 'monospace', color: '#38bdf8' }}>{Number(dispatchedData.latitude).toFixed(5)}°N, {Number(dispatchedData.longitude).toFixed(5)}°E {dispatchedData.accuracy ? `(±${Math.round(dispatchedData.accuracy)}m)` : ''}</span></div>
                   )}
                   {dispatchedData.ipAddress && (
                     <div>🌐 <strong>Reporter IP:</strong> <span style={{ fontFamily: 'monospace', color: '#94a3b8' }}>{dispatchedData.ipAddress}</span></div>
                   )}
-                  {dispatchedData.googleMapsUrl && (
-                    <div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '0.3rem' }}>
+                    {dispatchedData.googleMapsUrl && (
                       <a href={dispatchedData.googleMapsUrl} target="_blank" rel="noopener noreferrer"
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(22,163,74,0.2)', border: '1px solid #22c55e', borderRadius: '4px', padding: '3px 10px', color: '#4ade80', fontWeight: 800, textDecoration: 'none', fontSize: '0.75rem' }}>
-                        🗺️ Open Reporter Location on Google Maps →
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(22,163,74,0.2)', border: '1px solid #22c55e', borderRadius: '4px', padding: '4px 10px', color: '#4ade80', fontWeight: 800, textDecoration: 'none', fontSize: '0.75rem' }}>
+                        🗺️ Pin on Google Maps →
                       </a>
-                    </div>
-                  )}
+                    )}
+                    {dispatchedData.directionsUrl && (
+                      <a href={dispatchedData.directionsUrl} target="_blank" rel="noopener noreferrer"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(56,189,248,0.2)', border: '1px solid #38bdf8', borderRadius: '4px', padding: '4px 10px', color: '#38bdf8', fontWeight: 800, textDecoration: 'none', fontSize: '0.75rem' }}>
+                        🚗 Directions to Venue →
+                      </a>
+                    )}
+                  </div>
                   <div>🚨 <strong>Status:</strong> <span style={{ color: '#ef4444', fontWeight: 800 }}>CODE RED — TACTICAL UNITS ALERTED</span></div>
                   <div>🛡️ <strong>Agencies Notified:</strong> Ogere Police Command, So-Safe / Amotekun Corps, Palace Rapid Vigilante</div>
                   {(cameraEnabled || audioEnabled) && (
