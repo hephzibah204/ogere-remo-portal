@@ -46,6 +46,7 @@ function apiDevServerPlugin() {
           '/api/admin-actions': './api/admin-actions.js',
           '/api/admin-officers': './api/admin-officers.js',
           '/api/health': './api/health.js',
+          '/api/geocode': './api/geocode.js',
         };
 
         const targetFile = ROUTE_MAP[pathname] || `./api/${pathname.replace('/api/', '')}.js`;

@@ -1,12 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import sirenSound from '../services/sirenSound';
 import { resolveOgereLocation, getOgereMapUrls } from '../services/ogereGeoEngine';
+import { OGERE_STATIONS, ONBOARDED_OFFICERS, getStationById, getOfficerById } from '../services/securityUnits';
+import { autoRouteIncident, claimIncident, getIncidentClaim } from '../services/dispatchRouter';
+import {
+  RADIO_CHANNELS,
+  getTacticalMessages,
+  sendTacticalMessage,
+  startOutgoingRingtone,
+  stopRingtone,
+  playCallConnectedSound,
+  playCallEndSound,
+  playRadioSquelchSound
+} from '../services/tacticalComms';
 
 const SEED_OFFICERS = [
   {
     role: 'security_officer',
-    name: 'Insp. Kayode Adeleke',
-    badge: 'NPF-OG-4891',
+    name: 'Insp. Babatunde Alabi',
+    badge: 'NPF-8842',
     agency: 'Nigeria Police Force — Ogere Divisional HQ',
     email: 'police@ogereremo.org',
     passkey: 'OGERE-SEC-2026',
@@ -49,14 +61,36 @@ const CHAMBERS = [
 ];
 
 export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
-  const [activeScreen, setActiveScreen] = useState('dashboard');
+  const [activeScreen, setActiveScreen] = useState('dashboard'); // 'dashboard', 'tactical', 'audiences', 'idCards'
   const [currentRole, setCurrentRole] = useState('security_officer');
   const [currentOfficer, setCurrentOfficer] = useState(SEED_OFFICERS[0]);
+  const [activeOfficerId, setActiveOfficerId] = useState('off-001');
   const [isSirenActive, setIsSirenActive] = useState(false);
   const [isSirenMuted, setIsSirenMuted] = useState(false);
   const [mapMode, setMapMode] = useState('hybrid'); // 'hybrid' (satellite) or 'roadmap' (street)
   const [mapZoom, setMapZoom] = useState(18); // 18-19: building/rooftop level zoom
   const [showFirModal, setShowFirModal] = useState(false);
+
+  // Tactical Net & VoIP Calling States
+  const [tacticalChannel, setTacticalChannel] = useState('all-units');
+  const [tacticalMsgs, setTacticalMsgs] = useState(() => getTacticalMessages('all-units'));
+  const [tacticalInput, setTacticalInput] = useState('');
+  const [tacticalRadioCode, setTacticalRadioCode] = useState('10-4');
+  const [selectedOfficerForCall, setSelectedOfficerForCall] = useState(null);
+  const [callStatus, setCallStatus] = useState('IDLE'); // 'IDLE', 'RINGING', 'CONNECTED', 'ENDED'
+  const [callDuration, setCallDuration] = useState(0);
+  const [isCallMuted, setIsCallMuted] = useState(false);
+  const [isSpeakerOn, setIsSpeakerOn] = useState(true);
+  const [claimedIncidents, setClaimedIncidents] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('ogere_incident_claims') || '{}');
+    } catch (_) {
+      return {};
+    }
+  });
+
+  const callTimerRef = useRef(null);
+  const callPickupTimerRef = useRef(null);
 
   useEffect(() => {
     const unsub = sirenSound.subscribe(({ isPlaying, isMuted }) => {
@@ -210,6 +244,66 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
+  // Call Management Functions
+  const handleStartVoipCall = (officer) => {
+    setSelectedOfficerForCall(officer);
+    setCallStatus('RINGING');
+    setCallDuration(0);
+    setIsCallMuted(false);
+    startOutgoingRingtone();
+
+    // Clear previous timers
+    if (callPickupTimerRef.current) clearTimeout(callPickupTimerRef.current);
+    if (callTimerRef.current) clearInterval(callTimerRef.current);
+
+    // Simulate officer picking up after 2.4 seconds
+    callPickupTimerRef.current = setTimeout(() => {
+      stopRingtone();
+      playCallConnectedSound();
+      setCallStatus('CONNECTED');
+
+      // Start duration ticker
+      callTimerRef.current = setInterval(() => {
+        setCallDuration((prev) => prev + 1);
+      }, 1000);
+    }, 2400);
+  };
+
+  const handleEndVoipCall = () => {
+    stopRingtone();
+    if (callPickupTimerRef.current) clearTimeout(callPickupTimerRef.current);
+    if (callTimerRef.current) clearInterval(callTimerRef.current);
+    playCallEndSound();
+    setCallStatus('ENDED');
+    setTimeout(() => {
+      setCallStatus('IDLE');
+      setSelectedOfficerForCall(null);
+      setCallDuration(0);
+    }, 900);
+  };
+
+  const handleSendTactical = (e) => {
+    if (e) e.preventDefault();
+    if (!tacticalInput.trim()) return;
+    const msg = sendTacticalMessage({
+      channel: tacticalChannel,
+      senderId: activeOfficerId,
+      text: tacticalInput.trim(),
+      radioCode: tacticalRadioCode,
+    });
+    setTacticalMsgs((prev) => [...prev, msg]);
+    setTacticalInput('');
+  };
+
+  const handleClaim = (incId) => {
+    const claim = claimIncident(incId, activeOfficerId);
+    setClaimedIncidents((prev) => ({
+      ...prev,
+      [incId]: claim,
+    }));
+    playRadioSquelchSound();
+  };
+
   useEffect(() => {
     const handleSosEvent = (e) => {
       const sosItem = e.detail;
@@ -218,6 +312,13 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         setCurrentRole('security_officer');
         setCurrentOfficer(SEED_OFFICERS[0]);
         setActiveScreen('dashboard');
+
+        // Auto-route incident with AI proximity engine
+        const autoRouting = autoRouteIncident({
+          id: sosItem.id || `INC-${Date.now().toString().slice(-4)}`,
+          type: sosItem.category || 'SOS Emergency',
+          location: { lat: sosItem.latitude || 6.9388, lng: sosItem.longitude || 3.6437 },
+        });
 
         // TRIGGER HIGH-DECIBEL SIREN ALARM FOR SECURITY
         sirenSound.startEmergencySiren();
@@ -240,15 +341,19 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           description: sosItem.description || 'Emergency SOS trigger received from citizen mobile app.',
           reporter_name: sosItem.reporterName || 'Citizen Mobile App',
           reporter_phone: sosItem.reporterPhone || '08081762371',
+          backup_phone: sosItem.backupPhone || sosItem.backup_phone || '',
           status: 'CRITICAL_DISPATCH',
-          assigned_agency: 'Police / Joint Patrol Command',
+          assigned_agency: autoRouting.assignedStation?.name || 'Police / Joint Patrol Command',
+          assigned_station: autoRouting.assignedStation,
+          assigned_officer: autoRouting.assignedOfficer,
+          eta_minutes: autoRouting.etaMinutes,
           camera_feed_active: sosItem.cameraFeedActive,
           audio_feed_active: sosItem.audioFeedActive,
           media_url: sosItem.mediaUrl,
           created_at: new Date().toISOString(),
         };
 
-        setIncidents((prev) => [newInc, ...prev.filter(i => i.id !== newInc.id)]);
+        setIncidents((prev) => [newInc, ...prev.filter((i) => i.id !== newInc.id)]);
         setSelectedIncident(newInc);
         setStats((prev) => ({
           ...prev,
@@ -298,19 +403,58 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       }
     };
 
+    const handleTacticalMsg = (e) => {
+      if (e.detail) {
+        setTacticalMsgs((prev) => {
+          if (prev.some((m) => m.id === e.detail.id)) return prev;
+          return [...prev, e.detail];
+        });
+      }
+    };
+
+    const handleIncidentClaimed = (e) => {
+      if (e.detail?.incidentId) {
+        setClaimedIncidents((prev) => ({
+          ...prev,
+          [e.detail.incidentId]: e.detail,
+        }));
+      }
+    };
+
+    const handleIncidentReassigned = (e) => {
+      if (e.detail?.incidentId) {
+        setClaimedIncidents((prev) => ({
+          ...prev,
+          [e.detail.incidentId]: {
+            ...prev[e.detail.incidentId],
+            ...e.detail,
+          },
+        }));
+      }
+    };
+
     window.addEventListener('ogere-sos-triggered', handleSosEvent);
     window.addEventListener('ogere-escort-started', handleEscortStarted);
     window.addEventListener('ogere-escort-tick', handleEscortTick);
     window.addEventListener('ogere-escort-completed', handleEscortCompleted);
+    window.addEventListener('ogere-tactical-msg', handleTacticalMsg);
+    window.addEventListener('ogere-incident-claimed', handleIncidentClaimed);
+    window.addEventListener('ogere-incident-reassigned', handleIncidentReassigned);
 
     return () => {
       window.removeEventListener('ogere-sos-triggered', handleSosEvent);
       window.removeEventListener('ogere-escort-started', handleEscortStarted);
       window.removeEventListener('ogere-escort-tick', handleEscortTick);
       window.removeEventListener('ogere-escort-completed', handleEscortCompleted);
+      window.removeEventListener('ogere-tactical-msg', handleTacticalMsg);
+      window.removeEventListener('ogere-incident-claimed', handleIncidentClaimed);
+      window.removeEventListener('ogere-incident-reassigned', handleIncidentReassigned);
       sirenSound.stop();
+      stopRingtone();
+      if (callPickupTimerRef.current) clearTimeout(callPickupTimerRef.current);
+      if (callTimerRef.current) clearInterval(callTimerRef.current);
     };
-  }, []);
+  }, [activeOfficerId]);
 
   return (
     <div
@@ -489,34 +633,60 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '1.2rem' }}>{currentOfficer.icon}</span>
+          <span style={{ fontSize: '1.2rem' }}>{currentRole === 'security_officer' ? (getOfficerById(activeOfficerId)?.avatar || '👮‍♂️') : currentOfficer.icon}</span>
           <div>
             <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#F5EDD8' }}>
-              {currentOfficer.name}
+              {currentRole === 'security_officer' ? getOfficerById(activeOfficerId)?.name : currentOfficer.name}
             </div>
             <div style={{ fontSize: '0.62rem', color: currentOfficer.themeColor, fontWeight: 700 }}>
-              {currentOfficer.badge} · {currentRole === 'security_officer' ? 'Tactical Police' : currentRole === 'palace_protocol' ? 'Palace Protocol' : 'OCDA Admin'}
+              {currentRole === 'security_officer' ? `${getOfficerById(activeOfficerId)?.badge} · ${getOfficerById(activeOfficerId)?.callsign}` : `${currentOfficer.badge} · ${currentRole === 'palace_protocol' ? 'Palace Protocol' : 'OCDA Admin'}`}
             </div>
           </div>
         </div>
 
-        <select
-          value={currentRole}
-          onChange={(e) => handleRoleSwitch(e.target.value)}
-          style={{
-            background: 'rgba(255,255,255,0.08)',
-            color: '#F5EDD8',
-            border: '1px solid rgba(201,150,58,0.3)',
-            borderRadius: '4px',
-            fontSize: '0.62rem',
-            padding: '2px 4px',
-            cursor: 'pointer',
-          }}
-        >
-          <option value="security_officer">🛡️ Police</option>
-          <option value="palace_protocol">👑 Protocol</option>
-          <option value="ocda_admin">🏛️ OCDA</option>
-        </select>
+        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          {currentRole === 'security_officer' && (
+            <select
+              value={activeOfficerId}
+              onChange={(e) => setActiveOfficerId(e.target.value)}
+              style={{
+                background: 'rgba(56, 189, 248, 0.15)',
+                color: '#38bdf8',
+                border: '1px solid #38bdf8',
+                borderRadius: '4px',
+                fontSize: '0.58rem',
+                padding: '2px 4px',
+                cursor: 'pointer',
+                maxWidth: '85px',
+              }}
+              title="Switch Active Onboarded Officer Profile"
+            >
+              {ONBOARDED_OFFICERS.map((off) => (
+                <option key={off.id} value={off.id} style={{ background: '#0f172a', color: '#fff' }}>
+                  {off.callsign} ({off.name.split(' ')[0]})
+                </option>
+              ))}
+            </select>
+          )}
+
+          <select
+            value={currentRole}
+            onChange={(e) => handleRoleSwitch(e.target.value)}
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              color: '#F5EDD8',
+              border: '1px solid rgba(201,150,58,0.3)',
+              borderRadius: '4px',
+              fontSize: '0.62rem',
+              padding: '2px 4px',
+              cursor: 'pointer',
+            }}
+          >
+            <option value="security_officer">🛡️ Police</option>
+            <option value="palace_protocol">👑 Protocol</option>
+            <option value="ocda_admin">🏛️ OCDA</option>
+          </select>
+        </div>
       </div>
 
       {/* Screen Body */}
@@ -724,6 +894,62 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       >
                         ⚡ Intercept Target (Google Maps Navigation) ➔
                       </a>
+
+                      {/* AI Auto-Routing Match & Case Claiming Action */}
+                      {(() => {
+                        const claim = claimedIncidents[selectedIncident.id];
+                        const station = selectedIncident.assigned_station || OGERE_STATIONS[0];
+                        const officer = selectedIncident.assigned_officer || ONBOARDED_OFFICERS[0];
+                        const isClaimed = !!claim;
+
+                        return (
+                          <div style={{ background: isClaimed ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)', border: isClaimed ? '1px solid #22c55e' : '1px solid #eab308', borderRadius: '6px', padding: '7px 9px', fontSize: '0.62rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{ fontWeight: 900, color: isClaimed ? '#4ade80' : '#fde047' }}>
+                                {isClaimed ? '✅ DISPATCH CLAIMED' : '⚡ AI PROXIMITY ROUTED'}
+                              </span>
+                              <span style={{ color: '#94a3b8', fontSize: '0.55rem' }}>
+                                ETA: ~{selectedIncident.eta_minutes || 3} mins
+                              </span>
+                            </div>
+                            <div style={{ color: '#f8fafc', marginTop: '3px' }}>
+                              <strong>Station:</strong> {station.name}
+                            </div>
+                            <div style={{ color: '#cbd5e1' }}>
+                              <strong>Assigned:</strong> {isClaimed ? `${claim.officerName} (${claim.unitName}) · EN ROUTE` : `${officer.name} (${officer.unitName})`}
+                            </div>
+                            {!isClaimed ? (
+                              <button
+                                type="button"
+                                onClick={() => handleClaim(selectedIncident.id)}
+                                style={{
+                                  width: '100%',
+                                  marginTop: '6px',
+                                  background: 'linear-gradient(90deg, #15803d, #16a34a)',
+                                  color: '#ffffff',
+                                  border: 'none',
+                                  borderRadius: '5px',
+                                  padding: '7px',
+                                  fontWeight: 900,
+                                  fontSize: '0.68rem',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '4px',
+                                  boxShadow: '0 2px 8px rgba(22, 163, 74, 0.4)'
+                                }}
+                              >
+                                <span>⚡</span> Accept & Claim Dispatch (En Route)
+                              </button>
+                            ) : (
+                              <div style={{ marginTop: '5px', color: '#4ade80', fontSize: '0.58rem', fontWeight: 800 }}>
+                                🚓 Status: Broadcasted as CLAIMED by {claim.officerName} ({claim.callsign})
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </>
                   );
                 })()}
@@ -990,6 +1216,29 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                         {inc.description}
                       </div>
 
+                      {/* Claim & Auto-Route Indicator in Feed Item */}
+                      {(() => {
+                        const claim = claimedIncidents[inc.id];
+                        const station = inc.assigned_station || OGERE_STATIONS[0];
+                        return claim ? (
+                          <div style={{ background: 'rgba(34, 197, 94, 0.2)', border: '1px solid #22c55e', borderRadius: '4px', padding: '4px 6px', fontSize: '0.58rem', color: '#4ade80', fontWeight: 800, marginBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span>🚓 Claimed by {claim.officerName} ({claim.callsign})</span>
+                            <span style={{ color: '#86efac' }}>EN ROUTE</span>
+                          </div>
+                        ) : (
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(234, 179, 8, 0.12)', border: '1px solid rgba(234, 179, 8, 0.3)', borderRadius: '4px', padding: '4px 6px', fontSize: '0.58rem', color: '#fde047', marginBottom: '6px' }}>
+                            <span>⚡ AI Routed: {station.name.split(' ')[0]} {station.name.split(' ')[1]}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleClaim(inc.id)}
+                              style={{ background: '#16a34a', color: '#fff', border: 'none', padding: '3px 8px', borderRadius: '3px', fontWeight: 900, fontSize: '0.58rem', cursor: 'pointer' }}
+                            >
+                              ⚡ Claim Case
+                            </button>
+                          </div>
+                        );
+                      })()}
+
                       <div style={{ display: 'flex', gap: '6px' }}>
                         <button
                           onClick={() => setSelectedIncident(inc)}
@@ -1096,6 +1345,181 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             </div>
           </div>
         )}
+
+        {/* TAB 4: TACTICAL COMMS & VOIP CALLING NET */}
+        {activeScreen === 'tactical' && (
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '8px' }}>
+            {/* Tactical Channel Selector */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#38bdf8', marginBottom: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>📻 TACTICAL RADIO GRID</span>
+                <span style={{ fontSize: '0.55rem', background: '#0369a1', color: '#fff', padding: '1px 5px', borderRadius: '3px' }}>144.800 MHz</span>
+              </div>
+              <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '4px' }}>
+                {RADIO_CHANNELS.map((ch) => (
+                  <button
+                    key={ch.id}
+                    type="button"
+                    onClick={() => {
+                      setTacticalChannel(ch.id);
+                      setTacticalMsgs(getTacticalMessages(ch.id));
+                      playRadioSquelchSound();
+                    }}
+                    style={{
+                      background: tacticalChannel === ch.id ? '#0284c7' : '#1e293b',
+                      color: '#fff',
+                      border: tacticalChannel === ch.id ? '1px solid #38bdf8' : '1px solid #334155',
+                      padding: '3px 7px',
+                      borderRadius: '4px',
+                      fontSize: '0.55rem',
+                      fontWeight: 800,
+                      whiteSpace: 'nowrap',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {ch.name.split(' ')[0]} {ch.name.split(' ')[1]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Tactical Live Chat Stream */}
+            <div style={{ background: 'rgba(15, 23, 42, 0.85)', border: '1px solid #334155', borderRadius: '6px', padding: '8px', maxHeight: '180px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {tacticalMsgs.map((msg) => (
+                <div key={msg.id} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '4px', padding: '5px 7px', borderLeft: `3px solid ${msg.senderId === activeOfficerId ? '#38bdf8' : '#22c55e'}` }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.58rem', marginBottom: '2px' }}>
+                    <span style={{ color: '#38bdf8', fontWeight: 800 }}>
+                      {msg.avatar} {msg.senderName} ({msg.callsign})
+                    </span>
+                    <span style={{ color: '#94a3b8', fontSize: '0.52rem' }}>
+                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.58rem', color: '#fde047', fontWeight: 800, marginBottom: '2px' }}>
+                    [{msg.radioCode}]
+                  </div>
+                  <div style={{ fontSize: '0.64rem', color: '#e2e8f0', lineHeight: 1.3 }}>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Quick 10-Codes */}
+            <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+              {['10-4 (Ack)', '10-20 (Location)', '10-8 (In Service)', '10-33 (Emergency)'].map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  onClick={() => setTacticalRadioCode(code.split(' ')[0])}
+                  style={{
+                    background: tacticalRadioCode === code.split(' ')[0] ? '#f59e0b' : 'rgba(255,255,255,0.06)',
+                    color: tacticalRadioCode === code.split(' ')[0] ? '#000' : '#cbd5e1',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    padding: '2px 5px',
+                    borderRadius: '3px',
+                    fontSize: '0.52rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {code}
+                </button>
+              ))}
+            </div>
+
+            {/* Tactical Message Composer Form */}
+            <form onSubmit={handleSendTactical} style={{ display: 'flex', gap: '4px' }}>
+              <input
+                type="text"
+                value={tacticalInput}
+                onChange={(e) => setTacticalInput(e.target.value)}
+                placeholder={`Transmit on ${tacticalChannel}...`}
+                style={{
+                  flex: 1,
+                  background: '#0f172a',
+                  color: '#fff',
+                  border: '1px solid #38bdf8',
+                  borderRadius: '4px',
+                  padding: '5px 8px',
+                  fontSize: '0.62rem',
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  background: '#0284c7',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '0 10px',
+                  fontSize: '0.62rem',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                }}
+              >
+                📡 Send
+              </button>
+            </form>
+
+            {/* Onboarded Units VoIP Intercom Directory */}
+            <div style={{ marginTop: '6px' }}>
+              <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#4ade80', marginBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>👥 ONBOARDED ACTIVE UNITS</span>
+                <span style={{ fontSize: '0.55rem', color: '#86efac' }}>🟢 6 ONLINE</span>
+              </div>
+              <div style={{ display: 'grid', gap: '6px' }}>
+                {ONBOARDED_OFFICERS.map((off) => (
+                  <div
+                    key={off.id}
+                    style={{
+                      background: off.id === activeOfficerId ? 'rgba(56, 189, 248, 0.12)' : 'rgba(255,255,255,0.04)',
+                      border: off.id === activeOfficerId ? '1px solid #38bdf8' : '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: '6px',
+                      padding: '6px 8px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#f8fafc' }}>
+                        {off.avatar} {off.name}
+                      </div>
+                      <div style={{ fontSize: '0.55rem', color: '#94a3b8' }}>
+                        {off.agency.split('—')[0]} · {off.callsign}
+                      </div>
+                      <div style={{ fontSize: '0.52rem', color: '#38bdf8', marginTop: '1px' }}>
+                        📍 {off.location.landmark} (🔋 {off.battery}%)
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleStartVoipCall(off)}
+                      style={{
+                        background: '#16a34a',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '5px 8px',
+                        fontSize: '0.58rem',
+                        fontWeight: 900,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '3px',
+                        boxShadow: '0 2px 6px rgba(22, 163, 74, 0.4)',
+                      }}
+                    >
+                      <span>📞</span> Intercom
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Bottom Native Tabs */}
@@ -1115,21 +1539,28 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           style={{ background: 'none', border: 'none', color: activeScreen === 'dashboard' ? '#C9963A' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
           <span style={{ fontSize: '0.9rem' }}>🏛️</span>
-          <span style={{ fontSize: '0.58rem', fontWeight: 700 }}>Command</span>
+          <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>Command</span>
+        </button>
+        <button
+          onClick={() => setActiveScreen('tactical')}
+          style={{ background: 'none', border: 'none', color: activeScreen === 'tactical' ? '#38bdf8' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
+        >
+          <span style={{ fontSize: '0.9rem' }}>💬</span>
+          <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>Tactical</span>
         </button>
         <button
           onClick={() => setActiveScreen('audiences')}
           style={{ background: 'none', border: 'none', color: activeScreen === 'audiences' ? '#C9963A' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
           <span style={{ fontSize: '0.9rem' }}>👑</span>
-          <span style={{ fontSize: '0.58rem', fontWeight: 700 }}>Audiences</span>
+          <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>Audiences</span>
         </button>
         <button
           onClick={() => setActiveScreen('idCards')}
           style={{ background: 'none', border: 'none', color: activeScreen === 'idCards' ? '#34d399' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
           <span style={{ fontSize: '0.9rem' }}>🪪</span>
-          <span style={{ fontSize: '0.58rem', fontWeight: 700 }}>ID Desk</span>
+          <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>ID Desk</span>
         </button>
       </div>
 
@@ -1325,6 +1756,184 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 ✕ Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* WHATSAPP-STYLE VOIP AUDIO CALL MODAL */}
+      {callStatus !== 'IDLE' && selectedOfficerForCall && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, #0b141a 0%, #111b21 50%, #081116 100%)',
+            zIndex: 999999,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '40px 20px 30px',
+            color: '#e9edef',
+            fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          }}
+        >
+          {/* Top Encryption Indicator */}
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '0.62rem', color: '#8696a0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+              <span>🔒</span>
+              <span>End-to-end encrypted Tactical Intercom</span>
+            </div>
+            <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#e9edef', marginTop: '12px' }}>
+              {selectedOfficerForCall.name}
+            </div>
+            <div style={{ fontSize: '0.72rem', color: '#00a884', fontWeight: 600, marginTop: '2px' }}>
+              {selectedOfficerForCall.callsign} · {selectedOfficerForCall.badge}
+            </div>
+            <div style={{ fontSize: '0.65rem', color: '#8696a0', marginTop: '2px' }}>
+              {selectedOfficerForCall.agency}
+            </div>
+          </div>
+
+          {/* Center Pulsing Avatar & Audio Visualizer */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+            <div
+              style={{
+                width: '110px',
+                height: '110px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #1f2c34 0%, #111b21 100%)',
+                border: '3px solid #00a884',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '3.2rem',
+                boxShadow: callStatus === 'CONNECTED' ? '0 0 35px rgba(0, 168, 132, 0.45)' : '0 0 20px rgba(0, 168, 132, 0.25)',
+                animation: callStatus === 'RINGING' ? 'pulse 1.8s infinite' : 'none',
+              }}
+            >
+              {selectedOfficerForCall.avatar}
+            </div>
+
+            {/* Status & Animated Soundwave */}
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: callStatus === 'CONNECTED' ? '#25d366' : '#aebac1' }}>
+                {callStatus === 'RINGING' && 'Ringing...'}
+                {callStatus === 'CONNECTED' && `Tactical Audio · ${formatTimer(callDuration)}`}
+                {callStatus === 'ENDED' && 'Call Ended'}
+              </div>
+
+              {callStatus === 'CONNECTED' && (
+                <div style={{ display: 'flex', gap: '3px', justifyContent: 'center', alignItems: 'center', marginTop: '8px', height: '18px' }}>
+                  {[12, 18, 8, 22, 14, 20, 10].map((h, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        width: '3px',
+                        height: `${h}px`,
+                        background: '#00a884',
+                        borderRadius: '2px',
+                        opacity: isCallMuted ? 0.3 : 1,
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom Audio & Call Controls */}
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%', maxWidth: '240px' }}>
+              {/* Speakerphone */}
+              <button
+                type="button"
+                onClick={() => setIsSpeakerOn(!isSpeakerOn)}
+                style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  background: isSpeakerOn ? 'rgba(0, 168, 132, 0.25)' : 'rgba(255,255,255,0.1)',
+                  border: isSpeakerOn ? '1px solid #00a884' : '1px solid rgba(255,255,255,0.2)',
+                  color: isSpeakerOn ? '#00a884' : '#e9edef',
+                  fontSize: '1.1rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                title="Speaker"
+              >
+                🔊
+              </button>
+
+              {/* Mute Mic */}
+              <button
+                type="button"
+                onClick={() => setIsCallMuted(!isCallMuted)}
+                style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  background: isCallMuted ? '#ef4444' : 'rgba(255,255,255,0.1)',
+                  border: isCallMuted ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.2)',
+                  color: '#ffffff',
+                  fontSize: '1.1rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                title={isCallMuted ? 'Unmute Mic' : 'Mute Mic'}
+              >
+                {isCallMuted ? '🔇' : '🎙️'}
+              </button>
+
+              {/* Radio Roger Beep */}
+              <button
+                type="button"
+                onClick={() => playRadioSquelchSound()}
+                style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: '#f59e0b',
+                  fontSize: '1.1rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                title="PTT Roger Beep"
+              >
+                📻
+              </button>
+            </div>
+
+            {/* End Call Button */}
+            <button
+              type="button"
+              onClick={handleEndVoipCall}
+              style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '50%',
+                background: '#ea0038',
+                border: 'none',
+                color: '#ffffff',
+                fontSize: '1.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(234, 0, 56, 0.45)',
+                transform: 'rotate(135deg)',
+              }}
+              title="End Tactical Call"
+            >
+              📞
+            </button>
           </div>
         </div>
       )}

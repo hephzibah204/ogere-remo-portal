@@ -287,6 +287,22 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                   </TouchableOpacity>
                 )}
               </View>
+              {deviceLoc?.ogereLocation && (
+                <View style={{ backgroundColor: 'rgba(56, 189, 248, 0.1)', borderColor: '#38bdf8', borderWidth: 1, borderRadius: 6, padding: 6, marginBottom: 6 }}>
+                  <Text style={{ color: '#38bdf8', fontSize: 10, fontWeight: '800' }}>📍 OGERE REMO PINPOINT:</Text>
+                  <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '700', marginTop: 1 }}>{deviceLoc.ogereLocation.formattedText}</Text>
+                  <Text style={{ color: '#94a3b8', fontSize: 9, marginTop: 1 }}>
+                    Sector: {deviceLoc.ogereLocation.sector} · 🚓 ~{deviceLoc.ogereLocation.distanceToPolice}m to Ogere Police HQ
+                  </Text>
+                </View>
+              )}
+              {!deviceLoc?.isInsideOgere && deviceLoc && (
+                <View style={{ backgroundColor: 'rgba(234, 88, 12, 0.15)', borderColor: '#f97316', borderWidth: 1, borderRadius: 6, padding: 6, marginBottom: 6 }}>
+                  <Text style={{ color: '#fdba74', fontSize: 9, fontWeight: '700' }}>
+                    ⚠️ Network/IP detected outside Ogere Remo ({Math.round((deviceLoc.ogereLocation?.nearestLandmarkDistance || 0) / 1000)}km). Your selected sector below will ensure local dispatch.
+                  </Text>
+                </View>
+              )}
               <View style={styles.deviceHudGrid}>
                 <View style={styles.deviceHudItem}>
                   <Text style={styles.deviceHudLabel}>GPS</Text>
@@ -329,7 +345,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                   <View style={styles.deviceHudItem}>
                     <Text style={styles.deviceHudLabel}>BATTERY</Text>
                     <Text style={[styles.deviceHudValue, { color: (deviceLoc!.device!.batteryLevel! > 20) ? '#4ade80' : '#ef4444' }]}>
-                      {deviceLoc!.device!.batteryLevel}%
+                      {deviceLoc!.device!.batteryLevel}%{deviceLoc!.device!.isCharging ? ' ⚡' : ''}
                     </Text>
                   </View>
                 )}
@@ -346,11 +362,11 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                   setDeviceLoc(loc);
                   Alert.alert(
                     '📍 Actual Location Captured',
-                    `Exact GPS: ${loc.latitude.toFixed(5)}°N, ${loc.longitude.toFixed(5)}°E\nAccuracy: ±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m\nPublic IP: ${loc.ipAddress}\nDevice: ${loc.device?.deviceModel || 'Mobile'}`,
+                    `Exact GPS: ${loc.latitude.toFixed(5)}°N, ${loc.longitude.toFixed(5)}°E\nAccuracy: ±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m (${loc.ogereLocation?.accuracyRating})\nPinpoint: ${loc.ogereLocation?.formattedText || 'Acquired'}\nBattery: ${loc.device?.batteryLevel != null ? loc.device.batteryLevel + '%' : '?'}${loc.device?.isCharging ? ' ⚡ Charging' : ''}\nPublic IP: ${loc.ipAddress}`,
                     [
                       {
-                        text: '🗺️ Preview on Google Maps',
-                        onPress: () => openInGoogleMaps(loc.latitude, loc.longitude),
+                        text: '🛰️ Preview Satellite Pin',
+                        onPress: () => openInGoogleMaps(loc.latitude, loc.longitude, 'Ogere Distress Location', true),
                       },
                       { text: 'Done', style: 'default' },
                     ]

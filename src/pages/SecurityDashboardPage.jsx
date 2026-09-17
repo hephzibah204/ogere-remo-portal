@@ -4,6 +4,9 @@ import Section from '../components/Section';
 import sirenSound from '../services/sirenSound';
 import TacticalRadarMap from '../components/TacticalRadarMap';
 import { resolveOgereLocation, getOgereMapUrls } from '../services/ogereGeoEngine';
+import { OGERE_STATIONS, ONBOARDED_OFFICERS, getStationById, getOfficerById } from '../services/securityUnits';
+import { autoRouteIncident, claimIncident, reassignIncident, getIncidentClaim } from '../services/dispatchRouter';
+import { RADIO_CHANNELS, getTacticalMessages, sendTacticalMessage, playRadioSquelchSound } from '../services/tacticalComms';
 
 const AGENCIES = [
   { id: 'all', name: 'All Security Agencies', icon: '🌐' },
@@ -142,6 +145,19 @@ export default function SecurityDashboardPage() {
     assignedAgency: 'Police',
   });
 
+  // AI Routing, Tactical Radio & Case Claiming States
+  const [claimedIncidents, setClaimedIncidents] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('ogere_incident_claims') || '{}');
+    } catch (_) {
+      return {};
+    }
+  });
+  const [tacticalChannel, setTacticalChannel] = useState('all-units');
+  const [tacticalMsgs, setTacticalMsgs] = useState(() => getTacticalMessages('all-units'));
+  const [tacticalInput, setTacticalInput] = useState('');
+  const [adminSelectedStation, setAdminSelectedStation] = useState(OGERE_STATIONS[0].id);
+
   const audioCtxRef = useRef(null);
   const alarmIntervalRef = useRef(null);
 
@@ -160,6 +176,28 @@ export default function SecurityDashboardPage() {
         sirenSound.playTestChime();
       }
     } catch (_) {}
+  };
+
+  const handleAdminReassign = (incidentId) => {
+    const reassigned = reassignIncident(incidentId, adminSelectedStation, null, 'HQ Admin Dispatcher');
+    setClaimedIncidents((prev) => ({
+      ...prev,
+      [incidentId]: reassigned,
+    }));
+    playRadioSquelchSound();
+  };
+
+  const handleSendAdminTactical = (e) => {
+    if (e) e.preventDefault();
+    if (!tacticalInput.trim()) return;
+    const msg = sendTacticalMessage({
+      channel: tacticalChannel,
+      senderId: 'off-001',
+      text: `[HQ DISPATCH]: ${tacticalInput.trim()}`,
+      radioCode: '10-4',
+    });
+    setTacticalMsgs((prev) => [...prev, msg]);
+    setTacticalInput('');
   };
 
   const fetchIncidents = async () => {
@@ -403,8 +441,49 @@ export default function SecurityDashboardPage() {
       }
     };
 
+    const handleClaimEvent = (e) => {
+      if (e.detail?.incidentId) {
+        setClaimedIncidents((prev) => ({
+          ...prev,
+          [e.detail.incidentId]: e.detail,
+        }));
+      }
+    };
+
+    const handleRoutedEvent = (e) => {
+      if (e.detail?.incidentId) {
+        setClaimedIncidents((prev) => ({
+          ...prev,
+          [e.detail.incidentId]: {
+            ...prev[e.detail.incidentId],
+            ...e.detail,
+          },
+        }));
+      }
+    };
+
+    const handleTacticalEvent = (e) => {
+      if (e.detail) {
+        setTacticalMsgs((prev) => {
+          if (prev.some((m) => m.id === e.detail.id)) return prev;
+          return [...prev, e.detail];
+        });
+      }
+    };
+
     window.addEventListener('ogere-sos-triggered', handleSosEvent);
-    return () => window.removeEventListener('ogere-sos-triggered', handleSosEvent);
+    window.addEventListener('ogere-incident-claimed', handleClaimEvent);
+    window.addEventListener('ogere-incident-routed', handleRoutedEvent);
+    window.addEventListener('ogere-incident-reassigned', handleRoutedEvent);
+    window.addEventListener('ogere-tactical-msg', handleTacticalEvent);
+
+    return () => {
+      window.removeEventListener('ogere-sos-triggered', handleSosEvent);
+      window.removeEventListener('ogere-incident-claimed', handleClaimEvent);
+      window.removeEventListener('ogere-incident-routed', handleRoutedEvent);
+      window.removeEventListener('ogere-incident-reassigned', handleRoutedEvent);
+      window.removeEventListener('ogere-tactical-msg', handleTacticalEvent);
+    };
   }, []);
 
   useEffect(() => {
@@ -1163,6 +1242,22 @@ export default function SecurityDashboardPage() {
                         )}
                       </div>
                     )}
+
+                    {/* AI Routing & Officer Claim Status Banner */}
+                    {(() => {
+                      const claim = claimedIncidents[inc.id];
+                      return claim ? (
+                        <div style={{ marginTop: '0.5rem', background: 'rgba(34, 197, 94, 0.15)', border: '1px solid #22c55e', borderRadius: '4px', padding: '0.35rem 0.6rem', fontSize: '0.68rem', color: '#86efac', fontWeight: 800, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span>✅ Claimed by {claim.officerName} ({claim.badge}) · {claim.unitName}</span>
+                          <span style={{ color: '#4ade80', background: 'rgba(34,197,94,0.25)', padding: '1px 5px', borderRadius: '3px' }}>EN ROUTE</span>
+                        </div>
+                      ) : (
+                        <div style={{ marginTop: '0.5rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '4px', padding: '0.35rem 0.6rem', fontSize: '0.68rem', color: '#38bdf8', fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span>⚡ AI Auto-Routed to closest available Ogere Sector Unit</span>
+                          <span>ETA ~3m</span>
+                        </div>
+                      );
+                    })()}
                   </div>
                 );
               })
@@ -1639,8 +1734,92 @@ export default function SecurityDashboardPage() {
               </div>
 
 
-              {/* Dispatch Controls */}
+              {/* Dispatch Controls & AI Routing Panel */}
               <div style={{ borderTop: '1px solid rgba(201,150,58,0.2)', paddingTop: '1rem', display: 'grid', gap: '0.8rem' }}>
+                {/* AI Proximity Auto-Routing & Case Pickup Live Monitor */}
+                {(() => {
+                  const claim = claimedIncidents[activeIncident.id];
+                  const isClaimed = !!claim;
+
+                  return (
+                    <div style={{
+                      background: isClaimed ? 'rgba(34, 197, 94, 0.12)' : 'rgba(56, 189, 248, 0.1)',
+                      border: isClaimed ? '1px solid #22c55e' : '1px solid #38bdf8',
+                      borderRadius: '6px',
+                      padding: '0.65rem',
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                        <span style={{ fontSize: '0.68rem', fontWeight: 900, color: isClaimed ? '#4ade80' : '#38bdf8', letterSpacing: '0.04em' }}>
+                          {isClaimed ? '✅ DISPATCH CLAIMED BY FIELD OFFICER' : '⚡ AI PROXIMITY AUTO-ROUTER'}
+                        </span>
+                        <span style={{ fontSize: '0.6rem', color: '#cbd5e1', background: 'rgba(0,0,0,0.4)', padding: '1px 5px', borderRadius: '3px' }}>
+                          ETA: ~3 mins
+                        </span>
+                      </div>
+
+                      {isClaimed ? (
+                        <div style={{ fontSize: '0.68rem', color: '#f8fafc', lineHeight: 1.4 }}>
+                          <div><strong>Officer:</strong> {claim.officerName} ({claim.badge} · {claim.rank || 'Officer'})</div>
+                          <div><strong>Tactical Unit:</strong> {claim.unitName || 'Rapid Intercept'} ({claim.callsign || 'EAGLE'})</div>
+                          <div><strong>Command Base:</strong> {claim.stationName || 'Ogere Divisional HQ'}</div>
+                          <div style={{ color: '#4ade80', fontWeight: 800, marginTop: '2px' }}>
+                            Status: EN ROUTE TO TARGET LOCATION
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: '0.68rem', color: '#cbd5e1' }}>
+                          Auto-routed to closest responding station based on GPS coordinates and threat type. Waiting for field unit pickup.
+                        </div>
+                      )}
+
+                      {/* Admin Manual Station Re-Route Override */}
+                      <div style={{ marginTop: '0.5rem', borderTop: '1px dashed rgba(255,255,255,0.15)', paddingTop: '0.45rem' }}>
+                        <label style={{ fontSize: '0.62rem', color: 'var(--gold)', fontWeight: 800, display: 'block', marginBottom: '0.25rem' }}>
+                          ADMIN MANUAL OVERRIDE (Re-Route Incident):
+                        </label>
+                        <div style={{ display: 'flex', gap: '0.4rem' }}>
+                          <select
+                            value={adminSelectedStation}
+                            onChange={(e) => setAdminSelectedStation(e.target.value)}
+                            style={{
+                              flex: 1,
+                              background: '#1c100b',
+                              color: '#f5edd8',
+                              border: '1px solid rgba(201,150,58,0.4)',
+                              padding: '0.35rem 0.5rem',
+                              borderRadius: '4px',
+                              fontSize: '0.68rem',
+                            }}
+                          >
+                            {OGERE_STATIONS.map((s) => (
+                              <option key={s.id} value={s.id}>
+                                {s.name} ({s.agency})
+                              </option>
+                            ))}
+                          </select>
+                          <button
+                            type="button"
+                            onClick={() => handleAdminReassign(activeIncident.id)}
+                            style={{
+                              background: '#0284c7',
+                              color: '#ffffff',
+                              border: 'none',
+                              padding: '0.35rem 0.75rem',
+                              borderRadius: '4px',
+                              fontSize: '0.68rem',
+                              fontWeight: 900,
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            🔄 Re-Route
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+
                 <div>
                   <label style={{ fontSize: '0.7rem', color: 'var(--gold)', fontWeight: 700, display: 'block', marginBottom: '0.3rem' }}>
                     Assign Primary Responding Agency:
@@ -1890,6 +2069,197 @@ export default function SecurityDashboardPage() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* ── TACTICAL INTER-AGENCY RADIO COMMS & VOIP COMMAND NET ── */}
+        <div style={{
+          marginTop: '2rem',
+          background: 'rgba(15, 23, 42, 0.9)',
+          border: '1px solid rgba(56, 189, 248, 0.4)',
+          borderRadius: '10px',
+          padding: '1.25rem',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.6rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <span style={{ fontSize: '1.4rem' }}>📻</span>
+              <div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#38bdf8', letterSpacing: '0.04em' }}>
+                  OGERE JOINT SECURITY TACTICAL COMMS & INTERCOM NET
+                </div>
+                <div style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+                  Real-Time Inter-Officer Radio Grid & WhatsApp-Style Encrypted Voice Relay for All Onboarded Units
+                </div>
+              </div>
+            </div>
+
+            {/* Radio Channels Selector */}
+            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+              {RADIO_CHANNELS.map((ch) => (
+                <button
+                  key={ch.id}
+                  type="button"
+                  onClick={() => {
+                    setTacticalChannel(ch.id);
+                    setTacticalMsgs(getTacticalMessages(ch.id));
+                    playRadioSquelchSound();
+                  }}
+                  style={{
+                    background: tacticalChannel === ch.id ? '#0284c7' : '#1e293b',
+                    color: '#ffffff',
+                    border: tacticalChannel === ch.id ? '1px solid #38bdf8' : '1px solid #334155',
+                    padding: '0.3rem 0.65rem',
+                    borderRadius: '4px',
+                    fontSize: '0.65rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {ch.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '1.25rem' }}>
+            {/* Left: Tactical Radio Feed & HQ Dispatch Composer */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <div style={{
+                background: 'rgba(0, 0, 0, 0.5)',
+                border: '1px solid #334155',
+                borderRadius: '6px',
+                padding: '0.75rem',
+                height: '240px',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem',
+              }}>
+                {tacticalMsgs.map((msg) => (
+                  <div
+                    key={msg.id}
+                    style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      borderLeft: '3px solid #38bdf8',
+                      borderRadius: '4px',
+                      padding: '0.45rem 0.65rem',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.65rem', marginBottom: '0.2rem' }}>
+                      <span style={{ color: '#38bdf8', fontWeight: 800 }}>
+                        {msg.avatar} {msg.senderName} ({msg.senderBadge} · {msg.callsign})
+                      </span>
+                      <span style={{ color: '#94a3b8', fontSize: '0.58rem' }}>
+                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: '0.62rem', color: '#fde047', fontWeight: 800 }}>
+                      [{msg.radioCode}]
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: '#f1f5f9', marginTop: '0.15rem', lineHeight: 1.35 }}>
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Composer */}
+              <form onSubmit={handleSendAdminTactical} style={{ display: 'flex', gap: '0.5rem' }}>
+                <input
+                  type="text"
+                  value={tacticalInput}
+                  onChange={(e) => setTacticalInput(e.target.value)}
+                  placeholder={`Broadcast HQ SITREP on ${tacticalChannel}...`}
+                  style={{
+                    flex: 1,
+                    background: '#0f172a',
+                    color: '#ffffff',
+                    border: '1px solid rgba(56, 189, 248, 0.4)',
+                    borderRadius: '4px',
+                    padding: '0.5rem 0.75rem',
+                    fontSize: '0.72rem',
+                  }}
+                />
+                <button
+                  type="submit"
+                  style={{
+                    background: '#0284c7',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '0 1rem',
+                    fontSize: '0.72rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                  }}
+                >
+                  📡 Transmit
+                </button>
+              </form>
+            </div>
+
+            {/* Right: Onboarded Active Personnel Roster */}
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.4)',
+              border: '1px solid rgba(56, 189, 248, 0.25)',
+              borderRadius: '6px',
+              padding: '0.75rem',
+              maxHeight: '290px',
+              overflowY: 'auto',
+            }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#4ade80', marginBottom: '0.6rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>👥 ACTIVE ONBOARDED FIELD OFFICERS</span>
+                <span style={{ fontSize: '0.6rem', color: '#86efac' }}>6 CONNECTED</span>
+              </div>
+
+              <div style={{ display: 'grid', gap: '0.45rem' }}>
+                {ONBOARDED_OFFICERS.map((off) => (
+                  <div
+                    key={off.id}
+                    style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      borderRadius: '4px',
+                      padding: '0.45rem 0.6rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#f8fafc' }}>
+                        {off.avatar} {off.name}
+                      </div>
+                      <div style={{ fontSize: '0.6rem', color: '#94a3b8' }}>
+                        {off.agency.split('—')[0]} · {off.callsign} ({off.badge})
+                      </div>
+                      <div style={{ fontSize: '0.58rem', color: '#38bdf8', marginTop: '0.1rem' }}>
+                        📍 {off.location.landmark} · 🔋 {off.battery}%
+                      </div>
+                    </div>
+
+                    <a
+                      href={`tel:${off.phone}`}
+                      style={{
+                        background: '#16a34a',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        padding: '0.3rem 0.6rem',
+                        borderRadius: '4px',
+                        fontSize: '0.62rem',
+                        fontWeight: 800,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.25rem',
+                      }}
+                    >
+                      <span>📞</span> Direct Call
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Modal: Rapid Manual Incident Dispatch Form */}

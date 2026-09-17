@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Colors, Spacing, Radius } from '../../theme';
 import { API_BASE_URL } from '../../database/syncManager';
+import { resolveOgereLocation, getOgereMapUrls } from '../../services/ogereGeoEngine';
 
 const EMERGENCY_PHONES = [
   { label: 'Police DPO (08081762371)', phone: '08081762371', icon: '🚔' },
@@ -212,99 +213,130 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
 
         {/* ── 1. LIVE RADAR MAP (Like WhatsApp Live Location) ───────────── */}
-        <View style={styles.mapCard}>
-          {/* Radar Header */}
-          <View style={styles.mapHeaderRow}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <View style={styles.livePulseDot} />
-              <Text style={styles.mapHeaderTitle}>
-                {incident.is_live_tracking ? 'LIVE TARGET RADAR · MOVING' : 'VICTIM GPS PIN'}
-              </Text>
-            </View>
-            <Text style={styles.lastUpdateText}>
-              {lastUpdateAt ? `Updated ${lastUpdateAt}` : 'Live GPS active'}
-            </Text>
-          </View>
+        {(() => {
+          const ogereLoc = resolveOgereLocation(effectiveLat, effectiveLng, effectiveAccuracy);
+          const ogereMapUrls = getOgereMapUrls(effectiveLat, effectiveLng, 'Victim Distress Target');
+          const batLvl = incident.battery_level ?? null;
+          const isLowBat = batLvl !== null && batLvl <= 20;
 
-          {/* Real Street Map Tile with Overlaid Victim Pin */}
-          <View style={styles.mapFrame}>
-            <Image
-              source={{ uri: tileUrl }}
-              style={styles.mapImage}
-              resizeMode="cover"
-            />
-
-            {/* Tactical Grid Lines Overlay */}
-            <View style={styles.tacticalGrid} pointerEvents="none" />
-
-            {/* Victim Pulsing Radar Marker */}
-            <View
-              style={[
-                styles.markerContainer,
-                { left: `${offset.offsetX}%`, top: `${offset.offsetY}%` },
-              ]}
-              pointerEvents="none"
-            >
-              <View style={styles.markerRipple} />
-              <View style={styles.markerCore}>
-                <Text style={styles.markerEmoji}>📍</Text>
+          return (
+            <View style={styles.mapCard}>
+              {/* Radar Header */}
+              <View style={styles.mapHeaderRow}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <View style={styles.livePulseDot} />
+                  <Text style={styles.mapHeaderTitle}>
+                    {incident.is_live_tracking ? 'LIVE TARGET RADAR · MOVING' : 'VICTIM GPS PIN'}
+                  </Text>
+                </View>
+                <Text style={styles.lastUpdateText}>
+                  {lastUpdateAt ? `Updated ${lastUpdateAt}` : 'Live GPS active'}
+                </Text>
               </View>
-              <View style={styles.markerBadge}>
-                <Text style={styles.markerBadgeText}>VICTIM</Text>
+
+              {/* Hyper-Local Ogere Landmark Reference */}
+              <View style={{ backgroundColor: 'rgba(56, 189, 248, 0.1)', borderColor: '#38bdf8', borderWidth: 1, borderRadius: 6, padding: 8, marginHorizontal: 10, marginBottom: 6 }}>
+                <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
+                  📍 OGERE REMO PINPOINT: <Text style={{ color: '#ffffff' }}>{ogereLoc.formattedText}</Text>
+                </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 3 }}>
+                  <Text style={{ color: '#94a3b8', fontSize: 10 }}>Sector: {ogereLoc.sector}</Text>
+                  <Text style={{ color: '#38bdf8', fontSize: 10, fontWeight: '700' }}>
+                    🚓 ~{ogereLoc.distanceToPolice}m to Police DPO (~{ogereLoc.policeEtaMinutes}m ETA)
+                  </Text>
+                </View>
+              </View>
+
+              {/* Low Battery Warning */}
+              {isLowBat && (
+                <View style={{ backgroundColor: '#7f1d1d', borderColor: '#ef4444', borderWidth: 1, borderRadius: 6, padding: 6, marginHorizontal: 10, marginBottom: 6 }}>
+                  <Text style={{ color: '#fecaca', fontSize: 10, fontWeight: '800' }}>
+                    🪫 CRITICAL BATTERY: Victim device at {batLvl}%! Risk of signal loss. Intercept immediately!
+                  </Text>
+                </View>
+              )}
+
+              {/* Real Street Map Tile with Overlaid Victim Pin */}
+              <View style={styles.mapFrame}>
+                <Image
+                  source={{ uri: tileUrl }}
+                  style={styles.mapImage}
+                  resizeMode="cover"
+                />
+
+                {/* Tactical Grid Lines Overlay */}
+                <View style={styles.tacticalGrid} pointerEvents="none" />
+
+                {/* Victim Pulsing Radar Marker */}
+                <View
+                  style={[
+                    styles.markerContainer,
+                    { left: `${offset.offsetX}%`, top: `${offset.offsetY}%` },
+                  ]}
+                  pointerEvents="none"
+                >
+                  <View style={styles.markerRipple} />
+                  <View style={styles.markerCore}>
+                    <Text style={styles.markerEmoji}>📍</Text>
+                  </View>
+                  <View style={styles.markerBadge}>
+                    <Text style={styles.markerBadgeText}>VICTIM</Text>
+                  </View>
+                </View>
+
+                {/* Watermark in bottom corner */}
+                <View style={styles.mapWatermark}>
+                  <Text style={styles.mapWatermarkText}>OSM Street Radar · Ogere Remo</Text>
+                </View>
+              </View>
+
+              {/* Telemetry Metrics Row */}
+              <View style={styles.telemetryBar}>
+                <View style={styles.telemetryCell}>
+                  <Text style={styles.telemetryCellLabel}>COORDINATES</Text>
+                  <Text style={styles.telemetryCellValue}>
+                    {effectiveLat.toFixed(5)}°N, {effectiveLng.toFixed(5)}°E
+                  </Text>
+                </View>
+                <View style={styles.telemetryCell}>
+                  <Text style={styles.telemetryCellLabel}>ACCURACY</Text>
+                  <Text style={[styles.telemetryCellValue, { color: effectiveAccuracy && effectiveAccuracy < 30 ? '#4ade80' : '#fde047' }]}>
+                    {effectiveAccuracy ? `±${effectiveAccuracy}m` : 'Satellite'} ({ogereLoc.accuracyRating === 'pinpoint_satellite' ? '🟢 Sat' : '🟡 GPS'})
+                  </Text>
+                </View>
+                <View style={styles.telemetryCell}>
+                  <Text style={styles.telemetryCellLabel}>BATTERY</Text>
+                  <Text style={[styles.telemetryCellValue, { color: (batLvl ?? 80) > 20 ? '#4ade80' : '#ef4444' }]}>
+                    {batLvl !== null ? `${batLvl}%` : '80%'}
+                  </Text>
+                </View>
+                <View style={styles.telemetryCell}>
+                  <Text style={styles.telemetryCellLabel}>SPEED</Text>
+                  <Text style={styles.telemetryCellValue}>
+                    {liveSpeed !== null ? `${liveSpeed} km/h` : 'Stationary'}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Quick Action Intercept Navigation Buttons */}
+              <View style={styles.mapActionRow}>
+                <TouchableOpacity
+                  style={styles.navActionBtn}
+                  onPress={() => Linking.openURL(ogereMapUrls.turnByTurnNavigation).catch(() => Alert.alert('Maps', mapsUrl))}
+                >
+                  <Text style={styles.navActionBtnText}>⚡ Intercept (Turn-by-Turn Navigation) ➔</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.pinActionBtn}
+                  onPress={() => Linking.openURL(ogereMapUrls.satellitePin).catch(() => Alert.alert('Maps', mapsUrl))}
+                >
+                  <Text style={styles.pinActionBtnText}>🛰️ Open Rooftop Satellite Pin (Z:19)</Text>
+                </TouchableOpacity>
               </View>
             </View>
-
-            {/* Watermark in bottom corner */}
-            <View style={styles.mapWatermark}>
-              <Text style={styles.mapWatermarkText}>OSM Street Radar · Ogere Remo</Text>
-            </View>
-          </View>
-
-          {/* Telemetry Metrics Row */}
-          <View style={styles.telemetryBar}>
-            <View style={styles.telemetryCell}>
-              <Text style={styles.telemetryCellLabel}>COORDINATES</Text>
-              <Text style={styles.telemetryCellValue}>
-                {effectiveLat.toFixed(5)}°N, {effectiveLng.toFixed(5)}°E
-              </Text>
-            </View>
-            <View style={styles.telemetryCell}>
-              <Text style={styles.telemetryCellLabel}>ACCURACY</Text>
-              <Text style={[styles.telemetryCellValue, { color: effectiveAccuracy && effectiveAccuracy < 30 ? '#4ade80' : '#fde047' }]}>
-                {effectiveAccuracy ? `±${effectiveAccuracy}m` : 'Satellite'}
-              </Text>
-            </View>
-            <View style={styles.telemetryCell}>
-              <Text style={styles.telemetryCellLabel}>SPEED</Text>
-              <Text style={styles.telemetryCellValue}>
-                {liveSpeed !== null ? `${liveSpeed} km/h` : 'Stationary'}
-              </Text>
-            </View>
-            <View style={styles.telemetryCell}>
-              <Text style={styles.telemetryCellLabel}>PINGS</Text>
-              <Text style={styles.telemetryCellValue}>
-                {pingCount > 0 ? `${pingCount} tracked` : 'Live'}
-              </Text>
-            </View>
-          </View>
-
-          {/* Quick Action Intercept Navigation Buttons */}
-          <View style={styles.mapActionRow}>
-            <TouchableOpacity
-              style={styles.navActionBtn}
-              onPress={() => Linking.openURL(navUrl).catch(() => Alert.alert('Maps', mapsUrl))}
-            >
-              <Text style={styles.navActionBtnText}>⚡ Intercept (Turn-by-Turn Navigation) ➔</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.pinActionBtn}
-              onPress={() => Linking.openURL(mapsUrl).catch(() => Alert.alert('Maps', mapsUrl))}
-            >
-              <Text style={styles.pinActionBtnText}>🗺️ Open Full Google Maps Pin</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+          );
+        })()}
 
         {/* ── 2. BREADCRUMBS PATH TRAIL (If movement detected) ─────────── */}
         {breadcrumbs.length > 1 && (

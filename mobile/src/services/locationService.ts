@@ -25,6 +25,7 @@ import {
   OGERE_LANDMARKS,
   isInsideOgere,
 } from './ogereGeoEngine';
+import { reverseGeocodeMobile, getStandardMapUrls } from './liveLocationEngine';
 
 // ─── Interfaces ────────────────────────────────────────────────────────────────
 
@@ -53,6 +54,7 @@ export interface DeviceLocationData {
   heading: number | null;
   speed: number | null;
   ipAddress: string;
+  fullAddress: string;
   googleMapsUrl: string;
   satelliteMapsUrl: string;
   turnByTurnUrl: string;
@@ -365,9 +367,9 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
   let speed: number | null = null;
   let isGpsPrecise = false;
 
-  // 1. Acquire multi-sample satellite GPS lock
+  // 1. Acquire multi-sample satellite GPS lock with progressive refinement
   try {
-    const gps = await acquireHighPrecisionGps(5500, 15);
+    const gps = await acquireHighPrecisionGps(10000, 15);
     lat = gps.lat;
     lng = gps.lng;
     accuracy = gps.accuracy;
@@ -378,15 +380,16 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
     isGpsPrecise = true;
   } catch (gpsErr) {
     console.warn('[LocationService] GPS lock timed out or unavailable:', gpsErr);
-    // Use Ogere Center as baseline anchor if GPS fails
+    // Use Ogere Center as baseline anchor only if GPS completely fails
     lat = OGERE_CENTER_LAT;
     lng = OGERE_CENTER_LNG;
     accuracy = 250;
   }
 
+  // 2. Real-time reverse geocode coordinates to street address & sector
+  const revGeo = await reverseGeocodeMobile(lat, lng);
   const insideOgere = isInsideOgere(lat, lng);
   const ogereLocation = resolveOgereLocation(lat, lng, accuracy);
-  const mapUrls = getOgereMapUrls(lat, lng, 'Ogere SOS Distress');
 
   const result: DeviceLocationData = {
     latitude: lat,
@@ -397,9 +400,10 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
     heading,
     speed,
     ipAddress,
-    googleMapsUrl: mapUrls.streetPin,
-    satelliteMapsUrl: mapUrls.satellitePin,
-    turnByTurnUrl: mapUrls.turnByTurnNavigation,
+    fullAddress: revGeo.fullAddress,
+    googleMapsUrl: revGeo.googleMapsUrl,
+    satelliteMapsUrl: revGeo.satelliteMapsUrl,
+    turnByTurnUrl: revGeo.directionsUrl,
     isGpsPrecise,
     isInsideOgere: insideOgere,
     timestamp: new Date().toISOString(),
@@ -412,7 +416,7 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
 }
 
 /**
- * Launch Google Maps on the device with high-zoom rooftop satellite pin
+ * Launch Google Maps on the device with guaranteed pinpoint drop
  */
 export function openInGoogleMaps(
   latitude: number,
@@ -420,8 +424,8 @@ export function openInGoogleMaps(
   label: string = 'Emergency Location',
   preferSatellite: boolean = true
 ): void {
-  const mapUrls = getOgereMapUrls(latitude, longitude, label);
-  const targetUrl = preferSatellite ? mapUrls.satellitePin : mapUrls.streetPin;
+  const mapUrls = getStandardMapUrls(latitude, longitude);
+  const targetUrl = preferSatellite ? mapUrls.satelliteMapsUrl : mapUrls.googleMapsUrl;
 
   Linking.openURL(targetUrl).catch(() => {
     Alert.alert('Google Maps Link', `Coordinates: ${latitude}, ${longitude}\nURL: ${targetUrl}`);

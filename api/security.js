@@ -579,6 +579,8 @@ export default async function handler(req, res) {
       accuracy,
       ip_address: clientIp,
       google_maps_url: googleMapsUrl,
+      full_address: body.fullAddress || body.full_address || body.address || body.location || 'Ogere Remo Corridor',
+      directions_url: body.directionsUrl || body.directions_url || `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=driving`,
       // Device Intelligence fields
       device_model: deviceModel,
       device_os: deviceOs,
