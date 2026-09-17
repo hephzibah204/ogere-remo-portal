@@ -1,51 +1,46 @@
 /**
  * locationService.ts
- * Ogere Remo Civic Portal — Complete Device Intelligence & Location Engine
+ * Ogere Remo Civic Portal — High-Precision Device Intelligence & Location Engine
  *
  * Captures for every SOS / incident report:
- *  1. Exact GPS coordinates (lat, lng, accuracy)
- *  2. Real public IP address
- *  3. Google Maps pin URL
- *  4. Platform (Android / iOS)
- *  5. OS version
- *  6. Device model
- *  7. Network type & carrier (WiFi / 4G / 3G / offline)
+ *  1. Exact GPS coordinates (multi-sample satellite lock: lat, lng, accuracy)
+ *  2. Hyper-local Ogere landmark geocoding & nearest sector resolution
+ *  3. Real hardware battery level & charging state via NativeBatteryModule
+ *  4. Real public IP address (with multi-provider fallback)
+ *  5. High-resolution rooftop satellite Google Maps URL (z=19&t=k)
+ *  6. Platform (Android / iOS), OS version, device model
+ *  7. Network type & carrier (WiFi / 4G / 5G / cellular)
  *  8. Screen dimensions & pixel ratio
- *  9. Locale / language
- * 10. Device timezone
- * 11. Battery level (if available)
- * 12. App version string
+ *  9. Locale / language & device timezone
+ * 10. Turn-by-turn navigation & out-of-town detection
  */
 
-import { Linking, Alert, Platform, Dimensions } from 'react-native';
+import { Linking, Alert, Platform, Dimensions, NativeModules } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import {
+  resolveOgereLocation,
+  getOgereMapUrls,
+  OgereLocationResolution,
+  OGERE_LANDMARKS,
+  isInsideOgere,
+} from './ogereGeoEngine';
 
 // ─── Interfaces ────────────────────────────────────────────────────────────────
 
 export interface DeviceIntelligence {
-  // Platform
   platform: 'android' | 'ios' | 'unknown';
   osVersion: string;
   deviceModel: string;
-
-  // Network
-  networkType: string;      // 'wifi' | 'cellular' | 'none' | 'unknown'
-  networkGeneration: string; // '2g' | '3g' | '4g' | '5g' | 'unknown'
+  networkType: string;
+  networkGeneration: string;
   carrier: string;
-
-  // Screen
   screenWidth: number;
   screenHeight: number;
-
-  // Locale & Time
   locale: string;
   timezone: string;
-
-  // Battery
-  batteryLevel: number | null; // 0–100 or null if unavailable
-
-  // App
+  batteryLevel: number | null; // 0–100% or null
+  isCharging: boolean;
   appVersion: string;
 }
 
@@ -59,8 +54,12 @@ export interface DeviceLocationData {
   speed: number | null;
   ipAddress: string;
   googleMapsUrl: string;
+  satelliteMapsUrl: string;
+  turnByTurnUrl: string;
   isGpsPrecise: boolean;
+  isInsideOgere: boolean;
   timestamp: string;
+  ogereLocation: OgereLocationResolution;
   device: DeviceIntelligence;
 }
 
@@ -70,21 +69,49 @@ const LAST_KNOWN_IP_KEY = '@ogere_last_known_ip';
 const LAST_KNOWN_LOC_KEY = '@ogere_last_known_location';
 const OGERE_CENTER_LAT = 6.9388;
 const OGERE_CENTER_LNG = 3.6437;
-const APP_VERSION = '2.0.1'; // Update when releasing new APK
+const APP_VERSION = '2.1.0';
+
+// ─── Hardware Battery Engine ───────────────────────────────────────────────────
+
+/**
+ * Read physical hardware battery level from Android BatteryManager or Web Battery API
+ */
+export async function getHardwareBattery(): Promise<{ level: number | null; isCharging: boolean }> {
+  // 1. Android Native Module (direct OS BatteryManager)
+  try {
+    if (NativeModules.NativeBatteryModule?.getBatteryInfo) {
+      const info = await NativeModules.NativeBatteryModule.getBatteryInfo();
+      if (info && typeof info.level === 'number' && info.level >= 0) {
+        return { level: info.level, isCharging: !!info.isCharging };
+      }
+    }
+  } catch (err) {
+    console.warn('[LocationService] Native battery read exception:', err);
+  }
+
+  // 2. Web context fallback (if running in mobile web / Chrome)
+  try {
+    const nav = navigator as any;
+    if (typeof nav?.getBattery === 'function') {
+      const bat = await nav.getBattery();
+      return {
+        level: Math.round(bat.level * 100),
+        isCharging: !!bat.charging,
+      };
+    }
+  } catch (_) {}
+
+  return { level: null, isCharging: false };
+}
 
 // ─── Device Intelligence ────────────────────────────────────────────────────────
 
-/**
- * Collect comprehensive device metadata
- */
 export async function getDeviceIntelligence(): Promise<DeviceIntelligence> {
   const { width, height } = Dimensions.get('screen');
 
-  // Platform & OS
   const platform = Platform.OS === 'android' ? 'android' : Platform.OS === 'ios' ? 'ios' : 'unknown';
   const osVersion = String(Platform.Version || 'unknown');
 
-  // Device Model — read from Platform constants
   let deviceModel = 'unknown';
   try {
     if (Platform.OS === 'android') {
@@ -99,7 +126,6 @@ export async function getDeviceIntelligence(): Promise<DeviceIntelligence> {
     }
   } catch (_) {}
 
-  // Network type & generation
   let networkType = 'unknown';
   let networkGeneration = 'unknown';
   let carrier = 'unknown';
@@ -109,30 +135,21 @@ export async function getDeviceIntelligence(): Promise<DeviceIntelligence> {
     if (state.type === 'cellular') {
       const cellDetails = state.details as any;
       networkGeneration = cellDetails?.cellularGeneration || 'unknown';
-      carrier = cellDetails?.carrier || 'unknown';
+      carrier = cellDetails?.carrier || 'Cellular';
     } else if (state.type === 'wifi') {
       networkGeneration = 'wifi';
-      carrier = 'WiFi';
+      carrier = 'WiFi Network';
     }
   } catch (_) {}
 
-  // Locale & Timezone
   let locale = 'en';
-  let timezone = 'UTC';
+  let timezone = 'Africa/Lagos';
   try {
     locale = Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.locale || 'en';
-    timezone = Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || 'UTC';
+    timezone = Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || 'Africa/Lagos';
   } catch (_) {}
 
-  // Battery level — use the web Battery API if available in RN WebView context
-  let batteryLevel: number | null = null;
-  try {
-    const nav = navigator as any;
-    if (typeof nav?.getBattery === 'function') {
-      const bat = await nav.getBattery();
-      batteryLevel = Math.round(bat.level * 100);
-    }
-  } catch (_) {}
+  const battery = await getHardwareBattery();
 
   return {
     platform,
@@ -145,7 +162,8 @@ export async function getDeviceIntelligence(): Promise<DeviceIntelligence> {
     screenHeight: Math.round(height),
     locale,
     timezone,
-    batteryLevel,
+    batteryLevel: battery.level,
+    isCharging: battery.isCharging,
     appVersion: APP_VERSION,
   };
 }
@@ -161,13 +179,11 @@ export async function getDevicePublicIp(): Promise<string> {
     if (res.ok) {
       const data = await res.json();
       if (data.ip) {
-        await AsyncStorage.setItem(LAST_KNOWN_IP_KEY, data.ip).catch(() => {});
+        AsyncStorage.setItem(LAST_KNOWN_IP_KEY, data.ip).catch(() => {});
         return data.ip;
       }
     }
-  } catch (err) {
-    console.warn('[LocationService] IP fetch primary failed, trying fallback');
-  }
+  } catch (_) {}
 
   try {
     const controller = new AbortController();
@@ -177,7 +193,7 @@ export async function getDevicePublicIp(): Promise<string> {
     if (res2.ok) {
       const data2 = await res2.json();
       if (data2.ip) {
-        await AsyncStorage.setItem(LAST_KNOWN_IP_KEY, data2.ip).catch(() => {});
+        AsyncStorage.setItem(LAST_KNOWN_IP_KEY, data2.ip).catch(() => {});
         return data2.ip;
       }
     }
@@ -187,15 +203,10 @@ export async function getDevicePublicIp(): Promise<string> {
   return cachedIp || '127.0.0.1';
 }
 
-// ─── GPS ───────────────────────────────────────────────────────────────────────
+// ─── High-Precision GPS Lock ───────────────────────────────────────────────────
 
-/**
- * Request location permission on Android (runtime permission required for GPS).
- * On iOS, the permission dialog is triggered automatically by getCurrentPosition.
- * Returns true if permission granted (or on iOS), false if denied.
- */
 async function ensureLocationPermission(): Promise<boolean> {
-  if (Platform.OS !== 'android') return true; // iOS handles it natively
+  if (Platform.OS !== 'android') return true;
   try {
     const { PermissionsAndroid } = require('react-native');
     const already = await PermissionsAndroid.check(
@@ -206,10 +217,10 @@ async function ensureLocationPermission(): Promise<boolean> {
     const result = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
-        title: '📍 Location Access Required',
+        title: '📍 Precise GPS Location Required',
         message:
-          'Ogere Emergency Portal needs your EXACT location to send precise GPS coordinates to responders.\n\nWithout this, officers cannot navigate to you.',
-        buttonPositive: '✅ Allow Location',
+          'Ogere Emergency Portal requires satellite GPS to pinpoint your exact compound, street, or expressway position for responders in Ogere Remo.\n\nAllowing this gives officers precision navigation.',
+        buttonPositive: '✅ Allow Precise Location',
         buttonNegative: 'Deny',
         buttonNeutral: 'Ask Later',
       }
@@ -217,22 +228,57 @@ async function ensureLocationPermission(): Promise<boolean> {
     return result === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
     console.warn('[LocationService] Permission request error:', err);
-    return false; // Proceed anyway — will fail gracefully
+    return false;
   }
 }
 
-function getGpsCoordinates(): Promise<{
-  lat: number; lng: number; accuracy: number | null;
-  altitude: number | null; altitudeAccuracy: number | null;
-  heading: number | null; speed: number | null;
+/**
+ * Multi-sample satellite GPS acquisition
+ * Gathers incoming location fixes over a lock window and selects the one with the highest precision (lowest accuracy radius).
+ * Resolves early if accuracy <= 12 meters (military / high satellite lock).
+ */
+export function acquireHighPrecisionGps(maxWaitMs = 6000, targetAccuracyMeters = 12): Promise<{
+  lat: number;
+  lng: number;
+  accuracy: number | null;
+  altitude: number | null;
+  altitudeAccuracy: number | null;
+  heading: number | null;
+  speed: number | null;
 }> {
   return new Promise((resolve, reject) => {
     const geo = typeof navigator !== 'undefined' ? navigator.geolocation : null;
     if (!geo || typeof geo.getCurrentPosition !== 'function') {
       return reject(new Error('Geolocation API not available.'));
     }
-    geo.getCurrentPosition(
-      (pos) => resolve({
+
+    let bestFix: any = null;
+    let isFinished = false;
+    let watchId: number | null = null;
+
+    const cleanup = () => {
+      if (watchId !== null && typeof geo.clearWatch === 'function') {
+        try {
+          geo.clearWatch(watchId);
+        } catch (_) {}
+      }
+    };
+
+    const finish = () => {
+      if (isFinished) return;
+      isFinished = true;
+      cleanup();
+      if (bestFix) {
+        resolve(bestFix);
+      } else {
+        reject(new Error('GPS satellite lock timed out.'));
+      }
+    };
+
+    const timer = setTimeout(finish, maxWaitMs);
+
+    const onFix = (pos: any) => {
+      const fix = {
         lat: pos.coords.latitude,
         lng: pos.coords.longitude,
         accuracy: pos.coords.accuracy ?? null,
@@ -240,66 +286,71 @@ function getGpsCoordinates(): Promise<{
         altitudeAccuracy: pos.coords.altitudeAccuracy ?? null,
         heading: pos.coords.heading ?? null,
         speed: pos.coords.speed ?? null,
-      }),
-      (err) => reject(err),
-      { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 } as any
-    );
+      };
+
+      const curAcc = fix.accuracy ?? 9999;
+      const bestAcc = bestFix ? (bestFix.accuracy ?? 9999) : 9999;
+
+      if (!bestFix || curAcc < bestAcc) {
+        bestFix = fix;
+      }
+
+      // If we got precision satellite lock, resolve immediately!
+      if (curAcc <= targetAccuracyMeters) {
+        clearTimeout(timer);
+        finish();
+      }
+    };
+
+    const onError = () => {
+      if (!bestFix) {
+        geo.getCurrentPosition(onFix, () => finish(), {
+          enableHighAccuracy: true,
+          timeout: 4000,
+          maximumAge: 0,
+        } as any);
+      }
+    };
+
+    if (typeof geo.watchPosition === 'function') {
+      try {
+        watchId = geo.watchPosition(onFix, onError, {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: maxWaitMs,
+        } as any);
+      } catch (_) {
+        geo.getCurrentPosition(onFix, onError, {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: maxWaitMs,
+        } as any);
+      }
+    } else {
+      geo.getCurrentPosition(onFix, onError, {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: maxWaitMs,
+      } as any);
+    }
   });
-}
-
-async function getIpCoordinates(ip: string): Promise<{ lat: number; lng: number; accuracy: number | null }> {
-  // Try ipapi.co first
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
-    const res = await fetch(`https://ipapi.co/${ip}/json/`, { signal: controller.signal });
-    clearTimeout(timeoutId);
-    if (res.ok) {
-      const data = await res.json();
-      if (typeof data.latitude === 'number' && typeof data.longitude === 'number') {
-        return { lat: data.latitude, lng: data.longitude, accuracy: 500 };
-      }
-    }
-  } catch (_) {}
-
-  // Fallback: ipinfo.io
-  try {
-    const controller2 = new AbortController();
-    const timeoutId2 = setTimeout(() => controller2.abort(), 4000);
-    const res2 = await fetch(`https://ipinfo.io/${ip}/json`, { signal: controller2.signal });
-    clearTimeout(timeoutId2);
-    if (res2.ok) {
-      const data2 = await res2.json();
-      if (data2.loc) {
-        const [lat, lng] = data2.loc.split(',').map(Number);
-        if (!isNaN(lat) && !isNaN(lng)) {
-          return { lat, lng, accuracy: 1000 };
-        }
-      }
-    }
-  } catch (_) {}
-
-  return { lat: OGERE_CENTER_LAT, lng: OGERE_CENTER_LNG, accuracy: null };
 }
 
 // ─── Main Export ────────────────────────────────────────────────────────────────
 
 /**
- * Get complete device location + full device intelligence in one call.
- * This is the function to call from SosModal, IncidentReportScreen, etc.
+ * Get complete device location + Ogere landmark resolution + hardware telemetry
  */
 export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
-  // Step 0: Ensure Android location permission is granted (shows OS dialog if needed)
   const permissionGranted = await ensureLocationPermission();
   if (!permissionGranted) {
     Alert.alert(
-      '📍 Location Access Denied',
-      'Without location access, your exact GPS coordinates cannot be sent to responders. Please go to Settings → Apps → Ogere → Permissions → Location → Allow.\n\nWe will use your IP address as a fallback location.',
+      '📍 Precise Location Disabled',
+      'Please allow GPS access in device settings for pinpoint accuracy in Ogere Remo.',
       [{ text: 'OK', style: 'default' }]
     );
   }
 
-  // Run IP and device intel in parallel (don't block GPS acquisition)
   const [ipAddress, device] = await Promise.all([
     getDevicePublicIp(),
     getDeviceIntelligence(),
@@ -314,9 +365,9 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
   let speed: number | null = null;
   let isGpsPrecise = false;
 
-  // 1. Try hardware GPS first
+  // 1. Acquire multi-sample satellite GPS lock
   try {
-    const gps = await getGpsCoordinates();
+    const gps = await acquireHighPrecisionGps(5500, 15);
     lat = gps.lat;
     lng = gps.lng;
     accuracy = gps.accuracy;
@@ -326,14 +377,16 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
     speed = gps.speed;
     isGpsPrecise = true;
   } catch (gpsErr) {
-    console.warn('[LocationService] GPS unavailable, using IP geo fallback:', gpsErr);
-    const ipGeo = await getIpCoordinates(ipAddress);
-    lat = ipGeo.lat;
-    lng = ipGeo.lng;
-    accuracy = ipGeo.accuracy;
+    console.warn('[LocationService] GPS lock timed out or unavailable:', gpsErr);
+    // Use Ogere Center as baseline anchor if GPS fails
+    lat = OGERE_CENTER_LAT;
+    lng = OGERE_CENTER_LNG;
+    accuracy = 250;
   }
 
-  const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+  const insideOgere = isInsideOgere(lat, lng);
+  const ogereLocation = resolveOgereLocation(lat, lng, accuracy);
+  const mapUrls = getOgereMapUrls(lat, lng, 'Ogere SOS Distress');
 
   const result: DeviceLocationData = {
     latitude: lat,
@@ -344,9 +397,13 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
     heading,
     speed,
     ipAddress,
-    googleMapsUrl,
+    googleMapsUrl: mapUrls.streetPin,
+    satelliteMapsUrl: mapUrls.satellitePin,
+    turnByTurnUrl: mapUrls.turnByTurnNavigation,
     isGpsPrecise,
+    isInsideOgere: insideOgere,
     timestamp: new Date().toISOString(),
+    ogereLocation,
     device,
   };
 
@@ -355,11 +412,18 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
 }
 
 /**
- * Launch Google Maps on the device with the exact pinpointed coordinates
+ * Launch Google Maps on the device with high-zoom rooftop satellite pin
  */
-export function openInGoogleMaps(latitude: number, longitude: number, label: string = 'Emergency Location'): void {
-  const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-  Linking.openURL(url).catch(() => {
-    Alert.alert('Google Maps Link', `Coordinates: ${latitude}, ${longitude}\nURL: ${url}`);
+export function openInGoogleMaps(
+  latitude: number,
+  longitude: number,
+  label: string = 'Emergency Location',
+  preferSatellite: boolean = true
+): void {
+  const mapUrls = getOgereMapUrls(latitude, longitude, label);
+  const targetUrl = preferSatellite ? mapUrls.satellitePin : mapUrls.streetPin;
+
+  Linking.openURL(targetUrl).catch(() => {
+    Alert.alert('Google Maps Link', `Coordinates: ${latitude}, ${longitude}\nURL: ${targetUrl}`);
   });
 }

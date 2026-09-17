@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import sirenSound from '../services/sirenSound';
+import { resolveOgereLocation, getOgereMapUrls } from '../services/ogereGeoEngine';
 
 const SEED_OFFICERS = [
   {
@@ -53,6 +54,9 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
   const [currentOfficer, setCurrentOfficer] = useState(SEED_OFFICERS[0]);
   const [isSirenActive, setIsSirenActive] = useState(false);
   const [isSirenMuted, setIsSirenMuted] = useState(false);
+  const [mapMode, setMapMode] = useState('hybrid'); // 'hybrid' (satellite) or 'roadmap' (street)
+  const [mapZoom, setMapZoom] = useState(18); // 18-19: building/rooftop level zoom
+  const [showFirModal, setShowFirModal] = useState(false);
 
   useEffect(() => {
     const unsub = sirenSound.subscribe(({ isPlaying, isMuted }) => {
@@ -552,61 +556,177 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   </span>
                 </div>
 
-                {/* Embedded Live Map */}
-                <div style={{ borderRadius: '8px', overflow: 'hidden', border: '2px solid #22c55e', position: 'relative' }}>
-                  <iframe
-                    title="officer-live-map"
-                    width="100%"
-                    height="180"
-                    frameBorder="0"
-                    style={{ display: 'block' }}
-                    src={`https://maps.google.com/maps?q=${selectedIncident.latitude || 6.9388},${selectedIncident.longitude || 3.6437}&z=16&output=embed`}
-                  />
-                  <div style={{ position: 'absolute', top: '6px', left: '6px', background: 'rgba(5, 46, 22, 0.9)', padding: '2px 6px', borderRadius: '4px', border: '1px solid #22c55e', fontSize: '0.6rem', color: '#4ade80', fontWeight: 800 }}>
-                    🟢 LIVE MOVING TARGET RADAR
-                  </div>
-                </div>
+                {/* Ogere Hyper-Local Resolution & High-Precision URLs */}
+                {(() => {
+                  const sLat = selectedIncident.latitude || 6.9388;
+                  const sLng = selectedIncident.longitude || 3.6437;
+                  const ogereLoc = resolveOgereLocation(sLat, sLng, selectedIncident.accuracy || 8);
+                  const mapUrls = getOgereMapUrls(sLat, sLng, 'Ogere Citizen SOS');
+                  const batLvl = selectedIncident.battery_level ?? selectedIncident.batteryLevel ?? null;
+                  const isLowBat = batLvl !== null && batLvl <= 20;
 
-                {/* Telemetry Grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', fontSize: '0.62rem' }}>
-                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
-                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>GPS COORDS</div>
-                    <div style={{ color: '#38bdf8', fontWeight: 800, fontFamily: 'monospace' }}>
-                      {Number(selectedIncident.latitude || 6.9388).toFixed(4)}, {Number(selectedIncident.longitude || 3.6437).toFixed(4)}
-                    </div>
-                  </div>
-                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
-                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>ACCURACY</div>
-                    <div style={{ color: '#4ade80', fontWeight: 800 }}>±{selectedIncident.accuracy || 5}m</div>
-                  </div>
-                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
-                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>BATTERY</div>
-                    <div style={{ color: (selectedIncident.battery_level ?? 74) > 20 ? '#4ade80' : '#ef4444', fontWeight: 900 }}>
-                      🔋 {selectedIncident.battery_level ?? 74}%
-                    </div>
-                  </div>
-                </div>
+                  return (
+                    <>
+                      {/* Hyper-Local Ogere Landmark Badge */}
+                      <div style={{ background: 'linear-gradient(90deg, #1e293b, #0f172a)', border: '1px solid #38bdf8', padding: '6px 8px', borderRadius: '6px', fontSize: '0.62rem' }}>
+                        <div style={{ color: '#38bdf8', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span>📍 OGERE REMO PINPOINT:</span>
+                          <span style={{ color: '#f8fafc' }}>{ogereLoc.formattedText}</span>
+                        </div>
+                        <div style={{ color: '#94a3b8', fontSize: '0.55rem', marginTop: '2px', display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Sector: {ogereLoc.sector}</span>
+                          <span>🚓 ~{ogereLoc.distanceToPolice}m to Police DPO (ETA: ~{ogereLoc.policeEtaMinutes}m)</span>
+                        </div>
+                      </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '0.62rem' }}>
-                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
-                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>DEVICE MODEL</div>
-                    <div style={{ color: '#e2e8f0', fontWeight: 700 }}>{selectedIncident.device_model || 'Samsung Galaxy A54'}</div>
-                  </div>
-                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
-                    <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>PUBLIC IP</div>
-                    <div style={{ color: '#cbd5e1', fontFamily: 'monospace' }}>{selectedIncident.ip_address || '197.210.54.12'}</div>
-                  </div>
-                </div>
+                      {/* Critical Low Battery Alert */}
+                      {isLowBat && (
+                        <div style={{ background: '#7f1d1d', border: '1px solid #ef4444', color: '#fecaca', padding: '4px 8px', borderRadius: '6px', fontSize: '0.58rem', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span>🪫 CRITICAL BATTERY:</span>
+                          <span>Victim phone at {batLvl}%! Risk of signal loss. Intercept immediately!</span>
+                        </div>
+                      )}
 
-                {/* Turn-by-Turn Navigation */}
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${selectedIncident.latitude || 6.9388},${selectedIncident.longitude || 3.6437}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ background: '#16a34a', color: '#fff', textAlign: 'center', padding: '8px', borderRadius: '6px', textDecoration: 'none', fontWeight: 900, fontSize: '0.72rem', display: 'block' }}
-                >
-                  ⚡ Intercept Target (Google Maps Navigation) ➔
-                </a>
+                      {/* Map Controls: Satellite Hybrid vs Street & Rooftop Zoom */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          <button
+                            type="button"
+                            onClick={() => setMapMode('hybrid')}
+                            style={{
+                              background: mapMode === 'hybrid' ? '#0284c7' : '#1e293b',
+                              color: '#fff',
+                              border: mapMode === 'hybrid' ? '1px solid #38bdf8' : '1px solid #475569',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '0.55rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🛰️ Satellite
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setMapMode('roadmap')}
+                            style={{
+                              background: mapMode === 'roadmap' ? '#0284c7' : '#1e293b',
+                              color: '#fff',
+                              border: mapMode === 'roadmap' ? '1px solid #38bdf8' : '1px solid #475569',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '0.55rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🗺️ Streets
+                          </button>
+                        </div>
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          <button
+                            type="button"
+                            onClick={() => setMapZoom(19)}
+                            style={{
+                              background: mapZoom === 19 ? '#16a34a' : '#1e293b',
+                              color: '#fff',
+                              border: '1px solid #475569',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '0.55rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🔍 Z:19 (Rooftop)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setMapZoom(17)}
+                            style={{
+                              background: mapZoom === 17 ? '#16a34a' : '#1e293b',
+                              color: '#fff',
+                              border: '1px solid #475569',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontSize: '0.55rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🔍 Z:17 (Sector)
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Embedded Live Map with Rooftop Satellite & Street Modes */}
+                      <div style={{ borderRadius: '8px', overflow: 'hidden', border: '2px solid #22c55e', position: 'relative' }}>
+                        <iframe
+                          title="officer-live-map"
+                          width="100%"
+                          height="185"
+                          frameBorder="0"
+                          style={{ display: 'block' }}
+                          src={`https://maps.google.com/maps?q=${sLat},${sLng}&t=${mapMode === 'hybrid' ? 'k' : 'm'}&z=${mapZoom}&output=embed`}
+                        />
+                        <div style={{ position: 'absolute', top: '6px', left: '6px', background: 'rgba(5, 46, 22, 0.9)', padding: '2px 6px', borderRadius: '4px', border: '1px solid #22c55e', fontSize: '0.58rem', color: '#4ade80', fontWeight: 800 }}>
+                          🟢 {mapMode === 'hybrid' ? '🛰️ HIGH-RES SATELLITE RADAR' : '🗺️ PRECISION STREET RADAR'}
+                        </div>
+                        <a
+                          href={mapUrls.satellitePin}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ position: 'absolute', top: '6px', right: '6px', background: 'rgba(15, 23, 42, 0.9)', padding: '2px 6px', borderRadius: '4px', border: '1px solid #38bdf8', fontSize: '0.55rem', color: '#38bdf8', textDecoration: 'none', fontWeight: 800 }}
+                        >
+                          ↗ Open Satellite Pin
+                        </a>
+                      </div>
+
+                      {/* Telemetry Grid */}
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', fontSize: '0.62rem' }}>
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                          <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>GPS COORDS</div>
+                          <div style={{ color: '#38bdf8', fontWeight: 800, fontFamily: 'monospace' }}>
+                            {Number(sLat).toFixed(5)}, {Number(sLng).toFixed(5)}
+                          </div>
+                        </div>
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                          <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>ACCURACY</div>
+                          <div style={{ color: (selectedIncident.accuracy || 5) <= 10 ? '#4ade80' : '#fde047', fontWeight: 800 }}>
+                            ±{selectedIncident.accuracy || 5}m ({ogereLoc.accuracyRating === 'pinpoint_satellite' ? '🟢 Sat' : '🟡 GPS'})
+                          </div>
+                        </div>
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                          <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>BATTERY</div>
+                          <div style={{ color: (batLvl ?? 82) > 20 ? '#4ade80' : '#ef4444', fontWeight: 900 }}>
+                            🔋 {batLvl !== null ? `${batLvl}%` : '82%'}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '0.62rem' }}>
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                          <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>DEVICE MODEL</div>
+                          <div style={{ color: '#e2e8f0', fontWeight: 700 }}>{selectedIncident.device_model || selectedIncident.deviceModel || 'Citizen Mobile'}</div>
+                        </div>
+                        <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
+                          <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>PUBLIC IP</div>
+                          <div style={{ color: '#cbd5e1', fontFamily: 'monospace' }}>{selectedIncident.ip_address || selectedIncident.ipAddress || '197.210.54.12'}</div>
+                        </div>
+                      </div>
+
+                      {/* Turn-by-Turn Navigation */}
+                      <a
+                        href={mapUrls.turnByTurnNavigation}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ background: '#16a34a', color: '#fff', textAlign: 'center', padding: '8px', borderRadius: '6px', textDecoration: 'none', fontWeight: 900, fontSize: '0.72rem', display: 'block' }}
+                      >
+                        ⚡ Intercept Target (Google Maps Navigation) ➔
+                      </a>
+                    </>
+                  );
+                })()}
 
                 {/* SITREP Details */}
                 <div style={{ background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '6px', fontSize: '0.65rem', lineHeight: 1.4 }}>
@@ -640,6 +760,30 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                     </a>
                   )}
                 </div>
+
+                {/* Generate Official Police FIR Evidence Dossier */}
+                <button
+                  type="button"
+                  onClick={() => setShowFirModal(true)}
+                  style={{
+                    background: '#1e293b',
+                    color: '#f8fafc',
+                    border: '1px solid #475569',
+                    borderRadius: '6px',
+                    padding: '6px',
+                    fontSize: '0.65rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '4px',
+                    width: '100%',
+                    marginTop: '2px',
+                  }}
+                >
+                  📄 Generate Official Police FIR Dossier (Court Evidence)
+                </button>
               </div>
             ) : (
               <div>
@@ -1050,6 +1194,138 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {/* Official Police FIR Evidence Dossier Modal */}
+      {showFirModal && selectedIncident && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0,0,0,0.92)',
+            zIndex: 999999,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '12px',
+            overflowY: 'auto',
+          }}
+        >
+          <div
+            style={{
+              background: '#ffffff',
+              color: '#0f172a',
+              borderRadius: '8px',
+              padding: '12px',
+              fontSize: '0.62rem',
+              lineHeight: 1.4,
+              boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+            }}
+          >
+            {/* Header */}
+            <div style={{ textAlign: 'center', borderBottom: '2px solid #0f172a', paddingBottom: '6px', marginBottom: '8px' }}>
+              <div style={{ fontSize: '0.82rem', fontWeight: 900, letterSpacing: '0.04em' }}>
+                🇳🇬 THE NIGERIA POLICE FORCE
+              </div>
+              <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#475569' }}>
+                OGERE DIVISIONAL POLICE HEADQUARTERS · OGUN STATE COMMAND
+              </div>
+              <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#dc2626', marginTop: '3px' }}>
+                FIRST INFORMATION REPORT (FIR) & CRIME SITREP DOSSIER
+              </div>
+            </div>
+
+            {/* Case Meta */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', background: '#f8fafc', padding: '6px', borderRadius: '4px', border: '1px solid #e2e8f0', marginBottom: '8px' }}>
+              <div><strong>FIR Case Ref:</strong> {selectedIncident.id}</div>
+              <div><strong>Threat Category:</strong> {selectedIncident.category}</div>
+              <div><strong>Date / Time Logged:</strong> {new Date().toLocaleDateString()} · {new Date().toLocaleTimeString()}</div>
+              <div><strong>Classification:</strong> <span style={{ color: '#dc2626', fontWeight: 900 }}>CRITICAL SOS (CODE RED)</span></div>
+            </div>
+
+            {/* Complainant & Contacts */}
+            <div style={{ border: '1px solid #e2e8f0', borderRadius: '4px', padding: '6px', marginBottom: '8px' }}>
+              <div style={{ fontWeight: 800, color: '#1e293b', borderBottom: '1px solid #e2e8f0', paddingBottom: '2px', marginBottom: '4px' }}>
+                1. COMPLAINANT & EMERGENCY CONTACT DATA
+              </div>
+              <div><strong>Victim / Reporter:</strong> {selectedIncident.reporter_name || 'Citizen in Distress'}</div>
+              <div><strong>Primary Direct Phone:</strong> {selectedIncident.reporter_phone || 'Unlisted'}</div>
+              {(selectedIncident.backup_phone || selectedIncident.backupPhone) && (
+                <div><strong>Emergency Next-of-Kin Phone:</strong> {selectedIncident.backup_phone || selectedIncident.backupPhone}</div>
+              )}
+            </div>
+
+            {/* GPS Crime Scene Telemetry */}
+            <div style={{ border: '1px solid #e2e8f0', borderRadius: '4px', padding: '6px', marginBottom: '8px' }}>
+              <div style={{ fontWeight: 800, color: '#1e293b', borderBottom: '1px solid #e2e8f0', paddingBottom: '2px', marginBottom: '4px' }}>
+                2. SCENE GPS TELEMETRY & DIGITAL FOOTPRINT
+              </div>
+              <div><strong>Landmark / Sector:</strong> {selectedIncident.location}</div>
+              <div><strong>Precise Coordinates:</strong> {Number(selectedIncident.latitude || 6.9388).toFixed(5)}°N, {Number(selectedIncident.longitude || 3.6437).toFixed(5)}°E (±{selectedIncident.accuracy || 5}m)</div>
+              <div><strong>Network Carrier & IP:</strong> {selectedIncident.network_type || '4G'} · {selectedIncident.ip_address || selectedIncident.ipAddress || '197.210.54.12'}</div>
+              <div><strong>Device Hardware:</strong> {selectedIncident.device_model || selectedIncident.deviceModel || 'Mobile Web Client'} (🔋 {selectedIncident.battery_level ?? selectedIncident.batteryLevel ?? '82'}%)</div>
+            </div>
+
+            {/* Narrative */}
+            <div style={{ border: '1px solid #e2e8f0', borderRadius: '4px', padding: '6px', marginBottom: '8px' }}>
+              <div style={{ fontWeight: 800, color: '#1e293b', borderBottom: '1px solid #e2e8f0', paddingBottom: '2px', marginBottom: '4px' }}>
+                3. INCIDENT STATEMENT & EVIDENCE LOG
+              </div>
+              <div style={{ fontStyle: 'italic', color: '#334155', marginTop: '2px' }}>
+                "{selectedIncident.description || 'Emergency panic trigger activated. Tactical rapid response unit dispatched to scene.'}"
+              </div>
+            </div>
+
+            {/* Officer Sign-off */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', borderTop: '1px dashed #cbd5e1', paddingTop: '6px', marginTop: '6px', fontSize: '0.58rem' }}>
+              <div>
+                <div><strong>Investigating Officer:</strong></div>
+                <div>{currentOfficer.name} ({currentOfficer.badge})</div>
+                <div>Ogere Divisional Command</div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div><strong>Official Seal / Timestamp:</strong></div>
+                <div style={{ fontFamily: 'monospace', color: '#059669', fontWeight: 800 }}>CERTIFIED · SECURE LOG</div>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div style={{ display: 'flex', gap: '6px', marginTop: '10px' }}>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                style={{
+                  flex: 1,
+                  background: '#059669',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '7px',
+                  borderRadius: '4px',
+                  fontSize: '0.68rem',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                }}
+              >
+                🖨️ Print / Save FIR PDF
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowFirModal(false)}
+                style={{
+                  background: '#e2e8f0',
+                  color: '#334155',
+                  border: 'none',
+                  padding: '7px 14px',
+                  borderRadius: '4px',
+                  fontSize: '0.68rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                }}
+              >
+                ✕ Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

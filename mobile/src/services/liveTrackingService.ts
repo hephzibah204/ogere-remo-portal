@@ -175,8 +175,14 @@ class LiveTrackingService {
       } catch (_) {}
     }
 
-    const lat = this.currentCoords ? this.currentCoords.latitude : this.currentLat;
-    const lng = this.currentCoords ? this.currentCoords.longitude : this.currentLng;
+    let batteryInfo = { level: null as number | null, isCharging: false };
+    try {
+      const { getHardwareBattery } = require('./locationService');
+      batteryInfo = await getHardwareBattery();
+    } catch (_) {}
+
+    const lat = this.currentCoords?.latitude ?? this.currentLat ?? 6.9388;
+    const lng = this.currentCoords?.longitude ?? this.currentLng ?? 3.6437;
 
     const payload = {
       incidentId: this.activeIncidentId,
@@ -185,6 +191,8 @@ class LiveTrackingService {
       heading: this.currentCoords?.heading ?? null,
       speed: this.currentCoords?.speed ?? null,
       accuracy: this.currentCoords?.accuracy ?? null,
+      battery: batteryInfo.level,
+      isCharging: batteryInfo.isCharging,
       isEnded: false,
     };
 

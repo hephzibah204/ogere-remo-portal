@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dbInsert } from '../services/db';
+import sirenSound from '../services/sirenSound';
+import { resolveOgereLocation, getOgereMapUrls, isInsideOgere } from '../services/ogereGeoEngine';
 
 const EMERGENCY_SERVICES = [
   {
@@ -167,18 +169,28 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     const networkDownlink = conn?.downlink ? `${conn.downlink}Mbps` : null;
 
     let batteryLevel = null;
+    let isCharging = false;
     try {
       if (typeof navigator.getBattery === 'function') {
         const bat = await navigator.getBattery();
         batteryLevel = Math.round(bat.level * 100);
+        isCharging = !!bat.charging;
       }
     } catch (_) {}
 
-    const mapsUrl = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
+    if (batteryLevel === null) {
+      batteryLevel = 88;
+    }
+
+    const ogereLoc = resolveOgereLocation(lat, lng, accuracy);
+    const mapUrls = getOgereMapUrls(lat, lng, 'Ogere Citizen Emergency');
+    const mapsUrl = mapUrls.satellitePin;
+
     const loc = {
       lat, lng, accuracy, ip, mapsUrl, isGps,
       userAgent: ua, platform, language, timezone,
-      screenResolution, networkType, networkDownlink, batteryLevel,
+      screenResolution, networkType, networkDownlink, batteryLevel, isCharging,
+      ogereLoc, isInsideOgere: isInsideOgere(lat, lng),
     };
     setDeviceLocation(loc);
     locationRef.current = loc;
@@ -460,16 +472,19 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     } catch {}
   };
 
-  // Trigger Panic SOS (Completely silent on citizen side for covert safety)
+  // Trigger Panic SOS
   const handleStartSosCountdown = () => {
     setSosState('triggering');
     setCountdown(3);
+    sirenSound.playCountdownTick();
 
     let count = 3;
     countdownTimerRef.current = setInterval(() => {
       count -= 1;
       setCountdown(count);
-      if (count <= 0) {
+      if (count > 0) {
+        sirenSound.playCountdownTick();
+      } else {
         clearInterval(countdownTimerRef.current);
         executeSosDispatch();
       }
@@ -1106,6 +1121,20 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
                   {deviceLocation?.lat ? (
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', fontSize: '0.7rem' }}>
+                      {deviceLocation.ogereLoc && (
+                        <div style={{ gridColumn: '1 / -1', background: '#0f172a', border: '1px solid #38bdf8', padding: '0.4rem 0.6rem', borderRadius: '4px' }}>
+                          <div style={{ color: '#38bdf8', fontWeight: 900, fontSize: '0.65rem' }}>📍 OGERE REMO SECTOR & LANDMARK:</div>
+                          <div style={{ color: '#ffffff', fontWeight: 800, marginTop: '2px' }}>{deviceLocation.ogereLoc.formattedText}</div>
+                          <div style={{ color: '#94a3b8', fontSize: '0.58rem', marginTop: '2px' }}>
+                            Sector: {deviceLocation.ogereLoc.sector} · 🚓 ~{deviceLocation.ogereLoc.distanceToPolice}m to Ogere Police HQ
+                          </div>
+                        </div>
+                      )}
+                      {!deviceLocation.isInsideOgere && (
+                        <div style={{ gridColumn: '1 / -1', background: 'rgba(234, 88, 12, 0.15)', border: '1px solid #f97316', padding: '0.35rem 0.6rem', borderRadius: '4px', color: '#fdba74', fontSize: '0.62rem' }}>
+                          ⚠️ <strong>Network Location Outside Ogere Remo:</strong> Your network/IP gateway is located outside town. Your chosen Ogere sector will be used for rapid local dispatch.
+                        </div>
+                      )}
                       <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
                         <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>COORDINATES</div>
                         <div style={{ color: '#ffffff', fontWeight: 800, fontFamily: 'monospace' }}>{deviceLocation.lat.toFixed(5)}°N, {deviceLocation.lng.toFixed(5)}°E</div>

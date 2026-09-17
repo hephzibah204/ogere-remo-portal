@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import SEO from '../components/SEO';
 import Section from '../components/Section';
 import sirenSound from '../services/sirenSound';
+import TacticalRadarMap from '../components/TacticalRadarMap';
+import { resolveOgereLocation, getOgereMapUrls } from '../services/ogereGeoEngine';
 
 const AGENCIES = [
   { id: 'all', name: 'All Security Agencies', icon: '🌐' },
@@ -50,6 +52,70 @@ const SECTORS = [
   'Trailer Park Outpost',
 ];
 
+function SlaBadge({ incident }) {
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  if (!incident) return null;
+
+  if (incident.status === 'resolved') {
+    return (
+      <span style={{
+        fontSize: '0.62rem',
+        fontWeight: 800,
+        padding: '0.15rem 0.45rem',
+        borderRadius: '4px',
+        background: 'rgba(34, 197, 94, 0.15)',
+        color: '#86efac',
+        border: '1px solid #16a34a',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.2rem',
+      }}>
+        ✓ SLA MET
+      </span>
+    );
+  }
+
+  const targetMinutes = incident.sla_target_minutes || (
+    incident.threat_level === 'CODE_RED' ? 3 :
+    incident.threat_level === 'CODE_ORANGE' ? 5 : 15
+  );
+
+  const createdAtTime = new Date(incident.created_at || Date.now()).getTime();
+  const deadline = createdAtTime + targetMinutes * 60 * 1000;
+  const diffSecs = Math.floor((deadline - now) / 1000);
+  const isBreached = diffSecs <= 0;
+  const absSecs = Math.abs(diffSecs);
+  const mins = Math.floor(absSecs / 60);
+  const secs = absSecs % 60;
+  const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+  return (
+    <span style={{
+      fontSize: '0.62rem',
+      fontWeight: 900,
+      padding: '0.15rem 0.45rem',
+      borderRadius: '4px',
+      background: isBreached ? 'rgba(239, 68, 68, 0.25)' : diffSecs < 120 ? 'rgba(245, 158, 11, 0.25)' : 'rgba(34, 197, 94, 0.2)',
+      color: isBreached ? '#ef4444' : diffSecs < 120 ? '#f59e0b' : '#4ade80',
+      border: `1px solid ${isBreached ? '#ef4444' : diffSecs < 120 ? '#f59e0b' : '#22c55e'}`,
+      letterSpacing: '0.04em',
+      animation: isBreached ? 'codeRedFlash 1s infinite' : 'none',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.25rem',
+    }}>
+      <span>⏱️</span>
+      <span>{isBreached ? `SLA BREACHED (-${formatted})` : `SLA: ${formatted}`}</span>
+    </span>
+  );
+}
+
 export default function SecurityDashboardPage() {
   const [selectedAgency, setSelectedAgency] = useState('all');
   const [threatFilter, setThreatFilter] = useState('all');
@@ -65,6 +131,7 @@ export default function SecurityDashboardPage() {
   const [audioEnabled, setAudioEnabled] = useState(true); // ON by default — agents always hear alarms
   const [lastAlertTime, setLastAlertTime] = useState(null);
   const [fullscreenMedia, setFullscreenMedia] = useState(null);
+  const [dashboardMapMode, setDashboardMapMode] = useState('hybrid'); // 'hybrid' (satellite) or 'roadmap'
   const [newIncidentForm, setNewIncidentForm] = useState(false);
   const [manualReport, setManualReport] = useState({
     category: 'Armed Robbery / Banditry',
@@ -351,7 +418,9 @@ export default function SecurityDashboardPage() {
 
 
 
-  const handleUpdateStatus = async (newStatus) => {
+  const [newSitrepText, setNewSitrepText] = useState('');
+
+  const handleUpdateStatus = async (newStatus, customSitrep = null) => {
     if (!activeIncident) return;
     setIsUpdating(true);
     try {
@@ -364,6 +433,8 @@ export default function SecurityDashboardPage() {
           assignedAgency: dispatchAgency,
           respondingUnit: dispatchUnit || activeIncident.responding_unit,
           agencyNotes: agencyNotes || activeIncident.agency_notes,
+          sitrepMessage: customSitrep || (newStatus === 'resolved' ? 'Incident resolved and situation neutralized.' : `Status updated to ${newStatus}.`),
+          sitrepAuthor: 'Command Dispatcher (Police / Palace)',
         }),
       });
 
@@ -371,6 +442,11 @@ export default function SecurityDashboardPage() {
         const updated = await res.json();
         setActiveIncident(updated.incident);
         fetchIncidents();
+        if (newStatus === 'resolved') {
+          sirenSound.playAllClearChime();
+        } else {
+          sirenSound.playSonarPing();
+        }
       }
     } catch (err) {
       alert('Error updating incident dispatch: ' + err.message);
@@ -378,6 +454,57 @@ export default function SecurityDashboardPage() {
       setIsUpdating(false);
     }
   };
+
+  const handleAddRadioSitrep = async () => {
+    if (!newSitrepText.trim() || !activeIncident) return;
+    await handleUpdateStatus(activeIncident.status, newSitrepText.trim());
+    setNewSitrepText('');
+  };
+
+  // Tactical Dispatcher Keyboard Shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (activeIncident && activeIncident.status === 'open') {
+          handleUpdateStatus('investigating');
+        }
+      } else if (e.code === 'KeyD') {
+        e.preventDefault();
+        if (activeIncident) {
+          handleUpdateStatus('dispatched');
+        }
+      } else if (e.code === 'KeyM') {
+        e.preventDefault();
+        const next = !audioEnabled;
+        setAudioEnabled(next);
+        if (next && codeRedCount > 0) triggerAudioAlarm(true);
+        if (!next) stopAlarm();
+      } else if (e.code === 'KeyB') {
+        e.preventDefault();
+        setShowBroadcastModal((b) => !b);
+      } else if (e.code === 'Digit1') {
+        setThreatFilter('all');
+      } else if (e.code === 'Digit2') {
+        setThreatFilter('CODE_RED');
+      } else if (e.code === 'Digit3') {
+        setThreatFilter('CODE_ORANGE');
+      } else if (e.code === 'Digit4') {
+        setThreatFilter('CODE_YELLOW');
+      } else if (e.code === 'Escape') {
+        setActiveIncident(null);
+        setShowBroadcastModal(false);
+        setShowTipsModal(false);
+        setShowPatrolModal(false);
+        setNewIncidentForm(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeIncident, audioEnabled, codeRedCount, dispatchAgency, dispatchUnit, agencyNotes]);
 
   const handleManualDispatch = async (e) => {
     e.preventDefault();
@@ -782,6 +909,63 @@ export default function SecurityDashboardPage() {
           </div>
         </div>
 
+        {/* Tactical Command Hotkeys Ribbon */}
+        <div style={{
+          background: 'rgba(15, 23, 42, 0.85)',
+          border: '1px solid rgba(201, 150, 58, 0.3)',
+          borderRadius: '8px',
+          padding: '0.6rem 1rem',
+          marginBottom: '1.2rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '0.8rem',
+          fontSize: '0.72rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', flexWrap: 'wrap' }}>
+            <span style={{ color: 'var(--gold)', fontWeight: 800, letterSpacing: '0.05em' }}>
+              ⌨️ TACTICAL HOTKEYS:
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.85)' }}>
+              <kbd style={{ background: '#334155', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#f8fafc', fontWeight: 700, border: '1px solid #475569' }}>SPACE</kbd> Triage
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.85)' }}>
+              <kbd style={{ background: '#334155', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#f8fafc', fontWeight: 700, border: '1px solid #475569' }}>D</kbd> Dispatch
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.85)' }}>
+              <kbd style={{ background: '#334155', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#f8fafc', fontWeight: 700, border: '1px solid #475569' }}>M</kbd> Mute/Arm Siren
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.85)' }}>
+              <kbd style={{ background: '#334155', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#f8fafc', fontWeight: 700, border: '1px solid #475569' }}>B</kbd> Broadcast
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.85)' }}>
+              <kbd style={{ background: '#334155', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#f8fafc', fontWeight: 700, border: '1px solid #475569' }}>1-4</kbd> Threat
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.85)' }}>
+              <kbd style={{ background: '#334155', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#f8fafc', fontWeight: 700, border: '1px solid #475569' }}>ESC</kbd> Clear
+            </span>
+          </div>
+          <div style={{ color: '#86efac', fontSize: '0.68rem', fontWeight: 800 }}>
+            🛰️ OGERE GIS RADAR ACTIVE · LATENCY 24ms
+          </div>
+        </div>
+
+        {/* GIS Tactical Radar Canvas */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <TacticalRadarMap
+            incidents={displayedIncidents}
+            activeIncident={activeIncident}
+            onSelectIncident={(inc) => {
+              setActiveIncident(inc);
+              setDispatchAgency(inc.assigned_agency || 'Police');
+              setDispatchUnit(inc.responding_unit || '');
+              setAgencyNotes(inc.agency_notes || '');
+            }}
+            breadcrumbs={breadcrumbs}
+          />
+        </div>
+
         {/* Dashboard Main Grid: Incident Feed & Dispatch Inspector */}
         <div style={{ display: 'grid', gridTemplateColumns: activeIncident ? '1.2fr 1fr' : '1fr', gap: '1.5rem' }}>
           {/* Left: Live Alerts Feed */}
@@ -823,8 +1007,8 @@ export default function SecurityDashboardPage() {
                       position: 'relative',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
                         <span style={{
                           background: threat.color,
                           color: '#ffffff',
@@ -836,6 +1020,8 @@ export default function SecurityDashboardPage() {
                         }}>
                           {threat.badge}
                         </span>
+
+                        <SlaBadge incident={inc} />
 
                         {isSilent && (
                           <span style={{
@@ -997,7 +1183,10 @@ export default function SecurityDashboardPage() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(201,150,58,0.2)', paddingBottom: '0.8rem' }}>
                 <div>
                   <span className="cinzel" style={{ fontSize: '0.65rem', color: 'var(--gold)', letterSpacing: '0.1em' }}>TACTICAL INCIDENT DISPATCH</span>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff' }}>{activeIncident.id}</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                    <span>{activeIncident.id}</span>
+                    <SlaBadge incident={activeIncident} />
+                  </div>
                 </div>
                 <button
                   onClick={() => setActiveIncident(null)}
@@ -1196,126 +1385,189 @@ export default function SecurityDashboardPage() {
                   </div>
                 )}
 
-                {/* ── Google Maps (Auto-re-centers on live coords) ── */}
-                {activeIncident.latitude && activeIncident.longitude && (
-                  <div style={{ display: 'grid', gap: '0.5rem' }}>
-                    {/* Embedded map — auto updates when coords change */}
-                    <iframe
-                      key={`${activeIncident.latitude}-${activeIncident.longitude}-${liveRefreshKey}`}
-                      title="incident-map"
-                      width="100%"
-                      height="220"
-                      frameBorder="0"
-                      style={{
-                        borderRadius: '6px',
-                        border: activeIncident.is_live_tracking ? '2px solid #22c55e' : '2px solid #ef4444',
-                        display: 'block',
-                      }}
-                      src={`https://maps.google.com/maps?q=${activeIncident.latitude},${activeIncident.longitude}&z=17&output=embed`}
-                      allowFullScreen
-                    />
+                {/* ── Google Maps with Satellite Hybrid & Street Toggles ── */}
+                {activeIncident.latitude && activeIncident.longitude && (() => {
+                  const ogereLoc = resolveOgereLocation(activeIncident.latitude, activeIncident.longitude, activeIncident.accuracy || 10);
+                  const mapUrls = getOgereMapUrls(activeIncident.latitude, activeIncident.longitude, 'Ogere Security Target');
 
-                    {/* Turn-by-Turn Intercept Navigation Button (Crucial for Police/Patrol units) */}
-                    <a
-                      href={`https://www.google.com/maps/dir/?api=1&destination=${activeIncident.latitude},${activeIncident.longitude}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.4rem',
-                        background: activeIncident.is_live_tracking ? '#16a34a' : '#1a73e8',
-                        color: '#ffffff',
-                        padding: '0.65rem 1rem',
-                        borderRadius: '4px',
-                        textDecoration: 'none',
-                        fontWeight: 900,
-                        fontSize: '0.78rem',
-                        letterSpacing: 0.3,
-                        boxShadow: activeIncident.is_live_tracking ? '0 0 15px rgba(34,197,94,0.4)' : 'none',
-                      }}
-                    >
-                      {activeIncident.is_live_tracking ? '⚡ Intercept Moving Target (Turn-by-Turn Navigation) →' : '🗺️ Open Full Incident Location on Google Maps →'}
-                    </a>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', marginTop: '0.2rem' }}>
-                      {/* CCTV Camera Radius Scanner */}
-                      <button
-                        onClick={handleScanCctv}
-                        style={{
-                          background: '#374151',
-                          border: '1px solid #9ca3af',
-                          color: '#ffffff',
-                          padding: '0.5rem',
-                          borderRadius: '4px',
-                          fontSize: '0.72rem',
-                          fontWeight: 800,
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '0.3rem',
-                        }}
-                      >
-                        📹 Scan CCTV (1km)
-                      </button>
-
-                      {/* Guardian Family Link */}
-                      <button
-                        onClick={() => {
-                          const url = `${window.location.origin}/track/${activeIncident.id}`;
-                          navigator.clipboard.writeText(url);
-                          alert(`Guardian Radar Link copied to clipboard:\n${url}\n\nSend to victim's family / next-of-kin via SMS or WhatsApp.`);
-                        }}
-                        style={{
-                          background: '#065f46',
-                          border: '1px solid #34d399',
-                          color: '#ffffff',
-                          padding: '0.5rem',
-                          borderRadius: '4px',
-                          fontSize: '0.72rem',
-                          fontWeight: 800,
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '0.3rem',
-                        }}
-                      >
-                        🔗 Guardian Link
-                      </button>
-                    </div>
-
-                    <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.6)', textAlign: 'center' }}>
-                      Live GPS: {Number(activeIncident.latitude).toFixed(5)}°N, {Number(activeIncident.longitude).toFixed(5)}°E
-                      {activeIncident.last_ping_at && ` · Last ping: ${new Date(activeIncident.last_ping_at).toLocaleTimeString()}`}
-                    </div>
-
-                    {/* Breadcrumbs Route History Trail */}
-                    {breadcrumbs.length > 1 && (
-                      <div style={{
-                        background: 'rgba(0,0,0,0.4)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        borderRadius: '4px',
-                        padding: '0.5rem',
-                        marginTop: '0.3rem',
-                      }}>
-                        <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--gold)', marginBottom: '0.3rem' }}>
-                          📍 MOVEMENT TRAIL ({breadcrumbs.length} RECORDED PINGS)
+                  return (
+                    <div style={{ display: 'grid', gap: '0.5rem' }}>
+                      {/* Hyper-Local Ogere Landmark Reference */}
+                      <div style={{ background: '#0f172a', border: '1px solid #38bdf8', padding: '0.5rem 0.8rem', borderRadius: '6px', fontSize: '0.74rem' }}>
+                        <div style={{ color: '#38bdf8', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span>📍 OGERE REMO PINPOINT:</span>
+                          <span style={{ color: '#ffffff' }}>{ogereLoc.formattedText}</span>
                         </div>
-                        <div style={{ maxHeight: '90px', overflowY: 'auto', fontSize: '0.65rem', color: 'rgba(255,255,255,0.7)' }}>
-                          {breadcrumbs.slice(-8).reverse().map((b, idx) => (
-                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                              <span>#{breadcrumbs.length - idx}: {Number(b.latitude).toFixed(5)}°N, {Number(b.longitude).toFixed(5)}°E</span>
-                              <span style={{ color: '#86efac' }}>{b.speed ? `${b.speed} km/h` : ''} · {new Date(b.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
-                            </div>
-                          ))}
+                        <div style={{ color: '#94a3b8', fontSize: '0.66rem', marginTop: '3px', display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Sector: {ogereLoc.sector}</span>
+                          <span>🚓 ~{ogereLoc.distanceToPolice}m from Ogere Police Station (ETA: ~{ogereLoc.policeEtaMinutes} mins)</span>
                         </div>
                       </div>
-                    )}
-                  </div>
-                )}
+
+                      {/* Map Controls */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <button
+                            type="button"
+                            onClick={() => setDashboardMapMode('hybrid')}
+                            style={{
+                              background: dashboardMapMode === 'hybrid' ? '#0284c7' : '#1e293b',
+                              border: dashboardMapMode === 'hybrid' ? '1px solid #38bdf8' : '1px solid #475569',
+                              color: '#ffffff',
+                              padding: '0.3rem 0.6rem',
+                              borderRadius: '4px',
+                              fontSize: '0.68rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🛰️ Satellite View (Rooftops)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDashboardMapMode('roadmap')}
+                            style={{
+                              background: dashboardMapMode === 'roadmap' ? '#0284c7' : '#1e293b',
+                              border: dashboardMapMode === 'roadmap' ? '1px solid #38bdf8' : '1px solid #475569',
+                              color: '#ffffff',
+                              padding: '0.3rem 0.6rem',
+                              borderRadius: '4px',
+                              fontSize: '0.68rem',
+                              fontWeight: 800,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            🗺️ Street Map
+                          </button>
+                        </div>
+                        <a
+                          href={mapUrls.satellitePin}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ color: '#38bdf8', fontSize: '0.68rem', textDecoration: 'none', fontWeight: 800 }}
+                        >
+                          ↗ Open Satellite Pin
+                        </a>
+                      </div>
+
+                      {/* Embedded map — auto updates when coords change */}
+                      <iframe
+                        key={`${activeIncident.latitude}-${activeIncident.longitude}-${dashboardMapMode}-${liveRefreshKey}`}
+                        title="incident-map"
+                        width="100%"
+                        height="240"
+                        frameBorder="0"
+                        style={{
+                          borderRadius: '6px',
+                          border: activeIncident.is_live_tracking ? '2px solid #22c55e' : '2px solid #ef4444',
+                          display: 'block',
+                        }}
+                        src={`https://maps.google.com/maps?q=${activeIncident.latitude},${activeIncident.longitude}&t=${dashboardMapMode === 'hybrid' ? 'k' : 'm'}&z=18&output=embed`}
+                        allowFullScreen
+                      />
+
+                      {/* Turn-by-Turn Intercept Navigation Button (Crucial for Police/Patrol units) */}
+                      <a
+                        href={mapUrls.turnByTurnNavigation}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.4rem',
+                          background: activeIncident.is_live_tracking ? '#16a34a' : '#1a73e8',
+                          color: '#ffffff',
+                          padding: '0.65rem 1rem',
+                          borderRadius: '4px',
+                          textDecoration: 'none',
+                          fontWeight: 900,
+                          fontSize: '0.78rem',
+                          letterSpacing: 0.3,
+                          boxShadow: activeIncident.is_live_tracking ? '0 0 15px rgba(34,197,94,0.4)' : 'none',
+                        }}
+                      >
+                        {activeIncident.is_live_tracking ? '⚡ Intercept Moving Target (Turn-by-Turn Navigation) →' : '🗺️ Open Rooftop Pin on Google Maps →'}
+                      </a>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', marginTop: '0.2rem' }}>
+                        {/* CCTV Camera Radius Scanner */}
+                        <button
+                          onClick={handleScanCctv}
+                          style={{
+                            background: '#374151',
+                            border: '1px solid #9ca3af',
+                            color: '#ffffff',
+                            padding: '0.5rem',
+                            borderRadius: '4px',
+                            fontSize: '0.72rem',
+                            fontWeight: 800,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.3rem',
+                          }}
+                        >
+                          📹 Scan CCTV (1km)
+                        </button>
+
+                        {/* Guardian Family Link */}
+                        <button
+                          onClick={() => {
+                            const url = `${window.location.origin}/track/${activeIncident.id}`;
+                            navigator.clipboard.writeText(url);
+                            alert(`Guardian Radar Link copied to clipboard:\n${url}\n\nSend to victim's family / next-of-kin via SMS or WhatsApp.`);
+                          }}
+                          style={{
+                            background: '#065f46',
+                            border: '1px solid #34d399',
+                            color: '#ffffff',
+                            padding: '0.5rem',
+                            borderRadius: '4px',
+                            fontSize: '0.72rem',
+                            fontWeight: 800,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.3rem',
+                          }}
+                        >
+                          🔗 Guardian Link
+                        </button>
+                      </div>
+
+                      <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.6)', textAlign: 'center' }}>
+                        Live GPS: {Number(activeIncident.latitude).toFixed(5)}°N, {Number(activeIncident.longitude).toFixed(5)}°E
+                        {activeIncident.last_ping_at && ` · Last ping: ${new Date(activeIncident.last_ping_at).toLocaleTimeString()}`}
+                      </div>
+
+                      {/* Breadcrumbs Route History Trail */}
+                      {breadcrumbs.length > 1 && (
+                        <div style={{
+                          background: 'rgba(0,0,0,0.4)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          borderRadius: '4px',
+                          padding: '0.5rem',
+                          marginTop: '0.3rem',
+                        }}>
+                          <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--gold)', marginBottom: '0.3rem' }}>
+                            📍 MOVEMENT TRAIL ({breadcrumbs.length} RECORDED PINGS)
+                          </div>
+                          <div style={{ maxHeight: '90px', overflowY: 'auto', fontSize: '0.65rem', color: 'rgba(255,255,255,0.7)' }}>
+                            {breadcrumbs.slice(-8).reverse().map((b, idx) => (
+                              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                                <span>#{breadcrumbs.length - idx}: {Number(b.latitude).toFixed(5)}°N, {Number(b.longitude).toFixed(5)}°E</span>
+                                <span style={{ color: '#86efac' }}>{b.speed ? `${b.speed} km/h` : ''} · {new Date(b.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 <div>
                   <span style={{ color: 'var(--gold)', fontWeight: 700 }}>Reporter: </span>
@@ -1487,6 +1739,154 @@ export default function SecurityDashboardPage() {
                     ✅ Mark Situation Secured / Resolved
                   </button>
                 </div>
+
+                {/* ── Radio SITREPs & Tactical Communications Log ── */}
+                <div style={{
+                  background: 'rgba(15, 23, 42, 0.7)',
+                  border: '1px solid rgba(201, 150, 58, 0.25)',
+                  borderRadius: '6px',
+                  padding: '0.75rem',
+                  marginTop: '0.4rem',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 900, color: 'var(--gold)', letterSpacing: '0.06em' }}>
+                      📻 RADIO SITREPS & DISPATCH LOG
+                    </div>
+                    <span style={{ fontSize: '0.6rem', color: '#94a3b8' }}>
+                      {Array.isArray(activeIncident.sitreps) ? activeIncident.sitreps.length : 0} Transmissions
+                    </span>
+                  </div>
+
+                  {/* Sitrep Messages Feed */}
+                  <div style={{
+                    maxHeight: '140px',
+                    overflowY: 'auto',
+                    display: 'grid',
+                    gap: '0.4rem',
+                    marginBottom: '0.6rem',
+                  }}>
+                    {Array.isArray(activeIncident.sitreps) && activeIncident.sitreps.length > 0 ? (
+                      activeIncident.sitreps.map((s, idx) => (
+                        <div key={idx} style={{
+                          background: 'rgba(0, 0, 0, 0.4)',
+                          borderLeft: '3px solid #38bdf8',
+                          borderRadius: '3px',
+                          padding: '0.35rem 0.5rem',
+                          fontSize: '0.68rem',
+                        }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8', fontSize: '0.58rem', marginBottom: '0.15rem' }}>
+                            <span style={{ fontWeight: 800, color: '#38bdf8' }}>{s.author || 'Radio Unit'}</span>
+                            <span>{s.timestamp ? new Date(s.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}</span>
+                          </div>
+                          <div style={{ color: '#f1f5f9', lineHeight: 1.35 }}>{s.message}</div>
+                        </div>
+                      ))
+                    ) : (
+                      <div style={{ fontSize: '0.64rem', color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', padding: '0.4rem 0' }}>
+                        No radio SITREPs recorded yet. Broadcast initial sitrep below.
+                      </div>
+                    )}
+                  </div>
+
+                  {/* SITREP Fast Dispatch Form */}
+                  <div style={{ display: 'flex', gap: '0.4rem' }}>
+                    <input
+                      type="text"
+                      value={newSitrepText}
+                      onChange={(e) => setNewSitrepText(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleAddRadioSitrep();
+                        }
+                      }}
+                      placeholder="Broadcast radio update (e.g. Unit 4 engaged suspects)..."
+                      style={{
+                        flex: 1,
+                        background: '#090d16',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: '4px',
+                        padding: '0.4rem 0.6rem',
+                        color: '#f8fafc',
+                        fontSize: '0.68rem',
+                      }}
+                    />
+                    <button
+                      onClick={handleAddRadioSitrep}
+                      disabled={!newSitrepText.trim() || isUpdating}
+                      style={{
+                        background: '#0284c7',
+                        border: 'none',
+                        color: '#ffffff',
+                        padding: '0.4rem 0.75rem',
+                        borderRadius: '4px',
+                        fontSize: '0.68rem',
+                        fontWeight: 800,
+                        cursor: newSitrepText.trim() ? 'pointer' : 'default',
+                        opacity: newSitrepText.trim() ? 1 : 0.6,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      📡 Broadcast
+                    </button>
+                  </div>
+                </div>
+
+                {/* ── Multi-Modal Evidence Locker ── */}
+                {(activeIncident.voice_note_url || (Array.isArray(activeIncident.evidence_files) && activeIncident.evidence_files.length > 0)) && (
+                  <div style={{
+                    background: 'rgba(30, 27, 75, 0.4)',
+                    border: '1px solid #6366f1',
+                    borderRadius: '6px',
+                    padding: '0.75rem',
+                    marginTop: '0.4rem',
+                  }}>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#a5b4fc', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>
+                      📂 MULTI-MODAL EVIDENCE LOCKER
+                    </div>
+
+                    {/* Voice Note Player */}
+                    {activeIncident.voice_note_url && (
+                      <div style={{ marginBottom: '0.5rem', background: 'rgba(0,0,0,0.5)', padding: '0.5rem', borderRadius: '4px' }}>
+                        <div style={{ fontSize: '0.62rem', fontWeight: 800, color: '#818cf8', marginBottom: '0.3rem' }}>
+                          🎙️ CITIZEN AUDIO VOICE MEMO
+                        </div>
+                        <audio controls src={activeIncident.voice_note_url} style={{ width: '100%', height: '32px' }} />
+                      </div>
+                    )}
+
+                    {/* Attached Evidence Files */}
+                    {Array.isArray(activeIncident.evidence_files) && activeIncident.evidence_files.length > 0 && (
+                      <div style={{ display: 'grid', gap: '0.3rem' }}>
+                        {activeIncident.evidence_files.map((file, fIdx) => (
+                          <div key={fIdx} style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            background: 'rgba(0,0,0,0.4)',
+                            padding: '0.35rem 0.5rem',
+                            borderRadius: '4px',
+                            fontSize: '0.65rem',
+                          }}>
+                            <span style={{ color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '200px' }}>
+                              📎 {file.name || `Evidence Attachment #${fIdx + 1}`}
+                            </span>
+                            {file.url && (
+                              <a
+                                href={file.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}
+                              >
+                                View / Download ↗
+                              </a>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           )}
