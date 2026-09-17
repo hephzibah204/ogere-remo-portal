@@ -331,6 +331,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
   const countdownTimerRef = useRef(null);
   const walkIntervalRef = useRef(null);
+  const walkEndTimeRef = useRef(null);
 
   // Stop all camera, microphone tracks, audio context, and live location streaming
   const stopMediaStream = () => {
@@ -523,25 +524,33 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     }
   }, [cameraEnabled, sosState]);
 
-  // Walk with me timer
+  // Walk with me timer (Wall-clock precision with background tab protection)
   useEffect(() => {
-    if (isWalking) {
-      walkIntervalRef.current = setInterval(() => {
-        setWalkSecondsLeft((prev) => {
-          if (prev <= 1) {
-            clearInterval(walkIntervalRef.current);
-            handleWalkDistress('TIMER_EXPIRED');
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+    if (isWalking && walkEndTimeRef.current) {
+      const tick = () => {
+        if (!walkEndTimeRef.current) return;
+        const remaining = Math.max(0, Math.round((walkEndTimeRef.current - Date.now()) / 1000));
+        setWalkSecondsLeft(remaining);
+        if (remaining <= 0) {
+          walkEndTimeRef.current = null;
+          if (walkIntervalRef.current) clearInterval(walkIntervalRef.current);
+          handleWalkDistress('TIMER_EXPIRED');
+        }
+      };
+
+      tick();
+      walkIntervalRef.current = setInterval(tick, 1000);
+      window.addEventListener('visibilitychange', tick);
+      window.addEventListener('focus', tick);
+
+      return () => {
+        if (walkIntervalRef.current) clearInterval(walkIntervalRef.current);
+        window.removeEventListener('visibilitychange', tick);
+        window.removeEventListener('focus', tick);
+      };
     } else {
       if (walkIntervalRef.current) clearInterval(walkIntervalRef.current);
     }
-    return () => {
-      if (walkIntervalRef.current) clearInterval(walkIntervalRef.current);
-    };
   }, [isWalking]);
 
   // Audio Beep
@@ -723,7 +732,9 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   // Walk With Me Start
   const handleStartWalk = () => {
     setIsWalking(true);
-    setWalkSecondsLeft(walkDuration * 60);
+    const durationSecs = walkDuration * 60;
+    walkEndTimeRef.current = Date.now() + durationSecs * 1000;
+    setWalkSecondsLeft(durationSecs);
 
     const walkLoc = locationRef.current;
     const walkIncident = {
@@ -755,11 +766,13 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   };
 
   const handleWalkArrived = () => {
+    walkEndTimeRef.current = null;
     setIsWalking(false);
     alert('🎉 Walk With Me: You have safely completed your journey. Escort session closed.');
   };
 
   const handleWalkDistress = (reason = 'USER_PANIC') => {
+    walkEndTimeRef.current = null;
     setIsWalking(false);
     const distressLoc = locationRef.current;
     const distressIncident = {

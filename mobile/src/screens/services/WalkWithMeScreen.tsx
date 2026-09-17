@@ -41,24 +41,28 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
   const [verifyingPin, setVerifyingPin] = useState(false);
 
   const pingTimerRef = useRef<any>(null);
+  const endTimeRef = useRef<number | null>(null);
 
-  // Countdown clock
+  // Countdown clock (Wall-clock high precision)
   useEffect(() => {
-    if (!activeEscort || secondsRemaining <= 0) return;
+    if (!activeEscort || !endTimeRef.current) return;
 
-    const interval = setInterval(() => {
-      setSecondsRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          handleTimeExpired();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    const tick = () => {
+      if (!endTimeRef.current) return;
+      const left = Math.max(0, Math.round((endTimeRef.current - Date.now()) / 1000));
+      setSecondsRemaining(left);
+      if (left <= 0) {
+        endTimeRef.current = null;
+        clearInterval(interval);
+        handleTimeExpired();
+      }
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
 
     return () => clearInterval(interval);
-  }, [activeEscort, secondsRemaining]);
+  }, [activeEscort]);
 
   // Periodic GPS heartbeat
   useEffect(() => {
@@ -124,6 +128,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
       const data = await res.json();
       if (res.ok && data.escort) {
+        endTimeRef.current = Date.now() + durationMinutes * 60 * 1000;
         setActiveEscort(data.escort);
         setSecondsRemaining(durationMinutes * 60);
       } else {
@@ -158,11 +163,13 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
       if (enteredPin === '9999') {
         // Coerced duress PIN: Screen displays success to avoid alerting kidnapper, but secretly triggers CODE_RED
+        endTimeRef.current = null;
         setActiveEscort(null);
         setEnteredPin('');
         Alert.alert('Escort Concluded', 'Safe arrival recorded. Thank you for using Walk With Me.');
         navigation.goBack();
       } else if (data.status === 'arrived_safe') {
+        endTimeRef.current = null;
         setActiveEscort(null);
         setEnteredPin('');
         Alert.alert('Safe Arrival Confirmed! 🛡️', 'Your safe arrival has been logged. Escort session closed.');

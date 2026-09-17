@@ -229,6 +229,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       destination: 'KM 67 Tollgate Expressway',
       durationMinutes: 15,
       remainingSeconds: 420,
+      endTime: Date.now() + 420 * 1000,
       startTime: new Date().toISOString(),
       status: 'ACTIVE_MONITORING',
       assignedUnit: 'Patrol Unit 4 (Highway & Rural Intercept)',
@@ -370,7 +371,13 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
     const handleEscortStarted = (e) => {
       const escort = e.detail;
       if (escort) {
-        setActiveEscorts((prev) => [escort, ...prev.filter((item) => item.id !== escort.id)]);
+        const durationSecs = escort.remainingSeconds || (escort.durationMinutes || 15) * 60;
+        const normalized = {
+          ...escort,
+          remainingSeconds: durationSecs,
+          endTime: escort.endTime || Date.now() + durationSecs * 1000,
+        };
+        setActiveEscorts((prev) => [normalized, ...prev.filter((item) => item.id !== escort.id)]);
         // Automatically ensure security officer view is open to acknowledge
         setCurrentRole('security_officer');
         setCurrentOfficer(SEED_OFFICERS[0]);
@@ -381,10 +388,16 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
 
     const handleEscortTick = (e) => {
       const { sessionId, remainingSeconds } = e.detail || {};
-      if (sessionId) {
+      if (sessionId && remainingSeconds != null) {
         setActiveEscorts((prev) =>
           prev.map((esc) =>
-            esc.id === sessionId ? { ...esc, remainingSeconds } : esc
+            esc.id === sessionId
+              ? {
+                  ...esc,
+                  remainingSeconds,
+                  endTime: Date.now() + remainingSeconds * 1000,
+                }
+              : esc
           )
         );
       }
@@ -455,6 +468,50 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       if (callTimerRef.current) clearInterval(callTimerRef.current);
     };
   }, [activeOfficerId]);
+
+  // Dedicated Wall-Clock Countdown Timer for Active Escorts (Check-in Window)
+  useEffect(() => {
+    const tickEscorts = () => {
+      setActiveEscorts((prev) => {
+        let changed = false;
+        const now = Date.now();
+        const updated = prev.map((esc) => {
+          if (esc.status !== 'ACTIVE_MONITORING') return esc;
+
+          let nextSecs = esc.remainingSeconds;
+          if (esc.endTime) {
+            nextSecs = Math.max(0, Math.round((esc.endTime - now) / 1000));
+          } else {
+            nextSecs = Math.max(0, (esc.remainingSeconds || 0) - 1);
+          }
+
+          if (nextSecs !== esc.remainingSeconds) {
+            changed = true;
+            if (nextSecs <= 0) {
+              return {
+                ...esc,
+                remainingSeconds: 0,
+                status: 'OVERDUE_ALARM_TRIGGERED',
+              };
+            }
+            return { ...esc, remainingSeconds: nextSecs };
+          }
+          return esc;
+        });
+        return changed ? updated : prev;
+      });
+    };
+
+    const interval = setInterval(tickEscorts, 1000);
+    window.addEventListener('visibilitychange', tickEscorts);
+    window.addEventListener('focus', tickEscorts);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('visibilitychange', tickEscorts);
+      window.removeEventListener('focus', tickEscorts);
+    };
+  }, []);
 
   return (
     <div

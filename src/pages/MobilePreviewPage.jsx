@@ -74,6 +74,7 @@ export default function MobilePreviewPage() {
   const [escortSessionId, setEscortSessionId] = useState(null);
   const [isEscortOverdue, setIsEscortOverdue] = useState(false);
   const [notifPermission, setNotifPermission] = useState(() => getNotificationPermission());
+  const escortEndTimeRef = useRef(null);
 
   // Configurable PINs loaded from localStorage
   const [storedSafePin, setStoredSafePin] = useState('');
@@ -457,6 +458,9 @@ export default function MobilePreviewPage() {
       longitude: lng,
     };
 
+    const targetEndTime = Date.now() + durationSeconds * 1000;
+    escortEndTimeRef.current = targetEndTime;
+
     setEscortSessionId(sessionId);
     setEscortSeconds(durationSeconds);
     setIsEscortActive(true);
@@ -486,75 +490,89 @@ export default function MobilePreviewPage() {
     });
   };
 
-  // Escort countdown timer & Auto-Overdue SOS
+  // Escort countdown timer & Auto-Overdue SOS (High-precision wall-clock timer)
   useEffect(() => {
-    if (!isEscortActive || escortSeconds <= 0) return;
+    if (!isEscortActive || !escortEndTimeRef.current) return;
 
-    const t = setInterval(() => {
-      setEscortSeconds((s) => {
-        const next = s - 1;
+    let fired5min = false;
+    let fired1min = false;
 
-        // Broadcast tick to officer terminal
+    const tick = () => {
+      if (!escortEndTimeRef.current) return;
+      const now = Date.now();
+      const remaining = Math.max(0, Math.round((escortEndTimeRef.current - now) / 1000));
+      setEscortSeconds(remaining);
+
+      // Broadcast tick to officer terminal
+      window.dispatchEvent(
+        new CustomEvent('ogere-escort-tick', {
+          detail: { sessionId: escortSessionId, remainingSeconds: remaining },
+        })
+      );
+
+      // 5-min and 1-min reminders
+      if (remaining <= 300 && remaining > 295 && !fired5min) {
+        fired5min = true;
+        sendEscortNotification('⚠️ Escort Check-in Reminder (5 min left)', {
+          body: `You are approaching ${escortDestination}. Prepare to enter your 4-digit safe PIN.`,
+          tag: 'ogere-escort-reminder',
+        });
+      } else if (remaining <= 60 && remaining > 55 && !fired1min) {
+        fired1min = true;
+        sendEscortNotification('⚠️ Escort Check-in Alert (1 min left)', {
+          body: 'Only 1 minute remaining before emergency teams are alerted. Confirm safe arrival now.',
+          tag: 'ogere-escort-urgent',
+        });
+      }
+
+      // Timer reached 00:00 without PIN -> AUTO CODE RED OVERDUE SOS!
+      if (remaining <= 0) {
+        escortEndTimeRef.current = null;
+        setIsEscortActive(false);
+        setIsEscortOverdue(true);
+        const citizen = getLoggedInCitizen();
+
+        const overduePayload = {
+          id: 'OVERDUE-' + Math.floor(1000 + Math.random() * 9000),
+          category: '🚨 Overdue Virtual Escort (Missed Check-in)',
+          severity: 'Critical',
+          threatLevel: 'CODE_RED',
+          location: escortDestination,
+          description: `VIRTUAL ESCORT EXPIRED. Citizen ${citizen.name} failed to confirm safe arrival within ${escortDurationMins} minutes. High-priority rapid search team dispatched!`,
+          reporterName: citizen.name,
+          reporterPhone: citizen.phone,
+          assignedAgency: 'Police / Joint Patrol Command',
+          status: 'CRITICAL_DISPATCH',
+          latitude: 6.9388,
+          longitude: 3.6437,
+        };
+
+        sirenSound.startEmergencySiren();
+        window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: overduePayload }));
         window.dispatchEvent(
-          new CustomEvent('ogere-escort-tick', {
-            detail: { sessionId: escortSessionId, remainingSeconds: next },
+          new CustomEvent('ogere-escort-completed', {
+            detail: { sessionId: escortSessionId, status: 'OVERDUE_ALARM_TRIGGERED' },
           })
         );
 
-        // 5-min and 1-min reminders
-        if (next === 300) {
-          sendEscortNotification('⚠️ Escort Check-in Reminder (5 min left)', {
-            body: `You are approaching ${escortDestination}. Prepare to enter your 4-digit safe PIN.`,
-            tag: 'ogere-escort-reminder',
-          });
-        } else if (next === 60) {
-          sendEscortNotification('⚠️ Escort Check-in Alert (1 min left)', {
-            body: 'Only 1 minute remaining before emergency teams are alerted. Confirm safe arrival now.',
-            tag: 'ogere-escort-urgent',
-          });
-        }
+        sendEscortNotification('🚨 ESCORT OVERDUE — EMERGENCY DISPATCHED!', {
+          body: 'Check-in deadline missed. Tactical intercept teams have been alerted to your route!',
+          tag: 'ogere-escort-overdue',
+        });
+      }
+    };
 
-        // Timer reached 00:00 without PIN -> AUTO CODE RED OVERDUE SOS!
-        if (next <= 0) {
-          setIsEscortActive(false);
-          setIsEscortOverdue(true);
-          const citizen = getLoggedInCitizen();
+    tick();
+    const interval = setInterval(tick, 1000);
+    window.addEventListener('visibilitychange', tick);
+    window.addEventListener('focus', tick);
 
-          const overduePayload = {
-            id: 'OVERDUE-' + Math.floor(1000 + Math.random() * 9000),
-            category: '🚨 Overdue Virtual Escort (Missed Check-in)',
-            severity: 'Critical',
-            threatLevel: 'CODE_RED',
-            location: escortDestination,
-            description: `VIRTUAL ESCORT EXPIRED. Citizen ${citizen.name} failed to confirm safe arrival within ${escortDurationMins} minutes. High-priority rapid search team dispatched!`,
-            reporterName: citizen.name,
-            reporterPhone: citizen.phone,
-            assignedAgency: 'Police / Joint Patrol Command',
-            status: 'CRITICAL_DISPATCH',
-            latitude: 6.9388,
-            longitude: 3.6437,
-          };
-
-          sirenSound.startEmergencySiren();
-          window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: overduePayload }));
-          window.dispatchEvent(
-            new CustomEvent('ogere-escort-completed', {
-              detail: { sessionId: escortSessionId, status: 'OVERDUE_ALARM_TRIGGERED' },
-            })
-          );
-
-          sendEscortNotification('🚨 ESCORT OVERDUE — EMERGENCY DISPATCHED!', {
-            body: 'Check-in deadline missed. Tactical intercept teams have been alerted to your route!',
-            tag: 'ogere-escort-overdue',
-          });
-        }
-
-        return Math.max(0, next);
-      });
-    }, 1000);
-
-    return () => clearInterval(t);
-  }, [isEscortActive, escortSeconds, escortSessionId, escortDestination, escortDurationMins]);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('visibilitychange', tick);
+      window.removeEventListener('focus', tick);
+    };
+  }, [isEscortActive, escortSessionId, escortDestination, escortDurationMins]);
 
   const formatTimer = (secs) => {
     const m = Math.floor(secs / 60);
@@ -572,6 +590,7 @@ export default function MobilePreviewPage() {
 
     // ── DURESS PIN MATCH ──
     if (escortPin === storedDuressPin) {
+      escortEndTimeRef.current = null;
       setDuressTriggered(true);
       setIsEscortActive(false);
       setIsEscortOverdue(false);
@@ -614,6 +633,7 @@ export default function MobilePreviewPage() {
     }
 
     // ── SAFE ARRIVAL PIN MATCH ──
+    escortEndTimeRef.current = null;
     setIsEscortActive(false);
     setIsEscortOverdue(false);
     setEscortPin('');
