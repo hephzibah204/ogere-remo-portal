@@ -182,6 +182,30 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
     setIdCards((prev) => prev.map((c) => (c.id === cardId ? { ...c, status: decision } : c)));
   };
 
+  const [activeEscorts, setActiveEscorts] = useState([
+    {
+      id: 'ESC-8921',
+      citizenName: 'Adewale Johnson',
+      citizenPhone: '08033445566',
+      origin: 'Ogere Central Mosque / Market',
+      destination: 'KM 67 Tollgate Expressway',
+      durationMinutes: 15,
+      remainingSeconds: 420,
+      startTime: new Date().toISOString(),
+      status: 'ACTIVE_MONITORING',
+      assignedUnit: 'Patrol Unit 4 (Highway & Rural Intercept)',
+      latitude: 6.9388,
+      longitude: 3.6437,
+    },
+  ]);
+
+  const formatTimer = (secs) => {
+    if (secs == null || isNaN(secs)) return '00:00';
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
+
   useEffect(() => {
     const handleSosEvent = (e) => {
       const sosItem = e.detail;
@@ -234,9 +258,52 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       }
     };
 
+    const handleEscortStarted = (e) => {
+      const escort = e.detail;
+      if (escort) {
+        setActiveEscorts((prev) => [escort, ...prev.filter((item) => item.id !== escort.id)]);
+        // Automatically ensure security officer view is open to acknowledge
+        setCurrentRole('security_officer');
+        setCurrentOfficer(SEED_OFFICERS[0]);
+        setActiveScreen('dashboard');
+        sirenSound.playTestChime();
+      }
+    };
+
+    const handleEscortTick = (e) => {
+      const { sessionId, remainingSeconds } = e.detail || {};
+      if (sessionId) {
+        setActiveEscorts((prev) =>
+          prev.map((esc) =>
+            esc.id === sessionId ? { ...esc, remainingSeconds } : esc
+          )
+        );
+      }
+    };
+
+    const handleEscortCompleted = (e) => {
+      const { sessionId, status } = e.detail || {};
+      if (sessionId) {
+        setActiveEscorts((prev) =>
+          prev.map((esc) =>
+            esc.id === sessionId
+              ? { ...esc, status: status || 'SAFELY_ARRIVED', remainingSeconds: 0 }
+              : esc
+          )
+        );
+      }
+    };
+
     window.addEventListener('ogere-sos-triggered', handleSosEvent);
+    window.addEventListener('ogere-escort-started', handleEscortStarted);
+    window.addEventListener('ogere-escort-tick', handleEscortTick);
+    window.addEventListener('ogere-escort-completed', handleEscortCompleted);
+
     return () => {
       window.removeEventListener('ogere-sos-triggered', handleSosEvent);
+      window.removeEventListener('ogere-escort-started', handleEscortStarted);
+      window.removeEventListener('ogere-escort-tick', handleEscortTick);
+      window.removeEventListener('ogere-escort-completed', handleEscortCompleted);
       sirenSound.stop();
     };
   }, []);
@@ -561,6 +628,156 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               </div>
             ) : (
               <div>
+                {/* LIVE ESCORT WATCH RADAR SECTION */}
+                {activeEscorts.length > 0 && (
+                  <div style={{ marginBottom: '14px' }}>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#38bdf8', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span>🚶‍♂️</span> LIVE ESCORT RADAR
+                      </span>
+                      <span style={{ fontSize: '0.58rem', background: 'rgba(56,189,248,0.2)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.4)', padding: '1px 6px', borderRadius: '4px', fontWeight: 800 }}>
+                        {activeEscorts.filter(e => e.status === 'ACTIVE_MONITORING').length} ACTIVE
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'grid', gap: '8px' }}>
+                      {activeEscorts.map((esc) => {
+                        const isMonitoring = esc.status === 'ACTIVE_MONITORING';
+                        const isOverdue = esc.status === 'OVERDUE_ALARM_TRIGGERED';
+                        const isDuress = esc.status === 'DURESS_TRIGGERED';
+                        const isSafe = esc.status === 'SAFELY_ARRIVED';
+
+                        return (
+                          <div
+                            key={esc.id}
+                            style={{
+                              background: isOverdue || isDuress
+                                ? 'rgba(239, 68, 68, 0.15)'
+                                : isSafe
+                                ? 'rgba(34, 197, 94, 0.1)'
+                                : 'rgba(56, 189, 248, 0.08)',
+                              border: isOverdue || isDuress
+                                ? '1px solid #ef4444'
+                                : isSafe
+                                ? '1px solid #22c55e'
+                                : '1px solid rgba(56, 189, 248, 0.35)',
+                              borderRadius: '8px',
+                              padding: '10px',
+                            }}
+                          >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <span style={{ fontSize: '1.1rem' }}>
+                                  {isOverdue || isDuress ? '🚨' : isSafe ? '✅' : '🚶‍♂️'}
+                                </span>
+                                <div>
+                                  <div style={{ fontSize: '0.76rem', fontWeight: 800, color: '#ffffff' }}>
+                                    {esc.citizenName}
+                                  </div>
+                                  <div style={{ fontSize: '0.6rem', color: '#94a3b8' }}>
+                                    📞 {esc.citizenPhone || '08081762371'} · {esc.assignedUnit || 'Patrol Unit 4'}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Status Badge */}
+                              <span
+                                style={{
+                                  fontSize: '0.58rem',
+                                  fontWeight: 900,
+                                  padding: '2px 6px',
+                                  borderRadius: '4px',
+                                  background: isOverdue || isDuress
+                                    ? '#dc2626'
+                                    : isSafe
+                                    ? '#16a34a'
+                                    : '#0284c7',
+                                  color: '#ffffff',
+                                }}
+                              >
+                                {isOverdue ? 'OVERDUE SOS' : isDuress ? 'DURESS INTERCEPT' : isSafe ? 'SAFELY ARRIVED' : 'MONITORING'}
+                              </span>
+                            </div>
+
+                            {/* Route & Countdown */}
+                            <div style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '6px', padding: '6px', margin: '6px 0', fontSize: '0.64rem' }}>
+                              <div style={{ color: '#cbd5e1', marginBottom: '3px' }}>
+                                🏁 <strong>Route:</strong> {esc.origin || 'Ogere Central'} ➔ <strong>{esc.destination}</strong>
+                              </div>
+                              {isMonitoring ? (
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                                  <span style={{ color: '#94a3b8', fontSize: '0.58rem' }}>Check-in Window:</span>
+                                  <span
+                                    style={{
+                                      fontFamily: 'monospace',
+                                      fontWeight: 900,
+                                      fontSize: '0.75rem',
+                                      color: (esc.remainingSeconds || 0) < 60 ? '#f87171' : '#38bdf8',
+                                      background: (esc.remainingSeconds || 0) < 60 ? 'rgba(239, 68, 68, 0.25)' : 'rgba(56, 189, 248, 0.15)',
+                                      padding: '1px 6px',
+                                      borderRadius: '4px',
+                                    }}
+                                  >
+                                    ⏳ {formatTimer(esc.remainingSeconds)} left
+                                  </span>
+                                </div>
+                              ) : isSafe ? (
+                                <div style={{ color: '#4ade80', fontWeight: 700, fontSize: '0.62rem' }}>
+                                  ✓ Citizen entered PIN and arrived safely.
+                                </div>
+                              ) : (
+                                <div style={{ color: '#f87171', fontWeight: 800, fontSize: '0.62rem' }}>
+                                  ⚠️ Intercept alert active! Location transmitted.
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Quick Officer Actions */}
+                            <div style={{ display: 'flex', gap: '6px', marginTop: '6px' }}>
+                              {esc.citizenPhone && (
+                                <a
+                                  href={`tel:${esc.citizenPhone}`}
+                                  style={{
+                                    flex: 1,
+                                    textAlign: 'center',
+                                    background: '#047857',
+                                    color: '#fff',
+                                    textDecoration: 'none',
+                                    borderRadius: '4px',
+                                    padding: '5px',
+                                    fontSize: '0.62rem',
+                                    fontWeight: 800,
+                                  }}
+                                >
+                                  📞 Call Citizen
+                                </a>
+                              )}
+                              <a
+                                href={`https://www.google.com/maps/dir/?api=1&destination=${esc.latitude || 6.9388},${esc.longitude || 3.6437}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{
+                                  flex: 1,
+                                  textAlign: 'center',
+                                  background: isOverdue || isDuress ? '#dc2626' : '#2563eb',
+                                  color: '#fff',
+                                  textDecoration: 'none',
+                                  borderRadius: '4px',
+                                  padding: '5px',
+                                  fontSize: '0.62rem',
+                                  fontWeight: 800,
+                                }}
+                              >
+                                🗺️ Intercept Map
+                              </a>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#C9963A', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>🚨 ACTIVE EMERGENCY FEED</span>
                   <span style={{ fontSize: '0.6rem', color: '#ef4444' }}>LIVE</span>

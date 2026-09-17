@@ -5,6 +5,7 @@ import OfficerMobilePhone from '../components/OfficerMobilePhone';
 import sirenSound from '../services/sirenSound';
 import DuressPinSettings from '../components/DuressPinSettings';
 import { getSafePin, getDuressPin } from '../utils/pinStorage';
+import { getNotificationPermission, requestNotificationPermission, sendEscortNotification } from '../services/pushNotification';
 
 const SEED_NEWS = [
   {
@@ -61,6 +62,11 @@ export default function MobilePreviewPage() {
   const [escortPin, setEscortPin] = useState('');
   const [duressTriggered, setDuressTriggered] = useState(false);
   const [whistleToken, setWhistleToken] = useState(null);
+  const [escortDestination, setEscortDestination] = useState('Agbele Farmlands Corridor');
+  const [escortDurationMins, setEscortDurationMins] = useState(20);
+  const [escortSessionId, setEscortSessionId] = useState(null);
+  const [isEscortOverdue, setIsEscortOverdue] = useState(false);
+  const [notifPermission, setNotifPermission] = useState(() => getNotificationPermission());
 
   // Configurable PINs loaded from localStorage
   const [storedSafePin, setStoredSafePin] = useState('');
@@ -69,6 +75,7 @@ export default function MobilePreviewPage() {
   useEffect(() => {
     setStoredSafePin(getSafePin());
     setStoredDuressPin(getDuressPin());
+    setNotifPermission(getNotificationPermission());
   }, []);
 
   // Royal Audience Simulator state
@@ -277,12 +284,159 @@ export default function MobilePreviewPage() {
     setGuardiansList(prev => prev.filter(g => g.id !== id));
   };
 
-  // Escort countdown timer
+  const handleRequestNotifications = async () => {
+    const granted = await requestNotificationPermission();
+    setNotifPermission(getNotificationPermission());
+    if (granted) {
+      sendEscortNotification('🔔 Ogere Arrival Alerts Enabled', {
+        body: 'You will receive route tracking updates, safe arrival reminders, and emergency check-in alerts.',
+        tag: 'ogere-notif-welcome',
+      });
+      alert('✅ Notifications Enabled! You will receive escort arrival reminders and countdown alerts.');
+    } else {
+      alert('Notification permission was not granted. In-app alerts will still function normally.');
+    }
+  };
+
+  const handleStartEscort = async () => {
+    // 1. Prompt for notifications if default
+    if (notifPermission === 'default') {
+      await requestNotificationPermission();
+      setNotifPermission(getNotificationPermission());
+    }
+
+    const citizen = getLoggedInCitizen();
+    const sessionId = 'ESC-' + Math.floor(1000 + Math.random() * 9000);
+    const durationSeconds = escortDurationMins * 60;
+
+    // 2. Acquire GPS location
+    let lat = 6.9388;
+    let lng = 3.6437;
+    try {
+      if (navigator.geolocation) {
+        const pos = await new Promise((res) => {
+          navigator.geolocation.getCurrentPosition(res, () => res(null), { timeout: 3000 });
+        });
+        if (pos?.coords) {
+          lat = pos.coords.latitude;
+          lng = pos.coords.longitude;
+        }
+      }
+    } catch (_) {}
+
+    const escortPayload = {
+      id: sessionId,
+      citizenName: citizen.name,
+      citizenPhone: citizen.phone,
+      origin: 'Ogere Central Corridor',
+      destination: escortDestination,
+      durationMinutes: escortDurationMins,
+      remainingSeconds: durationSeconds,
+      startTime: new Date().toISOString(),
+      status: 'ACTIVE_MONITORING',
+      assignedUnit: 'Patrol Unit 4 (Highway & Rural Intercept)',
+      latitude: lat,
+      longitude: lng,
+    };
+
+    setEscortSessionId(sessionId);
+    setEscortSeconds(durationSeconds);
+    setIsEscortActive(true);
+    setIsEscortOverdue(false);
+    setDuressTriggered(false);
+
+    // 3. Post to API backend (if online)
+    try {
+      await fetch('/api/security', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...escortPayload,
+          category: '🛡️ Virtual Escort Patrol Watch',
+          severity: 'Low',
+        }),
+      });
+    } catch (_) {}
+
+    // 4. Dispatch live event to Officer Mobile Terminal
+    window.dispatchEvent(new CustomEvent('ogere-escort-started', { detail: escortPayload }));
+
+    // 5. Send push notification to citizen device
+    sendEscortNotification(`🛡️ Escort Watch Active (${escortDurationMins} min)`, {
+      body: `Patrol Unit 4 is monitoring your transit to ${escortDestination}. Enter PIN on safe arrival.`,
+      tag: 'ogere-escort-active',
+    });
+  };
+
+  // Escort countdown timer & Auto-Overdue SOS
   useEffect(() => {
     if (!isEscortActive || escortSeconds <= 0) return;
-    const t = setInterval(() => setEscortSeconds((s) => Math.max(0, s - 1)), 1000);
+
+    const t = setInterval(() => {
+      setEscortSeconds((s) => {
+        const next = s - 1;
+
+        // Broadcast tick to officer terminal
+        window.dispatchEvent(
+          new CustomEvent('ogere-escort-tick', {
+            detail: { sessionId: escortSessionId, remainingSeconds: next },
+          })
+        );
+
+        // 5-min and 1-min reminders
+        if (next === 300) {
+          sendEscortNotification('⚠️ Escort Check-in Reminder (5 min left)', {
+            body: `You are approaching ${escortDestination}. Prepare to enter your 4-digit safe PIN.`,
+            tag: 'ogere-escort-reminder',
+          });
+        } else if (next === 60) {
+          sendEscortNotification('⚠️ Escort Check-in Alert (1 min left)', {
+            body: 'Only 1 minute remaining before emergency teams are alerted. Confirm safe arrival now.',
+            tag: 'ogere-escort-urgent',
+          });
+        }
+
+        // Timer reached 00:00 without PIN -> AUTO CODE RED OVERDUE SOS!
+        if (next <= 0) {
+          setIsEscortActive(false);
+          setIsEscortOverdue(true);
+          const citizen = getLoggedInCitizen();
+
+          const overduePayload = {
+            id: 'OVERDUE-' + Math.floor(1000 + Math.random() * 9000),
+            category: '🚨 Overdue Virtual Escort (Missed Check-in)',
+            severity: 'Critical',
+            threatLevel: 'CODE_RED',
+            location: escortDestination,
+            description: `VIRTUAL ESCORT EXPIRED. Citizen ${citizen.name} failed to confirm safe arrival within ${escortDurationMins} minutes. High-priority rapid search team dispatched!`,
+            reporterName: citizen.name,
+            reporterPhone: citizen.phone,
+            assignedAgency: 'Police / Joint Patrol Command',
+            status: 'CRITICAL_DISPATCH',
+            latitude: 6.9388,
+            longitude: 3.6437,
+          };
+
+          sirenSound.startEmergencySiren();
+          window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: overduePayload }));
+          window.dispatchEvent(
+            new CustomEvent('ogere-escort-completed', {
+              detail: { sessionId: escortSessionId, status: 'OVERDUE_ALARM_TRIGGERED' },
+            })
+          );
+
+          sendEscortNotification('🚨 ESCORT OVERDUE — EMERGENCY DISPATCHED!', {
+            body: 'Check-in deadline missed. Tactical intercept teams have been alerted to your route!',
+            tag: 'ogere-escort-overdue',
+          });
+        }
+
+        return Math.max(0, next);
+      });
+    }, 1000);
+
     return () => clearInterval(t);
-  }, [isEscortActive, escortSeconds]);
+  }, [isEscortActive, escortSeconds, escortSessionId, escortDestination, escortDurationMins]);
 
   const formatTimer = (secs) => {
     const m = Math.floor(secs / 60);
@@ -296,25 +450,28 @@ export default function MobilePreviewPage() {
       return;
     }
 
+    const citizen = getLoggedInCitizen();
+
     // ── DURESS PIN MATCH ──
-    // Compare against user-configured duress PIN (default: 9999)
     if (escortPin === storedDuressPin) {
       setDuressTriggered(true);
       setIsEscortActive(false);
+      setIsEscortOverdue(false);
       setEscortPin('');
-      const citizen = getLoggedInCitizen();
 
       const duressPayload = {
         id: 'DURESS-' + Math.floor(1000 + Math.random() * 9000),
         category: 'Armed Hostage / Covert Duress (Walk With Me)',
         severity: 'Critical',
         threatLevel: 'CODE_RED',
-        location: 'Agbele Farmlands Corridor',
-        description: 'COVERT DURESS PIN ENTERED. Citizen forced by assailants to cancel escort. Tactical silent response dispatched.',
+        location: escortDestination,
+        description: `COVERT DURESS PIN ENTERED. Citizen ${citizen.name} entered secret duress PIN at ${escortDestination}. Silent SWAT intercept team dispatched!`,
         reporterName: citizen.name,
         reporterPhone: citizen.phone,
         assignedAgency: 'Police / SWAT Anti-Kidnapping Unit',
         status: 'CRITICAL_DISPATCH',
+        latitude: 6.9388,
+        longitude: 3.6437,
       };
 
       try {
@@ -325,17 +482,40 @@ export default function MobilePreviewPage() {
         });
       } catch (_) {}
 
-      sirenSound.unlockAudio();
+      sirenSound.startEmergencySiren();
       window.dispatchEvent(new CustomEvent('ogere-sos-triggered', { detail: duressPayload }));
+      window.dispatchEvent(
+        new CustomEvent('ogere-escort-completed', {
+          detail: { sessionId: escortSessionId, status: 'DURESS_TRIGGERED' },
+        })
+      );
 
-      // Covert: citizen side shows generic success (no alarm, no warning)
-      alert('Safe arrival confirmed. Thank you for using Walk With Me. Your session has been safely concluded.');
+      // Covert: citizen side shows normal message
+      alert('Safe arrival confirmed. Thank you for using Walk With Me. Your session has been concluded.');
       return;
     }
 
-    // ── SAFE ARRIVAL PIN MATCH (or any other 4-digit PIN) ──
+    // ── SAFE ARRIVAL PIN MATCH ──
     setIsEscortActive(false);
+    setIsEscortOverdue(false);
     setEscortPin('');
+
+    window.dispatchEvent(
+      new CustomEvent('ogere-escort-completed', {
+        detail: {
+          sessionId: escortSessionId,
+          citizenName: citizen.name,
+          destination: escortDestination,
+          status: 'SAFELY_ARRIVED',
+        },
+      })
+    );
+
+    sendEscortNotification('✅ Safe Arrival Confirmed', {
+      body: 'Your escort session has ended safely. Palace Security Patrol has logged your safe arrival.',
+      tag: 'ogere-escort-safe',
+    });
+
     alert('Safe Arrival Confirmed! 🛡️ Virtual Escort session successfully concluded and logged with Palace Watch.');
   };
 
@@ -1101,42 +1281,196 @@ export default function MobilePreviewPage() {
                 {/* ── SUB-SCREEN: WALK WITH ME ── */}
                 {activeServiceScreen === 'walk' && (
                   <div style={{ display: 'grid', gap: '12px' }}>
-                    <div style={{ background: '#0f172a', padding: '16px', borderRadius: '14px', color: '#fff', textAlign: 'center' }}>
-                      <div style={{ fontSize: '0.68rem', color: '#ef4444', fontWeight: 800, letterSpacing: '0.05em' }}>
-                        {isEscortActive ? '● ESCORT WATCH ACTIVE' : '○ ESCORT READY TO LAUNCH'}
-                      </div>
-                      <div style={{ fontSize: '2.5rem', fontWeight: 900, margin: '8px 0', letterSpacing: '2px', fontVariant: ['tabular-nums'] }}>
-                        {formatTimer(escortSeconds)}
-                      </div>
-                      <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
-                        Destination: Agbele Farmlands Corridor
+                    {/* Notification Permission Banner */}
+                    <div
+                      style={{
+                        background: notifPermission === 'granted' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(234, 179, 8, 0.12)',
+                        border: notifPermission === 'granted' ? '1px solid #22c55e' : '1px solid #eab308',
+                        padding: '10px 12px',
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '8px',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '1.1rem' }}>{notifPermission === 'granted' ? '🔔' : '⚠️'}</span>
+                        <div>
+                          <div style={{ fontSize: '0.72rem', fontWeight: 800, color: notifPermission === 'granted' ? '#166534' : '#854d0e' }}>
+                            {notifPermission === 'granted' ? 'Arrival Notifications Active' : 'Enable Arrival Alerts'}
+                          </div>
+                          <div style={{ fontSize: '0.58rem', color: '#64748b' }}>
+                            {notifPermission === 'granted'
+                              ? 'Browser will pop up check-in & safety reminders.'
+                              : 'Get pop-up reminders before your timer expires.'}
+                          </div>
+                        </div>
                       </div>
 
-                      {!isEscortActive ? (
+                      {notifPermission !== 'granted' ? (
                         <button
-                          onClick={() => {
-                            setIsEscortActive(true);
-                            setEscortSeconds(1200);
-                          }}
+                          type="button"
+                          onClick={handleRequestNotifications}
                           style={{
-                            background: '#059669',
+                            background: '#d97706',
+                            color: '#ffffff',
                             border: 'none',
-                            color: '#fff',
+                            padding: '5px 10px',
+                            borderRadius: '6px',
+                            fontSize: '0.64rem',
                             fontWeight: 800,
-                            padding: '8px 16px',
-                            borderRadius: '8px',
-                            marginTop: '12px',
-                            fontSize: '0.78rem',
                             cursor: 'pointer',
+                            whiteSpace: 'nowrap',
                           }}
                         >
-                          🛡️ Start Escort Watch (20 min)
+                          Enable Alerts
                         </button>
                       ) : (
-                        <div style={{ marginTop: '12px', background: 'rgba(255,255,255,0.06)', padding: '10px', borderRadius: '8px' }}>
-                          <div style={{ fontSize: '0.65rem', color: '#cbd5e1', marginBottom: '6px' }}>
-                            ENTER 4-DIGIT PIN TO CONFIRM SAFE ARRIVAL
+                        <span style={{ fontSize: '0.62rem', background: '#dcfce7', color: '#15803d', padding: '3px 8px', borderRadius: '12px', fontWeight: 900 }}>
+                          ✓ Enabled
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Escort Terminal Main Card */}
+                    <div
+                      style={{
+                        background: isEscortOverdue ? '#450a0a' : isEscortActive ? '#0f172a' : '#0f172a',
+                        border: isEscortOverdue ? '2px solid #ef4444' : isEscortActive ? '2px solid #3b82f6' : '1px solid #334155',
+                        padding: '16px',
+                        borderRadius: '14px',
+                        color: '#fff',
+                        textAlign: 'center',
+                        boxShadow: isEscortActive ? '0 0 20px rgba(59, 130, 246, 0.25)' : 'none',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '0.68rem',
+                          color: isEscortOverdue ? '#fca5a5' : isEscortActive ? '#60a5fa' : '#94a3b8',
+                          fontWeight: 900,
+                          letterSpacing: '0.06em',
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        {isEscortOverdue
+                          ? '🚨 CHECK-IN OVERDUE — DISPATCH ALERTED'
+                          : isEscortActive
+                          ? '● ESCORT WATCH ACTIVE (PATROL NOTIFIED)'
+                          : '○ ESCORT READY TO LAUNCH'}
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: '2.6rem',
+                          fontWeight: 900,
+                          margin: '8px 0',
+                          letterSpacing: '2px',
+                          color: isEscortOverdue ? '#ef4444' : isEscortActive ? '#ffffff' : '#e2e8f0',
+                          fontVariant: ['tabular-nums'],
+                        }}
+                      >
+                        {formatTimer(escortSeconds)}
+                      </div>
+
+                      <div style={{ fontSize: '0.65rem', color: '#cbd5e1', marginBottom: '8px' }}>
+                        📍 <strong>Destination:</strong> {escortDestination}
+                      </div>
+
+                      {!isEscortActive && !isEscortOverdue ? (
+                        <div style={{ display: 'grid', gap: '8px', marginTop: '10px' }}>
+                          <div style={{ textAlign: 'left' }}>
+                            <label style={{ fontSize: '0.58rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase' }}>
+                              Select Route Corridor
+                            </label>
+                            <select
+                              value={escortDestination}
+                              onChange={(e) => setEscortDestination(e.target.value)}
+                              style={{
+                                width: '100%',
+                                padding: '6px 8px',
+                                borderRadius: '6px',
+                                border: '1px solid #334155',
+                                background: '#1e293b',
+                                color: '#ffffff',
+                                fontSize: '0.72rem',
+                                marginTop: '2px',
+                              }}
+                            >
+                              <option value="Agbele Farmlands Corridor">Agbele Farmlands Corridor</option>
+                              <option value="KM 66-68 Expressway Tollgate Axis">KM 66-68 Expressway Tollgate Axis</option>
+                              <option value="Palace Way / Town Square">Palace Way / Town Square</option>
+                              <option value="Isale-Ogere Market Road">Isale-Ogere Market Road</option>
+                              <option value="Ajura Industrial Bypass">Ajura Industrial Bypass</option>
+                            </select>
                           </div>
+
+                          <div style={{ textAlign: 'left' }}>
+                            <label style={{ fontSize: '0.58rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase' }}>
+                              Estimated Transit Time
+                            </label>
+                            <select
+                              value={escortDurationMins}
+                              onChange={(e) => {
+                                const val = Number(e.target.value);
+                                setEscortDurationMins(val);
+                                setEscortSeconds(val * 60);
+                              }}
+                              style={{
+                                width: '100%',
+                                padding: '6px 8px',
+                                borderRadius: '6px',
+                                border: '1px solid #334155',
+                                background: '#1e293b',
+                                color: '#ffffff',
+                                fontSize: '0.72rem',
+                                marginTop: '2px',
+                              }}
+                            >
+                              <option value={20}>20 Minutes (Standard Walk)</option>
+                              <option value={10}>10 Minutes (Short Walk)</option>
+                              <option value={30}>30 Minutes (Extended Route)</option>
+                              <option value={0.166}>10 Seconds (⚡ Fast Radar Test)</option>
+                            </select>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={handleStartEscort}
+                            style={{
+                              background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                              border: '1px solid #34d399',
+                              color: '#fff',
+                              fontWeight: 900,
+                              padding: '10px 16px',
+                              borderRadius: '8px',
+                              marginTop: '6px',
+                              fontSize: '0.8rem',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '6px',
+                              boxShadow: '0 4px 12px rgba(5, 150, 105, 0.4)',
+                            }}
+                          >
+                            <span>🛡️</span>
+                            <span>Start Escort Watch & Notify Patrol</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <div style={{ marginTop: '12px', background: 'rgba(255,255,255,0.06)', padding: '10px', borderRadius: '8px' }}>
+                          {isEscortOverdue ? (
+                            <div style={{ color: '#fca5a5', fontSize: '0.68rem', fontWeight: 900, marginBottom: '8px' }}>
+                              ⚠️ DEADLINE MISSED — POLICE DISPATCH ACTIVE
+                            </div>
+                          ) : (
+                            <div style={{ fontSize: '0.65rem', color: '#cbd5e1', marginBottom: '6px' }}>
+                              ENTER 4-DIGIT PIN TO CONFIRM SAFE ARRIVAL
+                            </div>
+                          )}
+
                           <input
                             type="password"
                             maxLength={4}
@@ -1158,8 +1492,18 @@ export default function MobilePreviewPage() {
                           />
                           <div style={{ marginTop: '8px' }}>
                             <button
+                              type="button"
                               onClick={handleEscortCheckin}
-                              style={{ background: '#22c55e', border: 'none', color: '#fff', padding: '6px 12px', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer' }}
+                              style={{
+                                background: '#22c55e',
+                                border: 'none',
+                                color: '#fff',
+                                padding: '7px 14px',
+                                borderRadius: '6px',
+                                fontSize: '0.74rem',
+                                fontWeight: 800,
+                                cursor: 'pointer',
+                              }}
                             >
                               Confirm Safe Arrival
                             </button>
@@ -1173,6 +1517,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <button
+                      type="button"
                       onClick={() => setActiveServiceScreen('pin-settings')}
                       style={{
                         background: '#ffffff',
