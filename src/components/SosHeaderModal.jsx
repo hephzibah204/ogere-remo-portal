@@ -9,6 +9,26 @@ import {
   acquirePreciseGpsLocation,
   getStandardMapUrls,
 } from '../services/liveLocationEngine';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const customMarkerIcon = new L.Icon({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41]
+});
+
+function MapPickerEvents({ onLocationSelected }) {
+  useMapEvents({
+    click(e) {
+      onLocationSelected(e.latlng.lat, e.latlng.lng);
+    },
+  });
+  return null;
+}
 
 const EMERGENCY_SERVICES = [
   {
@@ -83,6 +103,8 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const [sosState, setSosState] = useState('idle'); // idle, triggering, dispatched
   const [countdown, setCountdown] = useState(3);
   const [dispatchedData, setDispatchedData] = useState(null);
+  const [showMapPicker, setShowMapPicker] = useState(false);
+  const [pinnedLocation, setPinnedLocation] = useState(null);
 
   // ─── Real GPS & IP Telemetry (Reporter Location) ─────────────────────────────
   const [deviceLocation, setDeviceLocation] = useState(null); // { lat, lng, accuracy, ip, mapsUrl, isGps, fullAddress, directionsUrl }
@@ -234,6 +256,35 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     } finally {
       setIsSearchingAddress(false);
     }
+  };
+
+  const handleMapPinSelect = async (lat, lng) => {
+    setPinnedLocation({ lat, lng });
+    const urls = getStandardMapUrls(lat, lng);
+    
+    let resolvedFullAddress = fullAddress;
+    try {
+      const rev = await reverseGeocodeLocation(lat, lng);
+      if (rev && rev.fullAddress) {
+        resolvedFullAddress = rev.fullAddress;
+        setFullAddress(rev.fullAddress);
+      }
+    } catch (_) {}
+
+    const updatedLoc = {
+      ...(deviceLocation || {}),
+      lat,
+      lng,
+      accuracy: 5,
+      isGps: true,
+      fullAddress: resolvedFullAddress,
+      mapsUrl: urls.googleMapsUrl,
+      directionsUrl: urls.directionsUrl,
+      satelliteMapsUrl: urls.satelliteMapsUrl,
+    };
+    setDeviceLocation(updatedLoc);
+    locationRef.current = updatedLoc;
+    setLocationStatus('acquired');
   };
 
   const handleSelectAddress = (item) => {
@@ -1055,6 +1106,51 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                             <span style={{ color: '#94a3b8', fontSize: '0.68rem' }}>{item.displayName}</span>
                           </div>
                         ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Manual Map Picker */}
+                  <div style={{ marginBottom: '1rem' }}>
+                    <button
+                      type="button"
+                      onClick={() => setShowMapPicker(!showMapPicker)}
+                      style={{
+                        background: 'transparent',
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        color: '#cbd5e1',
+                        borderRadius: '4px',
+                        padding: '4px 8px',
+                        fontSize: '0.75rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        width: '100%',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      🗺️ {showMapPicker ? 'Close Map Picker' : 'Pin Location on Map'}
+                    </button>
+                    {showMapPicker && (
+                      <div style={{ marginTop: '0.5rem', height: '200px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #38bdf8' }}>
+                        <MapContainer
+                          center={[deviceLocation?.lat || 6.9388, deviceLocation?.lng || 3.6437]}
+                          zoom={15}
+                          style={{ height: '100%', width: '100%' }}
+                        >
+                          <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; OpenStreetMap'
+                          />
+                          <MapPickerEvents onLocationSelected={handleMapPinSelect} />
+                          {(pinnedLocation || deviceLocation) && (
+                            <Marker position={[pinnedLocation?.lat || deviceLocation?.lat, pinnedLocation?.lng || deviceLocation?.lng]} />
+                          )}
+                        </MapContainer>
+                        <div style={{ padding: '4px', fontSize: '0.65rem', color: '#94a3b8', textAlign: 'center', background: '#0a0503' }}>
+                          Tap anywhere on the map to drop the pin
+                        </div>
                       </div>
                     )}
                   </div>

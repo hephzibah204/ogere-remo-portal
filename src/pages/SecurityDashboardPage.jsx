@@ -2504,16 +2504,44 @@ export default function SecurityDashboardPage() {
                     <div key={c.id || idx} style={{ background: '#1f2937', border: '1px solid #374151', borderRadius: '6px', padding: '0.8rem' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
-                          <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#ffffff' }}>{c.business_name}</div>
-                          <div style={{ fontSize: '0.72rem', color: '#93c5fd' }}>📍 {c.location} ({c.camera_count} cameras)</div>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#ffffff' }}>
+                            {c.name || c.business_name}
+                          </div>
+                          <div style={{ fontSize: '0.72rem', color: '#93c5fd' }}>
+                            📍 {c.location} {c.camera_count ? `(${c.camera_count} cameras)` : `· ${c.sector || 'Municipal'}`}
+                          </div>
                         </div>
-                        <a href={`tel:${c.phone}`} style={{ background: '#2563eb', color: '#ffffff', padding: '0.3rem 0.7rem', borderRadius: '4px', textDecoration: 'none', fontSize: '0.72rem', fontWeight: 800 }}>
-                          📞 Call: {c.phone}
-                        </a>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          {c.phone && (
+                            <a href={`tel:${c.phone}`} style={{ background: '#2563eb', color: '#ffffff', padding: '0.3rem 0.7rem', borderRadius: '4px', textDecoration: 'none', fontSize: '0.72rem', fontWeight: 800 }}>
+                              📞 Call: {c.phone}
+                            </a>
+                          )}
+                          {c.latitude && c.longitude && (
+                            <a
+                              href={`https://www.google.com/maps?q=${c.latitude},${c.longitude}&t=k&z=19`}
+                              target="_blank"
+                              rel="noreferrer"
+                              style={{ background: '#0284c7', color: '#ffffff', padding: '0.3rem 0.7rem', borderRadius: '4px', textDecoration: 'none', fontSize: '0.72rem', fontWeight: 800 }}
+                            >
+                              🛰️ Sat Pin
+                            </a>
+                          )}
+                        </div>
                       </div>
-                      <div style={{ fontSize: '0.72rem', color: '#d1d5db', marginTop: '0.4rem' }}>
-                        <strong>Coverage Angle:</strong> {c.coverage_direction}
-                      </div>
+                      {c.thumbnail && (
+                        <div style={{ marginTop: '0.6rem', height: '110px', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
+                          <img src={c.thumbnail} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <div style={{ position: 'absolute', bottom: '4px', left: '6px', background: 'rgba(0,0,0,0.7)', color: '#38bdf8', padding: '2px 6px', borderRadius: '3px', fontSize: '0.62rem', fontFamily: 'monospace' }}>
+                            {c.resolution || '1080p 30FPS'} · {c.status || 'LIVE'}
+                          </div>
+                        </div>
+                      )}
+                      {c.coverage_direction && (
+                        <div style={{ fontSize: '0.72rem', color: '#d1d5db', marginTop: '0.4rem' }}>
+                          <strong>Coverage Angle:</strong> {c.coverage_direction}
+                        </div>
+                      )}
                       {c.notes && (
                         <div style={{ fontSize: '0.68rem', color: '#9ca3af', marginTop: '0.2rem' }}>
                           Spec: {c.notes}

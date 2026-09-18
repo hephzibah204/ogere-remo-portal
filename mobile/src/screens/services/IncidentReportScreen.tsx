@@ -24,7 +24,8 @@ import {
   openInGoogleMaps,
   DeviceLocationData,
 } from '../../services/locationService';
-
+import { reverseGeocodeMobile, getStandardMapUrls } from '../../services/liveLocationEngine';
+import MapView, { Marker } from 'react-native-maps';
 const INCIDENT_CATEGORIES = [
   { id: 'armed_robbery', label: '🚨 Armed Robbery / Banditry', severity: 'Critical', threatLevel: 'CODE_RED' },
   { id: 'terrorism', label: '💥 Terrorism / Gunfire / Ambush', severity: 'Critical', threatLevel: 'CODE_RED' },
@@ -75,6 +76,34 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
   const [deviceLocation, setDeviceLocation] = useState<DeviceLocationData | null>(null);
   const [fetchingLocation, setFetchingLocation] = useState(false);
   const [useLiveGps, setUseLiveGps] = useState(true);
+  const [showMapPicker, setShowMapPicker] = useState(false);
+  const [pinnedLocation, setPinnedLocation] = useState<{lat: number; lng: number} | null>(null);
+
+  const handleMapPin = async (e: any) => {
+    const coord = e.nativeEvent.coordinate;
+    setPinnedLocation({ lat: coord.latitude, lng: coord.longitude });
+    try {
+      const revGeo = await reverseGeocodeMobile(coord.latitude, coord.longitude);
+      if (revGeo && revGeo.fullAddress) {
+        setFullAddress(revGeo.fullAddress);
+      }
+      const mapUrls = getStandardMapUrls(coord.latitude, coord.longitude);
+      
+      if (deviceLocation) {
+        setDeviceLocation({
+          ...deviceLocation,
+          latitude: coord.latitude,
+          longitude: coord.longitude,
+          fullAddress: revGeo?.fullAddress || fullAddress,
+          googleMapsUrl: mapUrls.googleMapsUrl,
+          directionsUrl: mapUrls.directionsUrl,
+          satelliteMapsUrl: mapUrls.satelliteMapsUrl,
+          isGpsPrecise: true,
+          accuracy: 5
+        });
+      }
+    } catch (_) {}
+  };
 
   const acquireLocation = async () => {
     setFetchingLocation(true);
@@ -424,6 +453,42 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                   </TouchableOpacity>
                 )}
               </View>
+
+              <TouchableOpacity
+                onPress={() => setShowMapPicker(!showMapPicker)}
+                style={[styles.useGpsToggleBtn, { marginTop: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }]}
+              >
+                <Text style={styles.useGpsToggleText}>
+                  {showMapPicker ? '🗺️ Close Map Picker' : '🗺️ Pin Location on Map'}
+                </Text>
+              </TouchableOpacity>
+
+              {showMapPicker && (
+                <View style={{ height: 200, width: '100%', marginTop: 10, borderRadius: 8, overflow: 'hidden' }}>
+                  <MapView
+                    style={{ flex: 1 }}
+                    initialRegion={{
+                      latitude: deviceLocation?.latitude || landmark.lat,
+                      longitude: deviceLocation?.longitude || landmark.lng,
+                      latitudeDelta: 0.01,
+                      longitudeDelta: 0.01,
+                    }}
+                    onPress={handleMapPin}
+                  >
+                    {(pinnedLocation || deviceLocation) && (
+                      <Marker
+                        coordinate={{
+                          latitude: pinnedLocation?.lat || deviceLocation?.latitude || landmark.lat,
+                          longitude: pinnedLocation?.lng || deviceLocation?.longitude || landmark.lng
+                        }}
+                      />
+                    )}
+                  </MapView>
+                  <Text style={{ textAlign: 'center', fontSize: 10, color: '#94a3b8', padding: 4 }}>
+                    Tap anywhere on the map to drop the pin
+                  </Text>
+                </View>
+              )}
             </View>
 
             <Text style={[styles.sectionSublabel, { marginTop: 12 }]}>Full Street Address / Venue:</Text>

@@ -60,8 +60,109 @@ const CHAMBERS = [
   'Oba Council Secretariat Wing',
 ];
 
+const OGERE_CCTV_CAMERAS = [
+  {
+    id: 'CAM-01',
+    name: 'Ogere Tollgate North ANPR (Lagos-Ibadan Exp.)',
+    sector: 'Sector 1 — Highway Corridor',
+    location: 'KM 66.8 Lagos-Ibadan Expressway Intercept',
+    latitude: 6.9388,
+    longitude: 3.6437,
+    agency: 'FRSC Expressway Command',
+    resolution: '4K UHD · 60 FPS',
+    status: 'LIVE_HD',
+    anpr: true,
+    thumbnail: 'https://images.unsplash.com/photo-1545459720-aac8509eb02c?w=600&auto=format&fit=crop&q=60',
+    plates: ['LSR-821-XA (Toyota Hilux) - Cleared', 'KJA-319-BB (Innoson Bus) - Speed 82km/h'],
+  },
+  {
+    id: 'CAM-02',
+    name: 'Aafin Ologere Palace Square (PTZ 360° Dome)',
+    sector: 'Sector 2 — Central Heritage Core',
+    location: 'Palace Way / Oba Council Chamber',
+    latitude: 6.9372,
+    longitude: 3.6335,
+    agency: 'Palace Royal Guard / Vigilante',
+    resolution: '1080p · 30 FPS',
+    status: 'LIVE_HD',
+    anpr: false,
+    thumbnail: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=600&auto=format&fit=crop&q=60',
+    plates: [],
+  },
+  {
+    id: 'CAM-03',
+    name: 'Ogere Trailer Park Weighbridge & Haulage Hub',
+    sector: 'Sector 1 — Highway Corridor',
+    location: 'Trailer Park Bypass South Gate',
+    latitude: 6.9366,
+    longitude: 3.6344,
+    agency: 'So-Safe Corps / Fire Precaution',
+    resolution: '1080p · 30 FPS',
+    status: 'MOTION_DETECTED',
+    anpr: true,
+    thumbnail: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&auto=format&fit=crop&q=60',
+    plates: ['KTU-912-XY (Mack Hauler) - Motion Flag'],
+  },
+  {
+    id: 'CAM-04',
+    name: 'Oja Ogere Central Market & Commercial Ring',
+    sector: 'Sector 2 — Central Heritage Core',
+    location: 'Market Road / Civic Center',
+    latitude: 6.9354,
+    longitude: 3.6338,
+    agency: 'Joint Vigilante Command',
+    resolution: '1080p · 30 FPS',
+    status: 'LIVE_HD',
+    anpr: false,
+    thumbnail: 'https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?w=600&auto=format&fit=crop&q=60',
+    plates: [],
+  },
+  {
+    id: 'CAM-05',
+    name: 'Isale-Ogere Hospital Junction & Emergency Axis',
+    sector: 'Sector 4 — Medical & Social',
+    location: 'Isale-Ogere Hospital Road',
+    latitude: 6.9325,
+    longitude: 3.6310,
+    agency: 'Civil Defence (NSCDC)',
+    resolution: '1080p · 30 FPS',
+    status: 'LIVE_HD',
+    anpr: false,
+    thumbnail: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&auto=format&fit=crop&q=60',
+    plates: [],
+  },
+  {
+    id: 'CAM-06',
+    name: 'Ositelu Memorial / Awomosu Academic Axis',
+    sector: 'Sector 5 — Academic Belt',
+    location: 'Awomosu Agbato Drive',
+    latitude: 6.9405,
+    longitude: 3.6397,
+    agency: 'Community Watch',
+    resolution: '1080p · 30 FPS',
+    status: 'LIVE_HD',
+    anpr: false,
+    thumbnail: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&auto=format&fit=crop&q=60',
+    plates: [],
+  },
+  {
+    id: 'CAM-07',
+    name: 'Saapade Junction / Remo North Axis Gateway',
+    sector: 'Sector 7 — Northern Gateway',
+    location: 'Ibadan-Remo Arterial Junction',
+    latitude: 6.9550,
+    longitude: 3.6480,
+    agency: 'Joint Border Command',
+    resolution: '4K UHD · 60 FPS',
+    status: 'LIVE_HD',
+    anpr: true,
+    thumbnail: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=60',
+    plates: ['ABJ-502-KW (Toyota Prado) - Verified Diplomatic'],
+  },
+];
+
 export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
-  const [activeScreen, setActiveScreen] = useState('dashboard'); // 'dashboard', 'tactical', 'audiences', 'idCards'
+  const [activeScreen, setActiveScreen] = useState('dashboard'); // 'dashboard', 'cctv', 'tactical', 'audiences', 'idCards'
   const [currentRole, setCurrentRole] = useState('security_officer');
   const [currentOfficer, setCurrentOfficer] = useState(SEED_OFFICERS[0]);
   const [activeOfficerId, setActiveOfficerId] = useState('off-001');
@@ -70,6 +171,11 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
   const [mapMode, setMapMode] = useState('hybrid'); // 'hybrid' (satellite) or 'roadmap' (street)
   const [mapZoom, setMapZoom] = useState(18); // 18-19: building/rooftop level zoom
   const [showFirModal, setShowFirModal] = useState(false);
+  const [selectedEscortForMap, setSelectedEscortForMap] = useState(null);
+  const [selectedCctvId, setSelectedCctvId] = useState('CAM-01');
+  const [cctvNightVision, setCctvNightVision] = useState(false);
+  const [cctvZoom, setCctvZoom] = useState(1);
+  const [cctvPtzMsg, setCctvPtzMsg] = useState('');
 
   // Tactical Net & VoIP Calling States
   const [tacticalChannel, setTacticalChannel] = useState('all-units');
@@ -1194,6 +1300,24 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                                   📞 Call Citizen
                                 </a>
                               )}
+                              <button
+                                type="button"
+                                onClick={() => setSelectedEscortForMap(esc)}
+                                style={{
+                                  flex: 1,
+                                  textAlign: 'center',
+                                  background: '#0284c7',
+                                  color: '#fff',
+                                  border: 'none',
+                                  borderRadius: '4px',
+                                  padding: '5px',
+                                  fontSize: '0.62rem',
+                                  fontWeight: 800,
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                🛰️ Live Radar
+                              </button>
                               <a
                                 href={`https://www.google.com/maps/dir/?api=1&destination=${esc.latitude || 6.9388},${esc.longitude || 3.6437}`}
                                 target="_blank"
@@ -1577,6 +1701,235 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             </div>
           </div>
         )}
+
+        {/* TAB 5: CCTV SURVEILLANCE FEED & PTZ GRID */}
+        {activeScreen === 'cctv' && (() => {
+          const activeCam = OGERE_CCTV_CAMERAS.find(c => c.id === selectedCctvId) || OGERE_CCTV_CAMERAS[0];
+          return (
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '8px', overflowY: 'auto' }}>
+              {/* CCTV Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#ef4444' }}>
+                    📹 MUNICIPAL CCTV SURVEILLANCE
+                  </div>
+                  <div style={{ fontSize: '0.55rem', color: '#94a3b8' }}>
+                    7 Municipal Cameras · Live Optical Grid
+                  </div>
+                </div>
+                <span style={{ fontSize: '0.55rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', border: '1px solid #ef4444', padding: '1px 5px', borderRadius: '3px', fontWeight: 800 }}>
+                  ● 7 ONLINE
+                </span>
+              </div>
+
+              {/* Camera Selector Strip */}
+              <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '2px' }}>
+                {OGERE_CCTV_CAMERAS.map((cam) => (
+                  <button
+                    key={cam.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedCctvId(cam.id);
+                      setCctvPtzMsg('');
+                    }}
+                    style={{
+                      background: selectedCctvId === cam.id ? '#273549' : '#1e293b',
+                      color: selectedCctvId === cam.id ? '#C9963A' : '#94a3b8',
+                      border: selectedCctvId === cam.id ? '1px solid #C9963A' : '1px solid #334155',
+                      padding: '3px 6px',
+                      borderRadius: '4px',
+                      fontSize: '0.55rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {cam.id}
+                  </button>
+                ))}
+              </div>
+
+              {/* Main Camera Video Simulation Surface */}
+              <div
+                style={{
+                  background: cctvNightVision ? '#052e16' : '#000',
+                  borderRadius: '6px',
+                  overflow: 'hidden',
+                  border: '1px solid #334155',
+                  position: 'relative',
+                }}
+              >
+                {/* OSD Header */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(0,0,0,0.7)', fontSize: '0.55rem', fontFamily: 'monospace' }}>
+                  <span style={{ color: '#ef4444', fontWeight: 900 }}>● REC LIVE WAT</span>
+                  <span style={{ color: '#38bdf8' }}>{activeCam.resolution}</span>
+                  <span style={{ color: '#4ade80' }}>28ms</span>
+                </div>
+
+                {/* Video Image */}
+                <div style={{ height: '140px', position: 'relative', overflow: 'hidden' }}>
+                  <img
+                    src={activeCam.thumbnail}
+                    alt={activeCam.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      filter: cctvNightVision ? 'contrast(1.4) brightness(1.2) sepia(1) hue-rotate(70deg)' : 'none',
+                      transform: `scale(${cctvZoom})`,
+                      transition: 'transform 0.2s ease',
+                    }}
+                  />
+                  {/* Crosshair Overlay */}
+                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '20px', height: '20px', border: '1px solid rgba(255,255,255,0.4)', borderRadius: '50%' }} />
+
+                  {cctvNightVision && (
+                    <div style={{ position: 'absolute', top: '6px', right: '6px', background: 'rgba(5,46,22,0.85)', color: '#4ade80', fontSize: '0.5rem', padding: '2px 4px', borderRadius: '3px', fontWeight: 900 }}>
+                      👁️ IR NIGHT
+                    </div>
+                  )}
+
+                  {cctvPtzMsg && (
+                    <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(0,0,0,0.8)', color: '#C9963A', padding: '3px 8px', borderRadius: '4px', fontSize: '0.6rem', fontWeight: 800 }}>
+                      {cctvPtzMsg}
+                    </div>
+                  )}
+
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.65)', padding: '3px 6px', fontSize: '0.55rem', color: '#fff' }}>
+                    <strong>{activeCam.name}</strong> · <span style={{ color: '#cbd5e1' }}>{activeCam.sector}</span>
+                  </div>
+                </div>
+
+                {/* Controls toolbar */}
+                <div style={{ display: 'flex', gap: '4px', padding: '4px 6px', background: '#0f172a', alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => setCctvNightVision(!cctvNightVision)}
+                    style={{ background: cctvNightVision ? '#065f46' : '#1e293b', color: '#fff', border: '1px solid #334155', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', cursor: 'pointer' }}
+                  >
+                    {cctvNightVision ? '👁️ Day' : '🌙 Night IR'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => alert(`📸 Snapshot OGR-${activeCam.id}-${Date.now()} saved to Evidence Vault`)}
+                    style={{ background: '#1e293b', color: '#fff', border: '1px solid #334155', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', cursor: 'pointer' }}
+                  >
+                    📸 Frame
+                  </button>
+                  <a
+                    href={`https://www.google.com/maps?q=${activeCam.latitude},${activeCam.longitude}&t=k&z=19`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ background: '#1e293b', color: '#38bdf8', border: '1px solid #38bdf8', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', textDecoration: 'none' }}
+                  >
+                    🛰️ Sat Pin
+                  </a>
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${activeCam.latitude},${activeCam.longitude}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ marginLeft: 'auto', background: '#dc2626', color: '#fff', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', textDecoration: 'none', fontWeight: 800 }}
+                  >
+                    🚨 Dispatch
+                  </a>
+                </div>
+              </div>
+
+              {/* PTZ D-Pad Controls */}
+              <div style={{ background: '#111827', borderRadius: '6px', padding: '6px', border: '1px solid #1f2937' }}>
+                <div style={{ fontSize: '0.58rem', fontWeight: 800, color: '#C9963A', marginBottom: '4px', display: 'flex', justifyContent: 'space-between' }}>
+                  <span>🕹️ PTZ 360° CONTROLLER</span>
+                  <span style={{ color: '#38bdf8' }}>Zoom: {cctvZoom.toFixed(1)}x</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                  {/* D-Pad */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 24px)', gap: '2px', justifyItems: 'center', alignItems: 'center' }}>
+                    <div />
+                    <button
+                      type="button"
+                      onClick={() => { setCctvPtzMsg('PTZ: TILT UP'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
+                      style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
+                    >
+                      ▲
+                    </button>
+                    <div />
+                    <button
+                      type="button"
+                      onClick={() => { setCctvPtzMsg('PTZ: PAN LEFT'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
+                      style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
+                    >
+                      ◄
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCctvZoom(1); setCctvPtzMsg('PTZ: CENTER'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
+                      style={{ width: '24px', height: '24px', background: '#0f172a', color: '#C9963A', border: '1px solid #C9963A', borderRadius: '50%', fontSize: '0.55rem', cursor: 'pointer' }}
+                    >
+                      ↺
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCctvPtzMsg('PTZ: PAN RIGHT'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
+                      style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
+                    >
+                      ►
+                    </button>
+                    <div />
+                    <button
+                      type="button"
+                      onClick={() => { setCctvPtzMsg('PTZ: TILT DOWN'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
+                      style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
+                    >
+                      ▼
+                    </button>
+                    <div />
+                  </div>
+
+                  {/* Zoom Buttons */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setCctvZoom(prev => Math.min(3, prev + 0.5))}
+                      style={{ background: '#1e293b', color: '#38bdf8', border: '1px solid #38bdf8', borderRadius: '3px', padding: '4px 8px', fontSize: '0.58rem', fontWeight: 800, cursor: 'pointer' }}
+                    >
+                      🔍 Zoom In +
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCctvZoom(prev => Math.max(1, prev - 0.5))}
+                      style={{ background: '#1e293b', color: '#38bdf8', border: '1px solid #38bdf8', borderRadius: '3px', padding: '4px 8px', fontSize: '0.58rem', fontWeight: 800, cursor: 'pointer' }}
+                    >
+                      🔍 Zoom Out -
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* ANPR Scanner List */}
+              {activeCam.anpr && (
+                <div style={{ background: '#111827', borderRadius: '6px', padding: '6px', border: '1px solid #1f2937' }}>
+                  <div style={{ fontSize: '0.58rem', fontWeight: 800, color: '#f59e0b', marginBottom: '4px' }}>
+                    🚘 ANPR HIGHWAY OPTICAL SCANNER
+                  </div>
+                  {activeCam.plates && activeCam.plates.length > 0 ? (
+                    <div style={{ display: 'grid', gap: '3px' }}>
+                      {activeCam.plates.map((plate, idx) => (
+                        <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#1a2333', padding: '3px 6px', borderRadius: '3px', fontSize: '0.55rem' }}>
+                          <span style={{ color: '#fff', fontFamily: 'monospace', fontWeight: 700 }}>🏷️ {plate}</span>
+                          <span style={{ color: '#4ade80', fontSize: '0.5rem', fontWeight: 800 }}>LOGGED</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div style={{ color: '#64748b', fontSize: '0.55rem', fontStyle: 'italic' }}>
+                      Scanning lane...
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       {/* Bottom Native Tabs */}
@@ -1597,6 +1950,13 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         >
           <span style={{ fontSize: '0.9rem' }}>🏛️</span>
           <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>Command</span>
+        </button>
+        <button
+          onClick={() => setActiveScreen('cctv')}
+          style={{ background: 'none', border: 'none', color: activeScreen === 'cctv' ? '#ef4444' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
+        >
+          <span style={{ fontSize: '0.9rem' }}>📹</span>
+          <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>CCTV</span>
         </button>
         <button
           onClick={() => setActiveScreen('tactical')}
@@ -1991,6 +2351,131 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             >
               📞
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* LIVE SATELLITE ESCORT RADAR MODAL */}
+      {selectedEscortForMap && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(5,10,20,0.96)',
+            zIndex: 99999,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '12px',
+            gap: '8px',
+          }}
+        >
+          {/* Modal Header */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <div style={{ fontSize: '0.74rem', fontWeight: 900, color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span>🛰️</span> LIVE ESCORT RADAR (GOOGLE MAPS)
+              </div>
+              <div style={{ fontSize: '0.58rem', color: '#94a3b8' }}>
+                Citizen: <strong>{selectedEscortForMap.citizenName}</strong> · {selectedEscortForMap.id}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSelectedEscortForMap(null)}
+              style={{
+                background: '#1e293b',
+                color: '#fff',
+                border: '1px solid #334155',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                fontSize: '0.65rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              ✕ Close
+            </button>
+          </div>
+
+          {/* Telemetry Strip */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', background: '#0f172a', padding: '6px', borderRadius: '6px', border: '1px solid #1e293b', fontSize: '0.55rem' }}>
+            <div>
+              <div style={{ color: '#64748b', fontSize: '0.5rem', fontWeight: 700 }}>BATTERY</div>
+              <div style={{ color: '#4ade80', fontWeight: 900, fontSize: '0.65rem' }}>
+                🔋 {selectedEscortForMap.battery_level || 86}% ⚡
+              </div>
+            </div>
+            <div>
+              <div style={{ color: '#64748b', fontSize: '0.5rem', fontWeight: 700 }}>CHECK-IN TIMER</div>
+              <div style={{ color: '#38bdf8', fontWeight: 900, fontSize: '0.65rem' }}>
+                ⏳ {formatTimer(selectedEscortForMap.remainingSeconds)}
+              </div>
+            </div>
+            <div>
+              <div style={{ color: '#64748b', fontSize: '0.5rem', fontWeight: 700 }}>ACCURACY</div>
+              <div style={{ color: '#facc15', fontWeight: 900, fontSize: '0.65rem' }}>
+                ±{selectedEscortForMap.accuracy ? Math.round(selectedEscortForMap.accuracy) : 4}m Sat Lock
+              </div>
+            </div>
+          </div>
+
+          {/* Route Destination Ribbon */}
+          <div style={{ background: '#131d31', padding: '5px 8px', borderRadius: '4px', fontSize: '0.58rem', color: '#cbd5e1' }}>
+            🏁 <strong>Destination:</strong> {selectedEscortForMap.destination}
+          </div>
+
+          {/* Embedded Google Maps Satellite Iframe */}
+          <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', border: '1px solid #38bdf8', position: 'relative' }}>
+            <iframe
+              title="Escort Live Google Map"
+              src={`https://maps.google.com/maps?q=${selectedEscortForMap.latitude || 6.9388},${selectedEscortForMap.longitude || 3.6437}&t=k&z=19&output=embed`}
+              style={{ width: '100%', height: '100%', border: 'none' }}
+              loading="lazy"
+            />
+            {/* Live GPS Coordinates Tag */}
+            <div style={{ position: 'absolute', bottom: '6px', left: '6px', background: 'rgba(15,23,42,0.85)', padding: '2px 6px', borderRadius: '3px', fontSize: '0.55rem', color: '#38bdf8', fontFamily: 'monospace' }}>
+              📍 {(selectedEscortForMap.latitude || 6.9388).toFixed(5)}°N, {(selectedEscortForMap.longitude || 3.6437).toFixed(5)}°E
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div style={{ display: 'flex', gap: '6px' }}>
+            {selectedEscortForMap.citizenPhone && (
+              <a
+                href={`tel:${selectedEscortForMap.citizenPhone}`}
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  background: '#059669',
+                  color: '#fff',
+                  textDecoration: 'none',
+                  borderRadius: '4px',
+                  padding: '7px',
+                  fontSize: '0.65rem',
+                  fontWeight: 800,
+                }}
+              >
+                📞 Call Citizen
+              </a>
+            )}
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${selectedEscortForMap.latitude || 6.9388},${selectedEscortForMap.longitude || 3.6437}`}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                flex: 1.5,
+                textAlign: 'center',
+                background: '#2563eb',
+                color: '#fff',
+                textDecoration: 'none',
+                borderRadius: '4px',
+                padding: '7px',
+                fontSize: '0.65rem',
+                fontWeight: 900,
+              }}
+            >
+              ⚡ Turn-by-Turn Driving Navigation
+            </a>
           </div>
         </div>
       )}

@@ -260,6 +260,24 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
               </TouchableOpacity>
 
               <TouchableOpacity
+                onPress={() => navigation.navigate('WalkWithMeMonitor')}
+                style={[styles.actionBtnCard, { borderColor: '#38bdf8' }]}
+              >
+                <Text style={{ fontSize: 24 }}>🚶‍♂️</Text>
+                <Text style={[styles.actionBtnTitle, { color: '#38bdf8' }]}>Walk With Me Monitor</Text>
+                <Text style={styles.actionBtnDesc}>Live citizen radar & battery HUD</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate('CctvCameraFeed')}
+                style={[styles.actionBtnCard, { borderColor: Colors.gold }]}
+              >
+                <Text style={{ fontSize: 24 }}>📹</Text>
+                <Text style={[styles.actionBtnTitle, { color: Colors.goldLight }]}>CCTV Surveillance</Text>
+                <Text style={styles.actionBtnDesc}>7 cameras, PTZ dome & ANPR</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
                 onPress={() => Alert.alert('Geofenced Check-In', 'Outpost: Aafin Gatehouse\nGPS: 6.9368°N, 3.6330°E\nStatus: Verified on Night Patrol')}
                 style={styles.actionBtnCard}
               >

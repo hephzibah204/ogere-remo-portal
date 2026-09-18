@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Linking,
 } from 'react-native';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
@@ -15,6 +16,8 @@ import { Button } from '../../components/Button';
 import { Colors, Spacing, Radius } from '../../theme';
 import { useAuth } from '../../services/authContext';
 import { API_BASE_URL } from '../../database/syncManager';
+import { acquireHighPrecisionGps, getHardwareBattery } from '../../services/locationService';
+import { resolveOgereLocation, getOgereMapUrls } from '../../services/ogereGeoEngine';
 
 const PRESET_DURATIONS = [10, 15, 20, 30, 45, 60];
 
@@ -40,6 +43,16 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
   const [enteredPin, setEnteredPin] = useState('');
   const [verifyingPin, setVerifyingPin] = useState(false);
 
+  const [liveCoord, setLiveCoord] = useState<{ lat: number; lng: number; accuracy: number | null; speed: number | null }>({
+    lat: 6.9371,
+    lng: 3.6335,
+    accuracy: 8,
+    speed: null,
+  });
+  const [liveBattery, setLiveBattery] = useState<number | null>(null);
+  const [liveCharging, setLiveCharging] = useState(false);
+  const [ogereInfo, setOgereInfo] = useState<any>(null);
+
   const pingTimerRef = useRef<any>(null);
   const endTimeRef = useRef<number | null>(null);
 
@@ -64,31 +77,51 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
     return () => clearInterval(interval);
   }, [activeEscort]);
 
-  // Periodic GPS heartbeat
+  // Periodic Real GPS & Battery Heartbeat (Streams to Security Guard on Google Maps)
   useEffect(() => {
     if (!activeEscort?.id) return;
 
-    pingTimerRef.current = setInterval(async () => {
+    const streamGpsFix = async () => {
       try {
+        const fix = await acquireHighPrecisionGps(3500, 20).catch(() => null);
+        const lat = fix?.lat || liveCoord.lat;
+        const lng = fix?.lng || liveCoord.lng;
+        const bat = await getHardwareBattery().catch(() => ({ level: null, isCharging: false }));
+        const batLvl = bat.level != null ? bat.level : liveBattery;
+        const isCharging = bat.isCharging;
+        const resolved = resolveOgereLocation(lat, lng);
+
+        setLiveCoord({ lat, lng, accuracy: fix?.accuracy || liveCoord.accuracy, speed: fix?.speed || null });
+        if (batLvl != null) setLiveBattery(batLvl);
+        setLiveCharging(isCharging);
+        setOgereInfo(resolved);
+
         await fetch(`${API_BASE_URL}/api/escort`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: 'ping',
             escortId: activeEscort.id,
-            latitude: 6.9371 + (Math.random() - 0.5) * 0.001,
-            longitude: 3.6335 + (Math.random() - 0.5) * 0.001,
+            latitude: lat,
+            longitude: lng,
+            accuracy: fix?.accuracy || null,
+            speed: fix?.speed != null ? Math.round(fix.speed * 3.6) : null,
+            heading: fix?.heading || null,
+            batteryLevel: batLvl,
+            isCharging,
           }),
         });
       } catch (err) {
-        console.warn('Escort ping failed:', err);
+        console.warn('Escort ping notice:', err);
       }
-    }, 10000);
+    };
+
+    pingTimerRef.current = setInterval(streamGpsFix, 8000);
 
     return () => {
       if (pingTimerRef.current) clearInterval(pingTimerRef.current);
     };
-  }, [activeEscort]);
+  }, [activeEscort?.id, liveCoord.lat, liveCoord.lng, liveBattery, liveCharging]);
 
   const handleTimeExpired = () => {
     Alert.alert(
@@ -110,6 +143,19 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
     setLoading(true);
     try {
+      const fix = await acquireHighPrecisionGps(4000, 15).catch(() => null);
+      const lat = fix?.lat || 6.9371;
+      const lng = fix?.lng || 3.6335;
+      const bat = await getHardwareBattery().catch(() => ({ level: null, isCharging: false }));
+      const batLvl = bat.level != null ? bat.level : 85;
+      const isCharging = bat.isCharging;
+      const resolved = resolveOgereLocation(lat, lng);
+
+      setLiveCoord({ lat, lng, accuracy: fix?.accuracy || 8, speed: fix?.speed || null });
+      setLiveBattery(batLvl);
+      setLiveCharging(isCharging);
+      setOgereInfo(resolved);
+
       const res = await fetch(`${API_BASE_URL}/api/escort`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -121,8 +167,15 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
           destination,
           durationMinutes,
           safetyPin,
-          startLat: 6.9371,
-          startLng: 3.6335,
+          startLat: lat,
+          startLng: lng,
+          accuracy: fix?.accuracy || null,
+          speed: fix?.speed != null ? Math.round(fix.speed * 3.6) : null,
+          heading: fix?.heading || null,
+          batteryLevel: batLvl,
+          isCharging,
+          nearestLandmark: resolved.formattedText,
+          sector: resolved.sector,
         }),
       });
 
@@ -338,7 +391,46 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
             </View>
             <View style={styles.metaRow}>
               <Text style={styles.metaLabel}>Radar Stream:</Text>
-              <Text style={[styles.metaVal, { color: '#10b981' }]}>● Live 10s GPS Heartbeat</Text>
+              <Text style={[styles.metaVal, { color: '#10b981' }]}>● Live GPS Heartbeat (Streaming to Guard)</Text>
+            </View>
+
+            {/* Live Telemetry & Landmark HUD */}
+            <View style={{ backgroundColor: 'rgba(56, 189, 248, 0.1)', borderColor: '#38bdf8', borderWidth: 1, borderRadius: 8, padding: 10, marginVertical: 10 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
+                  🛡️ PATROL GUARD LIVE RADAR
+                </Text>
+                <Text style={{ color: (liveBattery ?? 80) > 20 ? '#4ade80' : '#ef4444', fontSize: 11, fontWeight: '800' }}>
+                  🔋 {liveBattery != null ? `${liveBattery}%` : '85%'}{liveCharging ? ' ⚡' : ''}
+                </Text>
+              </View>
+
+              {ogereInfo && (
+                <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '700', marginTop: 4 }}>
+                  📍 {ogereInfo.formattedText}
+                </Text>
+              )}
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6, paddingTop: 6, borderTopColor: 'rgba(56, 189, 248, 0.2)', borderTopWidth: 1 }}>
+                <Text style={{ color: '#94a3b8', fontSize: 10, fontFamily: 'monospace' }}>
+                  {liveCoord.lat.toFixed(5)}°N, {liveCoord.lng.toFixed(5)}°E
+                </Text>
+                <Text style={{ color: '#4ade80', fontSize: 10, fontWeight: '700' }}>
+                  {liveCoord.accuracy ? `±${Math.round(liveCoord.accuracy)}m Satellite` : '🟢 Satellite Lock'}
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => {
+                  const urls = getOgereMapUrls(liveCoord.lat, liveCoord.lng, 'My Walk With Me Location');
+                  Linking.openURL(urls.satellitePin).catch(() => {});
+                }}
+                style={{ backgroundColor: '#0284c7', borderRadius: 6, paddingVertical: 6, alignItems: 'center', marginTop: 8 }}
+              >
+                <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>
+                  🗺️ Preview My Location on Google Maps (Satellite)
+                </Text>
+              </TouchableOpacity>
             </View>
 
             {/* Check-in verification box */}

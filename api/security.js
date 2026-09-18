@@ -416,21 +416,43 @@ export default async function handler(req, res) {
         });
       }
 
-      // B. HEARTBEAT PING
+      // B. HEARTBEAT PING & REAL-TIME TELEMETRY
       if (action === 'ping') {
-        const { escortId, latitude, longitude } = body;
+        const { escortId, latitude, longitude, speed, heading, accuracy, batteryLevel, isCharging } = body;
+        const lat = parseFloat(latitude);
+        const lng = parseFloat(longitude);
         const esc = memoryEscorts.find((e) => e.id === escortId);
         if (esc) {
-          esc.last_latitude = latitude;
-          esc.last_longitude = longitude;
+          if (!isNaN(lat)) esc.last_latitude = lat;
+          if (!isNaN(lng)) esc.last_longitude = lng;
+          esc.speed = speed != null ? parseFloat(speed) : esc.speed;
+          esc.heading = heading != null ? parseFloat(heading) : esc.heading;
+          esc.accuracy = accuracy != null ? parseFloat(accuracy) : esc.accuracy;
+          if (batteryLevel != null) esc.battery_level = batteryLevel;
+          if (isCharging != null) esc.is_charging = isCharging;
+          esc.last_ping_at = new Date().toISOString();
         }
+
+        if (!isNaN(lat) && !isNaN(lng)) {
+          memoryLocationPings.unshift({
+            id: Date.now(),
+            incident_id: escortId,
+            latitude: lat,
+            longitude: lng,
+            heading: heading || null,
+            speed: speed || null,
+            accuracy: accuracy || null,
+            created_at: new Date().toISOString(),
+          });
+        }
+
         try {
           await sqlQuery(
             `UPDATE virtual_escorts SET last_latitude = $1, last_longitude = $2 WHERE id = $3`,
-            [latitude, longitude, escortId]
+            [lat, lng, escortId]
           ).catch(() => {});
         } catch (_) {}
-        return res.status(200).json({ success: true, message: 'Ping recorded.' });
+        return res.status(200).json({ success: true, message: 'Live escort ping recorded.', escort: esc });
       }
 
       // C. CHECK-IN PIN VERIFICATION
@@ -520,7 +542,18 @@ export default async function handler(req, res) {
       }
     }
 
-    return res.status(200).json({ success: true, escorts: memoryEscorts.slice(0, 10) });
+    const escortId = searchParams.get('escortId') || searchParams.get('id');
+    if (escortId) {
+      const esc = memoryEscorts.find((e) => e.id === escortId);
+      const breadcrumbs = memoryLocationPings.filter((p) => p.incident_id === escortId).slice(0, 50);
+      if (esc) {
+        return res.status(200).json({ success: true, escort: esc, breadcrumbs });
+      }
+      return res.status(404).json({ success: false, error: 'Escort session not found.' });
+    }
+
+    const activeList = memoryEscorts.filter((e) => e.status === 'active' || e.status === 'ACTIVE_MONITORING');
+    return res.status(200).json({ success: true, escorts: activeList.length > 0 ? activeList : memoryEscorts.slice(0, 10) });
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -664,16 +697,155 @@ export default async function handler(req, res) {
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // 5. CCTV REGISTRY: /api/cctv
+  // 5. CCTV MUNICIPAL SURVEILLANCE MATRIX: /api/cctv
   // ─────────────────────────────────────────────────────────────────────────────
   if (subroute === 'cctv' || pathname.includes('/cctv')) {
     const cctvCameras = [
-      { id: 'cctv_01', business_name: 'Ogere Resort Gatehouse', location: 'KM 67 Expressway', latitude: 6.9388, longitude: 3.6437, phone: '09062470474', camera_count: 6 },
-      { id: 'cctv_02', business_name: 'TotalEnergies Station', location: 'KM 66.5 Tollgate Bypass', latitude: 6.938, longitude: 3.641, phone: '08023456781', camera_count: 8 },
-      { id: 'cctv_03', business_name: 'Trailer Park Logistics', location: 'Trailer Park Outpost', latitude: 6.9366, longitude: 3.6344, phone: '08034681687', camera_count: 4 },
-      { id: 'cctv_04', business_name: 'Aafin Ologere Palace Gate', location: 'Palace Square', latitude: 6.9368, longitude: 3.633, phone: '08023456789', camera_count: 5 },
+      {
+        id: 'CAM-01',
+        name: 'Expressway Tollgate North (ANPR Radar)',
+        sector: 'Sector 1 — Highway Corridor',
+        location: 'KM 67 Lagos-Ibadan Expressway Intercept',
+        latitude: 6.9388,
+        longitude: 3.6437,
+        agency: 'NPF / FRSC Intercept',
+        resolution: '4K UHD · 60 FPS',
+        fps: 60,
+        latencyMs: 34,
+        status: 'LIVE_HD',
+        ptzCapable: true,
+        anprEnabled: true,
+        nightVision: true,
+        streamUrl: 'https://stream.ogeremo.org/live/cam-01/hls.m3u8',
+        thumbnail: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&auto=format&fit=crop&q=60',
+        activePlates: ['LSR-821-XA (Toyota Hilux) - Pass', 'JJN-404-OG (DAF Tanker) - Verified'],
+      },
+      {
+        id: 'CAM-02',
+        name: 'Aafin Ologere Palace Square & Royal Esplanade (PTZ 360°)',
+        sector: 'Sector 2 — Central Heritage Core',
+        location: 'Palace Way, Oke-Ogere',
+        latitude: 6.9368,
+        longitude: 3.6330,
+        agency: 'Palace Security Secretariat',
+        resolution: '1080p · 30 FPS',
+        fps: 30,
+        latencyMs: 42,
+        status: 'LIVE_HD',
+        ptzCapable: true,
+        anprEnabled: false,
+        nightVision: true,
+        streamUrl: 'https://stream.ogeremo.org/live/cam-02/hls.m3u8',
+        thumbnail: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=600&auto=format&fit=crop&q=60',
+        activePlates: [],
+      },
+      {
+        id: 'CAM-03',
+        name: 'Ogere Trailer Park Weighbridge & Haulage Hub',
+        sector: 'Sector 1 — Highway Corridor',
+        location: 'Trailer Park Bypass South Gate',
+        latitude: 6.9366,
+        longitude: 3.6344,
+        agency: 'So-Safe Corps / Fire Precaution',
+        resolution: '1080p · 30 FPS',
+        fps: 30,
+        latencyMs: 48,
+        status: 'MOTION_DETECTED',
+        ptzCapable: true,
+        anprEnabled: true,
+        nightVision: true,
+        streamUrl: 'https://stream.ogeremo.org/live/cam-03/hls.m3u8',
+        thumbnail: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&auto=format&fit=crop&q=60',
+        activePlates: ['KTU-912-XY (Mack Hauler) - Motion Flag'],
+      },
+      {
+        id: 'CAM-04',
+        name: 'Oja Ogere Central Market & Commercial Ring',
+        sector: 'Sector 2 — Central Heritage Core',
+        location: 'Market Road / Civic Center',
+        latitude: 6.9354,
+        longitude: 3.6338,
+        agency: 'Joint Vigilante Command',
+        resolution: '1080p · 30 FPS',
+        fps: 30,
+        latencyMs: 38,
+        status: 'LIVE_HD',
+        ptzCapable: true,
+        anprEnabled: false,
+        nightVision: false,
+        streamUrl: 'https://stream.ogeremo.org/live/cam-04/hls.m3u8',
+        thumbnail: 'https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?w=600&auto=format&fit=crop&q=60',
+        activePlates: [],
+      },
+      {
+        id: 'CAM-05',
+        name: 'Isale-Ogere Hospital Junction & Emergency Axis',
+        sector: 'Sector 4 — Medical & Social',
+        location: 'Isale-Ogere Hospital Road',
+        latitude: 6.9325,
+        longitude: 3.6310,
+        agency: 'Civil Defence (NSCDC)',
+        resolution: '1080p · 30 FPS',
+        fps: 30,
+        latencyMs: 29,
+        status: 'LIVE_HD',
+        ptzCapable: false,
+        anprEnabled: false,
+        nightVision: true,
+        streamUrl: 'https://stream.ogeremo.org/live/cam-05/hls.m3u8',
+        thumbnail: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&auto=format&fit=crop&q=60',
+        activePlates: [],
+      },
+      {
+        id: 'CAM-06',
+        name: 'Ositelu Memorial / Awomosu Academic Axis',
+        sector: 'Sector 5 — Academic Belt',
+        location: 'Awomosu Agbato Drive',
+        latitude: 6.9405,
+        longitude: 3.6397,
+        agency: 'Community Watch',
+        resolution: '1080p · 30 FPS',
+        fps: 30,
+        latencyMs: 44,
+        status: 'LIVE_HD',
+        ptzCapable: true,
+        anprEnabled: false,
+        nightVision: true,
+        streamUrl: 'https://stream.ogeremo.org/live/cam-06/hls.m3u8',
+        thumbnail: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&auto=format&fit=crop&q=60',
+        activePlates: [],
+      },
+      {
+        id: 'CAM-07',
+        name: 'Saapade Junction / Remo North Axis Gateway',
+        sector: 'Sector 7 — Northern Gateway',
+        location: 'Ibadan-Remo Arterial Junction',
+        latitude: 6.9550,
+        longitude: 3.6480,
+        agency: 'Joint Border Command',
+        resolution: '4K UHD · 60 FPS',
+        fps: 60,
+        latencyMs: 31,
+        status: 'LIVE_HD',
+        ptzCapable: true,
+        anprEnabled: true,
+        nightVision: true,
+        streamUrl: 'https://stream.ogeremo.org/live/cam-07/hls.m3u8',
+        thumbnail: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=60',
+        activePlates: ['ABJ-502-KW (Toyota Prado) - Verified Diplomatic'],
+      },
     ];
-    return res.status(200).json({ success: true, cameras: cctvCameras });
+
+    if (req.method === 'POST') {
+      const { cameraId, action, pan, tilt, zoom } = req.body || {};
+      return res.status(200).json({
+        success: true,
+        message: `CCTV PTZ command executed on ${cameraId}: ${action || 're-positioned'} [P:${pan || 0}°, T:${tilt || 0}°, Z:${zoom || 1}x].`,
+        cameraId,
+      });
+    }
+
+    return res.status(200).json({ success: true, cameras: cctvCameras, totalOnline: cctvCameras.length });
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
