@@ -119,7 +119,7 @@ export async function submitScholarship(data) {
   });
 }
 
-// ── 7. Community Forum ──
+// ── 7. Community Forum & Civic Timeline ("What's on your mind?") ──
 export async function fetchForumPosts() {
   return await apiRequest('/api/forum');
 }
@@ -128,6 +128,67 @@ export async function submitForumPost(data) {
   return await apiRequest('/api/forum', {
     method: 'POST',
     body: JSON.stringify(data),
+  });
+}
+
+export async function fetchTimelinePosts() {
+  return await apiRequest('/api/timeline');
+}
+
+export async function submitTimelinePost(data) {
+  return await apiRequest('/api/timeline', {
+    method: 'POST',
+    body: JSON.stringify({ action: 'create_post', ...data }),
+  });
+}
+
+export async function likeTimelinePost(postId, userId, userName) {
+  return await apiRequest('/api/timeline', {
+    method: 'POST',
+    body: JSON.stringify({ action: 'like_post', postId, userId, userName }),
+  });
+}
+
+export async function addTimelineComment(postId, authorName, authorAvatar, commentText) {
+  return await apiRequest('/api/timeline', {
+    method: 'POST',
+    body: JSON.stringify({
+      action: 'add_comment',
+      postId,
+      author_name: authorName,
+      author_avatar: authorAvatar,
+      comment_text: commentText,
+    }),
+  });
+}
+
+export async function followUser(currentUser, targetUser) {
+  return await apiRequest('/api/timeline', {
+    method: 'POST',
+    body: JSON.stringify({ action: 'follow_user', current_user: currentUser, target_user: targetUser }),
+  });
+}
+
+export async function addFriend(currentUser, targetUser) {
+  return await apiRequest('/api/timeline', {
+    method: 'POST',
+    body: JSON.stringify({ action: 'add_friend', current_user: currentUser, target_user: targetUser }),
+  });
+}
+
+export async function fetchDirectMessages(user1, user2) {
+  return await apiRequest(`/api/messages?user1=${encodeURIComponent(user1)}&user2=${encodeURIComponent(user2)}`);
+}
+
+export async function sendDirectMessage(senderName, recipientName, messageText) {
+  return await apiRequest('/api/messages', {
+    method: 'POST',
+    body: JSON.stringify({
+      senderName,
+      recipientName,
+      text: messageText,
+      channelId: 'direct',
+    }),
   });
 }
 

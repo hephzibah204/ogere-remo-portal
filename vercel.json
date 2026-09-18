@@ -85,6 +85,14 @@
       "destination": "/api/security"
     },
     {
+      "source": "/api/timeline",
+      "destination": "/api/community"
+    },
+    {
+      "source": "/api/feed",
+      "destination": "/api/community"
+    },
+    {
       "source": "/api/forum",
       "destination": "/api/community"
     },

@@ -7,6 +7,7 @@ import AdireDivider from '../components/AdireDivider';
 import Section from '../components/Section';
 import Spinner from '../components/Spinner';
 import SEO from '../components/SEO';
+import TimelineFeed from '../components/TimelineFeed';
 
 const SEED = [
   {
@@ -55,6 +56,7 @@ const catColor = {
 };
 
 export default function ForumPage() {
+  const [activeTab, setActiveTab] = useState('timeline');
   const [posts, setPosts] = useState([]);
   const [activeCat, setActiveCat] = useState('All');
   const [search, setSearch] = useState('');
@@ -162,8 +164,72 @@ export default function ForumPage() {
       />
       <AdireDivider />
 
-      <Section bg="#1a0d06" py="3.5rem">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: '2.5rem', alignItems: 'start' }}>
+      <Section bg="#0c1322" py="3.5rem">
+        {/* Dual Tab Switcher */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2.5rem' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              background: 'rgba(255, 255, 255, 0.08)',
+              padding: '6px',
+              borderRadius: '30px',
+              border: '1px solid rgba(201, 150, 58, 0.3)',
+              backdropFilter: 'blur(10px)',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '6px',
+            }}
+          >
+            <button
+              onClick={() => setActiveTab('timeline')}
+              style={{
+                padding: '10px 22px',
+                borderRadius: '24px',
+                border: 'none',
+                background: activeTab === 'timeline' ? 'linear-gradient(135deg, #1877F2 0%, #155bb5 100%)' : 'transparent',
+                color: '#ffffff',
+                fontWeight: '800',
+                fontSize: '14px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: activeTab === 'timeline' ? '0 4px 16px rgba(24, 119, 242, 0.4)' : 'none',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <span>📰</span>
+              <span>Civic Timeline (What's on your mind?)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('proposals')}
+              style={{
+                padding: '10px 22px',
+                borderRadius: '24px',
+                border: 'none',
+                background: activeTab === 'proposals' ? 'var(--gold)' : 'transparent',
+                color: activeTab === 'proposals' ? '#0f172a' : 'rgba(245, 237, 216, 0.8)',
+                fontWeight: '800',
+                fontSize: '14px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: activeTab === 'proposals' ? '0 4px 16px rgba(201, 150, 58, 0.3)' : 'none',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <span>🏛️</span>
+              <span>Town Hall Deliberations</span>
+            </button>
+          </div>
+        </div>
+
+        {activeTab === 'timeline' ? (
+          <TimelineFeed />
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: '2.5rem', alignItems: 'start' }}>
           <div>
             {/* Search & Filter Header */}
             <div style={{ marginBottom: '1.5rem' }}>
@@ -395,8 +461,9 @@ export default function ForumPage() {
             </div>
           </div>
         </div>
-      </Section>
-      <AdireDivider />
+      )}
+    </Section>
+    <AdireDivider />
     </div>
   );
 }

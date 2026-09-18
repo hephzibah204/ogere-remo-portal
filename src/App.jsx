@@ -51,6 +51,9 @@ import TrackIncidentPage from './pages/TrackIncidentPage';
 import MobilePreviewPage from './pages/MobilePreviewPage';
 import AdminMobilePreviewPage from './pages/AdminMobilePreviewPage';
 import MessagesPage from './pages/MessagesPage';
+import CustomaryDisputePage from './pages/CustomaryDisputePage';
+import FixMyStreetPage from './pages/FixMyStreetPage';
+import DiasporaEscrowPage from './pages/DiasporaEscrowPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AiChat from './components/AiChat';
 import ToastProvider from './components/ToastProvider';
@@ -240,6 +243,12 @@ export default function App() {
               <Route path="/whatsapp" element={<MessagesPage />} />
               <Route path="/admin-mobile" element={<AdminMobilePreviewPage />} />
               <Route path="/mobile-admin" element={<AdminMobilePreviewPage />} />
+              <Route path="/disputes" element={<CustomaryDisputePage />} />
+              <Route path="/kootu-oba" element={<CustomaryDisputePage />} />
+              <Route path="/fix-my-street" element={<FixMyStreetPage />} />
+              <Route path="/street-tracker" element={<FixMyStreetPage />} />
+              <Route path="/diaspora-escrow" element={<DiasporaEscrowPage />} />
+              <Route path="/escrow" element={<DiasporaEscrowPage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

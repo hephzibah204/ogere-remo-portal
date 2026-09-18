@@ -7,6 +7,7 @@ const SECTIONS = [
       { to: '/history', l: 'History' },
       { to: '/monarchy', l: 'Monarchy' },
       { to: '/families', l: 'Families' },
+      { to: '/disputes', l: '⚖️ Customary Court' },
       { to: '/faith', l: 'Faith & Culture' },
     ],
   },
@@ -15,7 +16,8 @@ const SECTIONS = [
     links: [
       { to: '/associations', l: 'Associations' },
       { to: '/education', l: 'Education' },
-      { to: '/diaspora', l: 'Diaspora' },
+      { to: '/diaspora', l: 'Diaspora Network' },
+      { to: '/diaspora-escrow', l: '🌍 Diaspora Escrow' },
       { to: '/forum', l: 'Forum' },
     ],
   },
@@ -31,6 +33,8 @@ const SECTIONS = [
   {
     heading: 'Explore',
     links: [
+      { to: '/marketplace', l: '🛒 Marketplace' },
+      { to: '/fix-my-street', l: '🚧 Fix My Street' },
       { to: '/tourism', l: 'Tourism' },
       { to: '/business', l: 'Directory' },
       { to: '/map', l: '🗺 Map' },
@@ -41,6 +45,7 @@ const SECTIONS = [
     heading: 'More',
     links: [
       { to: '/miss-olipakala', l: '👑 Miss Olipakala' },
+      { to: '/security-dashboard', l: '🚨 Security Command' },
       { to: '/contact', l: 'Contact' },
       { to: '/signin', l: '🔑 Sign In' },
       { to: '/admin', l: '⚙ Admin' },

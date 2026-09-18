@@ -47,21 +47,41 @@ export default function GovernancePage() {
 
       <Section bg="#1a0d06" py="4rem">
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-           <h2 className="playfair" style={{ fontSize: '2.5rem', color: 'var(--cream)' }}>Community Administration</h2>
+           <h2 className="playfair" style={{ fontSize: '2.5rem', color: 'var(--cream)' }}>Civic Administration & Portals</h2>
+           <p style={{ color: 'rgba(245,237,216,0.6)' }}>Direct community governance and traditional justice access.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-           <div className="glass card" style={{ padding: '2rem', textAlign: 'center' }}>
-             <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🏛️</div>
-             <h3 className="playfair" style={{ fontSize: '1.5rem', color: 'var(--gold)', marginBottom: '1rem' }}>OCDA Meetings</h3>
-             <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>The Ogere Community Development Association meets on the last Saturday of every month at the Town Hall.</p>
-             <p style={{ fontSize: '0.75rem', color: '#16a34a' }}>Next Meeting: June 27, 2026</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+           <div className="glass card" style={{ padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+             <div>
+               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>⚖️</div>
+               <h3 className="playfair" style={{ fontSize: '1.4rem', color: 'var(--gold)', marginBottom: '0.75rem' }}>Palace Customary Court (Kootu Oba)</h3>
+               <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>File traditional petitions, schedule hearings with High Chiefs & Baales, and obtain binding Royal Decrees.</p>
+             </div>
+             <div>
+               <a href="/disputes" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>Access Dispute Portal →</a>
+             </div>
            </div>
            
-           <div className="glass card" style={{ padding: '2rem', textAlign: 'center' }}>
-             <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>⚖️</div>
-             <h3 className="playfair" style={{ fontSize: '1.5rem', color: 'var(--gold)', marginBottom: '1rem' }}>Palace Arbitration</h3>
-             <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>The King's court sits weekly to resolve community disputes peacefully before they escalate to civil courts.</p>
-             <p style={{ fontSize: '0.75rem', color: '#d97706' }}>Sitting Days: Tuesdays & Thursdays</p>
+           <div className="glass card" style={{ padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+             <div>
+               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🚧</div>
+               <h3 className="playfair" style={{ fontSize: '1.4rem', color: '#38bdf8', marginBottom: '0.75rem' }}>Fix My Street Civic Tracker</h3>
+               <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>Report potholes, broken transformers, and drainage clogs with GPS coordinates & track IBEDC quarter power grid uptime.</p>
+             </div>
+             <div>
+               <a href="/fix-my-street" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', background: 'rgba(56,189,248,0.2)', border: '1px solid #38bdf8', color: '#e0f2fe' }}>Open Street Tracker →</a>
+             </div>
+           </div>
+
+           <div className="glass card" style={{ padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+             <div>
+               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🌍</div>
+               <h3 className="playfair" style={{ fontSize: '1.4rem', color: '#4ade80', marginBottom: '0.75rem' }}>Diaspora Escrow Grants</h3>
+               <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>Fund community capital projects with transparent milestone-locked escrow releases and transparent donor ledgers.</p>
+             </div>
+             <div>
+               <a href="/diaspora-escrow" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', background: 'rgba(74,222,128,0.2)', border: '1px solid #4ade80', color: '#dcfce7' }}>View Escrow Projects →</a>
+             </div>
            </div>
         </div>
       </Section>
