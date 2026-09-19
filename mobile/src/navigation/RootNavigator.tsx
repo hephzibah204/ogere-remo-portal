@@ -34,6 +34,10 @@ import { LandRegistryScreen } from '../screens/services/LandRegistryScreen';
 import { EventsScreen } from '../screens/events/EventsScreen';
 import { TrackIncidentScreen } from '../screens/services/TrackIncidentScreen';
 import { ForumScreen } from '../screens/community/ForumScreen';
+import { CustomaryDisputeScreen } from '../screens/services/CustomaryDisputeScreen';
+import { FixMyStreetScreen } from '../screens/services/FixMyStreetScreen';
+import { DiasporaEscrowScreen } from '../screens/services/DiasporaEscrowScreen';
+import { QuizScreen } from '../screens/heritage/QuizScreen';
 
 // Field Officer & Admin Terminal Screens
 import { AdminLoginScreen } from '../screens/admin/AdminLoginScreen';
@@ -180,6 +184,10 @@ export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
         <Stack.Screen name="Events" component={EventsScreen} />
         <Stack.Screen name="TrackIncident" component={TrackIncidentScreen} />
         <Stack.Screen name="Forum" component={ForumScreen} />
+        <Stack.Screen name="CustomaryDispute" component={CustomaryDisputeScreen} />
+        <Stack.Screen name="FixMyStreet" component={FixMyStreetScreen} />
+        <Stack.Screen name="DiasporaEscrow" component={DiasporaEscrowScreen} />
+        <Stack.Screen name="Quiz" component={QuizScreen} />
 
         {/* Admin & Field Officer Terminal Screens */}
         <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />

@@ -212,6 +212,36 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.quickCard}
+            onPress={() => navigation.navigate('CustomaryDispute')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>⚖️</Text>
+            <Text style={styles.quickLabel}>Kootu Oba</Text>
+            <Text style={styles.quickSub}>Customary Court</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('FixMyStreet')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🚧</Text>
+            <Text style={styles.quickLabel}>Fix My Street</Text>
+            <Text style={styles.quickSub}>Civic Faults</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
+            onPress={() => navigation.navigate('DiasporaEscrow')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.quickEmoji}>🌍</Text>
+            <Text style={styles.quickLabel}>Diaspora Grants</Text>
+            <Text style={styles.quickSub}>Escrow Projects</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickCard}
             onPress={() => navigation.navigate('Forum')}
             activeOpacity={0.7}
           >

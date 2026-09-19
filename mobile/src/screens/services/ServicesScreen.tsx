@@ -211,6 +211,69 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
           </View>
         </Card>
 
+        {/* Royal Customary Dispute & Boundary Arbitration Portal */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('CustomaryDispute', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: 'rgba(201, 150, 58, 0.18)' }]}>
+              <Text style={{ fontSize: 24 }}>⚖️</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Royal Customary Dispute Portal (Kootu Oba)</Text>
+              <Text style={styles.serviceDesc}>
+                Traditional arbitration bench for land boundaries, inheritance, tenancy, and trade mediation under palace seal.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#C9963A', fontWeight: '700', marginTop: 4 }}>
+                👑 Presided by High Chiefs & Royal Kingmakers
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Fix My Street & Civic Infrastructure Monitor */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('FixMyStreet', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#e0f2fe' }]}>
+              <Text style={{ fontSize: 24 }}>🚧</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Fix My Street & IBEDC Grid Monitor</Text>
+              <Text style={styles.serviceDesc}>
+                Report potholes, clogged drainages, streetlight faults, and check real-time quarter power grid status.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#0284c7', fontWeight: '700', marginTop: 4 }}>
+                ⚡ Public Works & IBEDC Live Feed
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Diaspora Escrow Grants & Capital Projects */}
+        <Card
+          style={styles.serviceCard}
+          onPress={() => handleServicePress('DiasporaEscrow', false)}
+        >
+          <View style={styles.serviceRow}>
+            <View style={[styles.iconCircle, { backgroundColor: '#fef3c7' }]}>
+              <Text style={{ fontSize: 24 }}>🌍</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.serviceTitle}>Diaspora Escrow Grants & Capital Projects</Text>
+              <Text style={styles.serviceDesc}>
+                Transparent homeland funding with milestone-locked escrow disbursement and on-ground audit proofs.
+              </Text>
+              <Text style={{ fontSize: 11, color: '#b45309', fontWeight: '700', marginTop: 4 }}>
+                🛡️ Zero embezzlement / 100% milestone release
+              </Text>
+            </View>
+          </View>
+        </Card>
+
         {/* Digital Land & Property Registry */}
         <Card
           style={styles.serviceCard}
