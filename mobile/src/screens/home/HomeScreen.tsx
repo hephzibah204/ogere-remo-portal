@@ -231,6 +231,88 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
+        {/* ── "WHAT'S ON YOUR MIND?" MOBILE STATUS UPDATE COMPOSER ── */}
+        <Card style={styles.statusComposerCard}>
+          <TouchableOpacity
+            style={styles.composerHeaderRow}
+            onPress={() => navigation.navigate('Forum')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.composerAvatar}>
+              <Text style={{ fontSize: 16 }}>{user ? '👤' : '👑'}</Text>
+            </View>
+            <View style={styles.composerFakeInput}>
+              <Text style={styles.composerPlaceholder}>
+                {user ? `What's on your mind, ${user.fullName.split(' ')[0]}?` : "What's on your mind, Ogere?"} ✍️
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <View style={styles.composerActionsRow}>
+            <TouchableOpacity
+              style={styles.composerActionBtn}
+              onPress={() => navigation.navigate('Forum')}
+            >
+              <Text style={styles.composerActionEmoji}>📸</Text>
+              <Text style={styles.composerActionLabel}>Photo</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.composerActionBtn}
+              onPress={() => navigation.navigate('Forum')}
+            >
+              <Text style={styles.composerActionEmoji}>📍</Text>
+              <Text style={styles.composerActionLabel}>Quarter Check-in</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.composerActionBtn}
+              onPress={() => navigation.navigate('Forum')}
+            >
+              <Text style={styles.composerActionEmoji}>💡</Text>
+              <Text style={styles.composerActionLabel}>Civic Thought</Text>
+            </TouchableOpacity>
+          </View>
+        </Card>
+
+        {/* Civic Status Feed Preview */}
+        <View style={styles.sectionHeaderRow}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <Text style={styles.sectionTitle}>Civic Status Feed</Text>
+            <View style={styles.liveFeedPill}>
+              <Text style={styles.liveFeedText}>LIVE</Text>
+            </View>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Forum')}>
+            <Text style={styles.seeAllText}>Town Feed ➔</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Card style={styles.civicStatusCard}>
+          <View style={styles.statusAuthorRow}>
+            <View style={styles.statusAuthorAvatar}>
+              <Text style={{ fontSize: 16 }}>👑</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                <Text style={styles.statusAuthorName}>Prince Olawale Babatunde</Text>
+                <Text style={styles.verifiedCheck}>✓</Text>
+              </View>
+              <Text style={styles.statusSubText}>📍 Oke-Ogere · Palace Protocol · 15m ago</Text>
+            </View>
+          </View>
+          <Text style={styles.statusBodyText}>
+            Royal Proclamation: The 2026 Olipakala Cultural Festival schedule has been approved by Kabiyesi. Agbole delegations should submit dance rosters! 👑🎉
+          </Text>
+          <View style={styles.statusFooterRow}>
+            <Text style={styles.statusFooterStat}>👍 28 reactions</Text>
+            <Text style={styles.statusFooterStat}>💬 7 comments</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Forum')}>
+              <Text style={styles.statusInteractLink}>Deliberate ➔</Text>
+            </TouchableOpacity>
+          </View>
+        </Card>
+
         {/* Current Monarch Spotlight */}
         {currentKing && (
           <Card style={styles.monarchCard}>
@@ -645,5 +727,130 @@ const styles = StyleSheet.create({
     color: '#b91c1c',
     fontSize: 11,
     fontWeight: '800',
+  },
+  statusComposerCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: Radius.md,
+    padding: 12,
+    gap: 10,
+    ...Shadows.card,
+  },
+  composerHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  composerAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#064e3b',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  composerFakeInput: {
+    flex: 1,
+    backgroundColor: '#f1f5f9',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  composerPlaceholder: {
+    fontSize: 12,
+    color: '#64748b',
+  },
+  composerActionsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#f1f5f9',
+  },
+  composerActionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  composerActionEmoji: {
+    fontSize: 14,
+  },
+  composerActionLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#475569',
+  },
+  liveFeedPill: {
+    backgroundColor: '#ecfdf5',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: Radius.sm,
+  },
+  liveFeedText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#059669',
+  },
+  civicStatusCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: Radius.md,
+    padding: 12,
+    gap: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.gold,
+    ...Shadows.card,
+  },
+  statusAuthorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  statusAuthorAvatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#0f172a',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  statusAuthorName: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: Colors.textPrimary,
+  },
+  verifiedCheck: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#1877F2',
+  },
+  statusSubText: {
+    fontSize: 10,
+    color: Colors.textMuted,
+    marginTop: 1,
+  },
+  statusBodyText: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    lineHeight: 18,
+  },
+  statusFooterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingTop: 6,
+    borderTopWidth: 1,
+    borderTopColor: '#f1f5f9',
+  },
+  statusFooterStat: {
+    fontSize: 11,
+    color: '#64748b',
+    fontWeight: '600',
+  },
+  statusInteractLink: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.primary,
+    marginLeft: 'auto',
   },
 });

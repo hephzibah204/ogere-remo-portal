@@ -7,6 +7,7 @@ import { sendAnthropicMessage } from '../services/api';
 import DailyPhrase from '../components/DailyPhrase';
 import SuggestionBox from '../components/SuggestionBox';
 import LiveTicker from '../components/LiveTicker';
+import TimelineFeed from '../components/TimelineFeed';
 import { photos } from '../data/gallery';
 
 const CARDS = [
@@ -327,6 +328,27 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      <AdireDivider />
+
+      {/* ── CIVIC PULSE: "WHAT'S ON YOUR MIND?" & LIVE TIMELINE FEED ── */}
+      <Section bg="var(--dark)" py="4.5rem">
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <p className="cinzel" style={{ color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.75rem', marginBottom: '0.8rem', fontWeight: 700 }}>
+            CIVIC PULSE & LIVE COMMUNITY RADAR
+          </p>
+          <h2 className="playfair" style={{ fontSize: 'clamp(2rem, 5vw, 3.2rem)', color: 'var(--cream)', fontWeight: 700, marginBottom: '0.8rem' }}>
+            What's On Your Mind, Ogere Remo?
+          </h2>
+          <p className="baskerville" style={{ color: 'rgba(245, 237, 216, 0.75)', maxWidth: '680px', margin: '0 auto', fontSize: '1.05rem', lineHeight: 1.7 }}>
+            <em>Kí ni nǹkan tó ń ṣẹlẹ̀?</em> Share community news, celebrate neighborhood achievements, post quarter photos, and deliberate on town development in real-time.
+          </p>
+        </div>
+
+        <TimelineFeed embedded={true} maxPosts={5} showHeader={false} linkToAll="/timeline" />
+      </Section>
+
+      <AdireDivider />
 
       {/* Weather Forecast Banner */}
       {weather && (

@@ -37,7 +37,14 @@ const AUDIENCES = [
   { id: 'Neighborhood Watch', label: '🛡️ Ward Watch', desc: 'Local security & residents' },
 ];
 
-export default function TimelineFeed() {
+export default function TimelineFeed({
+  embedded = false,
+  maxPosts = null,
+  showHeader = true,
+  title = null,
+  subtitle = null,
+  linkToAll = '/timeline',
+} = {}) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -367,6 +374,8 @@ export default function TimelineFeed() {
     return p.author_quarter === filterQuarter;
   });
 
+  const displayPosts = maxPosts ? filteredPosts.slice(0, maxPosts) : filteredPosts;
+
   const formatTimestamp = (dateStr) => {
     if (!dateStr) return 'Just now';
     try {
@@ -383,6 +392,21 @@ export default function TimelineFeed() {
 
   return (
     <div style={{ maxWidth: '780px', margin: '0 auto', padding: '0 12px' }}>
+      {/* Optional Embedded Section Header */}
+      {showHeader && (title || subtitle) && (
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+          {title && (
+            <h2 className="playfair" style={{ fontSize: '2rem', color: 'var(--cream, #0f172a)', marginBottom: '8px', fontWeight: 700 }}>
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <p className="baskerville" style={{ fontSize: '1rem', color: 'rgba(245, 237, 216, 0.75)', maxWidth: '600px', margin: '0 auto' }}>
+              {subtitle}
+            </p>
+          )}
+        </div>
+      )}
       {/* Toast Banner */}
       {toastMessage && (
         <div
@@ -790,7 +814,7 @@ export default function TimelineFeed() {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {filteredPosts.map((post) => {
+          {displayPosts.map((post) => {
             const userIdentifier = session?.id || authorName || 'citizen';
             const isLiked = (post.liked_by || []).includes(userIdentifier);
             const isCommentsOpen = !!expandedComments[post.id];
@@ -830,91 +854,74 @@ export default function TimelineFeed() {
                       {post.author_avatar || '👤'}
                     </div>
 
-                    <div>
+                    <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                         <span style={{ fontWeight: '800', fontSize: '15px', color: '#0f172a' }}>{post.author_name}</span>
-                        <span
-                          style={{
-                            background: '#1877F2',
-                            color: '#ffffff',
-                            fontSize: '10px',
-                            fontWeight: '800',
-                            borderRadius: '50%',
-                            width: '16px',
-                            height: '16px',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                          title="Verified Ogere Citizen"
-                        >
-                          ✓
+                        {post.is_verified && (
+                          <span title="Verified Indigene / Official" style={{ color: '#1877F2', fontSize: '14px', fontWeight: 'bold' }}>
+                            ✓
+                          </span>
+                        )}
+                        <span style={{ fontSize: '11px', background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '12px', fontWeight: '600' }}>
+                          📍 {post.author_quarter || 'Oke-Ogere'}
                         </span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px', fontSize: '12px', color: '#64748b' }}>
-                        <span style={{ background: '#f1f5f9', color: '#334155', padding: '1px 6px', borderRadius: '4px', fontWeight: '600', fontSize: '11px' }}>
-                          {post.author_quarter || 'Oke-Ogere'}
-                        </span>
+                        <span>{post.author_role || 'Resident'}</span>
                         <span>•</span>
                         <span>{formatTimestamp(post.created_at)}</span>
                         <span>•</span>
-                        <span title={post.audience || 'Public'}>🌐</span>
+                        <span style={{ fontSize: '11px' }}>
+                          {post.audience === 'Indigenes Only' ? '🏛️ Indigenes' : post.audience === 'Neighborhood Watch' ? '🛡️ Watch' : '🌐 Public'}
+                        </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Top Social Action Pills: Follow, Add Friend, Message */}
+                  {/* Social Follow / Friend / Message Buttons */}
                   {!isSelf && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                      {/* Follow Button */}
+                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                       <button
                         onClick={() => handleToggleFollow(post.author_name)}
                         style={{
-                          background: isFollowingAuthor ? '#e0f2fe' : '#f1f5f9',
-                          color: isFollowingAuthor ? '#0284c7' : '#334155',
-                          border: isFollowingAuthor ? '1px solid #bae6fd' : '1px solid #cbd5e1',
-                          padding: '4px 8px',
+                          background: isFollowingAuthor ? '#e2e8f0' : '#eff6ff',
+                          color: isFollowingAuthor ? '#475569' : '#1d4ed8',
+                          border: isFollowingAuthor ? '1px solid #cbd5e1' : '1px solid #bfdbfe',
+                          padding: '4px 10px',
                           borderRadius: '16px',
                           fontSize: '11px',
                           fontWeight: '700',
                           cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
                         }}
                       >
-                        <span>{isFollowingAuthor ? '✓ Following' : '+ Follow'}</span>
+                        {isFollowingAuthor ? '✓ Following' : '+ Follow'}
                       </button>
 
-                      {/* Add Friend Button */}
                       <button
                         onClick={() => handleToggleFriend(post.author_name)}
                         style={{
-                          background: isFriendAuthor ? '#ecfdf5' : '#f1f5f9',
-                          color: isFriendAuthor ? '#059669' : '#334155',
-                          border: isFriendAuthor ? '1px solid #a7f3d0' : '1px solid #cbd5e1',
+                          background: isFriendAuthor ? '#dcfce7' : '#f8fafc',
+                          color: isFriendAuthor ? '#15803d' : '#475569',
+                          border: isFriendAuthor ? '1px solid #86efac' : '1px solid #e2e8f0',
                           padding: '4px 8px',
                           borderRadius: '16px',
                           fontSize: '11px',
                           fontWeight: '700',
                           cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
                         }}
+                        title={isFriendAuthor ? 'Connected Citizen' : 'Connect Citizen'}
                       >
-                        <span>{isFriendAuthor ? '🤝 Friends' : '👤+ Add Friend'}</span>
+                        {isFriendAuthor ? '🤝 Friend' : '➕ Friend'}
                       </button>
 
-                      {/* Message User Button */}
                       <button
                         onClick={() => handleOpenDirectMessage(post.author_name)}
                         style={{
                           background: '#1877F2',
                           color: '#ffffff',
                           border: 'none',
-                          padding: '4px 8px',
+                          padding: '4px 10px',
                           borderRadius: '16px',
                           fontSize: '11px',
                           fontWeight: '700',
@@ -923,76 +930,83 @@ export default function TimelineFeed() {
                           alignItems: 'center',
                           gap: '4px',
                         }}
-                        title={`Send direct message to ${post.author_name}`}
                       >
-                        <span>✉️ Message</span>
+                        <span>💬</span>
+                        <span>Chat</span>
                       </button>
                     </div>
                   )}
                 </div>
 
-                {/* 2. Post Content Body */}
+                {/* 2. Post Content Text */}
                 {post.content_text && (
-                  <div style={{ padding: '0 18px 14px', fontSize: '15px', lineHeight: '1.6', color: '#1e293b', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                    {post.content_text.split(' ').map((word, wIdx) => {
-                      if (word.startsWith('#')) {
-                        return <span key={wIdx} style={{ color: '#1877F2', fontWeight: '700', cursor: 'pointer' }}>{word} </span>;
-                      }
-                      return word + ' ';
-                    })}
+                  <div style={{ padding: '0 18px 12px', fontSize: '15px', color: '#1e293b', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
+                    {post.content_text}
                   </div>
                 )}
 
-                {/* 3. Attached Picture */}
+                {/* 3. Post Image (if attached) */}
                 {post.image_url && (
                   <div
                     onClick={() => setLightboxImg(post.image_url)}
-                    style={{ cursor: 'pointer', maxHeight: '480px', overflow: 'hidden', background: '#020617', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    style={{
+                      background: '#0f172a',
+                      maxHeight: '420px',
+                      overflow: 'hidden',
+                      cursor: 'zoom-in',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
                   >
-                    <img src={post.image_url} alt="Civic post attachment" style={{ width: '100%', maxHeight: '480px', objectFit: 'cover', display: 'block' }} loading="lazy" />
+                    <img
+                      src={post.image_url}
+                      alt="Timeline upload"
+                      style={{ width: '100%', maxHeight: '420px', objectFit: 'cover', transition: 'transform 0.3s ease' }}
+                      onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
+                      onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                    />
                   </div>
                 )}
 
-                {/* 4. Reaction summary count */}
-                <div style={{ padding: '10px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '13px', color: '#64748b', borderBottom: '1px solid #f1f5f9' }}>
+                {/* 4. Stats Bar */}
+                <div style={{ padding: '10px 18px', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', color: '#64748b' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <span style={{ fontSize: '14px', marginRight: '-2px' }}>👍</span>
-                      <span style={{ fontSize: '14px' }}>❤️</span>
-                    </span>
-                    <span style={{ fontWeight: '600' }}>{post.likes_count || 0}</span>
+                    <span style={{ fontSize: '14px' }}>👍❤️</span>
+                    <span>{post.likes_count || 0} reactions</span>
                   </div>
-
-                  <div style={{ display: 'flex', gap: '14px' }}>
+                  <div style={{ display: 'flex', gap: '12px' }}>
                     <span onClick={() => toggleComments(post.id)} style={{ cursor: 'pointer' }}>
-                      {post.comments_count || post.comments?.length || 0} comments
+                      {(post.comments || []).length} comments
                     </span>
                     <span>•</span>
-                    <span>1 share</span>
+                    <span onClick={() => handleShare(post)} style={{ cursor: 'pointer' }}>
+                      Share
+                    </span>
                   </div>
                 </div>
 
-                {/* 5. Social Actions Button Bar */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '4px 6px', borderBottom: isCommentsOpen ? '1px solid #f1f5f9' : 'none' }}>
+                {/* 5. Action Buttons (Facebook Style) */}
+                <div style={{ borderTop: '1px solid #e2e8f0', borderBottom: isCommentsOpen ? '1px solid #e2e8f0' : 'none', padding: '4px 8px', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
                   <button
                     onClick={() => handleLike(post.id)}
                     style={{
                       flex: 1,
-                      padding: '8px 12px',
+                      padding: '8px',
                       background: 'transparent',
                       border: 'none',
-                      borderRadius: '8px',
+                      color: isLiked ? '#1877F2' : '#475569',
+                      fontWeight: isLiked ? '800' : '600',
+                      fontSize: '13px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '8px',
-                      color: isLiked ? '#1877F2' : '#475569',
-                      fontWeight: isLiked ? '800' : '600',
-                      fontSize: '14px',
+                      gap: '6px',
                       cursor: 'pointer',
+                      borderRadius: '8px',
                     }}
                   >
-                    <span style={{ fontSize: '18px' }}>👍</span>
+                    <span>{isLiked ? '👍' : '👍'}</span>
                     <span>{isLiked ? 'Liked' : 'Like'}</span>
                   </button>
 
@@ -1000,21 +1014,21 @@ export default function TimelineFeed() {
                     onClick={() => toggleComments(post.id)}
                     style={{
                       flex: 1,
-                      padding: '8px 12px',
+                      padding: '8px',
                       background: 'transparent',
                       border: 'none',
-                      borderRadius: '8px',
+                      color: isCommentsOpen ? '#1877F2' : '#475569',
+                      fontWeight: '600',
+                      fontSize: '13px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '8px',
-                      color: isCommentsOpen ? '#1877F2' : '#475569',
-                      fontWeight: '600',
-                      fontSize: '14px',
+                      gap: '6px',
                       cursor: 'pointer',
+                      borderRadius: '8px',
                     }}
                   >
-                    <span style={{ fontSize: '18px' }}>💬</span>
+                    <span>💬</span>
                     <span>Comment</span>
                   </button>
 
@@ -1022,67 +1036,85 @@ export default function TimelineFeed() {
                     onClick={() => handleShare(post)}
                     style={{
                       flex: 1,
-                      padding: '8px 12px',
+                      padding: '8px',
                       background: 'transparent',
                       border: 'none',
-                      borderRadius: '8px',
+                      color: '#475569',
+                      fontWeight: '600',
+                      fontSize: '13px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '8px',
-                      color: '#475569',
-                      fontWeight: '600',
-                      fontSize: '14px',
+                      gap: '6px',
                       cursor: 'pointer',
+                      borderRadius: '8px',
                     }}
                   >
-                    <span style={{ fontSize: '18px' }}>↗️</span>
+                    <span>↗️</span>
                     <span>Share</span>
                   </button>
                 </div>
 
-                {/* 6. Expandable Comments Thread */}
+                {/* 6. Comments Section */}
                 {isCommentsOpen && (
-                  <div style={{ background: '#f8fafc', padding: '16px 18px' }}>
-                    {post.comments && post.comments.length > 0 ? (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '14px' }}>
-                        {post.comments.map((cmt) => (
-                          <div key={cmt.id} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#0f172a', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>
-                              {cmt.author_avatar || '👤'}
+                  <div style={{ background: '#f8fafc', padding: '14px 18px' }}>
+                    {/* List of comments */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '12px' }}>
+                      {(post.comments || []).length === 0 ? (
+                        <div style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic', textAlign: 'center', padding: '8px 0' }}>
+                          No comments yet. Write the first response!
+                        </div>
+                      ) : (
+                        (post.comments || []).map((c, cIdx) => (
+                          <div key={cIdx} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                            <div
+                              style={{
+                                width: '32px',
+                                height: '32px',
+                                borderRadius: '50%',
+                                background: '#e2e8f0',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '16px',
+                                flexShrink: 0,
+                              }}
+                            >
+                              {c.author_avatar || '👤'}
                             </div>
-
-                            <div style={{ background: '#ffffff', borderRadius: '14px', padding: '8px 14px', border: '1px solid #e2e8f0', flex: 1 }}>
+                            <div style={{ flex: 1, background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '8px 12px' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
-                                <span style={{ fontWeight: '700', fontSize: '13px', color: '#0f172a' }}>{cmt.author_name}</span>
-                                <span style={{ fontSize: '11px', color: '#94a3b8' }}>{formatTimestamp(cmt.created_at)}</span>
+                                <span style={{ fontWeight: '700', fontSize: '12px', color: '#0f172a' }}>{c.author_name}</span>
+                                <span style={{ fontSize: '10px', color: '#94a3b8' }}>{formatTimestamp(c.created_at)}</span>
                               </div>
-                              <div style={{ fontSize: '13px', color: '#334155', lineHeight: '1.4' }}>{cmt.comment_text}</div>
+                              <div style={{ fontSize: '13px', color: '#334155', lineHeight: '1.4' }}>{c.comment_text}</div>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div style={{ fontSize: '13px', color: '#94a3b8', textAlign: 'center', marginBottom: '12px' }}>No comments yet. Write the first response!</div>
-                    )}
+                        ))
+                      )}
+                    </div>
 
-                    {/* Write Comment */}
-                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#0f172a', color: '#d4af37', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>
-                        {authorAvatar}
-                      </div>
-
+                    {/* Add Comment Input */}
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <input
                         type="text"
                         value={commentInputs[post.id] || ''}
-                        onChange={(e) => setCommentInputs((prev) => ({ ...prev, [post.id]: e.target.value }))}
-                        onKeyDown={(e) => { if (e.key === 'Enter') handleAddComment(post.id); }}
-                        placeholder="Write a civic comment..."
-                        style={{ flex: 1, padding: '10px 14px', borderRadius: '20px', border: '1px solid #cbd5e1', background: '#ffffff', fontSize: '13px', outline: 'none' }}
+                        onChange={(e) => setCommentInputs({ ...commentInputs, [post.id]: e.target.value })}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleAddComment(post.id);
+                        }}
+                        placeholder="Write a comment..."
+                        style={{
+                          flex: 1,
+                          padding: '9px 14px',
+                          borderRadius: '20px',
+                          border: '1px solid #cbd5e1',
+                          fontSize: '13px',
+                          outline: 'none',
+                          background: '#ffffff',
+                        }}
                       />
-
                       <button
-                        type="button"
                         onClick={() => handleAddComment(post.id)}
                         disabled={submittingComment[post.id] || !commentInputs[post.id]?.trim()}
                         style={{
@@ -1108,6 +1140,33 @@ export default function TimelineFeed() {
               </div>
             );
           })}
+
+          {/* Embedded Full Timeline Link / CTA */}
+          {embedded && (
+            <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '10px' }}>
+              <a
+                href={linkToAll}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'linear-gradient(135deg, rgba(201,150,58,0.2) 0%, rgba(201,150,58,0.05) 100%)',
+                  border: '1.5px solid var(--gold, #C9963A)',
+                  color: 'var(--cream, #f5edd8)',
+                  padding: '12px 28px',
+                  borderRadius: '30px',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 18px rgba(0,0,0,0.3)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <span>📜 View Full Civic Timeline & Town Discussions ({posts.length}+ Updates)</span>
+                <span>➔</span>
+              </a>
+            </div>
+          )}
         </div>
       )}
 

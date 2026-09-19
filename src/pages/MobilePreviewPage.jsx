@@ -51,6 +51,51 @@ const EMERGENCY_LINES = [
   { name: 'Aafin Ologere Vigilante', tel: '08145550192', desc: 'Palace Night Watch', icon: '👑' },
 ];
 
+const SEED_MOBILE_TIMELINE = [
+  {
+    id: 'mob-post-1',
+    authorName: 'Prince Olawale Babatunde',
+    authorRole: 'Palace Protocol & Heritage',
+    authorAvatar: '👑',
+    authorQuarter: 'Oke-Ogere',
+    isVerified: true,
+    contentText: 'Royal Proclamation: The 2026 Olipakala Cultural Festival schedule has been approved by Kabiyesi. Agbole delegations should submit their cultural dance troupe rosters by Friday! 👑🎉',
+    imageUrl: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&q=80',
+    likesCount: 28,
+    commentsCount: 7,
+    timeAgo: '15m ago',
+    isLiked: false,
+  },
+  {
+    id: 'mob-post-2',
+    authorName: 'Engr. Folake Sobukonla',
+    authorRole: 'OCDA Works Secretary',
+    authorAvatar: '⚙️',
+    authorQuarter: 'Wasimi Quarter',
+    isVerified: true,
+    contentText: 'Inspection update: The new 500kVA transformer at Wasimi Junction has been energized. Voltage stability restored across 140 households. 💡⚡',
+    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80',
+    likesCount: 42,
+    commentsCount: 12,
+    timeAgo: '1h ago',
+    isLiked: true,
+  },
+  {
+    id: 'mob-post-3',
+    authorName: 'Oluwaseun Adedayo Adeleke',
+    authorRole: 'Verified Indigene',
+    authorAvatar: '👤',
+    authorQuarter: 'Ijana Quarter',
+    isVerified: true,
+    contentText: 'Fresh Adire indigo fabric shipment just arrived at Ijana Market stalls! Supporting our local women weavers. Come through this evening! 🧵✨',
+    imageUrl: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=600&q=80',
+    likesCount: 19,
+    commentsCount: 4,
+    timeAgo: '3h ago',
+    isLiked: false,
+  },
+];
+
 export default function MobilePreviewPage() {
   const [showSplashScreen, setShowSplashScreen] = useState(false);
   const [activeTab, setActiveTab] = useState('home'); // home, news, sos, heritage, services
@@ -58,6 +103,14 @@ export default function MobilePreviewPage() {
   const [deviceFrame, setDeviceFrame] = useState('iphone'); // 'iphone', 'android', 'none'
   const [previewMode, setPreviewMode] = useState('dual'); // 'dual', 'citizen', 'officer'
   const [sirenActive, setSirenActive] = useState(false);
+
+  // Mobile Status Timeline state
+  const [mobileTimeline, setMobileTimeline] = useState(SEED_MOBILE_TIMELINE);
+  const [isStatusComposerOpen, setIsStatusComposerOpen] = useState(false);
+  const [statusInputText, setStatusInputText] = useState('');
+  const [statusSelectedQuarter, setStatusSelectedQuarter] = useState('Oke-Ogere');
+  const [statusSelectedPhoto, setStatusSelectedPhoto] = useState('');
+  const [statusFilterQuarter, setStatusFilterQuarter] = useState('All');
 
   useEffect(() => {
     const unsub = sirenSound.subscribe(({ isPlaying }) => setSirenActive(isPlaying));
@@ -1210,6 +1263,307 @@ export default function MobilePreviewPage() {
                           <div style={{ fontSize: '0.55rem', color: '#94a3b8', marginTop: '1px' }}>{item.sub}</div>
                         </div>
                       ))}
+                    </div>
+
+                    {/* ── "WHAT'S ON YOUR MIND?" MOBILE STATUS COMPOSER ── */}
+                    <div style={{ background: '#ffffff', borderRadius: '12px', padding: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div style={{ width: '34px', height: '34px', borderRadius: '17px', background: '#064e3b', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 900, flexShrink: 0 }}>
+                          👑
+                        </div>
+                        <div
+                          onClick={() => setIsStatusComposerOpen(prev => !prev)}
+                          style={{
+                            flex: 1,
+                            background: '#f1f5f9',
+                            borderRadius: '20px',
+                            padding: '8px 12px',
+                            fontSize: '0.72rem',
+                            color: '#64748b',
+                            cursor: 'pointer',
+                            border: '1px solid #e2e8f0',
+                          }}
+                        >
+                          {statusInputText ? statusInputText.slice(0, 30) + '...' : "What's on your mind, Adebayo? ✍️"}
+                        </div>
+                      </div>
+
+                      {/* Expandable Composer Form */}
+                      {isStatusComposerOpen && (
+                        <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #f1f5f9' }}>
+                          <textarea
+                            rows={3}
+                            value={statusInputText}
+                            onChange={(e) => setStatusInputText(e.target.value)}
+                            placeholder="Share a community update, town achievement, or grassroots event..."
+                            style={{
+                              width: '100%',
+                              padding: '8px 10px',
+                              borderRadius: '8px',
+                              border: '1px solid #cbd5e1',
+                              fontSize: '0.72rem',
+                              color: '#0f172a',
+                              resize: 'none',
+                              outline: 'none',
+                              boxSizing: 'border-box',
+                            }}
+                          />
+
+                          {/* Quarter and Photo Selection */}
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px', gap: '6px', flexWrap: 'wrap' }}>
+                            <select
+                              value={statusSelectedQuarter}
+                              onChange={(e) => setStatusSelectedQuarter(e.target.value)}
+                              style={{
+                                padding: '4px 8px',
+                                borderRadius: '6px',
+                                border: '1px solid #cbd5e1',
+                                fontSize: '0.65rem',
+                                color: '#334155',
+                                background: '#f8fafc',
+                              }}
+                            >
+                              <option value="Oke-Ogere">📍 Oke-Ogere</option>
+                              <option value="Wasimi Quarter">📍 Wasimi</option>
+                              <option value="Ijana Quarter">📍 Ijana</option>
+                              <option value="Orile-Ogere">📍 Orile-Ogere</option>
+                              <option value="Expressway Axis">📍 Expressway</option>
+                              <option value="Diaspora">📍 Diaspora</option>
+                            </select>
+
+                            <div style={{ display: 'flex', gap: '4px' }}>
+                              {[
+                                { label: '👑 Festival', url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&q=80' },
+                                { label: '💡 Solar', url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' },
+                                { label: '🧵 Adire', url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=600&q=80' },
+                              ].map(p => (
+                                <button
+                                  key={p.label}
+                                  type="button"
+                                  onClick={() => setStatusSelectedPhoto(statusSelectedPhoto === p.url ? '' : p.url)}
+                                  style={{
+                                    padding: '3px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: '0.58rem',
+                                    fontWeight: 700,
+                                    border: statusSelectedPhoto === p.url ? '1px solid #d97706' : '1px solid #cbd5e1',
+                                    background: statusSelectedPhoto === p.url ? '#fef3c7' : '#ffffff',
+                                    color: statusSelectedPhoto === p.url ? '#92400e' : '#475569',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  {p.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Submit & Cancel Buttons */}
+                          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '8px' }}>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setIsStatusComposerOpen(false);
+                                setStatusInputText('');
+                                setStatusSelectedPhoto('');
+                              }}
+                              style={{
+                                background: 'transparent',
+                                border: 'none',
+                                color: '#64748b',
+                                fontSize: '0.65rem',
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                                padding: '4px 8px',
+                              }}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              disabled={!statusInputText.trim() && !statusSelectedPhoto}
+                              onClick={() => {
+                                if (!statusInputText.trim() && !statusSelectedPhoto) return;
+                                const newPost = {
+                                  id: `mob-${Date.now()}`,
+                                  authorName: 'Adebayo Adeleke',
+                                  authorRole: 'Verified Indigene',
+                                  authorAvatar: '👑',
+                                  authorQuarter: statusSelectedQuarter,
+                                  isVerified: true,
+                                  contentText: statusInputText.trim(),
+                                  imageUrl: statusSelectedPhoto,
+                                  likesCount: 1,
+                                  commentsCount: 0,
+                                  timeAgo: 'Just now',
+                                  isLiked: true,
+                                };
+                                setMobileTimeline([newPost, ...mobileTimeline]);
+                                setStatusInputText('');
+                                setStatusSelectedPhoto('');
+                                setIsStatusComposerOpen(false);
+                              }}
+                              style={{
+                                background: (!statusInputText.trim() && !statusSelectedPhoto) ? '#94a3b8' : '#064e3b',
+                                color: '#ffffff',
+                                border: 'none',
+                                borderRadius: '6px',
+                                padding: '5px 12px',
+                                fontSize: '0.65rem',
+                                fontWeight: 800,
+                                cursor: (!statusInputText.trim() && !statusSelectedPhoto) ? 'not-allowed' : 'pointer',
+                              }}
+                            >
+                              Post Update 🚀
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Quick Icons Row when closed */}
+                      {!isStatusComposerOpen && (
+                        <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '8px', paddingTop: '6px', borderTop: '1px solid #f8fafc' }}>
+                          <button
+                            onClick={() => {
+                              setIsStatusComposerOpen(true);
+                              setStatusSelectedPhoto('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&q=80');
+                            }}
+                            style={{ background: 'none', border: 'none', fontSize: '0.65rem', color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+                          >
+                            <span>🖼️ Photo</span>
+                          </button>
+                          <button
+                            onClick={() => setIsStatusComposerOpen(true)}
+                            style={{ background: 'none', border: 'none', fontSize: '0.65rem', color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+                          >
+                            <span>📍 Quarter Check-in</span>
+                          </button>
+                          <button
+                            onClick={() => setIsStatusComposerOpen(true)}
+                            style={{ background: 'none', border: 'none', fontSize: '0.65rem', color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+                          >
+                            <span>💡 Thought</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* ── CIVIC STATUS TIMELINE STREAM ── */}
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Civic Status Timeline</span>
+                          <span style={{ fontSize: '0.55rem', background: '#ecfdf5', color: '#059669', padding: '1px 5px', borderRadius: '4px', fontWeight: 800 }}>LIVE</span>
+                        </div>
+                        <Link to="/timeline" style={{ fontSize: '0.62rem', color: '#064e3b', fontWeight: 700, textDecoration: 'none' }}>
+                          Full Web Feed ➔
+                        </Link>
+                      </div>
+
+                      {/* Quarter Filter Chips */}
+                      <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '6px', marginBottom: '6px' }}>
+                        {['All', 'Oke-Ogere', 'Wasimi Quarter', 'Ijana Quarter'].map(q => (
+                          <button
+                            key={q}
+                            type="button"
+                            onClick={() => setStatusFilterQuarter(q)}
+                            style={{
+                              padding: '2px 8px',
+                              borderRadius: '12px',
+                              fontSize: '0.58rem',
+                              fontWeight: 700,
+                              border: 'none',
+                              background: statusFilterQuarter === q ? '#064e3b' : '#e2e8f0',
+                              color: statusFilterQuarter === q ? '#ffffff' : '#475569',
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {q === 'All' ? '🌐 All' : q.replace(' Quarter', '')}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Timeline Cards */}
+                      <div style={{ display: 'grid', gap: '8px' }}>
+                        {mobileTimeline
+                          .filter(item => statusFilterQuarter === 'All' || item.authorQuarter === statusFilterQuarter)
+                          .slice(0, 3)
+                          .map((post) => (
+                            <div key={post.id} style={{ background: '#ffffff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+                              {/* Header */}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                  <div style={{ width: '28px', height: '28px', borderRadius: '14px', background: '#0f172a', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>
+                                    {post.authorAvatar}
+                                  </div>
+                                  <div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                      <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>{post.authorName}</span>
+                                      {post.isVerified && <span style={{ color: '#1877F2', fontSize: '0.62rem', fontWeight: 900 }}>✓</span>}
+                                    </div>
+                                    <div style={{ fontSize: '0.55rem', color: '#64748b' }}>
+                                      <span>📍 {post.authorQuarter}</span> · <span>{post.timeAgo}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Content */}
+                              <div style={{ fontSize: '0.72rem', color: '#1e293b', lineHeight: 1.4, marginBottom: post.imageUrl ? '6px' : '4px' }}>
+                                {post.contentText}
+                              </div>
+
+                              {/* Image Preview */}
+                              {post.imageUrl && (
+                                <div style={{ borderRadius: '6px', overflow: 'hidden', maxHeight: '140px', marginBottom: '6px' }}>
+                                  <img src={post.imageUrl} alt="Timeline post attachment" style={{ width: '100%', height: '140px', objectFit: 'cover' }} />
+                                </div>
+                              )}
+
+                              {/* Action Row */}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '6px', fontSize: '0.62rem', color: '#64748b' }}>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setMobileTimeline(prev => prev.map(p => {
+                                      if (p.id === post.id) {
+                                        return {
+                                          ...p,
+                                          isLiked: !p.isLiked,
+                                          likesCount: p.isLiked ? Math.max(0, p.likesCount - 1) : p.likesCount + 1,
+                                        };
+                                      }
+                                      return p;
+                                    }));
+                                  }}
+                                  style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    color: post.isLiked ? '#1877F2' : '#64748b',
+                                    fontWeight: post.isLiked ? 800 : 600,
+                                    fontSize: '0.65rem',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '3px',
+                                  }}
+                                >
+                                  <span>{post.isLiked ? '👍' : '🤍'}</span>
+                                  <span>{post.likesCount}</span>
+                                </button>
+
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                                  <span>💬</span> {post.commentsCount} comments
+                                </span>
+
+                                <span style={{ cursor: 'pointer' }} onClick={() => alert('Post link copied!')}>
+                                  ↗️ Share
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
                     </div>
 
                     {/* Reigning Monarch Spotlight */}
