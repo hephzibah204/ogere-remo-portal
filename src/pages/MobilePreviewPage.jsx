@@ -207,7 +207,7 @@ export default function MobilePreviewPage() {
     setSosAddressSuggestions([]);
   };
 
-  const [showSosMapAdjuster, setShowSosMapAdjuster] = useState(false);
+  const [showSosMapAdjuster, setShowSosMapAdjuster] = useState(true);
   const [sosPinCoords, setSosPinCoords] = useState({ lat: 6.9388, lng: 3.6437 });
 
   const handleLockSosGps = async () => {
@@ -253,7 +253,7 @@ export default function MobilePreviewPage() {
   const [escortCustomDestination, setEscortCustomDestination] = useState('');
   const [escortReporterPhone, setEscortReporterPhone] = useState('08081762371');
   const [escortBackupPhone, setEscortBackupPhone] = useState('08034567890');
-  const [showEscortMapAdjuster, setShowEscortMapAdjuster] = useState(false);
+  const [showEscortMapAdjuster, setShowEscortMapAdjuster] = useState(true);
   const [escortPinCoords, setEscortPinCoords] = useState({ lat: 6.9388, lng: 3.6437 });
 
   const handleLookupGoogleMaps = async () => {
@@ -2064,48 +2064,50 @@ export default function MobilePreviewPage() {
                               }}
                             />
 
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
-                              <button
-                                type="button"
-                                onClick={() => handleLookupGoogleMaps()}
-                                disabled={isLocatingEscortGps}
-                                style={{
-                                  background: isLocatingEscortGps ? 'rgba(56, 189, 248, 0.3)' : 'rgba(56, 189, 248, 0.15)',
-                                  color: '#38bdf8',
-                                  border: '1px solid rgba(56, 189, 248, 0.35)',
-                                  padding: '4px 9px',
-                                  borderRadius: '4px',
-                                  fontSize: '0.62rem',
-                                  fontWeight: 800,
-                                  cursor: isLocatingEscortGps ? 'wait' : 'pointer',
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px',
-                                }}
-                              >
-                                <span>🎯</span>
-                                <span>{isLocatingEscortGps ? 'Locking GPS...' : 'Locate Current GPS'}</span>
-                              </button>
+                            {/* Prominent Auto-Find & See My Location on Map Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleLookupGoogleMaps()}
+                              disabled={isLocatingEscortGps}
+                              style={{
+                                width: '100%',
+                                marginTop: '6px',
+                                marginBottom: '4px',
+                                background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+                                color: '#ffffff',
+                                border: '1px solid #38bdf8',
+                                padding: '8px 12px',
+                                borderRadius: '8px',
+                                fontSize: '0.74rem',
+                                fontWeight: 800,
+                                cursor: isLocatingEscortGps ? 'wait' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '6px',
+                                boxShadow: '0 3px 10px rgba(2, 132, 199, 0.4)',
+                              }}
+                            >
+                              <span style={{ fontSize: '1.05rem' }}>📍</span>
+                              <span>{isLocatingEscortGps ? 'Locking GPS Satellites & Centering Map...' : 'SEE MY LOCATION ON MAP (Auto-Find)'}</span>
+                            </button>
 
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '2px', marginBottom: '4px' }}>
                               <button
                                 type="button"
                                 onClick={() => setShowEscortMapAdjuster(!showEscortMapAdjuster)}
                                 style={{
-                                  background: showEscortMapAdjuster ? 'rgba(56, 189, 248, 0.3)' : 'rgba(255, 255, 255, 0.08)',
+                                  background: 'transparent',
                                   color: '#38bdf8',
-                                  border: '1px solid rgba(56, 189, 248, 0.4)',
-                                  padding: '4px 9px',
-                                  borderRadius: '4px',
+                                  border: 'none',
+                                  padding: '2px 4px',
                                   fontSize: '0.62rem',
-                                  fontWeight: 800,
+                                  fontWeight: 700,
                                   cursor: 'pointer',
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px',
+                                  textDecoration: 'underline',
                                 }}
                               >
-                                <span>🗺️</span>
-                                <span>{showEscortMapAdjuster ? 'Close Map' : 'Adjust Pin on Map'}</span>
+                                {showEscortMapAdjuster ? '▼ Hide Map View' : '▶ Show Google Map'}
                               </button>
 
                               {escortGpsFeedback && (
@@ -2120,10 +2122,11 @@ export default function MobilePreviewPage() {
                               <GoogleMapPinAdjuster
                                 initialLat={escortPinCoords.lat}
                                 initialLng={escortPinCoords.lng}
-                                title="Adjust Walk With Me Destination Pin"
+                                title="Your Live Location & Destination Pin"
                                 pinColor="#0284c7"
                                 pinIconChar="🚶‍♂️"
-                                height="230px"
+                                height="240px"
+                                autoLocate={true}
                                 onLocationChange={handleEscortLocationAdjust}
                               />
                             )}
@@ -2875,66 +2878,67 @@ export default function MobilePreviewPage() {
                           />
 
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                              <div style={{ display: 'flex', gap: '6px' }}>
-                                <button
-                                  type="button"
-                                  onClick={handleLockSosGps}
-                                  disabled={isLockingSosGps}
-                                  style={{
-                                    flex: 1,
-                                    background: '#eff6ff',
-                                    color: '#2563eb',
-                                    border: '1px solid #93c5fd',
-                                    padding: '6px',
-                                    borderRadius: '4px',
-                                    fontSize: '0.65rem',
-                                    fontWeight: 800,
-                                    cursor: isLockingSosGps ? 'wait' : 'pointer',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '4px',
-                                  }}
-                                >
-                                  🎯 {isLockingSosGps ? 'Locking GPS...' : 'Locate My Current GPS'}
-                                </button>
+                              {/* Prominent Auto-Find & See My Location on Map Button for SOS */}
+                              <button
+                                type="button"
+                                onClick={handleLockSosGps}
+                                disabled={isLockingSosGps}
+                                style={{
+                                  width: '100%',
+                                  background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+                                  color: '#ffffff',
+                                  border: '1px solid #f87171',
+                                  padding: '8px 12px',
+                                  borderRadius: '8px',
+                                  fontSize: '0.74rem',
+                                  fontWeight: 800,
+                                  cursor: isLockingSosGps ? 'wait' : 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '6px',
+                                  boxShadow: '0 3px 10px rgba(220, 38, 38, 0.4)',
+                                }}
+                              >
+                                <span style={{ fontSize: '1.05rem' }}>🚨</span>
+                                <span>{isLockingSosGps ? 'Locking GPS Satellites & Centering SOS Map...' : 'SEE MY LOCATION ON MAP (Auto-Find)'}</span>
+                              </button>
 
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <button
                                   type="button"
                                   onClick={() => setShowSosMapAdjuster(!showSosMapAdjuster)}
                                   style={{
-                                    background: showSosMapAdjuster ? '#dc2626' : 'rgba(239, 68, 68, 0.1)',
-                                    color: showSosMapAdjuster ? '#ffffff' : '#ef4444',
-                                    border: '1px solid rgba(239, 68, 68, 0.35)',
-                                    padding: '6px 10px',
-                                    borderRadius: '4px',
-                                    fontSize: '0.65rem',
-                                    fontWeight: 800,
+                                    background: 'transparent',
+                                    color: '#ef4444',
+                                    border: 'none',
+                                    padding: '2px 4px',
+                                    fontSize: '0.62rem',
+                                    fontWeight: 700,
                                     cursor: 'pointer',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '4px',
+                                    textDecoration: 'underline',
                                   }}
                                 >
-                                  🗺️ {showSosMapAdjuster ? 'Hide Map' : 'Adjust Pin on Map'}
+                                  {showSosMapAdjuster ? '▼ Hide Map View' : '▶ Show Google Map'}
                                 </button>
-                              </div>
 
-                              {sosGpsFeedback && (
-                                <div style={{ fontSize: '0.6rem', color: sosGpsFeedback.startsWith('✅') ? '#16a34a' : '#ea580c', fontWeight: 700, textAlign: 'center' }}>
-                                  {sosGpsFeedback}
-                                </div>
-                              )}
+                                {sosGpsFeedback && (
+                                  <div style={{ fontSize: '0.6rem', color: sosGpsFeedback.startsWith('✅') ? '#16a34a' : '#ea580c', fontWeight: 700, textAlign: 'center' }}>
+                                    {sosGpsFeedback}
+                                  </div>
+                                )}
+                              </div>
 
                               {/* Google Map Pin Adjuster Preview for SOS */}
                               {showSosMapAdjuster && (
                                 <GoogleMapPinAdjuster
                                   initialLat={sosPinCoords.lat}
                                   initialLng={sosPinCoords.lng}
-                                  title="Adjust Emergency SOS Pin (Tap or Drag)"
+                                  title="Your Live Distress Location & Pin"
                                   pinColor="#ef4444"
                                   pinIconChar="🚨"
                                   height="240px"
+                                  autoLocate={true}
                                   onLocationChange={handleSosLocationAdjust}
                                 />
                               )}

@@ -1141,6 +1141,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         pinColor="#ef4444"
                         pinIconChar="🚨"
                         height="240px"
+                        autoLocate={true}
                         onLocationChange={(loc) => {
                           setPinnedLocation({ lat: loc.lat, lng: loc.lng });
                           if (loc.fullAddress) setFullAddress(loc.fullAddress);
