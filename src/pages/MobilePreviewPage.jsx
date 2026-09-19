@@ -13,6 +13,7 @@ import {
   searchAddressInRealtime,
   getStandardMapUrls,
 } from '../services/liveLocationEngine';
+import GoogleMapPinAdjuster from '../components/GoogleMapPinAdjuster';
 
 const SEED_NEWS = [
   {
@@ -206,12 +207,17 @@ export default function MobilePreviewPage() {
     setSosAddressSuggestions([]);
   };
 
+  const [showSosMapAdjuster, setShowSosMapAdjuster] = useState(false);
+  const [sosPinCoords, setSosPinCoords] = useState({ lat: 6.9388, lng: 3.6437 });
+
   const handleLockSosGps = async () => {
     setIsLockingSosGps(true);
     setSosGpsFeedback('Locking satellite GPS & resolving Ogere landmark...');
     try {
       const fix = await acquirePreciseGpsLocation({ timeoutMs: 6000, targetAccuracyMeters: 20 });
       const rev = await reverseGeocodeLocation(fix.latitude, fix.longitude);
+      setSosPinCoords({ lat: fix.latitude, lng: fix.longitude });
+      setShowSosMapAdjuster(true);
       setSosFullAddress(rev.fullAddress);
       setSosCustomLandmark(rev.nearestLandmark || '');
       setSosLandmark(rev.sector || 'KM 66-68 Expressway Axis');
@@ -228,10 +234,27 @@ export default function MobilePreviewPage() {
     }
   };
 
+  const handleSosLocationAdjust = (loc) => {
+    setSosPinCoords({ lat: loc.lat, lng: loc.lng });
+    setSosFullAddress(loc.fullAddress);
+    if (loc.nearestLandmark) {
+      setSosCustomLandmark(loc.nearestLandmark);
+    }
+    if (loc.sector) {
+      setSosLandmark(loc.sector);
+    }
+    if (loc.directionsUrl) {
+      setSosDirectionsUrl(loc.directionsUrl);
+    }
+    setSosGpsFeedback(`🎯 SOS Pin Adjusted: ${loc.nearestLandmark || loc.fullAddress}`);
+  };
+
   // Walk With Me custom destination and contact state
   const [escortCustomDestination, setEscortCustomDestination] = useState('');
   const [escortReporterPhone, setEscortReporterPhone] = useState('08081762371');
   const [escortBackupPhone, setEscortBackupPhone] = useState('08034567890');
+  const [showEscortMapAdjuster, setShowEscortMapAdjuster] = useState(false);
+  const [escortPinCoords, setEscortPinCoords] = useState({ lat: 6.9388, lng: 3.6437 });
 
   const handleLookupGoogleMaps = async () => {
     setIsLocatingEscortGps(true);
@@ -239,6 +262,9 @@ export default function MobilePreviewPage() {
     try {
       const fix = await acquirePreciseGpsLocation({ timeoutMs: 6000, targetAccuracyMeters: 20 });
       const rev = await reverseGeocodeLocation(fix.latitude, fix.longitude);
+      setEscortPinCoords({ lat: fix.latitude, lng: fix.longitude });
+      setShowEscortMapAdjuster(true);
+
       const destinationText = rev.nearestLandmark
         ? `${rev.nearestLandmark}, ${rev.sector || 'Ogere Remo'}`
         : (rev.fullAddress || `${Number(fix.latitude).toFixed(4)}°N, ${Number(fix.longitude).toFixed(4)}°E`);
@@ -258,6 +284,15 @@ export default function MobilePreviewPage() {
     } finally {
       setIsLocatingEscortGps(false);
     }
+  };
+
+  const handleEscortLocationAdjust = (loc) => {
+    setEscortPinCoords({ lat: loc.lat, lng: loc.lng });
+    setEscortCustomDestination(loc.fullAddress);
+    if (loc.directionsUrl) {
+      setSosDirectionsUrl(loc.directionsUrl);
+    }
+    setEscortGpsFeedback(`🎯 Destination Pinned: ${loc.nearestLandmark || loc.fullAddress}`);
   };
 
   const generateSmsDispatchUrl = (landmark, details, lat, lng) => {
@@ -1968,12 +2003,47 @@ export default function MobilePreviewPage() {
                                 <span>🎯</span>
                                 <span>{isLocatingEscortGps ? 'Locking GPS...' : 'Locate Current GPS'}</span>
                               </button>
+
+                              <button
+                                type="button"
+                                onClick={() => setShowEscortMapAdjuster(!showEscortMapAdjuster)}
+                                style={{
+                                  background: showEscortMapAdjuster ? 'rgba(56, 189, 248, 0.3)' : 'rgba(255, 255, 255, 0.08)',
+                                  color: '#38bdf8',
+                                  border: '1px solid rgba(56, 189, 248, 0.4)',
+                                  padding: '4px 9px',
+                                  borderRadius: '4px',
+                                  fontSize: '0.62rem',
+                                  fontWeight: 800,
+                                  cursor: 'pointer',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
+                                }}
+                              >
+                                <span>🗺️</span>
+                                <span>{showEscortMapAdjuster ? 'Close Map' : 'Adjust Pin on Map'}</span>
+                              </button>
+
                               {escortGpsFeedback && (
                                 <span style={{ fontSize: '0.6rem', color: '#4ade80', fontWeight: 700 }}>
                                   {escortGpsFeedback}
                                 </span>
                               )}
                             </div>
+
+                            {/* Google Map Pin Adjuster Preview for Walk With Me */}
+                            {showEscortMapAdjuster && (
+                              <GoogleMapPinAdjuster
+                                initialLat={escortPinCoords.lat}
+                                initialLng={escortPinCoords.lng}
+                                title="Adjust Walk With Me Destination Pin"
+                                pinColor="#0284c7"
+                                pinIconChar="🚶‍♂️"
+                                height="230px"
+                                onLocationChange={handleEscortLocationAdjust}
+                              />
+                            )}
                           </div>
 
                           <div style={{ textAlign: 'left' }}>
@@ -2721,33 +2791,69 @@ export default function MobilePreviewPage() {
                             style={{ width: '100%', fontSize: '0.7rem', padding: '6px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#ffffff', marginBottom: '6px', boxSizing: 'border-box' }}
                           />
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                              <button
-                                type="button"
-                                onClick={handleLockSosGps}
-                                disabled={isLockingSosGps}
-                                style={{
-                                  width: '100%',
-                                  background: '#eff6ff',
-                                  color: '#2563eb',
-                                  border: '1px solid #93c5fd',
-                                  padding: '6px',
-                                  borderRadius: '4px',
-                                  fontSize: '0.65rem',
-                                  fontWeight: 800,
-                                  cursor: isLockingSosGps ? 'wait' : 'pointer',
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  gap: '4px',
-                                }}
-                              >
-                                🎯 {isLockingSosGps ? 'Locking GPS...' : 'Locate My Current GPS'}
-                              </button>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                              <div style={{ display: 'flex', gap: '6px' }}>
+                                <button
+                                  type="button"
+                                  onClick={handleLockSosGps}
+                                  disabled={isLockingSosGps}
+                                  style={{
+                                    flex: 1,
+                                    background: '#eff6ff',
+                                    color: '#2563eb',
+                                    border: '1px solid #93c5fd',
+                                    padding: '6px',
+                                    borderRadius: '4px',
+                                    fontSize: '0.65rem',
+                                    fontWeight: 800,
+                                    cursor: isLockingSosGps ? 'wait' : 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '4px',
+                                  }}
+                                >
+                                  🎯 {isLockingSosGps ? 'Locking GPS...' : 'Locate My Current GPS'}
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => setShowSosMapAdjuster(!showSosMapAdjuster)}
+                                  style={{
+                                    background: showSosMapAdjuster ? '#dc2626' : 'rgba(239, 68, 68, 0.1)',
+                                    color: showSosMapAdjuster ? '#ffffff' : '#ef4444',
+                                    border: '1px solid rgba(239, 68, 68, 0.35)',
+                                    padding: '6px 10px',
+                                    borderRadius: '4px',
+                                    fontSize: '0.65rem',
+                                    fontWeight: 800,
+                                    cursor: 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '4px',
+                                  }}
+                                >
+                                  🗺️ {showSosMapAdjuster ? 'Hide Map' : 'Adjust Pin on Map'}
+                                </button>
+                              </div>
+
                               {sosGpsFeedback && (
                                 <div style={{ fontSize: '0.6rem', color: sosGpsFeedback.startsWith('✅') ? '#16a34a' : '#ea580c', fontWeight: 700, textAlign: 'center' }}>
                                   {sosGpsFeedback}
                                 </div>
+                              )}
+
+                              {/* Google Map Pin Adjuster Preview for SOS */}
+                              {showSosMapAdjuster && (
+                                <GoogleMapPinAdjuster
+                                  initialLat={sosPinCoords.lat}
+                                  initialLng={sosPinCoords.lng}
+                                  title="Adjust Emergency SOS Pin (Tap or Drag)"
+                                  pinColor="#ef4444"
+                                  pinIconChar="🚨"
+                                  height="240px"
+                                  onLocationChange={handleSosLocationAdjust}
+                                />
                               )}
                             </div>
                           </div>

@@ -301,15 +301,29 @@ export async function reverseGeocodeLocation(lat, lng) {
       const nom = await nomRes.json();
       const addr = nom.address || {};
       const road = addr.road || addr.pedestrian || addr.street || addr.neighbourhood || '';
-      const suburb = addr.suburb || addr.quarter || addr.village || '';
-      const town = addr.town || addr.city || 'Ogere Remo';
+      const suburb = addr.suburb || addr.quarter || addr.village || addr.hamlet || '';
+      const town = addr.town || addr.city || addr.municipality || 'Ogere Remo';
       const state = addr.state || 'Ogun State';
       const country = addr.country || 'Nigeria';
 
-      const parts = [road, suburb, town, state, country].filter(Boolean);
-      const fullAddress = parts.length > 0 ? parts.join(', ') : nom.display_name;
-
       const ogere = resolveOgereLocation(safeLat, safeLng);
+      let fullAddress = '';
+
+      if (ogere.isOgere || (ogere.nearestLandmarkDistance && ogere.nearestLandmarkDistance <= 3500)) {
+        // High-precision Ogere Remo local formatting
+        if (road) {
+          fullAddress = `${road}, near ${ogere.landmark} (${ogere.sector}), Ogere Remo, Ogun State`;
+        } else if (suburb) {
+          fullAddress = `${suburb} Axis, near ${ogere.landmark}, Ogere Remo, Ogun State`;
+        } else {
+          fullAddress = `${ogere.landmark} (${ogere.formattedText}), Ogere Remo`;
+        }
+      } else {
+        // Accurately reflect true physical location if user is outside Ogere
+        const parts = [road, suburb, town, state, country].filter(Boolean);
+        fullAddress = parts.length > 0 ? parts.join(', ') : nom.display_name;
+      }
+
       return {
         fullAddress,
         nearestLandmark: ogere.landmark,
@@ -324,7 +338,9 @@ export async function reverseGeocodeLocation(lat, lng) {
   // 3. Mathematical Landmark Resolution Fallback
   const ogere = resolveOgereLocation(safeLat, safeLng);
   return {
-    fullAddress: `${ogere.landmark}, Ogere Remo, Ogun State, Nigeria`,
+    fullAddress: ogere.isOgere
+      ? `${ogere.landmark} (${ogere.formattedText}), Ogere Remo, Ogun State`
+      : `${ogere.landmark} corridor, Ogere Remo Axis, Ogun State, Nigeria`,
     nearestLandmark: ogere.landmark,
     sector: ogere.sector,
     distanceToLandmarkMeters: ogere.nearestLandmarkDistance,

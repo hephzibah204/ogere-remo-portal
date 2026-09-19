@@ -9,6 +9,7 @@ import {
   acquirePreciseGpsLocation,
   getStandardMapUrls,
 } from '../services/liveLocationEngine';
+import GoogleMapPinAdjuster from './GoogleMapPinAdjuster';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -1133,25 +1134,19 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       🗺️ {showMapPicker ? 'Close Map Picker' : 'Pin Location on Map'}
                     </button>
                     {showMapPicker && (
-                      <div style={{ marginTop: '0.5rem', height: '200px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #38bdf8' }}>
-                        <MapContainer
-                          center={[deviceLocation?.lat || 6.9388, deviceLocation?.lng || 3.6437]}
-                          zoom={15}
-                          style={{ height: '100%', width: '100%' }}
-                        >
-                          <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; OpenStreetMap'
-                          />
-                          <MapPickerEvents onLocationSelected={handleMapPinSelect} />
-                          {(pinnedLocation || deviceLocation) && (
-                            <Marker position={[pinnedLocation?.lat || deviceLocation?.lat, pinnedLocation?.lng || deviceLocation?.lng]} />
-                          )}
-                        </MapContainer>
-                        <div style={{ padding: '4px', fontSize: '0.65rem', color: '#94a3b8', textAlign: 'center', background: '#0a0503' }}>
-                          Tap anywhere on the map to drop the pin
-                        </div>
-                      </div>
+                      <GoogleMapPinAdjuster
+                        initialLat={pinnedLocation?.lat || deviceLocation?.lat || 6.9388}
+                        initialLng={pinnedLocation?.lng || deviceLocation?.lng || 3.6437}
+                        title="Adjust Emergency Distress Pin (Google Map)"
+                        pinColor="#ef4444"
+                        pinIconChar="🚨"
+                        height="240px"
+                        onLocationChange={(loc) => {
+                          setPinnedLocation({ lat: loc.lat, lng: loc.lng });
+                          if (loc.fullAddress) setFullAddress(loc.fullAddress);
+                          if (loc.nearestLandmark) setManualLandmark(loc.nearestLandmark);
+                        }}
+                      />
                     )}
                   </div>
 
@@ -1173,11 +1168,11 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     <button
                       type="button"
                       onClick={() => {
-                        setShowMapPicker(true);
+                        setShowMapPicker(!showMapPicker);
                       }}
                       style={{
                         flex: 1,
-                        background: 'rgba(56,189,248,0.15)',
+                        background: showMapPicker ? 'rgba(56,189,248,0.3)' : 'rgba(56,189,248,0.15)',
                         color: '#38bdf8',
                         border: '1px solid rgba(56,189,248,0.4)',
                         padding: '0.45rem',
@@ -1191,7 +1186,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         gap: '4px',
                       }}
                     >
-                      🗺️ View Pin on In-App Map
+                      🗺️ {showMapPicker ? 'Hide Map Preview' : 'View / Adjust Pin on Map'}
                     </button>
 
                     <button
