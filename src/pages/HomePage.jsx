@@ -425,7 +425,7 @@ export default function HomePage() {
           <div style={{ width: '100%', height: '400px', background: '#1c1008' }}>
             <iframe
               title="Ogere Remo Google Map Live Preview"
-              src="https://maps.google.com/maps?q=Ogere+Remo,+Ogun+State,+Nigeria&t=m&z=14&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=6.9371,3.6335&t=m&z=15&ie=UTF8&iwloc=&output=embed"
               style={{ width: '100%', height: '100%', border: 0 }}
               allowFullScreen=""
               loading="lazy"

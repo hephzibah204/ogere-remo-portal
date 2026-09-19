@@ -297,25 +297,23 @@ export default function MapPage() {
     });
   }, [filter, search]);
 
-  // Construct dynamic Google Maps iframe URL with embed parameter centered on exact coordinates
+  // Automatically locate user's current live GPS position on page load
+  useEffect(() => {
+    handleLocateExactPosition();
+  }, []);
+
+  // Construct dynamic Google Maps iframe URL centered solely on exact coordinates (NO text address lookups)
   const getGoogleMapsUrl = () => {
-    if (!selectedPlace) {
-      return `https://maps.google.com/maps?q=Ogere+Remo,+Ogun+State,+Nigeria&t=${mapType}&z=14&ie=UTF8&iwloc=&output=embed`;
+    if (selectedPlace?.lat && selectedPlace?.lng) {
+      return `https://maps.google.com/maps?q=${selectedPlace.lat},${selectedPlace.lng}&t=${mapType}&z=${selectedPlace.zoom || 18}&ie=UTF8&iwloc=&output=embed`;
     }
-    if (selectedPlace.lat && selectedPlace.lng) {
-      return `https://maps.google.com/maps?q=${selectedPlace.lat},${selectedPlace.lng}&t=${mapType}&z=${selectedPlace.zoom || 17}&ie=UTF8&iwloc=&output=embed`;
-    }
-    const query = selectedPlace.googleQuery || encodeURIComponent(`${selectedPlace.name}, Ogere Remo`);
-    return `https://maps.google.com/maps?q=${query}&t=${mapType}&z=${selectedPlace.zoom || 16}&ie=UTF8&iwloc=&output=embed`;
+    return `https://maps.google.com/maps?q=6.9371,3.6335&t=${mapType}&z=15&ie=UTF8&iwloc=&output=embed`;
   };
 
   const getDirectDirectionsUrl = (place) => {
-    if (!place) return 'https://www.google.com/maps/dir/?api=1&destination=6.9388,3.6437&travelmode=driving';
-    if (place.directionsUrl) return place.directionsUrl;
-    if (place.lat && place.lng) {
-      return `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=driving`;
-    }
-    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${place.name}, Ogere Remo, Ogun State, Nigeria`)}&travelmode=driving`;
+    const lat = place?.lat || 6.9371;
+    const lng = place?.lng || 3.6335;
+    return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
   };
 
   return (
@@ -483,15 +481,26 @@ export default function MapPage() {
                 <div style={{ color: gpsStatus.error ? '#fca5a5' : '#86efac', fontWeight: 700 }}>
                   {gpsStatus.message} {gpsStatus.address ? `· ${gpsStatus.address}` : ''}
                 </div>
-                {selectedPlace?.directionsUrl && (
-                  <a
-                    href={selectedPlace.directionsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: '#38bdf8', fontWeight: 800, textDecoration: 'none', fontSize: '0.68rem' }}
+                {selectedPlace?.lat && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMapType('m');
+                      window.scrollTo({ top: 350, behavior: 'smooth' });
+                    }}
+                    style={{
+                      background: 'rgba(56, 189, 248, 0.2)',
+                      border: '1px solid #38bdf8',
+                      color: '#38bdf8',
+                      fontWeight: 800,
+                      borderRadius: '16px',
+                      padding: '4px 10px',
+                      fontSize: '0.65rem',
+                      cursor: 'pointer',
+                    }}
                   >
-                    🚗 Open Driving Navigation ↗
-                  </a>
+                    🎯 Centered on Exact GPS Pin
+                  </button>
                 )}
               </div>
             )}
@@ -601,27 +610,38 @@ export default function MapPage() {
                     📍 Coordinates: <strong>{selectedPlace ? `${selectedPlace.lat}° N, ${selectedPlace.lng}° E` : '6.9371° N, 3.6335° E'}</strong>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    {selectedPlace && (
-                      <a
-                        href={getDirectDirectionsUrl(selectedPlace)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-p"
-                        style={{ fontSize: '0.62rem', padding: '0.4rem 0.9rem', textDecoration: 'none' }}
-                      >
-                        🚗 Get Directions →
-                      </a>
-                    )}
-                    <a
-                      href={selectedPlace?.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${selectedPlace?.lat || 6.9388},${selectedPlace?.lng || 3.6437}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-o"
-                      style={{ fontSize: '0.62rem', padding: '0.4rem 0.9rem', textDecoration: 'none' }}
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      onClick={handleLocateExactPosition}
+                      disabled={isLocatingGps}
+                      className="btn-p"
+                      style={{
+                        fontSize: '0.62rem',
+                        padding: '0.4rem 0.9rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        borderRadius: '20px',
+                      }}
                     >
-                      Open Pin on Google Maps ↗
-                    </a>
+                      <span>🎯</span>
+                      <span>{isLocatingGps ? 'Acquiring GPS...' : 'Locate My Current GPS'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setMapType(prev => prev === 'm' ? 'k' : 'm')}
+                      className="btn-o"
+                      style={{
+                        fontSize: '0.62rem',
+                        padding: '0.4rem 0.9rem',
+                        cursor: 'pointer',
+                        borderRadius: '20px',
+                      }}
+                    >
+                      {mapType === 'm' ? '🛰️ Switch to Satellite' : '🗺️ Switch to Standard'}
+                    </button>
                   </div>
                 </div>
               </div>
