@@ -146,8 +146,10 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     return matchesCat && matchesSearch;
   });
 
-  const openInGoogleMaps = (lat: number, lng: number, label: string) => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}+(${encodeURIComponent(label)})`;
+  const openInGoogleMaps = (lat: number, lng: number, label?: string) => {
+    const safeLat = Number(lat || 6.9388).toFixed(6);
+    const safeLng = Number(lng || 3.6437).toFixed(6);
+    const url = `https://www.google.com/maps/search/?api=1&query=${safeLat},${safeLng}`;
     Linking.openURL(url);
   };
 
