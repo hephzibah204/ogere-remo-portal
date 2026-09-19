@@ -122,7 +122,7 @@ export default function GoogleMapPinAdjuster({
   });
   const [accuracyRadius, setAccuracyRadius] = useState(25);
   const [triggerFly, setTriggerFly] = useState(0);
-  const [mapType, setMapType] = useState('hybrid'); // 'hybrid' (Satellite + Roads) or 'roadmap' (Street)
+  const [mapType, setMapType] = useState('roadmap'); // 'roadmap' (Street Map View) by default
   const [isLocating, setIsLocating] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
   const [addressData, setAddressData] = useState(null);
@@ -332,7 +332,7 @@ export default function GoogleMapPinAdjuster({
               cursor: 'pointer',
             }}
           >
-            {mapType === 'hybrid' ? '🛰️ Satellite' : '🗺️ Street'}
+            {mapType === 'roadmap' ? '🗺️ Street View' : '🛰️ Satellite'}
           </button>
         </div>
       </div>

@@ -168,7 +168,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
   const [activeOfficerId, setActiveOfficerId] = useState('off-001');
   const [isSirenActive, setIsSirenActive] = useState(false);
   const [isSirenMuted, setIsSirenMuted] = useState(false);
-  const [mapMode, setMapMode] = useState('hybrid'); // 'hybrid' (satellite) or 'roadmap' (street)
+  const [mapMode, setMapMode] = useState('roadmap'); // 'roadmap' (street) or 'hybrid' (satellite)
   const [mapZoom, setMapZoom] = useState(18); // 18-19: building/rooftop level zoom
   const [showFirModal, setShowFirModal] = useState(false);
   const [selectedEscortForMap, setSelectedEscortForMap] = useState(null);
@@ -2487,11 +2487,11 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             🏁 <strong>Destination:</strong> {selectedEscortForMap.destination}
           </div>
 
-          {/* Embedded Google Maps Satellite Iframe */}
+          {/* Embedded Google Maps Street View Iframe */}
           <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', border: '1px solid #38bdf8', position: 'relative' }}>
             <iframe
-              title="Escort Live Google Map"
-              src={`https://maps.google.com/maps?q=${selectedEscortForMap.latitude || 6.9388},${selectedEscortForMap.longitude || 3.6437}&t=k&z=19&output=embed`}
+              title="Escort Live Google Street Map"
+              src={`https://maps.google.com/maps?q=${selectedEscortForMap.latitude || 6.9388},${selectedEscortForMap.longitude || 3.6437}&t=m&z=18&output=embed`}
               style={{ width: '100%', height: '100%', border: 'none' }}
               loading="lazy"
             />
