@@ -1196,27 +1196,37 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
                     <button
                       type="button"
-                      onClick={() => {
-                        fetchUserLocation();
+                      onClick={async () => {
+                        const loc = await acquireExactLocation();
+                        if (loc && loc.lat && loc.lng) {
+                          setPinnedLocation({ lat: loc.lat, lng: loc.lng });
+                          if (loc.fullAddress) {
+                            setFullAddress(loc.fullAddress);
+                          }
+                          if (loc.ogereLoc?.landmark) {
+                            setManualLandmark(loc.ogereLoc.landmark);
+                          }
+                        }
                         setShowMapPicker(true);
                       }}
+                      disabled={locationStatus === 'acquiring'}
                       style={{
                         flex: 1,
-                        background: 'rgba(34,197,94,0.15)',
+                        background: locationStatus === 'acquiring' ? 'rgba(34,197,94,0.3)' : 'rgba(34,197,94,0.15)',
                         color: '#4ade80',
                         border: '1px solid rgba(34,197,94,0.4)',
                         padding: '0.45rem',
                         borderRadius: '6px',
                         fontSize: '0.72rem',
                         fontWeight: 800,
-                        cursor: 'pointer',
+                        cursor: locationStatus === 'acquiring' ? 'wait' : 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '4px',
                       }}
                     >
-                      🎯 Locate My Current GPS
+                      🎯 {locationStatus === 'acquiring' ? 'Locking GPS...' : 'Locate My Current GPS'}
                     </button>
                   </div>
 

@@ -163,6 +163,9 @@ export default function MobilePreviewPage() {
   const [sosAddressSuggestions, setSosAddressSuggestions] = useState([]);
   const [isSearchingSosAddress, setIsSearchingSosAddress] = useState(false);
   const [isLockingSosGps, setIsLockingSosGps] = useState(false);
+  const [isLocatingEscortGps, setIsLocatingEscortGps] = useState(false);
+  const [escortGpsFeedback, setEscortGpsFeedback] = useState('');
+  const [sosGpsFeedback, setSosGpsFeedback] = useState('');
   const [sosDirectionsUrl, setSosDirectionsUrl] = useState('');
   const [sosReporterPhone, setSosReporterPhone] = useState('08081762371');
   const [sosBackupPhone, setSosBackupPhone] = useState('08034567890');
@@ -205,15 +208,21 @@ export default function MobilePreviewPage() {
 
   const handleLockSosGps = async () => {
     setIsLockingSosGps(true);
+    setSosGpsFeedback('Locking satellite GPS & resolving Ogere landmark...');
     try {
-      const fix = await acquirePreciseGpsLocation({ timeoutMs: 12000, targetAccuracyMeters: 15 });
+      const fix = await acquirePreciseGpsLocation({ timeoutMs: 6000, targetAccuracyMeters: 20 });
       const rev = await reverseGeocodeLocation(fix.latitude, fix.longitude);
       setSosFullAddress(rev.fullAddress);
-      setSosCustomLandmark(rev.nearestLandmark);
-      setSosLandmark(rev.nearestSector);
+      setSosCustomLandmark(rev.nearestLandmark || '');
+      setSosLandmark(rev.sector || 'KM 66-68 Expressway Axis');
       setSosDirectionsUrl(fix.directionsUrl);
+      const landmarkText = rev.nearestLandmark || rev.fullAddress;
+      setSosGpsFeedback(`✅ GPS Locked: ${landmarkText} (±${Math.round(fix.accuracy || 20)}m)`);
+      setTimeout(() => setSosGpsFeedback(''), 6000);
     } catch (err) {
       console.warn('GPS lock error in mobile preview:', err);
+      setSosGpsFeedback('⚠️ Could not acquire GPS; defaulted to Ogere sector.');
+      setTimeout(() => setSosGpsFeedback(''), 4000);
     } finally {
       setIsLockingSosGps(false);
     }
@@ -225,7 +234,30 @@ export default function MobilePreviewPage() {
   const [escortBackupPhone, setEscortBackupPhone] = useState('08034567890');
 
   const handleLookupGoogleMaps = async () => {
-    await handleLockSosGps();
+    setIsLocatingEscortGps(true);
+    setEscortGpsFeedback('Locking GPS & resolving nearest landmark...');
+    try {
+      const fix = await acquirePreciseGpsLocation({ timeoutMs: 6000, targetAccuracyMeters: 20 });
+      const rev = await reverseGeocodeLocation(fix.latitude, fix.longitude);
+      const destinationText = rev.nearestLandmark
+        ? `${rev.nearestLandmark}, ${rev.sector || 'Ogere Remo'}`
+        : (rev.fullAddress || `${Number(fix.latitude).toFixed(4)}°N, ${Number(fix.longitude).toFixed(4)}°E`);
+      setEscortCustomDestination(destinationText);
+      setSosFullAddress(rev.fullAddress || destinationText);
+      setSosCustomLandmark(rev.nearestLandmark || '');
+      setSosLandmark(rev.sector || 'Oke-Ogere Central Market Axis');
+      setSosDirectionsUrl(fix.directionsUrl);
+      setEscortGpsFeedback(`✅ Pinned: ${destinationText} (±${Math.round(fix.accuracy || 20)}m)`);
+      setTimeout(() => setEscortGpsFeedback(''), 6000);
+    } catch (err) {
+      console.warn('GPS lookup error in Walk With Me:', err);
+      const fallback = 'Oke-Ogere Central Market Axis, Ogere Remo';
+      setEscortCustomDestination(fallback);
+      setEscortGpsFeedback(`📍 Defaulted to ${fallback}`);
+      setTimeout(() => setEscortGpsFeedback(''), 5000);
+    } finally {
+      setIsLocatingEscortGps(false);
+    }
   };
 
   const generateSmsDispatchUrl = (landmark, details, lat, lng) => {
@@ -1914,26 +1946,34 @@ export default function MobilePreviewPage() {
                               }}
                             />
 
-                            <button
-                              type="button"
-                              onClick={() => handleLookupGoogleMaps()}
-                              style={{
-                                background: 'rgba(56, 189, 248, 0.15)',
-                                color: '#38bdf8',
-                                border: '1px solid rgba(56, 189, 248, 0.35)',
-                                padding: '3px 8px',
-                                borderRadius: '4px',
-                                fontSize: '0.6rem',
-                                fontWeight: 800,
-                                cursor: 'pointer',
-                                marginTop: '4px',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '4px',
-                              }}
-                            >
-                              🎯 Locate Current GPS
-                            </button>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
+                              <button
+                                type="button"
+                                onClick={() => handleLookupGoogleMaps()}
+                                disabled={isLocatingEscortGps}
+                                style={{
+                                  background: isLocatingEscortGps ? 'rgba(56, 189, 248, 0.3)' : 'rgba(56, 189, 248, 0.15)',
+                                  color: '#38bdf8',
+                                  border: '1px solid rgba(56, 189, 248, 0.35)',
+                                  padding: '4px 9px',
+                                  borderRadius: '4px',
+                                  fontSize: '0.62rem',
+                                  fontWeight: 800,
+                                  cursor: isLocatingEscortGps ? 'wait' : 'pointer',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
+                                }}
+                              >
+                                <span>🎯</span>
+                                <span>{isLocatingEscortGps ? 'Locking GPS...' : 'Locate Current GPS'}</span>
+                              </button>
+                              {escortGpsFeedback && (
+                                <span style={{ fontSize: '0.6rem', color: '#4ade80', fontWeight: 700 }}>
+                                  {escortGpsFeedback}
+                                </span>
+                              )}
+                            </div>
                           </div>
 
                           <div style={{ textAlign: 'left' }}>
@@ -2681,31 +2721,36 @@ export default function MobilePreviewPage() {
                             style={{ width: '100%', fontSize: '0.7rem', padding: '6px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#ffffff', marginBottom: '6px', boxSizing: 'border-box' }}
                           />
 
-                          <div style={{ display: 'flex', gap: '6px' }}>
-                            <button
-                              type="button"
-                              onClick={handleLockSosGps}
-                              disabled={isLockingSosGps}
-                              style={{
-                                flex: 1,
-                                background: '#eff6ff',
-                                color: '#2563eb',
-                                border: '1px solid #93c5fd',
-                                padding: '6px',
-                                borderRadius: '4px',
-                                fontSize: '0.65rem',
-                                fontWeight: 800,
-                                cursor: 'pointer',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '4px',
-                              }}
-                            >
-                              🎯 {isLockingSosGps ? 'Locking GPS...' : 'Locate My Current GPS'}
-                            </button>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                              <button
+                                type="button"
+                                onClick={handleLockSosGps}
+                                disabled={isLockingSosGps}
+                                style={{
+                                  width: '100%',
+                                  background: '#eff6ff',
+                                  color: '#2563eb',
+                                  border: '1px solid #93c5fd',
+                                  padding: '6px',
+                                  borderRadius: '4px',
+                                  fontSize: '0.65rem',
+                                  fontWeight: 800,
+                                  cursor: isLockingSosGps ? 'wait' : 'pointer',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '4px',
+                                }}
+                              >
+                                🎯 {isLockingSosGps ? 'Locking GPS...' : 'Locate My Current GPS'}
+                              </button>
+                              {sosGpsFeedback && (
+                                <div style={{ fontSize: '0.6rem', color: sosGpsFeedback.startsWith('✅') ? '#16a34a' : '#ea580c', fontWeight: 700, textAlign: 'center' }}>
+                                  {sosGpsFeedback}
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
 
                         {/* 4. EMERGENCY CONTACT NUMBERS */}
                         <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '8px' }}>

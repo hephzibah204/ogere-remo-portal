@@ -34,25 +34,86 @@ export function getStandardMapUrls(lat, lng, label = 'Emergency Location') {
 }
 
 /**
- * Acquire High-Precision GPS with progressive satellite refinement
- * Does NOT prematurely timeout in 5s. Listens for up to 12s to continuously tighten accuracy radius.
+ * Rapid IP-Based Geolocation Fallback
+ * Used when satellite GPS is unavailable, permission is denied, or hardware lock is sluggish.
+ */
+export async function getIpGeolocationFast(timeoutMs = 3000) {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    const res = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (res.ok) {
+      const d = await res.json();
+      if (typeof d.latitude === 'number' && typeof d.longitude === 'number') {
+        return {
+          latitude: d.latitude,
+          longitude: d.longitude,
+          accuracy: 600,
+          city: d.city || 'Ogere Remo Axis',
+          region: d.region || 'Ogun State',
+          ip: d.ip || 'Unknown',
+        };
+      }
+    }
+  } catch (_) {}
+
+  // Secondary IP lookup attempt
+  try {
+    const ctrl2 = new AbortController();
+    const timer2 = setTimeout(() => ctrl2.abort(), timeoutMs);
+    const res2 = await fetch('https://api.ipify.org?format=json', { signal: ctrl2.signal });
+    clearTimeout(timer2);
+    if (res2.ok) {
+      const d2 = await res2.json();
+      if (d2.ip) {
+        const ctrl3 = new AbortController();
+        const timer3 = setTimeout(() => ctrl3.abort(), timeoutMs);
+        const geoRes = await fetch(`https://ipapi.co/${d2.ip}/json/`, { signal: ctrl3.signal });
+        clearTimeout(timer3);
+        if (geoRes.ok) {
+          const gd = await geoRes.json();
+          if (typeof gd.latitude === 'number' && typeof gd.longitude === 'number') {
+            return {
+              latitude: gd.latitude,
+              longitude: gd.longitude,
+              accuracy: 800,
+              city: gd.city || 'Ogere Remo Corridor',
+              region: gd.region || 'Ogun State',
+              ip: d2.ip,
+            };
+          }
+        }
+      }
+    }
+  } catch (_) {}
+
+  return null;
+}
+
+/**
+ * Acquire High-Precision GPS with progressive satellite refinement & instant IP fallback
+ * Listens for satellite GPS without freezing the UI.
  */
 export async function acquirePreciseGpsLocation(options = {}) {
   const {
-    timeoutMs = 12000,
-    targetAccuracyMeters = 15,
+    timeoutMs = 6000,
+    targetAccuracyMeters = 20,
     onProgress = null,
   } = options;
 
   if (typeof window === 'undefined' || !navigator.geolocation) {
+    const ipFallback = await getIpGeolocationFast(2000);
+    const lat = ipFallback?.latitude || 6.9388;
+    const lng = ipFallback?.longitude || 3.6437;
     return {
-      latitude: 6.9388,
-      longitude: 3.6437,
-      accuracy: null,
-      source: 'unsupported',
+      latitude: lat,
+      longitude: lng,
+      accuracy: ipFallback?.accuracy || 500,
+      source: ipFallback ? 'ip_geolocation' : 'unsupported',
       isGpsPrecise: false,
-      error: 'Geolocation API not supported in this browser.',
-      ...getStandardMapUrls(6.9388, 3.6437),
+      timestamp: new Date().toISOString(),
+      ...getStandardMapUrls(lat, lng),
     };
   }
 
@@ -69,7 +130,7 @@ export async function acquirePreciseGpsLocation(options = {}) {
       }
     };
 
-    const finish = () => {
+    const finish = async (errorMsg = null) => {
       if (isFinished) return;
       isFinished = true;
       cleanup();
@@ -83,45 +144,47 @@ export async function acquirePreciseGpsLocation(options = {}) {
           heading: bestFix.heading,
           speed: bestFix.speed,
           source: 'hardware_gps',
-          isGpsPrecise: (bestFix.accuracy || 999) <= 30,
+          isGpsPrecise: (bestFix.accuracy || 999) <= 40,
           timestamp: new Date().toISOString(),
           ...getStandardMapUrls(bestFix.lat, bestFix.lng),
         });
-      } else {
-        // Fallback: Attempt single one-shot query before giving up
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-            const acc = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : null;
-            resolve({
-              latitude: lat,
-              longitude: lng,
-              accuracy: acc,
-              source: 'hardware_gps_oneshot',
-              isGpsPrecise: (acc || 999) <= 50,
-              timestamp: new Date().toISOString(),
-              ...getStandardMapUrls(lat, lng),
-            });
-          },
-          (err) => {
-            console.warn('[LiveLocationEngine] GPS acquisition error:', err.message);
-            resolve({
-              latitude: 6.9388,
-              longitude: 3.6437,
-              accuracy: 250,
-              source: 'default_fallback',
-              isGpsPrecise: false,
-              error: err.code === 1 ? 'Location permission was denied by user.' : 'Satellite lock timed out.',
-              ...getStandardMapUrls(6.9388, 3.6437),
-            });
-          },
-          { enableHighAccuracy: true, timeout: 4000, maximumAge: 0 }
-        );
+        return;
       }
+
+      // Fast IP fallback if satellite GPS timed out or permission was denied
+      try {
+        const ipLoc = await getIpGeolocationFast(2500);
+        if (ipLoc && ipLoc.latitude && ipLoc.longitude) {
+          resolve({
+            latitude: ipLoc.latitude,
+            longitude: ipLoc.longitude,
+            accuracy: ipLoc.accuracy,
+            altitude: null,
+            heading: null,
+            speed: null,
+            source: 'ip_geolocation',
+            isGpsPrecise: false,
+            timestamp: new Date().toISOString(),
+            ...getStandardMapUrls(ipLoc.latitude, ipLoc.longitude),
+          });
+          return;
+        }
+      } catch (_) {}
+
+      // Reliable default anchor: Ogere Remo Civic Center
+      resolve({
+        latitude: 6.9388,
+        longitude: 3.6437,
+        accuracy: 150,
+        source: 'ogere_center_anchor',
+        isGpsPrecise: false,
+        error: errorMsg || 'Satellite GPS timed out; resolved to Ogere Remo central coordinates.',
+        timestamp: new Date().toISOString(),
+        ...getStandardMapUrls(6.9388, 3.6437),
+      });
     };
 
-    const timer = setTimeout(finish, timeoutMs);
+    const timer = setTimeout(() => finish('Satellite lock timed out.'), timeoutMs);
 
     const onFix = (pos) => {
       const fix = {
@@ -143,7 +206,7 @@ export async function acquirePreciseGpsLocation(options = {}) {
         }
       }
 
-      // Early resolution on pristine satellite lock
+      // Early resolution on satisfactory lock
       if (curAcc <= targetAccuracyMeters) {
         clearTimeout(timer);
         finish();
@@ -151,18 +214,36 @@ export async function acquirePreciseGpsLocation(options = {}) {
     };
 
     const onError = (err) => {
-      console.warn('[LiveLocationEngine] watchPosition warning:', err.message);
-      // Wait for timeout or one-shot fallback
+      console.warn('[LiveLocationEngine] GPS acquisition notice:', err.message);
+      if (err.code === 1) {
+        // Permission denied by user: don't stall the UI, fallback immediately!
+        clearTimeout(timer);
+        finish('Location permission denied by user.');
+      }
     };
 
+    // 1. Kick off parallel single-shot query for fast resolution
+    try {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          onFix(pos);
+        },
+        (err) => {
+          if (err.code === 1) onError(err);
+        },
+        { enableHighAccuracy: true, timeout: 3500, maximumAge: 10000 }
+      );
+    } catch (_) {}
+
+    // 2. Continuous watch for refinement
     try {
       watchId = navigator.geolocation.watchPosition(onFix, onError, {
         enableHighAccuracy: true,
-        maximumAge: 0,
+        maximumAge: 5000,
         timeout: timeoutMs,
       });
     } catch (_) {
-      finish();
+      finish('Exception starting GPS watchPosition.');
     }
   });
 }
@@ -204,11 +285,18 @@ export async function reverseGeocodeLocation(lat, lng) {
     }
   } catch (_) {}
 
-  // 2. Client-side OpenStreetMap Nominatim Fallback
+  // 2. Client-side OpenStreetMap Nominatim Fallback (with 2500ms timeout)
   try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 2500);
     const nomRes = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${safeLat}&lon=${safeLng}&zoom=18&addressdetails=1`
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${safeLat}&lon=${safeLng}&zoom=18&addressdetails=1`,
+      {
+        signal: ctrl.signal,
+        headers: { 'Accept-Language': 'en-US,en;q=0.9' }
+      }
     );
+    clearTimeout(t);
     if (nomRes.ok) {
       const nom = await nomRes.json();
       const addr = nom.address || {};

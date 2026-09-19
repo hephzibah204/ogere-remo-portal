@@ -370,7 +370,7 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
 
   // 1. Acquire multi-sample satellite GPS lock with progressive refinement
   try {
-    const gps = await acquireHighPrecisionGps(10000, 15);
+    const gps = await acquireHighPrecisionGps(6000, 15);
     lat = gps.lat;
     lng = gps.lng;
     accuracy = gps.accuracy;
@@ -381,10 +381,24 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
     isGpsPrecise = true;
   } catch (gpsErr) {
     console.warn('[LocationService] GPS lock timed out or unavailable:', gpsErr);
-    // Use Ogere Center as baseline anchor only if GPS completely fails
-    lat = OGERE_CENTER_LAT;
-    lng = OGERE_CENTER_LNG;
-    accuracy = 250;
+    // Fast IP Geolocation fallback before defaulting to Ogere Center anchor
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 3000);
+      const ipRes = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+      clearTimeout(t);
+      if (ipRes.ok) {
+        const ipData = await ipRes.json();
+        if (typeof ipData.latitude === 'number' && typeof ipData.longitude === 'number') {
+          lat = ipData.latitude;
+          lng = ipData.longitude;
+          accuracy = 500;
+        }
+      }
+    } catch (_) {}
+    if (lat === OGERE_CENTER_LAT && lng === OGERE_CENTER_LNG) {
+      accuracy = 250;
+    }
   }
 
   // 2. Real-time reverse geocode coordinates to street address & sector
