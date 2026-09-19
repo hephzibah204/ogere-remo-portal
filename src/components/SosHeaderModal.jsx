@@ -1168,18 +1168,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     />
                   </div>
 
-                  {/* Realtime Map & Directions Preview Buttons */}
+                  {/* In-App Map & GPS Centering Controls */}
                   <div style={{ display: 'flex', gap: '8px', marginBottom: '0.8rem' }}>
                     <button
                       type="button"
                       onClick={() => {
-                        if (deviceLocation?.mapsUrl) {
-                          window.open(deviceLocation.mapsUrl, '_blank');
-                        } else {
-                          const q = (fullAddress || manualLandmark || sector).trim();
-                          const fullQ = encodeURIComponent(q.toLowerCase().includes('ogere') ? q : `${q}, Ogere Remo, Ogun State, Nigeria`);
-                          window.open(`https://www.google.com/maps/search/?api=1&query=${fullQ}`, '_blank');
-                        }
+                        setShowMapPicker(true);
                       }}
                       style={{
                         flex: 1,
@@ -1197,19 +1191,14 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         gap: '4px',
                       }}
                     >
-                      🗺️ View Pin on Maps
+                      🗺️ View Pin on In-App Map
                     </button>
 
                     <button
                       type="button"
                       onClick={() => {
-                        if (deviceLocation?.directionsUrl) {
-                          window.open(deviceLocation.directionsUrl, '_blank');
-                        } else {
-                          const dest = (fullAddress || manualLandmark || sector).trim();
-                          const destQ = encodeURIComponent(dest.toLowerCase().includes('ogere') ? dest : `${dest}, Ogere Remo, Ogun State, Nigeria`);
-                          window.open(`https://www.google.com/maps/dir/?api=1&destination=${destQ}&travelmode=driving`, '_blank');
-                        }
+                        fetchUserLocation();
+                        setShowMapPicker(true);
                       }}
                       style={{
                         flex: 1,
@@ -1227,7 +1216,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         gap: '4px',
                       }}
                     >
-                      🚗 Directions to Venue
+                      🎯 Locate My Current GPS
                     </button>
                   </div>
 

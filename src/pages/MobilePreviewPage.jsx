@@ -224,10 +224,8 @@ export default function MobilePreviewPage() {
   const [escortReporterPhone, setEscortReporterPhone] = useState('08081762371');
   const [escortBackupPhone, setEscortBackupPhone] = useState('08034567890');
 
-  const handleLookupGoogleMaps = (queryText) => {
-    const q = (queryText || 'Ogere Remo').trim();
-    const fullQuery = encodeURIComponent(q.toLowerCase().includes('ogere') ? q : `${q}, Ogere Remo, Ogun State, Nigeria`);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${fullQuery}`, '_blank');
+  const handleLookupGoogleMaps = async () => {
+    await handleLockSosGps();
   };
 
   const generateSmsDispatchUrl = (landmark, details, lat, lng) => {
@@ -1918,7 +1916,7 @@ export default function MobilePreviewPage() {
 
                             <button
                               type="button"
-                              onClick={() => handleLookupGoogleMaps(escortCustomDestination || escortDestination)}
+                              onClick={() => handleLookupGoogleMaps()}
                               style={{
                                 background: 'rgba(56, 189, 248, 0.15)',
                                 color: '#38bdf8',
@@ -1934,7 +1932,7 @@ export default function MobilePreviewPage() {
                                 gap: '4px',
                               }}
                             >
-                              🗺️ Lookup on Google Maps ➔
+                              🎯 Locate Current GPS
                             </button>
                           </div>
 
@@ -2686,15 +2684,16 @@ export default function MobilePreviewPage() {
                           <div style={{ display: 'flex', gap: '6px' }}>
                             <button
                               type="button"
-                              onClick={() => handleLookupGoogleMaps(sosFullAddress || sosCustomLandmark || sosLandmark)}
+                              onClick={handleLockSosGps}
+                              disabled={isLockingSosGps}
                               style={{
                                 flex: 1,
                                 background: '#eff6ff',
                                 color: '#2563eb',
                                 border: '1px solid #93c5fd',
-                                padding: '4px 6px',
+                                padding: '6px',
                                 borderRadius: '4px',
-                                fontSize: '0.62rem',
+                                fontSize: '0.65rem',
                                 fontWeight: 800,
                                 cursor: 'pointer',
                                 display: 'inline-flex',
@@ -2703,33 +2702,7 @@ export default function MobilePreviewPage() {
                                 gap: '4px',
                               }}
                             >
-                              🗺️ Map Pin
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const dest = (sosFullAddress || sosCustomLandmark || sosLandmark).trim();
-                                const destQ = encodeURIComponent(dest.toLowerCase().includes('ogere') ? dest : `${dest}, Ogere Remo, Ogun State, Nigeria`);
-                                window.open(`https://www.google.com/maps/dir/?api=1&destination=${destQ}&travelmode=driving`, '_blank');
-                              }}
-                              style={{
-                                flex: 1,
-                                background: '#f0fdf4',
-                                color: '#16a34a',
-                                border: '1px solid #86efac',
-                                padding: '4px 6px',
-                                borderRadius: '4px',
-                                fontSize: '0.62rem',
-                                fontWeight: 800,
-                                cursor: 'pointer',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '4px',
-                              }}
-                            >
-                              🚗 Directions to Venue
+                              🎯 {isLockingSosGps ? 'Locking GPS...' : 'Locate My Current GPS'}
                             </button>
                           </div>
                         </div>
