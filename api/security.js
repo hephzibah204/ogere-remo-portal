@@ -371,21 +371,28 @@ export default async function handler(req, res) {
 
       // A. START ESCORT
       if (action === 'start') {
-        const escortId = `ESC-${Date.now().toString().slice(-6)}`;
+        const escortId = body.escortId || body.id || `ESC-${Date.now().toString().slice(-6)}`;
         const duration = parseInt(body.durationMinutes || '20', 10);
         const expiresAt = new Date(Date.now() + duration * 60 * 1000).toISOString();
         const newEscort = {
           id: escortId,
           user_id: body.userId || 'citizen_user',
+          citizen_name: body.citizenName || body.name || 'Citizen User',
+          citizen_phone: body.citizenPhone || body.userId || '08081762371',
+          origin: body.origin || 'Ogere Remo Corridor',
           destination: body.destination || 'Agbele Ancestral Farmland',
           duration_minutes: duration,
+          remaining_seconds: duration * 60,
           started_at: new Date().toISOString(),
           expires_at: expiresAt,
           status: 'active',
           safety_pin: body.safetyPin || '1234',
           duress_pin: '9999',
-          last_latitude: body.latitude || 6.9371,
-          last_longitude: body.longitude || 3.6335,
+          last_latitude: parseFloat(body.latitude || 6.9371),
+          last_longitude: parseFloat(body.longitude || 3.6335),
+          battery_level: body.batteryLevel || 88,
+          accuracy: body.accuracy || 6,
+          assignedUnit: body.assignedUnit || 'Patrol Unit 4 (Highway & Rural Intercept)',
         };
         memoryEscorts.unshift(newEscort);
 

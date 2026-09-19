@@ -493,7 +493,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
     };
 
     const handleEscortTick = (e) => {
-      const { sessionId, remainingSeconds } = e.detail || {};
+      const { sessionId, remainingSeconds, latitude, longitude, accuracy } = e.detail || {};
       if (sessionId && remainingSeconds != null) {
         setActiveEscorts((prev) =>
           prev.map((esc) =>
@@ -502,10 +502,25 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   ...esc,
                   remainingSeconds,
                   endTime: Date.now() + remainingSeconds * 1000,
+                  ...(latitude ? { latitude } : {}),
+                  ...(longitude ? { longitude } : {}),
+                  ...(accuracy ? { accuracy } : {}),
                 }
               : esc
           )
         );
+        setSelectedEscortForMap((prev) => {
+          if (prev && prev.id === sessionId) {
+            return {
+              ...prev,
+              remainingSeconds,
+              ...(latitude ? { latitude } : {}),
+              ...(longitude ? { longitude } : {}),
+              ...(accuracy ? { accuracy } : {}),
+            };
+          }
+          return prev;
+        });
       }
     };
 
@@ -616,6 +631,54 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       clearInterval(interval);
       window.removeEventListener('visibilitychange', tickEscorts);
       window.removeEventListener('focus', tickEscorts);
+    };
+  }, []);
+
+  // Poll remote escorts periodically so security officer receives alerts across devices
+  useEffect(() => {
+    let isMounted = true;
+    const fetchRemoteEscorts = async () => {
+      try {
+        const res = await fetch('/api/escort');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data?.success && Array.isArray(data.escorts) && data.escorts.length > 0 && isMounted) {
+          setActiveEscorts((prev) => {
+            const merged = [...prev];
+            data.escorts.forEach((remote) => {
+              const idx = merged.findIndex((m) => m.id === remote.id);
+              const mapped = {
+                id: remote.id,
+                citizenName: remote.citizen_name || remote.citizenName || remote.user_id || 'Citizen User',
+                citizenPhone: remote.citizen_phone || remote.citizenPhone || remote.user_id,
+                origin: remote.origin || 'Ogere Remo Corridor',
+                destination: remote.destination,
+                durationMinutes: remote.duration_minutes || remote.durationMinutes || 15,
+                remainingSeconds: remote.remaining_seconds != null ? remote.remaining_seconds : 600,
+                status: (remote.status === 'safe_arrival' || remote.status === 'completed') ? 'SAFELY_ARRIVED' : (remote.status === 'duress_triggered' ? 'DURESS_TRIGGERED' : 'ACTIVE_MONITORING'),
+                assignedUnit: remote.assignedUnit || 'Patrol Unit 4 (Highway & Rural Intercept)',
+                latitude: parseFloat(remote.last_latitude || remote.latitude || 6.9388),
+                longitude: parseFloat(remote.last_longitude || remote.longitude || 3.6437),
+                battery_level: remote.battery_level || 86,
+                accuracy: remote.accuracy || 6,
+              };
+              if (idx >= 0) {
+                merged[idx] = { ...merged[idx], ...mapped };
+              } else {
+                merged.unshift(mapped);
+              }
+            });
+            return merged;
+          });
+        }
+      } catch (_) {}
+    };
+
+    fetchRemoteEscorts();
+    const interval = setInterval(fetchRemoteEscorts, 8000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
     };
   }, []);
 

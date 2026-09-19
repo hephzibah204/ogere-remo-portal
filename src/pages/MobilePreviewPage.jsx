@@ -540,24 +540,28 @@ export default function MobilePreviewPage() {
     const sessionId = 'ESC-' + Math.floor(1000 + Math.random() * 9000);
     const durationSeconds = escortDurationMins * 60;
 
-    // 2. Acquire GPS location
-    let lat = 6.9388;
-    let lng = 3.6437;
-    try {
-      if (navigator.geolocation) {
-        const pos = await new Promise((res) => {
-          navigator.geolocation.getCurrentPosition(
-            res,
-            () => res(null),
-            { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-          );
-        });
-        if (pos?.coords) {
-          lat = pos.coords.latitude;
-          lng = pos.coords.longitude;
+    // 2. Acquire GPS location (prefer user-adjusted pin if set)
+    let lat = escortPinCoords?.lat || 6.9388;
+    let lng = escortPinCoords?.lng || 3.6437;
+    if (!escortPinCoords?.lat) {
+      try {
+        if (navigator.geolocation) {
+          const pos = await new Promise((res) => {
+            navigator.geolocation.getCurrentPosition(
+              res,
+              () => res(null),
+              { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
+            );
+          });
+          if (pos?.coords) {
+            lat = pos.coords.latitude;
+            lng = pos.coords.longitude;
+          }
         }
-      }
-    } catch (_) {}
+      } catch (_) {}
+    }
+
+    const mapUrls = getStandardMapUrls(lat, lng, `Walk With Me: ${citizen.name}`);
 
     const escortPayload = {
       id: sessionId,
@@ -565,7 +569,7 @@ export default function MobilePreviewPage() {
       citizenPhone: finalPhone,
       backupPhone: finalBackup,
       backup_phone: finalBackup,
-      origin: 'Ogere Central Corridor',
+      origin: 'Ogere Remo Corridor',
       destination: finalDestination,
       durationMinutes: escortDurationMins,
       remainingSeconds: durationSeconds,
@@ -574,6 +578,10 @@ export default function MobilePreviewPage() {
       assignedUnit: 'Patrol Unit 4 (Highway & Rural Intercept)',
       latitude: lat,
       longitude: lng,
+      accuracy: 10,
+      googleMapsUrl: mapUrls.googleMapsUrl,
+      satelliteMapsUrl: mapUrls.satelliteMapsUrl,
+      directionsUrl: mapUrls.directionsUrl,
     };
 
     const targetEndTime = Date.now() + durationSeconds * 1000;
@@ -585,7 +593,30 @@ export default function MobilePreviewPage() {
     setIsEscortOverdue(false);
     setDuressTriggered(false);
 
-    // 3. Post to API backend (if online)
+    // 3. Post to API backend (Virtual Escort endpoint & Security Incident board)
+    try {
+      await fetch('/api/escort', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'start',
+          escortId: sessionId,
+          userId: finalPhone,
+          citizenName: citizen.name || 'Citizen User',
+          citizenPhone: finalPhone,
+          backupPhone: finalBackup,
+          origin: 'Ogere Remo Corridor',
+          destination: finalDestination,
+          durationMinutes: escortDurationMins,
+          latitude: lat,
+          longitude: lng,
+          safetyPin: storedSafePin || '1234',
+          googleMapsUrl: mapUrls.googleMapsUrl,
+          assignedUnit: 'Patrol Unit 4 (Highway & Rural Intercept)',
+        }),
+      });
+    } catch (_) {}
+
     try {
       await fetch('/api/security', {
         method: 'POST',
@@ -603,7 +634,7 @@ export default function MobilePreviewPage() {
 
     // 5. Send push notification to citizen device
     sendEscortNotification(`🛡️ Escort Watch Active (${escortDurationMins} min)`, {
-      body: `Patrol Unit 4 is monitoring your transit to ${escortDestination}. Enter PIN on safe arrival.`,
+      body: `Patrol Unit 4 is monitoring your transit to ${finalDestination}. Enter PIN on safe arrival.`,
       tag: 'ogere-escort-active',
     });
   };
@@ -627,6 +658,45 @@ export default function MobilePreviewPage() {
           detail: { sessionId: escortSessionId, remainingSeconds: remaining },
         })
       );
+
+      // Periodic live GPS telemetry ping to security server (every 8 seconds)
+      if (remaining % 8 === 0 && remaining > 0 && typeof navigator !== 'undefined' && navigator.geolocation) {
+        try {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const curLat = pos.coords.latitude;
+              const curLng = pos.coords.longitude;
+              fetch('/api/escort', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  action: 'ping',
+                  escortId: escortSessionId,
+                  latitude: curLat,
+                  longitude: curLng,
+                  accuracy: pos.coords.accuracy ? Math.round(pos.coords.accuracy) : null,
+                  speed: pos.coords.speed ? Math.round(pos.coords.speed * 3.6) : null,
+                  heading: pos.coords.heading || null,
+                }),
+              }).catch(() => {});
+
+              window.dispatchEvent(
+                new CustomEvent('ogere-escort-tick', {
+                  detail: {
+                    sessionId: escortSessionId,
+                    remainingSeconds: remaining,
+                    latitude: curLat,
+                    longitude: curLng,
+                    accuracy: pos.coords.accuracy ? Math.round(pos.coords.accuracy) : null,
+                  },
+                })
+              );
+            },
+            () => {},
+            { enableHighAccuracy: true, timeout: 4000, maximumAge: 5000 }
+          );
+        } catch (_) {}
+      }
 
       // 5-min and 1-min reminders
       if (remaining <= 300 && remaining > 295 && !fired5min) {
@@ -705,6 +775,19 @@ export default function MobilePreviewPage() {
     }
 
     const citizen = getLoggedInCitizen();
+
+    // Notify backend escort session completion
+    try {
+      await fetch('/api/escort', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'complete',
+          escortId: escortSessionId,
+          pin: escortPin,
+        }),
+      });
+    } catch (_) {}
 
     // ── DURESS PIN MATCH ──
     if (escortPin === storedDuressPin) {
