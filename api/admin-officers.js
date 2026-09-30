@@ -1,5 +1,4 @@
-import { sqlQuery } from './lib/db.js';
-import { verifyAdminAuth } from './lib/authMiddleware.js';
+import { sqlQuery, verifyAdminAuth } from './lib/db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

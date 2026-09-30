@@ -14,6 +14,79 @@ function verifyPassword(password, storedHash) {
   return hash === verifyHash;
 }
 
+let authTablesChecked = false;
+async function ensureAuthTables() {
+  if (authTablesChecked) return;
+  try {
+    await sqlQuery(`
+      CREATE TABLE IF NOT EXISTS users (
+        id VARCHAR(64) PRIMARY KEY,
+        full_name VARCHAR(255) NOT NULL,
+        email VARCHAR(255),
+        phone VARCHAR(64),
+        password_hash TEXT NOT NULL,
+        citizen_type VARCHAR(64) DEFAULT 'indigene',
+        quarter VARCHAR(120),
+        compound VARCHAR(160),
+        id_card_number VARCHAR(64),
+        role VARCHAR(64) DEFAULT 'citizen',
+        agency_name VARCHAR(255),
+        badge_number VARCHAR(64),
+        is_officer_verified BOOLEAN DEFAULT FALSE,
+        is_verified BOOLEAN DEFAULT TRUE,
+        last_login TIMESTAMP WITH TIME ZONE,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    await sqlQuery(`ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(64) DEFAULT 'citizen'`).catch(() => {});
+    await sqlQuery(`ALTER TABLE users ADD COLUMN IF NOT EXISTS agency_name VARCHAR(255)`).catch(() => {});
+    await sqlQuery(`ALTER TABLE users ADD COLUMN IF NOT EXISTS badge_number VARCHAR(64)`).catch(() => {});
+    await sqlQuery(`ALTER TABLE users ADD COLUMN IF NOT EXISTS is_officer_verified BOOLEAN DEFAULT FALSE`).catch(() => {});
+    await sqlQuery(`ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT TRUE`).catch(() => {});
+    await sqlQuery(`ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login TIMESTAMP WITH TIME ZONE`).catch(() => {});
+
+    await sqlQuery(`
+      CREATE TABLE IF NOT EXISTS id_cards (
+        id VARCHAR(64) PRIMARY KEY,
+        full_name VARCHAR(255) NOT NULL,
+        card_type VARCHAR(64) DEFAULT 'indigene',
+        dob VARCHAR(32),
+        compound VARCHAR(160),
+        quarter VARCHAR(120),
+        phone VARCHAR(64),
+        email VARCHAR(255),
+        address TEXT,
+        occupation VARCHAR(160),
+        status VARCHAR(32) DEFAULT 'approved',
+        issued_date VARCHAR(32),
+        expiry_date VARCHAR(32),
+        photo_url TEXT,
+        verified_by VARCHAR(255),
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    const defaultHash = 'a1b2c3d4e5f60718:b920824b5f5b276c0ce73a4b033f16f60e0a9c2d550ce6fcb7ffe2243dfb14b1215f9de7a1aa464994c607b8c9f0c229f98b09f4052b4948ff1f20a9bc9fd8d9';
+    const seedOfficers = [
+      ['usr_cmd_001', 'Cmdr. Segun Ogunjobi', 'commander@ogereremo.org', '08030001122', defaultHash, 'officer', 'Oke-Ogere', 'Joint Task Force HQ', 'CMD-OGR-001', 'security_commander', 'Ogere Joint Security Task Force', 'CMD-OGR-001'],
+      ['usr_sec_001', 'Insp. Kayode Adeleke', 'police@ogereremo.org', '08031112233', defaultHash, 'officer', 'Expressway Axis', 'Nigeria Police Force HQ', 'NPF-OG-4891', 'security_officer', 'Nigeria Police Force (NPF)', 'NPF-OG-4891'],
+      ['usr_adm_001', 'Engr. Olufemi Balogun (Admin)', 'admin@ogereremo.org', '08033334455', defaultHash, 'indigene', 'Oke-Ogere', 'OCDA Central Command', 'OGR-ADM-101', 'ocda_admin', 'Ogere Community Development Association (OCDA)', 'OCDA-ADM-101'],
+      ['usr_pal_001', 'Prince Olawale Babatunde', 'protocol@ogereremo.org', '08032223344', defaultHash, 'indigene', 'Oke-Ogere', 'Aafin Ologere', 'PAL-PRO-002', 'palace_protocol', 'Aafin Ologere Palace Secretariat', 'PAL-PRO-002'],
+    ];
+    for (const o of seedOfficers) {
+      await sqlQuery(
+        `INSERT INTO users (id, full_name, email, phone, password_hash, citizen_type, quarter, compound, id_card_number, role, agency_name, badge_number, is_officer_verified, is_verified)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, TRUE, TRUE)
+         ON CONFLICT (id) DO UPDATE SET badge_number = EXCLUDED.badge_number, role = EXCLUDED.role, agency_name = EXCLUDED.agency_name, is_officer_verified = TRUE`,
+        o
+      ).catch(() => {});
+    }
+    authTablesChecked = true;
+  } catch (e) {
+    console.warn('[API Auth] Schema ensure notice:', e.message);
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -22,6 +95,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
+
+  await ensureAuthTables();
 
   const action = req.query.action || (req.body && req.body.action) || 'login';
 
