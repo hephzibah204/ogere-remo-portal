@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Alert,
   Linking,
+  Image,
+  ActivityIndicator,
 } from 'react-native';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
@@ -18,6 +20,26 @@ import { useAuth } from '../../services/authContext';
 import { API_BASE_URL } from '../../database/syncManager';
 import { acquireHighPrecisionGps, getHardwareBattery } from '../../services/locationService';
 import { resolveOgereLocation, getOgereMapUrls } from '../../services/ogereGeoEngine';
+
+function latLngToTile(lat: number, lng: number, zoom = 16) {
+  const n = Math.pow(2, zoom);
+  const x = Math.floor(((lng + 180) / 360) * n);
+  const latRad = (lat * Math.PI) / 180;
+  const y = Math.floor(
+    ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n
+  );
+  return { x, y, zoom };
+}
+
+function latLngToOffset(lat: number, lng: number, zoom = 16) {
+  const n = Math.pow(2, zoom);
+  const xExact = ((lng + 180) / 360) * n;
+  const latRad = (lat * Math.PI) / 180;
+  const yExact = ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n;
+  const offsetX = Math.max(10, Math.min(90, Math.round((xExact - Math.floor(xExact)) * 100)));
+  const offsetY = Math.max(10, Math.min(90, Math.round((yExact - Math.floor(yExact)) * 100)));
+  return { offsetX, offsetY };
+}
 
 const PRESET_DURATIONS = [10, 15, 20, 30, 45, 60];
 
@@ -40,6 +62,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
   const [activeEscort, setActiveEscort] = useState<any>(null);
   const [secondsRemaining, setSecondsRemaining] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [locatingGps, setLocatingGps] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
   const [verifyingPin, setVerifyingPin] = useState(false);
 
@@ -51,10 +74,40 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
   });
   const [liveBattery, setLiveBattery] = useState<number | null>(null);
   const [liveCharging, setLiveCharging] = useState(false);
-  const [ogereInfo, setOgereInfo] = useState<any>(null);
+  const [ogereInfo, setOgereInfo] = useState<any>(() => resolveOgereLocation(6.9371, 3.6335));
 
   const pingTimerRef = useRef<any>(null);
   const endTimeRef = useRef<number | null>(null);
+
+  const handleAutoLocateOnMap = async () => {
+    setLocatingGps(true);
+    try {
+      const fix = await acquireHighPrecisionGps(5000, 15).catch(() => null);
+      if (fix && fix.lat && fix.lng) {
+        const resolved = resolveOgereLocation(fix.lat, fix.lng, fix.accuracy || 6);
+        setLiveCoord({
+          lat: fix.lat,
+          lng: fix.lng,
+          accuracy: fix.accuracy || 6,
+          speed: fix.speed || null,
+        });
+        setOgereInfo(resolved);
+      } else {
+        const resolved = resolveOgereLocation(liveCoord.lat, liveCoord.lng, 8);
+        setOgereInfo(resolved);
+      }
+      const bat = await getHardwareBattery().catch(() => ({ level: null, isCharging: false }));
+      if (bat.level != null) setLiveBattery(bat.level);
+      setLiveCharging(bat.isCharging);
+    } catch (_) {
+    } finally {
+      setLocatingGps(false);
+    }
+  };
+
+  useEffect(() => {
+    handleAutoLocateOnMap();
+  }, []);
 
   // Countdown clock (Wall-clock high precision)
   useEffect(() => {
@@ -278,6 +331,137 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
+  const tile = latLngToTile(liveCoord.lat, liveCoord.lng, 16);
+  const offset = latLngToOffset(liveCoord.lat, liveCoord.lng, 16);
+  const streetTileUrl = `https://mt1.google.com/vt/lyrs=m&x=${tile.x}&y=${tile.y}&z=16`;
+
+  const renderEmbeddedStreetMap = () => (
+    <View style={{ backgroundColor: '#0f172a', borderColor: '#38bdf8', borderWidth: 1.5, borderRadius: 12, overflow: 'hidden', marginVertical: 10 }}>
+      {/* Header & Auto-Locate Button */}
+      <View style={{ padding: 10, backgroundColor: '#1e293b', borderBottomWidth: 1, borderBottomColor: '#334155' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
+            🗺️ GOOGLE STREET MAP · LIVE GPS PIN
+          </Text>
+          <Text style={{ color: '#4ade80', fontSize: 10, fontWeight: '700' }}>
+            {liveCoord.accuracy ? `±${Math.round(liveCoord.accuracy)}m GPS` : '🟢 GPS Locked'}
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={handleAutoLocateOnMap}
+          disabled={locatingGps}
+          style={{
+            backgroundColor: '#2563eb',
+            borderRadius: 8,
+            paddingVertical: 10,
+            paddingHorizontal: 12,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 6,
+            borderWidth: 1,
+            borderColor: '#60a5fa',
+          }}
+        >
+          {locatingGps ? (
+            <ActivityIndicator size="small" color="#ffffff" />
+          ) : (
+            <Text style={{ fontSize: 14 }}>📍</Text>
+          )}
+          <Text style={{ color: '#ffffff', fontSize: 12, fontWeight: '900', letterSpacing: 0.3 }}>
+            {locatingGps ? 'LOCKING SATELLITE GPS...' : 'SEE MY LOCATION ON MAP (Auto-Find)'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Street Map Tile Canvas with Prominent Pin */}
+      <View style={{ height: 200, width: '100%', backgroundColor: '#e2e8f0', position: 'relative', overflow: 'hidden' }}>
+        <Image
+          source={{ uri: streetTileUrl }}
+          style={StyleSheet.absoluteFillObject}
+          resizeMode="cover"
+        />
+        {/* Location Pin & Accuracy Halo */}
+        <View
+          style={{
+            position: 'absolute',
+            left: `${offset.offsetX}%`,
+            top: `${offset.offsetY}%`,
+            transform: [{ translateX: -24 }, { translateY: -38 }],
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 48,
+            height: 48,
+          }}
+        >
+          <View
+            style={{
+              position: 'absolute',
+              width: 44,
+              height: 44,
+              borderRadius: 22,
+              backgroundColor: 'rgba(37, 99, 235, 0.22)',
+              borderWidth: 1.5,
+              borderColor: '#2563eb',
+            }}
+          />
+          <View
+            style={{
+              backgroundColor: '#dc2626',
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              borderWidth: 2.5,
+              borderColor: '#ffffff',
+              alignItems: 'center',
+              justifyContent: 'center',
+              elevation: 6,
+            }}
+          >
+            <Text style={{ fontSize: 14 }}>📍</Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: '#0f172a',
+              paddingHorizontal: 6,
+              paddingVertical: 2,
+              borderRadius: 4,
+              marginTop: 2,
+              borderWidth: 1,
+              borderColor: '#38bdf8',
+            }}
+          >
+            <Text style={{ color: '#ffffff', fontSize: 9, fontWeight: '800' }}>YOU ARE HERE</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Coordinates & Street Address Bar */}
+      <View style={{ padding: 10, backgroundColor: '#0f172a' }}>
+        {ogereInfo && (
+          <Text style={{ color: '#ffffff', fontSize: 12, fontWeight: '700' }}>
+            📍 {ogereInfo.formattedText}
+          </Text>
+        )}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 6 }}>
+          <Text style={{ color: '#94a3b8', fontSize: 11, fontFamily: 'monospace' }}>
+            {liveCoord.lat.toFixed(5)}°N, {liveCoord.lng.toFixed(5)}°E
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              const urls = getOgereMapUrls(liveCoord.lat, liveCoord.lng, 'My Walk With Me Location');
+              Linking.openURL(urls.streetPin).catch(() => {});
+            }}
+          >
+            <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
+              Open Full Street Map ↗
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <Header title="VIRTUAL SAFE ESCORT" subtitle="Walk With Me Live Protection" />
@@ -299,7 +483,9 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
             </Card>
 
             <Card style={styles.formCard}>
-              <Text style={styles.fieldLabel}>DESTINATION IN OGERE REMO</Text>
+              {renderEmbeddedStreetMap()}
+
+              <Text style={[styles.fieldLabel, { marginTop: 6 }]}>DESTINATION IN OGERE REMO</Text>
               <TextInput
                 style={styles.input}
                 placeholder="e.g. Agbele Farmland, Tollgate Park, Home"
@@ -394,44 +580,8 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               <Text style={[styles.metaVal, { color: '#10b981' }]}>● Live GPS Heartbeat (Streaming to Guard)</Text>
             </View>
 
-            {/* Live Telemetry & Landmark HUD */}
-            <View style={{ backgroundColor: 'rgba(56, 189, 248, 0.1)', borderColor: '#38bdf8', borderWidth: 1, borderRadius: 8, padding: 10, marginVertical: 10 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
-                  🛡️ PATROL GUARD LIVE RADAR
-                </Text>
-                <Text style={{ color: (liveBattery ?? 80) > 20 ? '#4ade80' : '#ef4444', fontSize: 11, fontWeight: '800' }}>
-                  🔋 {liveBattery != null ? `${liveBattery}%` : '85%'}{liveCharging ? ' ⚡' : ''}
-                </Text>
-              </View>
-
-              {ogereInfo && (
-                <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '700', marginTop: 4 }}>
-                  📍 {ogereInfo.formattedText}
-                </Text>
-              )}
-
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6, paddingTop: 6, borderTopColor: 'rgba(56, 189, 248, 0.2)', borderTopWidth: 1 }}>
-                <Text style={{ color: '#94a3b8', fontSize: 10, fontFamily: 'monospace' }}>
-                  {liveCoord.lat.toFixed(5)}°N, {liveCoord.lng.toFixed(5)}°E
-                </Text>
-                <Text style={{ color: '#4ade80', fontSize: 10, fontWeight: '700' }}>
-                  {liveCoord.accuracy ? `±${Math.round(liveCoord.accuracy)}m Satellite` : '🟢 Satellite Lock'}
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => {
-                  const urls = getOgereMapUrls(liveCoord.lat, liveCoord.lng, 'My Walk With Me Location');
-                  Linking.openURL(urls.satellitePin).catch(() => {});
-                }}
-                style={{ backgroundColor: '#0284c7', borderRadius: 6, paddingVertical: 6, alignItems: 'center', marginTop: 8 }}
-              >
-                <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>
-                  🗺️ Preview My Location on Google Maps (Satellite)
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {/* Live Street Map & Telemetry HUD */}
+            {renderEmbeddedStreetMap()}
 
             {/* Check-in verification box */}
             <View style={styles.pinVerifyBox}>

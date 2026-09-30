@@ -41,11 +41,11 @@ export const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
   const handleBiometricAuth = async () => {
     const success = await authenticateWithBiometrics();
-    if (success) {
-      // In production, biometrics retrieves saved token from SecureStore
-      Alert.alert('Biometric Verified', 'Welcome back, Citizen!');
-    } else {
-      Alert.alert('Authentication Failed', 'Biometrics could not be verified. Use your password.');
+    if (!success) {
+      Alert.alert(
+        'Biometric Sign-In Unavailable',
+        'Please sign in once with your email/phone and password to link Biometric Unlock to your account.'
+      );
     }
   };
 

@@ -10,6 +10,7 @@ import {
   Alert,
   Linking,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
@@ -25,7 +26,27 @@ import {
   DeviceLocationData,
 } from '../../services/locationService';
 import { reverseGeocodeMobile, getStandardMapUrls } from '../../services/liveLocationEngine';
-import MapView, { Marker } from 'react-native-maps';
+
+function latLngToTile(lat: number, lng: number, zoom = 16) {
+  const n = Math.pow(2, zoom);
+  const x = Math.floor(((lng + 180) / 360) * n);
+  const latRad = (lat * Math.PI) / 180;
+  const y = Math.floor(
+    ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n
+  );
+  return { x, y, zoom };
+}
+
+function latLngToOffset(lat: number, lng: number, zoom = 16) {
+  const n = Math.pow(2, zoom);
+  const xExact = ((lng + 180) / 360) * n;
+  const latRad = (lat * Math.PI) / 180;
+  const yExact = ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n;
+  const offsetX = Math.max(10, Math.min(90, Math.round((xExact - Math.floor(xExact)) * 100)));
+  const offsetY = Math.max(10, Math.min(90, Math.round((yExact - Math.floor(yExact)) * 100)));
+  return { offsetX, offsetY };
+}
+
 const INCIDENT_CATEGORIES = [
   { id: 'armed_robbery', label: '🚨 Armed Robbery / Banditry', severity: 'Critical', threatLevel: 'CODE_RED' },
   { id: 'terrorism', label: '💥 Terrorism / Gunfire / Ambush', severity: 'Critical', threatLevel: 'CODE_RED' },
@@ -76,30 +97,33 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
   const [deviceLocation, setDeviceLocation] = useState<DeviceLocationData | null>(null);
   const [fetchingLocation, setFetchingLocation] = useState(false);
   const [useLiveGps, setUseLiveGps] = useState(true);
-  const [showMapPicker, setShowMapPicker] = useState(false);
+  const [showMapPicker, setShowMapPicker] = useState(true);
   const [pinnedLocation, setPinnedLocation] = useState<{lat: number; lng: number} | null>(null);
 
-  const handleMapPin = async (e: any) => {
-    const coord = e.nativeEvent.coordinate;
-    setPinnedLocation({ lat: coord.latitude, lng: coord.longitude });
+  const nudgePin = async (dLat: number, dLng: number) => {
+    const baseLat = pinnedLocation?.lat ?? deviceLocation?.latitude ?? landmark.lat;
+    const baseLng = pinnedLocation?.lng ?? deviceLocation?.longitude ?? landmark.lng;
+    const nextLat = Number((baseLat + dLat).toFixed(6));
+    const nextLng = Number((baseLng + dLng).toFixed(6));
+    setPinnedLocation({ lat: nextLat, lng: nextLng });
+    setUseLiveGps(true);
     try {
-      const revGeo = await reverseGeocodeMobile(coord.latitude, coord.longitude);
+      const revGeo = await reverseGeocodeMobile(nextLat, nextLng);
       if (revGeo && revGeo.fullAddress) {
         setFullAddress(revGeo.fullAddress);
       }
-      const mapUrls = getStandardMapUrls(coord.latitude, coord.longitude);
-      
+      const mapUrls = getStandardMapUrls(nextLat, nextLng);
       if (deviceLocation) {
         setDeviceLocation({
           ...deviceLocation,
-          latitude: coord.latitude,
-          longitude: coord.longitude,
+          latitude: nextLat,
+          longitude: nextLng,
           fullAddress: revGeo?.fullAddress || fullAddress,
           googleMapsUrl: mapUrls.googleMapsUrl,
           directionsUrl: mapUrls.directionsUrl,
           satelliteMapsUrl: mapUrls.satelliteMapsUrl,
           isGpsPrecise: true,
-          accuracy: 5
+          accuracy: 5,
         });
       }
     } catch (_) {}
@@ -459,36 +483,101 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                 style={[styles.useGpsToggleBtn, { marginTop: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }]}
               >
                 <Text style={styles.useGpsToggleText}>
-                  {showMapPicker ? '🗺️ Close Map Picker' : '🗺️ Pin Location on Map'}
+                  {showMapPicker ? '🗺️ Hide Google Street Map Preview' : '🗺️ Show Google Street Map Preview'}
                 </Text>
               </TouchableOpacity>
 
-              {showMapPicker && (
-                <View style={{ height: 200, width: '100%', marginTop: 10, borderRadius: 8, overflow: 'hidden' }}>
-                  <MapView
-                    style={{ flex: 1 }}
-                    initialRegion={{
-                      latitude: deviceLocation?.latitude || landmark.lat,
-                      longitude: deviceLocation?.longitude || landmark.lng,
-                      latitudeDelta: 0.01,
-                      longitudeDelta: 0.01,
-                    }}
-                    onPress={handleMapPin}
-                  >
-                    {(pinnedLocation || deviceLocation) && (
-                      <Marker
-                        coordinate={{
-                          latitude: pinnedLocation?.lat || deviceLocation?.latitude || landmark.lat,
-                          longitude: pinnedLocation?.lng || deviceLocation?.longitude || landmark.lng
-                        }}
+              {showMapPicker && (() => {
+                const mapLat = pinnedLocation?.lat || deviceLocation?.latitude || landmark.lat;
+                const mapLng = pinnedLocation?.lng || deviceLocation?.longitude || landmark.lng;
+                const tile = latLngToTile(mapLat, mapLng, 16);
+                const offset = latLngToOffset(mapLat, mapLng, 16);
+                const streetTileUrl = `https://mt1.google.com/vt/lyrs=m&x=${tile.x}&y=${tile.y}&z=16`;
+                return (
+                  <View style={{ marginTop: 10, borderRadius: 10, overflow: 'hidden', borderWidth: 1.5, borderColor: '#38bdf8', backgroundColor: '#0f172a' }}>
+                    <View style={{ height: 200, width: '100%', backgroundColor: '#e2e8f0', position: 'relative', overflow: 'hidden' }}>
+                      <Image
+                        source={{ uri: streetTileUrl }}
+                        style={StyleSheet.absoluteFillObject}
+                        resizeMode="cover"
                       />
-                    )}
-                  </MapView>
-                  <Text style={{ textAlign: 'center', fontSize: 10, color: '#94a3b8', padding: 4 }}>
-                    Tap anywhere on the map to drop the pin
-                  </Text>
-                </View>
-              )}
+                      {/* Red Pin & Accuracy Halo */}
+                      <View
+                        style={{
+                          position: 'absolute',
+                          left: `${offset.offsetX}%`,
+                          top: `${offset.offsetY}%`,
+                          transform: [{ translateX: -24 }, { translateY: -38 }],
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: 48,
+                          height: 48,
+                        }}
+                      >
+                        <View
+                          style={{
+                            position: 'absolute',
+                            width: 44,
+                            height: 44,
+                            borderRadius: 22,
+                            backgroundColor: 'rgba(37, 99, 235, 0.22)',
+                            borderWidth: 1.5,
+                            borderColor: '#2563eb',
+                          }}
+                        />
+                        <View
+                          style={{
+                            backgroundColor: '#dc2626',
+                            width: 30,
+                            height: 30,
+                            borderRadius: 15,
+                            borderWidth: 2.5,
+                            borderColor: '#ffffff',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            elevation: 6,
+                          }}
+                        >
+                          <Text style={{ fontSize: 14 }}>📍</Text>
+                        </View>
+                        <View
+                          style={{
+                            backgroundColor: '#0f172a',
+                            paddingHorizontal: 6,
+                            paddingVertical: 2,
+                            borderRadius: 4,
+                            marginTop: 2,
+                            borderWidth: 1,
+                            borderColor: '#ef4444',
+                          }}
+                        >
+                          <Text style={{ color: '#ffffff', fontSize: 9, fontWeight: '800' }}>INCIDENT PIN</Text>
+                        </View>
+                      </View>
+                    </View>
+                    {/* Fine-tune Pin Nudge Controls */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 8, backgroundColor: '#1e293b' }}>
+                      <Text style={{ fontSize: 10, color: '#cbd5e1', fontWeight: '700' }}>
+                        Fine-tune Pin Position:
+                      </Text>
+                      <View style={{ flexDirection: 'row', gap: 6 }}>
+                        <TouchableOpacity onPress={() => nudgePin(0.00025, 0)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>▲ N</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => nudgePin(-0.00025, 0)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>▼ S</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => nudgePin(0, -0.00025)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>◄ W</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => nudgePin(0, 0.00025)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>► E</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                );
+              })()}
             </View>
 
             <Text style={[styles.sectionSublabel, { marginTop: 12 }]}>Full Street Address / Venue:</Text>

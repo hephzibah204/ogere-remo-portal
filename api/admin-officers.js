@@ -1,4 +1,5 @@
 import { sqlQuery } from './lib/db.js';
+import { verifyAdminAuth } from './lib/authMiddleware.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -72,6 +73,11 @@ export default async function handler(req, res) {
 
   // 2. POST: Verify or Update Officer Status
   if (req.method === 'POST') {
+    const authCheck = await verifyAdminAuth(req);
+    if (!authCheck.ok) {
+      return res.status(401).json({ success: false, error: authCheck.error });
+    }
+
     const { officerId, isVerified, newRole } = req.body || {};
 
     if (!officerId) {

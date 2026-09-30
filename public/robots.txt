@@ -4,4 +4,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://ogereremo.vercel.app/sitemap.xml
+Sitemap: https://ogere-remo-portal.vercel.app/sitemap.xml

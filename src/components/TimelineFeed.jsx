@@ -358,7 +358,7 @@ export default function TimelineFeed({
 
   // Share
   const handleShare = async (post) => {
-    const shareText = `Check out "${post.author_name}" on the Ogere Remo Civic Timeline:\n\n${post.content_text || 'Civic community photo update'}\n\nhttps://ogereremo.vercel.app/forum`;
+    const shareText = `Check out "${post.author_name}" on the Ogere Remo Civic Timeline:\n\n${post.content_text || 'Civic community photo update'}\n\nhttps://ogere-remo-portal.vercel.app/forum`;
     if (navigator.share) {
       try {
         await navigator.share({ title: 'Ogere Remo Civic Timeline', text: shareText, url: window.location.href });

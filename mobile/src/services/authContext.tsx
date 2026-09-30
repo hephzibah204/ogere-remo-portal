@@ -78,6 +78,8 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 const TOKEN_KEY = 'ogere_auth_token';
 const USER_KEY = 'ogere_auth_user';
+const BIOMETRIC_TOKEN_KEY = 'ogere_bio_token';
+const BIOMETRIC_USER_KEY = 'ogere_bio_user';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<CitizenUser | null>(null);
@@ -101,6 +103,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const syncOfflineRegistrations = async () => {
+    try {
+      const rawOffline = await AsyncStorage.getItem('ogere_offline_users');
+      if (!rawOffline) return;
+      const offlineList: any[] = JSON.parse(rawOffline);
+      const unsynced = offlineList.filter((u) => !u.syncedToCloud && u.password);
+      if (unsynced.length === 0) return;
+
+      let changed = false;
+      for (const item of unsynced) {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/auth?action=register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item),
+          });
+          if (res.ok || res.status === 409) {
+            item.syncedToCloud = true;
+            changed = true;
+          }
+        } catch (_) {}
+      }
+      if (changed) {
+        await AsyncStorage.setItem('ogere_offline_users', JSON.stringify(offlineList));
+      }
+    } catch (_) {}
+  };
+
   const bootstrapAuth = async () => {
     try {
       let savedToken: string | null = null;
@@ -113,9 +143,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const savedUser = await AsyncStorage.getItem(USER_KEY);
 
       if (savedToken && savedUser) {
+        const parsedUser = JSON.parse(savedUser);
         setToken(savedToken);
-        setUser(JSON.parse(savedUser));
+        setUser(parsedUser);
+
+        // Live profile synchronization with Neon PostgreSQL backend
+        fetch(`${API_BASE_URL}/api/auth?action=me`, {
+          headers: { Authorization: `Bearer ${savedToken}` },
+        })
+          .then((r) => r.json())
+          .then(async (data) => {
+            if (data && data.success && data.user) {
+              setUser(data.user);
+              await AsyncStorage.setItem(USER_KEY, JSON.stringify(data.user));
+            }
+          })
+          .catch(() => {});
       }
+
+      syncOfflineRegistrations();
     } catch (err) {
       console.error('[Auth] Bootstrap failed:', err);
     } finally {
@@ -125,6 +171,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const setGuestMode = (enabled: boolean) => {
     setIsGuest(enabled);
+  };
+
+  const persistSession = async (authToken: string, authUser: CitizenUser) => {
+    setToken(authToken);
+    setUser(authUser);
+    setIsGuest(false);
+
+    try {
+      await SecureStore.setItemAsync(TOKEN_KEY, authToken);
+      await SecureStore.setItemAsync(BIOMETRIC_TOKEN_KEY, authToken);
+    } catch {
+      await AsyncStorage.setItem(TOKEN_KEY, authToken);
+      await AsyncStorage.setItem(BIOMETRIC_TOKEN_KEY, authToken);
+    }
+    const userJson = JSON.stringify(authUser);
+    await AsyncStorage.setItem(USER_KEY, userJson);
+    await AsyncStorage.setItem(BIOMETRIC_USER_KEY, userJson);
   };
 
   const signIn = async (identifier: string, pass: string) => {
@@ -143,20 +206,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { success: false, error: data.error || 'Login failed. Please check your credentials.' };
       }
 
-      setToken(data.token);
-      setUser(data.user);
-      setIsGuest(false);
-
-      try {
-        await SecureStore.setItemAsync(TOKEN_KEY, data.token);
-      } catch {
-        await AsyncStorage.setItem(TOKEN_KEY, data.token);
-      }
-      await AsyncStorage.setItem(USER_KEY, JSON.stringify(data.user));
-
+      await persistSession(data.token, data.user);
       return { success: true };
     } catch (err: any) {
-      // Offline fallback authentication
+      // Offline fallback authentication for accounts registered while offline
       try {
         const rawOffline = await AsyncStorage.getItem('ogere_offline_users');
         const offlineUsers: any[] = rawOffline ? JSON.parse(rawOffline) : [];
@@ -171,51 +224,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (found) {
           const { password: _, ...cleanUser } = found;
-          const mockToken = 'offline_jwt_' + Date.now();
-          setToken(mockToken);
-          setUser(cleanUser);
-          setIsGuest(false);
-          await AsyncStorage.setItem(USER_KEY, JSON.stringify(cleanUser));
-          return { success: true };
-        }
-
-        // Demo citizen fallback
-        if ((cleanIdent === 'adewale.ogunleke@gmail.com' || cleanPhone === '08034512345' || cleanIdent === 'ogr-782910') && pass === 'ogere2026') {
-          const demoCitizen: CitizenUser = {
-            id: 'usr_cit_001',
-            fullName: 'Adewale Babatunde Ogunleke',
-            email: 'adewale.ogunleke@gmail.com',
-            phone: '08034512345',
-            citizenType: 'indigene',
-            subCategoryLabel: 'Indigene · Resident in Ogere',
-            locationSummary: 'Resident in Ogere Remo (Oke-Ogere)',
-            indigeneResidency: 'ogere',
-            quarter: 'Oke-Ogere',
-            compound: 'Kankanbina',
-            idCardNumber: 'OGR-782910',
-            role: 'citizen',
-            isVerified: true,
-            idCard: {
-              id: 'OGR-782910',
-              fullName: 'Adewale Babatunde Ogunleke',
-              cardType: 'indigene',
-              subCategoryLabel: 'Indigene · Resident in Ogere',
-              locationSummary: 'Resident in Ogere Remo (Oke-Ogere)',
-              indigeneResidency: 'ogere',
-              quarter: 'Oke-Ogere',
-              compound: 'Kankanbina',
-              status: 'approved',
-              issuedDate: '2024-01-15',
-              expiryDate: '2027-01-15',
-              verifiedBy: 'HRH Ologere Palace Office',
-              qrCodeUrl: 'https://ogereremo.vercel.app/verify-id/OGR-782910',
-            },
-          };
-          const mockToken = 'demo_citizen_token';
-          setToken(mockToken);
-          setUser(demoCitizen);
-          setIsGuest(false);
-          await AsyncStorage.setItem(USER_KEY, JSON.stringify(demoCitizen));
+          const offlineToken = 'offline_jwt_' + Date.now();
+          await persistSession(offlineToken, cleanUser);
           return { success: true };
         }
       } catch (_) {}
@@ -234,17 +244,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const data = await res.json().catch(() => null);
       if (res.ok && data && data.success) {
-        setToken(data.token);
-        setUser(data.user);
-        setIsGuest(false);
-
-        try {
-          await SecureStore.setItemAsync(TOKEN_KEY, data.token);
-        } catch {
-          await AsyncStorage.setItem(TOKEN_KEY, data.token);
-        }
-        await AsyncStorage.setItem(USER_KEY, JSON.stringify(data.user));
-
+        await persistSession(data.token, data.user);
         return { success: true };
       }
 
@@ -252,7 +252,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { success: false, error: data.error };
       }
     } catch (err: any) {
-      console.warn('[Auth] Remote registration unreachable, generating local offline Digital ID card...');
+      console.warn('[Auth] Remote registration unreachable, queueing offline registration for sync...');
     }
 
     // Offline registration fallback: immediate certified Digital ID generation
@@ -323,26 +323,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         issuedDate: today,
         expiryDate: expiry,
         verifiedBy: 'HRH Ologere Palace ICT Registry',
-        qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${cardId}`,
+        qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${cardId}`,
       },
     };
 
-    const mockToken = 'mock_jwt_' + Date.now();
-    setToken(mockToken);
-    setUser(localUser);
-    setIsGuest(false);
-
-    try {
-      await SecureStore.setItemAsync(TOKEN_KEY, mockToken);
-    } catch {
-      await AsyncStorage.setItem(TOKEN_KEY, mockToken);
-    }
-    await AsyncStorage.setItem(USER_KEY, JSON.stringify(localUser));
+    const offlineToken = 'offline_jwt_' + Date.now();
+    await persistSession(offlineToken, localUser);
 
     try {
       const rawOffline = await AsyncStorage.getItem('ogere_offline_users');
       const offlineList: any[] = rawOffline ? JSON.parse(rawOffline) : [];
-      offlineList.unshift({ ...localUser, password: formData.password });
+      offlineList.unshift({ ...localUser, password: formData.password, syncedToCloud: false });
       await AsyncStorage.setItem('ogere_offline_users', JSON.stringify(offlineList));
     } catch (_) {}
 
@@ -368,7 +359,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         fallbackLabel: 'Use Password',
         disableDeviceFallback: false,
       });
-      return result.success;
+      if (!result.success) return false;
+
+      let bioToken: string | null = null;
+      try {
+        bioToken = await SecureStore.getItemAsync(BIOMETRIC_TOKEN_KEY);
+      } catch {
+        bioToken = await AsyncStorage.getItem(BIOMETRIC_TOKEN_KEY);
+      }
+      const bioUser = await AsyncStorage.getItem(BIOMETRIC_USER_KEY);
+      if (bioToken && bioUser) {
+        await persistSession(bioToken, JSON.parse(bioUser));
+        return true;
+      }
+      return false;
     } catch {
       return false;
     }

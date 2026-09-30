@@ -217,7 +217,7 @@ export default async function handler(req, res) {
         issuedDate: today,
         expiryDate: expiry,
         verifiedBy: 'HRH Ologere Palace ICT Registry',
-        qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${cardId}`,
+        qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${cardId}`,
       };
 
       return res.status(201).json({
@@ -257,6 +257,7 @@ export default async function handler(req, res) {
 
   // --- 2. USER LOGIN ---
   if (req.method === 'POST' && action === 'login') {
+    const { identifier, password } = req.body || {};
     const rawIdent = (identifier || '').trim();
     if (!rawIdent || !password) {
       return res.status(400).json({
@@ -311,7 +312,7 @@ export default async function handler(req, res) {
             issuedDate: c.issued_date,
             expiryDate: c.expiry_date,
             verifiedBy: c.verified_by,
-            qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${c.id}`,
+            qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${c.id}`,
           };
         } else {
           idCardData = {
@@ -324,7 +325,7 @@ export default async function handler(req, res) {
             issuedDate: user.created_at ? user.created_at.toString().split('T')[0] : '2026-01-01',
             expiryDate: '2029-01-01',
             verifiedBy: 'HRH Ologere Palace ICT Registry',
-            qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${user.id_card_number}`,
+            qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${user.id_card_number}`,
           };
         }
       }
@@ -392,7 +393,7 @@ export default async function handler(req, res) {
             issuedDate: c.issued_date,
             expiryDate: c.expiry_date,
             verifiedBy: c.verified_by,
-            qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${c.id}`,
+            qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${c.id}`,
           };
         } else {
           idCardData = {
@@ -405,7 +406,7 @@ export default async function handler(req, res) {
             issuedDate: user.created_at ? user.created_at.toString().split('T')[0] : '2026-01-01',
             expiryDate: '2029-01-01',
             verifiedBy: 'HRH Ologere Palace ICT Registry',
-            qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${user.id_card_number}`,
+            qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${user.id_card_number}`,
           };
         }
       }

@@ -43,7 +43,7 @@ export default function NewsDetailPage() {
   }
 
   const catColor = newsCatColor[article.cat] || '#C9963A';
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : `https://ogereremo.vercel.app/news/${article.id}`;
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : `https://ogere-remo-portal.vercel.app/news/${article.id}`;
   const shareText = `${article.headline} — Ogere Remo Kingdom News`;
 
   const handleCopyLink = () => {
@@ -74,7 +74,7 @@ export default function NewsDetailPage() {
       <SEO
         title={article.headline}
         description={article.summary || (article.body ? article.body.slice(0, 160) : 'Ogere Remo Community News')}
-        image={article.image ? (article.image.startsWith('http') ? article.image : `https://ogereremo.vercel.app${article.image}`) : undefined}
+        image={article.image ? (article.image.startsWith('http') ? article.image : `https://ogere-remo-portal.vercel.app${article.image}`) : undefined}
         type="article"
       />
 

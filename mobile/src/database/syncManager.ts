@@ -11,7 +11,7 @@ import {
 declare const process: any;
 
 // Default API Base URL - In development points to local or Vercel production deployment
-export const API_BASE_URL = (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_API_URL) || 'https://ogereremo.vercel.app';
+export const API_BASE_URL = (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_API_URL) || 'https://ogere-remo-portal.vercel.app';
 
 export interface SyncStatus {
   isOnline: boolean;

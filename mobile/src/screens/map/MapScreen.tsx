@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,11 +10,32 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { getExactDeviceLocation } from '../../services/locationService';
+
+function latLngToTile(lat: number, lng: number, zoom = 16) {
+  const n = Math.pow(2, zoom);
+  const x = Math.floor(((lng + 180) / 360) * n);
+  const latRad = (lat * Math.PI) / 180;
+  const y = Math.floor(
+    ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n
+  );
+  return { x, y, zoom };
+}
+
+function latLngToOffset(lat: number, lng: number, zoom = 16) {
+  const n = Math.pow(2, zoom);
+  const xExact = ((lng + 180) / 360) * n;
+  const latRad = (lat * Math.PI) / 180;
+  const yExact = ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n;
+  const offsetX = Math.max(10, Math.min(90, Math.round((xExact - Math.floor(xExact)) * 100)));
+  const offsetY = Math.max(10, Math.min(90, Math.round((yExact - Math.floor(yExact)) * 100)));
+  return { offsetX, offsetY };
+}
 
 interface Landmark {
   id: string;
@@ -136,6 +157,33 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isLocating, setIsLocating] = useState(false);
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number; accuracy: number | null; address: string }>({
+    lat: 6.9371,
+    lng: 3.6335,
+    accuracy: 8,
+    address: 'Ogere Remo Central Corridor, Ogun State',
+  });
+
+  const handleLocateMe = async () => {
+    setIsLocating(true);
+    try {
+      const loc = await getExactDeviceLocation();
+      setUserCoords({
+        lat: loc.latitude,
+        lng: loc.longitude,
+        accuracy: loc.accuracy || 6,
+        address: loc.fullAddress || 'Ogere Remo Verified GPS Coordinates',
+      });
+    } catch {
+      Alert.alert('Location Notice', 'Showing Ogere Remo Town center coordinates.');
+    } finally {
+      setIsLocating(false);
+    }
+  };
+
+  useEffect(() => {
+    handleLocateMe();
+  }, []);
 
   const filteredLandmarks = OGERE_LANDMARKS.filter((lm) => {
     const matchesCat = selectedCategory === 'all' || lm.category === selectedCategory;
@@ -153,6 +201,10 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     Linking.openURL(url);
   };
 
+  const tile = latLngToTile(userCoords.lat, userCoords.lng, 16);
+  const offset = latLngToOffset(userCoords.lat, userCoords.lng, 16);
+  const streetTileUrl = `https://mt1.google.com/vt/lyrs=m&x=${tile.x}&y=${tile.y}&z=16`;
+
   return (
     <SafeAreaView style={styles.container}>
       <Header
@@ -161,62 +213,109 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         onProfilePress={() => navigation.navigate('Profile')}
       />
 
-      {/* Town GPS Radar Card */}
-      <View style={styles.gpsBanner}>
-        <View style={styles.gpsIconCircle}>
-          <Text style={{ fontSize: 24 }}>🛰️</Text>
+      {/* Embedded Live Google Street Map with User Location Pin */}
+      <View style={{ marginHorizontal: 16, marginTop: 8, marginBottom: 10, borderRadius: 12, overflow: 'hidden', borderWidth: 1.5, borderColor: '#38bdf8', backgroundColor: '#0f172a' }}>
+        <View style={{ padding: 10, backgroundColor: '#1e293b', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <View>
+            <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
+              🗺️ LIVE GOOGLE STREET MAP VIEW
+            </Text>
+            <Text style={{ color: '#cbd5e1', fontSize: 10, marginTop: 1 }} numberOfLines={1}>
+              {userCoords.address}
+            </Text>
+          </View>
+          <View style={styles.livePill}>
+            <Text style={styles.livePillText}>
+              {userCoords.accuracy ? `±${Math.round(userCoords.accuracy)}m GPS` : 'GPS ACTIVE'}
+            </Text>
+          </View>
         </View>
-        <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Text style={styles.gpsTitle}>Ogere Remo Town Coordinates</Text>
-            <View style={styles.livePill}>
-              <Text style={styles.livePillText}>GPS ACTIVE</Text>
+
+        <View style={{ height: 185, width: '100%', backgroundColor: '#e2e8f0', position: 'relative', overflow: 'hidden' }}>
+          <Image
+            source={{ uri: streetTileUrl }}
+            style={StyleSheet.absoluteFillObject}
+            resizeMode="cover"
+          />
+          <View
+            style={{
+              position: 'absolute',
+              left: `${offset.offsetX}%`,
+              top: `${offset.offsetY}%`,
+              transform: [{ translateX: -24 }, { translateY: -38 }],
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 48,
+              height: 48,
+            }}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                backgroundColor: 'rgba(37, 99, 235, 0.22)',
+                borderWidth: 1.5,
+                borderColor: '#2563eb',
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: '#dc2626',
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                borderWidth: 2.5,
+                borderColor: '#ffffff',
+                alignItems: 'center',
+                justifyContent: 'center',
+                elevation: 6,
+              }}
+            >
+              <Text style={{ fontSize: 14 }}>📍</Text>
+            </View>
+            <View
+              style={{
+                backgroundColor: '#0f172a',
+                paddingHorizontal: 6,
+                paddingVertical: 2,
+                borderRadius: 4,
+                marginTop: 2,
+                borderWidth: 1,
+                borderColor: '#38bdf8',
+              }}
+            >
+              <Text style={{ color: '#ffffff', fontSize: 9, fontWeight: '800' }}>MY LOCATION</Text>
             </View>
           </View>
-          <Text style={styles.gpsSubtitle}>Lat: 6.9233° N · Long: 3.5827° E · Elevation: 88m</Text>
-          <Text style={styles.gpsDistrict}>Ikenne Local Government Area, Ogun State, Nigeria</Text>
         </View>
-      </View>
 
-      {/* Locate Me Action Button */}
-      <View style={{ paddingHorizontal: 16, marginBottom: 10 }}>
-        <TouchableOpacity
-          style={styles.locateMeBtn}
-          onPress={async () => {
-            setIsLocating(true);
-            try {
-              const loc = await getExactDeviceLocation();
-              Alert.alert(
-                '📍 My Exact Location',
-                `Latitude: ${loc.latitude.toFixed(5)}°N\nLongitude: ${loc.longitude.toFixed(5)}°E\nAccuracy: ±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m\nPublic IP: ${loc.ipAddress}\nDevice: ${loc.device?.deviceModel || 'Mobile'}`,
-                [
-                  {
-                    text: '🗺️ Open Pin on Google Maps',
-                    onPress: () => openInGoogleMaps(loc.latitude, loc.longitude, 'My Location'),
-                  },
-                  { text: 'Done', style: 'default' },
-                ]
-              );
-            } catch {
-              Alert.alert('Location Error', 'Unable to acquire satellite GPS. Please ensure Location is enabled in Settings.');
-            } finally {
-              setIsLocating(false);
-            }
-          }}
-          disabled={isLocating}
-        >
-          {isLocating ? (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <ActivityIndicator size="small" color="#ffffff" />
-              <Text style={styles.locateMeBtnText}>Acquiring Satellite GPS & Lock...</Text>
-            </View>
-          ) : (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <Text style={{ fontSize: 16 }}>📍</Text>
-              <Text style={styles.locateMeBtnText}>Get My Actual Current Location</Text>
-            </View>
-          )}
-        </TouchableOpacity>
+        <View style={{ padding: 8, backgroundColor: '#0f172a', flexDirection: 'row', gap: 8 }}>
+          <TouchableOpacity
+            style={[styles.locateMeBtn, { flex: 1, paddingVertical: 9 }]}
+            onPress={handleLocateMe}
+            disabled={isLocating}
+          >
+            {isLocating ? (
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <ActivityIndicator size="small" color="#ffffff" />
+                <Text style={styles.locateMeBtnText}>Locking GPS...</Text>
+              </View>
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                <Text style={{ fontSize: 14 }}>📍</Text>
+                <Text style={styles.locateMeBtnText}>SEE MY LOCATION ON MAP</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ backgroundColor: '#1e293b', paddingHorizontal: 12, justifyContent: 'center', borderRadius: 8, borderWidth: 1, borderColor: '#334155' }}
+            onPress={() => openInGoogleMaps(userCoords.lat, userCoords.lng, 'My Location')}
+          >
+            <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>Full Map ↗</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Category Pills Bar */}

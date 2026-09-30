@@ -30,7 +30,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
     issuedDate: '2026-01-01',
     expiryDate: '2029-01-01',
     verifiedBy: 'HRH Ologere Palace ICT Registry',
-    qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${user.idCardNumber || user.id}`,
+    qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${user.idCardNumber || user.id}`,
   } : null);
 
   const getCategoryBadge = () => {

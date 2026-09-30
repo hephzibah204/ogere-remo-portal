@@ -365,6 +365,48 @@ export default async function handler(req, res) {
   // 2. VIRTUAL SAFE ESCORT ("WALK WITH ME"): /api/escort
   // ─────────────────────────────────────────────────────────────────────────────
   if (subroute === 'escort' || pathname.includes('/escort')) {
+    try {
+      await sqlQuery(`
+        CREATE TABLE IF NOT EXISTS virtual_escorts (
+          id VARCHAR(64) PRIMARY KEY,
+          user_id VARCHAR(64),
+          citizen_name VARCHAR(255),
+          citizen_phone VARCHAR(64),
+          origin VARCHAR(255),
+          destination VARCHAR(255) NOT NULL,
+          duration_minutes INT NOT NULL,
+          started_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+          expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+          status VARCHAR(32) DEFAULT 'active',
+          safety_pin VARCHAR(64) NOT NULL,
+          duress_pin VARCHAR(64) DEFAULT '9999',
+          last_latitude NUMERIC(10, 7),
+          last_longitude NUMERIC(10, 7),
+          battery_level INT,
+          accuracy NUMERIC(10, 2),
+          speed NUMERIC(10, 2),
+          heading NUMERIC(10, 2),
+          is_charging BOOLEAN DEFAULT FALSE,
+          last_ping_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+          assigned_unit VARCHAR(255),
+          incident_id VARCHAR(64)
+        )
+      `).catch(() => {});
+      await sqlQuery(`
+        ALTER TABLE virtual_escorts
+          ADD COLUMN IF NOT EXISTS citizen_name VARCHAR(255),
+          ADD COLUMN IF NOT EXISTS citizen_phone VARCHAR(64),
+          ADD COLUMN IF NOT EXISTS origin VARCHAR(255),
+          ADD COLUMN IF NOT EXISTS battery_level INT,
+          ADD COLUMN IF NOT EXISTS accuracy NUMERIC(10, 2),
+          ADD COLUMN IF NOT EXISTS speed NUMERIC(10, 2),
+          ADD COLUMN IF NOT EXISTS heading NUMERIC(10, 2),
+          ADD COLUMN IF NOT EXISTS is_charging BOOLEAN DEFAULT FALSE,
+          ADD COLUMN IF NOT EXISTS last_ping_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+          ADD COLUMN IF NOT EXISTS assigned_unit VARCHAR(255)
+      `).catch(() => {});
+    } catch (_) {}
+
     if (req.method === 'POST') {
       const body = req.body || {};
       const action = body.action || 'start';
@@ -374,36 +416,56 @@ export default async function handler(req, res) {
         const escortId = body.escortId || body.id || `ESC-${Date.now().toString().slice(-6)}`;
         const duration = parseInt(body.durationMinutes || '20', 10);
         const expiresAt = new Date(Date.now() + duration * 60 * 1000).toISOString();
+        const lat = parseFloat(body.latitude ?? body.startLat ?? 6.9371);
+        const lng = parseFloat(body.longitude ?? body.startLng ?? 3.6335);
+        const citizenName = body.citizenName || body.userName || body.name || 'Ogere Citizen';
+        const citizenPhone = body.citizenPhone || body.userPhone || body.phone || '08081762371';
+        const origin = body.origin || body.nearestLandmark || 'Ogere Remo Corridor';
+        const assignedUnit = body.assignedUnit || 'Patrol Unit 4 (Highway & Rural Intercept)';
+
         const newEscort = {
           id: escortId,
-          user_id: body.userId || 'citizen_user',
-          citizen_name: body.citizenName || body.name || 'Citizen User',
-          citizen_phone: body.citizenPhone || body.userId || '08081762371',
-          origin: body.origin || 'Ogere Remo Corridor',
+          user_id: body.userId || citizenName,
+          citizen_name: citizenName,
+          citizen_phone: citizenPhone,
+          phone: citizenPhone,
+          origin,
           destination: body.destination || 'Agbele Ancestral Farmland',
           duration_minutes: duration,
           remaining_seconds: duration * 60,
           started_at: new Date().toISOString(),
           expires_at: expiresAt,
           status: 'active',
-          safety_pin: body.safetyPin || '1234',
+          safety_pin: String(body.safetyPin || '1234'),
           duress_pin: '9999',
-          last_latitude: parseFloat(body.latitude || 6.9371),
-          last_longitude: parseFloat(body.longitude || 3.6335),
-          battery_level: body.batteryLevel || 88,
-          accuracy: body.accuracy || 6,
-          assignedUnit: body.assignedUnit || 'Patrol Unit 4 (Highway & Rural Intercept)',
+          last_latitude: isNaN(lat) ? 6.9371 : lat,
+          last_longitude: isNaN(lng) ? 3.6335 : lng,
+          battery_level: body.batteryLevel != null ? Number(body.batteryLevel) : 88,
+          accuracy: body.accuracy != null ? Number(body.accuracy) : 6,
+          speed: body.speed != null ? Number(body.speed) : 0,
+          heading: body.heading != null ? Number(body.heading) : null,
+          is_charging: Boolean(body.isCharging),
+          last_ping_at: new Date().toISOString(),
+          assignedUnit,
+          assigned_unit: assignedUnit,
         };
         memoryEscorts.unshift(newEscort);
 
         try {
           await sqlQuery(
             `INSERT INTO virtual_escorts 
-              (id, user_id, destination, duration_minutes, expires_at, status, safety_pin, duress_pin, last_latitude, last_longitude)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+              (id, user_id, citizen_name, citizen_phone, origin, destination, duration_minutes, expires_at, status, safety_pin, duress_pin, last_latitude, last_longitude, battery_level, accuracy, speed, heading, is_charging, assigned_unit)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
+             ON CONFLICT (id) DO UPDATE SET
+               status = EXCLUDED.status,
+               last_latitude = EXCLUDED.last_latitude,
+               last_longitude = EXCLUDED.last_longitude`,
             [
               escortId,
               newEscort.user_id,
+              newEscort.citizen_name,
+              newEscort.citizen_phone,
+              newEscort.origin,
               newEscort.destination,
               duration,
               expiresAt,
@@ -412,6 +474,12 @@ export default async function handler(req, res) {
               '9999',
               newEscort.last_latitude,
               newEscort.last_longitude,
+              newEscort.battery_level,
+              newEscort.accuracy,
+              newEscort.speed,
+              newEscort.heading,
+              newEscort.is_charging,
+              newEscort.assigned_unit,
             ]
           ).catch(() => {});
         } catch (_) {}
@@ -424,8 +492,9 @@ export default async function handler(req, res) {
       }
 
       // B. HEARTBEAT PING & REAL-TIME TELEMETRY
-      if (action === 'ping') {
-        const { escortId, latitude, longitude, speed, heading, accuracy, batteryLevel, isCharging } = body;
+      if (action === 'ping' || action === 'heartbeat') {
+        const escortId = body.escortId || body.escort_id;
+        const { latitude, longitude, speed, heading, accuracy, batteryLevel, isCharging } = body;
         const lat = parseFloat(latitude);
         const lng = parseFloat(longitude);
         const esc = memoryEscorts.find((e) => e.id === escortId);
@@ -455,8 +524,26 @@ export default async function handler(req, res) {
 
         try {
           await sqlQuery(
-            `UPDATE virtual_escorts SET last_latitude = $1, last_longitude = $2 WHERE id = $3`,
-            [lat, lng, escortId]
+            `UPDATE virtual_escorts
+             SET last_latitude = COALESCE($1, last_latitude),
+                 last_longitude = COALESCE($2, last_longitude),
+                 speed = COALESCE($3, speed),
+                 heading = COALESCE($4, heading),
+                 accuracy = COALESCE($5, accuracy),
+                 battery_level = COALESCE($6, battery_level),
+                 is_charging = COALESCE($7, is_charging),
+                 last_ping_at = CURRENT_TIMESTAMP
+             WHERE id = $8`,
+            [
+              isNaN(lat) ? null : lat,
+              isNaN(lng) ? null : lng,
+              speed != null ? parseFloat(speed) : null,
+              heading != null ? parseFloat(heading) : null,
+              accuracy != null ? parseFloat(accuracy) : null,
+              batteryLevel != null ? Number(batteryLevel) : null,
+              isCharging != null ? Boolean(isCharging) : null,
+              escortId,
+            ]
           ).catch(() => {});
         } catch (_) {}
         return res.status(200).json({ success: true, message: 'Live escort ping recorded.', escort: esc });
@@ -464,8 +551,14 @@ export default async function handler(req, res) {
 
       // C. CHECK-IN PIN VERIFICATION
       if (action === 'checkin') {
-        const { escortId, pin } = body;
-        const esc = memoryEscorts.find((e) => e.id === escortId);
+        const escortId = body.escortId || body.escort_id;
+        const pin = String(body.pin || '').trim();
+        let esc = memoryEscorts.find((e) => e.id === escortId);
+
+        if (!esc && escortId) {
+          const rows = await sqlQuery(`SELECT * FROM virtual_escorts WHERE id = $1 LIMIT 1`, [escortId]).catch(() => []);
+          if (rows && rows.length > 0) esc = rows[0];
+        }
 
         if (pin === '9999') {
           // COVERT DURESS PIN TRIGGERED!
@@ -481,11 +574,11 @@ export default async function handler(req, res) {
             assigned_agency: 'Police / SWAT Rapid Response',
             responding_unit: 'Tactical Squad 1',
             location: esc ? esc.destination : 'Ogere Remo Outpost Axis',
-            latitude: esc ? esc.last_latitude : 6.9371,
-            longitude: esc ? esc.last_longitude : 3.6335,
-            description: `COVERT DURESS TRIGGERED! User entered hostage PIN 9999 on Walk With Me session ${escortId}. Destination: ${esc?.destination || 'En route'}. Suspects may be holding victim.`,
-            reporter_name: 'Covert Panic Beacon',
-            reporter_phone: 'DISPATCH',
+            latitude: esc ? Number(esc.last_latitude || 6.9371) : 6.9371,
+            longitude: esc ? Number(esc.last_longitude || 3.6335) : 3.6335,
+            description: `COVERT DURESS TRIGGERED! User (${esc?.citizen_name || esc?.user_id || 'Citizen'}) entered hostage PIN 9999 on Walk With Me session ${escortId}. Destination: ${esc?.destination || 'En route'}. Suspects may be holding victim.`,
+            reporter_name: esc?.citizen_name || 'Covert Panic Beacon',
+            reporter_phone: esc?.citizen_phone || 'DISPATCH',
             status: 'open',
             created_at: new Date().toISOString(),
           };
@@ -499,8 +592,8 @@ export default async function handler(req, res) {
           try {
             await sqlQuery(
               `INSERT INTO incident_reports 
-                (id, category, severity, threat_level, is_silent_panic, is_live_tracking, assigned_agency, responding_unit, location, latitude, longitude, description, reporter_name, ip_address, google_maps_url, status)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+                (id, category, severity, threat_level, is_silent_panic, is_live_tracking, assigned_agency, responding_unit, location, latitude, longitude, description, reporter_name, reporter_phone, ip_address, google_maps_url, status)
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
               [
                 incidentId,
                 duressIncident.category,
@@ -514,7 +607,8 @@ export default async function handler(req, res) {
                 duressIncident.latitude,
                 duressIncident.longitude,
                 duressIncident.description,
-                'Covert Panic Beacon',
+                duressIncident.reporter_name,
+                duressIncident.reporter_phone,
                 duressIncident.ip_address,
                 duressIncident.google_maps_url,
                 'open',
@@ -529,9 +623,19 @@ export default async function handler(req, res) {
 
           return res.status(200).json({
             success: true,
+            status: 'duress_triggered',
             message: 'Session closed.',
             isDuress: true,
             incidentId,
+          });
+        }
+
+        // Verify Safety PIN if escort record exists
+        if (esc && esc.safety_pin && String(esc.safety_pin).trim() !== pin) {
+          return res.status(400).json({
+            success: false,
+            status: 'invalid_pin',
+            error: 'Incorrect safety PIN entered.',
           });
         }
 
@@ -543,15 +647,41 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
           success: true,
+          status: 'arrived_safe',
           message: 'Safe arrival verified. Escort watchdog decommissioned.',
           isDuress: false,
         });
       }
     }
 
+    // D. GET ESCORT SESSIONS (Read from PostgreSQL + In-Memory)
     const escortId = searchParams.get('escortId') || searchParams.get('id');
+    let dbEscorts = [];
+    try {
+      const rows = await sqlQuery(`SELECT * FROM virtual_escorts ORDER BY started_at DESC LIMIT 30`).catch(() => []);
+      if (Array.isArray(rows)) {
+        dbEscorts = rows.map((r) => ({
+          ...r,
+          citizen_name: r.citizen_name || r.user_id || 'Ogere Citizen',
+          citizen_phone: r.citizen_phone || '08081762371',
+          phone: r.citizen_phone || '08081762371',
+          last_latitude: Number(r.last_latitude || 6.9371),
+          last_longitude: Number(r.last_longitude || 3.6335),
+          assignedUnit: r.assigned_unit || 'Patrol Unit 4 (Highway & Rural Intercept)',
+        }));
+      }
+    } catch (_) {}
+
+    const combinedMap = new Map();
+    for (const item of [...memoryEscorts, ...dbEscorts]) {
+      if (item && item.id && !combinedMap.has(item.id)) {
+        combinedMap.set(item.id, item);
+      }
+    }
+    const allEscorts = Array.from(combinedMap.values());
+
     if (escortId) {
-      const esc = memoryEscorts.find((e) => e.id === escortId);
+      const esc = allEscorts.find((e) => e.id === escortId);
       const breadcrumbs = memoryLocationPings.filter((p) => p.incident_id === escortId).slice(0, 50);
       if (esc) {
         return res.status(200).json({ success: true, escort: esc, breadcrumbs });
@@ -559,8 +689,8 @@ export default async function handler(req, res) {
       return res.status(404).json({ success: false, error: 'Escort session not found.' });
     }
 
-    const activeList = memoryEscorts.filter((e) => e.status === 'active' || e.status === 'ACTIVE_MONITORING');
-    return res.status(200).json({ success: true, escorts: activeList.length > 0 ? activeList : memoryEscorts.slice(0, 10) });
+    const activeList = allEscorts.filter((e) => e.status === 'active' || e.status === 'ACTIVE_MONITORING' || e.status === 'duress_triggered');
+    return res.status(200).json({ success: true, escorts: activeList.length > 0 ? activeList : allEscorts.slice(0, 15) });
   }
 
   // ─────────────────────────────────────────────────────────────────────────────

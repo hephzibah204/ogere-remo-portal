@@ -413,7 +413,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     try {
       await Share.share({
         title: 'Ogere Remo Civic Timeline',
-        message: `Check out "${post.author_name}" on the Ogere Remo Civic Timeline:\n\n${post.content_text}\n\nhttps://ogereremo.vercel.app/forum`,
+        message: `Check out "${post.author_name}" on the Ogere Remo Civic Timeline:\n\n${post.content_text}\n\nhttps://ogere-remo-portal.vercel.app/forum`,
       });
     } catch (_) {}
   };

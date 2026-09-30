@@ -92,7 +92,7 @@ export default async function handler(req, res) {
         data: {
           id: cardId,
           fullName: body.fullName,
-          qrCodeUrl: `https://ogereremo.vercel.app/verify-id/${cardId}`,
+          qrCodeUrl: `https://ogere-remo-portal.vercel.app/verify-id/${cardId}`,
           status: body.status || 'pending',
         },
       });

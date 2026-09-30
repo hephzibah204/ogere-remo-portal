@@ -122,10 +122,10 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
   const effectiveLng = liveCoords?.lng ?? (incident?.longitude ? Number(incident.longitude) : 3.6437);
   const effectiveAccuracy = liveAccuracy ?? (incident?.accuracy ? Math.round(Number(incident.accuracy)) : null);
 
-  // Map tile & position calculation
+  // Google Street Map tile & position calculation
   const tile = latLngToTile(effectiveLat, effectiveLng, 16);
   const offset = latLngToOffset(effectiveLat, effectiveLng, 16);
-  const tileUrl = `https://tile.openstreetmap.org/16/${tile.x}/${tile.y}.png`;
+  const tileUrl = `https://mt1.google.com/vt/lyrs=m&x=${tile.x}&y=${tile.y}&z=16`;
 
   const mapsUrl = `https://www.google.com/maps?q=${effectiveLat},${effectiveLng}&z=18`;
   const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${effectiveLat},${effectiveLng}&travelmode=driving`;

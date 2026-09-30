@@ -408,7 +408,7 @@ export default function ComingSoonPage({ onUnlock }) {
             <span className="cinzel" style={{ fontSize: '0.62rem', color: 'var(--cream-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Share:</span>
             {/* WhatsApp */}
             <a
-              href={`https://wa.me/?text=${encodeURIComponent('🌟 Help build Nigeria\'s first Digital Town — Ogere Remo! Donate and get FREE business advertising or a FREE website. See the project: https://ogereremo.vercel.app')}`}
+              href={`https://wa.me/?text=${encodeURIComponent('🌟 Help build Nigeria\'s first Digital Town — Ogere Remo! Donate and get FREE business advertising or a FREE website. See the project: https://ogere-remo-portal.vercel.app')}`}
               target="_blank" rel="noopener noreferrer"
               aria-label="Share on WhatsApp"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(37,211,102,0.12)', border: '1px solid rgba(37,211,102,0.4)', borderRadius: '8px', padding: '0.45rem 0.9rem', color: '#4ade80', fontSize: '0.78rem', fontWeight: 600, textDecoration: 'none', transition: 'var(--transition)' }}
@@ -417,7 +417,7 @@ export default function ComingSoonPage({ onUnlock }) {
             </a>
             {/* Twitter/X */}
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('🌟 Nigeria\'s first Digital Town is being built — Ogere Remo! Donate and get FREE business promo. #OgereRemo #NigeriaDigital')}&url=${encodeURIComponent('https://ogereremo.vercel.app')}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('🌟 Nigeria\'s first Digital Town is being built — Ogere Remo! Donate and get FREE business promo. #OgereRemo #NigeriaDigital')}&url=${encodeURIComponent('https://ogere-remo-portal.vercel.app')}`}
               target="_blank" rel="noopener noreferrer"
               aria-label="Share on X / Twitter"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', padding: '0.45rem 0.9rem', color: '#fff', fontSize: '0.78rem', fontWeight: 600, textDecoration: 'none', transition: 'var(--transition)' }}
@@ -427,7 +427,7 @@ export default function ComingSoonPage({ onUnlock }) {
             {/* Copy link */}
             <button
               onClick={() => {
-                navigator.clipboard?.writeText('https://ogereremo.vercel.app');
+                navigator.clipboard?.writeText('https://ogere-remo-portal.vercel.app');
                 setLinkCopied(true);
                 setTimeout(() => setLinkCopied(false), 3000);
               }}

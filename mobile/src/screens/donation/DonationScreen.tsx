@@ -96,7 +96,7 @@ export const DonationScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
   const handleDonate = () => {
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount || 10000;
     // Open web portal donation page with prefilled amount for secure 3D-secure Paystack checkout
-    const url = `https://ogereremo.vercel.app/donate?amount=${amount}&name=${encodeURIComponent(donorName)}&email=${encodeURIComponent(donorEmail)}`;
+    const url = `https://ogere-remo-portal.vercel.app/donate?amount=${amount}&name=${encodeURIComponent(donorName)}&email=${encodeURIComponent(donorEmail)}`;
     Linking.openURL(url);
   };
 

@@ -45,26 +45,15 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
     }
   };
 
-  const handleFastDemo = (role: OfficerRole) => {
-    if (role === 'security_officer') {
-      setIdentifier('police@ogereremo.org');
-      setPassword('security2026');
-      setSelectedRole('security_officer');
-    } else if (role === 'palace_protocol') {
-      setIdentifier('protocol@ogereremo.org');
-      setPassword('palace2026');
-      setSelectedRole('palace_protocol');
-    } else {
-      setIdentifier('admin@ogereremo.org');
-      setPassword('ocda2026');
-      setSelectedRole('ocda_admin');
-    }
-  };
-
   const handleBiometricAuth = async () => {
     const success = await authenticateWithBiometrics();
     if (success) {
-      handleFastDemo(selectedRole);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'AdminDashboard' }],
+      });
+    } else {
+      Alert.alert('Biometric Notice', 'Please sign in with your official Badge Number / Email and Password first to enable Biometric Unlock.');
     }
   };
 
@@ -94,7 +83,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
           {/* Role Filter Tabs */}
           <View style={styles.roleTabs}>
             <TouchableOpacity
-              onPress={() => { setSelectedRole('security_officer'); handleFastDemo('security_officer'); }}
+              onPress={() => setSelectedRole('security_officer')}
               style={[styles.roleTab, selectedRole === 'security_officer' && styles.roleTabActive]}
             >
               <Text style={styles.roleTabEmoji}>🛡️</Text>
@@ -104,7 +93,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => { setSelectedRole('palace_protocol'); handleFastDemo('palace_protocol'); }}
+              onPress={() => setSelectedRole('palace_protocol')}
               style={[styles.roleTab, selectedRole === 'palace_protocol' && styles.roleTabActive]}
             >
               <Text style={styles.roleTabEmoji}>👑</Text>
@@ -114,7 +103,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => { setSelectedRole('ocda_admin'); handleFastDemo('ocda_admin'); }}
+              onPress={() => setSelectedRole('ocda_admin')}
               style={[styles.roleTab, selectedRole === 'ocda_admin' && styles.roleTabActive]}
             >
               <Text style={styles.roleTabEmoji}>🏛️</Text>
@@ -136,7 +125,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               <Text style={styles.label}>Badge Number / Official Email</Text>
               <TextInput
                 style={styles.input}
-                placeholder="e.g. NPF-OG-4891 or police@ogereremo.org"
+                placeholder="Enter your Badge Number or Official Email"
                 placeholderTextColor={Colors.textMuted}
                 value={identifier}
                 onChangeText={setIdentifier}
@@ -179,22 +168,6 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
                 style={{ marginTop: 8 }}
               />
             )}
-
-            {/* Fast Demo Autofill Helper */}
-            <View style={styles.demoHelperBox}>
-              <Text style={styles.demoHelperTitle}>Fast Testing Credentials (Tap to Fill):</Text>
-              <View style={styles.demoButtonsRow}>
-                <TouchableOpacity onPress={() => handleFastDemo('security_officer')} style={styles.demoChip}>
-                  <Text style={styles.demoChipText}>👮 Police Patrol</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleFastDemo('palace_protocol')} style={styles.demoChip}>
-                  <Text style={styles.demoChipText}>👑 Palace Officer</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleFastDemo('ocda_admin')} style={styles.demoChip}>
-                  <Text style={styles.demoChipText}>🏛️ OCDA Admin</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
 
             {/* Registration Link */}
             <View style={styles.footerRow}>

@@ -4,8 +4,10 @@ const { Pool } = pg;
 let pool = null;
 let neonSql = null;
 
-// Initialize in-memory fallback store
-const fallbackStore = {
+// Initialize in-memory fallback store on globalThis so it persists across function invocations
+if (!globalThis._ogereFallbackStore) {
+  globalThis._ogereFallbackStore = {
+  incident_reports: [],
   users: [
     {
       id: 'usr_admin_001',
@@ -365,7 +367,9 @@ const fallbackStore = {
       created_at: '2026-08-12T10:00:00Z',
     }
   ]
-};
+  };
+}
+const fallbackStore = globalThis._ogereFallbackStore;
 
 export function getPool() {
   if (!pool) {
@@ -447,22 +451,37 @@ function executeInMemoryFallback(queryText, params = []) {
     return [{ total_raised, donor_count }];
   }
 
-  // Handle table SELECT queries
-  const tableMatch = normalized.match(/FROM\s+([a-zA-Z0-9_]+)/i);
-  const tableName = tableMatch ? tableMatch[1].toLowerCase() : null;
+  // Handle table name resolution across SELECT, INSERT, and UPDATE queries
+  let tableName = null;
+  const fromMatch = normalized.match(/FROM\s+([a-zA-Z0-9_]+)/i);
+  const insertMatch = normalized.match(/INSERT\s+INTO\s+([a-zA-Z0-9_]+)/i);
+  const updateMatch = normalized.match(/UPDATE\s+([a-zA-Z0-9_]+)/i);
+
+  if (fromMatch) {
+    tableName = fromMatch[1].toLowerCase();
+  } else if (insertMatch) {
+    tableName = insertMatch[1].toLowerCase();
+  } else if (updateMatch) {
+    tableName = updateMatch[1].toLowerCase();
+  }
 
   if (upper.startsWith('SELECT') && tableName && fallbackStore[tableName]) {
     let rows = [...fallbackStore[tableName]];
 
     // Check for user login/registration queries
     if (tableName === 'users') {
-      if (upper.includes('EMAIL = $1 OR PHONE = $1') || upper.includes('PHONE = $1 OR EMAIL = $1')) {
+      if (upper.includes('EMAIL') && (upper.includes('PHONE') || upper.includes('BADGE') || upper.includes('ID_CARD') || upper.includes('LOWER('))) {
         const ident = params[0] ? String(params[0]).trim().toLowerCase() : '';
         const cleanPhone = ident.replace(/\D/g, '');
         rows = rows.filter(u => {
           const userEmail = (u.email || '').toLowerCase().trim();
           const userPhone = (u.phone || '').replace(/\D/g, '');
-          return (ident && userEmail === ident) || (cleanPhone && userPhone === cleanPhone);
+          const userBadge = (u.badge_number || '').toLowerCase().trim();
+          const userIdCard = (u.id_card_number || '').toLowerCase().trim();
+          return (ident && userEmail === ident) ||
+                 (cleanPhone && userPhone === cleanPhone) ||
+                 (ident && userBadge === ident) ||
+                 (ident && userIdCard === ident);
         });
         return rows;
       }

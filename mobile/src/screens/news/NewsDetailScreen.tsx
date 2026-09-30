@@ -30,7 +30,7 @@ export const NewsDetailScreen: React.FC<{ route: any; navigation: any }> = ({
     try {
       await Share.share({
         title: item.title,
-        message: `${item.title}\n\nRead more on the Ogere Remo Civic Mobile App or visit https://ogereremo.vercel.app`,
+        message: `${item.title}\n\nRead more on the Ogere Remo Civic Mobile App or visit https://ogere-remo-portal.vercel.app`,
       });
     } catch {}
   };

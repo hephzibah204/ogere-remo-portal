@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   const { pathname } = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-  const isVerify = pathname.includes('paystack-verify') || req.query.action === 'verify';
+  const isVerify = pathname.includes('paystack-verify') || req.query?.action === 'verify';
   const isWebhook = pathname.includes('paystack-webhook');
 
   // 1. Paystack Webhook Handler
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
 
   // 4. Fundraising Stats — GET /api/donations?stats=true
   // Used by ComingSoonPage to show live ₦ raised + donor count.
-  if (req.method === 'GET' && req.query.stats === 'true') {
+  if (req.method === 'GET' && req.query?.stats === 'true') {
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
     try {
       const rows = await sqlQuery(`

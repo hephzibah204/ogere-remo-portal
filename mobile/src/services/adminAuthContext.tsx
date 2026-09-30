@@ -45,6 +45,8 @@ const AdminAuthContext = createContext<AdminAuthContextType>({} as AdminAuthCont
 
 const ADMIN_TOKEN_KEY = 'ogere_admin_token';
 const ADMIN_OFFICER_KEY = 'ogere_admin_officer';
+const ADMIN_BIO_TOKEN_KEY = 'ogere_admin_bio_token';
+const ADMIN_BIO_OFFICER_KEY = 'ogere_admin_bio_officer';
 
 export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [officer, setOfficer] = useState<OfficerUser | null>(null);
@@ -68,6 +70,23 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
+  const persistOfficerSession = async (authToken: string, officerObj: OfficerUser) => {
+    try {
+      await SecureStore.setItemAsync(ADMIN_TOKEN_KEY, authToken);
+      await SecureStore.setItemAsync(ADMIN_BIO_TOKEN_KEY, authToken);
+    } catch {
+      await AsyncStorage.setItem(ADMIN_TOKEN_KEY, authToken);
+      await AsyncStorage.setItem(ADMIN_BIO_TOKEN_KEY, authToken);
+    }
+    const officerJson = JSON.stringify(officerObj);
+    await AsyncStorage.setItem(ADMIN_OFFICER_KEY, officerJson);
+    await AsyncStorage.setItem(ADMIN_BIO_OFFICER_KEY, officerJson);
+
+    setToken(authToken);
+    setOfficer(officerObj);
+    setActiveRole(officerObj.role);
+  };
+
   const bootstrapAdminAuth = async () => {
     try {
       let savedToken: string | null = null;
@@ -86,6 +105,32 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setToken(savedToken);
         setOfficer(parsedOfficer);
         setActiveRole(parsedOfficer.role);
+
+        // Verify and synchronize officer credentials with live PostgreSQL database
+        fetch(`${API_BASE_URL}/api/auth?action=me`, {
+          headers: { Authorization: `Bearer ${savedToken}` },
+        })
+          .then((r) => r.json())
+          .then(async (data) => {
+            if (data && data.success && data.user) {
+              const role = data.user.role === 'admin' ? 'ocda_admin' : data.user.role;
+              const syncedOfficer: OfficerUser = {
+                id: data.user.id,
+                fullName: data.user.fullName,
+                email: data.user.email,
+                phone: data.user.phone,
+                role,
+                agencyName: data.user.agencyName || parsedOfficer.agencyName,
+                badgeNumber: data.user.badgeNumber || parsedOfficer.badgeNumber,
+                isOfficerVerified: Boolean(data.user.isOfficerVerified ?? true),
+                isVerified: Boolean(data.user.isVerified),
+              };
+              setOfficer(syncedOfficer);
+              setActiveRole(syncedOfficer.role);
+              await AsyncStorage.setItem(ADMIN_OFFICER_KEY, JSON.stringify(syncedOfficer));
+            }
+          })
+          .catch(() => {});
       }
     } catch (err) {
       console.warn('[AdminAuthContext] Bootstrap error:', err);
@@ -99,7 +144,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const res = await fetch(`${API_BASE_URL}/api/auth?action=login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, password: pass }),
+        body: JSON.stringify({ identifier: identifier.trim(), password: pass }),
       });
 
       const data = await res.json();
@@ -130,79 +175,10 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         isVerified: Boolean(data.user.isVerified),
       };
 
-      try {
-        await SecureStore.setItemAsync(ADMIN_TOKEN_KEY, data.token);
-      } catch {
-        await AsyncStorage.setItem(ADMIN_TOKEN_KEY, data.token);
-      }
-
-      await AsyncStorage.setItem(ADMIN_OFFICER_KEY, JSON.stringify(officerObj));
-
-      setToken(data.token);
-      setOfficer(officerObj);
-      setActiveRole(officerObj.role);
-
+      await persistOfficerSession(data.token, officerObj);
       return { success: true };
     } catch (err: any) {
-      // Local demo fallback for offline or development credentials
-      if (identifier === 'police@ogereremo.org' || identifier === 'NPF-OG-4891') {
-        const demoOfficer: OfficerUser = {
-          id: 'usr_sec_demo',
-          fullName: 'ASP Babatunde Oladipo',
-          email: 'police@ogereremo.org',
-          phone: '08031112233',
-          role: 'security_officer',
-          agencyName: 'Nigeria Police Force (Ogere Divisional Command)',
-          badgeNumber: 'NPF-OG-4891',
-          isOfficerVerified: true,
-          isVerified: true,
-        };
-        setOfficer(demoOfficer);
-        setActiveRole('security_officer');
-        setToken('demo_sec_token');
-        await AsyncStorage.setItem(ADMIN_OFFICER_KEY, JSON.stringify(demoOfficer));
-        return { success: true };
-      }
-
-      if (identifier === 'protocol@ogereremo.org' || identifier === 'PAL-PRO-002') {
-        const demoOfficer: OfficerUser = {
-          id: 'usr_pal_demo',
-          fullName: 'Chief Adebisi Adeleke',
-          email: 'protocol@ogereremo.org',
-          phone: '08032223344',
-          role: 'palace_protocol',
-          agencyName: 'Aafin Ologere Protocol Secretariat',
-          badgeNumber: 'PAL-PRO-002',
-          isOfficerVerified: true,
-          isVerified: true,
-        };
-        setOfficer(demoOfficer);
-        setActiveRole('palace_protocol');
-        setToken('demo_pal_token');
-        await AsyncStorage.setItem(ADMIN_OFFICER_KEY, JSON.stringify(demoOfficer));
-        return { success: true };
-      }
-
-      if (identifier === 'admin@ogereremo.org' || identifier === 'OCDA-ADM-101') {
-        const demoOfficer: OfficerUser = {
-          id: 'usr_adm_demo',
-          fullName: 'Engr. Olufemi Balogun',
-          email: 'admin@ogereremo.org',
-          phone: '08033334455',
-          role: 'ocda_admin',
-          agencyName: 'Ogere Community Development Association (OCDA)',
-          badgeNumber: 'OCDA-ADM-101',
-          isOfficerVerified: true,
-          isVerified: true,
-        };
-        setOfficer(demoOfficer);
-        setActiveRole('ocda_admin');
-        setToken('demo_adm_token');
-        await AsyncStorage.setItem(ADMIN_OFFICER_KEY, JSON.stringify(demoOfficer));
-        return { success: true };
-      }
-
-      return { success: false, error: err.message || 'Network connection failed.' };
+      return { success: false, error: 'Unable to reach Ogere Security Command Server. Please check your internet connection.' };
     }
   };
 
@@ -245,18 +221,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         isVerified: true,
       };
 
-      try {
-        await SecureStore.setItemAsync(ADMIN_TOKEN_KEY, resData.token);
-      } catch {
-        await AsyncStorage.setItem(ADMIN_TOKEN_KEY, resData.token);
-      }
-
-      await AsyncStorage.setItem(ADMIN_OFFICER_KEY, JSON.stringify(officerObj));
-
-      setToken(resData.token);
-      setOfficer(officerObj);
-      setActiveRole(officerObj.role);
-
+      await persistOfficerSession(resData.token, officerObj);
       return { success: true };
     } catch (err: any) {
       return { success: false, error: err.message || 'Network connection failed.' };
@@ -284,7 +249,20 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         promptMessage: 'Officer Identity Verification',
         fallbackLabel: 'Use Badge & Password',
       });
-      return res.success;
+      if (!res.success) return false;
+
+      let bioToken: string | null = null;
+      try {
+        bioToken = await SecureStore.getItemAsync(ADMIN_BIO_TOKEN_KEY);
+      } catch {
+        bioToken = await AsyncStorage.getItem(ADMIN_BIO_TOKEN_KEY);
+      }
+      const bioOfficer = await AsyncStorage.getItem(ADMIN_BIO_OFFICER_KEY);
+      if (bioToken && bioOfficer) {
+        await persistOfficerSession(bioToken, JSON.parse(bioOfficer));
+        return true;
+      }
+      return false;
     } catch {
       return false;
     }

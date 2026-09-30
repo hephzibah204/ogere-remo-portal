@@ -145,10 +145,10 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
   const geoResolution = resolveOgereLocation(effectiveLat, effectiveLng, effectiveAcc);
   const mapUrls = getOgereMapUrls(effectiveLat, effectiveLng, selectedEscort?.destination || 'Ogere Remo');
 
-  // Slippy map tile
+  // Google Street Map tile
   const tile = latLngToTile(effectiveLat, effectiveLng, 16);
   const offset = latLngToOffset(effectiveLat, effectiveLng, 16);
-  const tileUrl = `https://tile.openstreetmap.org/16/${tile.x}/${tile.y}.png`;
+  const tileUrl = `https://mt1.google.com/vt/lyrs=m&x=${tile.x}&y=${tile.y}&z=16`;
 
   const isOverdue = countdown <= 0 && selectedEscort?.status === 'active';
   const isDuress = selectedEscort?.status === 'duress_triggered';
