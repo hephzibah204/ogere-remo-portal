@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Share,
+  Linking,
 } from 'react-native';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card';
@@ -17,7 +18,7 @@ import { useAuth } from '../../services/authContext';
 import { syncManager } from '../../database/syncManager';
 
 export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { user, signOut, hasBiometrics, authenticateWithBiometrics } = useAuth();
+  const { user, signOut, deleteAccount, hasBiometrics, authenticateWithBiometrics } = useAuth();
   const [syncing, setSyncing] = useState(false);
 
   const card = user?.idCard || (user ? {
@@ -313,6 +314,17 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
           )}
 
           <TouchableOpacity
+            style={styles.toolRow}
+            onPress={() => Linking.openURL('https://ogere-remo-portal.vercel.app/privacy').catch(() => {})}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={styles.toolTitle}>🔒 Privacy Policy & Data Protection</Text>
+              <Text style={styles.toolDesc}>View official NDPR & Google Play data privacy terms.</Text>
+            </View>
+            <Text style={styles.toolActionText}>View ↗</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             style={[styles.toolRow, { borderBottomWidth: 0 }]}
             onPress={() => navigation.navigate('AdminLogin')}
           >
@@ -325,13 +337,40 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
         </Card>
 
         {user && (
-          <Button
-            title="Sign Out of Citizen Account"
-            variant="outline"
-            onPress={handleSignOut}
-            style={styles.signOutBtn}
-            textStyle={{ color: '#dc2626' }}
-          />
+          <View style={{ gap: 10 }}>
+            <Button
+              title="Sign Out of Citizen Account"
+              variant="outline"
+              onPress={handleSignOut}
+              style={styles.signOutBtn}
+              textStyle={{ color: '#dc2626' }}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  'Delete Citizen Account',
+                  'This will permanently delete your Citizen Account, Digital ID Card, and personal records from the Ogere Remo Civic Registry. This action cannot be undone.',
+                  [
+                    { text: 'Cancel', style: 'cancel' },
+                    {
+                      text: 'Delete Permanently',
+                      style: 'destructive',
+                      onPress: async () => {
+                        await deleteAccount();
+                        Alert.alert('Account Deleted', 'Your account and personal data have been permanently removed.');
+                        navigation.navigate('Welcome');
+                      },
+                    },
+                  ]
+                );
+              }}
+              style={{ alignItems: 'center', paddingVertical: 10 }}
+            >
+              <Text style={{ color: '#991b1b', fontSize: 12, fontWeight: '700', textDecorationLine: 'underline' }}>
+                Delete Account & Personal Data Permanently
+              </Text>
+            </TouchableOpacity>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>

@@ -15,6 +15,7 @@ module.exports = ({ config }) => {
       },
       android: {
         ...config.android,
+        versionCode: 1,
         package: "com.ogeremo.fieldofficer",
         adaptiveIcon: {
           foregroundImage: "./assets/officer-adaptive-icon.png",
@@ -41,6 +42,7 @@ module.exports = ({ config }) => {
     },
     android: {
       ...config.android,
+      versionCode: 1,
       package: "com.ogeremo.civicportal",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",

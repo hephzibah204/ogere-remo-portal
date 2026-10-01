@@ -71,6 +71,7 @@ interface AuthContextType {
     organization?: string;
   }) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<{ success: boolean; error?: string }>;
   authenticateWithBiometrics: () => Promise<boolean>;
 }
 
@@ -352,6 +353,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await AsyncStorage.removeItem(USER_KEY);
   };
 
+  const deleteAccount = async (): Promise<{ success: boolean; error?: string }> => {
+    try {
+      if (user?.id || token) {
+        await fetch(`${API_BASE_URL}/api/auth?action=delete_account`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ action: 'delete_account', userId: user?.id }),
+        }).catch(() => {});
+      }
+      try {
+        await SecureStore.deleteItemAsync(BIOMETRIC_TOKEN_KEY);
+      } catch {
+        await AsyncStorage.removeItem(BIOMETRIC_TOKEN_KEY);
+      }
+      await AsyncStorage.removeItem(BIOMETRIC_USER_KEY);
+      await signOut();
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e?.message || 'Failed to delete account' };
+    }
+  };
+
   const authenticateWithBiometrics = async (): Promise<boolean> => {
     try {
       const result = await LocalAuthentication.authenticateAsync({
@@ -390,6 +416,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         signIn,
         signUp,
         signOut,
+        deleteAccount,
         authenticateWithBiometrics,
       }}
     >

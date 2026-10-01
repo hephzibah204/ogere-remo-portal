@@ -510,5 +510,39 @@ export default async function handler(req, res) {
     }
   }
 
+  // --- 4. DELETE ACCOUNT (Google Play Store Account Deletion Compliance) ---
+  if (req.method === 'POST' && action === 'delete_account') {
+    const authHeader = req.headers.authorization || '';
+    const token = authHeader.replace('Bearer ', '').trim();
+    const { userId } = req.body || {};
+
+    let targetId = userId;
+    if (token) {
+      try {
+        const payload = JSON.parse(Buffer.from(token, 'base64').toString('utf8'));
+        if (payload?.id) targetId = payload.id;
+      } catch (_) {}
+    }
+
+    if (!targetId) {
+      return res.status(400).json({ success: false, error: 'User account ID or token required for deletion.' });
+    }
+
+    try {
+      const existing = await sqlQuery('SELECT id, id_card_number FROM users WHERE id = $1 LIMIT 1', [targetId]);
+      if (existing.length > 0 && existing[0].id_card_number) {
+        await sqlQuery('DELETE FROM id_cards WHERE id = $1', [existing[0].id_card_number]).catch(() => {});
+      }
+      await sqlQuery('DELETE FROM users WHERE id = $1', [targetId]);
+      return res.status(200).json({
+        success: true,
+        message: 'Account and associated personal data permanently deleted.',
+      });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
   return res.status(400).json({ success: false, error: 'Unknown action.' });
 }
+

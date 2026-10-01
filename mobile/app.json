@@ -14,14 +14,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ogeremo.civicportal",
+      "buildNumber": "1",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Use Face ID to securely log into your Ogere Remo Civic Citizen account.",
-        "NSLocationWhenInUseUsageDescription": "Your location is used to dispatch rapid security assistance and share live location during emergencies.",
-        "NSCameraUsageDescription": "Camera access is needed to capture photos for citizen incident reporting and ID verification.",
-        "NSPhotoLibraryUsageDescription": "Photo library access is needed to attach evidence to incident reports."
+        "NSLocationWhenInUseUsageDescription": "Your location is used to dispatch rapid security assistance and share live location during emergencies."
       }
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#064e3b"
@@ -32,9 +32,7 @@
         "USE_FINGERPRINT",
         "ACCESS_NETWORK_STATE",
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE"
+        "ACCESS_COARSE_LOCATION"
       ]
     },
     "web": {
