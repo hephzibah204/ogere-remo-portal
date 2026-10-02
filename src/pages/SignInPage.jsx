@@ -5,16 +5,18 @@ import Hero from '../components/Hero';
 import AdireDivider from '../components/AdireDivider';
 import Section from '../components/Section';
 import { signIn, getSession } from '../services/auth';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function SignInPage() {
   const nav = useNavigate();
   const [form, setForm] = useState({ identifier: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
-    getSession().then(user => { if (user) nav('/dashboard'); });
-  }, [nav]);
+    if (user) nav('/dashboard');
+  }, [user, nav]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

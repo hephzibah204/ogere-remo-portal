@@ -41,6 +41,17 @@ export default function FixMyStreetPage() {
   const [submitSuccess, setSubmitSuccess] = useState(null);
 
   useEffect(() => {
+    // Sync with backend on load
+    fetch('/api/community?type=fix-my-street')
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setIssues(data);
+          localStorage.setItem('ogere_fms_issues', JSON.stringify(data));
+        }
+      })
+      .catch(console.warn);
+
     const handleIssueUpdate = () => setIssues(getStreetIssues());
     const handlePowerUpdate = () => setPowerGrid(getPowerGridStatus());
 

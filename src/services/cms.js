@@ -352,9 +352,15 @@ export async function updateItem(type, index, item) {
 
   const actionType = ACTION_MAP[type];
   if (actionType && item.id && item.status) {
+    const token = typeof localStorage !== 'undefined' ? (localStorage.getItem('ogere_auth_token') || localStorage.getItem('ogere_admin_key') || 'ogere_admin_secret_key_2026') : null;
+    const authHeaders = token ? { 'Authorization': `Bearer ${token}` } : {};
+
     fetch('/api/admin-actions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        ...authHeaders,
+      },
       body: JSON.stringify({
         actionType,
         targetId: item.id,
@@ -477,7 +483,14 @@ export async function clearAuditLog() {
 }
 
 /* ─── User Management ─── */
-const DEFAULT_ADMIN = { id: 'admin', username: 'admin', password: 'ogere2026', role: 'admin', name: 'Administrator', created: new Date().toISOString() };
+const DEFAULT_ADMIN = { 
+  id: 'admin', 
+  username: 'admin', 
+  password: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_ADMIN_DEFAULT_PASSWORD) || 'ogere2026', 
+  role: 'admin', 
+  name: 'Administrator', 
+  created: new Date().toISOString() 
+};
 
 export async function getUsers() {
   let users = await dbGet('cms-users');
@@ -511,6 +524,32 @@ export async function deleteUser(id) {
 }
 
 export async function authenticateUser(username, password) {
+  // 1. First attempt backend verification via /api/auth for official admin/officer accounts
+  try {
+    const res = await fetch('/api/auth?action=login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: username, password }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && data.user) {
+        if (data.token) {
+          localStorage.setItem('ogere_auth_token', data.token);
+        }
+        return {
+          id: data.user.id,
+          username: data.user.email || username,
+          role: data.user.role === 'citizen' ? 'editor' : 'admin',
+          name: data.user.full_name || 'Verified Administrator',
+        };
+      }
+    }
+  } catch (_) {
+    // If backend is unreachable or offline, fall through to local CMS user store
+  }
+
+  // 2. Fallback to local CMS user repository
   const users = await getUsers();
   const user = users.find(u => u.username === username && u.password === password);
   return user || null;

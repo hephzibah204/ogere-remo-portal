@@ -1,4 +1,4 @@
-import { sqlQuery } from './lib/db.js';
+import { sqlQuery, verifyAdminAuth } from './lib/db.js';
 
 // In-memory fallback buffers if database connection is in mock/offline mode
 let memoryIncidents = [
@@ -1200,6 +1200,14 @@ export default async function handler(req, res) {
 
   // PATCH: Update Incident (Status, Agency, Unit notes, Live Media Feeds, SLA & SITREPs)
   if (req.method === 'PATCH') {
+    const auth = await verifyAdminAuth(req);
+    if (!auth.authenticated) {
+      return res.status(401).json({
+        success: false,
+        error: 'Unauthorized: Security commander, officer, or admin credentials required to update incident records.',
+      });
+    }
+
     const {
       id,
       status,
@@ -1293,8 +1301,18 @@ export default async function handler(req, res) {
 
   // GET: Fetch incidents list
   try {
+    const auth = await verifyAdminAuth(req);
     const rows = await sqlQuery('SELECT * FROM incident_reports ORDER BY created_at DESC LIMIT 50').catch(() => []);
-    const results = rows.length > 0 ? rows : memoryIncidents;
+    let results = rows.length > 0 ? rows : memoryIncidents;
+    
+    // Strip PII for unauthenticated requests
+    if (!auth.authenticated) {
+      results = results.map(inc => {
+        const { reporter_phone, ip_address, ...safeInc } = inc;
+        return safeInc;
+      });
+    }
+
     return res.status(200).json({
       success: true,
       total: results.length,
@@ -1302,11 +1320,19 @@ export default async function handler(req, res) {
       data: results,
     });
   } catch (err) {
+    const auth = await verifyAdminAuth(req);
+    let results = memoryIncidents;
+    if (!auth.authenticated) {
+      results = results.map(inc => {
+        const { reporter_phone, ip_address, ...safeInc } = inc;
+        return safeInc;
+      });
+    }
     return res.status(200).json({
       success: true,
-      total: memoryIncidents.length,
-      incidents: memoryIncidents,
-      data: memoryIncidents,
+      total: results.length,
+      incidents: results,
+      data: results,
     });
   }
 }

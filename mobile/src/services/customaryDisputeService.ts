@@ -153,8 +153,24 @@ const SEED_DISPUTES: DisputeCase[] = [
 
 const STORAGE_KEY = 'ogere_customary_disputes_v1';
 
+import Constants from 'expo-constants';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://192.168.1.100:3000';
+
 export async function getDisputes(): Promise<DisputeCase[]> {
   try {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/community?type=customary-disputes`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data) && data.length > 0) {
+          await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          return data;
+        }
+      }
+    } catch (err) {
+      console.warn('[Customary Dispute Sync Failed]', err);
+    }
+
     const raw = await AsyncStorage.getItem(STORAGE_KEY);
     if (!raw) {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_DISPUTES));
@@ -198,5 +214,16 @@ export async function fileNewDispute(payload: Partial<DisputeCase>): Promise<Dis
 
   const updated = [newCase, ...current];
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+
+  try {
+    await fetch(`${API_BASE_URL}/api/community?type=customary-disputes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newCase),
+    });
+  } catch (err) {
+    console.warn('[Customary Dispute Cloud Sync Fallback]:', err);
+  }
+
   return newCase;
 }

@@ -6,13 +6,30 @@
 export async function apiRequest(endpoint, options = {}) {
   try {
     const url = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('ogere_auth_token') : null;
+    const adminKey = typeof localStorage !== 'undefined' ? localStorage.getItem('ogere_admin_key') : null;
+
+    const authHeader = {};
+    if (token) {
+      authHeader['Authorization'] = `Bearer ${token}`;
+    } else if (adminKey) {
+      authHeader['Authorization'] = `Bearer ${adminKey}`;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const res = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
+        ...authHeader,
         ...options.headers,
       },
+      signal: controller.signal,
       ...options,
     });
+
+    clearTimeout(timeoutId);
 
     if (!res.ok) {
       const errData = await res.json().catch(() => ({}));
@@ -21,7 +38,11 @@ export async function apiRequest(endpoint, options = {}) {
 
     return await res.json();
   } catch (err) {
-    console.warn(`[Backend API Client] Endpoint ${endpoint} notice:`, err.message);
+    if (err.name === 'AbortError') {
+      console.error(`[Backend API Client] Endpoint ${endpoint} timed out after 8 seconds.`);
+    } else {
+      console.warn(`[Backend API Client] Endpoint ${endpoint} notice:`, err.message);
+    }
     return null;
   }
 }

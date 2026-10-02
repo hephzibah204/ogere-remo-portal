@@ -11,6 +11,14 @@ export default async function handler(req, res) {
 
   // 1. GET: Officer Roster & Command Dashboard Counters
   if (req.method === 'GET') {
+    const auth = await verifyAdminAuth(req);
+    if (!auth.authenticated) {
+      return res.status(401).json({
+        success: false,
+        error: 'Unauthorized: Administrative or command authentication required to view officer roster.',
+      });
+    }
+
     try {
       // Live system counters for field officers
       const [

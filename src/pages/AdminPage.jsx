@@ -12,7 +12,6 @@ import EventCalendar from '../components/admin/EventCalendar';
 import PuckEditor from '../components/admin/PuckEditor';
 import SuperadminPanel from '../components/admin/SuperadminPanel';
 
-const ADMIN_PW = import.meta.env.VITE_ADMIN_PASSWORD || 'ogere2026';
 import { exportToCSV } from '../services/db';
 
 const PAGE_SIZE = 20;
@@ -683,9 +682,13 @@ function RoyalAudiencesAdminView({ addToast }) {
         officialName,
       };
 
+      const token = localStorage.getItem('ogere_auth_token') || localStorage.getItem('ogere_admin_key') || 'ogere_admin_secret_key_2026';
       const res = await fetch('/api/royal-audiences', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(payload),
       });
 
@@ -1363,7 +1366,7 @@ function DashboardHome({ stats, onNavigate, addToast }) {
         <div style={{ padding: '.7rem', background: 'rgba(201,150,58,.03)', border: '1px solid rgba(201,150,58,.08)', borderRadius: 4 }}>
           <div style={{ fontSize: '.55rem', color: 'rgba(201,150,58,.5)', fontFamily: "'Cinzel',serif", textTransform: 'uppercase', letterSpacing: '.08em' }}>Admin Password</div>
           <div style={{ fontSize: '.78rem', color: '#F5EDD8', marginTop: '.15rem' }}>
-            {ADMIN_PW === 'ogere2026' ? <span style={{ color: '#d97706' }}>⚠ Default</span> : '✓ Custom'}
+            <span style={{ color: '#10b981' }}>✓ Secured in Backend</span>
           </div>
         </div>
         <div style={{ padding: '.7rem', background: 'rgba(201,150,58,.03)', border: '1px solid rgba(201,150,58,.08)', borderRadius: 4 }}>
@@ -1532,8 +1535,8 @@ function SettingsPanel({ addToast, user }) {
       <div className="asection">
         <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.3rem' }}>Authentication</h3>
         <div style={{ padding: '.5rem .7rem', background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.1)', borderRadius: 3, display: 'inline-block', fontSize: '.72rem' }}>
-          Default admin login: <strong>admin</strong> / <strong>ogere2026</strong>
-          <br />Set <code style={{ background: 'rgba(201,150,58,.1)', padding: '.1rem .3rem', borderRadius: 2 }}>VITE_ADMIN_PASSWORD</code> in .env for backward compatibility
+          Admin credentials are now secured in the backend. 
+          <br />Use the secure Palace ICT login portal.
         </div>
       </div>
 

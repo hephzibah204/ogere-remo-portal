@@ -350,7 +350,10 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
     Alert.alert(
       '📍 Precise Location Disabled',
       'Please allow GPS access in device settings for pinpoint accuracy in Ogere Remo.',
-      [{ text: 'OK', style: 'default' }]
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Open Settings', onPress: () => Linking.openSettings() }
+      ]
     );
   }
 

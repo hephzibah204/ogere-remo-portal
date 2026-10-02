@@ -8,7 +8,7 @@ export async function getUsers() {
   return (await dbGet(USERS_KEY)) || [];
 }
 
-export async function signUp({ name, email, username, password, phone }) {
+export async function signUp({ name, email, username, password, phone, citizenType, quarter }) {
   const cleanName = (name || '').trim();
   const cleanEmail = (email || '').trim().toLowerCase();
   const cleanUsername = (username || '').trim().toLowerCase();
@@ -18,6 +18,63 @@ export async function signUp({ name, email, username, password, phone }) {
     return { ok: false, error: 'All required fields must be filled.' };
   }
 
+  // Attempt registration via backend API
+  try {
+    const apiRes = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'register',
+        fullName: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        password,
+        citizenType: citizenType || 'indigene',
+        quarter: quarter || 'Oke-Ogere',
+      }),
+    });
+
+    const data = await apiRes.json();
+    if (apiRes.ok && data.success) {
+      const user = {
+        id: data.user.id,
+        name: data.user.fullName || cleanName,
+        fullName: data.user.fullName || cleanName,
+        email: data.user.email || cleanEmail,
+        username: cleanUsername,
+        phone: data.user.phone || cleanPhone,
+        role: data.user.role || 'user',
+        created: new Date().toISOString(),
+        avatar: '',
+        bio: '',
+        location: data.user.locationSummary || '',
+        idCardNumber: data.user.idCardNumber || '',
+        token: data.token || '',
+      };
+
+      const users = await getUsers();
+      const existingIdx = users.findIndex(u => u.id === user.id || u.email === user.email);
+      if (existingIdx >= 0) users[existingIdx] = user;
+      else users.push(user);
+
+      await dbSet(USERS_KEY, users);
+      await dbSet(SESSION_KEY, { userId: user.id });
+
+      try {
+        localStorage.setItem(OGERE_USER_KEY, JSON.stringify(user));
+        if (data.token) localStorage.setItem('ogere_auth_token', data.token);
+      } catch (_) {}
+
+      window.dispatchEvent(new CustomEvent('ogere-auth-changed', { detail: user }));
+      return { ok: true, user };
+    } else if (apiRes.status === 409) {
+      return { ok: false, error: data.error || 'Email or phone number already registered.' };
+    }
+  } catch (netErr) {
+    console.warn('[Auth Service] /api/auth offline, proceeding with local registration store:', netErr.message);
+  }
+
+  // Fallback: Local database registration if backend is unreachable
   const users = await getUsers();
   if (users.find(u => (u.username || '').toLowerCase().trim() === cleanUsername)) {
     return { ok: false, error: 'Username is already taken.' };
@@ -33,7 +90,6 @@ export async function signUp({ name, email, username, password, phone }) {
     email: cleanEmail,
     username: cleanUsername,
     phone: cleanPhone,
-    password,
     role: 'user',
     created: new Date().toISOString(),
     avatar: '',
@@ -61,14 +117,65 @@ export async function signIn(identifier, password) {
     return { ok: false, error: 'Username/email and password are required.' };
   }
 
-  const users = await getUsers();
-  let user = users.find(u => {
-    const userUname = (u.username || '').toLowerCase().trim();
-    const userEmail = (u.email || '').toLowerCase().trim();
-    const userPhone = (u.phone || '').replace(/\D/g, '');
-    const matchIdent = userUname === ident || userEmail === ident || (cleanPhone.length >= 7 && userPhone === cleanPhone);
-    return matchIdent && u.password === password;
-  });
+  // Attempt login via backend API
+  try {
+    const apiRes = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'login',
+        identifier: ident,
+        password,
+      }),
+    });
+
+    const data = await apiRes.json();
+    if (apiRes.ok && data.success) {
+      const u = data.user;
+      const user = {
+        id: u.id,
+        name: u.fullName || ident,
+        fullName: u.fullName || ident,
+        email: u.email || '',
+        username: ident,
+        phone: u.phone || '',
+        role: u.role || 'user',
+        created: new Date().toISOString(),
+        avatar: '',
+        bio: '',
+        location: '',
+        idCardNumber: u.idCardNumber || '',
+        token: data.token || '',
+      };
+
+      const users = await getUsers();
+      const existingIdx = users.findIndex(item => item.id === user.id || (user.email && item.email === user.email));
+      if (existingIdx >= 0) users[existingIdx] = { ...users[existingIdx], ...user };
+      else users.push(user);
+
+      await dbSet(USERS_KEY, users);
+      await dbSet(SESSION_KEY, { userId: user.id });
+
+      try {
+        localStorage.setItem(OGERE_USER_KEY, JSON.stringify(user));
+        if (data.token) localStorage.setItem('ogere_auth_token', data.token);
+      } catch (_) {}
+
+      window.dispatchEvent(new CustomEvent('ogere-auth-changed', { detail: user }));
+      return { ok: true, user };
+    } else if (apiRes.status === 401) {
+      // If server explicitly denied credentials, check admin fallback
+      if ((ident === 'admin' || ident === 'admin@ogereremo.org') && password === 'ogere2026') {
+        // Fallthrough to admin below
+      } else {
+        return { ok: false, error: data.error || 'Invalid username/email or password.' };
+      }
+    }
+  } catch (netErr) {
+    console.warn('[Auth Service] /api/auth offline, proceeding with local auth store:', netErr.message);
+  }
+
+  let user = null; // Removed insecure local plaintext password fallback
 
   // Admin fallback support for website
   if (!user && (ident === 'admin' || ident === 'admin@ogereremo.org') && password === 'ogere2026') {

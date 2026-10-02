@@ -63,6 +63,7 @@ export default function DiasporaPage() {
   const [donorName, setDonorName] = useState('');
   const [donationPaid, setDonationPaid] = useState(false);
   const [donationBusy, setDonationBusy] = useState(false);
+  const [donationError, setDonationError] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -92,6 +93,7 @@ export default function DiasporaPage() {
     e.preventDefault();
     if (!donationModal || !donationAmount) return;
     setDonationBusy(true);
+    setDonationError('');
 
     try {
       await initializePayment({
@@ -109,6 +111,7 @@ export default function DiasporaPage() {
       }, 3500);
     } catch (err) {
       console.error('Donation error:', err);
+      setDonationError(err.message || 'Payment failed or gateway is not configured.');
       setDonationBusy(false);
     }
   };
@@ -364,6 +367,12 @@ export default function DiasporaPage() {
                   <div style={{ fontSize: '0.85rem', color: 'var(--cream)', fontWeight: 'bold' }}>{donationModal.title}</div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--gold)', marginTop: '0.2rem' }}>{donationModal.organizer}</div>
                 </div>
+
+                {donationError && (
+                  <div style={{ padding: '0.6rem 0.8rem', background: 'rgba(220,38,38,0.15)', border: '1px solid rgba(220,38,38,0.35)', borderRadius: '6px', marginBottom: '1.2rem', color: '#f87171', fontSize: '0.8rem' }}>
+                    {donationError}
+                  </div>
+                )}
 
                 {/* Amount presets */}
                 <div style={{ marginBottom: '1.2rem' }}>

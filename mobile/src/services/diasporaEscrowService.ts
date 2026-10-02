@@ -133,8 +133,25 @@ export const ESCROW_PROJECTS: EscrowProject[] = [
 
 const STORAGE_KEY = 'ogere_diaspora_escrow_v1';
 
+import Constants from 'expo-constants';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://192.168.1.100:3000';
+
 export async function getEscrowProjects(): Promise<EscrowProject[]> {
   try {
+    // Attempt backend sync
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/community?type=diaspora-escrow`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data) && data.length > 0) {
+          await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          return data;
+        }
+      }
+    } catch (err) {
+      console.warn('[Diaspora Sync Failed, using local cache]', err);
+    }
+
     const raw = await AsyncStorage.getItem(STORAGE_KEY);
     if (!raw) {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(ESCROW_PROJECTS));

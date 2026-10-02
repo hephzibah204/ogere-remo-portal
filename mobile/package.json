@@ -47,9 +47,18 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@expo/metro-config": "^57.0.12",
+    "@testing-library/react-native": "^14.0.1",
     "@types/react": "~18.2.45",
+    "jest": "^30.5.2",
+    "jest-expo": "^57.0.5",
     "metro": "0.80.12",
     "typescript": "~5.3.3"
   },
-  "private": true
+  "private": true,
+  "jest": {
+    "preset": "jest-expo",
+    "testMatch": [
+      "**/?(*.)+(spec|test).[jt]s?(x)"
+    ]
+  }
 }

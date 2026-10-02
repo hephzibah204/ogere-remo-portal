@@ -435,6 +435,88 @@ CREATE TABLE IF NOT EXISTS patrol_checkins (
 
 CREATE INDEX IF NOT EXISTS idx_patrol_checked ON patrol_checkins(checked_in_at DESC);
 
+-- 25. Royal Customary Dispute Arbitration ("Kootu Oba")
+CREATE TABLE IF NOT EXISTS customary_disputes (
+    id VARCHAR(64) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(64) NOT NULL,
+    complainant_name VARCHAR(255) NOT NULL,
+    complainant_phone VARCHAR(32) NOT NULL,
+    complainant_compound VARCHAR(128),
+    complainant_quarter VARCHAR(128),
+    respondent_name VARCHAR(255) NOT NULL,
+    respondent_phone VARCHAR(32),
+    respondent_compound VARCHAR(128),
+    respondent_quarter VARCHAR(128),
+    location VARCHAR(255),
+    assigned_arbitrator_id VARCHAR(64),
+    assigned_arbitrator_name VARCHAR(128),
+    status VARCHAR(32) NOT NULL DEFAULT 'UNDER_REVIEW', -- UNDER_REVIEW, HEARING_SCHEDULED, MEDIATION_IN_PROGRESS, RESOLVED_DECREE, REFERRED_STATUTORY
+    hearing_date DATE,
+    hearing_time VARCHAR(32),
+    hearing_venue VARCHAR(255) DEFAULT 'Inner Royal Council Chamber, Aafin Ologere',
+    virtual_link TEXT,
+    description TEXT NOT NULL,
+    arbitrator_notes TEXT,
+    decree_summary TEXT,
+    decree_seal_number VARCHAR(64),
+    filed_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_customary_disputes_status ON customary_disputes(status);
+CREATE INDEX IF NOT EXISTS idx_customary_disputes_cat ON customary_disputes(category);
+
+-- 26. Diaspora Homeland Capital Projects & Milestone Escrow Grants
+CREATE TABLE IF NOT EXISTS diaspora_escrow_projects (
+    id VARCHAR(64) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(64) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    target_budget_ngn NUMERIC(14, 2) NOT NULL DEFAULT 0,
+    target_budget_usd NUMERIC(12, 2) DEFAULT 0,
+    raised_ngn NUMERIC(14, 2) NOT NULL DEFAULT 0,
+    escrow_locked_ngn NUMERIC(14, 2) NOT NULL DEFAULT 0,
+    released_ngn NUMERIC(14, 2) NOT NULL DEFAULT 0,
+    status VARCHAR(32) NOT NULL DEFAULT 'FUNDING', -- FUNDING, IN_EXECUTION, VERIFICATION_PENDING, COMPLETED
+    lead_contractor VARCHAR(255),
+    lead_supervisor VARCHAR(255),
+    palace_signatory VARCHAR(255),
+    donors_count INT DEFAULT 0,
+    completion_percentage INT DEFAULT 0,
+    milestones JSONB DEFAULT '[]'::jsonb,
+    cover_image TEXT,
+    description TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_escrow_status ON diaspora_escrow_projects(status);
+
+-- 27. Civic Infrastructure, Public Works & IBEDC Grid Reports ("FixMyStreet")
+CREATE TABLE IF NOT EXISTS civic_infrastructure_issues (
+    id VARCHAR(64) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(64) NOT NULL,
+    quarter VARCHAR(128) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    latitude NUMERIC(10, 7),
+    longitude NUMERIC(10, 7),
+    severity VARCHAR(32) NOT NULL DEFAULT 'HIGH', -- LOW, MEDIUM, HIGH, CRITICAL
+    status VARCHAR(32) NOT NULL DEFAULT 'REPORTED', -- REPORTED, INVESTIGATING, CONTRACTOR_ASSIGNED, IN_PROGRESS, RESOLVED
+    upvotes INT DEFAULT 0,
+    reporter_name VARCHAR(128),
+    description TEXT NOT NULL,
+    assigned_contractor VARCHAR(255),
+    contractor_eta VARCHAR(255),
+    photo_url TEXT,
+    reported_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_civic_issues_status ON civic_infrastructure_issues(status);
+CREATE INDEX IF NOT EXISTS idx_civic_issues_quarter ON civic_infrastructure_issues(quarter);
+
 -- ==========================================================
 -- SEED DATA INSERTIONS (Initial Portal Data)
 -- ==========================================================

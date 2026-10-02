@@ -1,16 +1,17 @@
+import { checkRateLimit } from './lib/rateLimit.js';
 import { sqlQuery } from './lib/db.js';
 import crypto from 'crypto';
 
 function hashPassword(password, salt = null) {
   const generatedSalt = salt || crypto.randomBytes(16).toString('hex');
-  const hash = crypto.pbkdf2Sync(password, generatedSalt, 1000, 64, 'sha512').toString('hex');
+  const hash = crypto.pbkdf2Sync(password, generatedSalt, 600000, 64, 'sha512').toString('hex');
   return `${generatedSalt}:${hash}`;
 }
 
 function verifyPassword(password, storedHash) {
   const [salt, hash] = (storedHash || '').split(':');
   if (!salt || !hash) return false;
-  const verifyHash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+  const verifyHash = crypto.pbkdf2Sync(password, salt, 600000, 64, 'sha512').toString('hex');
   return hash === verifyHash;
 }
 
@@ -87,13 +88,20 @@ async function ensureAuthTables() {
   }
 }
 
+
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  const clientIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || '127.0.0.1';
+  if (!checkRateLimit(clientIp, 10, 900000)) { // 10 requests per 15 minutes
+    return res.status(429).json({ success: false, error: 'Too many requests. Please try again later.' });
   }
 
   await ensureAuthTables();
@@ -545,4 +553,5 @@ export default async function handler(req, res) {
 
   return res.status(400).json({ success: false, error: 'Unknown action.' });
 }
+
 

@@ -3,6 +3,7 @@ const { Pool } = pg;
 
 let pool = null;
 let neonSql = null;
+let tursoClient = null;
 
 // Initialize in-memory fallback store on globalThis so it persists across function invocations
 if (!globalThis._ogereFallbackStore) {
@@ -366,6 +367,69 @@ if (!globalThis._ogereFallbackStore) {
       body: 'Fellow citizens, let us deliberate on modern protective reinforcement for our 15th-century royal ancestral walls before the next Lipakala Day.',
       created_at: '2026-08-12T10:00:00Z',
     }
+  ],
+  customary_disputes: [
+    {
+      id: 'DISP-2026-001',
+      title: 'Ancestral Farmland Boundary Demarcation along Agbele Axis',
+      category: 'land_boundary',
+      complainant_name: 'Pa Johnson Adeleke',
+      complainant_phone: '08033221199',
+      complainant_compound: 'Adeleke Royal Compound',
+      complainant_quarter: 'Oke-Ogere',
+      respondent_name: 'Chief Olatunji Sobowale',
+      respondent_phone: '08055443322',
+      respondent_compound: 'Sobowale Family House',
+      respondent_quarter: 'Agbele Corridor',
+      location: 'Agbele Boundary Marker 4',
+      assigned_arbitrator_id: 'arb-01',
+      assigned_arbitrator_name: 'High Chief Rasheed Adeleke (The Oliwo)',
+      status: 'HEARING_SCHEDULED',
+      hearing_date: '2026-10-15',
+      hearing_time: '10:00 AM',
+      hearing_venue: 'Inner Royal Council Chamber, Aafin Ologere',
+      description: 'Historical survey beacon disputed following road expansion near Agbele boundary.',
+      arbitrator_notes: 'Both family heads formally summoned for physical sitting.',
+      created_at: '2026-09-10T10:00:00Z',
+    }
+  ],
+  diaspora_escrow_projects: [
+    {
+      id: 'ESC-PRJ-01',
+      title: 'Solar Streetlight Grid Phase II (Town Core & Oja Oba)',
+      category: 'INFRASTRUCTURE',
+      location: 'Palace Way to Isale-Ogere Hospital Axis (4.2km)',
+      target_budget_ngn: 18500000,
+      target_budget_usd: 12500,
+      raised_ngn: 14800000,
+      escrow_locked_ngn: 8880000,
+      released_ngn: 5920000,
+      status: 'IN_EXECUTION',
+      lead_contractor: 'Solaris Energy Africa Ltd & OCDA Works',
+      lead_supervisor: 'Engr. Folake Sobukonla (OCDA)',
+      donors_count: 42,
+      completion_percentage: 65,
+      created_at: '2026-08-01T12:00:00Z',
+    }
+  ],
+  civic_infrastructure_issues: [
+    {
+      id: 'FMS-2026-104',
+      title: 'Severe Asphalt Potholes on Palace Way near Town Hall',
+      category: 'pothole_road',
+      quarter: 'Oke-Ogere',
+      location: 'Palace Way, directly opposite OCDA Secretariat',
+      latitude: 6.9368,
+      longitude: 3.6330,
+      severity: 'HIGH',
+      status: 'CONTRACTOR_ASSIGNED',
+      upvotes: 28,
+      reporter_name: 'Segun Ogunsanya',
+      description: 'Deep pothole damaging low vehicle suspensions and slowing emergency ambulances from Tollgate.',
+      assigned_contractor: 'Remo North Works Dept & OCDA Paving Unit',
+      contractor_eta: 'Paving team mobilized for Friday 26th Sep',
+      created_at: '2026-09-20T14:00:00Z',
+    }
   ]
   };
 }
@@ -398,8 +462,53 @@ export function getPool() {
  */
 export async function sqlQuery(queryText, params = []) {
   const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+  const tursoUrl = process.env.TURSO_DATABASE_URL || process.env.LIBSQL_URL || (connectionString && connectionString.startsWith('libsql:') ? connectionString : null);
+  const tursoAuthToken = process.env.TURSO_AUTH_TOKEN || process.env.LIBSQL_AUTH_TOKEN;
 
-  // 1. Try Neon serverless HTTP driver if URL points to neon.tech
+  // 1. Try Turso / libSQL Edge Database if configured
+  if (tursoUrl) {
+    try {
+      if (!tursoClient) {
+        const { createClient } = await import('@libsql/client');
+        tursoClient = createClient({
+          url: tursoUrl,
+          authToken: tursoAuthToken,
+        });
+      }
+      if (tursoClient) {
+        // Convert Postgres $1, $2 positional placeholders to SQLite ? placeholders
+        let sqliteQuery = queryText;
+        const normalizedParams = Array.isArray(params) ? [...params] : [];
+        if (params && params.length > 0) {
+          sqliteQuery = queryText.replace(/\$(\d+)/g, '?');
+        }
+        // Normalize PostgreSQL CURRENT_TIMESTAMP / NOW() functions to SQLite datetime('now')
+        sqliteQuery = sqliteQuery
+          .replace(/CURRENT_TIMESTAMP/gi, "datetime('now')")
+          .replace(/NOW\(\)/gi, "datetime('now')")
+          .replace(/FILTER\s*\(\s*WHERE\s+([^)]+)\)/gi, 'AND $1'); // Support conditional counts
+
+        const res = await tursoClient.execute({
+          sql: sqliteQuery,
+          args: normalizedParams,
+        });
+
+        if (res && Array.isArray(res.rows)) {
+          return res.rows.map(row => {
+            if (row && typeof row === 'object' && !Array.isArray(row)) {
+              return { ...row };
+            }
+            return row;
+          });
+        }
+        return [];
+      }
+    } catch (tursoErr) {
+      console.debug('[Turso Driver Notice]:', tursoErr.message);
+    }
+  }
+
+  // 2. Try Neon serverless HTTP driver if URL points to neon.tech
   if (connectionString && connectionString.includes('neon.tech')) {
     try {
       if (!neonSql) {
@@ -416,7 +525,7 @@ export async function sqlQuery(queryText, params = []) {
     }
   }
 
-  // 2. Try standard pg.Pool
+  // 3. Try standard pg.Pool
   const p = getPool();
   if (p) {
     try {
@@ -580,9 +689,9 @@ export async function verifyAdminAuth(req) {
   const parts = authHeader.split(' ');
   const token = parts.length === 2 ? parts[1].trim() : authHeader.trim();
 
-  const masterKey = process.env.ADMIN_API_KEY;
+  const masterKey = process.env.ADMIN_API_KEY || process.env.ADMIN_KEY;
   if (masterKey && token === masterKey) {
-    return { ok: true, user: { id: 'admin_key', role: 'super_admin' } };
+    return { ok: true, authenticated: true, user: { id: 'admin_key', role: 'super_admin' } };
   }
 
   try {
@@ -606,7 +715,43 @@ export async function verifyAdminAuth(req) {
       return { ok: false, error: `Forbidden: User role "${user.role}" does not have administrative privileges.` };
     }
 
-    return { ok: true, user };
+    return { ok: true, authenticated: true, user };
+  } catch (err) {
+    return { ok: false, error: 'Malformed or invalid authorization token.' };
+  }
+}
+
+export async function verifyUserAuth(req) {
+  const authHeader = req.headers['authorization'] || req.headers['Authorization'] || '';
+  if (!authHeader) {
+    return { ok: false, error: 'Missing Authorization header.' };
+  }
+
+  const parts = authHeader.split(' ');
+  const token = parts.length === 2 ? parts[1].trim() : authHeader.trim();
+
+  const masterKey = process.env.ADMIN_API_KEY || process.env.ADMIN_KEY;
+  if (masterKey && token === masterKey) {
+    return { ok: true, authenticated: true, user: { id: 'admin_key', role: 'super_admin' } };
+  }
+
+  try {
+    const raw = Buffer.from(token, 'base64').toString('utf8');
+    const parsed = JSON.parse(raw);
+    if (!parsed || !parsed.id) {
+      return { ok: false, error: 'Invalid token structure.' };
+    }
+
+    if (parsed.exp && Date.now() > parsed.exp) {
+      return { ok: false, error: 'Authorization token has expired.' };
+    }
+
+    const users = await sqlQuery('SELECT id, full_name, role FROM users WHERE id = $1 LIMIT 1', [parsed.id]);
+    if (!users || users.length === 0) {
+      return { ok: false, error: 'User account not found.' };
+    }
+
+    return { ok: true, authenticated: true, user: users[0] };
   } catch (err) {
     return { ok: false, error: 'Malformed or invalid authorization token.' };
   }

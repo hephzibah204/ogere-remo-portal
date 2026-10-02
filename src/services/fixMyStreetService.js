@@ -110,6 +110,12 @@ export function reportStreetIssue(issueData) {
   const updated = [newIssue, ...current];
   try {
     localStorage.setItem('ogere_street_issues', JSON.stringify(updated));
+    // Asynchronously dispatch to backend database
+    fetch('/api/community?type=fix-my-street', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newIssue),
+    }).catch(err => console.warn('[FixMyStreet Cloud Sync Fallback]:', err.message));
   } catch (_) {}
 
   broadcastFmsEvent('ogere-fms-updated', newIssue);
@@ -119,10 +125,17 @@ export function reportStreetIssue(issueData) {
 export function upvoteStreetIssue(issueId) {
   const current = getStreetIssues();
   const updated = current.map((i) => (i.id === issueId ? { ...i, upvotes: i.upvotes + 1 } : i));
+  const target = updated.find((i) => i.id === issueId);
   try {
     localStorage.setItem('ogere_street_issues', JSON.stringify(updated));
+    if (typeof fetch !== 'undefined') {
+      fetch('/api/community?type=fix-my-street', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'upvote', issueId, issueUpdate: target }),
+      }).catch(err => console.warn('[FixMyStreet Upvote Sync Fallback]:', err.message));
+    }
   } catch (_) {}
-  const target = updated.find((i) => i.id === issueId);
   broadcastFmsEvent('ogere-fms-updated', target);
   return target;
 }

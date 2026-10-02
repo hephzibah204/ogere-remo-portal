@@ -708,6 +708,100 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true, tokensCount: global._memoryPushTokens.length });
   }
 
+  // 7. Customary Disputes ("Kootu Oba") API: /api/customary-disputes
+  const isDisputes = pathname.includes('customary-disputes') || req.query.type === 'customary-disputes';
+  if (isDisputes) {
+    if (req.method === 'POST') {
+      const body = req.body || {};
+      const newId = body.id || `DISP-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
+      try {
+        await sqlQuery(
+          `INSERT INTO customary_disputes 
+           (id, title, category, complainant_name, complainant_phone, complainant_compound, complainant_quarter, respondent_name, respondent_phone, respondent_compound, respondent_quarter, location, assigned_arbitrator_id, assigned_arbitrator_name, status, description)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+          [
+            newId,
+            body.title || 'Customary Dispute',
+            body.category || 'land_boundary',
+            body.complainantName || '',
+            body.complainantPhone || '',
+            body.complainantCompound || 'General',
+            body.complainantQuarter || 'Oke-Ogere',
+            body.respondentName || '',
+            body.respondentPhone || '',
+            body.respondentCompound || 'General',
+            body.respondentQuarter || 'Isale-Ogere',
+            body.location || 'Ogere Remo',
+            body.assignedArbitrator?.id || 'arb-01',
+            body.assignedArbitrator?.name || 'High Chief Rasheed Adeleke',
+            body.status || 'UNDER_REVIEW',
+            body.description || '',
+          ]
+        );
+        return res.status(201).json({ success: true, message: 'Customary dispute registered with Palace Secretariat.', data: { id: newId, ...body } });
+      } catch (err) {
+        return res.status(500).json({ success: false, error: err.message });
+      }
+    }
+
+    try {
+      const rows = await sqlQuery('SELECT * FROM customary_disputes ORDER BY created_at DESC LIMIT 50');
+      return res.status(200).json({ success: true, disputes: rows });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
+  // 8. Diaspora Homeland Escrow Projects: /api/diaspora-escrow
+  const isEscrow = pathname.includes('diaspora-escrow') || req.query.type === 'diaspora-escrow';
+  if (isEscrow) {
+    try {
+      const rows = await sqlQuery('SELECT * FROM diaspora_escrow_projects ORDER BY created_at DESC LIMIT 50');
+      return res.status(200).json({ success: true, projects: rows });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
+  // 9. Civic Infrastructure & FixMyStreet: /api/fix-my-street
+  const isCivicIssues = pathname.includes('fix-my-street') || req.query.type === 'fix-my-street';
+  if (isCivicIssues) {
+    if (req.method === 'POST') {
+      const body = req.body || {};
+      const newId = body.id || `FMS-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
+      try {
+        await sqlQuery(
+          `INSERT INTO civic_infrastructure_issues 
+           (id, title, category, quarter, location, latitude, longitude, severity, status, reporter_name, description)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+          [
+            newId,
+            body.title || 'Infrastructure Issue',
+            body.category || 'pothole_road',
+            body.quarter || 'Oke-Ogere',
+            body.location || 'Ogere Remo',
+            body.latitude || 6.9368,
+            body.longitude || 3.6330,
+            body.severity || 'HIGH',
+            body.status || 'REPORTED',
+            body.reporterName || 'Citizen Reporter',
+            body.description || '',
+          ]
+        );
+        return res.status(201).json({ success: true, message: 'Civic issue reported to Public Works.', data: { id: newId, ...body } });
+      } catch (err) {
+        return res.status(500).json({ success: false, error: err.message });
+      }
+    }
+
+    try {
+      const rows = await sqlQuery('SELECT * FROM civic_infrastructure_issues ORDER BY created_at DESC LIMIT 50');
+      return res.status(200).json({ success: true, issues: rows });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
   // Default community status
   return res.status(200).json({
     success: true,

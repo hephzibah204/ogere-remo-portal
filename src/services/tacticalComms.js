@@ -95,6 +95,22 @@ export function sendTacticalMessage({
     const current = getTacticalMessages();
     const updated = [...current, newMsg];
     localStorage.setItem('ogere_tactical_messages', JSON.stringify(updated));
+
+    // Asynchronously dispatch to unified /api/messages channel for multi-unit patrol sync
+    fetch('/api/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        channelId: channel,
+        senderName: `${officer.callsign || officer.name} (${officer.badge || 'Field'})`,
+        text: `[${radioCode}] ${text}`,
+        metadata: {
+          senderId: officer.id,
+          avatar: officer.avatar,
+          agency: officer.agency,
+        },
+      }),
+    }).catch(err => console.warn('[Tactical Radio Backend Sync Notice]:', err.message));
   } catch (e) {
     console.error('Failed to store tactical message', e);
   }

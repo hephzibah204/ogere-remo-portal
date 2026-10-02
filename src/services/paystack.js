@@ -89,32 +89,8 @@ export async function initializePayment({ email, amount, title, purpose, metadat
     }
   }
 
-  // Official portal settlement with registered receipt
-  return new Promise((resolve) => {
-    setTimeout(async () => {
-      const transaction = {
-        id: reference,
-        reference,
-        email,
-        amount: Number(amount),
-        title,
-        purpose,
-        status: 'success',
-        paidAt: new Date().toISOString(),
-        channel: 'portal_settlement',
-      };
-
-      await dbInsert('transactions', transaction);
-      await recordProjectDonation({
-        donor_email: email,
-        donor_name: metadata.donorName || metadata.fullName || 'Diaspora Contributor',
-        amount_naira: Number(amount),
-        project_title: title || purpose,
-        paystack_reference: reference,
-      });
-
-      if (onSuccess) onSuccess(transaction);
-      resolve(transaction);
-    }, 1000);
-  });
+  // If real Paystack key is missing or not configured
+  return Promise.reject(
+    new Error('Official payment gateway is not configured. Please contact the Palace ICT registry or configure VITE_PAYSTACK_PUBLIC_KEY.')
+  );
 }

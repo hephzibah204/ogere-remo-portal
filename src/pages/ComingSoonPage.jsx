@@ -5,7 +5,10 @@ import AdireDivider from '../components/AdireDivider';
 import Section from '../components/Section';
 import ProgressBar from '../components/ProgressBar';
 
-const VALID_PINS = ['ogere2026', '1401', '2026', 'ogere', 'admin'];
+const ENV_PINS = typeof import.meta !== 'undefined' && import.meta.env?.VITE_ACCESS_PINS 
+  ? import.meta.env.VITE_ACCESS_PINS.split(',').map(p => p.trim()) 
+  : null;
+const VALID_PINS = ENV_PINS || [];
 
 /* ── Constants ─────────────────────────────────── */
 const FUNDRAISING_TARGET = 10_000_000; // ₦10,000,000

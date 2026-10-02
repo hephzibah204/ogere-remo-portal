@@ -114,8 +114,24 @@ const SEED_ISSUES: StreetIssue[] = [
 
 const STORAGE_KEY = 'ogere_fix_my_street_v1';
 
+import Constants from 'expo-constants';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://192.168.1.100:3000';
+
 export async function getStreetIssues(): Promise<StreetIssue[]> {
   try {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/community?type=fix-my-street`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data) && data.length > 0) {
+          await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          return data;
+        }
+      }
+    } catch (err) {
+      console.warn('[FMS Sync Failed]', err);
+    }
+
     const raw = await AsyncStorage.getItem(STORAGE_KEY);
     if (!raw) {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_ISSUES));
@@ -152,14 +168,43 @@ export async function reportStreetIssue(payload: Partial<StreetIssue>): Promise<
 
   const updated = [newIssue, ...current];
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+
+  try {
+    await fetch(`${API_BASE_URL}/api/community?type=fix-my-street`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newIssue),
+    });
+  } catch (err) {
+    console.warn('[FMS Cloud Sync Fallback]:', err);
+  }
+
   return newIssue;
 }
 
 export async function upvoteIssue(issueId: string): Promise<StreetIssue[]> {
   const current = await getStreetIssues();
-  const updated = current.map((item) =>
-    item.id === issueId ? { ...item, upvotes: item.upvotes + 1 } : item
-  );
+  let target: StreetIssue | undefined;
+  const updated = current.map((item) => {
+    if (item.id === issueId) {
+      target = { ...item, upvotes: item.upvotes + 1 };
+      return target;
+    }
+    return item;
+  });
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+
+  if (target) {
+    try {
+      await fetch(`${API_BASE_URL}/api/community?type=fix-my-street`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'upvote', issueId, issueUpdate: target }),
+      });
+    } catch (err) {
+      console.warn('[FMS Upvote Sync Fallback]:', err);
+    }
+  }
+
   return updated;
 }

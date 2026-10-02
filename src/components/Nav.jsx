@@ -5,6 +5,7 @@ import SosHeaderModal from './SosHeaderModal';
 import { useState, useEffect } from 'react';
 import { getSaasConfig } from '../services/saasConfig';
 import { getSession } from '../services/auth';
+import { useAuth } from '../contexts/AuthContext';
 
 const MENU_GROUPS = [
   {
@@ -83,23 +84,8 @@ export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDonateOpen, setIsDonateOpen] = useState(false);
   const [isSosOpen, setIsSosOpen] = useState(false);
-  const [authUser, setAuthUser] = useState(null);
-
+  const { user: authUser } = useAuth();
   const currentPage = location.pathname.replace('/', '') || 'home';
-
-  useEffect(() => {
-    getSession().then(u => setAuthUser(u));
-
-    const handleAuthChange = (e) => {
-      setAuthUser(e.detail);
-    };
-    window.addEventListener('ogere-auth-changed', handleAuthChange);
-    return () => window.removeEventListener('ogere-auth-changed', handleAuthChange);
-  }, []);
-
-  useEffect(() => {
-    getSession().then(u => setAuthUser(u));
-  }, [location.pathname]);
 
   const standalonePages = [
     { id: 'mobile-preview', label: '📱 Mobile App' },

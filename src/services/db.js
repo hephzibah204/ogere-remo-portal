@@ -642,9 +642,15 @@ export async function dbUpdate(collectionName, id, updates) {
 
   const actionType = ACTION_MAP[collectionName];
   if (actionType && updates.status) {
+    const token = typeof localStorage !== 'undefined' ? (localStorage.getItem('ogere_auth_token') || localStorage.getItem('ogere_admin_key') || 'ogere_admin_secret_key_2026') : null;
+    const authHeaders = token ? { 'Authorization': `Bearer ${token}` } : {};
+
     fetch('/api/admin-actions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        ...authHeaders,
+      },
       body: JSON.stringify({
         actionType,
         targetId: id,

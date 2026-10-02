@@ -169,6 +169,12 @@ export function fileCustomaryDispute(disputeData) {
   const updated = [newRecord, ...current];
   try {
     localStorage.setItem('ogere_customary_disputes', JSON.stringify(updated));
+    // Asynchronously dispatch to backend database
+    fetch('/api/community?type=customary-disputes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newRecord),
+    }).catch(err => console.warn('[Customary Dispute Cloud Sync Fallback]:', err.message));
   } catch (_) {}
 
   broadcastDisputeEvent('ogere-dispute-updated', newRecord);
@@ -195,6 +201,14 @@ export function updateDisputeStatus(disputeId, { status, hearingDate, hearingTim
 
   try {
     localStorage.setItem('ogere_customary_disputes', JSON.stringify(updated));
+    const modified = updated.find((d) => d.id === disputeId);
+    if (typeof fetch !== 'undefined') {
+      fetch('/api/community?type=customary-disputes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'update', disputeUpdate: modified }),
+      }).catch(err => console.warn('[Customary Dispute Update Sync Fallback]:', err.message));
+    }
   } catch (_) {}
 
   const modified = updated.find((d) => d.id === disputeId);

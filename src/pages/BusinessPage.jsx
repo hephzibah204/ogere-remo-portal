@@ -197,6 +197,7 @@ export default function BusinessPage() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [aiMsg, setAiMsg] = useState('');
+  const [err, setErr] = useState('');
   const [stored, setStored] = useState([]);
 
   useEffect(() => { (async () => { const d = await dbGet('biz'); if (d && Array.isArray(d)) setStored(d); })(); }, []);
@@ -204,6 +205,7 @@ export default function BusinessPage() {
   const register = async () => {
     if (!f.name || !f.category) return;
     setBusy(true);
+    setErr('');
 
     if (f.tier === 'Premium') {
       try {
@@ -214,8 +216,11 @@ export default function BusinessPage() {
           purpose: 'Ogere Remo Business Directory — Pro Plan Listing',
           metadata: { businessName: f.name, category: f.category },
         });
-      } catch (err) {
-        console.error('Payment error:', err);
+      } catch (paymentErr) {
+        console.error('Payment error:', paymentErr);
+        setErr(paymentErr.message || 'Payment gateway could not process the premium fee. Please try standard registration or contact support.');
+        setBusy(false);
+        return;
       }
     }
 
@@ -348,6 +353,11 @@ export default function BusinessPage() {
             </div>
           ) : (
             <div className="glass" style={{ padding: 'clamp(1.2rem, 4vw, 3rem)', borderRadius: '12px' }}>
+              {err && (
+                <div style={{ padding: '0.8rem 1rem', background: 'rgba(220,38,38,0.15)', border: '1px solid rgba(220,38,38,0.35)', borderRadius: '6px', marginBottom: '1.5rem', color: '#f87171', fontSize: '0.85rem' }}>
+                  {err}
+                </div>
+              )}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
                 {/* Standard Plan */}
                 <div 

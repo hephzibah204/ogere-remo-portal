@@ -42,6 +42,17 @@ export default function CustomaryDisputePage() {
   const [submitSuccess, setSubmitSuccess] = useState(null);
 
   useEffect(() => {
+    // Sync with backend on load
+    fetch('/api/community?type=customary-disputes')
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setDisputes(data);
+          localStorage.setItem('ogere_customary_disputes', JSON.stringify(data));
+        }
+      })
+      .catch(console.warn);
+
     const handleUpdate = () => {
       setDisputes(getCustomaryDisputes());
     };

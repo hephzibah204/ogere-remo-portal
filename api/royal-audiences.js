@@ -1,4 +1,4 @@
-import { sqlQuery } from './lib/db.js';
+import { sqlQuery, verifyAdminAuth } from './lib/db.js';
 
 /**
  * Royal Email Generator — Produces formal royal letterhead emails
@@ -198,11 +198,13 @@ async function sendRoyalEmail({ to, subject, html }) {
     }
   }
 
-  // Fallback / Log
-  console.log(`[Royal Email Engine] Dispatched "${subject}" to ${to}`);
+  // If no Resend key is configured or delivery failed, record simulation with explicit delivery status
+  console.log(`[Palace Email Gateway Notice] ${resendApiKey ? 'Resend delivery failed; logged locally' : 'No RESEND_API_KEY configured; running in local preview mode'}. Subject: "${subject}" to ${to}`);
   return {
-    sent: true,
-    provider: 'simulated_palace_gateway',
+    sent: !process.env.NODE_ENV || process.env.NODE_ENV !== 'production',
+    delivered: false,
+    provider: 'local_preview_gateway',
+    notice: 'Email queued in palace local preview ledger. Configure RESEND_API_KEY for live SMTP dispatch.',
     recipient: to,
     subject,
     timestamp: new Date().toISOString(),
@@ -300,6 +302,14 @@ export default async function handler(req, res) {
 
     // ── ACTION: UPDATE STATUS BY PALACE OFFICIAL ──
     if (action === 'update_status') {
+      const auth = await verifyAdminAuth(req);
+      if (!auth.authenticated) {
+        return res.status(401).json({
+          success: false,
+          error: 'Unauthorized: Palace official or protocol authentication required to update royal audience status.',
+        });
+      }
+
       const {
         id,
         status, // 'confirmed', 'postponed', 'declined', 'completed'

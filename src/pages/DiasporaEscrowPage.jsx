@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 import Section from '../components/Section';
+import { apiRequest } from '../services/apiClient';
 import {
   ESCROW_PROJECTS,
   getEscrowProjects,
@@ -14,7 +15,8 @@ import {
 } from '../services/diasporaEscrowService';
 
 export default function DiasporaEscrowPage() {
-  const [projects, setProjects] = useState(() => getEscrowProjects());
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [donors, setDonors] = useState(() => getDonorsLedger());
   const [activeTab, setActiveTab] = useState('projects'); // 'projects', 'contribute', 'ledger', 'governance'
   const [selectedProject, setSelectedProject] = useState(null);
@@ -32,6 +34,22 @@ export default function DiasporaEscrowPage() {
   const [pledgeSuccess, setPledgeSuccess] = useState(null);
 
   useEffect(() => {
+    // Sync with backend on load
+    apiRequest('/api/community?type=diaspora-escrow')
+      .then(data => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setProjects(data);
+          localStorage.setItem('ogere_escrow_projects', JSON.stringify(data));
+        } else {
+          setProjects(getEscrowProjects());
+        }
+      })
+      .catch((err) => {
+        console.warn('Escrow fetch failed, falling back to local storage', err);
+        setProjects(getEscrowProjects());
+      })
+      .finally(() => setLoading(false));
+
     const handleUpdate = () => {
       setProjects(getEscrowProjects());
       setDonors(getDonorsLedger());

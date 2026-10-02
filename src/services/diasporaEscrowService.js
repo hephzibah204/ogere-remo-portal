@@ -198,13 +198,29 @@ export function contributeToEscrowProject(projectId, pledgeData) {
 
   const updatedDonors = [newDonor, ...currentDonors];
 
+  const targetProject = updatedProjects.find((p) => p.id === projectId);
+
   try {
     localStorage.setItem('ogere_escrow_projects', JSON.stringify(updatedProjects));
     localStorage.setItem('ogere_escrow_donors', JSON.stringify(updatedDonors));
+
+    // Asynchronously dispatch to backend database
+    if (typeof fetch !== 'undefined') {
+      fetch('/api/community?type=diaspora-escrow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'contribute',
+          projectId,
+          donor: newDonor,
+          projectUpdate: targetProject
+        }),
+      }).catch(err => console.warn('[Diaspora Escrow Sync Fallback]:', err.message));
+    }
   } catch (_) {}
 
-  broadcastEscrowEvent('ogere-escrow-updated', { project: updatedProjects.find((p) => p.id === projectId), donor: newDonor });
-  return { success: true, project: updatedProjects.find((p) => p.id === projectId), donor: newDonor };
+  broadcastEscrowEvent('ogere-escrow-updated', { project: targetProject, donor: newDonor });
+  return { success: true, project: targetProject, donor: newDonor };
 }
 
 export function releaseMilestoneEscrow(projectId, milestoneId, verificationNotes) {
@@ -236,11 +252,25 @@ export function releaseMilestoneEscrow(projectId, milestoneId, verificationNotes
     return p;
   });
 
+  const target = updatedProjects.find((p) => p.id === projectId);
+
   try {
     localStorage.setItem('ogere_escrow_projects', JSON.stringify(updatedProjects));
+
+    if (typeof fetch !== 'undefined') {
+      fetch('/api/community?type=diaspora-escrow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'release_milestone',
+          projectId,
+          milestoneId,
+          projectUpdate: target
+        }),
+      }).catch(err => console.warn('[Diaspora Escrow Sync Fallback]:', err.message));
+    }
   } catch (_) {}
 
-  const target = updatedProjects.find((p) => p.id === projectId);
   broadcastEscrowEvent('ogere-escrow-updated', { project: target });
   return target;
 }

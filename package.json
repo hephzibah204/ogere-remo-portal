@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "db:deploy": "node scripts/deploy-db.js"
+    "db:deploy": "node scripts/deploy-db.js",
+    "turso:deploy": "node scripts/deploy-turso.js",
+    "test": "vitest run src/"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "@measured/puck": "^0.20.2",
     "@neondatabase/serverless": "^1.1.0",
     "leaflet": "^1.9.4",
@@ -20,8 +23,13 @@
     "react-router-dom": "^6.26.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
     "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^29.1.1",
     "vite": "^5.4.0",
+    "vitest": "^2.1.9",
     "wrangler": "^4.127.0"
   }
 }
