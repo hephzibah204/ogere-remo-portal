@@ -23,12 +23,12 @@ const FALLBACK_CAMERAS = [
   {
     id: 'CAM-01',
     name: 'Ogere Tollgate North ANPR (Lagos-Ibadan Exp.)',
-    sector: 'Sector 1 — Highway Corridor',
+    sector: 'Sector 1 â€” Highway Corridor',
     location: 'KM 66.8 Lagos-Ibadan Expressway Intercept',
     latitude: 6.9388,
     longitude: 3.6437,
     agency: 'Federal Road Safety Corps (FRSC)',
-    resolution: '4K UHD · 60 FPS',
+    resolution: '4K UHD Â· 60 FPS',
     fps: 60,
     latencyMs: 32,
     status: 'LIVE_HD',
@@ -40,13 +40,13 @@ const FALLBACK_CAMERAS = [
   },
   {
     id: 'CAM-02',
-    name: 'Aafin Ologere Palace Square (PTZ 360° Dome)',
-    sector: 'Sector 2 — Central Heritage Core',
+    name: 'Aafin Ologere Palace Square (PTZ 360Â° Dome)',
+    sector: 'Sector 2 â€” Central Heritage Core',
     location: 'Palace Way / Oba Council Chamber',
     latitude: 6.9372,
     longitude: 3.6335,
     agency: 'Palace Royal Guard / Vigilante',
-    resolution: '1080p · 30 FPS',
+    resolution: '1080p Â· 30 FPS',
     fps: 30,
     latencyMs: 24,
     status: 'LIVE_HD',
@@ -59,12 +59,12 @@ const FALLBACK_CAMERAS = [
   {
     id: 'CAM-03',
     name: 'Ogere Trailer Park Weighbridge & Haulage Hub',
-    sector: 'Sector 1 — Highway Corridor',
+    sector: 'Sector 1 â€” Highway Corridor',
     location: 'Trailer Park Bypass South Gate',
     latitude: 6.9366,
     longitude: 3.6344,
     agency: 'So-Safe Corps / Fire Precaution',
-    resolution: '1080p · 30 FPS',
+    resolution: '1080p Â· 30 FPS',
     fps: 30,
     latencyMs: 48,
     status: 'MOTION_DETECTED',
@@ -77,12 +77,12 @@ const FALLBACK_CAMERAS = [
   {
     id: 'CAM-04',
     name: 'Oja Ogere Central Market & Commercial Ring',
-    sector: 'Sector 2 — Central Heritage Core',
+    sector: 'Sector 2 â€” Central Heritage Core',
     location: 'Market Road / Civic Center',
     latitude: 6.9354,
     longitude: 3.6338,
     agency: 'Joint Vigilante Command',
-    resolution: '1080p · 30 FPS',
+    resolution: '1080p Â· 30 FPS',
     fps: 30,
     latencyMs: 38,
     status: 'LIVE_HD',
@@ -95,12 +95,12 @@ const FALLBACK_CAMERAS = [
   {
     id: 'CAM-05',
     name: 'Isale-Ogere Hospital Junction & Emergency Axis',
-    sector: 'Sector 4 — Medical & Social',
+    sector: 'Sector 4 â€” Medical & Social',
     location: 'Isale-Ogere Hospital Road',
     latitude: 6.9325,
     longitude: 3.6310,
     agency: 'Civil Defence (NSCDC)',
-    resolution: '1080p · 30 FPS',
+    resolution: '1080p Â· 30 FPS',
     fps: 30,
     latencyMs: 29,
     status: 'LIVE_HD',
@@ -113,12 +113,12 @@ const FALLBACK_CAMERAS = [
   {
     id: 'CAM-06',
     name: 'Ositelu Memorial / Awomosu Academic Axis',
-    sector: 'Sector 5 — Academic Belt',
+    sector: 'Sector 5 â€” Academic Belt',
     location: 'Awomosu Agbato Drive',
     latitude: 6.9405,
     longitude: 3.6397,
     agency: 'Community Watch',
-    resolution: '1080p · 30 FPS',
+    resolution: '1080p Â· 30 FPS',
     fps: 30,
     latencyMs: 44,
     status: 'LIVE_HD',
@@ -131,12 +131,12 @@ const FALLBACK_CAMERAS = [
   {
     id: 'CAM-07',
     name: 'Saapade Junction / Remo North Axis Gateway',
-    sector: 'Sector 7 — Northern Gateway',
+    sector: 'Sector 7 â€” Northern Gateway',
     location: 'Ibadan-Remo Arterial Junction',
     latitude: 6.9550,
     longitude: 3.6480,
     agency: 'Joint Border Command',
-    resolution: '4K UHD · 60 FPS',
+    resolution: '4K UHD Â· 60 FPS',
     fps: 60,
     latencyMs: 31,
     status: 'LIVE_HD',
@@ -227,14 +227,14 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
   const handleSnapshot = () => {
     setSnapshotCount((prev) => prev + 1);
     Alert.alert(
-      '📸 Snapshot Secured',
+      'ðŸ“¸ Snapshot Secured',
       `High-res frame archived to Police Evidence Vault:\nFile: OGR-CCTV-${activeCam.id}-${Date.now()}.png\nSector: ${activeCam.sector}`
     );
   };
 
   const handleDispatchPatrol = () => {
     Alert.alert(
-      '🚨 Dispatch Patrol to Sector',
+      'ðŸš¨ Dispatch Patrol to Sector',
       `Rendezvous unit to ${activeCam.location} (${activeCam.sector})?`,
       [
         { text: 'Cancel', style: 'cancel' },
@@ -255,7 +255,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
       {/* Top Bar */}
       <View style={styles.topBar}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>‹ Back</Text>
+          <Text style={styles.backBtnText}>â€¹ Back</Text>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
           <Text style={styles.headerTitle}>MUNICIPAL CCTV SURVEILLANCE</Text>
@@ -375,7 +375,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                 {/* Night Vision Indicator Pill */}
                 {nightVision && (
                   <View style={styles.nvIndicator}>
-                    <Text style={styles.nvText}>👁️ IR NIGHT VISION ACTIVE</Text>
+                    <Text style={styles.nvText}>ðŸ‘ï¸ IR NIGHT VISION ACTIVE</Text>
                   </View>
                 )}
 
@@ -390,7 +390,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                 <View style={styles.playerOsdBottom}>
                   <Text style={styles.camTitleOsd}>{activeCam.name}</Text>
                   <Text style={styles.camLocationOsd}>
-                    📍 {activeCam.location} · {activeCam.agency}
+                    ðŸ“ {activeCam.location} Â· {activeCam.agency}
                   </Text>
                 </View>
               </View>
@@ -403,13 +403,13 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                   style={[styles.controlBtn, nightVision && styles.controlBtnActive]}
                 >
                   <Text style={styles.controlBtnText}>
-                    {nightVision ? '👁️ Day View' : '🌙 Night Vision'}
+                    {nightVision ? 'ðŸ‘ï¸ Day View' : 'ðŸŒ™ Night Vision'}
                   </Text>
                 </TouchableOpacity>
 
                 {/* Snapshot Button */}
                 <TouchableOpacity onPress={handleSnapshot} style={styles.controlBtn}>
-                  <Text style={styles.controlBtnText}>📸 Snapshot ({snapshotCount})</Text>
+                  <Text style={styles.controlBtnText}>ðŸ“¸ Snapshot ({snapshotCount})</Text>
                 </TouchableOpacity>
 
                 {/* Google Maps Pin */}
@@ -420,12 +420,12 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                   }}
                   style={styles.controlBtn}
                 >
-                  <Text style={styles.controlBtnText}>🛰️ Sat Pin</Text>
+                  <Text style={styles.controlBtnText}>ðŸ›°ï¸ Sat Pin</Text>
                 </TouchableOpacity>
 
                 {/* Intercept Dispatch */}
                 <TouchableOpacity onPress={handleDispatchPatrol} style={styles.dispatchBtn}>
-                  <Text style={styles.dispatchBtnText}>🚨 Dispatch Unit</Text>
+                  <Text style={styles.dispatchBtnText}>ðŸš¨ Dispatch Unit</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -434,7 +434,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
             {activeCam.ptzCapable && (
               <View style={styles.ptzCard}>
                 <View style={styles.ptzHeader}>
-                  <Text style={styles.ptzTitle}>🕹️ 360° PTZ DOME CONTROLLER</Text>
+                  <Text style={styles.ptzTitle}>ðŸ•¹ï¸ 360Â° PTZ DOME CONTROLLER</Text>
                   <Text style={styles.ptzSub}>Pan, Tilt & Optical Zoom Calibration</Text>
                 </View>
 
@@ -445,7 +445,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                       onPress={() => handlePtzAction('tilt_up')}
                       style={[styles.dpadBtn, styles.dpadUp]}
                     >
-                      <Text style={styles.dpadArrow}>▲</Text>
+                      <Text style={styles.dpadArrow}>â–²</Text>
                     </TouchableOpacity>
 
                     <View style={styles.dpadMiddleRow}>
@@ -453,7 +453,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                         onPress={() => handlePtzAction('pan_left')}
                         style={[styles.dpadBtn, styles.dpadLeft]}
                       >
-                        <Text style={styles.dpadArrow}>◄</Text>
+                        <Text style={styles.dpadArrow}>â—„</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => {
@@ -462,13 +462,13 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                         }}
                         style={styles.dpadCenter}
                       >
-                        <Text style={styles.dpadCenterText}>↺</Text>
+                        <Text style={styles.dpadCenterText}>â†º</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => handlePtzAction('pan_right')}
                         style={[styles.dpadBtn, styles.dpadRight]}
                       >
-                        <Text style={styles.dpadArrow}>►</Text>
+                        <Text style={styles.dpadArrow}>â–º</Text>
                       </TouchableOpacity>
                     </View>
 
@@ -476,7 +476,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                       onPress={() => handlePtzAction('tilt_down')}
                       style={[styles.dpadBtn, styles.dpadDown]}
                     >
-                      <Text style={styles.dpadArrow}>▼</Text>
+                      <Text style={styles.dpadArrow}>â–¼</Text>
                     </TouchableOpacity>
                   </View>
 
@@ -493,7 +493,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                         }}
                         style={styles.zoomBtn}
                       >
-                        <Text style={styles.zoomBtnText}>🔍 +</Text>
+                        <Text style={styles.zoomBtnText}>ðŸ” +</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => {
@@ -503,7 +503,7 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
                         }}
                         style={styles.zoomBtn}
                       >
-                        <Text style={styles.zoomBtnText}>🔍 -</Text>
+                        <Text style={styles.zoomBtnText}>ðŸ” -</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -515,14 +515,14 @@ export const CctvCameraFeedScreen: React.FC<{ navigation: any; route?: any }> = 
             {activeCam.anprEnabled && (
               <View style={styles.anprCard}>
                 <View style={styles.anprHeader}>
-                  <Text style={styles.anprTitle}>🚘 ANPR HIGHWAY OPTICAL SCANNER</Text>
+                  <Text style={styles.anprTitle}>ðŸš˜ ANPR HIGHWAY OPTICAL SCANNER</Text>
                   <Text style={styles.anprSub}>Real-Time Tollgate License Detection</Text>
                 </View>
                 {activeCam.activePlates && activeCam.activePlates.length > 0 ? (
                   <View style={styles.plateList}>
                     {activeCam.activePlates.map((plate: string, idx: number) => (
                       <View key={idx} style={styles.plateRow}>
-                        <Text style={{ fontSize: 16 }}>🏷️</Text>
+                        <Text style={{ fontSize: 16 }}>ðŸ·ï¸</Text>
                         <View style={{ flex: 1 }}>
                           <Text style={styles.plateText}>{plate.split(' - ')[0]}</Text>
                           <Text style={styles.plateSub}>{plate.split(' - ')[1] || 'Verified'}</Text>

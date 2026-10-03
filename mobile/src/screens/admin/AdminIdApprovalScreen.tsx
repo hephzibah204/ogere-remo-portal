@@ -153,7 +153,7 @@ export const AdminIdApprovalScreen: React.FC<{ navigation: any }> = ({ navigatio
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>‹ Back</Text>
+          <Text style={styles.backBtnText}>â€¹ Back</Text>
         </TouchableOpacity>
         <View style={styles.headerTitles}>
           <Text style={styles.headerState}>OCDA CENTRAL SECRETARIAT</Text>
@@ -172,11 +172,11 @@ export const AdminIdApprovalScreen: React.FC<{ navigation: any }> = ({ navigatio
           >
             <Text style={[styles.tabBtnText, filter === tab && styles.tabBtnTextActive]}>
               {tab === 'pending'
-                ? '⏳ Pending'
+                ? 'â³ Pending'
                 : tab === 'approved'
-                ? '✓ Approved'
+                ? 'âœ“ Approved'
                 : tab === 'rejected'
-                ? '✕ Rejected'
+                ? 'âœ• Rejected'
                 : 'All'}
             </Text>
           </TouchableOpacity>
@@ -204,7 +204,7 @@ export const AdminIdApprovalScreen: React.FC<{ navigation: any }> = ({ navigatio
         >
           {filteredCards.length === 0 ? (
             <Card style={styles.emptyCard}>
-              <Text style={{ fontSize: 36, textAlign: 'center' }}>🪪</Text>
+              <Text style={{ fontSize: 36, textAlign: 'center' }}>ðŸªª</Text>
               <Text style={styles.emptyTitle}>No Applications Under This Filter</Text>
               <Text style={styles.emptyDesc}>
                 All ID cards have been processed or no applicants match current criteria.
@@ -253,13 +253,13 @@ export const AdminIdApprovalScreen: React.FC<{ navigation: any }> = ({ navigatio
                     <View style={styles.gridCell}>
                       <Text style={styles.gridLabel}>NIN / Verified ID</Text>
                       <Text style={[styles.gridVal, { fontFamily: 'monospace' }]}>
-                        {c.nin ? `${c.nin.substring(0, 4)}••••${c.nin.substring(8)}` : 'Verified on File'}
+                        {c.nin ? `${c.nin.substring(0, 4)}â€¢â€¢â€¢â€¢${c.nin.substring(8)}` : 'Verified on File'}
                       </Text>
                     </View>
                   </View>
 
                   {/* Contact Info */}
-                  <Text style={styles.phoneRow}>📞 Contact Phone: {c.phone || 'None provided'}</Text>
+                  <Text style={styles.phoneRow}>ðŸ“ž Contact Phone: {c.phone || 'None provided'}</Text>
 
                   {/* Action Buttons */}
                   {isPending && (
@@ -268,14 +268,14 @@ export const AdminIdApprovalScreen: React.FC<{ navigation: any }> = ({ navigatio
                         onPress={() => openActionModal(c, 'approved')}
                         style={[styles.btnAction, styles.btnApprove]}
                       >
-                        <Text style={styles.btnApproveText}>✓ Approve & Certify</Text>
+                        <Text style={styles.btnApproveText}>âœ“ Approve & Certify</Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
                         onPress={() => openActionModal(c, 'rejected')}
                         style={[styles.btnAction, styles.btnReject]}
                       >
-                        <Text style={styles.btnRejectText}>✕ Reject / Flag</Text>
+                        <Text style={styles.btnRejectText}>âœ• Reject / Flag</Text>
                       </TouchableOpacity>
                     </View>
                   )}
@@ -291,7 +291,7 @@ export const AdminIdApprovalScreen: React.FC<{ navigation: any }> = ({ navigatio
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>
-              {actionChoice === 'approved' ? '✓ Approve Citizen Digital ID' : '✕ Reject Application'}
+              {actionChoice === 'approved' ? 'âœ“ Approve Citizen Digital ID' : 'âœ• Reject Application'}
             </Text>
             <Text style={styles.modalSub}>
               Applicant: {selectedCard?.fullName || selectedCard?.full_name} ({selectedCard?.id})

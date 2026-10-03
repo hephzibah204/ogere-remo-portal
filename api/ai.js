@@ -2,7 +2,7 @@ import { checkRateLimit } from './lib/rateLimit.js';
 import { verifyUserAuth } from './lib/db.js';
 
 export default async function handler(req, res) {
-  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogere-remo-portal.vercel.app';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-          'HTTP-Referer': process.env.SITE_URL || 'https://ogereremo.org',
+          'HTTP-Referer': process.env.SITE_URL || 'https://ogere-remo-portal.vercel.app',
           'X-Title': 'Ogere Remo Community Portal',
         },
         body: JSON.stringify({

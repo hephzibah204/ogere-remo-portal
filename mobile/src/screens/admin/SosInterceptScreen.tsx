@@ -16,10 +16,10 @@ import { API_BASE_URL } from '../../database/syncManager';
 import { resolveOgereLocation, getOgereMapUrls } from '../../services/ogereGeoEngine';
 
 const EMERGENCY_PHONES = [
-  { label: 'Police DPO (08081762371)', phone: '08081762371', icon: '🚔' },
-  { label: 'FRSC Rescue 122', phone: '122', icon: '🚑' },
-  { label: 'So-Safe Command', phone: '08099776655', icon: '🛡️' },
-  { label: 'Hospital Emergency', phone: '08123456781', icon: '🏥' },
+  { label: 'Police DPO (08081762371)', phone: '08081762371', icon: 'ðŸš”' },
+  { label: 'FRSC Rescue 122', phone: '122', icon: 'ðŸš‘' },
+  { label: 'So-Safe Command', phone: '08099776655', icon: 'ðŸ›¡ï¸' },
+  { label: 'Hospital Emergency', phone: '08123456781', icon: 'ðŸ¥' },
 ];
 
 /**
@@ -145,7 +145,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
       });
       if (res.ok) {
         setIncident((prev: any) => ({ ...prev, status: newStatus }));
-        Alert.alert('✅ Status Updated', `Incident status set to: ${newStatus.toUpperCase()}`);
+        Alert.alert('âœ… Status Updated', `Incident status set to: ${newStatus.toUpperCase()}`);
       }
     } catch {
       Alert.alert('Network Issue', 'Unable to update status. Check connectivity.');
@@ -173,10 +173,10 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.loadingBox}>
-          <Text style={{ fontSize: 36 }}>⚠️</Text>
+          <Text style={{ fontSize: 36 }}>âš ï¸</Text>
           <Text style={styles.loadingText}>Emergency incident not found.</Text>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backTopBtn}>
-            <Text style={styles.backTopBtnText}>← Back to Terminal</Text>
+            <Text style={styles.backTopBtnText}>â† Back to Terminal</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -195,11 +195,11 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
       {/* Officer Intercept Command Header */}
       <View style={[styles.header, { borderBottomColor: isCodeRed ? '#ef4444' : '#f59e0b' }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>← Back</Text>
+          <Text style={styles.backBtnText}>â† Back</Text>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
           <Text style={[styles.headerTitle, { color: isCodeRed ? '#f87171' : '#fde047' }]} numberOfLines={1}>
-            {isCodeRed ? '🚨 CODE RED INTERCEPT' : '⚠️ INCIDENT RADAR'} — {incident.id}
+            {isCodeRed ? 'ðŸš¨ CODE RED INTERCEPT' : 'âš ï¸ INCIDENT RADAR'} â€” {incident.id}
           </Text>
           <Text style={styles.headerSub}>Ogere Joint Patrol Taskforce Command</Text>
         </View>
@@ -212,7 +212,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
 
-        {/* ── 1. LIVE RADAR MAP (Like WhatsApp Live Location) ───────────── */}
+        {/* â”€â”€ 1. LIVE RADAR MAP (Like WhatsApp Live Location) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {(() => {
           const ogereLoc = resolveOgereLocation(effectiveLat, effectiveLng, effectiveAccuracy);
           const ogereMapUrls = getOgereMapUrls(effectiveLat, effectiveLng, 'Victim Distress Target');
@@ -226,7 +226,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <View style={styles.livePulseDot} />
                   <Text style={styles.mapHeaderTitle}>
-                    {incident.is_live_tracking ? 'LIVE TARGET RADAR · MOVING' : 'VICTIM GPS PIN'}
+                    {incident.is_live_tracking ? 'LIVE TARGET RADAR Â· MOVING' : 'VICTIM GPS PIN'}
                   </Text>
                 </View>
                 <Text style={styles.lastUpdateText}>
@@ -237,12 +237,12 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
               {/* Hyper-Local Ogere Landmark Reference */}
               <View style={{ backgroundColor: 'rgba(56, 189, 248, 0.1)', borderColor: '#38bdf8', borderWidth: 1, borderRadius: 6, padding: 8, marginHorizontal: 10, marginBottom: 6 }}>
                 <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
-                  📍 OGERE REMO PINPOINT: <Text style={{ color: '#ffffff' }}>{ogereLoc.formattedText}</Text>
+                  ðŸ“ OGERE REMO PINPOINT: <Text style={{ color: '#ffffff' }}>{ogereLoc.formattedText}</Text>
                 </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 3 }}>
                   <Text style={{ color: '#94a3b8', fontSize: 10 }}>Sector: {ogereLoc.sector}</Text>
                   <Text style={{ color: '#38bdf8', fontSize: 10, fontWeight: '700' }}>
-                    🚓 ~{ogereLoc.distanceToPolice}m to Police DPO (~{ogereLoc.policeEtaMinutes}m ETA)
+                    ðŸš“ ~{ogereLoc.distanceToPolice}m to Police DPO (~{ogereLoc.policeEtaMinutes}m ETA)
                   </Text>
                 </View>
               </View>
@@ -251,7 +251,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
               {isLowBat && (
                 <View style={{ backgroundColor: '#7f1d1d', borderColor: '#ef4444', borderWidth: 1, borderRadius: 6, padding: 6, marginHorizontal: 10, marginBottom: 6 }}>
                   <Text style={{ color: '#fecaca', fontSize: 10, fontWeight: '800' }}>
-                    🪫 CRITICAL BATTERY: Victim device at {batLvl}%! Risk of signal loss. Intercept immediately!
+                    ðŸª« CRITICAL BATTERY: Victim device at {batLvl}%! Risk of signal loss. Intercept immediately!
                   </Text>
                 </View>
               )}
@@ -277,7 +277,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
                 >
                   <View style={styles.markerRipple} />
                   <View style={styles.markerCore}>
-                    <Text style={styles.markerEmoji}>📍</Text>
+                    <Text style={styles.markerEmoji}>ðŸ“</Text>
                   </View>
                   <View style={styles.markerBadge}>
                     <Text style={styles.markerBadgeText}>VICTIM</Text>
@@ -286,7 +286,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
 
                 {/* Watermark in bottom corner */}
                 <View style={styles.mapWatermark}>
-                  <Text style={styles.mapWatermarkText}>OSM Street Radar · Ogere Remo</Text>
+                  <Text style={styles.mapWatermarkText}>OSM Street Radar Â· Ogere Remo</Text>
                 </View>
               </View>
 
@@ -295,13 +295,13 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
                 <View style={styles.telemetryCell}>
                   <Text style={styles.telemetryCellLabel}>COORDINATES</Text>
                   <Text style={styles.telemetryCellValue}>
-                    {effectiveLat.toFixed(5)}°N, {effectiveLng.toFixed(5)}°E
+                    {effectiveLat.toFixed(5)}Â°N, {effectiveLng.toFixed(5)}Â°E
                   </Text>
                 </View>
                 <View style={styles.telemetryCell}>
                   <Text style={styles.telemetryCellLabel}>ACCURACY</Text>
                   <Text style={[styles.telemetryCellValue, { color: effectiveAccuracy && effectiveAccuracy < 30 ? '#4ade80' : '#fde047' }]}>
-                    {effectiveAccuracy ? `±${effectiveAccuracy}m` : 'Satellite'} ({ogereLoc.accuracyRating === 'pinpoint_satellite' ? '🟢 Sat' : '🟡 GPS'})
+                    {effectiveAccuracy ? `Â±${effectiveAccuracy}m` : 'Satellite'} ({ogereLoc.accuracyRating === 'pinpoint_satellite' ? 'ðŸŸ¢ Sat' : 'ðŸŸ¡ GPS'})
                   </Text>
                 </View>
                 <View style={styles.telemetryCell}>
@@ -324,35 +324,35 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
                   style={styles.navActionBtn}
                   onPress={() => Linking.openURL(ogereMapUrls.turnByTurnNavigation).catch(() => Alert.alert('Maps', mapsUrl))}
                 >
-                  <Text style={styles.navActionBtnText}>⚡ Intercept (Turn-by-Turn Navigation) ➔</Text>
+                  <Text style={styles.navActionBtnText}>âš¡ Intercept (Turn-by-Turn Navigation) âž”</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   style={styles.pinActionBtn}
                   onPress={() => Linking.openURL(ogereMapUrls.satellitePin).catch(() => Alert.alert('Maps', mapsUrl))}
                 >
-                  <Text style={styles.pinActionBtnText}>🛰️ Open Rooftop Satellite Pin (Z:19)</Text>
+                  <Text style={styles.pinActionBtnText}>ðŸ›°ï¸ Open Rooftop Satellite Pin (Z:19)</Text>
                 </TouchableOpacity>
               </View>
             </View>
           );
         })()}
 
-        {/* ── 2. BREADCRUMBS PATH TRAIL (If movement detected) ─────────── */}
+        {/* â”€â”€ 2. BREADCRUMBS PATH TRAIL (If movement detected) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {breadcrumbs.length > 1 && (
           <View style={styles.sectionCard}>
             <Text style={styles.sectionLabel}>
-              🚶 MOVEMENT PATH TRAIL ({breadcrumbs.length} RECENT LOCATIONS)
+              ðŸš¶ MOVEMENT PATH TRAIL ({breadcrumbs.length} RECENT LOCATIONS)
             </Text>
             <View style={styles.trailList}>
               {breadcrumbs.slice(0, 5).map((b: any, idx: number) => (
                 <View key={idx} style={styles.trailRow}>
                   <Text style={styles.trailIndex}>#{idx + 1}</Text>
                   <Text style={styles.trailCoords}>
-                    {Number(b.latitude).toFixed(5)}°N, {Number(b.longitude).toFixed(5)}°E
+                    {Number(b.latitude).toFixed(5)}Â°N, {Number(b.longitude).toFixed(5)}Â°E
                   </Text>
                   <Text style={styles.trailMeta}>
-                    {b.speed ? `${b.speed} km/h · ` : ''}
+                    {b.speed ? `${b.speed} km/h Â· ` : ''}
                     {new Date(b.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                   </Text>
                 </View>
@@ -361,9 +361,9 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
           </View>
         )}
 
-        {/* ── 3. INCIDENT BRIEF & CATEGORY ─────────────────────────────── */}
+        {/* â”€â”€ 3. INCIDENT BRIEF & CATEGORY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.sectionCard}>
-          <Text style={styles.sectionLabel}>🚨 INCIDENT SITREP</Text>
+          <Text style={styles.sectionLabel}>ðŸš¨ INCIDENT SITREP</Text>
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>CATEGORY</Text>
@@ -395,9 +395,9 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
           </View>
         </View>
 
-        {/* ── 4. REPORTER CONTACT & CALL CONTROLS ─────────────────────── */}
+        {/* â”€â”€ 4. REPORTER CONTACT & CALL CONTROLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.sectionCard}>
-          <Text style={styles.sectionLabel}>👤 REPORTER DETAILS</Text>
+          <Text style={styles.sectionLabel}>ðŸ‘¤ REPORTER DETAILS</Text>
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>NAME</Text>
@@ -411,7 +411,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
           {incident.is_silent_panic ? (
             <View style={styles.silentPanicBox}>
               <Text style={styles.silentPanicText}>
-                🤫 SILENT COVERT PANIC — Citizen may be held hostage or hiding. DO NOT SOUND SIRENS. Approach tactically.
+                ðŸ¤« SILENT COVERT PANIC â€” Citizen may be held hostage or hiding. DO NOT SOUND SIRENS. Approach tactically.
               </Text>
             </View>
           ) : incident.reporter_phone && incident.reporter_phone !== 'N/A' && incident.reporter_phone !== 'Emergency Phone' ? (
@@ -420,16 +420,16 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
               onPress={() => handleCall(incident.reporter_phone, incident.reporter_name)}
             >
               <Text style={styles.callReporterBtnText}>
-                📞 Call Reporter Immediately: {incident.reporter_phone}
+                ðŸ“ž Call Reporter Immediately: {incident.reporter_phone}
               </Text>
             </TouchableOpacity>
           ) : null}
         </View>
 
-        {/* ── 5. VICTIM DEVICE & SIGNAL INTELLIGENCE ──────────────────── */}
+        {/* â”€â”€ 5. VICTIM DEVICE & SIGNAL INTELLIGENCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {(incident.device_model || incident.device_os || incident.network_type || incident.battery_level != null || incident.ip_address) && (
           <View style={styles.sectionCard}>
-            <Text style={styles.sectionLabel}>📱 DEVICE & SIGNAL INTELLIGENCE</Text>
+            <Text style={styles.sectionLabel}>ðŸ“± DEVICE & SIGNAL INTELLIGENCE</Text>
             <View style={styles.deviceGrid}>
               {incident.device_model && (
                 <View style={styles.deviceCell}>
@@ -450,7 +450,7 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
                     color: incident.battery_level > 20 ? '#4ade80' : '#ef4444',
                     fontWeight: '900',
                   }]}>
-                    🔋 {incident.battery_level}% {incident.battery_level <= 20 ? '⚠️ LOW' : ''}
+                    ðŸ”‹ {incident.battery_level}% {incident.battery_level <= 20 ? 'âš ï¸ LOW' : ''}
                   </Text>
                 </View>
               )}
@@ -458,8 +458,8 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
                 <View style={styles.deviceCell}>
                   <Text style={styles.deviceCellLabel}>NETWORK / CARRIER</Text>
                   <Text style={[styles.deviceCellValue, { color: '#38bdf8' }]}>
-                    📶 {incident.network_type.toUpperCase()}
-                    {incident.network_generation ? ` · ${incident.network_generation.toUpperCase()}` : ''}
+                    ðŸ“¶ {incident.network_type.toUpperCase()}
+                    {incident.network_generation ? ` Â· ${incident.network_generation.toUpperCase()}` : ''}
                     {incident.carrier ? ` (${incident.carrier})` : ''}
                   </Text>
                 </View>
@@ -468,23 +468,23 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
                 <View style={styles.deviceCell}>
                   <Text style={styles.deviceCellLabel}>PUBLIC IP ADDRESS</Text>
                   <Text style={[styles.deviceCellValue, { fontFamily: 'monospace' as any }]}>
-                    🌐 {incident.ip_address}
+                    ðŸŒ {incident.ip_address}
                   </Text>
                 </View>
               )}
               {incident.timezone && (
                 <View style={styles.deviceCell}>
                   <Text style={styles.deviceCellLabel}>TIMEZONE</Text>
-                  <Text style={styles.deviceCellValue}>🕒 {incident.timezone}</Text>
+                  <Text style={styles.deviceCellValue}>ðŸ•’ {incident.timezone}</Text>
                 </View>
               )}
             </View>
           </View>
         )}
 
-        {/* ── 6. RAPID EMERGENCY SPEED DIAL ───────────────────────────── */}
+        {/* â”€â”€ 6. RAPID EMERGENCY SPEED DIAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.sectionCard}>
-          <Text style={styles.sectionLabel}>📞 EMERGENCY BACKUP DISPATCH</Text>
+          <Text style={styles.sectionLabel}>ðŸ“ž EMERGENCY BACKUP DISPATCH</Text>
           <View style={styles.dialGrid}>
             {EMERGENCY_PHONES.map(ep => (
               <TouchableOpacity
@@ -499,15 +499,15 @@ export const SosInterceptScreen: React.FC<{ navigation: any; route: any }> = ({
           </View>
         </View>
 
-        {/* ── 7. OFFICER STATUS DISPATCH CONTROLS ─────────────────────── */}
+        {/* â”€â”€ 7. OFFICER STATUS DISPATCH CONTROLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <View style={styles.sectionCard}>
-          <Text style={styles.sectionLabel}>🔁 UPDATE INTERCEPT STATUS</Text>
+          <Text style={styles.sectionLabel}>ðŸ” UPDATE INTERCEPT STATUS</Text>
           {updating && <ActivityIndicator color="#ef4444" style={{ marginBottom: 6 }} />}
           <View style={styles.statusBtnRow}>
             {[
-              { id: 'dispatched', label: '🚔 DISPATCHED', color: '#3b82f6' },
-              { id: 'investigating', label: '🔍 ON SCENE', color: '#f59e0b' },
-              { id: 'resolved', label: '✅ RESOLVED', color: '#22c55e' },
+              { id: 'dispatched', label: 'ðŸš” DISPATCHED', color: '#3b82f6' },
+              { id: 'investigating', label: 'ðŸ” ON SCENE', color: '#f59e0b' },
+              { id: 'resolved', label: 'âœ… RESOLVED', color: '#22c55e' },
             ].map(s => (
               <TouchableOpacity
                 key={s.id}

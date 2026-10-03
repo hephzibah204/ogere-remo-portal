@@ -134,7 +134,7 @@ export const ESCROW_PROJECTS: EscrowProject[] = [
 const STORAGE_KEY = 'ogere_diaspora_escrow_v1';
 
 import Constants from 'expo-constants';
-const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'https://ogereremo.org';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'https://ogere-remo-portal.vercel.app';
 
 export async function getEscrowProjects(): Promise<EscrowProject[]> {
   try {

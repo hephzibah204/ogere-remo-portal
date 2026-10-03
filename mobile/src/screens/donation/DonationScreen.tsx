@@ -15,35 +15,35 @@ import { Card } from '../../components/Card';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { API_BASE_URL } from '../../database/syncManager';
 
-const TARGET_AMOUNT = 10000000; // ₦10,000,000
+const TARGET_AMOUNT = 10000000; // â‚¦10,000,000
 const LAUNCH_DATE = new Date('2026-11-04T00:00:00Z');
 
 const PRESETS = [5000, 10000, 25000, 50000, 100000, 250000];
 
 const PILLARS = [
   {
-    icon: '☀️',
+    icon: 'â˜€ï¸',
     title: 'Health Centre Solar Grid',
     desc: '24-hour uninterrupted solar electricity for labor & pediatric cold-chain vaccine storage.',
-    allocation: '₦3.5M Target',
+    allocation: 'â‚¦3.5M Target',
   },
   {
-    icon: '💡',
+    icon: 'ðŸ’¡',
     title: 'Street Illumination & Safety',
     desc: 'Solar LED street lamps across Oke-Ogere, Isale, and dark corridor axes.',
-    allocation: '₦2.5M Target',
+    allocation: 'â‚¦2.5M Target',
   },
   {
-    icon: '💻',
+    icon: 'ðŸ’»',
     title: 'Youth Innovation Lab',
     desc: 'Equipping 50 high-speed coding workstations for Ogere youth digital literacy.',
-    allocation: '₦2.0M Target',
+    allocation: 'â‚¦2.0M Target',
   },
   {
-    icon: '🏺',
+    icon: 'ðŸº',
     title: 'Adire Heritage Centre',
     desc: 'Preserving authentic Yoruba indigo dyeing crafts & youth vocational mentorship.',
-    allocation: '₦2.0M Target',
+    allocation: 'â‚¦2.0M Target',
   },
 ];
 
@@ -104,14 +104,14 @@ export const DonationScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
     <SafeAreaView style={styles.container}>
       <Header
         title="COMMUNITY ENDOWMENT"
-        subtitle="₦10M Ogere Remo Transformation Fund"
+        subtitle="â‚¦10M Ogere Remo Transformation Fund"
         onProfilePress={() => navigation.navigate('Profile')}
       />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Launch Countdown Banner */}
         <View style={styles.countdownBanner}>
-          <Text style={styles.countdownLabel}>🚀 OFFICIAL PORTAL LAUNCH COUNTDOWN (NOV 4, 2026)</Text>
+          <Text style={styles.countdownLabel}>ðŸš€ OFFICIAL PORTAL LAUNCH COUNTDOWN (NOV 4, 2026)</Text>
           <View style={styles.timerRow}>
             <View style={styles.timeBox}>
               <Text style={styles.timeNum}>{timeRemaining.days}</Text>
@@ -140,7 +140,7 @@ export const DonationScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
           <View style={styles.progressHeaderRow}>
             <View>
               <Text style={styles.statLabel}>TOTAL RAISED SO FAR</Text>
-              <Text style={styles.amountText}>₦{totalRaised.toLocaleString()}</Text>
+              <Text style={styles.amountText}>â‚¦{totalRaised.toLocaleString()}</Text>
             </View>
             <View style={styles.percentBadge}>
               <Text style={styles.percentText}>{progressPercent}% FUNDED</Text>
@@ -153,8 +153,8 @@ export const DonationScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
           </View>
 
           <View style={styles.progressFooterRow}>
-            <Text style={styles.footerNote}>🎯 Target: ₦10,000,000</Text>
-            <Text style={styles.footerNote}>👥 {donorCount} Verified Indigene Donors</Text>
+            <Text style={styles.footerNote}>ðŸŽ¯ Target: â‚¦10,000,000</Text>
+            <Text style={styles.footerNote}>ðŸ‘¥ {donorCount} Verified Indigene Donors</Text>
           </View>
         </Card>
 
@@ -192,14 +192,14 @@ export const DonationScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                   activeOpacity={0.7}
                 >
                   <Text style={[styles.tierBtnText, isSelected && styles.tierBtnTextSelected]}>
-                    ₦{amt.toLocaleString()}
+                    â‚¦{amt.toLocaleString()}
                   </Text>
                 </TouchableOpacity>
               );
             })}
           </View>
 
-          <Text style={styles.inputLabel}>OR ENTER CUSTOM AMOUNT (₦)</Text>
+          <Text style={styles.inputLabel}>OR ENTER CUSTOM AMOUNT (â‚¦)</Text>
           <TextInput
             style={styles.textInput}
             placeholder="e.g. 50000"
@@ -223,13 +223,13 @@ export const DonationScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
 
           <TouchableOpacity style={styles.donateSubmitBtn} onPress={handleDonate} activeOpacity={0.85}>
             <Text style={styles.donateSubmitText}>
-              Proceed with Secure Paystack Checkout ➔
+              Proceed with Secure Paystack Checkout âž”
             </Text>
           </TouchableOpacity>
 
           {/* Official Bank Account Details */}
           <View style={styles.bankBox}>
-            <Text style={styles.bankBoxTitle}>🏛️ Direct Bank Transfer (Nigeria)</Text>
+            <Text style={styles.bankBoxTitle}>ðŸ›ï¸ Direct Bank Transfer (Nigeria)</Text>
             <Text style={styles.bankDetail}>Account Name: <strong>Ogere Community Development Assoc.</strong></Text>
             <Text style={styles.bankDetail}>Bank: <strong>Wema Bank Plc</strong></Text>
             <Text style={styles.bankDetail}>Account Number: <strong>0123456789</strong></Text>

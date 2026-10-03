@@ -178,7 +178,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
   const handleTimeExpired = () => {
     Alert.alert(
-      '⚠️ Escort Timer Expired!',
+      'âš ï¸ Escort Timer Expired!',
       'Your estimated arrival time has passed. Ogere Security Command has been notified to verify your safety.',
       [{ text: 'I Need Help', onPress: () => triggerImmediateSos() }, { text: 'I Am Safe', onPress: () => {} }]
     );
@@ -278,7 +278,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
         endTimeRef.current = null;
         setActiveEscort(null);
         setEnteredPin('');
-        Alert.alert('Safe Arrival Confirmed! 🛡️', 'Your safe arrival has been logged. Escort session closed.');
+        Alert.alert('Safe Arrival Confirmed! ðŸ›¡ï¸', 'Your safe arrival has been logged. Escort session closed.');
         navigation.goBack();
       } else {
         Alert.alert('Incorrect PIN', 'The safety PIN you entered does not match.');
@@ -292,7 +292,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
   const triggerImmediateSos = async () => {
     Alert.alert(
-      '🚨 Trigger Armed Rescue Alert?',
+      'ðŸš¨ Trigger Armed Rescue Alert?',
       'This sends an instant CODE_RED distress alert to Ogere Police, FRSC, and Vigilante units with your GPS coordinates.',
       [
         { text: 'Cancel', style: 'cancel' },
@@ -305,7 +305,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  title: `EMERGENCY: Walk With Me Distress — ${activeEscort?.user_name || 'Citizen'}`,
+                  title: `EMERGENCY: Walk With Me Distress â€” ${activeEscort?.user_name || 'Citizen'}`,
                   category: 'Hostage / Abduction / Armed Danger',
                   threatLevel: 'CODE_RED',
                   description: `Citizen triggered distress while en route to ${activeEscort?.destination || 'destination'}.`,
@@ -341,10 +341,10 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
       <View style={{ padding: 10, backgroundColor: '#1e293b', borderBottomWidth: 1, borderBottomColor: '#334155' }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
-            🗺️ GOOGLE STREET MAP · LIVE GPS PIN
+            ðŸ—ºï¸ GOOGLE STREET MAP Â· LIVE GPS PIN
           </Text>
           <Text style={{ color: '#4ade80', fontSize: 10, fontWeight: '700' }}>
-            {liveCoord.accuracy ? `±${Math.round(liveCoord.accuracy)}m GPS` : '🟢 GPS Locked'}
+            {liveCoord.accuracy ? `Â±${Math.round(liveCoord.accuracy)}m GPS` : 'ðŸŸ¢ GPS Locked'}
           </Text>
         </View>
         <TouchableOpacity
@@ -366,7 +366,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
           {locatingGps ? (
             <ActivityIndicator size="small" color="#ffffff" />
           ) : (
-            <Text style={{ fontSize: 14 }}>📍</Text>
+            <Text style={{ fontSize: 14 }}>ðŸ“</Text>
           )}
           <Text style={{ color: '#ffffff', fontSize: 12, fontWeight: '900', letterSpacing: 0.3 }}>
             {locatingGps ? 'LOCKING SATELLITE GPS...' : 'SEE MY LOCATION ON MAP (Auto-Find)'}
@@ -418,7 +418,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               elevation: 6,
             }}
           >
-            <Text style={{ fontSize: 14 }}>📍</Text>
+            <Text style={{ fontSize: 14 }}>ðŸ“</Text>
           </View>
           <View
             style={{
@@ -440,12 +440,12 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
       <View style={{ padding: 10, backgroundColor: '#0f172a' }}>
         {ogereInfo && (
           <Text style={{ color: '#ffffff', fontSize: 12, fontWeight: '700' }}>
-            📍 {ogereInfo.formattedText}
+            ðŸ“ {ogereInfo.formattedText}
           </Text>
         )}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 6 }}>
           <Text style={{ color: '#94a3b8', fontSize: 11, fontFamily: 'monospace' }}>
-            {liveCoord.lat.toFixed(5)}°N, {liveCoord.lng.toFixed(5)}°E
+            {liveCoord.lat.toFixed(5)}Â°N, {liveCoord.lng.toFixed(5)}Â°E
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -454,7 +454,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
             }}
           >
             <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
-              Open Full Street Map ↗
+              Open Full Street Map â†—
             </Text>
           </TouchableOpacity>
         </View>
@@ -472,7 +472,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
           <>
             <Card style={styles.bannerCard}>
               <View style={styles.bannerRow}>
-                <Text style={{ fontSize: 28 }}>🛡️</Text>
+                <Text style={{ fontSize: 28 }}>ðŸ›¡ï¸</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.bannerTitle}>Armed Escort Watch</Text>
                   <Text style={styles.bannerText}>
@@ -503,7 +503,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
                     onPress={() => setDestination(lm)}
                   >
                     <Text style={[styles.chipText, destination === lm && styles.chipTextActive]}>
-                      📍 {lm}
+                      ðŸ“ {lm}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -531,7 +531,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               </Text>
               <TextInput
                 style={[styles.input, styles.pinInput]}
-                placeholder="••••"
+                placeholder="â€¢â€¢â€¢â€¢"
                 placeholderTextColor={Colors.textMuted}
                 value={safetyPin}
                 onChangeText={(t) => setSafetyPin(t.replace(/[^0-9]/g, '').slice(0, 4))}
@@ -545,14 +545,14 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
               {/* Covert Duress Advisory */}
               <View style={styles.duressBox}>
-                <Text style={styles.duressTitle}>⚠️ COVERT DURESS PIN: 9999</Text>
+                <Text style={styles.duressTitle}>âš ï¸ COVERT DURESS PIN: 9999</Text>
                 <Text style={styles.duressDesc}>
                   If forced or held at gunpoint to unlock and cancel this escort, enter <Text style={{ fontWeight: '800' }}>9999</Text>. The screen will pretend to exit peacefully, but will silently dispatch an armed SWAT rescue team with CODE_RED hostage priority!
                 </Text>
               </View>
 
               <Button
-                title={loading ? 'Activating Escort...' : '🛡️ ACTIVATE SAFE ESCORT WATCH'}
+                title={loading ? 'Activating Escort...' : 'ðŸ›¡ï¸ ACTIVATE SAFE ESCORT WATCH'}
                 variant="primary"
                 onPress={handleStartEscort}
                 loading={loading}
@@ -577,7 +577,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
             </View>
             <View style={styles.metaRow}>
               <Text style={styles.metaLabel}>Radar Stream:</Text>
-              <Text style={[styles.metaVal, { color: '#10b981' }]}>● Live GPS Heartbeat (Streaming to Guard)</Text>
+              <Text style={[styles.metaVal, { color: '#10b981' }]}>â— Live GPS Heartbeat (Streaming to Guard)</Text>
             </View>
 
             {/* Live Street Map & Telemetry HUD */}
@@ -588,7 +588,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               <Text style={styles.pinVerifyLabel}>ENTER SAFETY PIN TO CONFIRM ARRIVAL</Text>
               <TextInput
                 style={[styles.input, styles.pinInput, { backgroundColor: '#ffffff', color: '#000000' }]}
-                placeholder="••••"
+                placeholder="â€¢â€¢â€¢â€¢"
                 placeholderTextColor="#94a3b8"
                 value={enteredPin}
                 onChangeText={(t) => setEnteredPin(t.replace(/[^0-9]/g, '').slice(0, 4))}
@@ -597,7 +597,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
                 maxLength={4}
               />
               <Button
-                title={verifyingPin ? 'Verifying PIN...' : '✅ Confirm Safe Arrival'}
+                title={verifyingPin ? 'Verifying PIN...' : 'âœ… Confirm Safe Arrival'}
                 variant="primary"
                 onPress={handleVerifyPin}
                 loading={verifyingPin}
@@ -610,7 +610,7 @@ export const WalkWithMeScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               style={styles.sosButton}
               onPress={triggerImmediateSos}
             >
-              <Text style={styles.sosButtonText}>🚨 TRIGGER ARMED RESCUE SOS</Text>
+              <Text style={styles.sosButtonText}>ðŸš¨ TRIGGER ARMED RESCUE SOS</Text>
             </TouchableOpacity>
           </Card>
         )}

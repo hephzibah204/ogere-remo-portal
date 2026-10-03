@@ -30,29 +30,29 @@ const CITIZEN_CATEGORIES: CategoryOption[] = [
     id: 'indigene',
     title: 'Indigene',
     badge: 'Ancestral Lineage',
-    icon: '👑',
+    icon: 'ðŸ‘‘',
     description: 'Born of Ogere Remo parentage or ancestral compound (Agbo-Ile).',
   },
   {
     id: 'non-indigene',
     title: 'Non-Indigene Resident',
     badge: 'Lives / Works in Ogere',
-    icon: '🏢',
+    icon: 'ðŸ¢',
     description: 'Living, trading, or working in Ogere Remo, but ancestry from elsewhere.',
   },
   {
     id: 'guest',
     title: 'Guest / Friend of Ogere',
     badge: 'External Partner',
-    icon: '🤝',
+    icon: 'ðŸ¤',
     description: 'Has interest or a role in Ogere, but is not an indigene and does not live or work in Ogere.',
   },
 ];
 
 const INDIGENE_RESIDENCIES = [
-  { id: 'ogere' as IndigeneResidency, label: '🏡 Resident in Ogere', sub: 'Living within Ogere Remo' },
-  { id: 'diaspora' as IndigeneResidency, label: '✈️ In Diaspora', sub: 'Living abroad internationally' },
-  { id: 'nigeria' as IndigeneResidency, label: '🇳🇬 In Nigeria', sub: 'Living in another Nigerian town/city' },
+  { id: 'ogere' as IndigeneResidency, label: 'ðŸ¡ Resident in Ogere', sub: 'Living within Ogere Remo' },
+  { id: 'diaspora' as IndigeneResidency, label: 'âœˆï¸ In Diaspora', sub: 'Living abroad internationally' },
+  { id: 'nigeria' as IndigeneResidency, label: 'ðŸ‡³ðŸ‡¬ In Nigeria', sub: 'Living in another Nigerian town/city' },
 ];
 
 const GUEST_INTERESTS = [
@@ -185,7 +185,7 @@ export const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
       >
         <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-            <Text style={styles.backBtnText}>← Back to Login</Text>
+            <Text style={styles.backBtnText}>â† Back to Login</Text>
           </TouchableOpacity>
 
           <View style={styles.header}>
@@ -264,13 +264,13 @@ export const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
             {/* DIGITAL ID CARD LIVE BADGE PREVIEW */}
             <View style={styles.idPreviewBanner}>
               <View style={styles.idPreviewHeader}>
-                <Text style={styles.idPreviewEmoji}>🪪</Text>
+                <Text style={styles.idPreviewEmoji}>ðŸªª</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.idPreviewTitle}>
                     Automated Digital ID Card Issuance
                   </Text>
                   <Text style={styles.idPreviewText}>
-                    Assigned Prefix: <Text style={{ fontWeight: '800' }}>{getPreviewPrefix()}-XXXXXX</Text> · Valid for 3 Years
+                    Assigned Prefix: <Text style={{ fontWeight: '800' }}>{getPreviewPrefix()}-XXXXXX</Text> Â· Valid for 3 Years
                   </Text>
                 </View>
               </View>

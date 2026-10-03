@@ -65,7 +65,7 @@ Kabiyesi expressed deep gratitude to all donors, diaspora champions, and communi
     isBreaking: false,
     author: 'Ogere Economic Development Desk',
     summary: 'A new 60,000 SCMD green energy plant creates over 150 direct and indirect employment positions for local youth.',
-    content: `Ogere Remo reinforces its strategic status as the logistics nexus along the Lagos–Ibadan Expressway corridor with the official operational commissioning of the TEG CNG Mother Station.
+    content: `Ogere Remo reinforces its strategic status as the logistics nexus along the Lagosâ€“Ibadan Expressway corridor with the official operational commissioning of the TEG CNG Mother Station.
 
 The project not only supports cleaner commercial transportation across southwestern Nigeria, but guarantees youth apprenticeship quotas and local engineering vendor empowerment through the Ogere Community Development Association agreement.`
   },
@@ -111,8 +111,8 @@ Every registered indigene, resident, and diaspora member can now obtain a crypto
 export const SEED_KINGS: SeedKingItem[] = [
   {
     name: 'Oba James Obafemi Saliu',
-    title: 'Kankanbiina II · Ilufemiloye I · Arole Olipakala',
-    era: 'April 25, 2023 — Present',
+    title: 'Kankanbiina II Â· Ilufemiloye I Â· Arole Olipakala',
+    era: 'April 25, 2023 â€” Present',
     house: 'Kankanbina / Ejigboye Ruling House',
     isCurrent: true,
     note: 'Currently reigning. Commissioned the Aafin Ologere Palace (2025), Lipakala Cultural Centre, and spearheaded modern community civic transformations.',
@@ -121,15 +121,15 @@ export const SEED_KINGS: SeedKingItem[] = [
   {
     name: 'Oba Oladele Moshood Ogunbade',
     title: 'Agbejoye II',
-    era: 'December 3, 1983 – April 10, 2022',
+    era: 'December 3, 1983 â€“ April 10, 2022',
     house: 'Agbejoye / Fadagbuwa Ruling House',
     isCurrent: false,
     note: 'Reigned for over 38 transformative years. Formerly Marketing Manager at Nigerian Tobacco Company (NTC). Oversaw major educational developments in Ogere Remo.',
   },
   {
     name: 'Oba Alfred Obafuwa Babington-Ashaye',
-    title: 'Legunsen III · Agbalajobi-Erinjogunola',
-    era: 'c. 1945 – December 4, 1982',
+    title: 'Legunsen III Â· Agbalajobi-Erinjogunola',
+    era: 'c. 1945 â€“ December 4, 1982',
     house: 'Legunsen Ruling House',
     isCurrent: false,
     note: 'Patriarchal and revered monarch who reigned for 37 years. Received full state honours and led community consolidation across post-independence Nigeria.',
@@ -154,7 +154,7 @@ export const SEED_BUSINESSES: SeedBusinessItem[] = [
     description: 'Digital innovation hub offering software bootcamps, AI training, coding, and STEM certification in Ogere Remo.',
     phone: '+234 803 892 0110',
     address: 'Innovation Campus, Palace Way / Expressway Axis, Ogere',
-    rating: '5.0★'
+    rating: '5.0â˜…'
   },
   {
     id: 'biz1',
@@ -163,8 +163,8 @@ export const SEED_BUSINESSES: SeedBusinessItem[] = [
     tier: 'Premium',
     description: 'Premier retreat destination with 140+ luxury chalets, recreational pools, and conference auditoriums.',
     phone: '+234 906 247 0474',
-    address: 'KM 67, Lagos–Ibadan Expressway, Ogere Remo',
-    rating: '4.4★'
+    address: 'KM 67, Lagosâ€“Ibadan Expressway, Ogere Remo',
+    rating: '4.4â˜…'
   },
   {
     id: 'biz2',
@@ -174,7 +174,7 @@ export const SEED_BUSINESSES: SeedBusinessItem[] = [
     description: 'Flagship secondary educational institution of Ogere Remo, preserving academic excellence.',
     phone: '+234 806 215 8840',
     address: 'Awomosu Agbato Drive, Ogere 121107',
-    rating: '4.8★'
+    rating: '4.8â˜…'
   },
   {
     id: 'biz3',
@@ -184,7 +184,7 @@ export const SEED_BUSINESSES: SeedBusinessItem[] = [
     description: 'Wholesale agricultural farm produce distribution, poultry processing, and haulage services.',
     phone: '+234 802 334 9911',
     address: 'Oke-Ogere Market Complex, Ogere',
-    rating: '4.7★'
+    rating: '4.7â˜…'
   }
 ];
 
@@ -201,7 +201,7 @@ export const SEED_EMERGENCY: SeedEmergencyContact[] = [
     id: 'em-2',
     service: 'FRSC Expressway Patrol Unit (RS2.2)',
     phone: '122',
-    location: 'KM 66 Lagos–Ibadan Expressway, Ogere Outpost',
+    location: 'KM 66 Lagosâ€“Ibadan Expressway, Ogere Outpost',
     availableHours: '24/7 Highway Rescue',
     icon: 'Ambulance'
   },
@@ -218,7 +218,7 @@ export const SEED_EMERGENCY: SeedEmergencyContact[] = [
     service: 'Palace of the Ologere Emergency Secretariat',
     phone: '08023456789',
     location: 'Aafin Ologere, Ogere Remo',
-    availableHours: '8:00 AM — 8:00 PM',
+    availableHours: '8:00 AM â€” 8:00 PM',
     icon: 'Landmark'
   }
 ];

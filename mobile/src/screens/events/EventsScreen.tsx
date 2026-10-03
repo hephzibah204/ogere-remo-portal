@@ -53,7 +53,7 @@ const SEED_EVENTS: CommunityEvent[] = [
     date: '2026-10-14',
     time: '02:00 PM WAT',
     venue: 'Civic Centre Hall, Oke-Ogere',
-    desc: 'Community-wide deliberative session on solar mini-grid installations, road repairs along Sagamu corridor, and ₦10M Transformation Fund allocation.',
+    desc: 'Community-wide deliberative session on solar mini-grid installations, road repairs along Sagamu corridor, and â‚¦10M Transformation Fund allocation.',
     category: 'civic',
     status: 'upcoming',
   },
@@ -80,11 +80,11 @@ const SEED_EVENTS: CommunityEvent[] = [
 ];
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Events', icon: '🌟' },
-  { id: 'cultural', label: 'Cultural & Olipakala', icon: '🎭' },
-  { id: 'royalty', label: 'Palace & Royalty', icon: '👑' },
-  { id: 'civic', label: 'Civic & Town Hall', icon: '🏛️' },
-  { id: 'youth', label: 'Youth & Pageants', icon: '⚡' },
+  { id: 'all', label: 'All Events', icon: 'ðŸŒŸ' },
+  { id: 'cultural', label: 'Cultural & Olipakala', icon: 'ðŸŽ­' },
+  { id: 'royalty', label: 'Palace & Royalty', icon: 'ðŸ‘‘' },
+  { id: 'civic', label: 'Civic & Town Hall', icon: 'ðŸ›ï¸' },
+  { id: 'youth', label: 'Youth & Pageants', icon: 'âš¡' },
 ];
 
 export const EventsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -191,10 +191,10 @@ export const EventsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </View>
             <Text style={styles.bannerTitle}>Olipakala Festival 2026</Text>
             <Text style={styles.bannerDesc}>
-              November 4, 2026 · Aafin Ologere Grounds
+              November 4, 2026 Â· Aafin Ologere Grounds
             </Text>
           </View>
-          <Text style={{ fontSize: 36 }}>🥁</Text>
+          <Text style={{ fontSize: 36 }}>ðŸ¥</Text>
         </View>
 
         {/* Action Header */}
@@ -239,11 +239,11 @@ export const EventsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                       {evt.category.toUpperCase()}
                     </Text>
                   </View>
-                  <Text style={styles.timeText}>⏰ {evt.time}</Text>
+                  <Text style={styles.timeText}>â° {evt.time}</Text>
                 </View>
 
                 <Text style={styles.eventTitle}>{evt.title}</Text>
-                <Text style={styles.venueText}>📍 {evt.venue}</Text>
+                <Text style={styles.venueText}>ðŸ“ {evt.venue}</Text>
               </View>
             </View>
 
@@ -259,7 +259,7 @@ export const EventsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                   )
                 }
               >
-                <Text style={styles.reminderBtnText}>🔔 Set Reminder</Text>
+                <Text style={styles.reminderBtnText}>ðŸ”” Set Reminder</Text>
               </TouchableOpacity>
             </View>
           </Card>
@@ -278,7 +278,7 @@ export const EventsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeading}>Submit Community Event</Text>
               <TouchableOpacity onPress={() => setShowAddModal(false)}>
-                <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 

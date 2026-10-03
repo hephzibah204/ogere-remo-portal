@@ -156,7 +156,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
 
   const handleTriggerRescue = async () => {
     Alert.alert(
-      '🚨 TRIGGER CODE RED RESCUE',
+      'ðŸš¨ TRIGGER CODE RED RESCUE',
       `Dispatch armed police and vigilante intercept squad to ${selectedEscort?.destination || 'citizen location'}?`,
       [
         { text: 'Cancel', style: 'cancel' },
@@ -170,7 +170,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  category: '🚷 Walk With Me Emergency Intercept',
+                  category: 'ðŸš· Walk With Me Emergency Intercept',
                   threat_level: 'CODE_RED',
                   severity: 'Critical',
                   location: selectedEscort?.destination || geoResolution.formattedText,
@@ -182,7 +182,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                 }),
               });
               if (res.ok) {
-                Alert.alert('🚨 CODE RED DISPATCHED', 'Armed tactical patrol units have been alerted to intercept coordinates.');
+                Alert.alert('ðŸš¨ CODE RED DISPATCHED', 'Armed tactical patrol units have been alerted to intercept coordinates.');
                 fetchEscortsList();
               }
             } catch {
@@ -208,11 +208,11 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
       {/* Top Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>‹ Back</Text>
+          <Text style={styles.backBtnText}>â€¹ Back</Text>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
           <Text style={styles.headerTitle}>WALK WITH ME MONITOR</Text>
-          <Text style={styles.headerSub}>Tactical Safe Escort · Real-Time Radar</Text>
+          <Text style={styles.headerSub}>Tactical Safe Escort Â· Real-Time Radar</Text>
         </View>
         <View style={styles.activeBadge}>
           <Text style={styles.activeBadgeText}>
@@ -256,19 +256,19 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                   >
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                       <Text style={{ fontSize: 14 }}>
-                        {activeDuress ? '🚨' : activeOverdue ? '⚠️' : '🚶‍♂️'}
+                        {activeDuress ? 'ðŸš¨' : activeOverdue ? 'âš ï¸' : 'ðŸš¶â€â™‚ï¸'}
                       </Text>
                       <Text style={[styles.escortChipTitle, isSelected && { color: '#ffffff' }]}>
                         {esc.user_id || 'Citizen'}
                       </Text>
                     </View>
                     <Text style={styles.escortChipDest} numberOfLines={1}>
-                      ➔ {esc.destination || 'Destination'}
+                      âž” {esc.destination || 'Destination'}
                     </Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 4 }}>
                       <Text style={styles.escortChipId}>{esc.id}</Text>
                       {esc.battery_level != null && (
-                        <Text style={styles.escortChipBattery}>🔋 {esc.battery_level}%</Text>
+                        <Text style={styles.escortChipBattery}>ðŸ”‹ {esc.battery_level}%</Text>
                       )}
                     </View>
                   </TouchableOpacity>
@@ -285,13 +285,13 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
           </View>
         ) : !selectedEscort ? (
           <View style={styles.emptyBox}>
-            <Text style={{ fontSize: 36, marginBottom: 8 }}>🛡️</Text>
+            <Text style={{ fontSize: 36, marginBottom: 8 }}>ðŸ›¡ï¸</Text>
             <Text style={styles.emptyTitle}>No Active Escort Sessions</Text>
             <Text style={styles.emptySub}>
               When citizens initiate "Walk With Me" in Ogere Remo, their satellite telemetry, destination and battery level appear here live.
             </Text>
             <TouchableOpacity onPress={fetchEscortsList} style={styles.refreshBtn}>
-              <Text style={styles.refreshBtnText}>🔄 Refresh Sentinel Grid</Text>
+              <Text style={styles.refreshBtnText}>ðŸ”„ Refresh Sentinel Grid</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -299,7 +299,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
             {/* Status Alert Banner */}
             {(isDuress || isOverdue) && (
               <View style={[styles.alertBanner, { backgroundColor: isDuress ? '#dc2626' : '#ea580c' }]}>
-                <Text style={styles.alertBannerIcon}>🚨</Text>
+                <Text style={styles.alertBannerIcon}>ðŸš¨</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.alertBannerTitle}>
                     {isDuress ? 'COVERT DURESS TRIGGERED (PIN 9999)' : 'CHECK-IN WINDOW OVERDUE'}
@@ -315,7 +315,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
 
             {isSafe && (
               <View style={[styles.alertBanner, { backgroundColor: '#16a34a' }]}>
-                <Text style={styles.alertBannerIcon}>✅</Text>
+                <Text style={styles.alertBannerIcon}>âœ…</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.alertBannerTitle}>SAFELY ARRIVED</Text>
                   <Text style={styles.alertBannerSub}>
@@ -330,13 +330,13 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
               <View style={{ flex: 1 }}>
                 <Text style={styles.timerLabel}>CHECK-IN TIMEOUT CLOCK</Text>
                 <Text style={[styles.timerValue, isOverdue && { color: '#ef4444' }]}>
-                  {isOverdue ? 'EXPIRED' : `⏳ ${formatDuration(countdown)}`}
+                  {isOverdue ? 'EXPIRED' : `â³ ${formatDuration(countdown)}`}
                 </Text>
               </View>
               <View style={styles.timerRight}>
                 <Text style={styles.timerSub}>Destination:</Text>
                 <Text style={styles.destText} numberOfLines={2}>
-                  🏁 {selectedEscort.destination || 'Designated Safe Zone'}
+                  ðŸ {selectedEscort.destination || 'Designated Safe Zone'}
                 </Text>
               </View>
             </View>
@@ -349,7 +349,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                   <Text style={styles.mapTitle}>OGERE TACTICAL RADAR (SLIPPY TILE)</Text>
                 </View>
                 <Text style={styles.mapCoords}>
-                  {effectiveLat.toFixed(5)}°N, {effectiveLng.toFixed(5)}°E
+                  {effectiveLat.toFixed(5)}Â°N, {effectiveLng.toFixed(5)}Â°E
                 </Text>
               </View>
 
@@ -373,7 +373,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                 >
                   <View style={styles.pulseRing} />
                   <View style={styles.pinBubble}>
-                    <Text style={{ fontSize: 15 }}>🚶‍♂️</Text>
+                    <Text style={{ fontSize: 15 }}>ðŸš¶â€â™‚ï¸</Text>
                   </View>
                   <View style={styles.pinTag}>
                     <Text style={styles.pinTagText}>{selectedEscort.user_id || 'Citizen'}</Text>
@@ -382,20 +382,20 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
 
                 {/* Destination Flag if nearby */}
                 <View style={styles.destFlagContainer}>
-                  <Text style={styles.destFlagText}>🏁 {selectedEscort.destination || 'Arrival'}</Text>
+                  <Text style={styles.destFlagText}>ðŸ {selectedEscort.destination || 'Arrival'}</Text>
                 </View>
 
                 {/* Live Telemetry Floating Pill */}
                 <View style={styles.floatingPill}>
                   <Text style={styles.floatingPillText}>
-                    📡 30 FPS · GPS ±{effectiveAcc}m · {effectiveSpeed} km/h
+                    ðŸ“¡ 30 FPS Â· GPS Â±{effectiveAcc}m Â· {effectiveSpeed} km/h
                   </Text>
                 </View>
               </View>
 
               {/* Landmark HUD Bar */}
               <View style={styles.landmarkHud}>
-                <Text style={styles.landmarkIcon}>🏛️</Text>
+                <Text style={styles.landmarkIcon}>ðŸ›ï¸</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.landmarkTitle}>{geoResolution.landmark}</Text>
                   <Text style={styles.landmarkSub}>{geoResolution.formattedText}</Text>
@@ -422,7 +422,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                       { color: effectiveBattery > 30 ? '#4ade80' : '#f87171' },
                     ]}
                   >
-                    🔋 {effectiveBattery}% {isCharging ? '⚡' : ''}
+                    ðŸ”‹ {effectiveBattery}% {isCharging ? 'âš¡' : ''}
                   </Text>
                   <Text style={styles.telemetrySubVal}>
                     {isCharging ? 'Charging via Power' : effectiveBattery > 20 ? 'Sufficient' : 'LOW POWER'}
@@ -449,7 +449,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                       { color: effectiveAcc <= 10 ? '#4ade80' : '#facc15' },
                     ]}
                   >
-                    ±{effectiveAcc} meters
+                    Â±{effectiveAcc} meters
                   </Text>
                   <Text style={styles.telemetrySubVal}>
                     {effectiveAcc <= 5 ? 'Satellite Lock (Precise)' : 'Cell / Wi-Fi Blend'}
@@ -460,7 +460,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                 <View style={styles.telemetryItem}>
                   <Text style={styles.telemetryLabel}>BEARING / COMPASS</Text>
                   <Text style={[styles.telemetryVal, { color: '#c084fc' }]}>
-                    {effectiveHeading != null ? `${effectiveHeading}°` : 'N/A'}
+                    {effectiveHeading != null ? `${effectiveHeading}Â°` : 'N/A'}
                   </Text>
                   <Text style={styles.telemetrySubVal}>
                     {geoResolution.bearingFromLandmark}
@@ -471,7 +471,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
               {lastPingTime ? (
                 <View style={styles.pingTimestampRow}>
                   <Text style={styles.pingTimestampText}>
-                    🟢 Live Signal Active · Last Heartbeat: {lastPingTime} · {breadcrumbs.length} breadcrumbs recorded
+                    ðŸŸ¢ Live Signal Active Â· Last Heartbeat: {lastPingTime} Â· {breadcrumbs.length} breadcrumbs recorded
                   </Text>
                 </View>
               ) : null}
@@ -484,7 +484,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                 onPress={() => Linking.openURL(mapUrls.turnByTurnNavigation)}
                 style={styles.primaryActionBtn}
               >
-                <Text style={{ fontSize: 20 }}>⚡</Text>
+                <Text style={{ fontSize: 20 }}>âš¡</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.primaryActionTitle}>
                     INTERCEPT & ESCORT (TURN-BY-TURN)
@@ -493,7 +493,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                     Open Google Maps Driving Directions to citizen
                   </Text>
                 </View>
-                <Text style={styles.arrowIcon}>➔</Text>
+                <Text style={styles.arrowIcon}>âž”</Text>
               </TouchableOpacity>
 
               {/* Button 2: Rooftop Satellite Pin */}
@@ -501,7 +501,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                 onPress={() => Linking.openURL(mapUrls.satellitePin)}
                 style={styles.secondaryActionBtn}
               >
-                <Text style={{ fontSize: 18 }}>🛰️</Text>
+                <Text style={{ fontSize: 18 }}>ðŸ›°ï¸</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.secondaryActionTitle}>
                     ROOFTOP SATELLITE PIN (Z:19)
@@ -510,13 +510,13 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                     Inspect exact building, compound & street alleyway
                   </Text>
                 </View>
-                <Text style={styles.arrowIcon}>➔</Text>
+                <Text style={styles.arrowIcon}>âž”</Text>
               </TouchableOpacity>
 
               {/* Direct Call & Emergency Grid */}
               <View style={styles.buttonRow}>
                 <TouchableOpacity onPress={handleCallCitizen} style={styles.callCitizenBtn}>
-                  <Text style={styles.callCitizenText}>📞 Call Citizen</Text>
+                  <Text style={styles.callCitizenText}>ðŸ“ž Call Citizen</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -525,7 +525,7 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
                   style={styles.triggerRescueBtn}
                 >
                   <Text style={styles.triggerRescueText}>
-                    {resolvingCodeRed ? 'DISPATCHING...' : '🚨 Trigger Armed CODE RED'}
+                    {resolvingCodeRed ? 'DISPATCHING...' : 'ðŸš¨ Trigger Armed CODE RED'}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -535,17 +535,17 @@ export const WalkWithMeMonitorScreen: React.FC<{ navigation: any; route?: any }>
             {breadcrumbs.length > 0 && (
               <View style={styles.breadcrumbCard}>
                 <Text style={styles.breadcrumbTitle}>
-                  🛰️ RECENT GPS BREADCRUMBS ({breadcrumbs.length})
+                  ðŸ›°ï¸ RECENT GPS BREADCRUMBS ({breadcrumbs.length})
                 </Text>
                 <View style={styles.breadcrumbList}>
                   {breadcrumbs.slice(0, 5).map((p, idx) => (
                     <View key={p.id || idx} style={styles.breadcrumbRow}>
-                      <Text style={styles.breadcrumbDot}>•</Text>
+                      <Text style={styles.breadcrumbDot}>â€¢</Text>
                       <Text style={styles.breadcrumbCoords}>
-                        {Number(p.latitude).toFixed(5)}°N, {Number(p.longitude).toFixed(5)}°E
+                        {Number(p.latitude).toFixed(5)}Â°N, {Number(p.longitude).toFixed(5)}Â°E
                       </Text>
                       {p.accuracy && (
-                        <Text style={styles.breadcrumbAcc}>±{Math.round(p.accuracy)}m</Text>
+                        <Text style={styles.breadcrumbAcc}>Â±{Math.round(p.accuracy)}m</Text>
                       )}
                       <Text style={styles.breadcrumbTime}>
                         {new Date(p.created_at || Date.now()).toLocaleTimeString()}

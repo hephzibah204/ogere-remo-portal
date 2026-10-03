@@ -66,7 +66,7 @@ export const NewsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       <View style={styles.searchWrapper}>
         <TextInput
           style={styles.searchInput}
-          placeholder="🔍 Search news, proclamations & events..."
+          placeholder="ðŸ” Search news, proclamations & events..."
           placeholderTextColor={Colors.textMuted}
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -111,7 +111,7 @@ export const NewsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       >
         {filteredArticles.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyEmoji}>📰</Text>
+            <Text style={styles.emptyEmoji}>ðŸ“°</Text>
             <Text style={styles.emptyTitle}>No Articles Found</Text>
             <Text style={styles.emptySubtitle}>
               Try adjusting your search query or select another category.

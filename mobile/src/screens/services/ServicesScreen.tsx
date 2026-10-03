@@ -42,22 +42,22 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.cardIconRow}>
             <View style={[styles.iconCircle, { backgroundColor: Colors.primaryMuted }]}>
-              <Text style={{ fontSize: 24 }}>🔍</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ”</Text>
             </View>
             <View style={styles.publicBadge}>
-              <Text style={styles.publicBadgeText}>PUBLIC · NO LOGIN REQUIRED</Text>
+              <Text style={styles.publicBadgeText}>PUBLIC Â· NO LOGIN REQUIRED</Text>
             </View>
           </View>
           <Text style={styles.cardTitle}>Verify Community ID Card</Text>
           <Text style={styles.cardDesc}>
             Validate the authenticity of any Ogere Indigene, Diaspora, or Resident Digital ID card in seconds.
           </Text>
-          <Text style={styles.actionArrow}>Open ID Validator ➔</Text>
+          <Text style={styles.actionArrow}>Open ID Validator âž”</Text>
         </Card>
 
         {/* SECTION 1: TACTICAL SAFETY & RAPID RESPONSE */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>🚨 Tactical Safety & Rapid Response</Text>
+          <Text style={styles.sectionTitle}>ðŸš¨ Tactical Safety & Rapid Response</Text>
           <Text style={styles.sectionSubtitle}>
             24/7 live protection, virtual escorts, and confidential crime prevention.
           </Text>
@@ -70,7 +70,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#dcfce7' }]}>
-              <Text style={{ fontSize: 24 }}>🚶‍♂️</Text>
+              <Text style={{ fontSize: 24 }}>ðŸš¶â€â™‚ï¸</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Virtual Safe Escort ("Walk With Me")</Text>
@@ -78,7 +78,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Moving through dark corridors? Set an arrival timer + PIN. Coerced duress PIN (9999) triggers silent armed SWAT rescue.
               </Text>
               <Text style={{ fontSize: 11, color: '#059669', fontWeight: '700', marginTop: 4 }}>
-                🟢 10-sec Heartbeat & Destination Timer
+                ðŸŸ¢ 10-sec Heartbeat & Destination Timer
               </Text>
             </View>
           </View>
@@ -91,14 +91,14 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#fee2e2' }]}>
-              <Text style={{ fontSize: 24 }}>⚠️</Text>
+              <Text style={{ fontSize: 24 }}>âš ï¸</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Report Incident or Hazard</Text>
               <Text style={styles.serviceDesc}>
                 Notify security personnel and palace authorities of emergencies, robbery, terrorism, or road blockages.
               </Text>
-              <Text style={styles.offlineNote}>⚡ Works offline (queued automatically)</Text>
+              <Text style={styles.offlineNote}>âš¡ Works offline (queued automatically)</Text>
             </View>
           </View>
         </Card>
@@ -110,7 +110,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#e0e7ff' }]}>
-              <Text style={{ fontSize: 24 }}>👨‍👩‍👧‍👦</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Guardian Circles (Emergency Contacts)</Text>
@@ -118,7 +118,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Register up to 3 kin or trusted contacts. Automatically dispatched instant SMS and live GPS tracking radar on SOS distress.
               </Text>
               <Text style={{ fontSize: 11, color: '#4f46e5', fontWeight: '700', marginTop: 4 }}>
-                ⚡ Auto-dispatched public live radar link
+                âš¡ Auto-dispatched public live radar link
               </Text>
             </View>
           </View>
@@ -131,7 +131,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#f1f5f9' }]}>
-              <Text style={{ fontSize: 24 }}>🔒</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ”’</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Anonymous Whistleblower Line</Text>
@@ -139,7 +139,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Submit confidential tips on armed bandits, bunkering, or illegal arms. 100% cryptographic token tracking with officer SITREPs.
               </Text>
               <Text style={{ fontSize: 11, color: '#475569', fontWeight: '700', marginTop: 4 }}>
-                🛡️ Zero identity / Zero IP logging
+                ðŸ›¡ï¸ Zero identity / Zero IP logging
               </Text>
             </View>
           </View>
@@ -152,7 +152,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#fee2e2' }]}>
-              <Text style={{ fontSize: 24 }}>📡</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ“¡</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Live Incident & Radar Tracker</Text>
@@ -160,7 +160,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Track live dispatch progress of any SOS distress call or reported emergency using your reference number.
               </Text>
               <Text style={{ fontSize: 11, color: '#dc2626', fontWeight: '700', marginTop: 4 }}>
-                🟢 Real-time police & vigilante SITREPs
+                ðŸŸ¢ Real-time police & vigilante SITREPs
               </Text>
             </View>
           </View>
@@ -168,7 +168,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
 
         {/* SECTION 2: ROYAL & CIVIC SERVICES */}
         <View style={[styles.sectionHeader, { marginTop: 12 }]}>
-          <Text style={styles.sectionTitle}>👑 Royal & Civic Operations</Text>
+          <Text style={styles.sectionTitle}>ðŸ‘‘ Royal & Civic Operations</Text>
           <Text style={styles.sectionSubtitle}>
             Palace appointments, digital certifications, and identity verification.
           </Text>
@@ -181,14 +181,14 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: Colors.goldSoft }]}>
-              <Text style={{ fontSize: 24 }}>🏛️</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ›ï¸</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Book Royal Audience with Kabiyesi</Text>
               <Text style={styles.serviceDesc}>
                 Schedule private, family, or delegation appointments at Aafin Ologere.
               </Text>
-              <Text style={styles.offlineNote}>⚡ Works offline (queued automatically)</Text>
+              <Text style={styles.offlineNote}>âš¡ Works offline (queued automatically)</Text>
             </View>
           </View>
         </Card>
@@ -200,7 +200,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: Colors.primaryMuted }]}>
-              <Text style={{ fontSize: 24 }}>🪪</Text>
+              <Text style={{ fontSize: 24 }}>ðŸªª</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Digital ID Card Wallet</Text>
@@ -218,7 +218,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: 'rgba(201, 150, 58, 0.18)' }]}>
-              <Text style={{ fontSize: 24 }}>⚖️</Text>
+              <Text style={{ fontSize: 24 }}>âš–ï¸</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Royal Customary Dispute Portal (Kootu Oba)</Text>
@@ -226,7 +226,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Traditional arbitration bench for land boundaries, inheritance, tenancy, and trade mediation under palace seal.
               </Text>
               <Text style={{ fontSize: 11, color: '#C9963A', fontWeight: '700', marginTop: 4 }}>
-                👑 Presided by High Chiefs & Royal Kingmakers
+                ðŸ‘‘ Presided by High Chiefs & Royal Kingmakers
               </Text>
             </View>
           </View>
@@ -239,7 +239,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#e0f2fe' }]}>
-              <Text style={{ fontSize: 24 }}>🚧</Text>
+              <Text style={{ fontSize: 24 }}>ðŸš§</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Fix My Street & IBEDC Grid Monitor</Text>
@@ -247,7 +247,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Report potholes, clogged drainages, streetlight faults, and check real-time quarter power grid status.
               </Text>
               <Text style={{ fontSize: 11, color: '#0284c7', fontWeight: '700', marginTop: 4 }}>
-                ⚡ Public Works & IBEDC Live Feed
+                âš¡ Public Works & IBEDC Live Feed
               </Text>
             </View>
           </View>
@@ -260,7 +260,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#fef3c7' }]}>
-              <Text style={{ fontSize: 24 }}>🌍</Text>
+              <Text style={{ fontSize: 24 }}>ðŸŒ</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Diaspora Escrow Grants & Capital Projects</Text>
@@ -268,7 +268,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Transparent homeland funding with milestone-locked escrow disbursement and on-ground audit proofs.
               </Text>
               <Text style={{ fontSize: 11, color: '#b45309', fontWeight: '700', marginTop: 4 }}>
-                🛡️ Zero embezzlement / 100% milestone release
+                ðŸ›¡ï¸ Zero embezzlement / 100% milestone release
               </Text>
             </View>
           </View>
@@ -281,7 +281,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#fef3c7' }]}>
-              <Text style={{ fontSize: 24 }}>📜</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ“œ</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Digital Land & Property Registry</Text>
@@ -289,7 +289,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Search cadastral plots, verify boundary ownership, and register new community land allocations.
               </Text>
               <Text style={{ fontSize: 11, color: '#b45309', fontWeight: '700', marginTop: 4 }}>
-                🏛️ Palace surveyor & gazette archives
+                ðŸ›ï¸ Palace surveyor & gazette archives
               </Text>
             </View>
           </View>
@@ -297,7 +297,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
 
         {/* SECTION 4: COMMUNITY, COMMERCE & DEVELOPMENT */}
         <View style={[styles.sectionHeader, { marginTop: 12 }]}>
-          <Text style={styles.sectionTitle}>💬 Community, Commerce & Endowment</Text>
+          <Text style={styles.sectionTitle}>ðŸ’¬ Community, Commerce & Endowment</Text>
           <Text style={styles.sectionSubtitle}>
             Direct messaging, town digitization, local commerce, and civic transformation.
           </Text>
@@ -310,7 +310,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#dcfce7' }]}>
-              <Text style={{ fontSize: 24 }}>💬</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ’¬</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Town Messenger & 1-on-1 Chat</Text>
@@ -318,7 +318,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Confidential private messaging with palace protocol, security command, OCDA, and registered community members.
               </Text>
               <Text style={{ fontSize: 11, color: '#059669', fontWeight: '700', marginTop: 4 }}>
-                🟢 Real-time database chat & channels
+                ðŸŸ¢ Real-time database chat & channels
               </Text>
             </View>
           </View>
@@ -331,7 +331,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#e0e7ff' }]}>
-              <Text style={{ fontSize: 24 }}>🗺️</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ—ºï¸</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Town Map & Digitized Sectors</Text>
@@ -342,22 +342,22 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
           </View>
         </Card>
 
-        {/* ₦10M Transformation Endowment */}
+        {/* â‚¦10M Transformation Endowment */}
         <Card
           style={styles.serviceCard}
           onPress={() => handleServicePress('Donation', false)}
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: Colors.goldSoft }]}>
-              <Text style={{ fontSize: 24 }}>💰</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ’°</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.serviceTitle}>₦10M Ogere Transformation Fund</Text>
+              <Text style={styles.serviceTitle}>â‚¦10M Ogere Transformation Fund</Text>
               <Text style={styles.serviceDesc}>
                 Track live endowment progress, countdown to Nov 4th 2026 launch, and support solar healthcare & streetlights.
               </Text>
               <Text style={{ fontSize: 11, color: '#c9963a', fontWeight: '800', marginTop: 4 }}>
-                🎯 Target: ₦10,000,000 · Paystack & Direct Transfer
+                ðŸŽ¯ Target: â‚¦10,000,000 Â· Paystack & Direct Transfer
               </Text>
             </View>
           </View>
@@ -370,7 +370,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#fef3c7' }]}>
-              <Text style={{ fontSize: 24 }}>🛍️</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ›ï¸</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Local Crafts & Adire Marketplace</Text>
@@ -388,7 +388,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#f1f5f9' }]}>
-              <Text style={{ fontSize: 24 }}>🏢</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ¢</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Civic Emergency & Business Directory</Text>
@@ -406,7 +406,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#dcfce7' }]}>
-              <Text style={{ fontSize: 24 }}>📅</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ“…</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Events & Festivals Calendar</Text>
@@ -414,7 +414,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Olipakala Festival, Royal Coronation Anniversary, civic town halls, and medical outreach dates.
               </Text>
               <Text style={{ fontSize: 11, color: '#059669', fontWeight: '700', marginTop: 4 }}>
-                🥁 Traditional festivals & reminders
+                ðŸ¥ Traditional festivals & reminders
               </Text>
             </View>
           </View>
@@ -427,7 +427,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
         >
           <View style={styles.serviceRow}>
             <View style={[styles.iconCircle, { backgroundColor: '#e0e7ff' }]}>
-              <Text style={{ fontSize: 24 }}>🗣️</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ—£ï¸</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.serviceTitle}>Town Hall Discussion Forum</Text>
@@ -435,7 +435,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 Propose community development projects, debate local initiatives, and deliberate with town leaders.
               </Text>
               <Text style={{ fontSize: 11, color: '#4338ca', fontWeight: '700', marginTop: 4 }}>
-                🏛️ Democratic civic participation
+                ðŸ›ï¸ Democratic civic participation
               </Text>
             </View>
           </View>
@@ -451,7 +451,7 @@ export const ServicesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
       >
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
-            <Text style={{ fontSize: 36, textAlign: 'center', marginBottom: 8 }}>👑</Text>
+            <Text style={{ fontSize: 36, textAlign: 'center', marginBottom: 8 }}>ðŸ‘‘</Text>
             <Text style={styles.modalTitle}>Citizen Login Required</Text>
             <Text style={styles.modalText}>
               This official civic service requires an authenticated Citizen or Diaspora account to submit records to the Palace registry.

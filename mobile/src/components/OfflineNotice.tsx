@@ -36,7 +36,7 @@ export const OfflineNotice: React.FC = () => {
         />
         <Text style={styles.text}>
           {!status.isOnline
-            ? 'Offline Mode · Viewing Cached Records'
+            ? 'Offline Mode Â· Viewing Cached Records'
             : status.isSyncing
             ? 'Updating Community Content with Palace Server...'
             : `${status.pendingCount} submission(s) pending sync`}

@@ -150,7 +150,7 @@ export const WhistleblowerScreen: React.FC<{ navigation: any }> = ({ navigation 
           onPress={() => setActiveTab('submit')}
         >
           <Text style={[styles.tabText, activeTab === 'submit' && styles.tabTextActive]}>
-            ✍️ Submit Secret Intel
+            âœï¸ Submit Secret Intel
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -158,7 +158,7 @@ export const WhistleblowerScreen: React.FC<{ navigation: any }> = ({ navigation 
           onPress={() => setActiveTab('track')}
         >
           <Text style={[styles.tabText, activeTab === 'track' && styles.tabTextActive]}>
-            🔍 Track SITREP Status
+            ðŸ” Track SITREP Status
           </Text>
         </TouchableOpacity>
       </View>
@@ -168,7 +168,7 @@ export const WhistleblowerScreen: React.FC<{ navigation: any }> = ({ navigation 
           <>
             <Card style={styles.bannerCard}>
               <View style={styles.bannerRow}>
-                <Text style={{ fontSize: 26 }}>🔒</Text>
+                <Text style={{ fontSize: 26 }}>ðŸ”’</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.bannerTitle}>Zero-Trace Whistleblower</Text>
                   <Text style={styles.bannerText}>
@@ -181,7 +181,7 @@ export const WhistleblowerScreen: React.FC<{ navigation: any }> = ({ navigation 
             {/* Token generated announcement modal/card */}
             {generatedToken ? (
               <Card style={styles.successCard}>
-                <Text style={{ fontSize: 32, textAlign: 'center', marginBottom: 6 }}>🛡️</Text>
+                <Text style={{ fontSize: 32, textAlign: 'center', marginBottom: 6 }}>ðŸ›¡ï¸</Text>
                 <Text style={styles.successTitle}>Intelligence Transmitted Safely</Text>
                 <Text style={styles.successDesc}>
                   Your secret token has been generated. Save this token now! It is the only way to track investigation updates or chat with commanders:
@@ -251,7 +251,7 @@ export const WhistleblowerScreen: React.FC<{ navigation: any }> = ({ navigation 
                 />
 
                 <Button
-                  title={submitting ? 'Transmitting...' : '🔒 TRANSMIT ANONYMOUS INTEL'}
+                  title={submitting ? 'Transmitting...' : 'ðŸ”’ TRANSMIT ANONYMOUS INTEL'}
                   variant="primary"
                   onPress={handleSubmitTip}
                   loading={submitting}
@@ -285,7 +285,7 @@ export const WhistleblowerScreen: React.FC<{ navigation: any }> = ({ navigation 
               />
 
               <Button
-                title={searching ? 'Checking Records...' : '🔍 Check Investigation SITREP'}
+                title={searching ? 'Checking Records...' : 'ðŸ” Check Investigation SITREP'}
                 variant="primary"
                 onPress={handleTrackTip}
                 loading={searching}

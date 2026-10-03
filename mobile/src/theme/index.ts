@@ -96,7 +96,7 @@ export const Shadows = {
     shadowRadius: 16,
     elevation: 8,
   },
-  // NEW — gold-branded glow for featured cards
+  // NEW â€” gold-branded glow for featured cards
   gold: {
     shadowColor: '#C9963A',
     shadowOffset: { width: 0, height: 6 },
@@ -104,7 +104,7 @@ export const Shadows = {
     shadowRadius: 18,
     elevation: 10,
   },
-  // NEW — red alert glow for SOS / emergency elements
+  // NEW â€” red alert glow for SOS / emergency elements
   danger: {
     shadowColor: '#ef4444',
     shadowOffset: { width: 0, height: 4 },

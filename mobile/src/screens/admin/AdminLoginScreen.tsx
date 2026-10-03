@@ -67,13 +67,13 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
           {/* Official Command Header */}
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-              <Text style={styles.backBtnText}>← Citizen Portal</Text>
+              <Text style={styles.backBtnText}>â† Citizen Portal</Text>
             </TouchableOpacity>
             
             <View style={styles.sealBadge}>
-              <Text style={{ fontSize: 32 }}>🏛️</Text>
+              <Text style={{ fontSize: 32 }}>ðŸ›ï¸</Text>
             </View>
-            <Text style={styles.stateSubtitle}>OGUN STATE · FEDERAL REPUBLIC OF NIGERIA</Text>
+            <Text style={styles.stateSubtitle}>OGUN STATE Â· FEDERAL REPUBLIC OF NIGERIA</Text>
             <Text style={styles.title}>Field Command & Secretariat</Text>
             <Text style={styles.subtitle}>
               Authorized Portal for Security Forces, Palace Protocol & Civic Administrators
@@ -86,7 +86,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               onPress={() => setSelectedRole('security_officer')}
               style={[styles.roleTab, selectedRole === 'security_officer' && styles.roleTabActive]}
             >
-              <Text style={styles.roleTabEmoji}>🛡️</Text>
+              <Text style={styles.roleTabEmoji}>ðŸ›¡ï¸</Text>
               <Text style={[styles.roleTabText, selectedRole === 'security_officer' && styles.roleTabTextActive]}>
                 Security / Police
               </Text>
@@ -96,7 +96,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               onPress={() => setSelectedRole('palace_protocol')}
               style={[styles.roleTab, selectedRole === 'palace_protocol' && styles.roleTabActive]}
             >
-              <Text style={styles.roleTabEmoji}>👑</Text>
+              <Text style={styles.roleTabEmoji}>ðŸ‘‘</Text>
               <Text style={[styles.roleTabText, selectedRole === 'palace_protocol' && styles.roleTabTextActive]}>
                 Palace Protocol
               </Text>
@@ -106,7 +106,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               onPress={() => setSelectedRole('ocda_admin')}
               style={[styles.roleTab, selectedRole === 'ocda_admin' && styles.roleTabActive]}
             >
-              <Text style={styles.roleTabEmoji}>🏛️</Text>
+              <Text style={styles.roleTabEmoji}>ðŸ›ï¸</Text>
               <Text style={[styles.roleTabText, selectedRole === 'ocda_admin' && styles.roleTabTextActive]}>
                 OCDA Admin
               </Text>
@@ -117,7 +117,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
           <View style={styles.formCard}>
             {error && (
               <View style={styles.errorBox}>
-                <Text style={styles.errorText}>⚠️ {error}</Text>
+                <Text style={styles.errorText}>âš ï¸ {error}</Text>
               </View>
             )}
 
@@ -142,7 +142,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
               </View>
               <TextInput
                 style={styles.input}
-                placeholder="••••••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 placeholderTextColor={Colors.textMuted}
                 value={password}
                 onChangeText={setPassword}
@@ -161,7 +161,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
 
             {hasBiometrics && (
               <Button
-                title="⚡ Unlock with Face ID / Biometrics"
+                title="âš¡ Unlock with Face ID / Biometrics"
                 variant="outline"
                 size="md"
                 onPress={handleBiometricAuth}
@@ -173,7 +173,7 @@ export const AdminLoginScreen: React.FC<{ navigation: any }> = ({ navigation }) 
             <View style={styles.footerRow}>
               <Text style={styles.footerText}>New Field Officer or Palace Official? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('AdminRegister')}>
-                <Text style={styles.registerLink}>Register Officer ➔</Text>
+                <Text style={styles.registerLink}>Register Officer âž”</Text>
               </TouchableOpacity>
             </View>
           </View>

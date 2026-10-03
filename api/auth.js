@@ -91,7 +91,7 @@ async function ensureAuthTables() {
 
 
 export default async function handler(req, res) {
-  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogere-remo-portal.vercel.app';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -209,15 +209,15 @@ export default async function handler(req, res) {
         if (indigeneResidency === 'diaspora') {
           cardPrefix = 'OGR-IND-INT';
           locationSummary = `Diaspora (${diasporaCity ? diasporaCity + ', ' : ''}${diasporaCountry || 'International'})`;
-          subCategoryLabel = 'Indigene Â· Diaspora';
+          subCategoryLabel = 'Indigene Ã‚Â· Diaspora';
         } else if (indigeneResidency === 'nigeria') {
           cardPrefix = 'OGR-IND-NG';
           locationSummary = `Nigeria (${nigeriaCity ? nigeriaCity + ', ' : ''}${nigeriaState || 'Interstate'})`;
-          subCategoryLabel = 'Indigene Â· In Nigeria';
+          subCategoryLabel = 'Indigene Ã‚Â· In Nigeria';
         } else {
           cardPrefix = 'OGR-IND-OG';
           locationSummary = `Resident in Ogere Remo (${quarter || 'Oke-Ogere'})`;
-          subCategoryLabel = 'Indigene Â· Resident in Ogere';
+          subCategoryLabel = 'Indigene Ã‚Â· Resident in Ogere';
         }
       } else if (citizenType === 'non-indigene' || citizenType === 'resident') {
         cardPrefix = 'OGR-RES';

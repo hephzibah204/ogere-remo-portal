@@ -76,7 +76,7 @@ export async function showLocalEmergencyNotification(
       }
     });
 
-    Alert.alert(`🚨 ${title}`, body, [
+    Alert.alert(`ðŸš¨ ${title}`, body, [
       {
         text: 'View Incident',
         onPress: () => {

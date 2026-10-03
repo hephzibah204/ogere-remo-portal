@@ -56,7 +56,7 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'Palace of the Ologere (Aafin)',
     category: 'royal',
     categoryLabel: 'Royal & Heritage',
-    icon: '👑',
+    icon: 'ðŸ‘‘',
     coords: { lat: 6.9233, lng: 3.5827 },
     address: 'Palace Square, Oke-Ogere, Ogere Remo',
     desc: 'Ancient seat of HRM Oba James Obafemi Saliu (Kankanbiina II), Council of Chiefs, and Royal Peace Tribunal.',
@@ -68,7 +68,7 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'Nigeria Police Divisional Station',
     category: 'safety',
     categoryLabel: 'Security & Rapid Response',
-    icon: '👮‍♂️',
+    icon: 'ðŸ‘®â€â™‚ï¸',
     coords: { lat: 6.9248, lng: 3.5841 },
     address: 'Palace Way, Ogere Remo',
     desc: '24/7 Police post, anti-kidnapping liaison, and joint vigilante night patrol command.',
@@ -80,9 +80,9 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'KM 67 Tollgate Expressway Corridor',
     category: 'safety',
     categoryLabel: 'Highway Patrol & Safety',
-    icon: '🚨',
+    icon: 'ðŸš¨',
     coords: { lat: 6.9388, lng: 3.6437 },
-    address: 'KM 67 Lagos–Ibadan Expressway, Ogere Outpost',
+    address: 'KM 67 Lagosâ€“Ibadan Expressway, Ogere Outpost',
     desc: 'FRSC Highway Patrol Base, accident extrication unit, and heavy haulage traffic corridor.',
     emergencySector: 'KM 67 Expressway Corridor',
     phone: '122',
@@ -92,7 +92,7 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'Ogere Trailer Park & CNG Energy Depot',
     category: 'logistics',
     categoryLabel: 'Logistics & Commerce',
-    icon: '🚛',
+    icon: 'ðŸš›',
     coords: { lat: 6.9366, lng: 3.6344 },
     address: 'Expressway Bypass, South Gate, Ogere Remo',
     desc: 'Major interstate haulage transit depot, commercial diesel logistics, and TEG CNG natural gas filling plant.',
@@ -103,7 +103,7 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'Ogere Primary Health Centre',
     category: 'health',
     categoryLabel: 'Emergency Healthcare',
-    icon: '🏥',
+    icon: 'ðŸ¥',
     coords: { lat: 6.9215, lng: 3.5812 },
     address: 'Isale-Ogere Hospital Road',
     desc: 'WHO-standard cold chain vaccine hub, 10kVA 24-hour solar maternity ward, and emergency trauma triage.',
@@ -115,7 +115,7 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'Oke-Ogere Central Market & Adire Hub',
     category: 'market',
     categoryLabel: 'Commerce & Culture',
-    icon: '🛍️',
+    icon: 'ðŸ›ï¸',
     coords: { lat: 6.9242, lng: 3.5835 },
     address: 'Oke-Ogere Market Square',
     desc: 'Traditional 4-day market, authentic Yoruba Adire indigo textiles, local farm harvest, and artisan stalls.',
@@ -126,7 +126,7 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'Agbele Farmlands Escort Corridor',
     category: 'safety',
     categoryLabel: 'Virtual Escort Axis',
-    icon: '🚶‍♂️',
+    icon: 'ðŸš¶â€â™‚ï¸',
     coords: { lat: 6.9189, lng: 3.5784 },
     address: 'Agbele Farm Road, Southern Ogere',
     desc: 'Agricultural corridor monitored by Walk With Me virtual escort and local community hunters patrol.',
@@ -137,7 +137,7 @@ const OGERE_LANDMARKS: Landmark[] = [
     name: 'Ogere Anglican Grammar School',
     category: 'education',
     categoryLabel: 'Education & Youth',
-    icon: '🎓',
+    icon: 'ðŸŽ“',
     coords: { lat: 6.9271, lng: 3.5862 },
     address: 'Anglican Road, Ogere Remo',
     desc: 'Historic educational institution established in 1965, serving generations of Remo scholars.',
@@ -146,11 +146,11 @@ const OGERE_LANDMARKS: Landmark[] = [
 ];
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Places', emoji: '🗺️' },
-  { id: 'safety', label: 'Security & Police', emoji: '🚨' },
-  { id: 'health', label: 'Health & Clinic', emoji: '🏥' },
-  { id: 'royal', label: 'Palace & Heritage', emoji: '👑' },
-  { id: 'logistics', label: 'Commerce & Transit', emoji: '🚛' },
+  { id: 'all', label: 'All Places', emoji: 'ðŸ—ºï¸' },
+  { id: 'safety', label: 'Security & Police', emoji: 'ðŸš¨' },
+  { id: 'health', label: 'Health & Clinic', emoji: 'ðŸ¥' },
+  { id: 'royal', label: 'Palace & Heritage', emoji: 'ðŸ‘‘' },
+  { id: 'logistics', label: 'Commerce & Transit', emoji: 'ðŸš›' },
 ];
 
 export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -218,7 +218,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         <View style={{ padding: 10, backgroundColor: '#1e293b', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View>
             <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>
-              🗺️ LIVE GOOGLE STREET MAP VIEW
+              ðŸ—ºï¸ LIVE GOOGLE STREET MAP VIEW
             </Text>
             <Text style={{ color: '#cbd5e1', fontSize: 10, marginTop: 1 }} numberOfLines={1}>
               {userCoords.address}
@@ -226,7 +226,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           </View>
           <View style={styles.livePill}>
             <Text style={styles.livePillText}>
-              {userCoords.accuracy ? `±${Math.round(userCoords.accuracy)}m GPS` : 'GPS ACTIVE'}
+              {userCoords.accuracy ? `Â±${Math.round(userCoords.accuracy)}m GPS` : 'GPS ACTIVE'}
             </Text>
           </View>
         </View>
@@ -273,7 +273,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 elevation: 6,
               }}
             >
-              <Text style={{ fontSize: 14 }}>📍</Text>
+              <Text style={{ fontSize: 14 }}>ðŸ“</Text>
             </View>
             <View
               style={{
@@ -304,7 +304,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               </View>
             ) : (
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                <Text style={{ fontSize: 14 }}>📍</Text>
+                <Text style={{ fontSize: 14 }}>ðŸ“</Text>
                 <Text style={styles.locateMeBtnText}>SEE MY LOCATION ON MAP</Text>
               </View>
             )}
@@ -313,7 +313,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             style={{ backgroundColor: '#1e293b', paddingHorizontal: 12, justifyContent: 'center', borderRadius: 8, borderWidth: 1, borderColor: '#334155' }}
             onPress={() => openInGoogleMaps(userCoords.lat, userCoords.lng, 'My Location')}
           >
-            <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>Full Map ↗</Text>
+            <Text style={{ color: '#38bdf8', fontSize: 11, fontWeight: '800' }}>Full Map â†—</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -377,7 +377,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 onPress={() => openInGoogleMaps(lm.coords.lat, lm.coords.lng, lm.name)}
                 activeOpacity={0.8}
               >
-                <Text style={styles.navBtnText}>📍 Open in Google Maps</Text>
+                <Text style={styles.navBtnText}>ðŸ“ Open in Google Maps</Text>
               </TouchableOpacity>
 
               {lm.phone && (
@@ -386,7 +386,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                   onPress={() => Linking.openURL(`tel:${lm.phone}`)}
                   activeOpacity={0.8}
                 >
-                  <Text style={styles.callBtnText}>📞 Call {lm.phone}</Text>
+                  <Text style={styles.callBtnText}>ðŸ“ž Call {lm.phone}</Text>
                 </TouchableOpacity>
               )}
 
@@ -395,7 +395,7 @@ export const MapScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 onPress={() => navigation.navigate('IncidentReport')}
                 activeOpacity={0.8}
               >
-                <Text style={styles.sosSectorBtnText}>🚨 SOS in this Sector</Text>
+                <Text style={styles.sosSectorBtnText}>ðŸš¨ SOS in this Sector</Text>
               </TouchableOpacity>
             </View>
           </Card>

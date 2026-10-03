@@ -29,7 +29,7 @@ const DEPARTMENTS = [
     role: 'palace_protocol' as OfficerRole,
     agencies: [
       'Aafin Ologere Protocol Secretariat',
-      'King’s Chamberlains & Audience Directorate',
+      'Kingâ€™s Chamberlains & Audience Directorate',
       'Council of Chiefs Ceremonial Unit',
     ],
   },
@@ -121,11 +121,11 @@ export const AdminRegisterScreen: React.FC<{ navigation: any }> = ({ navigation 
         <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-              <Text style={styles.backBtnText}>← Back to Login</Text>
+              <Text style={styles.backBtnText}>â† Back to Login</Text>
             </TouchableOpacity>
             
             <View style={styles.sealBadge}>
-              <Text style={{ fontSize: 30 }}>🛡️</Text>
+              <Text style={{ fontSize: 30 }}>ðŸ›¡ï¸</Text>
             </View>
             <Text style={styles.title}>Officer & Staff Enrollment</Text>
             <Text style={styles.subtitle}>
@@ -139,7 +139,7 @@ export const AdminRegisterScreen: React.FC<{ navigation: any }> = ({ navigation 
               onPress={() => handleRoleSelect('security_officer')}
               style={[styles.roleTab, selectedRole === 'security_officer' && styles.roleTabActive]}
             >
-              <Text style={styles.roleTabEmoji}>👮‍♂️</Text>
+              <Text style={styles.roleTabEmoji}>ðŸ‘®â€â™‚ï¸</Text>
               <Text style={[styles.roleTabText, selectedRole === 'security_officer' && styles.roleTabTextActive]}>
                 Security Forces
               </Text>
@@ -149,7 +149,7 @@ export const AdminRegisterScreen: React.FC<{ navigation: any }> = ({ navigation 
               onPress={() => handleRoleSelect('palace_protocol')}
               style={[styles.roleTab, selectedRole === 'palace_protocol' && styles.roleTabActive]}
             >
-              <Text style={styles.roleTabEmoji}>👑</Text>
+              <Text style={styles.roleTabEmoji}>ðŸ‘‘</Text>
               <Text style={[styles.roleTabText, selectedRole === 'palace_protocol' && styles.roleTabTextActive]}>
                 Palace Protocol
               </Text>
@@ -159,7 +159,7 @@ export const AdminRegisterScreen: React.FC<{ navigation: any }> = ({ navigation 
               onPress={() => handleRoleSelect('ocda_admin')}
               style={[styles.roleTab, selectedRole === 'ocda_admin' && styles.roleTabActive]}
             >
-              <Text style={styles.roleTabEmoji}>🏛️</Text>
+              <Text style={styles.roleTabEmoji}>ðŸ›ï¸</Text>
               <Text style={[styles.roleTabText, selectedRole === 'ocda_admin' && styles.roleTabTextActive]}>
                 OCDA Admin
               </Text>
@@ -169,7 +169,7 @@ export const AdminRegisterScreen: React.FC<{ navigation: any }> = ({ navigation 
           <View style={styles.formCard}>
             {error && (
               <View style={styles.errorBox}>
-                <Text style={styles.errorText}>⚠️ {error}</Text>
+                <Text style={styles.errorText}>âš ï¸ {error}</Text>
               </View>
             )}
 

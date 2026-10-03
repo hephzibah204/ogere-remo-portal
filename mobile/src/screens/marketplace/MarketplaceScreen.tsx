@@ -33,10 +33,10 @@ const MARKET_ITEMS: MarketItem[] = [
     seller: 'Iya Ni Wura Adire Emporium',
     quarter: 'Oke-Ogere Market Quarter',
     category: 'adire',
-    price: '₦18,500',
+    price: 'â‚¦18,500',
     desc: 'Hand-dyed organic indigo cotton fabric patterned with historic Yoruba geometric motifs.',
     phone: '08023456789',
-    emoji: '👘',
+    emoji: 'ðŸ‘˜',
     verified: true,
   },
   {
@@ -45,10 +45,10 @@ const MARKET_ITEMS: MarketItem[] = [
     seller: 'Agbele Farmers Cooperative',
     quarter: 'Agbele Farmlands Axis',
     category: 'agric',
-    price: '₦32,000',
+    price: 'â‚¦32,000',
     desc: 'Crisp, sand-free, traditionally fried cassava flakes from fertile Ogere soils.',
     phone: '08034567891',
-    emoji: '🌾',
+    emoji: 'ðŸŒ¾',
     verified: true,
   },
   {
@@ -57,10 +57,10 @@ const MARKET_ITEMS: MarketItem[] = [
     seller: 'Alagbe Crown Crafts',
     quarter: 'Isale-Ogere Artisan Quarter',
     category: 'crafts',
-    price: '₦25,000',
+    price: 'â‚¦25,000',
     desc: 'Intricate royal beadwork handcrafted for chieftains, title holders, and cultural festivals.',
     phone: '08098765432',
-    emoji: '👑',
+    emoji: 'ðŸ‘‘',
     verified: true,
   },
   {
@@ -69,10 +69,10 @@ const MARKET_ITEMS: MarketItem[] = [
     seller: 'Remo Palm Oil Mills',
     quarter: 'Ogere Industrial Bypass',
     category: 'agric',
-    price: '₦38,000',
+    price: 'â‚¦38,000',
     desc: 'Zero-adulteration, unrefined red palm oil harvested directly from Remo estates.',
     phone: '08123456789',
-    emoji: '🌴',
+    emoji: 'ðŸŒ´',
     verified: true,
   },
   {
@@ -84,7 +84,7 @@ const MARKET_ITEMS: MarketItem[] = [
     price: 'Custom Quote',
     desc: 'Certified engineers installing home/business solar backup and cloud IP cameras.',
     phone: '08055443322',
-    emoji: '⚡',
+    emoji: 'âš¡',
     verified: true,
   },
 ];
@@ -168,13 +168,13 @@ export const MarketplaceScreen: React.FC<{ navigation: any }> = ({ navigation })
                   <Text style={styles.priceTag}>{item.price}</Text>
                   {item.verified && (
                     <View style={styles.verifiedPill}>
-                      <Text style={styles.verifiedPillText}>✓ VERIFIED LOCAL SELLER</Text>
+                      <Text style={styles.verifiedPillText}>âœ“ VERIFIED LOCAL SELLER</Text>
                     </View>
                   )}
                 </View>
                 <Text style={styles.itemTitle}>{item.title}</Text>
                 <Text style={styles.sellerName}>Sold by: {item.seller}</Text>
-                <Text style={styles.quarterText}>📍 {item.quarter}</Text>
+                <Text style={styles.quarterText}>ðŸ“ {item.quarter}</Text>
               </View>
             </View>
 
@@ -186,7 +186,7 @@ export const MarketplaceScreen: React.FC<{ navigation: any }> = ({ navigation })
                 onPress={() => handleWhatsApp(item.phone, item.title)}
                 activeOpacity={0.8}
               >
-                <Text style={styles.waBtnText}>💬 Order on WhatsApp</Text>
+                <Text style={styles.waBtnText}>ðŸ’¬ Order on WhatsApp</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -194,7 +194,7 @@ export const MarketplaceScreen: React.FC<{ navigation: any }> = ({ navigation })
                 onPress={() => Linking.openURL(`tel:${item.phone}`)}
                 activeOpacity={0.8}
               >
-                <Text style={styles.callBtnText}>📞 Call Seller</Text>
+                <Text style={styles.callBtnText}>ðŸ“ž Call Seller</Text>
               </TouchableOpacity>
             </View>
           </Card>

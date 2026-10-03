@@ -46,7 +46,7 @@ export const DiasporaEscrowScreen: React.FC<{ navigation: any }> = ({ navigation
       <ScrollView style={styles.content} contentContainerStyle={{ paddingBottom: 40 }}>
         {/* Banner */}
         <View style={styles.heroBanner}>
-          <Text style={{ fontSize: 24 }}>🌍</Text>
+          <Text style={{ fontSize: 24 }}>ðŸŒ</Text>
           <View style={{ flex: 1 }}>
             <Text style={styles.heroTitle}>Ogere Diaspora Escrow Vault</Text>
             <Text style={styles.heroSubtitle}>
@@ -96,7 +96,7 @@ export const DiasporaEscrowScreen: React.FC<{ navigation: any }> = ({ navigation
               </View>
 
               <Text style={styles.projTitle}>{proj.title}</Text>
-              <Text style={styles.projLocation}>📍 {proj.location}</Text>
+              <Text style={styles.projLocation}>ðŸ“ {proj.location}</Text>
               <Text style={styles.projDesc}>{proj.description}</Text>
 
               {/* Progress Bar */}
@@ -114,20 +114,20 @@ export const DiasporaEscrowScreen: React.FC<{ navigation: any }> = ({ navigation
               <View style={styles.financialGrid}>
                 <View style={styles.finCol}>
                   <Text style={styles.finLabel}>Target Budget</Text>
-                  <Text style={styles.finVal}>₦{(proj.targetBudgetNgn / 1000000).toFixed(1)}M</Text>
+                  <Text style={styles.finVal}>â‚¦{(proj.targetBudgetNgn / 1000000).toFixed(1)}M</Text>
                 </View>
                 <View style={styles.finCol}>
                   <Text style={styles.finLabel}>Locked in Escrow</Text>
-                  <Text style={[styles.finVal, { color: '#C9963A' }]}>₦{(proj.escrowLockedNgn / 1000000).toFixed(1)}M</Text>
+                  <Text style={[styles.finVal, { color: '#C9963A' }]}>â‚¦{(proj.escrowLockedNgn / 1000000).toFixed(1)}M</Text>
                 </View>
                 <View style={styles.finCol}>
                   <Text style={styles.finLabel}>Released (Verified)</Text>
-                  <Text style={[styles.finVal, { color: '#4ade80' }]}>₦{(proj.releasedNgn / 1000000).toFixed(1)}M</Text>
+                  <Text style={[styles.finVal, { color: '#4ade80' }]}>â‚¦{(proj.releasedNgn / 1000000).toFixed(1)}M</Text>
                 </View>
               </View>
 
               {/* Milestones List */}
-              <Text style={styles.milestoneHeading}>🛡️ Milestone Release Stages</Text>
+              <Text style={styles.milestoneHeading}>ðŸ›¡ï¸ Milestone Release Stages</Text>
               {proj.milestones.map((m) => (
                 <View key={m.id} style={styles.mCard}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -158,18 +158,18 @@ export const DiasporaEscrowScreen: React.FC<{ navigation: any }> = ({ navigation
                           },
                         ]}
                       >
-                        {m.status === 'RELEASED' ? '✅ PAID' : m.status === 'VERIFICATION_PENDING' ? '⏳ AUDIT' : '🔒 LOCKED'}
+                        {m.status === 'RELEASED' ? 'âœ… PAID' : m.status === 'VERIFICATION_PENDING' ? 'â³ AUDIT' : 'ðŸ”’ LOCKED'}
                       </Text>
                     </View>
                   </View>
-                  <Text style={styles.mAmount}>Grant Value: ₦{m.amountNgn.toLocaleString()}</Text>
-                  <Text style={styles.mEvidence}>📋 Audit Evidence: {m.evidence}</Text>
+                  <Text style={styles.mAmount}>Grant Value: â‚¦{m.amountNgn.toLocaleString()}</Text>
+                  <Text style={styles.mEvidence}>ðŸ“‹ Audit Evidence: {m.evidence}</Text>
                 </View>
               ))}
 
               <View style={styles.supervisorRow}>
-                <Text style={styles.supervisorText}>👷 Lead: {proj.leadContractor}</Text>
-                <Text style={styles.supervisorText}>👑 Palace Signatory: {proj.palaceSignatory}</Text>
+                <Text style={styles.supervisorText}>ðŸ‘· Lead: {proj.leadContractor}</Text>
+                <Text style={styles.supervisorText}>ðŸ‘‘ Palace Signatory: {proj.palaceSignatory}</Text>
               </View>
             </View>
           ))

@@ -18,11 +18,11 @@ import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { syncManager, API_BASE_URL } from '../../database/syncManager';
 
 const AGENCIES = [
-  { id: 'all', name: 'All Agencies', icon: '🌐' },
-  { id: 'Police', name: 'Police (DPO)', icon: '🚔' },
-  { id: 'FRSC', name: 'FRSC Rescue', icon: '🚦' },
-  { id: 'So-Safe', name: 'So-Safe Corps', icon: '🛡️' },
-  { id: 'Palace Vigilante', name: 'Palace Watch', icon: '👑' },
+  { id: 'all', name: 'All Agencies', icon: 'ðŸŒ' },
+  { id: 'Police', name: 'Police (DPO)', icon: 'ðŸš”' },
+  { id: 'FRSC', name: 'FRSC Rescue', icon: 'ðŸš¦' },
+  { id: 'So-Safe', name: 'So-Safe Corps', icon: 'ðŸ›¡ï¸' },
+  { id: 'Palace Vigilante', name: 'Palace Watch', icon: 'ðŸ‘‘' },
 ];
 
 export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -36,7 +36,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
 
   // Trigger repeating haptic + vibration pattern for CODE_RED
   const triggerHapticAlarm = (newCodeRedIds: string[]) => {
-    // Vibration pattern: 200ms on, 100ms off × 6 = 1.8s burst
+    // Vibration pattern: 200ms on, 100ms off Ã— 6 = 1.8s burst
     const pattern = [0, 200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 200];
     Vibration.vibrate(pattern, false);
 
@@ -48,7 +48,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
       newCodeRedIds.forEach(id => alertedIncidentsRef.current.add(id));
 
       Alert.alert(
-        '🚨 CODE RED — ARMED INCIDENT',
+        'ðŸš¨ CODE RED â€” ARMED INCIDENT',
         'Active emergency detected in your sector. Tactical patrol units notified.',
         [{ text: 'ACKNOWLEDGED', style: 'destructive', onPress: () => { alarmActiveRef.current = false; } }],
         { cancelable: true, onDismiss: () => { alarmActiveRef.current = false; } }
@@ -148,7 +148,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
           codeRedCount > 0 ? styles.bannerRed : styles.bannerGreen,
         ]}
       >
-        <Text style={styles.bannerEmoji}>{codeRedCount > 0 ? '🚨' : '🛡️'}</Text>
+        <Text style={styles.bannerEmoji}>{codeRedCount > 0 ? 'ðŸš¨' : 'ðŸ›¡ï¸'}</Text>
         <View style={{ flex: 1 }}>
           <Text style={styles.bannerTitle}>
             {codeRedCount > 0
@@ -156,7 +156,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
               : 'SECTOR PATROL: NORMAL'}
           </Text>
           <Text style={styles.bannerSub}>
-            Lagos-Ibadan Expressway Corridor · Joint Taskforce
+            Lagos-Ibadan Expressway Corridor Â· Joint Taskforce
           </Text>
         </View>
         <TouchableOpacity
@@ -166,13 +166,13 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
           }}
           style={styles.refreshBtn}
         >
-          <Text style={styles.refreshText}>{refreshing ? '...' : '⟳'}</Text>
+          <Text style={styles.refreshText}>{refreshing ? '...' : 'âŸ³'}</Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>← Back to Civic Hub</Text>
+          <Text style={styles.backBtnText}>â† Back to Civic Hub</Text>
         </TouchableOpacity>
 
         {/* Agency Filter Chips */}
@@ -208,7 +208,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
           <ActivityIndicator size="large" color={Colors.primary} style={{ marginTop: 40 }} />
         ) : incidents.length === 0 ? (
           <View style={styles.emptyCard}>
-            <Text style={{ fontSize: 32, marginBottom: 8 }}>🟢</Text>
+            <Text style={{ fontSize: 32, marginBottom: 8 }}>ðŸŸ¢</Text>
             <Text style={styles.emptyTitle}>All Sectors Clear</Text>
             <Text style={styles.emptySub}>No active emergency reports in this category.</Text>
           </View>
@@ -234,21 +234,21 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                       ]}
                     >
                       <Text style={styles.badgeText}>
-                        {isCodeRed ? '🚨 CODE RED' : '⚠️ HAZARD'}
+                        {isCodeRed ? 'ðŸš¨ CODE RED' : 'âš ï¸ HAZARD'}
                       </Text>
                     </View>
                     {isSilent && (
                       <View style={styles.silentBadge}>
-                        <Text style={styles.silentBadgeText}>🤫 SILENT PANIC</Text>
+                        <Text style={styles.silentBadgeText}>ðŸ¤« SILENT PANIC</Text>
                       </View>
                     )}
                     {inc.is_live_tracking && (
                       <View style={styles.liveRadarBadge}>
-                        <Text style={styles.liveRadarBadgeText}>🟢 LIVE RADAR</Text>
+                        <Text style={styles.liveRadarBadgeText}>ðŸŸ¢ LIVE RADAR</Text>
                       </View>
                     )}
                   </View>
-                  <Text style={styles.incidentStatus}>● {inc.status}</Text>
+                  <Text style={styles.incidentStatus}>â— {inc.status}</Text>
                 </View>
 
                 <Text style={styles.categoryTitle}>{inc.category}</Text>
@@ -258,20 +258,20 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                 {inc.is_live_tracking && (
                   <View style={styles.liveMovementHud}>
                     <Text style={styles.liveMovementTitle}>
-                      🟢 MOVING TARGET · {inc.speed !== null && inc.speed !== undefined ? `${inc.speed} km/h` : 'Moving'}
-                      {inc.heading ? ` · Heading ${Math.round(inc.heading)}°` : ''}
+                      ðŸŸ¢ MOVING TARGET Â· {inc.speed !== null && inc.speed !== undefined ? `${inc.speed} km/h` : 'Moving'}
+                      {inc.heading ? ` Â· Heading ${Math.round(inc.heading)}Â°` : ''}
                     </Text>
                     <Text style={styles.liveMovementSub}>
-                      Live GPS: {Number(inc.latitude).toFixed(5)}°N, {Number(inc.longitude).toFixed(5)}°E
-                      {inc.last_ping_at && ` · Updated: ${new Date(inc.last_ping_at).toLocaleTimeString()}`}
+                      Live GPS: {Number(inc.latitude).toFixed(5)}Â°N, {Number(inc.longitude).toFixed(5)}Â°E
+                      {inc.last_ping_at && ` Â· Updated: ${new Date(inc.last_ping_at).toLocaleTimeString()}`}
                     </Text>
                   </View>
                 )}
 
                 <View style={styles.infoRow}>
-                  <Text style={styles.locationText}>📍 {inc.location}</Text>
+                  <Text style={styles.locationText}>ðŸ“ {inc.location}</Text>
                   <Text style={styles.timeText}>
-                    🕒 {new Date(inc.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    ðŸ•’ {new Date(inc.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </Text>
                 </View>
 
@@ -281,17 +281,17 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
                       {inc.latitude && inc.longitude && (
                         <Text style={styles.telemetryItem}>
-                          🎯 GPS: <Text style={styles.telemetryBold}>{Number(inc.latitude).toFixed(5)}°N, {Number(inc.longitude).toFixed(5)}°E</Text>
+                          ðŸŽ¯ GPS: <Text style={styles.telemetryBold}>{Number(inc.latitude).toFixed(5)}Â°N, {Number(inc.longitude).toFixed(5)}Â°E</Text>
                         </Text>
                       )}
                       {inc.accuracy && (
                         <Text style={styles.telemetryItem}>
-                          📏 Accuracy: <Text style={styles.telemetryBold}>±{Math.round(inc.accuracy)}m</Text>
+                          ðŸ“ Accuracy: <Text style={styles.telemetryBold}>Â±{Math.round(inc.accuracy)}m</Text>
                         </Text>
                       )}
                       {inc.ip_address && (
                         <Text style={styles.telemetryItem}>
-                          🌐 Reporter IP: <Text style={styles.telemetryBold}>{inc.ip_address}</Text>
+                          ðŸŒ Reporter IP: <Text style={styles.telemetryBold}>{inc.ip_address}</Text>
                         </Text>
                       )}
                     </View>
@@ -311,8 +311,8 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                   >
                     <Text style={[styles.mapBtnText, inc.is_live_tracking && styles.interceptBtnText]}>
                       {inc.is_live_tracking
-                        ? '⚡ Intercept Moving Target (Google Maps Navigation)'
-                        : '🗺️ Open Exact Pin on Google Maps'}
+                        ? 'âš¡ Intercept Moving Target (Google Maps Navigation)'
+                        : 'ðŸ—ºï¸ Open Exact Pin on Google Maps'}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -323,7 +323,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                   style={styles.radarScreenBtn}
                 >
                   <Text style={styles.radarScreenBtnText}>
-                    🚨 View Full Tactical SOS Radar & Live Intel ➔
+                    ðŸš¨ View Full Tactical SOS Radar & Live Intel âž”
                   </Text>
                 </TouchableOpacity>
 
@@ -333,7 +333,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                     style={styles.callReporterBtn}
                   >
                     <Text style={styles.callReporterText}>
-                      📞 Call Reporter: {inc.reporter_phone} ({inc.reporter_name || 'Citizen'})
+                      ðŸ“ž Call Reporter: {inc.reporter_phone} ({inc.reporter_name || 'Citizen'})
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -345,7 +345,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                       onPress={() => handleUpdateStatus(inc.id, 'dispatched')}
                       style={styles.dispatchBtn}
                     >
-                      <Text style={styles.actionBtnText}>🚀 Dispatch Patrol</Text>
+                      <Text style={styles.actionBtnText}>ðŸš€ Dispatch Patrol</Text>
                     </TouchableOpacity>
                   )}
 
@@ -354,7 +354,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                       onPress={() => handleUpdateStatus(inc.id, 'on_scene')}
                       style={styles.onSceneBtn}
                     >
-                      <Text style={styles.actionBtnText}>📍 On Scene</Text>
+                      <Text style={styles.actionBtnText}>ðŸ“ On Scene</Text>
                     </TouchableOpacity>
                   )}
 
@@ -363,7 +363,7 @@ export const SecurityDashboardScreen: React.FC<{ navigation: any }> = ({ navigat
                       onPress={() => handleUpdateStatus(inc.id, 'resolved')}
                       style={styles.resolveBtn}
                     >
-                      <Text style={styles.actionBtnText}>✓ Secured</Text>
+                      <Text style={styles.actionBtnText}>âœ“ Secured</Text>
                     </TouchableOpacity>
                   )}
                 </View>

@@ -145,7 +145,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, isOfficerA
             },
           ]}
         >
-          <Text style={styles.crestEmoji}>{isOfficerApp ? '🛡️' : '👑'}</Text>
+          <Text style={styles.crestEmoji}>{isOfficerApp ? 'ðŸ›¡ï¸' : 'ðŸ‘‘'}</Text>
           <View style={styles.crestFoilBorder} />
         </Animated.View>
 
@@ -172,7 +172,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, isOfficerA
         {/* State Seal Sub-Badge */}
         <Animated.View style={[styles.sealPill, { opacity: badgeOpacity }]}>
           <Text style={styles.sealPillText}>
-            {isOfficerApp ? 'LAW ENFORCEMENT & PALACE DESK' : 'REMO TRADITIONAL COUNCIL · OGUN STATE'}
+            {isOfficerApp ? 'LAW ENFORCEMENT & PALACE DESK' : 'REMO TRADITIONAL COUNCIL Â· OGUN STATE'}
           </Text>
         </Animated.View>
       </View>
@@ -194,7 +194,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, isOfficerA
             : 'Synchronizing Palace Registry & Offline Archives...'}
         </Text>
 
-        <Text style={styles.versionText}>v6.0.0 · 100% Offline Capable</Text>
+        <Text style={styles.versionText}>v6.0.0 Â· 100% Offline Capable</Text>
       </View>
     </Animated.View>
   );

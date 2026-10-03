@@ -13,10 +13,10 @@ interface ToastProps {
 }
 
 const TYPE_STYLES: Record<ToastType, { bg: string; border: string; icon: string }> = {
-  success: { bg: 'rgba(34,197,94,0.12)',   border: '#22c55e', icon: '✅' },
-  error:   { bg: 'rgba(239,68,68,0.12)',    border: '#ef4444', icon: '🚨' },
-  warning: { bg: 'rgba(245,158,11,0.12)',   border: '#f59e0b', icon: '⚠️' },
-  info:    { bg: 'rgba(201,150,58,0.12)',   border: Colors.gold, icon: 'ℹ️' },
+  success: { bg: 'rgba(34,197,94,0.12)',   border: '#22c55e', icon: 'âœ…' },
+  error:   { bg: 'rgba(239,68,68,0.12)',    border: '#ef4444', icon: 'ðŸš¨' },
+  warning: { bg: 'rgba(245,158,11,0.12)',   border: '#f59e0b', icon: 'âš ï¸' },
+  info:    { bg: 'rgba(201,150,58,0.12)',   border: Colors.gold, icon: 'â„¹ï¸' },
 };
 
 export default function Toast({
@@ -63,7 +63,7 @@ export default function Toast({
       <Text style={styles.icon}>{icon}</Text>
       <Text style={styles.message}>{message}</Text>
       <TouchableOpacity onPress={onHide} accessibilityLabel="Dismiss notification">
-        <Text style={styles.close}>✕</Text>
+        <Text style={styles.close}>âœ•</Text>
       </TouchableOpacity>
     </Animated.View>
   );

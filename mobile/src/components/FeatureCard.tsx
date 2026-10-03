@@ -10,7 +10,7 @@ interface FeatureCardProps {
   tag?: string;
   onPress?: () => void;
   featured?: boolean;   // gold border + shadow
-  danger?: boolean;     // red border — for SOS / emergency cards
+  danger?: boolean;     // red border â€” for SOS / emergency cards
 }
 
 export default function FeatureCard({
@@ -50,7 +50,7 @@ export default function FeatureCard({
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
-        {/* Top row — icon + tag */}
+        {/* Top row â€” icon + tag */}
         <View style={styles.topRow}>
           <Text style={styles.icon}>{icon}</Text>
           {tag && (
@@ -71,7 +71,7 @@ export default function FeatureCard({
         {/* Footer indicator */}
         {onPress && (
           <Text style={[styles.cta, danger && { color: '#f87171' }]}>
-            {danger ? '🚨 View Emergency' : featured ? '✦ Explore →' : 'View details →'}
+            {danger ? 'ðŸš¨ View Emergency' : featured ? 'âœ¦ Explore â†’' : 'View details â†’'}
           </Text>
         )}
       </LinearGradient>

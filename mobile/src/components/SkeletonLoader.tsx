@@ -34,7 +34,7 @@ function SkeletonBar({ width = '100%', height = 16, borderRadius = Radius.sm, st
   );
 }
 
-/** Card skeleton — mimics a feature or news card */
+/** Card skeleton â€” mimics a feature or news card */
 export function CardSkeleton() {
   return (
     <View style={styles.card}>

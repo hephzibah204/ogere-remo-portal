@@ -266,15 +266,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (formData.indigeneResidency === 'diaspora') {
         cardPrefix = 'OGR-IND-INT';
         locationSummary = `Diaspora (${formData.diasporaCity ? formData.diasporaCity + ', ' : ''}${formData.diasporaCountry || 'International'})`;
-        subCategoryLabel = 'Indigene · Diaspora';
+        subCategoryLabel = 'Indigene Â· Diaspora';
       } else if (formData.indigeneResidency === 'nigeria') {
         cardPrefix = 'OGR-IND-NG';
         locationSummary = `Nigeria (${formData.nigeriaCity ? formData.nigeriaCity + ', ' : ''}${formData.nigeriaState || 'Interstate'})`;
-        subCategoryLabel = 'Indigene · In Nigeria';
+        subCategoryLabel = 'Indigene Â· In Nigeria';
       } else {
         cardPrefix = 'OGR-IND-OG';
         locationSummary = `Resident in Ogere (${formData.quarter || 'Oke-Ogere'})`;
-        subCategoryLabel = 'Indigene · Resident in Ogere';
+        subCategoryLabel = 'Indigene Â· Resident in Ogere';
       }
     } else if (formData.citizenType === 'non-indigene') {
       cardPrefix = 'OGR-RES';

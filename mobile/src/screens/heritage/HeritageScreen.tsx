@@ -36,36 +36,36 @@ const QUIZ_QUESTIONS = [
   },
   {
     question: 'What is the correct, respectful Yoruba greeting for elders in the morning?',
-    options: ['Ẹ káàsán', 'Ẹ káàbọ̀', 'Ẹ káàrọ̀', 'Báwo ni'],
+    options: ['áº¸ kÃ¡Ã sÃ¡n', 'áº¸ kÃ¡Ã bá»Ì€', 'áº¸ kÃ¡Ã rá»Ì€', 'BÃ¡wo ni'],
     answer: 2,
-    insight: '"Ẹ káàrọ̀" is the respectful morning greeting utilizing the plural honorific "Ẹ" to show reverence.',
+    insight: '"áº¸ kÃ¡Ã rá»Ì€" is the respectful morning greeting utilizing the plural honorific "áº¸" to show reverence.',
   },
   {
     question: 'When greeting Kabiyesi the Ologere, what royal praise salute is uttered?',
-    options: ['Ẹ kárọ̀!', 'Kábíyèsí!', 'Ẹ kúṣẹ́!', 'Ó dàábọ̀!'],
+    options: ['áº¸ kÃ¡rá»Ì€!', 'KÃ¡bÃ­yÃ¨sÃ­!', 'áº¸ kÃºá¹£áº¹Ì!', 'Ã“ dÃ Ã¡bá»Ì€!'],
     answer: 1,
-    insight: '"Kábíyèsí!" is the supreme royal salute for Yoruba monarchs, meaning "the king whose authority cannot be questioned."',
+    insight: '"KÃ¡bÃ­yÃ¨sÃ­!" is the supreme royal salute for Yoruba monarchs, meaning "the king whose authority cannot be questioned."',
   },
 ];
 
 const RULING_HOUSES = [
   {
-    icon: '👑',
+    icon: 'ðŸ‘‘',
     name: 'Kankanbina / Ejigboye Ruling House',
     desc: 'Currently reigning royal house producing HRM Oba James Obafemi Saliu (Kankanbiina II), enthroned in April 2023.',
   },
   {
-    icon: '⚔️',
+    icon: 'âš”ï¸',
     name: 'Legunsen Ruling House',
-    desc: 'The founding royal house. Produced Oba Adelana Osifayo (Legunsen I) and Oba Alfred Obafuwa Babington-Ashaye (Legunsen III, 1945–1982).',
+    desc: 'The founding royal house. Produced Oba Adelana Osifayo (Legunsen I) and Oba Alfred Obafuwa Babington-Ashaye (Legunsen III, 1945â€“1982).',
   },
   {
-    icon: '🌿',
+    icon: 'ðŸŒ¿',
     name: 'Agbejoye / Fadagbuwa Ruling House',
-    desc: 'Produced the legendary monarch Oba Oladele Moshood Ogunbade (Agbejoye II), who reigned for over 38 years (1983–2022).',
+    desc: 'Produced the legendary monarch Oba Oladele Moshood Ogunbade (Agbejoye II), who reigned for over 38 years (1983â€“2022).',
   },
   {
-    icon: '🏺',
+    icon: 'ðŸº',
     name: 'Oregunsen Ruling House',
     desc: 'The fourth respected royal dynasty entitled to contest and present candidates for the ancient stool of the Ologere.',
   },
@@ -178,7 +178,7 @@ export const HeritageScreen: React.FC = () => {
                       king.isCurrent && { backgroundColor: Colors.gold },
                     ]}
                   >
-                    <Text style={{ fontSize: 20 }}>👑</Text>
+                    <Text style={{ fontSize: 20 }}>ðŸ‘‘</Text>
                   </View>
                   <View style={{ flex: 1 }}>
                     {king.isCurrent && (
@@ -317,7 +317,7 @@ export const HeritageScreen: React.FC = () => {
                 {/* Insight explanation */}
                 {showInsight && (
                   <View style={styles.insightBox}>
-                    <Text style={styles.insightTitle}>📜 Ancestral Fact & Insight:</Text>
+                    <Text style={styles.insightTitle}>ðŸ“œ Ancestral Fact & Insight:</Text>
                     <Text style={styles.insightText}>
                       {QUIZ_QUESTIONS[currentQuizIndex].insight}
                     </Text>
@@ -328,8 +328,8 @@ export const HeritageScreen: React.FC = () => {
                     >
                       <Text style={styles.nextQuestionBtnText}>
                         {currentQuizIndex + 1 === QUIZ_QUESTIONS.length
-                          ? 'View Royal Results ➔'
-                          : 'Next Question ➔'}
+                          ? 'View Royal Results âž”'
+                          : 'Next Question âž”'}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -338,7 +338,7 @@ export const HeritageScreen: React.FC = () => {
             ) : (
               /* Results Certificate */
               <Card style={styles.certificateCard}>
-                <Text style={{ fontSize: 44, textAlign: 'center', marginBottom: 8 }}>👑</Text>
+                <Text style={{ fontSize: 44, textAlign: 'center', marginBottom: 8 }}>ðŸ‘‘</Text>
                 <Text style={styles.certHeading}>OGERE HERITAGE MERIT</Text>
                 <Text style={styles.certTitle}>
                   {quizScore >= 4
@@ -360,7 +360,7 @@ export const HeritageScreen: React.FC = () => {
                   style={styles.restartBtn}
                   onPress={handleRestartQuiz}
                 >
-                  <Text style={styles.restartBtnText}>↺ Retake Heritage Quiz</Text>
+                  <Text style={styles.restartBtnText}>â†º Retake Heritage Quiz</Text>
                 </TouchableOpacity>
               </Card>
             )}

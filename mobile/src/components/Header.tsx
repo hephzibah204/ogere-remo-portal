@@ -40,12 +40,12 @@ export const Header: React.FC<HeaderProps> = ({
             onPress={onBack}
             activeOpacity={0.7}
           >
-            <Text style={styles.backArrow}>‹</Text>
+            <Text style={styles.backArrow}>â€¹</Text>
           </TouchableOpacity>
         )}
         <View style={styles.titleContainer}>
           <View style={styles.badgeRow}>
-            <Text style={styles.royalEmblem}>👑</Text>
+            <Text style={styles.royalEmblem}>ðŸ‘‘</Text>
             <Text style={styles.title}>{title}</Text>
           </View>
           <Text style={styles.subtitle}>{subtitle}</Text>
@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
             onPress={() => setSosVisible(true)}
             activeOpacity={0.8}
           >
-            <Text style={styles.sosText}>SOS 🚨</Text>
+            <Text style={styles.sosText}>SOS ðŸš¨</Text>
           </TouchableOpacity>
 
           {showProfile && (
@@ -87,13 +87,13 @@ export const Header: React.FC<HeaderProps> = ({
       {liveState.isActive && (
         <View style={styles.liveStrip}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flex: 1 }}>
-            <Text style={{ fontSize: 13 }}>🟢</Text>
+            <Text style={{ fontSize: 13 }}>ðŸŸ¢</Text>
             <View style={{ flex: 1 }}>
               <Text style={styles.liveStripTitle}>
                 LIVE REAL-TIME LOCATION RADAR ON
               </Text>
               <Text style={styles.liveStripSub}>
-                Ogere Security Command tracking · {liveState.pingCount} pings · {liveState.currentCoords?.speed || 0} km/h
+                Ogere Security Command tracking Â· {liveState.pingCount} pings Â· {liveState.currentCoords?.speed || 0} km/h
               </Text>
             </View>
           </View>

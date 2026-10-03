@@ -56,7 +56,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
     try {
       const loc = await getExactDeviceLocation();
       setCoords({ lat: loc.latitude, lng: loc.longitude });
-      setLocation(`GPS: ${loc.latitude.toFixed(5)}°N, ${loc.longitude.toFixed(5)}°E`);
+      setLocation(`GPS: ${loc.latitude.toFixed(5)}Â°N, ${loc.longitude.toFixed(5)}Â°E`);
       Alert.alert('GPS Locked', `Coordinates tagged: ${loc.latitude.toFixed(5)}, ${loc.longitude.toFixed(5)}`);
     } catch {
       Alert.alert('GPS Error', 'Please enable location permissions.');
@@ -83,7 +83,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
         description,
       });
 
-      Alert.alert('✅ Issue Logged', `Issue #${created.id} reported to OCDA Public Works & assigned contractors.`);
+      Alert.alert('âœ… Issue Logged', `Issue #${created.id} reported to OCDA Public Works & assigned contractors.`);
       setTitle('');
       setDescription('');
       setLocation('');
@@ -116,7 +116,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
           onPress={() => setActiveTab('feed')}
         >
           <Text style={[styles.tabBtnText, activeTab === 'feed' && styles.tabBtnTextActive]}>
-            🚧 Tracked Issues ({issues.length})
+            ðŸš§ Tracked Issues ({issues.length})
           </Text>
         </TouchableOpacity>
 
@@ -125,7 +125,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
           onPress={() => setActiveTab('report')}
         >
           <Text style={[styles.tabBtnText, activeTab === 'report' && styles.tabBtnTextActive]}>
-            📢 Report Problem
+            ðŸ“¢ Report Problem
           </Text>
         </TouchableOpacity>
 
@@ -134,7 +134,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
           onPress={() => setActiveTab('power')}
         >
           <Text style={[styles.tabBtnText, activeTab === 'power' && styles.tabBtnTextActive]}>
-            ⚡ IBEDC Power Grid
+            âš¡ IBEDC Power Grid
           </Text>
         </TouchableOpacity>
       </View>
@@ -183,14 +183,14 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
                   </View>
 
                   <Text style={styles.itemTitle}>{item.title}</Text>
-                  <Text style={styles.itemLoc}>📍 {item.location} ({item.quarter})</Text>
+                  <Text style={styles.itemLoc}>ðŸ“ {item.location} ({item.quarter})</Text>
                   <Text style={styles.itemDesc}>{item.description}</Text>
 
                   {item.assignedContractor && (
                     <View style={styles.contractorBox}>
-                      <Text style={styles.contractorLabel}>👷 ASSIGNED CONTRACTOR</Text>
+                      <Text style={styles.contractorLabel}>ðŸ‘· ASSIGNED CONTRACTOR</Text>
                       <Text style={styles.contractorName}>{item.assignedContractor}</Text>
-                      <Text style={styles.contractorEta}>⏳ ETA: {item.contractorEta}</Text>
+                      <Text style={styles.contractorEta}>â³ ETA: {item.contractorEta}</Text>
                     </View>
                   )}
 
@@ -199,7 +199,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
                       style={styles.upvoteBtn}
                       onPress={() => handleUpvote(item.id)}
                     >
-                      <Text style={styles.upvoteText}>🔺 Upvote ({item.upvotes})</Text>
+                      <Text style={styles.upvoteText}>ðŸ”º Upvote ({item.upvotes})</Text>
                     </TouchableOpacity>
                     <Text style={styles.severityText}>Severity: {item.severity}</Text>
                   </View>
@@ -273,7 +273,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
                 onChangeText={setLocation}
               />
               <TouchableOpacity style={styles.gpsBtn} onPress={handleAcquireGps}>
-                <Text style={{ fontSize: 14 }}>🎯</Text>
+                <Text style={{ fontSize: 14 }}>ðŸŽ¯</Text>
                 <Text style={styles.gpsBtnText}>GPS</Text>
               </TouchableOpacity>
             </View>
@@ -296,7 +296,7 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
               {submitting ? (
                 <ActivityIndicator color="#ffffff" />
               ) : (
-                <Text style={styles.submitBtnText}>📢 Submit Infrastructure Report</Text>
+                <Text style={styles.submitBtnText}>ðŸ“¢ Submit Infrastructure Report</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -321,13 +321,13 @@ export const FixMyStreetScreen: React.FC<{ navigation: any }> = ({ navigation })
                         { color: q.powerStatus === 'ON' ? '#15803d' : '#b91c1c' },
                       ]}
                     >
-                      {q.powerStatus === 'ON' ? '⚡ POWER ON' : '🌑 BLACKOUT'}
+                      {q.powerStatus === 'ON' ? 'âš¡ POWER ON' : 'ðŸŒ‘ BLACKOUT'}
                     </Text>
                   </View>
                 </View>
-                <Text style={styles.powerMeta}>🔌 Substation: {q.transformer}</Text>
-                <Text style={styles.powerMeta}>📊 Grid Load: {q.loadRating}</Text>
-                <Text style={styles.powerMeta}>🕒 Last status change: {q.lastPowerChange}</Text>
+                <Text style={styles.powerMeta}>ðŸ”Œ Substation: {q.transformer}</Text>
+                <Text style={styles.powerMeta}>ðŸ“Š Grid Load: {q.loadRating}</Text>
+                <Text style={styles.powerMeta}>ðŸ•’ Last status change: {q.lastPowerChange}</Text>
               </View>
             ))}
           </View>

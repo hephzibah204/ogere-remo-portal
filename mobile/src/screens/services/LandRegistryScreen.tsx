@@ -37,7 +37,7 @@ const SEED_PLOTS: LandPlot[] = [
     use: 'Royal / Civic Heritage',
     status: 'Verified & Gazette Bound',
     date: '2025-11-14',
-    coord: '6.9812° N, 3.6521° E',
+    coord: '6.9812Â° N, 3.6521Â° E',
     disputes: 0,
     documents: 'Palace Royal Seal & Ogun State Gazette No. 41',
   },
@@ -49,7 +49,7 @@ const SEED_PLOTS: LandPlot[] = [
     use: 'Commercial / Warehousing',
     status: 'Verified & Gazette Bound',
     date: '2026-02-10',
-    coord: '6.9740° N, 3.6398° E',
+    coord: '6.9740Â° N, 3.6398Â° E',
     disputes: 0,
     documents: 'Ogun State C-of-O & OCDA Cadastral Survey Plan 882',
   },
@@ -61,7 +61,7 @@ const SEED_PLOTS: LandPlot[] = [
     use: 'Residential & Family Compound',
     status: 'Verified & Gazette Bound',
     date: '2026-03-01',
-    coord: '6.9854° N, 3.6492° E',
+    coord: '6.9854Â° N, 3.6492Â° E',
     disputes: 0,
     documents: 'Ogun State Registered Conveyance Plan 410',
   },
@@ -73,7 +73,7 @@ const SEED_PLOTS: LandPlot[] = [
     use: 'Civic Utility / Solar Power Plant',
     status: 'Verified & Gazette Bound',
     date: '2026-04-18',
-    coord: '6.9890° N, 3.6610° E',
+    coord: '6.9890Â° N, 3.6610Â° E',
     disputes: 0,
     documents: 'Community Deed of Gift & Survey 2026-SOLAR-01',
   },
@@ -85,7 +85,7 @@ const SEED_PLOTS: LandPlot[] = [
     use: 'Agricultural / Cassava Cultivation',
     status: 'Pending Field Survey',
     date: '2026-08-22',
-    coord: '6.9925° N, 3.6705° E',
+    coord: '6.9925Â° N, 3.6705Â° E',
     disputes: 0,
     documents: 'Family Title Deed & Preliminary Layout Sketch',
   },
@@ -125,9 +125,9 @@ export const LandRegistryScreen: React.FC<{ navigation: any }> = ({ navigation }
       use: useType,
       status: 'Pending Field Survey',
       date: new Date().toISOString().split('T')[0],
-      coord: '6.9800° N, 3.6500° E (Pending Survey)',
+      coord: '6.9800Â° N, 3.6500Â° E (Pending Survey)',
       disputes: 0,
-      documents: 'Application filed via Mobile App · Queued for Palace Surveyor inspection',
+      documents: 'Application filed via Mobile App Â· Queued for Palace Surveyor inspection',
     };
 
     setPlots([newPlot, ...plots]);
@@ -170,7 +170,7 @@ export const LandRegistryScreen: React.FC<{ navigation: any }> = ({ navigation }
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.infoBanner}>
-          <Text style={{ fontSize: 20 }}>📜</Text>
+          <Text style={{ fontSize: 20 }}>ðŸ“œ</Text>
           <View style={{ flex: 1 }}>
             <Text style={styles.infoTitle}>Official Community Cadastral Registry</Text>
             <Text style={styles.infoDesc}>
@@ -210,28 +210,28 @@ export const LandRegistryScreen: React.FC<{ navigation: any }> = ({ navigation }
                       : { color: '#92400e' },
                   ]}
                 >
-                  {plot.status.includes('Verified') ? '✓ VERIFIED' : '⏳ PENDING'}
+                  {plot.status.includes('Verified') ? 'âœ“ VERIFIED' : 'â³ PENDING'}
                 </Text>
               </View>
             </View>
 
             <View style={styles.plotDetailsRow}>
-              <Text style={styles.detailText}>📍 {plot.area}</Text>
-              <Text style={styles.detailText}>📐 {plot.size} · {plot.use}</Text>
+              <Text style={styles.detailText}>ðŸ“ {plot.area}</Text>
+              <Text style={styles.detailText}>ðŸ“ {plot.size} Â· {plot.use}</Text>
             </View>
 
             <View style={styles.plotFooter}>
               <Text style={styles.disputeText}>
-                {plot.disputes === 0 ? '🟢 No Active Disputes' : '🔴 Dispute Flagged'}
+                {plot.disputes === 0 ? 'ðŸŸ¢ No Active Disputes' : 'ðŸ”´ Dispute Flagged'}
               </Text>
-              <Text style={styles.viewMoreText}>View Cadastral Record ➔</Text>
+              <Text style={styles.viewMoreText}>View Cadastral Record âž”</Text>
             </View>
           </Card>
         ))}
 
         {filteredPlots.length === 0 && (
           <View style={styles.emptyContainer}>
-            <Text style={{ fontSize: 36 }}>🔍</Text>
+            <Text style={{ fontSize: 36 }}>ðŸ”</Text>
             <Text style={styles.emptyTitle}>No matching land records</Text>
             <Text style={styles.emptyDesc}>Try searching with a different parcel ID, quarter or family name.</Text>
           </View>
@@ -255,7 +255,7 @@ export const LandRegistryScreen: React.FC<{ navigation: any }> = ({ navigation }
                     <Text style={styles.modalPlotId}>{selectedPlot.id}</Text>
                   </View>
                   <TouchableOpacity onPress={() => setSelectedPlot(null)}>
-                    <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                    <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -279,7 +279,7 @@ export const LandRegistryScreen: React.FC<{ navigation: any }> = ({ navigation }
 
                   <View style={styles.fieldGroup}>
                     <Text style={styles.fieldLabel}>Parcel Dimensions & Permitted Use:</Text>
-                    <Text style={styles.fieldValue}>{selectedPlot.size} — {selectedPlot.use}</Text>
+                    <Text style={styles.fieldValue}>{selectedPlot.size} â€” {selectedPlot.use}</Text>
                   </View>
 
                   <View style={styles.fieldGroup}>
@@ -322,7 +322,7 @@ export const LandRegistryScreen: React.FC<{ navigation: any }> = ({ navigation }
                 <Text style={styles.modalPlotId}>Register Land Plot</Text>
               </View>
               <TouchableOpacity onPress={() => setShowRegisterModal(false)}>
-                <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 

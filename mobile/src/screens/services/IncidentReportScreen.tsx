@@ -48,15 +48,15 @@ function latLngToOffset(lat: number, lng: number, zoom = 16) {
 }
 
 const INCIDENT_CATEGORIES = [
-  { id: 'armed_robbery', label: '🚨 Armed Robbery / Banditry', severity: 'Critical', threatLevel: 'CODE_RED' },
-  { id: 'terrorism', label: '💥 Terrorism / Gunfire / Ambush', severity: 'Critical', threatLevel: 'CODE_RED' },
-  { id: 'kidnapping', label: '🚷 Kidnapping / Abduction in Progress', severity: 'Critical', threatLevel: 'CODE_RED' },
-  { id: 'highway_accident', label: '🚗 Highway Collision / Entrapment', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
-  { id: 'fire_tanker', label: '🔥 Fire Outbreak / Tanker Spill', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
-  { id: 'gas_leak', label: '⛽ CNG / Pipeline Gas Leakage', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
-  { id: 'flooding', label: '🌊 Road Flooding / Collapsed Culvert', severity: 'Medium', threatLevel: 'CODE_YELLOW' },
-  { id: 'medical_crisis', label: '🏥 Medical Crisis / Cardiac / Trauma', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
-  { id: 'public_disorder', label: '⚠️ Public Disorder / Land Conflict', severity: 'Medium', threatLevel: 'CODE_YELLOW' },
+  { id: 'armed_robbery', label: 'ðŸš¨ Armed Robbery / Banditry', severity: 'Critical', threatLevel: 'CODE_RED' },
+  { id: 'terrorism', label: 'ðŸ’¥ Terrorism / Gunfire / Ambush', severity: 'Critical', threatLevel: 'CODE_RED' },
+  { id: 'kidnapping', label: 'ðŸš· Kidnapping / Abduction in Progress', severity: 'Critical', threatLevel: 'CODE_RED' },
+  { id: 'highway_accident', label: 'ðŸš— Highway Collision / Entrapment', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
+  { id: 'fire_tanker', label: 'ðŸ”¥ Fire Outbreak / Tanker Spill', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
+  { id: 'gas_leak', label: 'â›½ CNG / Pipeline Gas Leakage', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
+  { id: 'flooding', label: 'ðŸŒŠ Road Flooding / Collapsed Culvert', severity: 'Medium', threatLevel: 'CODE_YELLOW' },
+  { id: 'medical_crisis', label: 'ðŸ¥ Medical Crisis / Cardiac / Trauma', severity: 'Critical', threatLevel: 'CODE_ORANGE' },
+  { id: 'public_disorder', label: 'âš ï¸ Public Disorder / Land Conflict', severity: 'Medium', threatLevel: 'CODE_YELLOW' },
 ];
 
 const LANDMARKS = [
@@ -72,10 +72,10 @@ const LANDMARKS = [
 ];
 
 const SEVERITIES = [
-  { id: 'Critical', label: '🔴 Critical (Life Threatening)', desc: 'Immediate dispatch of emergency rescue' },
-  { id: 'High', label: '🟠 High Hazard', desc: 'Active danger or major property threat' },
-  { id: 'Medium', label: '🟡 Moderate Issue', desc: 'Traffic impediment or structural damage' },
-  { id: 'Low', label: '🟢 Low Hazard', desc: 'General civic notice or minor defect' },
+  { id: 'Critical', label: 'ðŸ”´ Critical (Life Threatening)', desc: 'Immediate dispatch of emergency rescue' },
+  { id: 'High', label: 'ðŸŸ  High Hazard', desc: 'Active danger or major property threat' },
+  { id: 'Medium', label: 'ðŸŸ¡ Moderate Issue', desc: 'Traffic impediment or structural damage' },
+  { id: 'Low', label: 'ðŸŸ¢ Low Hazard', desc: 'General civic notice or minor defect' },
 ];
 
 export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
@@ -163,7 +163,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
 
   const handleSubmit = async () => {
     const fullLoc = specificLocation.trim()
-      ? `${landmark.name} — ${specificLocation.trim()}`
+      ? `${landmark.name} â€” ${specificLocation.trim()}`
       : landmark.name;
 
     if (!description.trim()) {
@@ -239,7 +239,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
   };
 
   const postSubmitPrompt = (online: boolean) => {
-    const title = severity === 'Critical' ? '🚨 EMERGENCY DISPATCH LOGGED' : 'Incident Report Recorded';
+    const title = severity === 'Critical' ? 'ðŸš¨ EMERGENCY DISPATCH LOGGED' : 'Incident Report Recorded';
     const message = online
       ? 'Your report has been transmitted directly to the Palace Security Secretariat, Ogere DPO Police Command, and FRSC Expressway Outpost.'
       : 'You are currently offline. Your report has been saved securely on this device and will transmit automatically once internet is restored.';
@@ -266,13 +266,13 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
           onPress={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('HomeTab')} 
           style={styles.backBtn}
         >
-          <Text style={styles.backBtnText}>← Return to Home / Services</Text>
+          <Text style={styles.backBtnText}>â† Return to Home / Services</Text>
         </TouchableOpacity>
 
         {/* Immediate Emergency Action Banner */}
         <View style={styles.emergencyQuickBar}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.emergencyQuickTitle}>🚨 Active Life-Threatening Crisis?</Text>
+            <Text style={styles.emergencyQuickTitle}>ðŸš¨ Active Life-Threatening Crisis?</Text>
             <Text style={styles.emergencyQuickSubtitle}>Direct speed-dial connects to responders immediately:</Text>
           </View>
           <View style={styles.emergencyQuickBtns}>
@@ -335,7 +335,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                     </View>
                     {isSelected && (
                       <Text style={{ fontSize: 16, color: s.id === 'Critical' ? '#dc2626' : Colors.primary }}>
-                        ✓
+                        âœ“
                       </Text>
                     )}
                   </TouchableOpacity>
@@ -352,14 +352,14 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
             <View style={styles.gpsTelemetryBox}>
               <View style={styles.gpsTelemetryHeader}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Text style={{ fontSize: 14 }}>🛰️</Text>
+                  <Text style={{ fontSize: 14 }}>ðŸ›°ï¸</Text>
                   <Text style={styles.gpsTelemetryTitle}>Exact Reporter GPS & IP Telemetry</Text>
                 </View>
                 {fetchingLocation ? (
                   <ActivityIndicator size="small" color="#22c55e" />
                 ) : (
                   <TouchableOpacity onPress={acquireLocation} style={styles.refreshGpsBtn}>
-                    <Text style={styles.refreshGpsBtnText}>🔄 Refresh</Text>
+                    <Text style={styles.refreshGpsBtnText}>ðŸ”„ Refresh</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -377,9 +377,9 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                   </View>
                 ) : (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                    <Text style={{ fontSize: 16 }}>📍</Text>
+                    <Text style={{ fontSize: 16 }}>ðŸ“</Text>
                     <Text style={styles.acquireGpsBtnText}>
-                      {deviceLocation ? '📍 Re-acquire My Exact Current Location' : '📍 Get My Actual Current Location (GPS & IP)'}
+                      {deviceLocation ? 'ðŸ“ Re-acquire My Exact Current Location' : 'ðŸ“ Get My Actual Current Location (GPS & IP)'}
                     </Text>
                   </View>
                 )}
@@ -397,13 +397,13 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                   <View style={styles.gpsStatItem}>
                     <Text style={styles.gpsStatLabel}>EXACT COORDINATES</Text>
                     <Text style={styles.gpsStatValue}>
-                      {deviceLocation.latitude.toFixed(5)}°N, {deviceLocation.longitude.toFixed(5)}°E
+                      {deviceLocation.latitude.toFixed(5)}Â°N, {deviceLocation.longitude.toFixed(5)}Â°E
                     </Text>
                   </View>
                   <View style={styles.gpsStatItem}>
                     <Text style={styles.gpsStatLabel}>GPS ACCURACY</Text>
                     <Text style={[styles.gpsStatValue, { color: deviceLocation.isGpsPrecise ? '#4ade80' : '#fde047' }]}>
-                      {deviceLocation.accuracy ? `±${Math.round(deviceLocation.accuracy)}m` : 'Est.'} {deviceLocation.isGpsPrecise ? '(Satellite)' : '(IP/Cell)'}
+                      {deviceLocation.accuracy ? `Â±${Math.round(deviceLocation.accuracy)}m` : 'Est.'} {deviceLocation.isGpsPrecise ? '(Satellite)' : '(IP/Cell)'}
                     </Text>
                   </View>
                   <View style={styles.gpsStatItem}>
@@ -423,7 +423,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                     <Text style={styles.gpsStatLabel}>NETWORK</Text>
                     <Text style={[styles.gpsStatValue, { color: deviceLocation.device?.networkType === 'wifi' ? '#4ade80' : deviceLocation.device?.networkType === 'cellular' ? '#38bdf8' : '#fde047' }]}>
                       {deviceLocation.device?.networkType === 'cellular'
-                        ? `${(deviceLocation.device?.networkGeneration || 'Cell').toUpperCase()} · ${deviceLocation.device?.carrier || '?'}`
+                        ? `${(deviceLocation.device?.networkGeneration || 'Cell').toUpperCase()} Â· ${deviceLocation.device?.carrier || '?'}`
                         : (deviceLocation.device?.networkType || 'Unknown').toUpperCase()}
                     </Text>
                   </View>
@@ -452,7 +452,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                   style={[styles.useGpsToggleBtn, useLiveGps && styles.useGpsToggleActive]}
                 >
                   <Text style={[styles.useGpsToggleText, useLiveGps && styles.useGpsToggleTextActive]}>
-                    {useLiveGps ? '✓ Using Exact Device GPS' : 'Using Reference Landmark'}
+                    {useLiveGps ? 'âœ“ Using Exact Device GPS' : 'Using Reference Landmark'}
                   </Text>
                 </TouchableOpacity>
 
@@ -461,7 +461,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                     onPress={() => openInGoogleMaps(deviceLocation.latitude, deviceLocation.longitude, 'Reported Incident Location')}
                     style={styles.openMapsBtn}
                   >
-                    <Text style={styles.openMapsBtnText}>🗺️ Maps Pin</Text>
+                    <Text style={styles.openMapsBtnText}>ðŸ—ºï¸ Maps Pin</Text>
                   </TouchableOpacity>
                 )}
 
@@ -473,7 +473,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                     }}
                     style={[styles.openMapsBtn, { backgroundColor: '#0284c7' }]}
                   >
-                    <Text style={styles.openMapsBtnText}>🚗 Directions</Text>
+                    <Text style={styles.openMapsBtnText}>ðŸš— Directions</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -483,7 +483,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                 style={[styles.useGpsToggleBtn, { marginTop: 10, width: '100%', alignItems: 'center', justifyContent: 'center' }]}
               >
                 <Text style={styles.useGpsToggleText}>
-                  {showMapPicker ? '🗺️ Hide Google Street Map Preview' : '🗺️ Show Google Street Map Preview'}
+                  {showMapPicker ? 'ðŸ—ºï¸ Hide Google Street Map Preview' : 'ðŸ—ºï¸ Show Google Street Map Preview'}
                 </Text>
               </TouchableOpacity>
 
@@ -538,7 +538,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                             elevation: 6,
                           }}
                         >
-                          <Text style={{ fontSize: 14 }}>📍</Text>
+                          <Text style={{ fontSize: 14 }}>ðŸ“</Text>
                         </View>
                         <View
                           style={{
@@ -562,16 +562,16 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                       </Text>
                       <View style={{ flexDirection: 'row', gap: 6 }}>
                         <TouchableOpacity onPress={() => nudgePin(0.00025, 0)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
-                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>▲ N</Text>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>â–² N</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => nudgePin(-0.00025, 0)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
-                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>▼ S</Text>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>â–¼ S</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => nudgePin(0, -0.00025)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
-                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>◄ W</Text>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>â—„ W</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => nudgePin(0, 0.00025)} style={{ backgroundColor: '#334155', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 6 }}>
-                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>► E</Text>
+                          <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '800' }}>â–º E</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -600,7 +600,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                     style={[styles.landmarkChip, isSelected && styles.landmarkChipActive]}
                   >
                     <Text style={[styles.landmarkText, isSelected && styles.landmarkTextActive]}>
-                      📍 {lm.name}
+                      ðŸ“ {lm.name}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -670,7 +670,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
           <View style={styles.liveToggleCard}>
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <Text style={{ fontSize: 14 }}>📡</Text>
+                <Text style={{ fontSize: 14 }}>ðŸ“¡</Text>
                 <Text style={styles.liveToggleTitle}>Live Location Radar (Real-Time GPS)</Text>
               </View>
               <Text style={styles.liveToggleSub}>
@@ -682,7 +682,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
               style={[styles.toggleBtn, enableLiveTracking && styles.liveToggleBtnActive]}
             >
               <Text style={[styles.toggleBtnText, enableLiveTracking && styles.liveToggleBtnTextActive]}>
-                {enableLiveTracking ? '🟢 ACTIVE' : 'DISABLED'}
+                {enableLiveTracking ? 'ðŸŸ¢ ACTIVE' : 'DISABLED'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -690,7 +690,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
           {/* 7. Live Camera & Ambient Audio Evidence Toggles */}
           <View style={[styles.liveToggleCard, { flexDirection: 'column', gap: 10 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <Text style={{ fontSize: 14 }}>🛡️</Text>
+              <Text style={{ fontSize: 14 }}>ðŸ›¡ï¸</Text>
               <Text style={styles.liveToggleTitle}>Live Surveillance Evidence (Camera & Audio)</Text>
             </View>
             <Text style={styles.liveToggleSub}>
@@ -703,7 +703,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                 style={[styles.toggleBtn, { flex: 1, height: 38 }, cameraFeedActive && styles.liveToggleBtnActive]}
               >
                 <Text style={[styles.toggleBtnText, cameraFeedActive && styles.liveToggleBtnTextActive]}>
-                  📹 {cameraFeedActive ? 'Camera: ON' : 'Share Camera'}
+                  ðŸ“¹ {cameraFeedActive ? 'Camera: ON' : 'Share Camera'}
                 </Text>
               </TouchableOpacity>
 
@@ -712,7 +712,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
                 style={[styles.toggleBtn, { flex: 1, height: 38 }, audioFeedActive && styles.liveToggleBtnActive]}
               >
                 <Text style={[styles.toggleBtnText, audioFeedActive && styles.liveToggleBtnTextActive]}>
-                  🎙️ {audioFeedActive ? 'Ambient Mic: ON' : 'Share Mic'}
+                  ðŸŽ™ï¸ {audioFeedActive ? 'Ambient Mic: ON' : 'Share Mic'}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -720,7 +720,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
 
           {/* Submit Button */}
           <Button
-            title={severity === 'Critical' ? '🚨 TRANSMIT EMERGENCY SOS DISPATCH' : 'Submit Civic Hazard Report'}
+            title={severity === 'Critical' ? 'ðŸš¨ TRANSMIT EMERGENCY SOS DISPATCH' : 'Submit Civic Hazard Report'}
             variant={severity === 'Critical' ? 'secondary' : 'primary'}
             size="lg"
             loading={loading}
@@ -729,7 +729,7 @@ export const IncidentReportScreen: React.FC<{ navigation: any }> = ({ navigation
           />
 
           <Text style={styles.offlineNotice}>
-            ⚡ 100% Offline Queued: If internet or mobile data is down, your report is saved securely and dispatches automatically.
+            âš¡ 100% Offline Queued: If internet or mobile data is down, your report is saved securely and dispatches automatically.
           </Text>
         </Card>
       </ScrollView>

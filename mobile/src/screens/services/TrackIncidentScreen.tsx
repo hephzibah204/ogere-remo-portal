@@ -34,8 +34,8 @@ const DEMO_INCIDENTS: Record<string, IncidentStatus> = {
     category: 'Armed Highway Intercept / Highway Disturbance',
     landmark: 'KM 66-68 Expressway Axis (Near Ogere Tollgate)',
     status: 'intercepting',
-    timestamp: '12 mins ago · 09:34 AM',
-    coordinates: '6.9740° N, 3.6398° E',
+    timestamp: '12 mins ago Â· 09:34 AM',
+    coordinates: '6.9740Â° N, 3.6398Â° E',
     assignedAgency: 'Nigeria Police Force & Ogere Vigilante Joint Rapid Patrol',
     patrolOfficer: 'Insp. Kayode Adeleke (Unit Bravo-04)',
     isLiveTracking: true,
@@ -51,8 +51,8 @@ const DEMO_INCIDENTS: Record<string, IncidentStatus> = {
     category: 'Oil Pipeline Vandalism / High Hazard Alert',
     landmark: 'Wasimi / Pipeline Right-of-Way Corridor',
     status: 'contained',
-    timestamp: '2 hours ago · 07:15 AM',
-    coordinates: '6.9890° N, 3.6610° E',
+    timestamp: '2 hours ago Â· 07:15 AM',
+    coordinates: '6.9890Â° N, 3.6610Â° E',
     assignedAgency: 'Civil Defence (NSCDC) & Palace Vigilante Corps',
     patrolOfficer: 'Officer Babatunde (NSCDC-OG-10)',
     isLiveTracking: false,
@@ -92,8 +92,8 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
         landmark: 'Central Ogere Remo Sector',
         status: 'dispatched',
         timestamp: 'Just now',
-        coordinates: '6.9812° N, 3.6521° E',
-        assignedAgency: 'Nigeria Police Force — Ogere Divisional HQ',
+        coordinates: '6.9812Â° N, 3.6521Â° E',
+        assignedAgency: 'Nigeria Police Force â€” Ogere Divisional HQ',
         patrolOfficer: 'Rapid Intervention Team',
         isLiveTracking: true,
         notes: [
@@ -152,7 +152,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
               autoCapitalize="characters"
             />
             <TouchableOpacity style={styles.trackBtn} onPress={handleTrack}>
-              <Text style={styles.trackBtnText}>Track ➔</Text>
+              <Text style={styles.trackBtnText}>Track âž”</Text>
             </TouchableOpacity>
           </View>
           <Text style={styles.searchHint}>
@@ -173,7 +173,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
               <View style={{ flex: 1 }}>
                 <Text style={styles.liveBannerTitle}>
                   {incident.isLiveTracking
-                    ? 'GUARDIAN RADAR · LIVE MOVEMENT ACTIVE'
+                    ? 'GUARDIAN RADAR Â· LIVE MOVEMENT ACTIVE'
                     : 'STATIC LAST KNOWN POSITION'}
                 </Text>
                 <Text style={styles.liveBannerSub}>
@@ -210,8 +210,8 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
                 </View>
               </View>
 
-              <Text style={styles.landmarkText}>📍 {incident.landmark}</Text>
-              <Text style={styles.timeText}>🕒 Reported: {incident.timestamp}</Text>
+              <Text style={styles.landmarkText}>ðŸ“ {incident.landmark}</Text>
+              <Text style={styles.timeText}>ðŸ•’ Reported: {incident.timestamp}</Text>
 
               {/* Coordinates & Google Maps Button */}
               <View style={styles.coordBox}>
@@ -230,7 +230,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
                     ).catch(() => Alert.alert('Google Maps', `Coordinates: ${incident.coordinates}`));
                   }}
                 >
-                  <Text style={styles.mapsBtnText}>{incident.isLiveTracking ? '⚡ Navigate' : '🗺️ View Map'}</Text>
+                  <Text style={styles.mapsBtnText}>{incident.isLiveTracking ? 'âš¡ Navigate' : 'ðŸ—ºï¸ View Map'}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -250,7 +250,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
                       ]}
                     >
                       <Text style={{ fontSize: 10, color: step.active ? '#fff' : '#94a3b8' }}>
-                        {step.active ? '✓' : idx + 1}
+                        {step.active ? 'âœ“' : idx + 1}
                       </Text>
                     </View>
                     <Text
@@ -269,7 +269,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
               <View style={styles.officerBox}>
                 <Text style={styles.officerLabel}>ASSIGNED PATROL COMMAND:</Text>
                 <Text style={styles.officerAgency}>{incident.assignedAgency}</Text>
-                <Text style={styles.officerName}>👤 {incident.patrolOfficer}</Text>
+                <Text style={styles.officerName}>ðŸ‘¤ {incident.patrolOfficer}</Text>
               </View>
 
               {/* Live Timeline SITREPs */}
@@ -277,7 +277,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
                 <Text style={styles.timelineHeading}>Live Dispatch Log & SITREPs:</Text>
                 {incident.notes.map((note, i) => (
                   <View key={i} style={styles.timelineRow}>
-                    <Text style={styles.timelineBullet}>▪</Text>
+                    <Text style={styles.timelineBullet}>â–ª</Text>
                     <Text style={styles.timelineNote}>{note}</Text>
                   </View>
                 ))}
@@ -289,7 +289,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
                   style={[styles.callBtn, { backgroundColor: '#dc2626' }]}
                   onPress={() => makeEmergencyCall('08081762371', 'Ogere Police DPO')}
                 >
-                  <Text style={styles.callBtnText}>📞 Call DPO Police</Text>
+                  <Text style={styles.callBtnText}>ðŸ“ž Call DPO Police</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -298,7 +298,7 @@ export const TrackIncidentScreen: React.FC<{ navigation: any; route: any }> = ({
                     makeEmergencyCall('08033221144', 'Palace Vigilante Lead')
                   }
                 >
-                  <Text style={styles.callBtnText}>🛡️ Call Vigilante</Text>
+                  <Text style={styles.callBtnText}>ðŸ›¡ï¸ Call Vigilante</Text>
                 </TouchableOpacity>
               </View>
             </Card>

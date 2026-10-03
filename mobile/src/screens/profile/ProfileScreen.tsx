@@ -39,8 +39,8 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
     if (user.citizenType === 'indigene') {
       if (user.indigeneResidency === 'diaspora' || (user.idCardNumber && user.idCardNumber.includes('INT'))) {
         return {
-          label: `INDIGENE · DIASPORA (${user.diasporaCountry || 'INTERNATIONAL'})`,
-          icon: '✈️',
+          label: `INDIGENE Â· DIASPORA (${user.diasporaCountry || 'INTERNATIONAL'})`,
+          icon: 'âœˆï¸',
           badgeBg: '#047857',
           color: '#ffffff',
           locationInfo: `Diaspora: ${user.diasporaCity ? user.diasporaCity + ', ' : ''}${user.diasporaCountry || 'Abroad'}`,
@@ -48,16 +48,16 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
       }
       if (user.indigeneResidency === 'nigeria' || (user.idCardNumber && user.idCardNumber.includes('-NG-'))) {
         return {
-          label: `INDIGENE · IN NIGERIA (${user.nigeriaState || 'INTERSTATE'})`,
-          icon: '🇳🇬',
+          label: `INDIGENE Â· IN NIGERIA (${user.nigeriaState || 'INTERSTATE'})`,
+          icon: 'ðŸ‡³ðŸ‡¬',
           badgeBg: '#065f46',
           color: '#ffffff',
           locationInfo: `Town/City: ${user.nigeriaCity ? user.nigeriaCity + ', ' : ''}${user.nigeriaState || 'Nigeria'}`,
         };
       }
       return {
-        label: 'INDIGENE · RESIDENT IN OGERE',
-        icon: '👑',
+        label: 'INDIGENE Â· RESIDENT IN OGERE',
+        icon: 'ðŸ‘‘',
         badgeBg: Colors.gold,
         color: '#ffffff',
         locationInfo: `Resident in Ogere (${user.quarter || 'Oke-Ogere'})`,
@@ -66,7 +66,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
     if (user.citizenType === 'non-indigene') {
       return {
         label: 'NON-INDIGENE RESIDENT',
-        icon: '🏢',
+        icon: 'ðŸ¢',
         badgeBg: '#2563eb',
         color: '#ffffff',
         locationInfo: user.locationSummary || `Resident in Ogere (${user.quarter || 'Oke-Ogere'})`,
@@ -74,10 +74,10 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
     }
     return {
       label: 'CERTIFIED GUEST / FRIEND OF OGERE',
-      icon: '🤝',
+      icon: 'ðŸ¤',
       badgeBg: '#d97706',
       color: '#ffffff',
-      locationInfo: user.guestInterest ? `${user.guestInterest} · ${user.locationSummary || 'External Stakeholder'}` : (user.locationSummary || 'Affiliated Partner'),
+      locationInfo: user.guestInterest ? `${user.guestInterest} Â· ${user.locationSummary || 'External Stakeholder'}` : (user.locationSummary || 'Affiliated Partner'),
     };
   };
 
@@ -95,7 +95,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
     try {
       await Share.share({
         title: `Official Ogere Remo Digital ID: ${card.id}`,
-        message: `Kingdom of Ogere Remo — Official Digital ID Card\nHolder: ${card.fullName}\nID Number: ${card.id}\nCategory: ${card.cardType.toUpperCase()}\nStatus: APPROVED\nVerify online: ${card.qrCodeUrl}`,
+        message: `Kingdom of Ogere Remo â€” Official Digital ID Card\nHolder: ${card.fullName}\nID Number: ${card.id}\nCategory: ${card.cardType.toUpperCase()}\nStatus: APPROVED\nVerify online: ${card.qrCodeUrl}`,
       });
     } catch {}
   };
@@ -126,7 +126,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
               {/* Gold Holographic Foil Header */}
               <View style={styles.idCardHeader}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                  <Text style={{ fontSize: 26 }}>🏛️</Text>
+                  <Text style={{ fontSize: 26 }}>ðŸ›ï¸</Text>
                   <View>
                     <Text style={styles.idCardSub}>KINGDOM OF OGERE REMO</Text>
                     <Text style={styles.idCardTitle}>OFFICIAL DIGITAL IDENTITY CARD</Text>
@@ -144,7 +144,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
                   <Text style={[styles.classificationText, { color: badgeInfo.color }]}>
                     {badgeInfo.label}
                   </Text>
-                  <Text style={styles.verifiedTag}>✓ APPROVED</Text>
+                  <Text style={styles.verifiedTag}>âœ“ APPROVED</Text>
                 </View>
               )}
 
@@ -175,12 +175,12 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
                   {/* Current Location / Residency Line */}
                   {badgeInfo?.locationInfo && (
                     <Text style={styles.locationBadgeLine}>
-                      📍 {badgeInfo.locationInfo}
+                      ðŸ“ {badgeInfo.locationInfo}
                     </Text>
                   )}
 
                   <Text style={styles.citizenValidity}>
-                    Valid: {card.issuedDate} ➔ {card.expiryDate}
+                    Valid: {card.issuedDate} âž” {card.expiryDate}
                   </Text>
                 </View>
               </View>
@@ -194,7 +194,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
 
                 {/* QR Code Icon / Visual */}
                 <View style={styles.qrBox}>
-                  <Text style={{ fontSize: 22 }}>📱</Text>
+                  <Text style={{ fontSize: 22 }}>ðŸ“±</Text>
                   <Text style={styles.qrSub}>SCAN QR</Text>
                 </View>
               </View>
@@ -202,7 +202,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
               {/* Authentication Security Seal Footer */}
               <View style={styles.cardAuthorityRow}>
                 <Text style={styles.cardAuthorityText}>
-                  Verified by {card.verifiedBy} · ISO-27001 Certified
+                  Verified by {card.verifiedBy} Â· ISO-27001 Certified
                 </Text>
               </View>
             </View>
@@ -217,7 +217,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
                 style={{ flex: 1 }}
               />
               <Button
-                title="Share ID 📤"
+                title="Share ID ðŸ“¤"
                 variant="secondary"
                 size="sm"
                 onPress={handleShareId}
@@ -249,7 +249,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
               <View style={styles.infoRow}>
                 <Text style={styles.infoLabel}>Account Status</Text>
                 <Text style={[styles.infoVal, { color: '#16a34a' }]}>
-                  Active & Verified ✓
+                  Active & Verified âœ“
                 </Text>
               </View>
             </Card>
@@ -257,7 +257,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
         ) : (
           /* Guest Screen View */
           <Card style={styles.guestCard}>
-            <Text style={{ fontSize: 42, textAlign: 'center' }}>👤</Text>
+            <Text style={{ fontSize: 42, textAlign: 'center' }}>ðŸ‘¤</Text>
             <Text style={styles.guestTitle}>Guest Explorer Mode</Text>
             <Text style={styles.guestSubtitle}>
               You are currently viewing public historical archives, town news, emergency lines, and directories without an account.
@@ -297,7 +297,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
                 Fetch the latest palace news, business directory, and community updates.
               </Text>
             </View>
-            <Text style={styles.toolActionText}>{syncing ? 'Syncing...' : 'Sync ➔'}</Text>
+            <Text style={styles.toolActionText}>{syncing ? 'Syncing...' : 'Sync âž”'}</Text>
           </TouchableOpacity>
 
           {hasBiometrics && (
@@ -309,7 +309,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
                 <Text style={styles.toolTitle}>Biometric Security (Face ID / Fingerprint)</Text>
                 <Text style={styles.toolDesc}>Enabled for rapid one-touch login.</Text>
               </View>
-              <Text style={styles.toolActionText}>Active ✓</Text>
+              <Text style={styles.toolActionText}>Active âœ“</Text>
             </TouchableOpacity>
           )}
 
@@ -318,10 +318,10 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
             onPress={() => Linking.openURL('https://ogere-remo-portal.vercel.app/privacy').catch(() => {})}
           >
             <View style={{ flex: 1 }}>
-              <Text style={styles.toolTitle}>🔒 Privacy Policy & Data Protection</Text>
+              <Text style={styles.toolTitle}>ðŸ”’ Privacy Policy & Data Protection</Text>
               <Text style={styles.toolDesc}>View official NDPR & Google Play data privacy terms.</Text>
             </View>
-            <Text style={styles.toolActionText}>View ↗</Text>
+            <Text style={styles.toolActionText}>View â†—</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -329,10 +329,10 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
             onPress={() => navigation.navigate('AdminLogin')}
           >
             <View style={{ flex: 1 }}>
-              <Text style={[styles.toolTitle, { color: Colors.gold }]}>🛡️ Officer & Protocol Terminal</Text>
+              <Text style={[styles.toolTitle, { color: Colors.gold }]}>ðŸ›¡ï¸ Officer & Protocol Terminal</Text>
               <Text style={styles.toolDesc}>Switch to Security Dispatch, Royal Protocol or OCDA Desk.</Text>
             </View>
-            <Text style={[styles.toolActionText, { color: Colors.gold }]}>Open ➔</Text>
+            <Text style={[styles.toolActionText, { color: Colors.gold }]}>Open âž”</Text>
           </TouchableOpacity>
         </Card>
 

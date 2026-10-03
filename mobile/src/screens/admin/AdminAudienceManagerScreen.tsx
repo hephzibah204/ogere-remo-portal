@@ -184,7 +184,7 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
       {/* Top Protocol Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>‹ Back</Text>
+          <Text style={styles.backBtnText}>â€¹ Back</Text>
         </TouchableOpacity>
         <View style={styles.headerTitles}>
           <Text style={styles.headerState}>PALACE PROTOCOL SECRETARIAT</Text>
@@ -202,7 +202,7 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
             style={[styles.tabBtn, filter === tab && styles.tabBtnActive]}
           >
             <Text style={[styles.tabBtnText, filter === tab && styles.tabBtnTextActive]}>
-              {tab === 'pending' ? '⏳ Pending Review' : tab === 'confirmed' ? '👑 Confirmed' : '📋 All Audiences'}
+              {tab === 'pending' ? 'â³ Pending Review' : tab === 'confirmed' ? 'ðŸ‘‘ Confirmed' : 'ðŸ“‹ All Audiences'}
             </Text>
           </TouchableOpacity>
         ))}
@@ -229,7 +229,7 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
         >
           {filteredList.length === 0 ? (
             <Card style={styles.emptyCard}>
-              <Text style={{ fontSize: 36, textAlign: 'center' }}>👑</Text>
+              <Text style={{ fontSize: 36, textAlign: 'center' }}>ðŸ‘‘</Text>
               <Text style={styles.emptyTitle}>No Audiences in this Category</Text>
               <Text style={styles.emptyDesc}>
                 All submitted requests have been reviewed or there are no appointments matching this filter.
@@ -295,11 +295,11 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
                   {/* Contact Email & Address */}
                   <View style={styles.contactRow}>
                     <Text style={styles.contactItem} numberOfLines={1}>
-                      ✉️ {aud.email || 'No email provided'}
+                      âœ‰ï¸ {aud.email || 'No email provided'}
                     </Text>
                     {aud.address && (
                       <Text style={styles.contactItem} numberOfLines={1}>
-                        📍 {aud.address}
+                        ðŸ“ {aud.address}
                       </Text>
                     )}
                   </View>
@@ -307,12 +307,12 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
                   {/* Chamber Details if Confirmed */}
                   {isConfirmed && (
                     <View style={styles.confirmedChamberBox}>
-                      <Text style={styles.confirmedChamberTitle}>🏛️ DESIGNATED PALACE CHAMBER</Text>
+                      <Text style={styles.confirmedChamberTitle}>ðŸ›ï¸ DESIGNATED PALACE CHAMBER</Text>
                       <Text style={styles.confirmedChamberVal}>
                         {aud.chamber || 'Inner Royal Council Chamber'}
                       </Text>
                       <Text style={styles.confirmedChamberDate}>
-                        📅 Scheduled: {aud.confirmed_date || aud.confirmedDate || aud.booking_date} at{' '}
+                        ðŸ“… Scheduled: {aud.confirmed_date || aud.confirmedDate || aud.booking_date} at{' '}
                         {aud.confirmed_time || aud.confirmedTime || aud.time_slot}
                       </Text>
                     </View>
@@ -324,21 +324,21 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
                       onPress={() => openDecisionModal(aud, 'confirmed')}
                       style={[styles.btnAction, styles.btnConfirm]}
                     >
-                      <Text style={styles.btnConfirmText}>👑 {isConfirmed ? 'Edit Chamber' : 'Confirm'}</Text>
+                      <Text style={styles.btnConfirmText}>ðŸ‘‘ {isConfirmed ? 'Edit Chamber' : 'Confirm'}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       onPress={() => openDecisionModal(aud, 'postponed')}
                       style={[styles.btnAction, styles.btnPostpone]}
                     >
-                      <Text style={styles.btnPostponeText}>⏳ Reschedule</Text>
+                      <Text style={styles.btnPostponeText}>â³ Reschedule</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       onPress={() => openDecisionModal(aud, 'declined')}
                       style={[styles.btnAction, styles.btnDecline]}
                     >
-                      <Text style={styles.btnDeclineText}>✕ Decline</Text>
+                      <Text style={styles.btnDeclineText}>âœ• Decline</Text>
                     </TouchableOpacity>
                   </View>
                 </Card>
@@ -355,9 +355,9 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>
                 {actionType === 'confirmed'
-                  ? '👑 Grant Royal Audience'
+                  ? 'ðŸ‘‘ Grant Royal Audience'
                   : actionType === 'postponed'
-                  ? '⏳ Reschedule Appointment'
+                  ? 'â³ Reschedule Appointment'
                   : 'Palace Secretariat Regret'}
               </Text>
               <Text style={styles.modalSub}>
@@ -402,7 +402,7 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
                           chamber === ch.id && styles.chamberOptionTextSelected,
                         ]}
                       >
-                        {chamber === ch.id ? '✓ ' : '○ '} {ch.name}
+                        {chamber === ch.id ? 'âœ“ ' : 'â—‹ '} {ch.name}
                       </Text>
                     </TouchableOpacity>
                   ))}
@@ -425,7 +425,7 @@ export const AdminAudienceManagerScreen: React.FC<{ navigation: any }> = ({ navi
 
               <View style={styles.emailNoticeBox}>
                 <Text style={styles.emailNoticeText}>
-                  📧 Submitting will automatically send an official royal letterhead email with the palace seal to: <strong style={{ color: '#fff' }}>{selectedBooking?.email}</strong>.
+                  ðŸ“§ Submitting will automatically send an official royal letterhead email with the palace seal to: <strong style={{ color: '#fff' }}>{selectedBooking?.email}</strong>.
                 </Text>
               </View>
             </ScrollView>

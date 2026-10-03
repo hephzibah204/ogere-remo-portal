@@ -49,7 +49,7 @@ const DEFAULT_DIRECT_CONTACTS: ChatContact[] = [
     name: 'Chief Adebisi Adeleke',
     role: 'Palace Protocol & Secretary',
     title: 'Aafin Ologere Secretariat',
-    avatar: '👑',
+    avatar: 'ðŸ‘‘',
     color: '#d97706',
     online: true,
     lastSeen: 'Online',
@@ -60,7 +60,7 @@ const DEFAULT_DIRECT_CONTACTS: ChatContact[] = [
     name: 'ASP Babatunde Oladipo',
     role: 'Divisional Police Officer',
     title: 'Nigeria Police Force (Ogere Post)',
-    avatar: '👮‍♂️',
+    avatar: 'ðŸ‘®â€â™‚ï¸',
     color: '#3b82f6',
     online: true,
     lastSeen: 'Online',
@@ -71,7 +71,7 @@ const DEFAULT_DIRECT_CONTACTS: ChatContact[] = [
     name: 'Engr. Olufemi Balogun',
     role: 'Community Admin & Works',
     title: 'Ogere Community Development Assoc. (OCDA)',
-    avatar: '🏛️',
+    avatar: 'ðŸ›ï¸',
     color: '#10b981',
     online: true,
     lastSeen: 'Online',
@@ -82,7 +82,7 @@ const DEFAULT_DIRECT_CONTACTS: ChatContact[] = [
     name: 'Dr. Folashade Adeyemi-Clark',
     role: 'Diaspora Liaison',
     title: 'UK & Global Indigenes Alliance',
-    avatar: '🌍',
+    avatar: 'ðŸŒ',
     color: '#8b5cf6',
     online: false,
     lastSeen: 'Today at 02:15 PM',
@@ -93,7 +93,7 @@ const DEFAULT_DIRECT_CONTACTS: ChatContact[] = [
     name: 'Alhaja Sikirat (Iya Oloja)',
     role: 'Market Leader',
     title: 'Oke-Ogere Central Market & Crafts',
-    avatar: '🛍️',
+    avatar: 'ðŸ›ï¸',
     color: '#f59e0b',
     online: true,
     lastSeen: 'Online',
@@ -107,7 +107,7 @@ const GROUP_CHANNELS: ChatContact[] = [
     name: 'Ogere Remo Town Square',
     role: 'Town Channel',
     title: 'Public town hub for civic notices, news & general discussion',
-    avatar: '🏛️',
+    avatar: 'ðŸ›ï¸',
     color: '#10b981',
     online: true,
     lastSeen: '428 members',
@@ -119,7 +119,7 @@ const GROUP_CHANNELS: ChatContact[] = [
     name: 'Global Diaspora Network',
     role: 'Diaspora Hub',
     title: 'Indigenes connecting from UK, USA, Canada, and worldwide',
-    avatar: '🌍',
+    avatar: 'ðŸŒ',
     color: '#3b82f6',
     online: true,
     lastSeen: '156 members',
@@ -131,7 +131,7 @@ const GROUP_CHANNELS: ChatContact[] = [
     name: 'Neighborhood Vigilante Watch',
     role: 'Safety Patrol',
     title: 'Safety monitoring, expressway road alerts & night patrol reports',
-    avatar: '🛡️',
+    avatar: 'ðŸ›¡ï¸',
     color: '#ef4444',
     online: true,
     lastSeen: '312 members',
@@ -179,9 +179,9 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
             .map((u: any) => ({
               id: `usr_${u.id}`,
               name: u.full_name,
-              role: u.agency_name ? `${u.agency_name} (${u.role || 'Officer'})` : (u.role === 'palace_protocol' ? 'Palace Protocol & Secretariat' : (u.citizen_type === 'indigene' ? `Indigene · ${u.quarter || 'Oke-Ogere'}` : 'Resident')),
+              role: u.agency_name ? `${u.agency_name} (${u.role || 'Officer'})` : (u.role === 'palace_protocol' ? 'Palace Protocol & Secretariat' : (u.citizen_type === 'indigene' ? `Indigene Â· ${u.quarter || 'Oke-Ogere'}` : 'Resident')),
               title: u.compound || u.agency_name || u.quarter || 'Ogere Remo Community',
-              avatar: u.role === 'palace_protocol' || u.role === 'super_admin' ? '👑' : u.role === 'security_officer' ? '👮‍♂️' : '👤',
+              avatar: u.role === 'palace_protocol' || u.role === 'super_admin' ? 'ðŸ‘‘' : u.role === 'security_officer' ? 'ðŸ‘®â€â™‚ï¸' : 'ðŸ‘¤',
               color: u.role === 'security_officer' ? '#3b82f6' : u.role === 'palace_protocol' ? '#d97706' : '#059669',
               online: true,
               lastSeen: 'Active',
@@ -326,7 +326,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
       name: customName.trim(),
       role: customRole.trim() || 'Citizen / Resident',
       title: customRole.trim() || 'Ogere Remo',
-      avatar: '👤',
+      avatar: 'ðŸ‘¤',
       color: '#059669',
       online: true,
       lastSeen: 'Active',
@@ -360,7 +360,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
               style={styles.backBtn}
               activeOpacity={0.7}
             >
-              <Text style={{ fontSize: 20, color: '#ffffff' }}>←</Text>
+              <Text style={{ fontSize: 20, color: '#ffffff' }}>â†</Text>
             </TouchableOpacity>
 
             <View style={[styles.avatarCircle, { backgroundColor: activeChat.color }]}>
@@ -372,7 +372,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                 {activeChat.name}
               </Text>
               <Text style={styles.chatHeaderStatus} numberOfLines={1}>
-                {activeChat.isGroup ? activeChat.lastSeen : '🟢 ' + activeChat.lastSeen}
+                {activeChat.isGroup ? activeChat.lastSeen : 'ðŸŸ¢ ' + activeChat.lastSeen}
               </Text>
             </View>
 
@@ -381,7 +381,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
               style={styles.refreshBtn}
               activeOpacity={0.7}
             >
-              <Text style={{ fontSize: 16, color: '#a7f3d0' }}>🔄</Text>
+              <Text style={{ fontSize: 16, color: '#a7f3d0' }}>ðŸ”„</Text>
             </TouchableOpacity>
           </View>
 
@@ -429,7 +429,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                           </Text>
                           {isMe && (
                             <Text style={styles.tickText}>
-                              {item.status === 'sending' ? '🕒' : '✓✓'}
+                              {item.status === 'sending' ? 'ðŸ•’' : 'âœ“âœ“'}
                             </Text>
                           )}
                         </View>
@@ -464,7 +464,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
               {isSending ? (
                 <ActivityIndicator size="small" color="#ffffff" />
               ) : (
-                <Text style={styles.sendIcon}>➤</Text>
+                <Text style={styles.sendIcon}>âž¤</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -491,7 +491,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                   activeTab === 'direct' && styles.tabBtnTextActive,
                 ]}
               >
-                💬 Direct 1-on-1 ({allDirectContacts.length})
+                ðŸ’¬ Direct 1-on-1 ({allDirectContacts.length})
               </Text>
             </TouchableOpacity>
 
@@ -506,7 +506,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                   activeTab === 'groups' && styles.tabBtnTextActive,
                 ]}
               >
-                👥 Town Channels (3)
+                ðŸ‘¥ Town Channels (3)
               </Text>
             </TouchableOpacity>
           </View>
@@ -560,19 +560,19 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
             onPress={() => setShowNewChatModal(true)}
             activeOpacity={0.85}
           >
-            <Text style={{ fontSize: 24, color: '#ffffff' }}>💬 +</Text>
+            <Text style={{ fontSize: 24, color: '#ffffff' }}>ðŸ’¬ +</Text>
           </TouchableOpacity>
         </View>
       )}
 
-      {/* ── MODAL: START PRIVATE CHAT WITH CITIZEN ── */}
+      {/* â”€â”€ MODAL: START PRIVATE CHAT WITH CITIZEN â”€â”€ */}
       <Modal visible={showNewChatModal} transparent animationType="slide">
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Start 1-on-1 Private Chat</Text>
               <TouchableOpacity onPress={() => setShowNewChatModal(false)}>
-                <Text style={{ fontSize: 20, color: '#94a3b8' }}>✕</Text>
+                <Text style={{ fontSize: 20, color: '#94a3b8' }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 
@@ -601,9 +601,9 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                           handleStartDirectChat({
                             id: `usr_${u.id}`,
                             name: u.full_name,
-                            role: u.agency_name ? `${u.agency_name}` : (u.role === 'palace_protocol' ? 'Palace Protocol' : (u.citizen_type === 'indigene' ? `Indigene · ${u.quarter || 'Oke-Ogere'}` : 'Resident')),
+                            role: u.agency_name ? `${u.agency_name}` : (u.role === 'palace_protocol' ? 'Palace Protocol' : (u.citizen_type === 'indigene' ? `Indigene Â· ${u.quarter || 'Oke-Ogere'}` : 'Resident')),
                             title: u.compound || u.quarter || 'Ogere Remo',
-                            avatar: u.role === 'palace_protocol' ? '👑' : u.role === 'security_officer' ? '👮‍♂️' : '👤',
+                            avatar: u.role === 'palace_protocol' ? 'ðŸ‘‘' : u.role === 'security_officer' ? 'ðŸ‘®â€â™‚ï¸' : 'ðŸ‘¤',
                             color: u.role === 'security_officer' ? '#3b82f6' : '#059669',
                             online: true,
                             lastSeen: 'Active',
@@ -614,7 +614,7 @@ export const MessagesScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
                           <Text style={styles.dirName}>{u.full_name}</Text>
                           <Text style={styles.dirQuarter}>{u.quarter || u.citizen_type || 'Indigene'}</Text>
                         </View>
-                        <Text style={styles.dirChatAction}>Chat ➔</Text>
+                        <Text style={styles.dirChatAction}>Chat âž”</Text>
                       </TouchableOpacity>
                     ))}
                 </ScrollView>

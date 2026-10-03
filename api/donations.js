@@ -2,7 +2,7 @@ import { sqlQuery } from './lib/db.js';
 import crypto from 'crypto';
 
 export default async function handler(req, res) {
-  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogere-remo-portal.vercel.app';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Paystack-Signature');
@@ -127,8 +127,8 @@ export default async function handler(req, res) {
     }
   }
 
-  // 4. Fundraising Stats â€” GET /api/donations?stats=true
-  // Used by ComingSoonPage to show live â‚¦ raised + donor count.
+  // 4. Fundraising Stats Ã¢â‚¬â€ GET /api/donations?stats=true
+  // Used by ComingSoonPage to show live Ã¢â€šÂ¦ raised + donor count.
   if (req.method === 'GET' && req.query?.stats === 'true') {
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=30');
     try {

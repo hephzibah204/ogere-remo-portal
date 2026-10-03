@@ -83,9 +83,9 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
     if (activeRole === 'security_officer') {
       return {
         title: 'TACTICAL SECURITY DISPATCH',
-        subtitle: 'Joint Patrol Operations · Expressway Corridor',
+        subtitle: 'Joint Patrol Operations Â· Expressway Corridor',
         themeColor: '#ef4444',
-        icon: '🛡️',
+        icon: 'ðŸ›¡ï¸',
       };
     }
     if (activeRole === 'palace_protocol') {
@@ -93,14 +93,14 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
         title: 'PALACE PROTOCOL SECRETARIAT',
         subtitle: 'Audience Manifest & Chamberlain Registry',
         themeColor: Colors.gold,
-        icon: '👑',
+        icon: 'ðŸ‘‘',
       };
     }
     return {
       title: 'OCDA CIVIC CENTRAL COMMAND',
       subtitle: 'Town Operations, ID Cards & Public Registries',
       themeColor: '#059669',
-      icon: '🏛️',
+      icon: 'ðŸ›ï¸',
     };
   };
 
@@ -133,19 +133,19 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
           onPress={() => switchDutyRole('security_officer')}
           style={[styles.switchChip, activeRole === 'security_officer' && styles.switchChipActive]}
         >
-          <Text style={styles.switchChipText}>🛡️ Security</Text>
+          <Text style={styles.switchChipText}>ðŸ›¡ï¸ Security</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => switchDutyRole('palace_protocol')}
           style={[styles.switchChip, activeRole === 'palace_protocol' && styles.switchChipActive]}
         >
-          <Text style={styles.switchChipText}>👑 Protocol</Text>
+          <Text style={styles.switchChipText}>ðŸ‘‘ Protocol</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => switchDutyRole('ocda_admin')}
           style={[styles.switchChip, activeRole === 'ocda_admin' && styles.switchChipActive]}
         >
-          <Text style={styles.switchChipText}>🏛️ OCDA Admin</Text>
+          <Text style={styles.switchChipText}>ðŸ›ï¸ OCDA Admin</Text>
         </TouchableOpacity>
       </View>
 
@@ -162,7 +162,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
         {/* Urgent CODE RED Broadcast Warning Banner */}
         {Number(stats.incidents.code_red || 0) > 0 && (
           <View style={styles.codeRedBanner}>
-            <Text style={{ fontSize: 20 }}>🚨</Text>
+            <Text style={{ fontSize: 20 }}>ðŸš¨</Text>
             <View style={{ flex: 1 }}>
               <Text style={styles.codeRedTitle}>
                 {stats.incidents.code_red} ACTIVE CODE RED ARMED EMERGENCY
@@ -182,7 +182,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
               }}
               style={styles.codeRedAction}
             >
-              <Text style={styles.codeRedActionText}>Intercept ➔</Text>
+              <Text style={styles.codeRedActionText}>Intercept âž”</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -220,13 +220,13 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
           </View>
         </View>
 
-        {/* ── ROLE CONSOLE: 1. SECURITY PATROL OFFICER ── */}
+        {/* â”€â”€ ROLE CONSOLE: 1. SECURITY PATROL OFFICER â”€â”€ */}
         {activeRole === 'security_officer' && (
           <View style={styles.roleSection}>
             <View style={styles.sectionHeaderRow}>
-              <Text style={styles.sectionTitle}>🛡️ Tactical Security Operations</Text>
+              <Text style={styles.sectionTitle}>ðŸ›¡ï¸ Tactical Security Operations</Text>
               <TouchableOpacity onPress={() => navigation.navigate('SecurityDashboard')}>
-                <Text style={styles.sectionLink}>Full Agency Feed ➔</Text>
+                <Text style={styles.sectionLink}>Full Agency Feed âž”</Text>
               </TouchableOpacity>
             </View>
 
@@ -236,7 +236,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('SecurityDashboard')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🚨</Text>
+                <Text style={{ fontSize: 24 }}>ðŸš¨</Text>
                 <Text style={styles.actionBtnTitle}>Agency Dispatch</Text>
                 <Text style={styles.actionBtnDesc}>Live intercept radar & response</Text>
               </TouchableOpacity>
@@ -245,7 +245,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('VerifyId')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🪪</Text>
+                <Text style={{ fontSize: 24 }}>ðŸªª</Text>
                 <Text style={styles.actionBtnTitle}>Gate ID Scanner</Text>
                 <Text style={styles.actionBtnDesc}>Validate indigene & visitor IDs</Text>
               </TouchableOpacity>
@@ -254,7 +254,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('Whistleblower')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🔒</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ”’</Text>
                 <Text style={styles.actionBtnTitle}>Anonymous SITREPs</Text>
                 <Text style={styles.actionBtnDesc}>Encrypted tips & contraband alerts</Text>
               </TouchableOpacity>
@@ -263,7 +263,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('WalkWithMeMonitor')}
                 style={[styles.actionBtnCard, { borderColor: '#38bdf8' }]}
               >
-                <Text style={{ fontSize: 24 }}>🚶‍♂️</Text>
+                <Text style={{ fontSize: 24 }}>ðŸš¶â€â™‚ï¸</Text>
                 <Text style={[styles.actionBtnTitle, { color: '#38bdf8' }]}>Walk With Me Monitor</Text>
                 <Text style={styles.actionBtnDesc}>Live citizen radar & battery HUD</Text>
               </TouchableOpacity>
@@ -272,16 +272,16 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('CctvCameraFeed')}
                 style={[styles.actionBtnCard, { borderColor: Colors.gold }]}
               >
-                <Text style={{ fontSize: 24 }}>📹</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ“¹</Text>
                 <Text style={[styles.actionBtnTitle, { color: Colors.goldLight }]}>CCTV Surveillance</Text>
                 <Text style={styles.actionBtnDesc}>7 cameras, PTZ dome & ANPR</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => Alert.alert('Geofenced Check-In', 'Outpost: Aafin Gatehouse\nGPS: 6.9368°N, 3.6330°E\nStatus: Verified on Night Patrol')}
+                onPress={() => Alert.alert('Geofenced Check-In', 'Outpost: Aafin Gatehouse\nGPS: 6.9368Â°N, 3.6330Â°E\nStatus: Verified on Night Patrol')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>📍</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ“</Text>
                 <Text style={styles.actionBtnTitle}>Patrol Check-In</Text>
                 <Text style={styles.actionBtnDesc}>Log GPS outpost timestamp</Text>
               </TouchableOpacity>
@@ -313,34 +313,34 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                       {/* Truncated description */}
                       <Text style={styles.incidentDesc} numberOfLines={1}>{inc.description}</Text>
                       {/* Location */}
-                      <Text style={styles.incidentLoc}>📍 {inc.location}</Text>
+                      <Text style={styles.incidentLoc}>ðŸ“ {inc.location}</Text>
                       {/* GPS + IP + Battery telemetry badges */}
                       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4, marginTop: 2 }}>
                         {inc.latitude && inc.longitude && (
                           <View style={{ backgroundColor: 'rgba(56,189,248,0.15)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(56,189,248,0.3)' }}>
                             <Text style={{ color: '#38bdf8', fontSize: 8, fontWeight: '700', fontFamily: 'monospace' }}>
-                              🛰️ {parseFloat(inc.latitude).toFixed(4)}, {parseFloat(inc.longitude).toFixed(4)}
+                              ðŸ›°ï¸ {parseFloat(inc.latitude).toFixed(4)}, {parseFloat(inc.longitude).toFixed(4)}
                             </Text>
                           </View>
                         )}
                         {inc.accuracy && (
                           <View style={{ backgroundColor: 'rgba(34,197,94,0.1)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)' }}>
-                            <Text style={{ color: '#4ade80', fontSize: 8, fontWeight: '700' }}>±{Math.round(parseFloat(inc.accuracy))}m</Text>
+                            <Text style={{ color: '#4ade80', fontSize: 8, fontWeight: '700' }}>Â±{Math.round(parseFloat(inc.accuracy))}m</Text>
                           </View>
                         )}
                         {inc.ip_address && (
                           <View style={{ backgroundColor: 'rgba(148,163,184,0.1)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(148,163,184,0.2)' }}>
-                            <Text style={{ color: '#94a3b8', fontSize: 8 }}>🌐 {inc.ip_address}</Text>
+                            <Text style={{ color: '#94a3b8', fontSize: 8 }}>ðŸŒ {inc.ip_address}</Text>
                           </View>
                         )}
                         {inc.battery_level != null && (
                           <View style={{ backgroundColor: inc.battery_level > 20 ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.15)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: inc.battery_level > 20 ? 'rgba(34,197,94,0.3)' : '#ef4444' }}>
-                            <Text style={{ color: inc.battery_level > 20 ? '#4ade80' : '#f87171', fontSize: 8, fontWeight: '800' }}>🔋{inc.battery_level}%</Text>
+                            <Text style={{ color: inc.battery_level > 20 ? '#4ade80' : '#f87171', fontSize: 8, fontWeight: '800' }}>ðŸ”‹{inc.battery_level}%</Text>
                           </View>
                         )}
                         {inc.device_model && (
                           <View style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 2, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
-                            <Text style={{ color: '#64748b', fontSize: 8 }}>📱 {inc.device_model}</Text>
+                            <Text style={{ color: '#64748b', fontSize: 8 }}>ðŸ“± {inc.device_model}</Text>
                           </View>
                         )}
                       </View>
@@ -357,7 +357,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                         }}
                         style={styles.mapSmallBtn}
                       >
-                        <Text style={styles.mapSmallBtnText}>🧭</Text>
+                        <Text style={styles.mapSmallBtnText}>ðŸ§­</Text>
                       </TouchableOpacity>
                       <Text style={{ color: '#475569', fontSize: 9 }}>Tap row</Text>
                       <Text style={{ color: '#475569', fontSize: 9 }}>for full brief</Text>
@@ -370,20 +370,20 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 style={{ paddingTop: 8, alignItems: 'center' }}
               >
                 <Text style={{ color: Colors.gold, fontSize: 11, fontWeight: '700' }}>
-                View Full Agency Feed ➔
+                View Full Agency Feed âž”
                 </Text>
               </TouchableOpacity>
             </Card>
           </View>
         )}
 
-        {/* ── ROLE CONSOLE: 2. PALACE PROTOCOL OFFICER ── */}
+        {/* â”€â”€ ROLE CONSOLE: 2. PALACE PROTOCOL OFFICER â”€â”€ */}
         {activeRole === 'palace_protocol' && (
           <View style={styles.roleSection}>
             <View style={styles.sectionHeaderRow}>
-              <Text style={styles.sectionTitle}>👑 Palace Audience & Chamber Protocol</Text>
+              <Text style={styles.sectionTitle}>ðŸ‘‘ Palace Audience & Chamber Protocol</Text>
               <TouchableOpacity onPress={() => navigation.navigate('AdminAudienceManager')}>
-                <Text style={styles.sectionLink}>Manage Audiences ➔</Text>
+                <Text style={styles.sectionLink}>Manage Audiences âž”</Text>
               </TouchableOpacity>
             </View>
 
@@ -392,7 +392,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('AdminAudienceManager')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>👑</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ‘‘</Text>
                 <Text style={styles.actionBtnTitle}>Audience Queue</Text>
                 <Text style={styles.actionBtnDesc}>Assign chambers & dispatch royal passes</Text>
               </TouchableOpacity>
@@ -401,16 +401,16 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('RoyalAudience')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🔍</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ”</Text>
                 <Text style={styles.actionBtnTitle}>Pass Lookup</Text>
                 <Text style={styles.actionBtnDesc}>Verify gate entry code at palace doors</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => Alert.alert('Royal Protocol Calendar', 'Palace Chambers:\n• Throne Room: Tues & Thurs 10am-2pm\n• Inner Council: Mon, Wed & Fri\n• Agbole Courtyard: Delegations & Clan Heads')}
+                onPress={() => Alert.alert('Royal Protocol Calendar', 'Palace Chambers:\nâ€¢ Throne Room: Tues & Thurs 10am-2pm\nâ€¢ Inner Council: Mon, Wed & Fri\nâ€¢ Agbole Courtyard: Delegations & Clan Heads')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🏛️</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ›ï¸</Text>
                 <Text style={styles.actionBtnTitle}>Chamber Guide</Text>
                 <Text style={styles.actionBtnDesc}>Palace protocol & dress attire codes</Text>
               </TouchableOpacity>
@@ -419,7 +419,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('VerifyId')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🪪</Text>
+                <Text style={{ fontSize: 24 }}>ðŸªª</Text>
                 <Text style={styles.actionBtnTitle}>VIP Gate Pass</Text>
                 <Text style={styles.actionBtnDesc}>Scan visiting dignitary barcodes</Text>
               </TouchableOpacity>
@@ -437,7 +437,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                       <Text style={styles.incidentTitle}>{b.full_name || b.fullName}</Text>
                       <Text style={styles.incidentDesc} numberOfLines={1}>{b.purpose}</Text>
                       <Text style={styles.incidentLoc}>
-                        📅 Req: {b.booking_date || b.bookingDate} · Ref: {b.id}
+                        ðŸ“… Req: {b.booking_date || b.bookingDate} Â· Ref: {b.id}
                       </Text>
                     </View>
                     <TouchableOpacity
@@ -453,13 +453,13 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
           </View>
         )}
 
-        {/* ── ROLE CONSOLE: 3. OCDA ADMINISTRATOR ── */}
+        {/* â”€â”€ ROLE CONSOLE: 3. OCDA ADMINISTRATOR â”€â”€ */}
         {activeRole === 'ocda_admin' && (
           <View style={styles.roleSection}>
             <View style={styles.sectionHeaderRow}>
-              <Text style={styles.sectionTitle}>🏛️ OCDA Civic Governance Desk</Text>
+              <Text style={styles.sectionTitle}>ðŸ›ï¸ OCDA Civic Governance Desk</Text>
               <TouchableOpacity onPress={() => navigation.navigate('AdminIdApproval')}>
-                <Text style={styles.sectionLink}>Review Applications ➔</Text>
+                <Text style={styles.sectionLink}>Review Applications âž”</Text>
               </TouchableOpacity>
             </View>
 
@@ -468,7 +468,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('AdminIdApproval')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🪪</Text>
+                <Text style={{ fontSize: 24 }}>ðŸªª</Text>
                 <Text style={styles.actionBtnTitle}>ID Approvals</Text>
                 <Text style={styles.actionBtnDesc}>Approve & certify digital citizen cards</Text>
               </TouchableOpacity>
@@ -477,7 +477,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('VerifyId')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>🔍</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ”</Text>
                 <Text style={styles.actionBtnTitle}>ID Registry Search</Text>
                 <Text style={styles.actionBtnDesc}>Lookup citizen database records</Text>
               </TouchableOpacity>
@@ -486,7 +486,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('IncidentReport')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>📢</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ“¢</Text>
                 <Text style={styles.actionBtnTitle}>Broadcast Alert</Text>
                 <Text style={styles.actionBtnDesc}>Publish urgent town announcement</Text>
               </TouchableOpacity>
@@ -495,7 +495,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
                 onPress={() => navigation.navigate('Whistleblower')}
                 style={styles.actionBtnCard}
               >
-                <Text style={{ fontSize: 24 }}>📋</Text>
+                <Text style={{ fontSize: 24 }}>ðŸ“‹</Text>
                 <Text style={styles.actionBtnTitle}>Civic Audit Log</Text>
                 <Text style={styles.actionBtnDesc}>Inspection records & compliance</Text>
               </TouchableOpacity>
@@ -504,10 +504,10 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
             <Card style={styles.card}>
               <Text style={styles.cardHeader}>Palace & OCDA Operational Summary</Text>
               <Text style={{ fontSize: 12, color: 'rgba(245,237,216,0.7)', lineHeight: 18 }}>
-                • Total Registered Citizens: <strong style={{ color: '#fff' }}>2,481</strong>{'\n'}
-                • Digital ID Cards in Circulation: <strong style={{ color: '#86efac' }}>1,894</strong>{'\n'}
-                • Active Express Corridor Patrol Units: <strong style={{ color: Colors.gold }}>4 Units</strong>{'\n'}
-                • Night Curfew Status: <strong style={{ color: '#86efac' }}>Normal (No Active Curfew)</strong>
+                â€¢ Total Registered Citizens: <strong style={{ color: '#fff' }}>2,481</strong>{'\n'}
+                â€¢ Digital ID Cards in Circulation: <strong style={{ color: '#86efac' }}>1,894</strong>{'\n'}
+                â€¢ Active Express Corridor Patrol Units: <strong style={{ color: Colors.gold }}>4 Units</strong>{'\n'}
+                â€¢ Night Curfew Status: <strong style={{ color: '#86efac' }}>Normal (No Active Curfew)</strong>
               </Text>
             </Card>
           </View>
@@ -519,7 +519,7 @@ export const AdminDashboardScreen: React.FC<{ navigation: any }> = ({ navigation
           style={styles.citizenPortalBtn}
         >
           <Text style={styles.citizenPortalBtnText}>
-            👁️ Preview Citizen Facing Portal (App Home) ➔
+            ðŸ‘ï¸ Preview Citizen Facing Portal (App Home) âž”
           </Text>
         </TouchableOpacity>
       </ScrollView>

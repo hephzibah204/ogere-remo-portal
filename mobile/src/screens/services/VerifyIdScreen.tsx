@@ -48,7 +48,7 @@ const OFFLINE_REGISTRY: Record<string, any> = {
     quarter: 'Isale-Ogere',
     compound: 'Ejigboye',
     status: 'approved',
-    occupation: 'Consultant Surgeon · London, United Kingdom',
+    occupation: 'Consultant Surgeon Â· London, United Kingdom',
     issuedDate: '2024-03-01',
     expiryDate: '2027-03-01',
     verifiedBy: 'OCDA Diaspora Secretariat',
@@ -60,7 +60,7 @@ const OFFLINE_REGISTRY: Record<string, any> = {
     quarter: 'Isale-Ogere',
     compound: 'Ejigboye',
     status: 'approved',
-    occupation: 'Consultant Surgeon · London, United Kingdom',
+    occupation: 'Consultant Surgeon Â· London, United Kingdom',
     issuedDate: '2024-03-01',
     expiryDate: '2027-03-01',
     verifiedBy: 'OCDA Diaspora Secretariat',
@@ -72,7 +72,7 @@ const OFFLINE_REGISTRY: Record<string, any> = {
     quarter: 'Oke-Ogere',
     compound: 'Legunsen Royal Compound',
     status: 'approved',
-    occupation: 'Financial Executive · Ikeja, Lagos',
+    occupation: 'Financial Executive Â· Ikeja, Lagos',
     issuedDate: '2024-02-10',
     expiryDate: '2027-02-10',
     verifiedBy: 'HRH Ologere Palace Office',
@@ -96,7 +96,7 @@ const OFFLINE_REGISTRY: Record<string, any> = {
     quarter: 'External / Guest',
     compound: 'UNESCO Heritage Partner',
     status: 'approved',
-    occupation: 'Cultural Heritage Researcher · Oxford, UK',
+    occupation: 'Cultural Heritage Researcher Â· Oxford, UK',
     issuedDate: '2025-01-10',
     expiryDate: '2028-01-10',
     verifiedBy: 'Palace of the Ologere ICT Registry',
@@ -148,7 +148,7 @@ export const VerifyIdScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
 
       <ScrollView contentContainerStyle={styles.content}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>← Back</Text>
+          <Text style={styles.backBtnText}>â† Back</Text>
         </TouchableOpacity>
 
         <Card style={styles.searchCard}>
@@ -206,7 +206,7 @@ export const VerifyIdScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
           <Card style={styles.resultCard}>
             <View style={styles.verifiedHeader}>
               <View style={styles.verifiedBadge}>
-                <Text style={styles.verifiedText}>✓ VERIFIED GENUINE</Text>
+                <Text style={styles.verifiedText}>âœ“ VERIFIED GENUINE</Text>
               </View>
               <Text style={styles.cardTypeBadge}>
                 {result.cardType?.toUpperCase()} CARD
@@ -244,7 +244,7 @@ export const VerifyIdScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
 
         {!loading && searched && !result && (
           <Card style={styles.notFoundCard}>
-            <Text style={{ fontSize: 36, textAlign: 'center' }}>⚠️</Text>
+            <Text style={{ fontSize: 36, textAlign: 'center' }}>âš ï¸</Text>
             <Text style={styles.notFoundTitle}>ID Card Record Not Found</Text>
             <Text style={styles.notFoundText}>
               The ID number "{code}" is not registered in the Ogere Remo Civic Database or has been flagged. Please verify the code or contact the Palace Secretariat.

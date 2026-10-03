@@ -1,6 +1,6 @@
 /**
  * liveTrackingService.ts
- * Ogere Remo Civic App â€” Real-Time Tactical GPS Location Radar Engine
+ * Ogere Remo Civic App Ã¢â‚¬â€ Real-Time Tactical GPS Location Radar Engine
  *
  * Allows a citizen during an emergency/hostage/robbery/corridor transit
  * to perpetually stream their moving GPS coordinates, speed, and heading to Ogere

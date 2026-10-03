@@ -40,10 +40,10 @@ export const NewsDetailScreen: React.FC<{ route: any; navigation: any }> = ({
       {/* Detail Top Navigation */}
       <View style={styles.navBar}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>← Back to News</Text>
+          <Text style={styles.backBtnText}>â† Back to News</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleShare} style={styles.shareBtn}>
-          <Text style={styles.shareBtnText}>Share 📤</Text>
+          <Text style={styles.shareBtnText}>Share ðŸ“¤</Text>
         </TouchableOpacity>
       </View>
 
@@ -53,7 +53,7 @@ export const NewsDetailScreen: React.FC<{ route: any; navigation: any }> = ({
           <View style={styles.categoryBadge}>
             <Text style={styles.categoryText}>{item.category}</Text>
           </View>
-          <Text style={styles.dateText}>{item.date} · {item.readTime}</Text>
+          <Text style={styles.dateText}>{item.date} Â· {item.readTime}</Text>
         </View>
 
         {/* Title */}
@@ -62,7 +62,7 @@ export const NewsDetailScreen: React.FC<{ route: any; navigation: any }> = ({
         {/* Author / Source */}
         <View style={styles.authorRow}>
           <View style={styles.authorAvatar}>
-            <Text style={{ fontSize: 16 }}>🏛️</Text>
+            <Text style={{ fontSize: 16 }}>ðŸ›ï¸</Text>
           </View>
           <View>
             <Text style={styles.authorName}>{item.author}</Text>
@@ -73,7 +73,7 @@ export const NewsDetailScreen: React.FC<{ route: any; navigation: any }> = ({
         {/* Offline Badge */}
         <View style={styles.offlineBox}>
           <Text style={styles.offlineBoxText}>
-            ✓ Article cached locally — available 100% offline anytime
+            âœ“ Article cached locally â€” available 100% offline anytime
           </Text>
         </View>
 

@@ -64,21 +64,21 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
             <View style={styles.avatarCircle}>
               <Text style={styles.avatarLetter}>
-                {user ? user.fullName.charAt(0).toUpperCase() : '👑'}
+                {user ? user.fullName.charAt(0).toUpperCase() : 'ðŸ‘‘'}
               </Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.welcomeGreeting}>
-                {user ? `Ẹ káàbọ̀, ${user.fullName.split(' ')[0]}!` : 'Ẹ káàbọ̀! Welcome to Ogere'}
+                {user ? `áº¸ kÃ¡Ã bá»Ì€, ${user.fullName.split(' ')[0]}!` : 'áº¸ kÃ¡Ã bá»Ì€! Welcome to Ogere'}
               </Text>
               <View style={styles.badgeRow}>
                 <View style={[styles.verifiedPill, { backgroundColor: user ? '#ecfdf5' : '#f1f5f9' }]}>
                   <Text style={[styles.verifiedPillText, { color: user ? '#059669' : '#64748b' }]}>
-                    {user ? `✓ CERTIFIED ${user.citizenType.toUpperCase()}` : 'GUEST EXPLORER'}
+                    {user ? `âœ“ CERTIFIED ${user.citizenType.toUpperCase()}` : 'GUEST EXPLORER'}
                   </Text>
                 </View>
                 {user && (
-                  <Text style={styles.quarterText}>· {user.quarter}</Text>
+                  <Text style={styles.quarterText}>Â· {user.quarter}</Text>
                 )}
               </View>
             </View>
@@ -92,7 +92,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           activeOpacity={0.85}
         >
           <View style={styles.emergencyIconTop}>
-            <Text style={{ fontSize: 24 }}>🚨</Text>
+            <Text style={{ fontSize: 24 }}>ðŸš¨</Text>
           </View>
           <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
@@ -115,7 +115,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Messages')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>💬</Text>
+            <Text style={styles.quickEmoji}>ðŸ’¬</Text>
             <Text style={styles.quickLabel}>Town Chat</Text>
             <Text style={styles.quickSub}>Town Messaging</Text>
           </TouchableOpacity>
@@ -125,7 +125,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Map')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🗺️</Text>
+            <Text style={styles.quickEmoji}>ðŸ—ºï¸</Text>
             <Text style={styles.quickLabel}>Town Map</Text>
             <Text style={styles.quickSub}>GPS Sectors</Text>
           </TouchableOpacity>
@@ -135,7 +135,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Donation')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>💰</Text>
+            <Text style={styles.quickEmoji}>ðŸ’°</Text>
             <Text style={styles.quickLabel}>10M Fund</Text>
             <Text style={styles.quickSub}>Endowment</Text>
           </TouchableOpacity>
@@ -145,7 +145,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('WalkWithMe')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🚶‍♂️</Text>
+            <Text style={styles.quickEmoji}>ðŸš¶â€â™‚ï¸</Text>
             <Text style={styles.quickLabel}>Walk With Me</Text>
             <Text style={styles.quickSub}>Safe Escort</Text>
           </TouchableOpacity>
@@ -155,7 +155,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Marketplace')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🛍️</Text>
+            <Text style={styles.quickEmoji}>ðŸ›ï¸</Text>
             <Text style={styles.quickLabel}>Marketplace</Text>
             <Text style={styles.quickSub}>Adire & Produce</Text>
           </TouchableOpacity>
@@ -165,7 +165,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('RoyalAudience')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🏛️</Text>
+            <Text style={styles.quickEmoji}>ðŸ›ï¸</Text>
             <Text style={styles.quickLabel}>Audience</Text>
             <Text style={styles.quickSub}>With Kabiyesi</Text>
           </TouchableOpacity>
@@ -175,7 +175,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Profile')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🪪</Text>
+            <Text style={styles.quickEmoji}>ðŸªª</Text>
             <Text style={styles.quickLabel}>ID Wallet</Text>
             <Text style={styles.quickSub}>Digital Card</Text>
           </TouchableOpacity>
@@ -185,7 +185,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Directory')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🏢</Text>
+            <Text style={styles.quickEmoji}>ðŸ¢</Text>
             <Text style={styles.quickLabel}>Directory</Text>
             <Text style={styles.quickSub}>Civic Contacts</Text>
           </TouchableOpacity>
@@ -195,7 +195,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Events')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>📅</Text>
+            <Text style={styles.quickEmoji}>ðŸ“…</Text>
             <Text style={styles.quickLabel}>Events</Text>
             <Text style={styles.quickSub}>Festival Dates</Text>
           </TouchableOpacity>
@@ -205,7 +205,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('LandRegistry')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>📜</Text>
+            <Text style={styles.quickEmoji}>ðŸ“œ</Text>
             <Text style={styles.quickLabel}>Land Registry</Text>
             <Text style={styles.quickSub}>Cadastral Plots</Text>
           </TouchableOpacity>
@@ -215,7 +215,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('CustomaryDispute')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>⚖️</Text>
+            <Text style={styles.quickEmoji}>âš–ï¸</Text>
             <Text style={styles.quickLabel}>Kootu Oba</Text>
             <Text style={styles.quickSub}>Customary Court</Text>
           </TouchableOpacity>
@@ -225,7 +225,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('FixMyStreet')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🚧</Text>
+            <Text style={styles.quickEmoji}>ðŸš§</Text>
             <Text style={styles.quickLabel}>Fix My Street</Text>
             <Text style={styles.quickSub}>Civic Faults</Text>
           </TouchableOpacity>
@@ -235,7 +235,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('DiasporaEscrow')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🌍</Text>
+            <Text style={styles.quickEmoji}>ðŸŒ</Text>
             <Text style={styles.quickLabel}>Diaspora Grants</Text>
             <Text style={styles.quickSub}>Escrow Projects</Text>
           </TouchableOpacity>
@@ -245,7 +245,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('Forum')}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>🗣️</Text>
+            <Text style={styles.quickEmoji}>ðŸ—£ï¸</Text>
             <Text style={styles.quickLabel}>Town Forum</Text>
             <Text style={styles.quickSub}>Deliberations</Text>
           </TouchableOpacity>
@@ -255,13 +255,13 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             onPress={() => navigation.navigate('TrackIncident', { incidentId: 'OGR-SOS-8419' })}
             activeOpacity={0.7}
           >
-            <Text style={styles.quickEmoji}>📡</Text>
+            <Text style={styles.quickEmoji}>ðŸ“¡</Text>
             <Text style={styles.quickLabel}>Radar Track</Text>
             <Text style={styles.quickSub}>Live Dispatch</Text>
           </TouchableOpacity>
         </View>
 
-        {/* ── "WHAT'S ON YOUR MIND?" MOBILE STATUS UPDATE COMPOSER ── */}
+        {/* â”€â”€ "WHAT'S ON YOUR MIND?" MOBILE STATUS UPDATE COMPOSER â”€â”€ */}
         <Card style={styles.statusComposerCard}>
           <TouchableOpacity
             style={styles.composerHeaderRow}
@@ -269,11 +269,11 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             activeOpacity={0.8}
           >
             <View style={styles.composerAvatar}>
-              <Text style={{ fontSize: 16 }}>{user ? '👤' : '👑'}</Text>
+              <Text style={{ fontSize: 16 }}>{user ? 'ðŸ‘¤' : 'ðŸ‘‘'}</Text>
             </View>
             <View style={styles.composerFakeInput}>
               <Text style={styles.composerPlaceholder}>
-                {user ? `What's on your mind, ${user.fullName.split(' ')[0]}?` : "What's on your mind, Ogere?"} ✍️
+                {user ? `What's on your mind, ${user.fullName.split(' ')[0]}?` : "What's on your mind, Ogere?"} âœï¸
               </Text>
             </View>
           </TouchableOpacity>
@@ -283,7 +283,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               style={styles.composerActionBtn}
               onPress={() => navigation.navigate('Forum')}
             >
-              <Text style={styles.composerActionEmoji}>📸</Text>
+              <Text style={styles.composerActionEmoji}>ðŸ“¸</Text>
               <Text style={styles.composerActionLabel}>Photo</Text>
             </TouchableOpacity>
 
@@ -291,7 +291,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               style={styles.composerActionBtn}
               onPress={() => navigation.navigate('Forum')}
             >
-              <Text style={styles.composerActionEmoji}>📍</Text>
+              <Text style={styles.composerActionEmoji}>ðŸ“</Text>
               <Text style={styles.composerActionLabel}>Quarter Check-in</Text>
             </TouchableOpacity>
 
@@ -299,7 +299,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               style={styles.composerActionBtn}
               onPress={() => navigation.navigate('Forum')}
             >
-              <Text style={styles.composerActionEmoji}>💡</Text>
+              <Text style={styles.composerActionEmoji}>ðŸ’¡</Text>
               <Text style={styles.composerActionLabel}>Civic Thought</Text>
             </TouchableOpacity>
           </View>
@@ -314,31 +314,31 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </View>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Forum')}>
-            <Text style={styles.seeAllText}>Town Feed ➔</Text>
+            <Text style={styles.seeAllText}>Town Feed âž”</Text>
           </TouchableOpacity>
         </View>
 
         <Card style={styles.civicStatusCard}>
           <View style={styles.statusAuthorRow}>
             <View style={styles.statusAuthorAvatar}>
-              <Text style={{ fontSize: 16 }}>👑</Text>
+              <Text style={{ fontSize: 16 }}>ðŸ‘‘</Text>
             </View>
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
                 <Text style={styles.statusAuthorName}>Prince Olawale Babatunde</Text>
-                <Text style={styles.verifiedCheck}>✓</Text>
+                <Text style={styles.verifiedCheck}>âœ“</Text>
               </View>
-              <Text style={styles.statusSubText}>📍 Oke-Ogere · Palace Protocol · 15m ago</Text>
+              <Text style={styles.statusSubText}>ðŸ“ Oke-Ogere Â· Palace Protocol Â· 15m ago</Text>
             </View>
           </View>
           <Text style={styles.statusBodyText}>
-            Royal Proclamation: The 2026 Olipakala Cultural Festival schedule has been approved by Kabiyesi. Agbole delegations should submit dance rosters! 👑🎉
+            Royal Proclamation: The 2026 Olipakala Cultural Festival schedule has been approved by Kabiyesi. Agbole delegations should submit dance rosters! ðŸ‘‘ðŸŽ‰
           </Text>
           <View style={styles.statusFooterRow}>
-            <Text style={styles.statusFooterStat}>👍 28 reactions</Text>
-            <Text style={styles.statusFooterStat}>💬 7 comments</Text>
+            <Text style={styles.statusFooterStat}>ðŸ‘ 28 reactions</Text>
+            <Text style={styles.statusFooterStat}>ðŸ’¬ 7 comments</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Forum')}>
-              <Text style={styles.statusInteractLink}>Deliberate ➔</Text>
+              <Text style={styles.statusInteractLink}>Deliberate âž”</Text>
             </TouchableOpacity>
           </View>
         </Card>
@@ -348,7 +348,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Card style={styles.monarchCard}>
             <View style={styles.monarchHeader}>
               <View style={styles.monarchCrownBadge}>
-                <Text style={styles.crownEmoji}>👑</Text>
+                <Text style={styles.crownEmoji}>ðŸ‘‘</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.monarchTag}>CURRENT REIGNING MONARCH</Text>
@@ -367,7 +367,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               style={styles.exploreKingsLink}
             >
               <Text style={styles.exploreKingsText}>
-                View Complete Historical Obas Lineage ➔
+                View Complete Historical Obas Lineage âž”
               </Text>
             </TouchableOpacity>
           </Card>
@@ -416,7 +416,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           activeOpacity={0.8}
         >
           <View style={styles.emergencyIcon}>
-            <Text style={{ fontSize: 24 }}>🚨</Text>
+            <Text style={{ fontSize: 24 }}>ðŸš¨</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.emergencyTitle}>24/7 Expressway & Police Response</Text>

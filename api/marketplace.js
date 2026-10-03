@@ -16,7 +16,7 @@ function normalizeListing(row) {
     quarter: row.quarter || 'Oke-Ogere',
     phone: row.phone || '',
     whatsapp: row.whatsapp || row.phone || '',
-    icon: row.icon || 'ðŸ›ï¸',
+    icon: row.icon || 'Ã°Å¸â€ºÂÃ¯Â¸Â',
     badge: row.badge || 'fresh',
     verified: row.verified !== undefined ? Boolean(row.verified) : (row.is_verified !== undefined ? Boolean(row.is_verified) : true),
     is_verified: row.is_verified !== undefined ? Boolean(row.is_verified) : (row.verified !== undefined ? Boolean(row.verified) : true),
@@ -29,7 +29,7 @@ function normalizeListing(row) {
 }
 
 export default async function handler(req, res) {
-  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogere-remo-portal.vercel.app';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
           body.quarter || 'Oke-Ogere',
           body.phone || '',
           body.whatsapp || body.phone || '',
-          body.icon || 'ðŸ›ï¸',
+          body.icon || 'Ã°Å¸â€ºÂÃ¯Â¸Â',
           body.badge || 'fresh',
           true,
           'active',

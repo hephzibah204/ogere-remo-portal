@@ -1,7 +1,7 @@
 import { sqlQuery, verifyAdminAuth } from './lib/db.js';
 
 /**
- * Royal Email Generator â€” Produces formal royal letterhead emails
+ * Royal Email Generator Ã¢â‚¬â€ Produces formal royal letterhead emails
  * bearing the seal of the Ologere of Ogere Remo.
  */
 function generateRoyalEmailHtml({
@@ -30,7 +30,7 @@ function generateRoyalEmailHtml({
     : 'AUDIENCE REQUEST RECEIVED';
 
   const statusMessage = isConfirmed
-    ? `We are pleased to formally convey that His Royal Highness, <strong>Oba James Obafemi Saliu â€” Kankanbiina II</strong>, the Ologere of Ogere Remo, has granted your request for a royal audience.`
+    ? `We are pleased to formally convey that His Royal Highness, <strong>Oba James Obafemi Saliu Ã¢â‚¬â€ Kankanbiina II</strong>, the Ologere of Ogere Remo, has granted your request for a royal audience.`
     : isPostponed
     ? `The Palace Protocol Office of the Ologere of Ogere Remo regrets to inform you that due to traditional council engagements or royal state duties, your audience appointment has been rescheduled.`
     : isDeclined
@@ -50,10 +50,10 @@ function generateRoyalEmailHtml({
     
     <!-- Royal Letterhead Header -->
     <div style="background: linear-gradient(135deg, #064e3b 0%, #042f24 100%); padding: 30px 20px; text-align: center; border-bottom: 2px solid #C9963A;">
-      <div style="font-size: 38px; margin-bottom: 8px;">ðŸ‘‘</div>
+      <div style="font-size: 38px; margin-bottom: 8px;">Ã°Å¸â€˜â€˜</div>
       <div style="color: #fef08a; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;">AAFIN OLOGERE OF OGERE REMO</div>
       <div style="color: #ffffff; font-size: 20px; font-weight: 800; margin: 6px 0; letter-spacing: 0.5px;">PALACE PROTOCOL SECRETARIAT</div>
-      <div style="color: #86efac; font-size: 12px; font-style: italic;">Under the Auspices of HRH Oba James Obafemi Saliu â€” Kankanbiina II</div>
+      <div style="color: #86efac; font-size: 12px; font-style: italic;">Under the Auspices of HRH Oba James Obafemi Saliu Ã¢â‚¬â€ Kankanbiina II</div>
     </div>
 
     <!-- Body Content -->
@@ -63,7 +63,7 @@ function generateRoyalEmailHtml({
       </div>
 
       <div style="font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 12px;">
-        áº¸ n láº¹ o / Dear ${fullName},
+        Ã¡ÂºÂ¸ n lÃ¡ÂºÂ¹ o / Dear ${fullName},
       </div>
 
       <p style="font-size: 14px; line-height: 1.6; color: #cbd5e1; margin-bottom: 20px;">
@@ -132,7 +132,7 @@ function generateRoyalEmailHtml({
           ? `
       <div style="background-color: #064e3b; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
         <div style="color: #fef08a; font-size: 12px; font-weight: 800; margin-bottom: 8px;">
-          ðŸ‘‘ TRADITIONAL PALACE ETIQUETTE & PROTOCOL
+          Ã°Å¸â€˜â€˜ TRADITIONAL PALACE ETIQUETTE & PROTOCOL
         </div>
         <ul style="margin: 0; padding-left: 18px; font-size: 12px; color: #d1fae5; line-height: 1.6;">
           <li><strong>Arrival:</strong> Arrive strictly 15 minutes prior to your allocated slot for protocol screening at the palace gate.</li>
@@ -154,7 +154,7 @@ function generateRoyalEmailHtml({
       <div style="margin-top: 30px; border-top: 1px solid rgba(201, 150, 58, 0.2); padding-top: 15px; font-size: 12px; color: #64748b;">
         <div>Signed,</div>
         <div style="font-weight: 800; color: #C9963A; margin-top: 2px;">Office of the Chief of Protocol & Royal Secretariat</div>
-        <div>Aafin Ologere of Ogere Remo Â· Palace Way, Ogere Remo, Ogun State, Nigeria</div>
+        <div>Aafin Ologere of Ogere Remo Ã‚Â· Palace Way, Ogere Remo, Ogun State, Nigeria</div>
       </div>
     </div>
   </div>
@@ -212,7 +212,7 @@ async function sendRoyalEmail({ to, subject, html }) {
 }
 
 export default async function handler(req, res) {
-  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogere-remo-portal.vercel.app';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -221,7 +221,7 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // â”€â”€ GET: List or Track Royal Audiences â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬ GET: List or Track Royal Audiences Ã¢â€â‚¬Ã¢â€â‚¬
   if (req.method === 'GET') {
     const { action, code, id, status, search } = req.query;
 
@@ -296,12 +296,12 @@ export default async function handler(req, res) {
     }
   }
 
-  // â”€â”€ POST: Create Booking or Update Palace Status â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬ POST: Create Booking or Update Palace Status Ã¢â€â‚¬Ã¢â€â‚¬
   if (req.method === 'POST') {
     const body = req.body || {};
     const { action } = body;
 
-    // â”€â”€ ACTION: UPDATE STATUS BY PALACE OFFICIAL â”€â”€
+    // Ã¢â€â‚¬Ã¢â€â‚¬ ACTION: UPDATE STATUS BY PALACE OFFICIAL Ã¢â€â‚¬Ã¢â€â‚¬
     if (action === 'update_status') {
       const auth = await verifyAdminAuth(req);
       if (!auth.authenticated) {
@@ -368,11 +368,11 @@ export default async function handler(req, res) {
         );
 
         // Prepare and dispatch Royal Email
-        let emailSubject = 'Palace Secretariat Notice â€” Ogere Remo Royal Audience';
+        let emailSubject = 'Palace Secretariat Notice Ã¢â‚¬â€ Ogere Remo Royal Audience';
         if (status === 'confirmed') {
-          emailSubject = `ðŸ‘‘ Royal Audience Confirmed: Appointment with HRH Oba James Obafemi Saliu [${id}]`;
+          emailSubject = `Ã°Å¸â€˜â€˜ Royal Audience Confirmed: Appointment with HRH Oba James Obafemi Saliu [${id}]`;
         } else if (status === 'postponed') {
-          emailSubject = `âš ï¸ Royal Audience Rescheduled / Postponed: [Ref ${id}]`;
+          emailSubject = `Ã¢Å¡Â Ã¯Â¸Â Royal Audience Rescheduled / Postponed: [Ref ${id}]`;
         } else if (status === 'declined') {
           emailSubject = `Formal Notice from the Palace Secretariat of Ogere Remo [Ref ${id}]`;
         }
@@ -413,7 +413,7 @@ export default async function handler(req, res) {
       }
     }
 
-    // â”€â”€ ACTION: CITIZEN BOOKING CREATION â”€â”€
+    // Ã¢â€â‚¬Ã¢â€â‚¬ ACTION: CITIZEN BOOKING CREATION Ã¢â€â‚¬Ã¢â€â‚¬
     const fullName = (body.fullName || body.name || '').trim();
     const phone = (body.phone || body.phoneNumber || '').trim();
     const email = (body.email || '').trim();
@@ -465,12 +465,12 @@ export default async function handler(req, res) {
         status: 'pending',
         confirmedDate: bookingDate,
         confirmedTime: timeSlot,
-        notes: 'Your request is queued for review by the Kingâ€™s Principal Secretary.',
+        notes: 'Your request is queued for review by the KingÃ¢â‚¬â„¢s Principal Secretary.',
       });
 
       const emailResult = await sendRoyalEmail({
         to: email,
-        subject: `ðŸ‘‘ Royal Audience Request Received â€” Reference [${bookingId}]`,
+        subject: `Ã°Å¸â€˜â€˜ Royal Audience Request Received Ã¢â‚¬â€ Reference [${bookingId}]`,
         html: emailHtml,
       });
 

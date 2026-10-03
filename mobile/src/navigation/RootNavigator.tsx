@@ -87,7 +87,7 @@ function MainTabs() {
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => <TabBarIcon emoji="🏛️" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabBarIcon emoji="ðŸ›ï¸" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -95,17 +95,17 @@ function MainTabs() {
         component={NewsScreen}
         options={{
           tabBarLabel: 'News',
-          tabBarIcon: ({ focused }) => <TabBarIcon emoji="📰" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabBarIcon emoji="ðŸ“°" focused={focused} />,
         }}
       />
       <Tab.Screen
         name="SosTab"
         component={IncidentReportScreen}
         options={{
-          tabBarLabel: 'SOS 🚨',
+          tabBarLabel: 'SOS ðŸš¨',
           tabBarIcon: ({ focused }) => (
             <View style={[styles.tabIconContainer, focused && { backgroundColor: '#fee2e2' }]}>
-              <Text style={{ fontSize: 19 }}>🚨</Text>
+              <Text style={{ fontSize: 19 }}>ðŸš¨</Text>
             </View>
           ),
           tabBarLabelStyle: {
@@ -120,7 +120,7 @@ function MainTabs() {
         component={HeritageScreen}
         options={{
           tabBarLabel: 'Heritage',
-          tabBarIcon: ({ focused }) => <TabBarIcon emoji="👑" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabBarIcon emoji="ðŸ‘‘" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -128,7 +128,7 @@ function MainTabs() {
         component={ServicesScreen}
         options={{
           tabBarLabel: 'Services',
-          tabBarIcon: ({ focused }) => <TabBarIcon emoji="⚡" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabBarIcon emoji="âš¡" focused={focused} />,
         }}
       />
     </Tab.Navigator>

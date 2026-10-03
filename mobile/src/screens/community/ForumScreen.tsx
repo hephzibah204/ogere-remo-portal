@@ -19,7 +19,7 @@ import { Colors, Spacing, Radius } from '../../theme';
 import { useAuth } from '../../services/authContext';
 import { API_BASE_URL } from '../../database/syncManager';
 
-// ── TYPES ──
+// â”€â”€ TYPES â”€â”€
 export interface TimelinePost {
   id: string;
   author_name: string;
@@ -55,12 +55,12 @@ interface ForumTopic {
   hasUpvoted?: boolean;
 }
 
-// ── SEED DATA ──
+// â”€â”€ SEED DATA â”€â”€
 const PRESET_PHOTOS = [
-  { label: '👑 Lipakala Festival', url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80' },
-  { label: '💡 Solar Streetlights', url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80' },
-  { label: '🧵 Adire Indigo Crafts', url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80' },
-  { label: '🛡️ Joint Security Patrol', url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'ðŸ‘‘ Lipakala Festival', url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'ðŸ’¡ Solar Streetlights', url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'ðŸ§µ Adire Indigo Crafts', url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80' },
+  { label: 'ðŸ›¡ï¸ Joint Security Patrol', url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80' },
 ];
 
 const QUARTERS = ['Oke-Ogere', 'Wasimi Quarter', 'Ijana Quarter', 'Orile-Ogere', 'Expressway Axis', 'Diaspora'];
@@ -72,15 +72,15 @@ const SEED_TIMELINE_POSTS: TimelinePost[] = [
     author_name: 'HRH Ologere Palace Secretariat',
     author_role: 'Royal Court Protocol',
     author_quarter: 'Oke-Ogere',
-    author_avatar: '👑',
-    content_text: 'E ku odun, e ku iye dun! 🌟 Preparations for the 50th Golden Jubilee Lipakala Festival are in full gear at Aafin Ologere. Youth cultural troupes and age-grade groups are invited for ceremonial auditions this Saturday. Let us celebrate our royal heritage with dignity and harmony! #OgereRemo #LipakalaJubilee',
+    author_avatar: 'ðŸ‘‘',
+    content_text: 'E ku odun, e ku iye dun! ðŸŒŸ Preparations for the 50th Golden Jubilee Lipakala Festival are in full gear at Aafin Ologere. Youth cultural troupes and age-grade groups are invited for ceremonial auditions this Saturday. Let us celebrate our royal heritage with dignity and harmony! #OgereRemo #LipakalaJubilee',
     image_url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80',
     audience: 'Public Feed',
     likes_count: 64,
     comments_count: 2,
     comments: [
-      { id: 'c1', author_name: 'Chief Olatunji Orowa', author_avatar: '🏛️', comment_text: 'Kabiyeesi o! The elders of Kankanbina are fully ready with the ancestral masquerade troupe.', created_at: new Date(Date.now() - 3600000 * 3).toISOString() },
-      { id: 'c2', author_name: 'Segun Adebayo (Youth President)', author_avatar: '🦅', comment_text: 'The youth wing has registered over 120 volunteers for crowd marshaling and logistics!', created_at: new Date(Date.now() - 3600000 * 2).toISOString() }
+      { id: 'c1', author_name: 'Chief Olatunji Orowa', author_avatar: 'ðŸ›ï¸', comment_text: 'Kabiyeesi o! The elders of Kankanbina are fully ready with the ancestral masquerade troupe.', created_at: new Date(Date.now() - 3600000 * 3).toISOString() },
+      { id: 'c2', author_name: 'Segun Adebayo (Youth President)', author_avatar: 'ðŸ¦…', comment_text: 'The youth wing has registered over 120 volunteers for crowd marshaling and logistics!', created_at: new Date(Date.now() - 3600000 * 2).toISOString() }
     ],
     created_at: new Date(Date.now() - 3600000 * 4).toISOString(),
   },
@@ -89,14 +89,14 @@ const SEED_TIMELINE_POSTS: TimelinePost[] = [
     author_name: 'Engr. Dapo Saliu',
     author_role: 'Civic Infrastructure Taskforce',
     author_quarter: 'Wasimi Quarter',
-    author_avatar: '⚡',
-    content_text: 'Proud to share that Phase 2 of our Community Solar Streetlights project along the Wasimi-Ijana market corridor is officially completed! Over 45 high-lumen solar lamps are now active, keeping our night traders safe and vibrant. Big thanks to OCDA and our diaspora donors! 💡✨ #LightUpOgere',
+    author_avatar: 'âš¡',
+    content_text: 'Proud to share that Phase 2 of our Community Solar Streetlights project along the Wasimi-Ijana market corridor is officially completed! Over 45 high-lumen solar lamps are now active, keeping our night traders safe and vibrant. Big thanks to OCDA and our diaspora donors! ðŸ’¡âœ¨ #LightUpOgere',
     image_url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
     audience: 'Public Feed',
     likes_count: 92,
     comments_count: 1,
     comments: [
-      { id: 'c3', author_name: 'Iya Oloja Wasimi', author_avatar: '🧺', comment_text: 'Thank you Engr. Dapo! We can now sell our fresh farm produce till 9 PM with complete peace of mind.', created_at: new Date(Date.now() - 3600000 * 5).toISOString() }
+      { id: 'c3', author_name: 'Iya Oloja Wasimi', author_avatar: 'ðŸ§º', comment_text: 'Thank you Engr. Dapo! We can now sell our fresh farm produce till 9 PM with complete peace of mind.', created_at: new Date(Date.now() - 3600000 * 5).toISOString() }
     ],
     created_at: new Date(Date.now() - 3600000 * 8).toISOString(),
   },
@@ -105,14 +105,14 @@ const SEED_TIMELINE_POSTS: TimelinePost[] = [
     author_name: 'Mrs. Folashade Adeleke',
     author_role: 'Wasimi Adire Artisans Hub',
     author_quarter: 'Ijana Quarter',
-    author_avatar: '🎨',
-    content_text: 'Fresh batch of genuine Ogere Adire Eleko and indigo-dyed fabrics ready for the upcoming trade exhibition! Our young women apprentices spent 3 weeks perfecting these traditional patterns. Preserving our ancestral craft while creating sustainable livelihoods! 🧵💙 #MadeInOgere #AdireHeritage',
+    author_avatar: 'ðŸŽ¨',
+    content_text: 'Fresh batch of genuine Ogere Adire Eleko and indigo-dyed fabrics ready for the upcoming trade exhibition! Our young women apprentices spent 3 weeks perfecting these traditional patterns. Preserving our ancestral craft while creating sustainable livelihoods! ðŸ§µðŸ’™ #MadeInOgere #AdireHeritage',
     image_url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80',
     audience: 'Public Feed',
     likes_count: 51,
     comments_count: 1,
     comments: [
-      { id: 'c4', author_name: 'Dr. Folashade Adeyemi-Clark (London)', author_avatar: '✈️', comment_text: 'Can we order batches shipped to the UK diaspora chapter for our cultural gala next month?', created_at: new Date(Date.now() - 3600000 * 10).toISOString() }
+      { id: 'c4', author_name: 'Dr. Folashade Adeyemi-Clark (London)', author_avatar: 'âœˆï¸', comment_text: 'Can we order batches shipped to the UK diaspora chapter for our cultural gala next month?', created_at: new Date(Date.now() - 3600000 * 10).toISOString() }
     ],
     created_at: new Date(Date.now() - 3600000 * 16).toISOString(),
   },
@@ -121,8 +121,8 @@ const SEED_TIMELINE_POSTS: TimelinePost[] = [
     author_name: 'Commander Kayode Adeleke',
     author_role: 'Joint Patrol Commander',
     author_quarter: 'Expressway Axis',
-    author_avatar: '🛡️',
-    content_text: 'Security Advisory: Routine night patrols across the Sagamu-Benin Expressway interchange and inner ring-road corridors have been intensified. Please keep emergency speed dials handy in your Ogere Mobile App. If you notice any suspicious gathering, use the SOS beacon or Whistleblower hotline immediately. We remain on 24/7 guard! 🚓🚨 #OgereSafety',
+    author_avatar: 'ðŸ›¡ï¸',
+    content_text: 'Security Advisory: Routine night patrols across the Sagamu-Benin Expressway interchange and inner ring-road corridors have been intensified. Please keep emergency speed dials handy in your Ogere Mobile App. If you notice any suspicious gathering, use the SOS beacon or Whistleblower hotline immediately. We remain on 24/7 guard! ðŸš“ðŸš¨ #OgereSafety',
     image_url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80',
     audience: 'Public Feed',
     likes_count: 78,
@@ -185,7 +185,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   // Navigation main tab: 'timeline' or 'townhall'
   const [mainTab, setMainTab] = useState<'timeline' | 'townhall'>('timeline');
 
-  // ── TIMELINE STATE ──
+  // â”€â”€ TIMELINE STATE â”€â”€
   const [timelinePosts, setTimelinePosts] = useState<TimelinePost[]>(SEED_TIMELINE_POSTS);
   const [loadingTimeline, setLoadingTimeline] = useState(false);
   const [selectedQuarterFilter, setSelectedQuarterFilter] = useState('All');
@@ -210,7 +210,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [dmMessages, setDmMessages] = useState<Array<{ id: string; sender: string; text: string; time: string }>>([]);
   const [dmInputText, setDmInputText] = useState('');
 
-  // ── TOWN HALL STATE ──
+  // â”€â”€ TOWN HALL STATE â”€â”€
   const [topics, setTopics] = useState<ForumTopic[]>(SEED_TOPICS);
   const [selectedCategory, setSelectedCategory] = useState('All Topics');
   const [selectedTopic, setSelectedTopic] = useState<ForumTopic | null>(null);
@@ -255,7 +255,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
   };
 
-  // ── TIMELINE ACTIONS ──
+  // â”€â”€ TIMELINE ACTIONS â”€â”€
 
   // Publish Post ("What's on your mind?")
   const handleCreatePost = async () => {
@@ -270,7 +270,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       author_name: currentUserName,
       author_role: user?.role === 'ocda_admin' ? 'OCDA Admin' : user?.role === 'security_officer' ? 'Security Officer' : 'Verified Indigene',
       author_quarter: postQuarter,
-      author_avatar: user?.role === 'ocda_admin' ? '⚙️' : user?.role === 'security_officer' ? '🛡️' : '👑',
+      author_avatar: user?.role === 'ocda_admin' ? 'âš™ï¸' : user?.role === 'security_officer' ? 'ðŸ›¡ï¸' : 'ðŸ‘‘',
       content_text: postText.trim(),
       image_url: postImage.trim() || undefined,
       audience: postAudience,
@@ -287,7 +287,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     setPostText('');
     setPostImage('');
     setIsSubmittingPost(false);
-    Alert.alert('Published! 🎉', 'Your status update is now live on the Ogere Civic Timeline.');
+    Alert.alert('Published! ðŸŽ‰', 'Your status update is now live on the Ogere Civic Timeline.');
 
     // Sync to backend
     try {
@@ -339,7 +339,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
     const current = !!followingMap[authorName];
     setFollowingMap(prev => ({ ...prev, [authorName]: !current }));
-    Alert.alert('Social Network', !current ? `✓ You are now following ${authorName}` : `Unfollowed ${authorName}`);
+    Alert.alert('Social Network', !current ? `âœ“ You are now following ${authorName}` : `Unfollowed ${authorName}`);
 
     try {
       fetch(`${API_BASE_URL}/api/timeline`, {
@@ -358,7 +358,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
     const current = !!friendsMap[authorName];
     setFriendsMap(prev => ({ ...prev, [authorName]: !current }));
-    Alert.alert('Friends', !current ? `🤝 You and ${authorName} are now friends!` : `Removed ${authorName} from friends`);
+    Alert.alert('Friends', !current ? `ðŸ¤ You and ${authorName} are now friends!` : `Removed ${authorName} from friends`);
 
     try {
       fetch(`${API_BASE_URL}/api/timeline`, {
@@ -377,7 +377,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
     setActiveDmUser(targetUser);
     setDmMessages([
-      { id: '1', sender: targetUser, text: `Ẹ ku ọjọ oni! Hello ${currentUserName}, nice connecting on Ogere Civic network.`, time: 'Just now' }
+      { id: '1', sender: targetUser, text: `áº¸ ku á»já» oni! Hello ${currentUserName}, nice connecting on Ogere Civic network.`, time: 'Just now' }
     ]);
   };
 
@@ -426,7 +426,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const newComment = {
       id: `cmt-${Date.now()}`,
       author_name: currentUserName,
-      author_avatar: '👤',
+      author_avatar: 'ðŸ‘¤',
       comment_text: newCommentText.trim(),
       created_at: new Date().toISOString(),
     };
@@ -453,7 +453,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           action: 'add_comment',
           postId: activeCommentPost.id,
           author_name: currentUserName,
-          author_avatar: '👤',
+          author_avatar: 'ðŸ‘¤',
           comment_text: textToSend,
         }),
       });
@@ -465,7 +465,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     p => selectedQuarterFilter === 'All' || p.author_quarter === selectedQuarterFilter
   );
 
-  // ── TOWN HALL ACTIONS ──
+  // â”€â”€ TOWN HALL ACTIONS â”€â”€
   const filteredTopics = topics.filter(
     t => selectedCategory === 'All Topics' || t.category === selectedCategory
   );
@@ -544,13 +544,13 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         onBack={() => navigation.goBack()}
       />
 
-      {/* ── TOP SEGMENTED TAB SWITCHER ── */}
+      {/* â”€â”€ TOP SEGMENTED TAB SWITCHER â”€â”€ */}
       <View style={styles.tabSwitcherContainer}>
         <TouchableOpacity
           style={[styles.tabButton, mainTab === 'timeline' && styles.tabButtonActiveTimeline]}
           onPress={() => setMainTab('timeline')}
         >
-          <Text style={{ fontSize: 16 }}>📰</Text>
+          <Text style={{ fontSize: 16 }}>ðŸ“°</Text>
           <Text style={[styles.tabButtonText, mainTab === 'timeline' && styles.tabButtonTextActive]}>
             Civic Timeline
           </Text>
@@ -560,7 +560,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           style={[styles.tabButton, mainTab === 'townhall' && styles.tabButtonActiveTownhall]}
           onPress={() => setMainTab('townhall')}
         >
-          <Text style={{ fontSize: 16 }}>🏛️</Text>
+          <Text style={{ fontSize: 16 }}>ðŸ›ï¸</Text>
           <Text style={[styles.tabButtonText, mainTab === 'townhall' && styles.tabButtonTextActive]}>
             Town Hall Topics
           </Text>
@@ -576,7 +576,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Card style={styles.composerTriggerCard} onPress={() => setShowComposerModal(true)}>
             <View style={styles.composerPromptRow}>
               <View style={styles.authorAvatarCircle}>
-                <Text style={{ fontSize: 18 }}>👑</Text>
+                <Text style={{ fontSize: 18 }}>ðŸ‘‘</Text>
               </View>
               <View style={styles.composerPromptBubble}>
                 <Text style={styles.composerPromptText}>
@@ -587,15 +587,15 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
             <View style={styles.composerQuickBar}>
               <View style={styles.composerQuickItem}>
-                <Text style={{ fontSize: 16 }}>📸</Text>
+                <Text style={{ fontSize: 16 }}>ðŸ“¸</Text>
                 <Text style={styles.composerQuickLabel}>Photo</Text>
               </View>
               <View style={styles.composerQuickItem}>
-                <Text style={{ fontSize: 16 }}>✍️</Text>
+                <Text style={{ fontSize: 16 }}>âœï¸</Text>
                 <Text style={styles.composerQuickLabel}>Status</Text>
               </View>
               <View style={styles.composerQuickItem}>
-                <Text style={{ fontSize: 16 }}>📍</Text>
+                <Text style={{ fontSize: 16 }}>ðŸ“</Text>
                 <Text style={styles.composerQuickLabel}>Quarter</Text>
               </View>
             </View>
@@ -632,7 +632,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </View>
           ) : filteredTimelinePosts.length === 0 ? (
             <Card style={{ padding: 24, alignItems: 'center' }}>
-              <Text style={{ fontSize: 32, marginBottom: 8 }}>✍️</Text>
+              <Text style={{ fontSize: 32, marginBottom: 8 }}>âœï¸</Text>
               <Text style={{ fontSize: 16, fontWeight: '700', color: '#0f172a', marginBottom: 4 }}>No updates in {selectedQuarterFilter}</Text>
               <Text style={{ fontSize: 13, color: '#64748b', textAlign: 'center', marginBottom: 12 }}>
                 Be the first citizen to share what is on your mind!
@@ -653,21 +653,21 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                   <View style={styles.postHeaderRow}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
                       <View style={styles.authorAvatarCircle}>
-                        <Text style={{ fontSize: 18 }}>{post.author_avatar || '👤'}</Text>
+                        <Text style={{ fontSize: 18 }}>{post.author_avatar || 'ðŸ‘¤'}</Text>
                       </View>
 
                       <View style={{ flex: 1 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
                           <Text style={styles.authorNameText}>{post.author_name}</Text>
                           <View style={styles.verifiedBadge}>
-                            <Text style={{ color: '#ffffff', fontSize: 9, fontWeight: 'bold' }}>✓</Text>
+                            <Text style={{ color: '#ffffff', fontSize: 9, fontWeight: 'bold' }}>âœ“</Text>
                           </View>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 }}>
                           <Text style={styles.quarterBadgeText}>{post.author_quarter || 'Oke-Ogere'}</Text>
-                          <Text style={{ color: '#94a3b8', fontSize: 11 }}>•</Text>
+                          <Text style={{ color: '#94a3b8', fontSize: 11 }}>â€¢</Text>
                           <Text style={styles.timeAgoText}>{formatRelativeTime(post.created_at)}</Text>
-                          <Text style={{ color: '#94a3b8', fontSize: 11 }}>• 🌐</Text>
+                          <Text style={{ color: '#94a3b8', fontSize: 11 }}>â€¢ ðŸŒ</Text>
                         </View>
                       </View>
                     </View>
@@ -681,7 +681,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                         onPress={() => handleToggleFollow(post.author_name)}
                       >
                         <Text style={[styles.socialPillText, isFollowing && styles.socialPillTextActive]}>
-                          {isFollowing ? '✓ Following' : '+ Follow'}
+                          {isFollowing ? 'âœ“ Following' : '+ Follow'}
                         </Text>
                       </TouchableOpacity>
 
@@ -690,7 +690,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                         onPress={() => handleToggleFriend(post.author_name)}
                       >
                         <Text style={[styles.socialPillText, isFriend && styles.socialPillFriendTextActive]}>
-                          {isFriend ? '🤝 Friends' : '👤+ Add Friend'}
+                          {isFriend ? 'ðŸ¤ Friends' : 'ðŸ‘¤+ Add Friend'}
                         </Text>
                       </TouchableOpacity>
 
@@ -698,7 +698,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                         style={styles.messagePill}
                         onPress={() => handleOpenDirectMessage(post.author_name)}
                       >
-                        <Text style={styles.messagePillText}>✉️ Message</Text>
+                        <Text style={styles.messagePillText}>âœ‰ï¸ Message</Text>
                       </TouchableOpacity>
                     </View>
                   )}
@@ -722,7 +722,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                   {/* Reactions Summary */}
                   <View style={styles.postMetaRow}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                      <Text style={{ fontSize: 13 }}>👍❤️</Text>
+                      <Text style={{ fontSize: 13 }}>ðŸ‘â¤ï¸</Text>
                       <Text style={styles.postMetaText}>{post.likes_count}</Text>
                     </View>
                     <TouchableOpacity onPress={() => setActiveCommentPost(post)}>
@@ -738,7 +738,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                       style={styles.socialActionBtn}
                       onPress={() => handleToggleLike(post.id)}
                     >
-                      <Text style={{ fontSize: 16 }}>{post.hasLiked ? '👍' : '👍'}</Text>
+                      <Text style={{ fontSize: 16 }}>{post.hasLiked ? 'ðŸ‘' : 'ðŸ‘'}</Text>
                       <Text style={[styles.socialActionText, post.hasLiked && styles.socialActionTextActive]}>
                         {post.hasLiked ? 'Liked' : 'Like'}
                       </Text>
@@ -748,7 +748,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                       style={styles.socialActionBtn}
                       onPress={() => setActiveCommentPost(post)}
                     >
-                      <Text style={{ fontSize: 16 }}>💬</Text>
+                      <Text style={{ fontSize: 16 }}>ðŸ’¬</Text>
                       <Text style={styles.socialActionText}>Comment</Text>
                     </TouchableOpacity>
 
@@ -756,7 +756,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                       style={styles.socialActionBtn}
                       onPress={() => handleSharePost(post)}
                     >
-                      <Text style={{ fontSize: 16 }}>↗️</Text>
+                      <Text style={{ fontSize: 16 }}>â†—ï¸</Text>
                       <Text style={styles.socialActionText}>Share</Text>
                     </TouchableOpacity>
                   </View>
@@ -798,7 +798,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
           <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
             <View style={styles.bannerBox}>
-              <Text style={{ fontSize: 24 }}>🏛️</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ›ï¸</Text>
               <View style={{ flex: 1 }}>
                 <Text style={styles.bannerTitle}>Democratic Town Hall Deliberations</Text>
                 <Text style={styles.bannerSub}>
@@ -841,14 +841,14 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                     style={[styles.upvoteBtn, topic.hasUpvoted && styles.upvoteBtnActive]}
                     onPress={() => handleToggleUpvote(topic.id)}
                   >
-                    <Text style={{ fontSize: 13 }}>👍</Text>
+                    <Text style={{ fontSize: 13 }}>ðŸ‘</Text>
                     <Text style={[styles.upvoteCount, topic.hasUpvoted && styles.upvoteCountActive]}>
                       {topic.upvotes}
                     </Text>
                   </TouchableOpacity>
 
                   <View style={styles.commentCountBox}>
-                    <Text style={{ fontSize: 13 }}>💬</Text>
+                    <Text style={{ fontSize: 13 }}>ðŸ’¬</Text>
                     <Text style={styles.commentCountText}>{topic.commentsCount} replies</Text>
                   </View>
                 </View>
@@ -872,7 +872,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeading}>What's On Your Mind?</Text>
               <TouchableOpacity onPress={() => setShowComposerModal(false)}>
-                <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 
@@ -940,7 +940,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <View style={styles.modalImagePreviewBox}>
                   <Image source={{ uri: postImage }} style={styles.modalImagePreview} resizeMode="cover" />
                   <TouchableOpacity style={styles.removeImageBtn} onPress={() => setPostImage('')}>
-                    <Text style={{ color: '#ffffff', fontWeight: 'bold' }}>✕</Text>
+                    <Text style={{ color: '#ffffff', fontWeight: 'bold' }}>âœ•</Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -952,7 +952,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               disabled={isSubmittingPost}
             >
               <Text style={styles.publishPostBtnText}>
-                {isSubmittingPost ? 'Publishing...' : 'Post to Civic Timeline 🚀'}
+                {isSubmittingPost ? 'Publishing...' : 'Post to Civic Timeline ðŸš€'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -973,7 +973,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeading}>Comments</Text>
               <TouchableOpacity onPress={() => setActiveCommentPost(null)}>
-                <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 
@@ -982,7 +982,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 activeCommentPost.comments.map(cmt => (
                   <View key={cmt.id} style={styles.commentItemRow}>
                     <View style={styles.commentAvatarCircle}>
-                      <Text style={{ fontSize: 13 }}>{cmt.author_avatar || '👤'}</Text>
+                      <Text style={{ fontSize: 13 }}>{cmt.author_avatar || 'ðŸ‘¤'}</Text>
                     </View>
                     <View style={styles.commentBubbleBox}>
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
@@ -1034,14 +1034,14 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <View style={styles.modalCard}>
             <View style={styles.modalHeader}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                <Text style={{ fontSize: 18 }}>✉️</Text>
+                <Text style={{ fontSize: 18 }}>âœ‰ï¸</Text>
                 <View>
                   <Text style={styles.modalHeading}>{activeDmUser}</Text>
                   <Text style={{ fontSize: 11, color: '#64748b' }}>Ogere Civic Direct Message</Text>
                 </View>
               </View>
               <TouchableOpacity onPress={() => setActiveDmUser(null)}>
-                <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 
@@ -1094,11 +1094,11 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                     <Text style={styles.modalCat}>{selectedTopic.category.toUpperCase()}</Text>
                     <Text style={styles.modalTopicTitle}>{selectedTopic.title}</Text>
                     <Text style={styles.modalAuthor}>
-                      Proposed by {selectedTopic.author} · {selectedTopic.timeAgo}
+                      Proposed by {selectedTopic.author} Â· {selectedTopic.timeAgo}
                     </Text>
                   </View>
                   <TouchableOpacity onPress={() => setSelectedTopic(null)}>
-                    <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                    <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -1148,7 +1148,7 @@ export const ForumScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeading}>New Community Proposal</Text>
               <TouchableOpacity onPress={() => setShowNewTopicModal(false)}>
-                <Text style={{ fontSize: 20, color: '#64748b' }}>✕</Text>
+                <Text style={{ fontSize: 20, color: '#64748b' }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 

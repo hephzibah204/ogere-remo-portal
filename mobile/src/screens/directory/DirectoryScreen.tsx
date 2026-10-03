@@ -21,16 +21,16 @@ import {
   SeedBusinessItem,
 } from '../../database/sqlite';
 
-const TABS = ['🚨 Emergency & Rescue', '🛡️ Safety Bulletins', '🏢 Business Directory'];
+const TABS = ['ðŸš¨ Emergency & Rescue', 'ðŸ›¡ï¸ Safety Bulletins', 'ðŸ¢ Business Directory'];
 
 const EXPANDED_EMERGENCY = [
   {
     id: 'em-frsc',
     service: 'FRSC Expressway Highway Patrol & Rescue',
     phone: '122',
-    location: 'KM 66 Lagos–Ibadan Expressway, Ogere Outpost',
+    location: 'KM 66 Lagosâ€“Ibadan Expressway, Ogere Outpost',
     availableHours: '24/7 National Emergency Hotline',
-    icon: '🚑',
+    icon: 'ðŸš‘',
     priority: 'HIGHWAY CRASH / RESCUE',
   },
   {
@@ -39,7 +39,7 @@ const EXPANDED_EMERGENCY = [
     phone: '08034567890',
     location: 'Palace Way, Ogere Remo',
     availableHours: '24/7 Rapid Crime & Security Response',
-    icon: '🚓',
+    icon: 'ðŸš“',
     priority: 'SECURITY / CRIME',
   },
   {
@@ -48,7 +48,7 @@ const EXPANDED_EMERGENCY = [
     phone: '08123456781',
     location: 'Isale-Ogere Hospital Road',
     availableHours: '24 Hours Emergency Ward & Ambulance',
-    icon: '🏥',
+    icon: 'ðŸ¥',
     priority: 'MEDICAL / TRAUMA',
   },
   {
@@ -57,7 +57,7 @@ const EXPANDED_EMERGENCY = [
     phone: '112',
     location: 'Sagamu / Ogere Corridor Station',
     availableHours: '24/7 Chemical & Fire Response',
-    icon: '🚒',
+    icon: 'ðŸš’',
     priority: 'FIRE / TANKER SPILL',
   },
   {
@@ -66,7 +66,7 @@ const EXPANDED_EMERGENCY = [
     phone: '08023456789',
     location: 'Aafin Ologere Council Secretariat',
     availableHours: '24/7 Community Peace & Vigilante',
-    icon: '🛡️',
+    icon: 'ðŸ›¡ï¸',
     priority: 'COMMUNITY WATCH',
   },
 ];
@@ -126,7 +126,7 @@ const FIRST_AID_GUIDES = [
     steps: [
       '1. Check responsiveness and shout for emergency assistance.',
       '2. Place hands centered on the chest (heel of hand on lower breastbone).',
-      '3. Push hard and fast (100–120 compressions per minute, 2 inches deep).',
+      '3. Push hard and fast (100â€“120 compressions per minute, 2 inches deep).',
       '4. Maintain continuous compressions until professional paramedics arrive.',
     ],
   },
@@ -185,7 +185,7 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
           <View style={styles.sectionGap}>
             <View style={styles.sosBanner}>
               <View style={{ flex: 1 }}>
-                <Text style={styles.sosBannerTitle}>🚨 Emergency Rapid Dispatch</Text>
+                <Text style={styles.sosBannerTitle}>ðŸš¨ Emergency Rapid Dispatch</Text>
                 <Text style={styles.sosBannerDesc}>
                   Direct 24/7 phone lines connected to Ogere Remo corridor first responders.
                 </Text>
@@ -204,8 +204,8 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
                         <Text style={styles.priorityBadgeText}>{item.priority}</Text>
                       </View>
                       <Text style={styles.emService}>{item.service}</Text>
-                      <Text style={styles.emLocation}>📍 {item.location}</Text>
-                      <Text style={styles.emHours}>🕒 {item.availableHours}</Text>
+                      <Text style={styles.emLocation}>ðŸ“ {item.location}</Text>
+                      <Text style={styles.emHours}>ðŸ•’ {item.availableHours}</Text>
                     </View>
                   </View>
 
@@ -214,7 +214,7 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
                     style={styles.callBtn}
                     activeOpacity={0.8}
                   >
-                    <Text style={styles.callBtnText}>⚡ SPEED DIAL: {item.phone}</Text>
+                    <Text style={styles.callBtnText}>âš¡ SPEED DIAL: {item.phone}</Text>
                   </TouchableOpacity>
                 </Card>
               ))}
@@ -222,7 +222,7 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
 
             {/* Offline First-Aid & Emergency Procedures */}
             <View style={{ marginTop: Spacing.md }}>
-              <Text style={styles.subHeading}>📖 Offline Emergency First-Aid Guides</Text>
+              <Text style={styles.subHeading}>ðŸ“– Offline Emergency First-Aid Guides</Text>
               <Text style={styles.subSubtitle}>
                 Crucial survival protocols cached locally for instant access anytime.
               </Text>
@@ -230,7 +230,7 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
               <View style={styles.guidesList}>
                 {FIRST_AID_GUIDES.map((guide, idx) => (
                   <Card key={idx} style={styles.guideCard}>
-                    <Text style={styles.guideTitle}>⚠️ {guide.title}</Text>
+                    <Text style={styles.guideTitle}>âš ï¸ {guide.title}</Text>
                     {guide.steps.map((step, sIdx) => (
                       <Text key={sIdx} style={styles.guideStep}>{step}</Text>
                     ))}
@@ -244,7 +244,7 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
         {/* TAB 2: SAFETY ADVISORIES */}
         {activeTab === TABS[1] && (
           <View style={styles.sectionGap}>
-            <Text style={styles.subHeading}>🛡️ Active Security & Traffic Bulletins</Text>
+            <Text style={styles.subHeading}>ðŸ›¡ï¸ Active Security & Traffic Bulletins</Text>
             <Text style={styles.subSubtitle}>
               Official community safety alerts issued by the Palace and FRSC Outpost.
             </Text>
@@ -270,14 +270,14 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
         {/* TAB 3: BUSINESS DIRECTORY */}
         {activeTab === TABS[2] && (
           <View style={styles.sectionGap}>
-            <Text style={styles.subHeading}>🏢 Verified Community Businesses</Text>
+            <Text style={styles.subHeading}>ðŸ¢ Verified Community Businesses</Text>
             <Text style={styles.subSubtitle}>
               Local commerce, logistics, tech hubs, and services in Ogere Remo.
             </Text>
 
             <TextInput
               style={styles.searchInput}
-              placeholder="🔍 Search businesses or category..."
+              placeholder="ðŸ” Search businesses or category..."
               placeholderTextColor={Colors.textMuted}
               value={search}
               onChangeText={setSearch}
@@ -300,7 +300,7 @@ export const DirectoryScreen: React.FC<{ navigation?: any }> = ({ navigation }) 
                   </View>
 
                   <Text style={styles.bizDesc}>{biz.description}</Text>
-                  <Text style={styles.bizAddress}>📍 {biz.address}</Text>
+                  <Text style={styles.bizAddress}>ðŸ“ {biz.address}</Text>
 
                   <View style={styles.bizActions}>
                     <TouchableOpacity

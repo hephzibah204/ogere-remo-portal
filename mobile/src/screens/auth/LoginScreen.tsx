@@ -59,10 +59,10 @@ export const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           {/* Header */}
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-              <Text style={styles.backBtnText}>← Back</Text>
+              <Text style={styles.backBtnText}>â† Back</Text>
             </TouchableOpacity>
             <View style={styles.sealBadge}>
-              <Text style={styles.sealText}>👑</Text>
+              <Text style={styles.sealText}>ðŸ‘‘</Text>
             </View>
             <Text style={styles.title}>Citizen Sign In</Text>
             <Text style={styles.subtitle}>
@@ -100,7 +100,7 @@ export const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               </View>
               <TextInput
                 style={styles.input}
-                placeholder="••••••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 placeholderTextColor={Colors.textMuted}
                 value={password}
                 onChangeText={setPassword}

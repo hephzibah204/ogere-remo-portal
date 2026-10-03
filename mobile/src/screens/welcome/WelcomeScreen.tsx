@@ -17,21 +17,21 @@ const { width } = Dimensions.get('window');
 
 const SLIDES = [
   {
-    icon: '👑',
+    icon: 'ðŸ‘‘',
     title: 'Welcome to Ogere Remo',
     subtitle: 'Gateway Kingdom of Heritage & Enterprise',
     description:
       'The official mobile portal of the ancient Remo kingdom. Connecting indigenes, residents, and diaspora citizens worldwide.',
   },
   {
-    icon: '📱',
+    icon: 'ðŸ“±',
     title: '100% Offline Access',
     subtitle: 'Civic Knowledge in Your Pocket',
     description:
       'Read palace news, study the lineage of the Ologere of Ogere, listen to traditional Oriki, and access emergency helplines even without mobile data.',
   },
   {
-    icon: '🏛️',
+    icon: 'ðŸ›ï¸',
     title: 'World-Class Civic Services',
     subtitle: 'Direct Palace & Community Portal',
     description:
@@ -53,8 +53,8 @@ export const WelcomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
 
       {/* Royal Header Badge */}
       <View style={styles.headerBadge}>
-        <Text style={styles.sealEmoji}>🏛️</Text>
-        <Text style={styles.headerState}>OGUN STATE · NIGERIA</Text>
+        <Text style={styles.sealEmoji}>ðŸ›ï¸</Text>
+        <Text style={styles.headerState}>OGUN STATE Â· NIGERIA</Text>
       </View>
 
       {/* Carousel Section */}
@@ -109,7 +109,7 @@ export const WelcomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
           activeOpacity={0.7}
         >
           <Text style={styles.guestLinkText}>
-            Explore as Guest · No Sign In Required ➔
+            Explore as Guest Â· No Sign In Required âž”
           </Text>
         </TouchableOpacity>
 
@@ -119,12 +119,12 @@ export const WelcomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
           style={styles.officerTerminalBtn}
           activeOpacity={0.8}
         >
-          <Text style={styles.officerTerminalEmoji}>🛡️</Text>
+          <Text style={styles.officerTerminalEmoji}>ðŸ›¡ï¸</Text>
           <View style={{ flex: 1 }}>
             <Text style={styles.officerTerminalTitle}>Security & Palace Protocol Portal</Text>
-            <Text style={styles.officerTerminalSub}>Police · Vigilante · Protocol · OCDA Admin</Text>
+            <Text style={styles.officerTerminalSub}>Police Â· Vigilante Â· Protocol Â· OCDA Admin</Text>
           </View>
-          <Text style={styles.officerTerminalArrow}>➔</Text>
+          <Text style={styles.officerTerminalArrow}>âž”</Text>
         </TouchableOpacity>
 
         <Text style={styles.disclaimer}>

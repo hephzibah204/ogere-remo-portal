@@ -42,25 +42,25 @@ const EMERGENCY_SERVICES = [
   {
     title: 'FRSC Expressway Rescue',
     phone: '122',
-    icon: '🚑',
+    icon: 'ðŸš‘',
     desc: 'Highway collisions, vehicular entrapment, medical evacuation',
   },
   {
     title: 'Police Divisional Command',
     phone: '08034567890',
-    icon: '🚓',
+    icon: 'ðŸš“',
     desc: 'Armed robbery, violent crime, highway banditry, security threat',
   },
   {
     title: 'Ogere Hospital Emergency',
     phone: '08123456781',
-    icon: '🏥',
+    icon: 'ðŸ¥',
     desc: 'Trauma ward, urgent blood dispatch, cardiac / respiratory crisis',
   },
   {
     title: 'Palace Security & Vigilante',
     phone: '08023456789',
-    icon: '🛡️',
+    icon: 'ðŸ›¡ï¸',
     desc: 'Community night watch, local dispute containment, neighborhood watch',
   },
 ];
@@ -125,7 +125,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
     const dev = currentLoc?.device;
 
     const cat = categoryOverride || (isSilent ? 'ARMED ROBBERY / HOSTAGE (SILENT)' : 'CRITICAL SOS BROADCAST');
-    const accuracyText = accuracy ? ` (GPS Accuracy: ±${Math.round(accuracy)}m)` : '';
+    const accuracyText = accuracy ? ` (GPS Accuracy: Â±${Math.round(accuracy)}m)` : '';
 
     const payload = {
       category: cat,
@@ -192,11 +192,11 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
 
     if (isSilent) {
       Alert.alert(
-        '🤫 SILENT PANIC TRANSMITTED',
-        `Covert GPS & Sector distress signal sent to Ogere Police DPO & Patrol Command for ${selectedSector.name}.\n\n📍 Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}\n🌐 IP: ${ipAddress}\n\nResponse teams are alerted for non-siren tactical approach. Stay quiet and seek cover.`,
+        'ðŸ¤« SILENT PANIC TRANSMITTED',
+        `Covert GPS & Sector distress signal sent to Ogere Police DPO & Patrol Command for ${selectedSector.name}.\n\nðŸ“ Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}\nðŸŒ IP: ${ipAddress}\n\nResponse teams are alerted for non-siren tactical approach. Stay quiet and seek cover.`,
         [
           {
-            text: '🗺️ View My Google Maps Pin',
+            text: 'ðŸ—ºï¸ View My Google Maps Pin',
             onPress: () => openInGoogleMaps(lat, lng),
           },
           { text: 'Dismiss Screen Silently', onPress: onClose },
@@ -206,11 +206,11 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
     }
 
     Alert.alert(
-      '🚨 SOS BROADCAST SENT',
-      `Emergency broadcast recorded for ${selectedSector.name}.\n\n📍 Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}\n🌐 IP: ${ipAddress}\n\nFirst responders and Palace Security have been dispatched to your exact coordinates.`,
+      'ðŸš¨ SOS BROADCAST SENT',
+      `Emergency broadcast recorded for ${selectedSector.name}.\n\nðŸ“ Exact GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}${accuracyText}\nðŸŒ IP: ${ipAddress}\n\nFirst responders and Palace Security have been dispatched to your exact coordinates.`,
       [
         {
-          text: '🗺️ View Location on Google Maps',
+          text: 'ðŸ—ºï¸ View Location on Google Maps',
           onPress: () => openInGoogleMaps(lat, lng),
         },
         {
@@ -242,14 +242,14 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.sirenCircle}>
-              <Text style={{ fontSize: 28 }}>🚨</Text>
+              <Text style={{ fontSize: 28 }}>ðŸš¨</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.title}>OGERE EMERGENCY SOS</Text>
               <Text style={styles.subtitle}>Rapid Security & Rescue Dispatch</Text>
             </View>
             <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-              <Text style={styles.closeBtnText}>✕</Text>
+              <Text style={styles.closeBtnText}>âœ•</Text>
             </TouchableOpacity>
           </View>
 
@@ -258,7 +258,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
             {liveState.isActive && (
               <View style={styles.liveRadarCard}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <Text style={styles.liveRadarTitle}>🟢 LIVE TRACKING ACTIVE</Text>
+                  <Text style={styles.liveRadarTitle}>ðŸŸ¢ LIVE TRACKING ACTIVE</Text>
                   <TouchableOpacity onPress={() => liveTrackingService.stopTracking()} style={styles.stopLiveBtn}>
                     <Text style={styles.stopLiveBtnText}>End Sharing</Text>
                   </TouchableOpacity>
@@ -274,32 +274,32 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
               </View>
             )}
 
-            {/* ── Device Telemetry HUD ── */}
+            {/* â”€â”€ Device Telemetry HUD â”€â”€ */}
             <View style={styles.deviceHud}>
               <View style={styles.deviceHudHeader}>
-                <Text style={styles.deviceHudTitle}>🛰️ DEVICE INTELLIGENCE {isLocating ? '— Acquiring...' : '— Ready'}</Text>
+                <Text style={styles.deviceHudTitle}>ðŸ›°ï¸ DEVICE INTELLIGENCE {isLocating ? 'â€” Acquiring...' : 'â€” Ready'}</Text>
                 {!isLocating && (
                   <TouchableOpacity onPress={() => {
                     setIsLocating(true);
                     getExactDeviceLocation().then(setDeviceLoc).finally(() => setIsLocating(false));
                   }}>
-                    <Text style={styles.deviceHudRefresh}>🔄</Text>
+                    <Text style={styles.deviceHudRefresh}>ðŸ”„</Text>
                   </TouchableOpacity>
                 )}
               </View>
               {deviceLoc?.ogereLocation && (
                 <View style={{ backgroundColor: 'rgba(56, 189, 248, 0.1)', borderColor: '#38bdf8', borderWidth: 1, borderRadius: 6, padding: 6, marginBottom: 6 }}>
-                  <Text style={{ color: '#38bdf8', fontSize: 10, fontWeight: '800' }}>📍 OGERE REMO PINPOINT:</Text>
+                  <Text style={{ color: '#38bdf8', fontSize: 10, fontWeight: '800' }}>ðŸ“ OGERE REMO PINPOINT:</Text>
                   <Text style={{ color: '#ffffff', fontSize: 11, fontWeight: '700', marginTop: 1 }}>{deviceLoc.ogereLocation.formattedText}</Text>
                   <Text style={{ color: '#94a3b8', fontSize: 9, marginTop: 1 }}>
-                    Sector: {deviceLoc.ogereLocation.sector} · 🚓 ~{deviceLoc.ogereLocation.distanceToPolice}m to Ogere Police HQ
+                    Sector: {deviceLoc.ogereLocation.sector} Â· ðŸš“ ~{deviceLoc.ogereLocation.distanceToPolice}m to Ogere Police HQ
                   </Text>
                 </View>
               )}
               {!deviceLoc?.isInsideOgere && deviceLoc && (
                 <View style={{ backgroundColor: 'rgba(234, 88, 12, 0.15)', borderColor: '#f97316', borderWidth: 1, borderRadius: 6, padding: 6, marginBottom: 6 }}>
                   <Text style={{ color: '#fdba74', fontSize: 9, fontWeight: '700' }}>
-                    ⚠️ Network/IP detected outside Ogere Remo ({Math.round((deviceLoc.ogereLocation?.nearestLandmarkDistance || 0) / 1000)}km). Your selected sector below will ensure local dispatch.
+                    âš ï¸ Network/IP detected outside Ogere Remo ({Math.round((deviceLoc.ogereLocation?.nearestLandmarkDistance || 0) / 1000)}km). Your selected sector below will ensure local dispatch.
                   </Text>
                 </View>
               )}
@@ -307,27 +307,27 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                 <View style={styles.deviceHudItem}>
                   <Text style={styles.deviceHudLabel}>GPS</Text>
                   <Text style={styles.deviceHudValue} numberOfLines={1}>
-                    {deviceLoc ? `${deviceLoc.latitude.toFixed(4)}, ${deviceLoc.longitude.toFixed(4)}` : '—'}
+                    {deviceLoc ? `${deviceLoc.latitude.toFixed(4)}, ${deviceLoc.longitude.toFixed(4)}` : 'â€”'}
                   </Text>
                 </View>
                 <View style={styles.deviceHudItem}>
                   <Text style={styles.deviceHudLabel}>ACCURACY</Text>
                   <Text style={[styles.deviceHudValue, { color: deviceLoc?.isGpsPrecise ? '#4ade80' : '#fde047' }]}>
-                    {deviceLoc?.accuracy ? `±${Math.round(deviceLoc.accuracy)}m` : '—'}
+                    {deviceLoc?.accuracy ? `Â±${Math.round(deviceLoc.accuracy)}m` : 'â€”'}
                   </Text>
                 </View>
                 <View style={styles.deviceHudItem}>
                   <Text style={styles.deviceHudLabel}>PUBLIC IP</Text>
-                  <Text style={styles.deviceHudValue} numberOfLines={1}>{deviceLoc?.ipAddress || '—'}</Text>
+                  <Text style={styles.deviceHudValue} numberOfLines={1}>{deviceLoc?.ipAddress || 'â€”'}</Text>
                 </View>
                 <View style={styles.deviceHudItem}>
                   <Text style={styles.deviceHudLabel}>DEVICE</Text>
-                  <Text style={styles.deviceHudValue} numberOfLines={1}>{deviceLoc?.device?.deviceModel || '—'}</Text>
+                  <Text style={styles.deviceHudValue} numberOfLines={1}>{deviceLoc?.device?.deviceModel || 'â€”'}</Text>
                 </View>
                 <View style={styles.deviceHudItem}>
                   <Text style={styles.deviceHudLabel}>OS</Text>
                   <Text style={styles.deviceHudValue}>
-                    {deviceLoc?.device ? `${deviceLoc.device.platform.toUpperCase()} ${deviceLoc.device.osVersion}` : '—'}
+                    {deviceLoc?.device ? `${deviceLoc.device.platform.toUpperCase()} ${deviceLoc.device.osVersion}` : 'â€”'}
                   </Text>
                 </View>
                 <View style={styles.deviceHudItem}>
@@ -337,15 +337,15 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                          : deviceLoc?.device?.networkType === 'cellular' ? '#38bdf8' : '#fde047'
                   }]}>
                     {deviceLoc?.device?.networkType === 'cellular'
-                      ? `${(deviceLoc.device.networkGeneration || 'Cell').toUpperCase()} · ${deviceLoc.device.carrier || '?'}`
-                      : (deviceLoc?.device?.networkType || '—').toUpperCase()}
+                      ? `${(deviceLoc.device.networkGeneration || 'Cell').toUpperCase()} Â· ${deviceLoc.device.carrier || '?'}`
+                      : (deviceLoc?.device?.networkType || 'â€”').toUpperCase()}
                   </Text>
                 </View>
                 {(deviceLoc?.device?.batteryLevel ?? null) !== null && (
                   <View style={styles.deviceHudItem}>
                     <Text style={styles.deviceHudLabel}>BATTERY</Text>
                     <Text style={[styles.deviceHudValue, { color: (deviceLoc!.device!.batteryLevel! > 20) ? '#4ade80' : '#ef4444' }]}>
-                      {deviceLoc!.device!.batteryLevel}%{deviceLoc!.device!.isCharging ? ' ⚡' : ''}
+                      {deviceLoc!.device!.batteryLevel}%{deviceLoc!.device!.isCharging ? ' âš¡' : ''}
                     </Text>
                   </View>
                 )}
@@ -361,11 +361,11 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                   const loc = await getExactDeviceLocation();
                   setDeviceLoc(loc);
                   Alert.alert(
-                    '📍 Actual Location Captured',
-                    `Exact GPS: ${loc.latitude.toFixed(5)}°N, ${loc.longitude.toFixed(5)}°E\nAccuracy: ±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m (${loc.ogereLocation?.accuracyRating})\nPinpoint: ${loc.ogereLocation?.formattedText || 'Acquired'}\nBattery: ${loc.device?.batteryLevel != null ? loc.device.batteryLevel + '%' : '?'}${loc.device?.isCharging ? ' ⚡ Charging' : ''}\nPublic IP: ${loc.ipAddress}`,
+                    'ðŸ“ Actual Location Captured',
+                    `Exact GPS: ${loc.latitude.toFixed(5)}Â°N, ${loc.longitude.toFixed(5)}Â°E\nAccuracy: Â±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m (${loc.ogereLocation?.accuracyRating})\nPinpoint: ${loc.ogereLocation?.formattedText || 'Acquired'}\nBattery: ${loc.device?.batteryLevel != null ? loc.device.batteryLevel + '%' : '?'}${loc.device?.isCharging ? ' âš¡ Charging' : ''}\nPublic IP: ${loc.ipAddress}`,
                     [
                       {
-                        text: '🛰️ Preview Satellite Pin',
+                        text: 'ðŸ›°ï¸ Preview Satellite Pin',
                         onPress: () => openInGoogleMaps(loc.latitude, loc.longitude, 'Ogere Distress Location', true),
                       },
                       { text: 'Done', style: 'default' },
@@ -386,9 +386,9 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                 </View>
               ) : (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Text style={{ fontSize: 16 }}>📍</Text>
+                  <Text style={{ fontSize: 16 }}>ðŸ“</Text>
                   <Text style={styles.getCurrentLocBtnText}>
-                    {deviceLoc ? '📍 Refresh My Actual Current Location' : '📍 Get My Actual Current Location'}
+                    {deviceLoc ? 'ðŸ“ Refresh My Actual Current Location' : 'ðŸ“ Get My Actual Current Location'}
                   </Text>
                 </View>
               )}
@@ -421,7 +421,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
             {/* Live Camera & Ambient Audio Evidence Toggles */}
             <View style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: 10, marginVertical: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
               <Text style={{ color: '#fca5a5', fontSize: 11, fontWeight: '700', marginBottom: 6 }}>
-                📡 LIVE SURVEILLANCE EVIDENCE (OPTIONAL)
+                ðŸ“¡ LIVE SURVEILLANCE EVIDENCE (OPTIONAL)
               </Text>
               <View style={{ flexDirection: 'row', gap: 8 }}>
                 <TouchableOpacity
@@ -437,7 +437,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                   }}
                 >
                   <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>
-                    📹 {shareCamera ? 'Camera: ON' : 'Share Camera'}
+                    ðŸ“¹ {shareCamera ? 'Camera: ON' : 'Share Camera'}
                   </Text>
                 </TouchableOpacity>
 
@@ -454,13 +454,13 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                   }}
                 >
                   <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>
-                    🎙️ {shareAudio ? 'Audio: ON' : 'Share Mic'}
+                    ðŸŽ™ï¸ {shareAudio ? 'Audio: ON' : 'Share Mic'}
                   </Text>
                 </TouchableOpacity>
               </View>
               {(shareCamera || shareAudio) && (
                 <Text style={{ color: '#94a3b8', fontSize: 10, marginTop: 6 }}>
-                  🤫 Broadcasts visual and ambient sound evidence silently without emitting noise on this phone.
+                  ðŸ¤« Broadcasts visual and ambient sound evidence silently without emitting noise on this phone.
                 </Text>
               )}
             </View>
@@ -471,7 +471,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
               onPress={() => handleBroadcastSos(false)}
               activeOpacity={0.8}
             >
-              <Text style={styles.panicEmoji}>⚡</Text>
+              <Text style={styles.panicEmoji}>âš¡</Text>
               <Text style={styles.panicText}>
                 {isSending ? 'DISPATCHING SOS...' : 'BROADCAST PANIC ALERT NOW'}
               </Text>
@@ -487,7 +487,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                 onPress={() => handleBroadcastSos(true, 'ARMED ROBBERY / HOSTAGE')}
                 activeOpacity={0.8}
               >
-                <Text style={{ fontSize: 18 }}>🤫</Text>
+                <Text style={{ fontSize: 18 }}>ðŸ¤«</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.silentPanicTitle}>SILENT PANIC</Text>
                   <Text style={styles.silentPanicSub}>Robbery / Hostage (No sirens)</Text>
@@ -500,7 +500,7 @@ export const SosModal: React.FC<SosModalProps> = ({ visible, onClose }) => {
                 onPress={() => handleBroadcastSos(false, 'TERRORISM / ARMED GUNFIRE')}
                 activeOpacity={0.8}
               >
-                <Text style={{ fontSize: 18 }}>🚨</Text>
+                <Text style={{ fontSize: 18 }}>ðŸš¨</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.terrorPanicTitle}>TERROR THREAT</Text>
                   <Text style={styles.terrorPanicSub}>Gunfire / Ambush / Banditry</Text>

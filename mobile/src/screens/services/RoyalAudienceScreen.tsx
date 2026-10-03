@@ -82,7 +82,7 @@ export const RoyalAudienceScreen: React.FC<{ navigation: any }> = ({ navigation 
         const data = await res.json();
         if (res.ok && data.success) {
           Alert.alert(
-            '👑 Royal Audience Requested',
+            'ðŸ‘‘ Royal Audience Requested',
             `Your request has been logged under Reference: ${data.reference || 'Generated'}.\n\nAn official acknowledgement email has been dispatched to ${email}.`,
             [
               {
@@ -145,7 +145,7 @@ export const RoyalAudienceScreen: React.FC<{ navigation: any }> = ({ navigation 
 
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backBtnText}>← Back to Services</Text>
+          <Text style={styles.backBtnText}>â† Back to Services</Text>
         </TouchableOpacity>
 
         {/* Tab switch */}
@@ -158,7 +158,7 @@ export const RoyalAudienceScreen: React.FC<{ navigation: any }> = ({ navigation 
             ]}
           >
             <Text style={[styles.tabBtnText, activeTab === 'book' && styles.tabBtnTextActive]}>
-              👑 Book Audience
+              ðŸ‘‘ Book Audience
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -169,14 +169,14 @@ export const RoyalAudienceScreen: React.FC<{ navigation: any }> = ({ navigation 
             ]}
           >
             <Text style={[styles.tabBtnText, activeTab === 'track' && styles.tabBtnTextActive]}>
-              🔍 Track Status
+              ðŸ” Track Status
             </Text>
           </TouchableOpacity>
         </View>
 
         <Card style={styles.palaceCard}>
           <View style={styles.palaceHeader}>
-            <Text style={{ fontSize: 24 }}>🏛️</Text>
+            <Text style={{ fontSize: 24 }}>ðŸ›ï¸</Text>
             <View style={{ flex: 1 }}>
               <Text style={styles.palaceTitle}>Palace of the Ologere</Text>
               <Text style={styles.palaceSubtitle}>Royal Audience with HRH Oba James Obafemi Saliu</Text>
@@ -238,13 +238,13 @@ export const RoyalAudienceScreen: React.FC<{ navigation: any }> = ({ navigation 
 
                 {trackedRecord.notes ? (
                   <View style={styles.noteBox}>
-                    <Text style={styles.noteTitle}>👑 Palace Secretariat Notes:</Text>
+                    <Text style={styles.noteTitle}>ðŸ‘‘ Palace Secretariat Notes:</Text>
                     <Text style={styles.noteContent}>{trackedRecord.notes}</Text>
                   </View>
                 ) : null}
                 {trackedRecord.postponed_reason ? (
                   <View style={[styles.noteBox, { borderColor: '#f59e0b' }]}>
-                    <Text style={[styles.noteTitle, { color: '#f59e0b' }]}>⚠️ Reschedule Reason:</Text>
+                    <Text style={[styles.noteTitle, { color: '#f59e0b' }]}>âš ï¸ Reschedule Reason:</Text>
                     <Text style={styles.noteContent}>{trackedRecord.postponed_reason}</Text>
                   </View>
                 ) : null}
@@ -361,7 +361,7 @@ export const RoyalAudienceScreen: React.FC<{ navigation: any }> = ({ navigation 
             </View>
 
             <Button
-              title="👑 Submit Audience Request"
+              title="ðŸ‘‘ Submit Audience Request"
               variant="primary"
               size="lg"
               loading={loading}

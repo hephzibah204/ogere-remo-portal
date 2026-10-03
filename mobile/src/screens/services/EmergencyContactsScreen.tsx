@@ -135,7 +135,7 @@ export const EmergencyContactsScreen: React.FC<{ navigation: any }> = ({ navigat
       <ScrollView contentContainerStyle={styles.content}>
         <Card style={styles.infoCard}>
           <View style={styles.infoRow}>
-            <Text style={{ fontSize: 26 }}>👨‍👩‍👧‍👦</Text>
+            <Text style={{ fontSize: 26 }}>ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦</Text>
             <View style={{ flex: 1 }}>
               <Text style={styles.infoTitle}>Instant SOS Family Dispatches</Text>
               <Text style={styles.infoText}>
@@ -163,7 +163,7 @@ export const EmergencyContactsScreen: React.FC<{ navigation: any }> = ({ navigat
           <ActivityIndicator size="large" color={Colors.primary} style={{ marginVertical: 20 }} />
         ) : contacts.length === 0 && !showAddForm ? (
           <Card style={styles.emptyCard}>
-            <Text style={{ fontSize: 32, textAlign: 'center', marginBottom: 6 }}>🛡️</Text>
+            <Text style={{ fontSize: 32, textAlign: 'center', marginBottom: 6 }}>ðŸ›¡ï¸</Text>
             <Text style={styles.emptyTitle}>No Guardians Registered Yet</Text>
             <Text style={styles.emptyDesc}>
               Add trusted family members or friends who should be immediately alerted when you trigger an emergency in Ogere Remo.
@@ -182,7 +182,7 @@ export const EmergencyContactsScreen: React.FC<{ navigation: any }> = ({ navigat
           <Card key={c.id} style={styles.contactCard}>
             <View style={styles.contactRow}>
               <View style={styles.avatarCircle}>
-                <Text style={{ fontSize: 18 }}>👤</Text>
+                <Text style={{ fontSize: 18 }}>ðŸ‘¤</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
@@ -191,16 +191,16 @@ export const EmergencyContactsScreen: React.FC<{ navigation: any }> = ({ navigat
                     <Text style={styles.badgeText}>{c.relationship || 'Guardian'}</Text>
                   </View>
                 </View>
-                <Text style={styles.contactPhone}>📞 {c.phone}</Text>
+                <Text style={styles.contactPhone}>ðŸ“ž {c.phone}</Text>
                 {c.notify_on_sos && (
-                  <Text style={styles.sosTag}>⚡ Instant Live Radar Link via SMS</Text>
+                  <Text style={styles.sosTag}>âš¡ Instant Live Radar Link via SMS</Text>
                 )}
               </View>
               <TouchableOpacity
                 onPress={() => handleDeleteContact(c.id, c.name)}
                 style={styles.trashBtn}
               >
-                <Text style={{ fontSize: 16 }}>🗑️</Text>
+                <Text style={{ fontSize: 16 }}>ðŸ—‘ï¸</Text>
               </TouchableOpacity>
             </View>
           </Card>
@@ -212,7 +212,7 @@ export const EmergencyContactsScreen: React.FC<{ navigation: any }> = ({ navigat
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
               <Text style={styles.formTitle}>Register New Guardian</Text>
               <TouchableOpacity onPress={() => setShowAddForm(false)}>
-                <Text style={{ fontSize: 16, color: Colors.textMuted }}>✕</Text>
+                <Text style={{ fontSize: 16, color: Colors.textMuted }}>âœ•</Text>
               </TouchableOpacity>
             </View>
 
@@ -254,7 +254,7 @@ export const EmergencyContactsScreen: React.FC<{ navigation: any }> = ({ navigat
               style={styles.toggleRow}
               onPress={() => setNotifyOnSos(!notifyOnSos)}
             >
-              <Text style={{ fontSize: 18 }}>{notifyOnSos ? '☑️' : '⬜'}</Text>
+              <Text style={{ fontSize: 18 }}>{notifyOnSos ? 'â˜‘ï¸' : 'â¬œ'}</Text>
               <Text style={styles.toggleText}>
                 Transmit Live GPS Map link immediately upon SOS alert
               </Text>

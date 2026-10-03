@@ -42,16 +42,16 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'tollgate',
     name: 'Ogere Toll Gate / Expressway Intercept',
-    sector: 'Sector 1 â€” Highway Corridor',
+    sector: 'Sector 1 Ã¢â‚¬â€ Highway Corridor',
     lat: 6.9388,
     lng: 3.6437,
     type: 'transit',
-    note: 'KM 67 Lagos-Ibadan Expressway Â· Major Emergency Rendezvous Point',
+    note: 'KM 67 Lagos-Ibadan Expressway Ã‚Â· Major Emergency Rendezvous Point',
   },
   {
     id: 'old_tollgate',
     name: 'Ogere Tollgate Bypass / Old Tollgate',
-    sector: 'Sector 1 â€” Highway Corridor',
+    sector: 'Sector 1 Ã¢â‚¬â€ Highway Corridor',
     lat: 6.9380,
     lng: 3.6410,
     type: 'transit',
@@ -60,16 +60,16 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'palace',
     name: 'Aafin Ologere Palace & Royal Square',
-    sector: 'Sector 2 â€” Central Heritage Core',
+    sector: 'Sector 2 Ã¢â‚¬â€ Central Heritage Core',
     lat: 6.9368,
     lng: 3.6330,
     type: 'royal',
-    note: 'Palace Way Â· Seat of HRM Oba Ogere Remo & Royal Taskforce HQ',
+    note: 'Palace Way Ã‚Â· Seat of HRM Oba Ogere Remo & Royal Taskforce HQ',
   },
   {
     id: 'central_market',
     name: 'Ogere Central Market (Oja Ogere)',
-    sector: 'Sector 2 â€” Central Heritage Core',
+    sector: 'Sector 2 Ã¢â‚¬â€ Central Heritage Core',
     lat: 6.9354,
     lng: 3.6338,
     type: 'commerce',
@@ -78,7 +78,7 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'police_station',
     name: 'Ogere Police Divisional Station',
-    sector: 'Sector 3 â€” Security & Emergency',
+    sector: 'Sector 3 Ã¢â‚¬â€ Security & Emergency',
     lat: 6.9348,
     lng: 3.6356,
     type: 'security',
@@ -87,16 +87,16 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'hospital',
     name: 'Ogere State Hospital & Health Centre',
-    sector: 'Sector 4 â€” Medical & Social',
+    sector: 'Sector 4 Ã¢â‚¬â€ Medical & Social',
     lat: 6.9325,
     lng: 3.6310,
     type: 'medical',
-    note: 'Isale-Ogere Hospital Road Â· 24/7 Emergency Medical Ward',
+    note: 'Isale-Ogere Hospital Road Ã‚Â· 24/7 Emergency Medical Ward',
   },
   {
     id: 'trailer_park',
     name: 'Ogere Trailer Park & Logistics Hub',
-    sector: 'Sector 1 â€” Highway Corridor',
+    sector: 'Sector 1 Ã¢â‚¬â€ Highway Corridor',
     lat: 6.9366,
     lng: 3.6344,
     type: 'transit',
@@ -105,16 +105,16 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'ositelu_college',
     name: 'Ositelu Memorial College',
-    sector: 'Sector 5 â€” Academic Belt',
+    sector: 'Sector 5 Ã¢â‚¬â€ Academic Belt',
     lat: 6.9405,
     lng: 3.6397,
     type: 'education',
-    note: 'Awomosu Agbato Drive Â· Flagship Secondary School',
+    note: 'Awomosu Agbato Drive Ã‚Â· Flagship Secondary School',
   },
   {
     id: 'aladura_hq',
     name: 'Church of the Lord (Aladura) Mount Taborar',
-    sector: 'Sector 2 â€” Central Heritage Core',
+    sector: 'Sector 2 Ã¢â‚¬â€ Central Heritage Core',
     lat: 6.9360,
     lng: 3.6420,
     type: 'heritage',
@@ -123,7 +123,7 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'town_hall',
     name: 'Ogere Town Hall (OCDA HQ)',
-    sector: 'Sector 2 â€” Central Heritage Core',
+    sector: 'Sector 2 Ã¢â‚¬â€ Central Heritage Core',
     lat: 6.9363,
     lng: 3.6318,
     type: 'civic',
@@ -132,7 +132,7 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'agbele',
     name: 'Agbele Ancestral Axis',
-    sector: 'Sector 6 â€” Western Residential',
+    sector: 'Sector 6 Ã¢â‚¬â€ Western Residential',
     lat: 6.9290,
     lng: 3.6260,
     type: 'residential',
@@ -141,7 +141,7 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'saapade_jct',
     name: 'Saapade Junction / Remo North Corridor',
-    sector: 'Sector 7 â€” Northern Gateway',
+    sector: 'Sector 7 Ã¢â‚¬â€ Northern Gateway',
     lat: 6.9550,
     lng: 3.6480,
     type: 'transit',
@@ -150,7 +150,7 @@ export const OGERE_LANDMARKS: OgereLandmark[] = [
   {
     id: 'resort',
     name: 'Ogere Resort & Convention Centre',
-    sector: 'Sector 1 â€” Highway Corridor',
+    sector: 'Sector 1 Ã¢â‚¬â€ Highway Corridor',
     lat: 6.9388,
     lng: 3.6437,
     type: 'hospitality',
@@ -255,7 +255,7 @@ export function resolveOgereLocation(lat: number, lng: number, accuracy: number 
   } else {
     formattedText = insideOgere
       ? `${(minDistance / 1000).toFixed(1)}km ${bearing} of ${closest.name} (Ogere Remo)`
-      : `âš ï¸ ${Math.round(minDistance / 1000)}km outside Ogere Remo (${closest.name} corridor)`;
+      : `Ã¢Å¡Â Ã¯Â¸Â ${Math.round(minDistance / 1000)}km outside Ogere Remo (${closest.name} corridor)`;
   }
 
   return {

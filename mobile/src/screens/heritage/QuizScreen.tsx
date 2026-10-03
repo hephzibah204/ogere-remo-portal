@@ -42,9 +42,9 @@ const QUESTIONS: QuizQuestion[] = [
   },
   {
     question: "What is the correct, respectful Yoruba greeting for elders in the morning?",
-    options: ["Ẹ káàsán", "Ẹ káàbọ̀", "Ẹ káàrọ̀", "Báwo ni"],
+    options: ["áº¸ kÃ¡Ã sÃ¡n", "áº¸ kÃ¡Ã bá»Ì€", "áº¸ kÃ¡Ã rá»Ì€", "BÃ¡wo ni"],
     answer: 2,
-    insight: "\"Ẹ káàrọ̀\" is the respectful morning greeting, utilizing the plural honorific \"Ẹ\" to show deep reverence, a core pillar of Yoruba moral heritage."
+    insight: "\"áº¸ kÃ¡Ã rá»Ì€\" is the respectful morning greeting, utilizing the plural honorific \"áº¸\" to show deep reverence, a core pillar of Yoruba moral heritage."
   },
   {
     question: "Which global spiritual institution was founded in Ogere Remo on July 27, 1930 by Prophet Josiah Ositelu?",
@@ -126,7 +126,7 @@ export const QuizScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         {isComplete ? (
           <View style={styles.resultCard}>
             <Text style={{ fontSize: 48, textAlign: 'center', marginBottom: 12 }}>
-              {score >= 7 ? '👑' : score >= 5 ? '📜' : '🏛️'}
+              {score >= 7 ? 'ðŸ‘‘' : score >= 5 ? 'ðŸ“œ' : 'ðŸ›ï¸'}
             </Text>
             <Text style={styles.resultTitle}>Quiz Completed!</Text>
             <Text style={styles.scoreText}>
@@ -134,10 +134,10 @@ export const QuizScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </Text>
             <Text style={styles.rankTitle}>
               {score >= 8
-                ? '🏅 Royal Scholar of Ogereland'
+                ? 'ðŸ… Royal Scholar of Ogereland'
                 : score >= 5
-                ? '🎖️ True Cultural Custodian'
-                : '📖 Remo Heritage Apprentice'}
+                ? 'ðŸŽ–ï¸ True Cultural Custodian'
+                : 'ðŸ“– Remo Heritage Apprentice'}
             </Text>
             <Text style={styles.resultDesc}>
               {score >= 8
@@ -146,7 +146,7 @@ export const QuizScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </Text>
 
             <TouchableOpacity style={styles.actionBtn} onPress={handleRestart}>
-              <Text style={styles.actionBtnText}>🔄 Take Quiz Again</Text>
+              <Text style={styles.actionBtnText}>ðŸ”„ Take Quiz Again</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -202,8 +202,8 @@ export const QuizScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                       <Text style={[styles.optText, { color: textColor }]}>
                         {['A', 'B', 'C', 'D'][idx]}. {opt}
                       </Text>
-                      {isAnswered && idx === q.answer && <Text>✅</Text>}
-                      {isAnswered && idx === selectedOpt && idx !== q.answer && <Text>❌</Text>}
+                      {isAnswered && idx === q.answer && <Text>âœ…</Text>}
+                      {isAnswered && idx === selectedOpt && idx !== q.answer && <Text>âŒ</Text>}
                     </TouchableOpacity>
                   );
                 })}
@@ -212,12 +212,12 @@ export const QuizScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
               {/* Historical Insight after answering */}
               {isAnswered && (
                 <View style={styles.insightBox}>
-                  <Text style={styles.insightHeading}>💡 ROYAL HISTORICAL INSIGHT</Text>
+                  <Text style={styles.insightHeading}>ðŸ’¡ ROYAL HISTORICAL INSIGHT</Text>
                   <Text style={styles.insightText}>{q.insight}</Text>
 
                   <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                     <Text style={styles.nextBtnText}>
-                      {currentIdx + 1 === QUESTIONS.length ? '👑 See Final Results' : 'Next Question ➔'}
+                      {currentIdx + 1 === QUESTIONS.length ? 'ðŸ‘‘ See Final Results' : 'Next Question âž”'}
                     </Text>
                   </TouchableOpacity>
                 </View>

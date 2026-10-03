@@ -80,7 +80,7 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
       });
 
       Alert.alert(
-        '📜 Petition Registered',
+        'ðŸ“œ Petition Registered',
         `Your dispute has been assigned Tracking Code: ${created.trackingCode}. The Palace Secretariat has been notified.`,
         [{ text: 'View Cases', onPress: () => setActiveTab('cases') }]
       );
@@ -113,7 +113,7 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
           onPress={() => setActiveTab('cases')}
         >
           <Text style={[styles.tabBtnText, activeTab === 'cases' && styles.tabBtnTextActive]}>
-            📜 Active Cases ({cases.length})
+            ðŸ“œ Active Cases ({cases.length})
           </Text>
         </TouchableOpacity>
 
@@ -122,7 +122,7 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
           onPress={() => setActiveTab('file')}
         >
           <Text style={[styles.tabBtnText, activeTab === 'file' && styles.tabBtnTextActive]}>
-            ✍️ File Petition
+            âœï¸ File Petition
           </Text>
         </TouchableOpacity>
 
@@ -131,7 +131,7 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
           onPress={() => setActiveTab('arbitrators')}
         >
           <Text style={[styles.tabBtnText, activeTab === 'arbitrators' && styles.tabBtnTextActive]}>
-            👑 Arbitrators
+            ðŸ‘‘ Arbitrators
           </Text>
         </TouchableOpacity>
       </View>
@@ -140,7 +140,7 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
         {activeTab === 'cases' && (
           <View>
             <View style={styles.palaceSealBanner}>
-              <Text style={{ fontSize: 24 }}>👑</Text>
+              <Text style={{ fontSize: 24 }}>ðŸ‘‘</Text>
               <View style={{ flex: 1 }}>
                 <Text style={styles.sealTitle}>Palace Customary Court of Ogere</Text>
                 <Text style={styles.sealSubtitle}>
@@ -191,16 +191,16 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
 
                   <Text style={styles.caseTitle}>{c.title}</Text>
                   <Text style={styles.caseMeta}>
-                    👤 Complainant: <Text style={{ fontWeight: '700' }}>{c.plaintiffName}</Text> ({c.plaintiffQuarter})
+                    ðŸ‘¤ Complainant: <Text style={{ fontWeight: '700' }}>{c.plaintiffName}</Text> ({c.plaintiffQuarter})
                   </Text>
                   <Text style={styles.caseMeta}>
-                    👥 Respondent: <Text style={{ fontWeight: '700' }}>{c.respondentName}</Text> ({c.respondentQuarter})
+                    ðŸ‘¥ Respondent: <Text style={{ fontWeight: '700' }}>{c.respondentName}</Text> ({c.respondentQuarter})
                   </Text>
                   <Text style={styles.caseDesc}>{c.description}</Text>
 
                   {c.decreeSummary && (
                     <View style={styles.decreeBox}>
-                      <Text style={styles.decreeTitle}>👑 ROYAL ARBITRATION DECREE</Text>
+                      <Text style={styles.decreeTitle}>ðŸ‘‘ ROYAL ARBITRATION DECREE</Text>
                       <Text style={styles.decreeText}>{c.decreeSummary}</Text>
                     </View>
                   )}
@@ -313,7 +313,7 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
               style={styles.oathBox}
               onPress={() => setOathAgreed(!oathAgreed)}
             >
-              <Text style={{ fontSize: 18 }}>{oathAgreed ? '☑️' : '⬜'}</Text>
+              <Text style={{ fontSize: 18 }}>{oathAgreed ? 'â˜‘ï¸' : 'â¬œ'}</Text>
               <Text style={styles.oathText}>
                 I solemnly swear by Ogere ancestral heritage and truth that the facts stated above are accurate, and I submit to customary arbitration by the Palace Royal Council.
               </Text>
@@ -327,7 +327,7 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
               {submitting ? (
                 <ActivityIndicator color="#ffffff" />
               ) : (
-                <Text style={styles.submitBtnText}>📜 File Petition with Palace Registrar</Text>
+                <Text style={styles.submitBtnText}>ðŸ“œ File Petition with Palace Registrar</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -342,8 +342,8 @@ export const CustomaryDisputeScreen: React.FC<{ navigation: any }> = ({ navigati
                 <View style={{ flex: 1 }}>
                   <Text style={styles.arbName}>{arb.name}</Text>
                   <Text style={styles.arbTitle}>{arb.title}</Text>
-                  <Text style={styles.arbRank}>{arb.rank} · {arb.quarter}</Text>
-                  <Text style={styles.arbSpec}>⚖️ Specialty: {arb.specialty}</Text>
+                  <Text style={styles.arbRank}>{arb.rank} Â· {arb.quarter}</Text>
+                  <Text style={styles.arbSpec}>âš–ï¸ Specialty: {arb.specialty}</Text>
                 </View>
               </View>
             ))}
