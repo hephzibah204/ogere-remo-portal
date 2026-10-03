@@ -7,19 +7,19 @@ import SEO from '../components/SEO';
 export default function MonarchyPage() {
   return (
     <div>
-      <SEO title="Monarchy" description="The royal lineage and traditional governance of Ogere Remo — from the first Ologere to the reigning monarch." />
-      <Hero ey="Royal Institution" ti="The Monarchy of Ogere" sub="The Ologere of Ogere — paramount ruler, spiritual head, and fountain of honour for all of Ogereland." />
+      <SEO title="Monarchy" description="The royal lineage and traditional governance of Ogere Remo â€” from the first Ologere to the reigning monarch." />
+      <Hero ey="Royal Institution" ti="The Monarchy of Ogere" sub="The Ologere of Ogere â€” paramount ruler, spiritual head, and fountain of honour for all of Ogereland." />
       <AdireDivider />
 
       <Section bg="#1a0d06">
         <p className="sl">Reigning Monarch</p>
-        <h2 className="st">HRH Oba James Obafemi Saliu — Kankanbiina II</h2>
+        <h2 className="st">HRH Oba James Obafemi Saliu â€” Kankanbiina II</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '2.5rem', marginTop: '1.5rem', alignItems: 'start' }}>
           <div style={{ background: 'rgba(201,150,58,.08)', border: '1px solid rgba(201,150,58,.28)', padding: '2rem', textAlign: 'center', borderTop: '4px solid #C9963A' }}>
             <img src="/images/Ologere-Oba-James-Obafemi1.jpg" alt="Oba James Obafemi Saliu" style={{ width: '100%', maxWidth: 220, aspectRatio: '1/1', objectFit: 'cover', objectPosition: 'center top', borderRadius: '50%', border: '3px solid #C9963A', marginBottom: '.7rem', margin: '0 auto' }} />
             <div className="cinzel" style={{ fontSize: '.58rem', letterSpacing: '.12em', color: '#C9963A', textTransform: 'uppercase' }}>Ologere of Ogere Remo</div>
             <div className="playfair" style={{ fontSize: '1.05rem', color: '#F5EDD8', margin: '.5rem 0 .2rem' }}>Oba James Obafemi Saliu</div>
-            <div className="cinzel" style={{ fontSize: '.52rem', color: 'rgba(245,237,216,.45)', letterSpacing: '.08em' }}>Kankanbiina II · Ilufemiloye I · Arole Olipakala</div>
+            <div className="cinzel" style={{ fontSize: '.52rem', color: 'rgba(245,237,216,.45)', letterSpacing: '.08em' }}>Kankanbiina II Â· Ilufemiloye I Â· Arole Olipakala</div>
             <div style={{ height: 1, background: 'rgba(201,150,58,.18)', margin: '1rem 0' }} />
             {[['Installed', 'April 25, 2023'], ['Coronated', 'September 23, 2023'], ['Ruling House', 'Kankanbina/Ejigboye'], ['Reign', '3rd Year (2026)']].map(([k, v]) => (
               <div key={k} style={{ marginBottom: '.45rem' }}>
@@ -50,11 +50,11 @@ export default function MonarchyPage() {
 
       <Section bg="#2c1a0e">
         <p className="sl">Immediate Past Monarch</p>
-        <h2 className="st">Oba Oladele Moshood Ogunbade — Agbejoye II</h2>
+        <h2 className="st">Oba Oladele Moshood Ogunbade â€” Agbejoye II</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '2.5rem', marginTop: '1.5rem', alignItems: 'start' }}>
           <div style={{ background: 'rgba(201,150,58,.08)', border: '1px solid rgba(201,150,58,.28)', padding: '2rem', textAlign: 'center', borderTop: '4px solid #7A2E0E' }}>
             <img src="/images/OLOGERE-OF-OGERE-OBA OGUNBADE.jpg" alt="Oba Oladele Ogunbade" style={{ width: '100%', maxWidth: 220, aspectRatio: '1/1', objectFit: 'cover', objectPosition: 'center top', borderRadius: '50%', border: '3px solid #7A2E0E', marginBottom: '.7rem', margin: '0 auto' }} />
-            <div className="cinzel" style={{ fontSize: '.52rem', color: 'rgba(245,237,216,.45)', letterSpacing: '.08em' }}>Agbejoye II · Ologere 1983–2022</div>
+            <div className="cinzel" style={{ fontSize: '.52rem', color: 'rgba(245,237,216,.45)', letterSpacing: '.08em' }}>Agbejoye II Â· Ologere 1983â€“2022</div>
             <div style={{ height: 1, background: 'rgba(201,150,58,.18)', margin: '1rem 0' }} />
             {[['Born', 'c.1937'], ['Installed', '1983'], ['Passed', 'April 10, 2022'],['Reign', '38 Years']].map(([k, v]) => (
               <div key={k} style={{ marginBottom: '.45rem' }}>
@@ -75,13 +75,13 @@ export default function MonarchyPage() {
 
       <Section bg="#1a0d06">
         <p className="sl">Notable Past Monarch</p>
-        <h2 className="st">Oba Alfred Obafuwa Babington-Ashaye — Legunsen III</h2>
+        <h2 className="st">Oba Alfred Obafuwa Babington-Ashaye â€” Legunsen III</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '2.5rem', marginTop: '1.5rem', alignItems: 'start' }}>
           <div style={{ background: 'rgba(201,150,58,.08)', border: '1px solid rgba(201,150,58,.28)', padding: '2rem', textAlign: 'center', borderTop: '4px solid #7A2E0E' }}>
             <img src="/images/Oba-BabingtonAshaye.jpg" alt="Oba Alfred Babington-Ashaye" style={{ width: '100%', maxWidth: 220, aspectRatio: '1/1', objectFit: 'cover', objectPosition: 'center top', borderRadius: '50%', border: '3px solid #7A2E0E', marginBottom: '.7rem', margin: '0 auto' }} />
-            <div className="cinzel" style={{ fontSize: '.52rem', color: 'rgba(245,237,216,.45)', letterSpacing: '.08em' }}>Legunsen III · Ologere 1945–1982</div>
+            <div className="cinzel" style={{ fontSize: '.52rem', color: 'rgba(245,237,216,.45)', letterSpacing: '.08em' }}>Legunsen III Â· Ologere 1945â€“1982</div>
             <div style={{ height: 1, background: 'rgba(201,150,58,.18)', margin: '1rem 0' }} />
-            {[['Reign', '1945–1982'], ['Ruling House', 'Legunsen'],['Duration', '37 Years']].map(([k, v]) => (
+            {[['Reign', '1945â€“1982'], ['Ruling House', 'Legunsen'],['Duration', '37 Years']].map(([k, v]) => (
               <div key={k} style={{ marginBottom: '.45rem' }}>
                 <div className="cinzel" style={{ fontSize: '.48rem', letterSpacing: '.08em', color: 'rgba(201,150,58,.5)', textTransform: 'uppercase' }}>{k}</div>
                 <div style={{ fontSize: '.82rem', color: 'rgba(245,237,216,.7)' }}>{v}</div>
@@ -89,8 +89,8 @@ export default function MonarchyPage() {
             ))}
           </div>
           <div>
-            <p style={{ fontSize: '.9rem', lineHeight: 1.9, color: 'rgba(245,237,216,.7)', marginBottom: '1.1rem' }}>Oba Alfred Obafuwa Babington-Ashaye (Legunsen III) reigned as Ologere of Ogere Remo from 1945 to 1982 — a distinguished 37-year reign that saw Ogere navigate the final years of colonial rule and the early decades of Nigerian independence.</p>
-            <p style={{ fontSize: '.9rem', lineHeight: 1.9, color: 'rgba(245,237,216,.7)', marginBottom: '1.1rem' }}>A highly educated and progressive monarch, he was known for his diplomatic grace — once greeting Queen Elizabeth II during her visit to Nigeria. His royal bearing and statesmanship earned him respect far beyond the borders of Ogere. He is remembered as a brave, wise, and cultured king who elevated the stature of the Ologere throne. His notable descendants include Dr. Shola Mos-Shogbamimu, the renowned lawyer, author and political commentator.</p>
+            <p style={{ fontSize: '.9rem', lineHeight: 1.9, color: 'rgba(245,237,216,.7)', marginBottom: '1.1rem' }}>Oba Alfred Obafuwa Babington-Ashaye (Legunsen III) reigned as Ologere of Ogere Remo from 1945 to 1982 â€” a distinguished 37-year reign that saw Ogere navigate the final years of colonial rule and the early decades of Nigerian independence.</p>
+            <p style={{ fontSize: '.9rem', lineHeight: 1.9, color: 'rgba(245,237,216,.7)', marginBottom: '1.1rem' }}>A highly educated and progressive monarch, he was known for his diplomatic grace â€” once greeting Queen Elizabeth II during her visit to Nigeria. His royal bearing and statesmanship earned him respect far beyond the borders of Ogere. He is remembered as a brave, wise, and cultured king who elevated the stature of the Ologere throne. His notable descendants include Dr. Shola Mos-Shogbamimu, the renowned lawyer, author and political commentator.</p>
             <div style={{ display: 'flex', gap: '.6rem', flexWrap: 'wrap', marginTop: '1rem' }}>
               <img src="/images/Babington Ashaye Greeting Queen Elizabeth.jpg" alt="Babington-Ashaye greeting Queen Elizabeth II" style={{ width: 'calc(50% - .3rem)', minWidth: 'min(140px, 100%)', flex: 1, aspectRatio: '4/3', objectFit: 'cover', objectPosition: 'center', borderRadius: 4, border: '1px solid rgba(201,150,58,.25)' }} />
               <img src="/images/Babington Ashaye The Brave King.jpg" alt="Babington-Ashaye portrait" style={{ width: 'calc(50% - .3rem)', minWidth: 'min(140px, 100%)', flex: 1, aspectRatio: '4/3', objectFit: 'cover', objectPosition: 'center', borderRadius: 4, border: '1px solid rgba(201,150,58,.25)' }} />
@@ -103,7 +103,7 @@ export default function MonarchyPage() {
 
       <Section bg="#2c1a0e">
         <p className="sl">Royal Succession</p>
-        <h2 className="st" style={{ marginBottom: '.8rem' }}>The Ologere of Ogere — Confirmed Kings</h2>
+        <h2 className="st" style={{ marginBottom: '.8rem' }}>The Ologere of Ogere â€” Confirmed Kings</h2>
         <p className="si" style={{ marginBottom: '2.5rem' }}>The title of the King of Ogere Remo is <strong style={{ color: '#F0D080' }}>Ologere</strong>. Below are the confirmed monarchs from historical records and community archives.</p>
         <div style={{ display: 'grid', gap: '1.1rem' }}>
           {kings.map((k, i) => (
@@ -144,7 +144,7 @@ export default function MonarchyPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: '1rem' }}>
             {notableDescendants.map((p, i) => (
               <div key={i} className="card" style={{ padding: '1.5rem', borderTop: '3px solid #C9963A' }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '.5rem' }}>🌟</div>
+                <div style={{ fontSize: '1.5rem', marginBottom: '.5rem' }}>ðŸŒŸ</div>
                 <div className="playfair" style={{ fontSize: '.98rem', color: '#F5EDD8', marginBottom: '.2rem' }}>{p.n}</div>
                 <div className="cinzel" style={{ fontSize: '.52rem', letterSpacing: '.08em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.3rem' }}>{p.r}</div>
                 <div style={{ fontSize: '.8rem', lineHeight: 1.68, color: 'rgba(245,237,216,.62)', marginBottom: '.3rem' }}>{p.f}</div>

@@ -1,4 +1,4 @@
-﻿const rateLimits = new Map();
+const rateLimits = new Map();
 export function checkRateLimit(ip, limit = 5, windowMs = 900000) {
   const now = Date.now();
   const record = rateLimits.get(ip) || { count: 0, resetTime: now + windowMs };

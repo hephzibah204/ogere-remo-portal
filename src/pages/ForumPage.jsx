@@ -14,7 +14,7 @@ const SEED = [
     id: 1,
     name: 'Ogere Son (Lagos)',
     cat: 'heritage',
-    topic: 'The History of Olipakala — What We Know',
+    topic: 'The History of Olipakala â€” What We Know',
     body: "I've been reading about our founding ancestor Olipakala. Does anyone have more information about the oral traditions passed down in their compounds?",
     date: 'May 15, 2026',
     likes: 12,
@@ -38,7 +38,7 @@ const SEED = [
     id: 3,
     name: 'Resident',
     cat: 'news',
-    topic: 'Lipakala Day 50th Edition — Golden Jubilee Preparations',
+    topic: 'Lipakala Day 50th Edition â€” Golden Jubilee Preparations',
     body: 'The 50th Lipakala Day is coming next year. What cultural and youth activities are planned for the golden jubilee?',
     date: 'May 20, 2026',
     likes: 8,
@@ -159,7 +159,7 @@ export default function ForumPage() {
       <Hero
         ey="Community Voice"
         ti="Community Forum"
-        sub="Share news, ask questions, discuss Ogere Remo heritage and civic progress — for residents, diaspora and visitors."
+        sub="Share news, ask questions, discuss Ogere Remo heritage and civic progress â€” for residents, diaspora and visitors."
         dark
       />
       <AdireDivider />
@@ -198,7 +198,7 @@ export default function ForumPage() {
                 transition: 'all 0.2s ease',
               }}
             >
-              <span>📰</span>
+              <span>ðŸ“°</span>
               <span>Civic Timeline (What's on your mind?)</span>
             </button>
 
@@ -220,7 +220,7 @@ export default function ForumPage() {
                 transition: 'all 0.2s ease',
               }}
             >
-              <span>🏛️</span>
+              <span>ðŸ›ï¸</span>
               <span>Town Hall Deliberations</span>
             </button>
           </div>
@@ -329,7 +329,7 @@ export default function ForumPage() {
                         {/* Summary preview */}
                         {!isExp && (
                           <p style={{ fontSize: '0.82rem', color: 'rgba(245,237,216,0.65)', marginTop: '0.6rem', marginBottom: '0.4rem', lineHeight: 1.6 }}>
-                            {p.body?.length > 110 ? p.body.substring(0, 110) + '…' : p.body}
+                            {p.body?.length > 110 ? p.body.substring(0, 110) + 'â€¦' : p.body}
                           </p>
                         )}
 
@@ -347,11 +347,11 @@ export default function ForumPage() {
                               gap: '0.3rem',
                             }}
                           >
-                            ❤️ <strong>{p.likes || 0}</strong> Upvotes
+                            â¤ï¸ <strong>{p.likes || 0}</strong> Upvotes
                           </button>
 
                           <span style={{ fontSize: '.7rem', color: 'var(--gold)' }}>
-                            💬 {p.replies?.length || 0} {p.replies?.length === 1 ? 'reply' : 'replies'} · {isExp ? 'Collapse' : 'Read & Reply →'}
+                            ðŸ’¬ {p.replies?.length || 0} {p.replies?.length === 1 ? 'reply' : 'replies'} Â· {isExp ? 'Collapse' : 'Read & Reply â†’'}
                           </span>
                         </div>
                       </div>
@@ -413,7 +413,7 @@ export default function ForumPage() {
                                   disabled={replyBusy || !replyInput.body.trim()}
                                   style={{ fontSize: '0.65rem', padding: '0.5rem 1.2rem' }}
                                 >
-                                  {replyBusy ? 'Posting…' : 'Submit Reply →'}
+                                  {replyBusy ? 'Postingâ€¦' : 'Submit Reply â†’'}
                                 </button>
                               </div>
                             </div>
@@ -449,13 +449,13 @@ export default function ForumPage() {
                 </div>
                 <div>
                   <div className="cinzel" style={{ fontSize: '.56rem', letterSpacing: '.1em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.3rem' }}>Your Message *</div>
-                  <textarea required className="inp" value={f.body} onChange={e => setF({ ...f, body: e.target.value })} placeholder="Share your thoughts, suggestions, or inquiry…" style={{ minHeight: 110, resize: 'vertical' }} />
+                  <textarea required className="inp" value={f.body} onChange={e => setF({ ...f, body: e.target.value })} placeholder="Share your thoughts, suggestions, or inquiryâ€¦" style={{ minHeight: 110, resize: 'vertical' }} />
                 </div>
                 <div style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.45)', background: 'rgba(201,150,58,.04)', padding: '.6rem .8rem', border: '1px solid rgba(201,150,58,.1)', borderRadius: '6px' }}>
-                  👑 <em>Respectful dialogue builds our ancient kingdom. For security emergencies, call 112 immediately.</em>
+                  ðŸ‘‘ <em>Respectful dialogue builds our ancient kingdom. For security emergencies, call 112 immediately.</em>
                 </div>
                 <button className="btn-p" onClick={post} disabled={busy || !f.name || !f.topic || !f.body} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '.5rem' }}>
-                  {busy ? <><Spinner />Posting…</> : 'Publish Discussion →'}
+                  {busy ? <><Spinner />Postingâ€¦</> : 'Publish Discussion â†’'}
                 </button>
               </div>
             </div>

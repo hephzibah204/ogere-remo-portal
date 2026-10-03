@@ -10,7 +10,7 @@ export default function SecurityMetricCards({
       <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid #dc2626', borderRadius: '8px', padding: '1.2rem' }}>
         <div className="cinzel" style={{ fontSize: '0.6rem', color: '#fca5a5', letterSpacing: '0.1em' }}>ARMED / TERROR THREATS</div>
         <div className="cinzel" style={{ fontSize: '2.2rem', fontWeight: 900, color: '#ef4444', marginTop: '0.2rem' }}>{codeRedCount}</div>
-        <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.3rem' }}>Armed Robbery · Terrorism · Gunfire</div>
+        <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.3rem' }}>Armed Robbery Â· Terrorism Â· Gunfire</div>
       </div>
 
       <div style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid #ea580c', borderRadius: '8px', padding: '1.2rem' }}>

@@ -46,12 +46,12 @@ export interface DisputeCase {
 }
 
 export const DISPUTE_CATEGORIES: DisputeCategory[] = [
-  { id: 'land_boundary', label: 'Land & Boundary Dispute', icon: '🗺️', desc: 'Plot demarcation, ancestral farmland boundaries, road encroachments' },
-  { id: 'family_inheritance', label: 'Family & Inheritance Conflict', icon: '👨‍👩‍👧‍👦', desc: 'Estate administration, family compound rights, succession' },
-  { id: 'tenancy_property', label: 'Tenancy & Property Grievance', icon: '🏠', desc: 'Commercial shop rent, residential tenancy, lease disputes' },
-  { id: 'market_trade', label: 'Market & Trade Dispute', icon: '🛒', desc: 'Oja Oba market stalls, trade associations, debtor-creditor mediation' },
-  { id: 'chieftaincy_custom', label: 'Chieftaincy & Customary Protocol', icon: '👑', desc: 'Family titles, quarter rites, traditional customary observance' },
-  { id: 'civic_neighborhood', label: 'Neighborhood & Civic Discord', icon: '🤝', desc: 'Noise nuisance, drainage overflow, compound peaceful coexistence' },
+  { id: 'land_boundary', label: 'Land & Boundary Dispute', icon: 'ðŸ—ºï¸', desc: 'Plot demarcation, ancestral farmland boundaries, road encroachments' },
+  { id: 'family_inheritance', label: 'Family & Inheritance Conflict', icon: 'ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦', desc: 'Estate administration, family compound rights, succession' },
+  { id: 'tenancy_property', label: 'Tenancy & Property Grievance', icon: 'ðŸ ', desc: 'Commercial shop rent, residential tenancy, lease disputes' },
+  { id: 'market_trade', label: 'Market & Trade Dispute', icon: 'ðŸ›’', desc: 'Oja Oba market stalls, trade associations, debtor-creditor mediation' },
+  { id: 'chieftaincy_custom', label: 'Chieftaincy & Customary Protocol', icon: 'ðŸ‘‘', desc: 'Family titles, quarter rites, traditional customary observance' },
+  { id: 'civic_neighborhood', label: 'Neighborhood & Civic Discord', icon: 'ðŸ¤', desc: 'Noise nuisance, drainage overflow, compound peaceful coexistence' },
 ];
 
 export const PALACE_ARBITRATORS: Arbitrator[] = [
@@ -62,7 +62,7 @@ export const PALACE_ARBITRATORS: Arbitrator[] = [
     rank: 'Senior Kingmaker & Chief Arbitrator',
     quarter: 'Oke-Ogere',
     specialty: 'Land, Chieftaincy & Ancestral Demarcation',
-    avatar: '👑',
+    avatar: 'ðŸ‘‘',
   },
   {
     id: 'arb-02',
@@ -71,7 +71,7 @@ export const PALACE_ARBITRATORS: Arbitrator[] = [
     rank: 'Palace Chancellor & Mediation Lead',
     quarter: 'Ijana',
     specialty: 'Family Estate, Inheritance & Traditional Succession',
-    avatar: '📜',
+    avatar: 'ðŸ“œ',
   },
   {
     id: 'arb-03',
@@ -80,7 +80,7 @@ export const PALACE_ARBITRATORS: Arbitrator[] = [
     rank: 'Quarter Baale & Community Magistrate',
     quarter: 'Isale-Ogere',
     specialty: 'Tenancy, Housing & Neighborhood Harmony',
-    avatar: '🏛️',
+    avatar: 'ðŸ›ï¸',
   },
   {
     id: 'arb-04',
@@ -89,7 +89,7 @@ export const PALACE_ARBITRATORS: Arbitrator[] = [
     rank: 'Grand Market Matron & Trade Arbitrator',
     quarter: 'Oja Oba Market Axis',
     specialty: 'Commerce, Market Stall Allocation & Trade Mediation',
-    avatar: '⚖️',
+    avatar: 'âš–ï¸',
   },
   {
     id: 'arb-05',
@@ -98,7 +98,7 @@ export const PALACE_ARBITRATORS: Arbitrator[] = [
     rank: 'Customary Law Assessor',
     quarter: 'Royal Secretariat',
     specialty: 'Customary Law, Written Declarations & Court Harmony',
-    avatar: '⚖️',
+    avatar: 'âš–ï¸',
   },
 ];
 
@@ -154,7 +154,7 @@ const SEED_DISPUTES: DisputeCase[] = [
 const STORAGE_KEY = 'ogere_customary_disputes_v1';
 
 import Constants from 'expo-constants';
-const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://192.168.1.100:3000';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'https://ogereremo.org';
 
 export async function getDisputes(): Promise<DisputeCase[]> {
   try {

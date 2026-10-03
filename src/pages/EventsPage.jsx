@@ -46,7 +46,7 @@ export default function EventsPage() {
           <div style={{ background: 'rgba(201,150,58,.06)', border: '1px solid rgba(201,150,58,.2)', padding: '2rem', marginBottom: '2.5rem', borderTop: '3px solid #C9963A' }}>
             {done ? (
               <div style={{ textAlign: 'center', padding: '1rem' }}>
-                <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>✅</div>
+                <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>âœ…</div>
                 <div className="cinzel" style={{ fontSize: '.62rem', letterSpacing: '.15em', color: '#a8d88e', textTransform: 'uppercase', marginBottom: '.4rem' }}>Event Submitted</div>
                 <div style={{ fontSize: '.84rem', color: 'rgba(245,237,216,.65)' }}>Your event has been submitted for review.</div>
                 <button className="btn-o" style={{ marginTop: '1rem' }} onClick={() => { setDone(false); setShowForm(false); }}>Close</button>
@@ -55,7 +55,7 @@ export default function EventsPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: '1rem' }}>
                 <div style={{ gridColumn: '1/-1' }}>
                   <div className="cinzel" style={{ fontSize: '.58rem', letterSpacing: '.12em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.32rem' }}>Event Title *</div>
-                  <input className="inp" value={f.title} onChange={e => setF({ ...f, title: e.target.value })} placeholder="Event name…" />
+                  <input className="inp" value={f.title} onChange={e => setF({ ...f, title: e.target.value })} placeholder="Event nameâ€¦" />
                 </div>
                 {[['Date *', 'date', 'date', ''], ['Time', 'time', 'time', ''], ['Venue *', 'text', 'venue', 'Location in Ogere Remo'], ['Organiser', 'text', 'organiser', 'Group/person organising'], ['Contact', 'text', 'contact', 'Phone or email']].map(([l, t, k, ph]) => (
                   <div key={k}>
@@ -65,10 +65,10 @@ export default function EventsPage() {
                 ))}
                 <div style={{ gridColumn: '1/-1' }}>
                   <div className="cinzel" style={{ fontSize: '.56rem', letterSpacing: '.1em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.28rem' }}>Description</div>
-                  <textarea className="inp" value={f.desc} onChange={e => setF({ ...f, desc: e.target.value })} placeholder="Describe the event…" style={{ minHeight: 80, resize: 'vertical' }} />
+                  <textarea className="inp" value={f.desc} onChange={e => setF({ ...f, desc: e.target.value })} placeholder="Describe the eventâ€¦" style={{ minHeight: 80, resize: 'vertical' }} />
                 </div>
                 <button className="btn-p" onClick={submit} disabled={busy} style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                  {busy ? <><Spinner />Submitting…</> : 'Submit Event →'}
+                  {busy ? <><Spinner />Submittingâ€¦</> : 'Submit Event â†’'}
                 </button>
               </div>
             )}
@@ -79,7 +79,7 @@ export default function EventsPage() {
           {upcoming.map((ev, i) => (
             <div key={i} style={{ display: 'flex', gap: '1.5rem', padding: '1.4rem', background: 'rgba(201,150,58,.05)', border: '1px solid rgba(201,150,58,.15)', borderLeft: `4px solid ${eventCatColor[ev.cat] || '#C9963A'}`, alignItems: 'flex-start', flexWrap: 'wrap' }}>
               <div style={{ textAlign: 'center', minWidth: 80 }}>
-                <div style={{ fontSize: '1.8rem', marginBottom: '.2rem' }}>📅</div>
+                <div style={{ fontSize: '1.8rem', marginBottom: '.2rem' }}>ðŸ“…</div>
                 <div className="cinzel" style={{ fontSize: '.56rem', letterSpacing: '.08em', color: '#C9963A', textTransform: 'uppercase' }}>{ev.date}</div>
                 {ev.time && <div style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.5)', marginTop: '.15rem' }}>{ev.time}</div>}
               </div>
@@ -88,7 +88,7 @@ export default function EventsPage() {
                   <span className="tag" style={{ background: eventCatColor[ev.cat] || '#8B6914', color: '#F5EDD8', margin: 0 }}>{ev.cat}</span>
                 </div>
                 <div className="playfair" style={{ fontSize: '1rem', color: '#F5EDD8', marginBottom: '.3rem', lineHeight: 1.3 }}>{ev.title}</div>
-                <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.5)', marginBottom: '.4rem' }}>📍 {ev.venue}</div>
+                <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.5)', marginBottom: '.4rem' }}>ðŸ“ {ev.venue}</div>
                 <div style={{ fontSize: '.82rem', lineHeight: 1.68, color: 'rgba(245,237,216,.62)' }}>{ev.desc}</div>
               </div>
             </div>

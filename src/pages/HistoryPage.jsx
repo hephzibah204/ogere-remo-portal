@@ -15,7 +15,7 @@ export default function HistoryPage() {
 
       <Section bg="#1a0d06">
         <p className="sl">Origins</p>
-        <h2 className="st">Ogere Remo — A Town Upon the Hills</h2>
+        <h2 className="st">Ogere Remo â€” A Town Upon the Hills</h2>
         <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center', margin: '1.5rem 0' }}>
           <div style={{ flex: '1', minWidth: '280px' }}>
             <p style={pStyle}>
@@ -38,7 +38,7 @@ export default function HistoryPage() {
           Ogere is situated in a hilly area. The topography of the town justifies the biblical saying which states that "A town that is situated on hills cannot be hid."
         </p>
         <p style={pStyle}>
-          Ogere is one of the old thirty three towns that made up "Remo Kingdom". It is in the South-West of the Kingdom. Ogere has boundaries in the North with Ajura (An Egba Town), in the South with Iperu Remo, in the East with Ode Remo and in the West with Sagamu Remo. Both the Lagos–Ibadan Expressway and Ijebu-Ode / Abeokuta Road pass through Ogere.
+          Ogere is one of the old thirty three towns that made up "Remo Kingdom". It is in the South-West of the Kingdom. Ogere has boundaries in the North with Ajura (An Egba Town), in the South with Iperu Remo, in the East with Ode Remo and in the West with Sagamu Remo. Both the Lagosâ€“Ibadan Expressway and Ijebu-Ode / Abeokuta Road pass through Ogere.
         </p>
       </Section>
 
@@ -52,7 +52,7 @@ export default function HistoryPage() {
 
       <Section bg="#2c1a0e">
         <p className="sl">The Migration</p>
-        <h2 className="st">Olipakala — Founder & Warrior Prince</h2>
+        <h2 className="st">Olipakala â€” Founder & Warrior Prince</h2>
         <p style={pStyle}>
           Olipakala, an Ile-Ife Crown Prince, a direct descendant of the Yoruba Progenitor Oduduwa and a warrior was the founder, ancestor and spiritual father of the Ogere people.
         </p>
@@ -66,12 +66,12 @@ export default function HistoryPage() {
 
       <Section bg="#1a0d06">
         <p className="sl">The Second Migration</p>
-        <h2 className="st">Lowa-Lida — The Lagere Contingent</h2>
+        <h2 className="st">Lowa-Lida â€” The Lagere Contingent</h2>
         <p style={pStyle}>
           Another emigration led by Lowa-Eri the founder of Lagere District in Ile-Ife also decided to move out of Ile-Ife to found another settlement. On their journey, Lowa-Eri the leader of the group died at Ipole and Lowa-Lida; his son then became the leader. Lowa-Lida established many villages in Ile-Nla, Ogbo near Ijebu-Ode before his settlement at Idoko (part of Ijebu-Mushin). Oral history claimed that Obinrin-Ojowu was erected at Ijebu-Ode by Lowa-Lida, who left his son Lowa-Iberu as his chief priest.
         </p>
         <p style={pStyle}>
-          Lowa-Lida and his group also moved westward from Ijebu-Ode and settled at Agbele Ogere with the Olipakala family. "Aje Shrine in Ogere was erected at the present site, which then was about 1½ miles from Agbele. The Oloja of Iremo who was in Lowa entourage was the Chief Priest. The word "Iremo" was later coined down to Aremo.
+          Lowa-Lida and his group also moved westward from Ijebu-Ode and settled at Agbele Ogere with the Olipakala family. "Aje Shrine in Ogere was erected at the present site, which then was about 1Â½ miles from Agbele. The Oloja of Iremo who was in Lowa entourage was the Chief Priest. The word "Iremo" was later coined down to Aremo.
         </p>
       </Section>
 
@@ -85,7 +85,7 @@ export default function HistoryPage() {
           Olipakala and his wife Yemogun guarded Lagere (Ogere)'s people and ensured their security from invasion by their neighbouring rival towns. He fought many wars to safeguard his people. His wife Yemogun was a good companion in all the wars. Ogere people were never defeated in any war when Olipakala, Yemogun and Lowa-Lida were alive; hence a cognomen was given to him that runs thus: <em>"Olipakala A Gbe Ni Ma Dehin"</em>.
         </p>
         <p style={pStyle}>
-          In times of war their immediate neighbours were contacted by the use of the "Apere" — a war signal drum used for transmitting messages which the enemy would not be able to interpret.
+          In times of war their immediate neighbours were contacted by the use of the "Apere" â€” a war signal drum used for transmitting messages which the enemy would not be able to interpret.
         </p>
       </Section>
 
@@ -102,7 +102,7 @@ export default function HistoryPage() {
 
       <Section bg="#2c1a0e">
         <p className="sl">The Ancestors</p>
-        <h2 className="st">Exit of Olipakala — Deification & Worship</h2>
+        <h2 className="st">Exit of Olipakala â€” Deification & Worship</h2>
         <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center', margin: '1.5rem 0' }}>
           <div style={{ flex: '1', minWidth: '280px' }}>
             <p style={pStyle}>
@@ -131,11 +131,11 @@ export default function HistoryPage() {
           The monarch is a divine creation on earth, or a man made institution designed as a rallying point in the society. Very many years after Olipakala had left the stage the settlers at Agbele who had multiplied astronomically decided to establish Obaship Rule and the two Royal Ruling Houses that emerged are:
         </p>
         <ul style={{ ...pStyle, listStyle: 'none', padding: 0 }}>
-          <li style={{ padding: '.3rem 0', borderBottom: '1px solid rgba(201,150,58,.1)' }}>👑 Legunsen</li>
-          <li style={{ padding: '.3rem 0', borderBottom: '1px solid rgba(201,150,58,.1)' }}>👑 Negbua (now known as Agbejoye / Fadagbuwa)</li>
+          <li style={{ padding: '.3rem 0', borderBottom: '1px solid rgba(201,150,58,.1)' }}>ðŸ‘‘ Legunsen</li>
+          <li style={{ padding: '.3rem 0', borderBottom: '1px solid rgba(201,150,58,.1)' }}>ðŸ‘‘ Negbua (now known as Agbejoye / Fadagbuwa)</li>
         </ul>
         <p style={pStyle}>
-          The name Ogere is from Ilagere — that was the name of the town at Agbele. Another interpretation by some people is that Ogere was from <em>"sun si Okere"</em> i.e. "move afar" as decreed by Obanta to Olipakala.
+          The name Ogere is from Ilagere â€” that was the name of the town at Agbele. Another interpretation by some people is that Ogere was from <em>"sun si Okere"</em> i.e. "move afar" as decreed by Obanta to Olipakala.
         </p>
       </Section>
 
@@ -166,10 +166,10 @@ export default function HistoryPage() {
         <p style={pStyle}>Four Ruling Houses were established in the following orders:</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: '1rem', marginTop: '1rem', marginBottom: '2rem' }}>
           {[
-            { n: 'Legunsen', ic: '👑' },
-            { n: 'Agbejoye / Fadagbuwa', ic: '👑' },
-            { n: 'Kankanbina / Ejigboye', ic: '👑' },
-            { n: 'Oregunsen', ic: '👑' },
+            { n: 'Legunsen', ic: 'ðŸ‘‘' },
+            { n: 'Agbejoye / Fadagbuwa', ic: 'ðŸ‘‘' },
+            { n: 'Kankanbina / Ejigboye', ic: 'ðŸ‘‘' },
+            { n: 'Oregunsen', ic: 'ðŸ‘‘' },
           ].map((h, i) => (
             <div key={i} style={{ padding: '1.2rem', background: 'rgba(201,150,58,.06)', border: '1px solid rgba(201,150,58,.2)', borderLeft: '3px solid #C9963A' }}>
               <div style={{ fontSize: '1.5rem', marginBottom: '.3rem' }}>{h.ic}</div>
@@ -198,14 +198,14 @@ export default function HistoryPage() {
         <p style={pStyle}>The ancient administration of Ogere was democratic. There were political societies which had functions to carry out.</p>
         <div style={{ display: 'grid', gap: '1rem' }}>
           {[
-            { t: 'The Osugbo Council', ic: '⚖️', d: 'They shared the day-to-day administration of the community with the Oba. The Osugbo was the main enforcement authority and therefore the most dreaded body. It was usually called Ogboni who met regularly in the "Iledi". The head of the Osugbo is the Oliwo and the secretary and High Priest is the Apena. Other officers include the Iwarefas, Olotu Ijo, Olotu Egan, and Olotu Erelu (Judiciary / Legislative).' },
-            { t: 'The Ihare', ic: '🏛️', d: 'The body of Traditional Chiefs — it comprises chiefs such as Olisa, Aro, Odofin, Family Chieftains and Honorary Chieftaincies (Executive).' },
-            { t: 'The Olopere', ic: '⚔️', d: 'Headed by Balogun of the town, took over military responsibilities of the community. It was open to all young men of the town. The body comprises traditional Chiefs like Asiwaju, Otun, Osi, Seriki, Ashipa, Bada, Aare etc.' },
-            { t: 'The Pampa Society', ic: '🛒', d: 'This took charge of Trade and commerce and township market.' },
-            { t: 'The Oro Society', ic: '🔦', d: 'This constituted the police.' },
-            { t: 'The Eluku Society', ic: '⚰️', d: 'This was the executioner.' },
-            { t: 'The Ode Group', ic: '🛡️', d: 'This was in charge of community security.' },
-            { t: 'Other Societies', ic: '🎭', d: 'Other groups or societies are the Alagemo, Elegun etc.' },
+            { t: 'The Osugbo Council', ic: 'âš–ï¸', d: 'They shared the day-to-day administration of the community with the Oba. The Osugbo was the main enforcement authority and therefore the most dreaded body. It was usually called Ogboni who met regularly in the "Iledi". The head of the Osugbo is the Oliwo and the secretary and High Priest is the Apena. Other officers include the Iwarefas, Olotu Ijo, Olotu Egan, and Olotu Erelu (Judiciary / Legislative).' },
+            { t: 'The Ihare', ic: 'ðŸ›ï¸', d: 'The body of Traditional Chiefs â€” it comprises chiefs such as Olisa, Aro, Odofin, Family Chieftains and Honorary Chieftaincies (Executive).' },
+            { t: 'The Olopere', ic: 'âš”ï¸', d: 'Headed by Balogun of the town, took over military responsibilities of the community. It was open to all young men of the town. The body comprises traditional Chiefs like Asiwaju, Otun, Osi, Seriki, Ashipa, Bada, Aare etc.' },
+            { t: 'The Pampa Society', ic: 'ðŸ›’', d: 'This took charge of Trade and commerce and township market.' },
+            { t: 'The Oro Society', ic: 'ðŸ”¦', d: 'This constituted the police.' },
+            { t: 'The Eluku Society', ic: 'âš°ï¸', d: 'This was the executioner.' },
+            { t: 'The Ode Group', ic: 'ðŸ›¡ï¸', d: 'This was in charge of community security.' },
+            { t: 'Other Societies', ic: 'ðŸŽ­', d: 'Other groups or societies are the Alagemo, Elegun etc.' },
           ].map((s, i) => (
             <div key={i} style={{ display: 'flex', gap: '1rem', padding: '1rem', background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.12)', borderLeft: '3px solid #C9963A' }}>
               <div style={{ fontSize: '1.8rem', flexShrink: 0 }}>{s.ic}</div>
@@ -266,7 +266,7 @@ export default function HistoryPage() {
       <Section bg="#1a0d06">
         <div style={{ maxWidth: 550, margin: '0 auto', textAlign: 'center' }}>
           <p className="sl">Our Song</p>
-          <h2 className="st" style={{ marginBottom: '1.5rem' }}>The Ogere Anthem — Ilu Mi</h2>
+          <h2 className="st" style={{ marginBottom: '1.5rem' }}>The Ogere Anthem â€” Ilu Mi</h2>
           <div style={{ fontFamily: "'Playfair Display',serif", fontStyle: 'italic', fontSize: '1.1rem', lineHeight: 2.3, color: '#F0D080', padding: '2rem', background: 'rgba(201,150,58,.06)', border: '1px solid rgba(201,150,58,.2)', borderLeft: '4px solid #C9963A' }}>
             <div>Ilu mi (2ce),</div>
             <div>Ilu Ogere,</div>
@@ -276,7 +276,7 @@ export default function HistoryPage() {
             <div>Timo le gbagbe Ilu Ogere.</div>
           </div>
           <p style={{ marginTop: '.8rem', fontSize: '.72rem', color: 'rgba(245,237,216,.35)' }}>
-            My town, my town — the town of Ogere. It is good and beautiful, it is a great town. There is no place as beautiful on this earth. I can never forget Ogere.
+            My town, my town â€” the town of Ogere. It is good and beautiful, it is a great town. There is no place as beautiful on this earth. I can never forget Ogere.
           </p>
         </div>
       </Section>

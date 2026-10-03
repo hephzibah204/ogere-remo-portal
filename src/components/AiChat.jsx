@@ -15,7 +15,7 @@ You help visitors with questions about:
 - Miss Olipakala beauty pageant
 - Weather, map locations, associations (OCDA, OYDA)
 
-Keep answers concise, warm, and informative. If you don't know something, say so. Use Yoruba greetings occasionally (Ẹ káàbọ̀, Ẹ ṣéun, etc.). Never make up specific facts about Ogere Remo.`;
+Keep answers concise, warm, and informative. If you don't know something, say so. Use Yoruba greetings occasionally (áº¸ kÃ¡Ã bá»Ì€, áº¸ á¹£Ã©un, etc.). Never make up specific facts about Ogere Remo.`;
 
 const QUICK_ACTIONS = [
   'Tell me about Ogere history',
@@ -37,7 +37,7 @@ export default function AiChat() {
   const getLocalAnswer = (text) => {
     const q = text.toLowerCase();
     if (q.includes('history') || q.includes('found') || q.includes('1401')) {
-      return 'Ẹ káàbọ̀! Ogere Remo was founded circa 1401 A.D. by Olipakala, Crown Prince of Ile-Ife and a great hunter and warrior who settled upon the sacred hills. Ogere is one of the 33 historic towns of Remo kingdom in Ogun State, Nigeria.';
+      return 'áº¸ kÃ¡Ã bá»Ì€! Ogere Remo was founded circa 1401 A.D. by Olipakala, Crown Prince of Ile-Ife and a great hunter and warrior who settled upon the sacred hills. Ogere is one of the 33 historic towns of Remo kingdom in Ogun State, Nigeria.';
     }
     if (q.includes('oba') || q.includes('king') || q.includes('ologere') || q.includes('james')) {
       return 'The reigning monarch of Ogere Remo is His Royal Highness Oba James Obafemi Saliu (Kankanbiina II), the Ologere of Ogere Remo. He ascended the throne following his coronation and rules in harmony with the Ologere-in-Council and traditional kingmakers.';
@@ -46,7 +46,7 @@ export default function AiChat() {
       return 'Lipakala Day is the flagship annual cultural festival of Ogere Remo celebrating our founding father Olipakala. It features the Miss Olipakala Beauty Pageant, traditional masquerade processions, community awards, and fundraising. The landmark 50th Golden Jubilee edition is in 2026!';
     }
     if (q.includes('emergency') || q.includes('police') || q.includes('security') || q.includes('phone') || q.includes('help')) {
-      return 'Emergency Contacts for Ogere Remo:\n• Police Emergency / General: 112\n• Ogere Police Station (DPO): 08081762371\n• FRSC Road Safety: 122\n• So-Safe Corps: 08034681687\n• Ogun State Ambulance: 08112000033\nFor full listings, visit the Security Alerts page.';
+      return 'Emergency Contacts for Ogere Remo:\nâ€¢ Police Emergency / General: 112\nâ€¢ Ogere Police Station (DPO): 08081762371\nâ€¢ FRSC Road Safety: 122\nâ€¢ So-Safe Corps: 08034681687\nâ€¢ Ogun State Ambulance: 08112000033\nFor full listings, visit the Security Alerts page.';
     }
     if (q.includes('touris') || q.includes('visit') || q.includes('resort') || q.includes('attraction') || q.includes('hotel')) {
       return 'Key attractions in Ogere Remo include:\n1. Ogere Resort & Convention Centre (KM 67, Lagos-Ibadan Expressway)\n2. Aafin Ologere & Lipakala Cultural Centre\n3. The Ancient Ogere Hills\n4. Central Oja Ale Market\n5. Historic Aladura World Headquarters.';
@@ -58,12 +58,12 @@ export default function AiChat() {
       return 'Visit our Community Marketplace at /marketplace to buy and sell local produce like fresh Ogere yams, handcrafted Adire fabrics, catering services, and artisan trades!';
     }
     if (q.includes('donate') || q.includes('fund') || q.includes('sponsor') || q.includes('opay') || q.includes('support')) {
-      return '🌟 Make Ogere Nigeria\'s 1st Digital Town!\nBy supporting this project, you are helping Ogere Remo pioneer history as the very first fully digitalized indigenous town in Nigeria.\n\nFunding directly supports developers, designers, project managers, cloud app hosting, and domain maintenance.\n• Bank: Opay\n• Account Number: 6101307590\n• Account Name: Hephtech Multimedia & Innovations\n• Call/WhatsApp: 09077780156\nẸ ṣéun púpọ̀ for your generous support!';
+      return 'ðŸŒŸ Make Ogere Nigeria\'s 1st Digital Town!\nBy supporting this project, you are helping Ogere Remo pioneer history as the very first fully digitalized indigenous town in Nigeria.\n\nFunding directly supports developers, designers, project managers, cloud app hosting, and domain maintenance.\nâ€¢ Bank: Opay\nâ€¢ Account Number: 6101307590\nâ€¢ Account Name: Hephtech Multimedia & Innovations\nâ€¢ Call/WhatsApp: 09077780156\náº¸ á¹£Ã©un pÃºpá»Ì€ for your generous support!';
     }
     if (q.includes('scholarship') || q.includes('grant') || q.includes('student')) {
       return 'Educational empowerment grants and bursaries are available at /scholarships for secondary, undergraduate, and tech students from Ogere Remo.';
     }
-    return 'Ẹ ṣéun for reaching out! You can explore all our community services across the portal, including the Monarchy, History, Marketplace, Digital ID, and News pages. If you need dedicated assistance, feel free to contact OCDA at info@ogereremo.ng.';
+    return 'áº¸ á¹£Ã©un for reaching out! You can explore all our community services across the portal, including the Monarchy, History, Marketplace, Digital ID, and News pages. If you need dedicated assistance, feel free to contact OCDA at info@ogereremo.ng.';
   };
 
   const send = async (text) => {
@@ -100,7 +100,7 @@ export default function AiChat() {
         }}
         aria-label="AI Chat Assistant"
       >
-        {open ? '✕' : '💬'}
+        {open ? 'âœ•' : 'ðŸ’¬'}
       </button>
 
       {open && (
@@ -123,9 +123,9 @@ export default function AiChat() {
           <div style={{ flex: 1, overflowY: 'auto', padding: '.8rem', display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
             {msgs.length === 0 && (
               <div style={{ textAlign: 'center', padding: '1.5rem .5rem' }}>
-                <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>🤖</div>
+                <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>ðŸ¤–</div>
                 <div className="cinzel" style={{ fontSize: '.5rem', letterSpacing: '.12em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.4rem' }}>Welcome to Ogere Remo</div>
-                <p style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.55)', lineHeight: 1.65, marginBottom: '1rem' }}>Ask me anything about the town — history, tourism, events, emergency contacts, and more!</p>
+                <p style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.55)', lineHeight: 1.65, marginBottom: '1rem' }}>Ask me anything about the town â€” history, tourism, events, emergency contacts, and more!</p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '.35rem', justifyContent: 'center' }}>
                   {QUICK_ACTIONS.map((q, i) => (
                     <button key={i} onClick={() => send(q)} style={{ fontSize: '.65rem', padding: '.35rem .6rem', background: 'rgba(201,150,58,.08)', border: '1px solid rgba(201,150,58,.2)', color: 'rgba(245,237,216,.7)', cursor: 'pointer', borderRadius: 4 }}>{q}</button>

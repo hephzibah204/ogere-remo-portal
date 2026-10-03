@@ -52,7 +52,7 @@ export default function SignInPage() {
             <label className="cinzel" style={{ fontSize: '.5rem', letterSpacing: '.12em', color: '#C9963A', textTransform: 'uppercase', display: 'block', marginBottom: '.25rem' }}>Password</label>
             <input type="password" className="inp" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} placeholder="Your password" required />
           </div>
-          <button type="submit" className="btn-p" disabled={loading} style={{ marginTop: '.5rem' }}>{loading ? 'Signing in...' : 'Sign In →'}</button>
+          <button type="submit" className="btn-p" disabled={loading} style={{ marginTop: '.5rem' }}>{loading ? 'Signing in...' : 'Sign In â†’'}</button>
         </form>
         <p style={{ textAlign: 'center', marginTop: '1.2rem', fontSize: '.78rem', color: 'rgba(245,237,216,.55)' }}>
           Don't have an account? <Link to="/signup" style={{ color: '#C9963A', fontWeight: 700 }}>Create an account</Link>

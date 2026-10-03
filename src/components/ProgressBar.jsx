@@ -3,14 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 /**
  * AnimatedProgressBar
  * Props:
- *   value        – current value (number)
- *   max          – maximum value (number, default 100)
- *   label        – optional text label above the bar
- *   showPercent  – show % text (default true)
- *   color        – bar fill color (default var(--gold))
- *   height       – bar height px (default 10)
- *   animated     – animate on mount (default true)
- *   showAmount   – show "₦X of ₦Y" text (optional formatter fn)
+ *   value        â€“ current value (number)
+ *   max          â€“ maximum value (number, default 100)
+ *   label        â€“ optional text label above the bar
+ *   showPercent  â€“ show % text (default true)
+ *   color        â€“ bar fill color (default var(--gold))
+ *   height       â€“ bar height px (default 10)
+ *   animated     â€“ animate on mount (default true)
+ *   showAmount   â€“ show "â‚¦X of â‚¦Y" text (optional formatter fn)
  */
 export default function ProgressBar({
   value = 0,
@@ -29,7 +29,7 @@ export default function ProgressBar({
 
   useEffect(() => {
     if (!animated) { setDisplayed(pct); return; }
-    // Animate from 0 → pct over ~900ms
+    // Animate from 0 â†’ pct over ~900ms
     const start = performance.now();
     const duration = 900;
     const from = 0;

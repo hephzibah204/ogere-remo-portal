@@ -11,42 +11,42 @@ import TimelineFeed from '../components/TimelineFeed';
 import { photos } from '../data/gallery';
 
 const CARDS = [
-  { id: 'monarchy', ic: '👑', t: 'The Monarchy & Palace', d: 'HRH Oba James Obafemi Saliu, ruling houses & royal court.' },
-  { id: 'royal-audience', ic: '📜', t: 'Book Royal Audience', d: 'Schedule an official appointment with the Ologere of Ogere.' },
-  { id: 'id-card', ic: '🪪', t: 'Digital Community ID', d: 'Apply for official verifiable Ogere citizen & resident identity.' },
-  { id: 'verify-id', ic: '🔍', t: 'Verify Digital ID', d: 'Public registry to verify authentic Ogere ID cards online.' },
-  { id: 'marketplace', ic: '🛒', t: 'Town Marketplace', d: 'Buy and sell farm produce, Adire textiles, and local crafts.' },
-  { id: 'map', ic: '🗺️', t: 'Google Maps & Places', d: 'Explore palaces, resorts, markets & emergency services on Google Maps.' },
-  { id: 'land-registry', ic: '📋', t: 'Land Registry & Plots', d: 'Verify surveys, check family boundaries & resolve disputes.' },
-  { id: 'scholarships', ic: '🎓', t: 'Scholarships & Grants', d: 'Educational bursaries, STEM awards & youth tech funding.' },
-  { id: 'health', ic: '🏥', t: 'Health & Blood Bank', d: 'Primary health centres and emergency donor registry.' },
-  { id: 'live', ic: '🎥', t: 'Palace Live TV', d: 'Live broadcasts of royal coronations, festivals & town meetings.' },
-  { id: 'quiz', ic: '🧠', t: 'Heritage Scholar Quiz', d: 'Test your 600-year history knowledge and earn royal certificate.' },
-  { id: 'oriki', ic: '📿', t: 'Royal Oriki Chants', d: 'Ancient praise poetry of Ologere kings and compounds.' },
-  { id: 'diaspora', ic: '🌍', t: 'Diaspora & Giving', d: 'Global network directory and community project endowment.' },
-  { id: 'business', ic: '💼', t: 'Business Directory', d: 'Find verified enterprises, contractors, and artisans.' },
-  { id: 'associations', ic: '🤝', t: 'Societies & Groups', d: 'OCDA, OYDA, Lagos Forum, OMCOOSA Alumni.' },
-  { id: 'education', ic: '🏫', t: 'Schools & Education', d: 'Primary, secondary, and vocational learning centres.' },
-  { id: 'faith', ic: '⛪', t: 'Faith & Spiritual Roots', d: 'Aladura birthplace, mosques, shrines, and festivals.' },
-  { id: 'history', ic: '📖', t: 'Founding History', d: '600-year chronicles from Prince Olipakala to modern era.' },
-  { id: 'timeline', ic: '⏳', t: 'Dynastic Timeline', d: 'Chronological reigns of all Ologere of Ogere Remo.' },
-  { id: 'forum', ic: '💬', t: 'Community Forum', d: 'Public deliberations, community notices & discussions.' },
-  { id: 'security-dashboard', ic: '🛡️', t: 'Security Command Radar', d: 'Multi-agency dispatch console, real-time tactical radar & CCTV scanner.' },
-  { id: 'alerts', ic: '🚨', t: 'Report Incident / SOS', d: 'Instant hazard alert dispatch and 24/7 emergency rescue lines.' },
-  { id: 'gallery', ic: '📸', t: 'Media Archives', d: 'Historic photo collections, pageants, and civic ceremonies.' },
-  { id: 'miss-olipakala', ic: '👸', t: 'Miss Olipakala Pageant', d: 'Annual cultural beauty pageant celebrating our daughters.' },
-  { id: 'contact', ic: '📬', t: 'Contact OCDA', d: 'Reach the central secretariat and community liaison desk.' },
+  { id: 'monarchy', ic: 'ðŸ‘‘', t: 'The Monarchy & Palace', d: 'HRH Oba James Obafemi Saliu, ruling houses & royal court.' },
+  { id: 'royal-audience', ic: 'ðŸ“œ', t: 'Book Royal Audience', d: 'Schedule an official appointment with the Ologere of Ogere.' },
+  { id: 'id-card', ic: 'ðŸªª', t: 'Digital Community ID', d: 'Apply for official verifiable Ogere citizen & resident identity.' },
+  { id: 'verify-id', ic: 'ðŸ”', t: 'Verify Digital ID', d: 'Public registry to verify authentic Ogere ID cards online.' },
+  { id: 'marketplace', ic: 'ðŸ›’', t: 'Town Marketplace', d: 'Buy and sell farm produce, Adire textiles, and local crafts.' },
+  { id: 'map', ic: 'ðŸ—ºï¸', t: 'Google Maps & Places', d: 'Explore palaces, resorts, markets & emergency services on Google Maps.' },
+  { id: 'land-registry', ic: 'ðŸ“‹', t: 'Land Registry & Plots', d: 'Verify surveys, check family boundaries & resolve disputes.' },
+  { id: 'scholarships', ic: 'ðŸŽ“', t: 'Scholarships & Grants', d: 'Educational bursaries, STEM awards & youth tech funding.' },
+  { id: 'health', ic: 'ðŸ¥', t: 'Health & Blood Bank', d: 'Primary health centres and emergency donor registry.' },
+  { id: 'live', ic: 'ðŸŽ¥', t: 'Palace Live TV', d: 'Live broadcasts of royal coronations, festivals & town meetings.' },
+  { id: 'quiz', ic: 'ðŸ§ ', t: 'Heritage Scholar Quiz', d: 'Test your 600-year history knowledge and earn royal certificate.' },
+  { id: 'oriki', ic: 'ðŸ“¿', t: 'Royal Oriki Chants', d: 'Ancient praise poetry of Ologere kings and compounds.' },
+  { id: 'diaspora', ic: 'ðŸŒ', t: 'Diaspora & Giving', d: 'Global network directory and community project endowment.' },
+  { id: 'business', ic: 'ðŸ’¼', t: 'Business Directory', d: 'Find verified enterprises, contractors, and artisans.' },
+  { id: 'associations', ic: 'ðŸ¤', t: 'Societies & Groups', d: 'OCDA, OYDA, Lagos Forum, OMCOOSA Alumni.' },
+  { id: 'education', ic: 'ðŸ«', t: 'Schools & Education', d: 'Primary, secondary, and vocational learning centres.' },
+  { id: 'faith', ic: 'â›ª', t: 'Faith & Spiritual Roots', d: 'Aladura birthplace, mosques, shrines, and festivals.' },
+  { id: 'history', ic: 'ðŸ“–', t: 'Founding History', d: '600-year chronicles from Prince Olipakala to modern era.' },
+  { id: 'timeline', ic: 'â³', t: 'Dynastic Timeline', d: 'Chronological reigns of all Ologere of Ogere Remo.' },
+  { id: 'forum', ic: 'ðŸ’¬', t: 'Community Forum', d: 'Public deliberations, community notices & discussions.' },
+  { id: 'security-dashboard', ic: 'ðŸ›¡ï¸', t: 'Security Command Radar', d: 'Multi-agency dispatch console, real-time tactical radar & CCTV scanner.' },
+  { id: 'alerts', ic: 'ðŸš¨', t: 'Report Incident / SOS', d: 'Instant hazard alert dispatch and 24/7 emergency rescue lines.' },
+  { id: 'gallery', ic: 'ðŸ“¸', t: 'Media Archives', d: 'Historic photo collections, pageants, and civic ceremonies.' },
+  { id: 'miss-olipakala', ic: 'ðŸ‘¸', t: 'Miss Olipakala Pageant', d: 'Annual cultural beauty pageant celebrating our daughters.' },
+  { id: 'contact', ic: 'ðŸ“¬', t: 'Contact OCDA', d: 'Reach the central secretariat and community liaison desk.' },
 ];
 
 const QUICK_ACTIONS = [
-  { ti: '💬 Town Chat', path: '/messages', sub: 'Town Messaging' },
-  { ti: '🚨 Emergency SOS', path: '/alerts', sub: 'Instant Rescue' },
-  { ti: '🛡️ Security Console', path: '/security-dashboard', sub: 'Live Radar' },
-  { ti: '🪪 Digital ID Card', path: '/id-card', sub: 'Apply Online' },
-  { ti: '👑 Royal Audience', path: '/royal-audience', sub: 'Book Appointment' },
-  { ti: '🛒 Marketplace', path: '/marketplace', sub: 'Buy & Sell Local' },
-  { ti: '🗺️ Google Maps', path: '/map', sub: 'Explore Landmarks' },
-  { ti: '🧠 Heritage Quiz', path: '/quiz', sub: 'Earn Certificate' },
+  { ti: 'ðŸ’¬ Town Chat', path: '/messages', sub: 'Town Messaging' },
+  { ti: 'ðŸš¨ Emergency SOS', path: '/alerts', sub: 'Instant Rescue' },
+  { ti: 'ðŸ›¡ï¸ Security Console', path: '/security-dashboard', sub: 'Live Radar' },
+  { ti: 'ðŸªª Digital ID Card', path: '/id-card', sub: 'Apply Online' },
+  { ti: 'ðŸ‘‘ Royal Audience', path: '/royal-audience', sub: 'Book Appointment' },
+  { ti: 'ðŸ›’ Marketplace', path: '/marketplace', sub: 'Buy & Sell Local' },
+  { ti: 'ðŸ—ºï¸ Google Maps', path: '/map', sub: 'Explore Landmarks' },
+  { ti: 'ðŸ§  Heritage Quiz', path: '/quiz', sub: 'Earn Certificate' },
 ];
 
 const WMO_CODES = {
@@ -59,15 +59,15 @@ const WMO_CODES = {
 };
 
 function getWeatherEmoji(code) {
-  if (code === 0 || code === 1) return '☀️';
-  if (code === 2) return '⛅';
-  if (code === 3) return '☁️';
-  if (code >= 45 && code <= 48) return '🌫️';
-  if ((code >= 51 && code <= 55) || (code >= 80 && code <= 82)) return '🌦️';
-  if ((code >= 61 && code <= 67) || (code >= 85 && code <= 86)) return '🌧️';
-  if (code >= 71 && code <= 77) return '❄️';
-  if (code >= 95) return '⛈️';
-  return '🌡️';
+  if (code === 0 || code === 1) return 'â˜€ï¸';
+  if (code === 2) return 'â›…';
+  if (code === 3) return 'â˜ï¸';
+  if (code >= 45 && code <= 48) return 'ðŸŒ«ï¸';
+  if ((code >= 51 && code <= 55) || (code >= 80 && code <= 82)) return 'ðŸŒ¦ï¸';
+  if ((code >= 61 && code <= 67) || (code >= 85 && code <= 86)) return 'ðŸŒ§ï¸';
+  if (code >= 71 && code <= 77) return 'â„ï¸';
+  if (code >= 95) return 'â›ˆï¸';
+  return 'ðŸŒ¡ï¸';
 }
 
 export default function HomePage() {
@@ -97,7 +97,7 @@ export default function HomePage() {
   return (
     <div style={{ background: 'var(--darker)' }}>
       <SEO
-        title="Home — Kingdom of Ogere Remo Official Portal"
+        title="Home â€” Kingdom of Ogere Remo Official Portal"
         description="Official community portal of Ogere Remo, Ogun State, Nigeria. Heritage, Monarchy, Digital ID, Marketplace, Land Registry, and Google Maps."
       />
       
@@ -181,7 +181,7 @@ export default function HomePage() {
               { val: 1401, suf: ' A.D.', lab: 'Ancient Founding' },
               { val: 33, suf: '', lab: 'Remo Towns League' },
               { val: 625, suf: '+ Yrs', lab: 'Dynastic Heritage' },
-              { val: 4, suf: ' Quarters', lab: 'Agbele · Lisa · Igan · Legunsen' },
+              { val: 4, suf: ' Quarters', lab: 'Agbele Â· Lisa Â· Igan Â· Legunsen' },
             ].map((stat, i) => (
               <div key={i} className="glass" style={{ padding: '1rem', borderRadius: '12px', border: '1px solid rgba(201,150,58,0.25)', background: 'rgba(26,13,6,0.45)' }}>
                 <div className="cinzel" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.3rem)', fontWeight: 900, color: 'var(--gold)', marginBottom: '0.2rem', lineHeight: 1 }}>
@@ -198,15 +198,15 @@ export default function HomePage() {
 
       {/* Live Civic News & Security Ticker Strip */}
       <LiveTicker
-        label="⚡ OGERE LIVE WIRE"
+        label="âš¡ OGERE LIVE WIRE"
         speed={32}
         bg="rgba(18, 8, 4, 0.95)"
         items={[
-          '🚨 Security Patrol Command: All Sectors & Tollgate Corridors Active & Monitored',
-          '🗺️ Google Maps Digitization: Ground Surveys ongoing across all quarters',
-          '🪪 Digital Citizen Cards: Over 500+ Verified IDs Issued & Active',
-          '🤝 Diaspora Capital Endowment: ₦10M Milestone Drive Live',
-          '👑 Palace Court: Official Ologere Royal Audiences now open for online booking',
+          'ðŸš¨ Security Patrol Command: All Sectors & Tollgate Corridors Active & Monitored',
+          'ðŸ—ºï¸ Google Maps Digitization: Ground Surveys ongoing across all quarters',
+          'ðŸªª Digital Citizen Cards: Over 500+ Verified IDs Issued & Active',
+          'ðŸ¤ Diaspora Capital Endowment: â‚¦10M Milestone Drive Live',
+          'ðŸ‘‘ Palace Court: Official Ologere Royal Audiences now open for online booking',
         ]}
       />
 
@@ -245,7 +245,7 @@ export default function HomePage() {
                 flexShrink: 0,
               }}
             >
-              🚨
+              ðŸš¨
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
@@ -290,7 +290,7 @@ export default function HomePage() {
                 boxShadow: '0 4px 14px rgba(220, 38, 38, 0.45)',
               }}
             >
-              <span>📞</span>
+              <span>ðŸ“ž</span>
               <span>Fast Emergency Dial</span>
             </button>
 
@@ -307,7 +307,7 @@ export default function HomePage() {
                 cursor: 'pointer',
               }}
             >
-              Report Incident ➔
+              Report Incident âž”
             </button>
 
             <button
@@ -323,7 +323,7 @@ export default function HomePage() {
                 cursor: 'pointer',
               }}
             >
-              Command Console ➔
+              Command Console âž”
             </button>
           </div>
         </div>
@@ -331,7 +331,7 @@ export default function HomePage() {
 
       <AdireDivider />
 
-      {/* ── CIVIC PULSE: "WHAT'S ON YOUR MIND?" & LIVE TIMELINE FEED ── */}
+      {/* â”€â”€ CIVIC PULSE: "WHAT'S ON YOUR MIND?" & LIVE TIMELINE FEED â”€â”€ */}
       <Section bg="var(--dark)" py="4.5rem">
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <p className="cinzel" style={{ color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.75rem', marginBottom: '0.8rem', fontWeight: 700 }}>
@@ -341,7 +341,7 @@ export default function HomePage() {
             What's On Your Mind, Ogere Remo?
           </h2>
           <p className="baskerville" style={{ color: 'rgba(245, 237, 216, 0.75)', maxWidth: '680px', margin: '0 auto', fontSize: '1.05rem', lineHeight: 1.7 }}>
-            <em>Kí ni nǹkan tó ń ṣẹlẹ̀?</em> Share community news, celebrate neighborhood achievements, post quarter photos, and deliberate on town development in real-time.
+            <em>KÃ­ ni nÇ¹kan tÃ³ Å„ á¹£áº¹láº¹Ì€?</em> Share community news, celebrate neighborhood achievements, post quarter photos, and deliberate on town development in real-time.
           </p>
         </div>
 
@@ -361,10 +361,10 @@ export default function HomePage() {
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '3.5rem', marginBottom: '0.5rem' }}>{getWeatherEmoji(weather.current.weather_code)}</div>
                 <div className="cinzel" style={{ fontSize: '2.8rem', color: 'var(--cream)', lineHeight: 1, fontWeight: 700 }}>
-                  {Math.round(weather.current.temperature_2m)}°C
+                  {Math.round(weather.current.temperature_2m)}Â°C
                 </div>
                 <div className="baskerville" style={{ fontSize: '0.95rem', color: 'rgba(245, 237, 216, 0.6)', marginTop: '0.4rem' }}>
-                  {WMO_CODES[weather.current.weather_code]} · Humidity {weather.current.relative_humidity_2m}%
+                  {WMO_CODES[weather.current.weather_code]} Â· Humidity {weather.current.relative_humidity_2m}%
                 </div>
               </div>
               
@@ -378,7 +378,7 @@ export default function HomePage() {
                     <div key={i} style={{ textAlign: 'center', minWidth: '65px' }}>
                       <div className="cinzel" style={{ fontSize: '0.62rem', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.6rem' }}>{day}</div>
                       <div style={{ fontSize: '1.8rem', marginBottom: '0.3rem' }}>{getWeatherEmoji(weather.daily.weather_code[i])}</div>
-                      <div style={{ fontSize: '1rem', color: 'var(--cream)', fontWeight: 700 }}>{Math.round(weather.daily.temperature_2m_max[i])}°C</div>
+                      <div style={{ fontSize: '1rem', color: 'var(--cream)', fontWeight: 700 }}>{Math.round(weather.daily.temperature_2m_max[i])}Â°C</div>
                     </div>
                   );
                 })}
@@ -407,7 +407,7 @@ export default function HomePage() {
           <p className="baskerville" style={{ color: 'rgba(245, 237, 216, 0.7)', maxWidth: '680px', margin: '0 auto', fontSize: '1.1rem', lineHeight: 1.8 }}>
             Interactive satellite navigation across the palaces, markets, resorts, emergency facilities, and ancient hills of Ogereland.{' '}
             <Link to="/map" style={{ color: 'var(--gold)', borderBottom: '1px solid var(--gold)' }}>
-              Open Full Interactive Google Map →
+              Open Full Interactive Google Map â†’
             </Link>
           </p>
         </div>
@@ -415,10 +415,10 @@ export default function HomePage() {
         <div className="glass" style={{ borderRadius: '16px', overflow: 'hidden', border: '2px solid var(--gold)', boxShadow: 'var(--shadow-gold)' }}>
           <div style={{ padding: '1rem 1.5rem', borderBottom: '1px solid rgba(201, 150, 58, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(201, 150, 58, 0.08)', flexWrap: 'wrap', gap: '0.5rem' }}>
             <span className="cinzel" style={{ fontSize: '0.72rem', color: 'var(--gold)', fontWeight: 700 }}>
-              📍 LIVE GOOGLE MAPS · OGERE REMO (6°47′N, 3°34′E)
+              ðŸ“ LIVE GOOGLE MAPS Â· OGERE REMO (6Â°47â€²N, 3Â°34â€²E)
             </span>
             <Link to="/map" className="btn-p" style={{ fontSize: '0.62rem', padding: '0.35rem 0.9rem', textDecoration: 'none' }}>
-              Launch Full Map & Navigator →
+              Launch Full Map & Navigator â†’
             </Link>
           </div>
 
@@ -437,13 +437,13 @@ export default function HomePage() {
           <div style={{ padding: '1rem 1.5rem', background: 'rgba(0,0,0,0.5)', display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.1em' }}>KEY PLACES:</span>
             {[
-              ['👑 Aafin Ologere Palace', '/map'],
-              ['🏨 Ogere Resort & Convention Centre', '/map'],
-              ['🛖 Ogere Central Market', '/map'],
-              ['🏫 Ositelu Memorial College', '/map'],
-              ['⛪ Church of the Lord (Aladura) HQ', '/map'],
-              ['🏥 Primary Health Centre', '/map'],
-              ['🌿 Agbele Heights', '/map'],
+              ['ðŸ‘‘ Aafin Ologere Palace', '/map'],
+              ['ðŸ¨ Ogere Resort & Convention Centre', '/map'],
+              ['ðŸ›– Ogere Central Market', '/map'],
+              ['ðŸ« Ositelu Memorial College', '/map'],
+              ['â›ª Church of the Lord (Aladura) HQ', '/map'],
+              ['ðŸ¥ Primary Health Centre', '/map'],
+              ['ðŸŒ¿ Agbele Heights', '/map'],
             ].map(([ti, href]) => (
               <Link
                 key={ti}
@@ -520,7 +520,7 @@ export default function HomePage() {
             </h2>
           </div>
           <Link to="/gallery" className="btn-o">
-            View Media Archives (100+ Photos) →
+            View Media Archives (100+ Photos) â†’
           </Link>
         </div>
 
@@ -536,7 +536,7 @@ export default function HomePage() {
                   {p.title}
                 </h4>
                 <p className="baskerville" style={{ fontSize: '0.85rem', color: 'rgba(245, 237, 216, 0.65)', lineHeight: 1.6 }}>
-                  {p.desc.length > 110 ? p.desc.substring(0, 110) + '…' : p.desc}
+                  {p.desc.length > 110 ? p.desc.substring(0, 110) + 'â€¦' : p.desc}
                 </p>
               </div>
             </div>

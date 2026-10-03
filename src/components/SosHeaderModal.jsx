@@ -39,7 +39,7 @@ const EMERGENCY_SERVICES = [
     displayPhone: '0808 176 2371',
     badge: 'Police',
     color: '#3b82f6',
-    icon: '👮‍♂️',
+    icon: 'ðŸ‘®â€â™‚ï¸',
   },
   {
     name: 'Amotekun & So-Safe Corps',
@@ -48,7 +48,7 @@ const EMERGENCY_SERVICES = [
     displayPhone: '0803 468 1687',
     badge: 'Armed Response',
     color: '#10b981',
-    icon: '🛡️',
+    icon: 'ðŸ›¡ï¸',
   },
   {
     name: 'FRSC Expressway Rescue',
@@ -57,7 +57,7 @@ const EMERGENCY_SERVICES = [
     displayPhone: '122 (Toll Free) / 0807 769 0200',
     badge: 'Crash / Rescue',
     color: '#ef4444',
-    icon: '🚑',
+    icon: 'ðŸš‘',
   },
   {
     name: 'Aafin Ologere Palace Vigilante',
@@ -66,7 +66,7 @@ const EMERGENCY_SERVICES = [
     displayPhone: '0814 555 0192',
     badge: 'Local Defense',
     color: '#d97706',
-    icon: '👑',
+    icon: 'ðŸ‘‘',
   },
   {
     name: 'Ogere Specialist Medical Clinic',
@@ -75,13 +75,13 @@ const EMERGENCY_SERVICES = [
     displayPhone: '0811 200 0033',
     badge: 'Ambulance',
     color: '#ec4899',
-    icon: '🏥',
+    icon: 'ðŸ¥',
   },
 ];
 
 const OGERE_SECTORS = [
   'Oke-Ogere Central Market Axis',
-  'KM 67 Lagos–Ibadan Expressway Bypass',
+  'KM 67 Lagosâ€“Ibadan Expressway Bypass',
   'Palace Way / Aafin Ologere Area',
   'Isale-Ogere Hospital Road',
   'OMCOOSA College Junction',
@@ -107,7 +107,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [pinnedLocation, setPinnedLocation] = useState(null);
 
-  // ─── Real GPS & IP Telemetry (Reporter Location) ─────────────────────────────
+  // â”€â”€â”€ Real GPS & IP Telemetry (Reporter Location) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [deviceLocation, setDeviceLocation] = useState(null); // { lat, lng, accuracy, ip, mapsUrl, isGps, fullAddress, directionsUrl }
   const [locationStatus, setLocationStatus] = useState('idle'); // idle, acquiring, acquired, denied, error
   const locationRef = useRef(null); // keeps latest location for use in executeSosDispatch
@@ -140,7 +140,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       isGps = true;
     }
 
-    // 2. Fetch public IP — try 3 services in sequence
+    // 2. Fetch public IP â€” try 3 services in sequence
     let ip = 'Unknown';
     try {
       const r = await fetchWithTimeout('https://api.ipify.org?format=json', 4000);
@@ -662,7 +662,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     const incidentId = `SOS-${Date.now().toString().slice(-6)}`;
     const initialSnapshot = captureSnapshot();
 
-    // Use live-acquired GPS/IP — re-acquire if not ready yet
+    // Use live-acquired GPS/IP â€” re-acquire if not ready yet
     let loc = locationRef.current;
     if (!loc) {
       loc = await acquireExactLocation();
@@ -675,7 +675,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
 
     const newSos = {
       id: incidentId,
-      title: `🚨 CRITICAL SOS PANIC: ${finalLocation}`,
+      title: `ðŸš¨ CRITICAL SOS PANIC: ${finalLocation}`,
       category: 'Armed Response / Distress',
       severity: 'CRITICAL_DISPATCH',
       threatLevel: 'CODE_RED',
@@ -685,7 +685,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       full_address: finalFullAddress,
       directionsUrl: finalDirectionsUrl,
       directions_url: finalDirectionsUrl,
-      // Real GPS telemetry — precise latitude/longitude from device
+      // Real GPS telemetry â€” precise latitude/longitude from device
       latitude: loc?.lat || null,
       longitude: loc?.lng || null,
       accuracy: loc?.accuracy || null,
@@ -700,7 +700,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
       locale: loc?.language || navigator.language || null,
       timezone: loc?.timezone || null,
       appVersion: 'web-portal',
-      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}${finalBackup ? ` | Kin: ${finalBackup}` : ''}). Location: ${finalLocation}. Immediate tactical dispatch required.${loc?.lat ? ` GPS: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)} (±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m).` : ''} Network: ${loc?.networkType || '?'}. Battery: ${loc?.batteryLevel != null ? loc.batteryLevel + '%' : '?'}. ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
+      description: `EMERGENCY SOS BUTTON TRIGGERED by ${callerName || 'Citizen in Distress'} (${callerPhone || 'Unlisted'}${finalBackup ? ` | Kin: ${finalBackup}` : ''}). Location: ${finalLocation}. Immediate tactical dispatch required.${loc?.lat ? ` GPS: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)} (Â±${loc.accuracy ? Math.round(loc.accuracy) : '?'}m).` : ''} Network: ${loc?.networkType || '?'}. Battery: ${loc?.batteryLevel != null ? loc.batteryLevel + '%' : '?'}. ${cameraEnabled ? '[LIVE CAMERA FEED ACTIVE]' : ''} ${audioEnabled ? '[AMBIENT AUDIO FEED ACTIVE]' : ''}`.trim(),
       reporterName: callerName || 'Citizen SOS Alert',
       reporterPhone: callerPhone || 'Emergency Caller',
       backupPhone: finalBackup,
@@ -791,11 +791,11 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     const walkLoc = locationRef.current;
     const walkIncident = {
       id: `WALK-${Date.now().toString().slice(-6)}`,
-      title: `🛡️ Virtual Escort Active: ${walkOrigin} → ${walkDest}`,
+      title: `ðŸ›¡ï¸ Virtual Escort Active: ${walkOrigin} â†’ ${walkDest}`,
       category: 'Virtual Escort Guard',
       severity: 'Monitoring',
       threatLevel: 'CODE_YELLOW',
-      location: `${walkOrigin} → ${walkDest}`,
+      location: `${walkOrigin} â†’ ${walkDest}`,
       latitude: walkLoc?.lat || null,
       longitude: walkLoc?.lng || null,
       accuracy: walkLoc?.accuracy || null,
@@ -820,7 +820,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
   const handleWalkArrived = () => {
     walkEndTimeRef.current = null;
     setIsWalking(false);
-    alert('🎉 Walk With Me: You have safely completed your journey. Escort session closed.');
+    alert('ðŸŽ‰ Walk With Me: You have safely completed your journey. Escort session closed.');
   };
 
   const handleWalkDistress = (reason = 'USER_PANIC') => {
@@ -829,11 +829,11 @@ export default function SosHeaderModal({ isOpen, onClose }) {
     const distressLoc = locationRef.current;
     const distressIncident = {
       id: `WALK-PANIC-${Date.now().toString().slice(-6)}`,
-      title: `🚨 VIRTUAL ESCORT DISTRESS: ${walkOrigin} → ${walkDest}`,
+      title: `ðŸš¨ VIRTUAL ESCORT DISTRESS: ${walkOrigin} â†’ ${walkDest}`,
       category: 'Escort Distress / Panic',
       severity: 'CRITICAL_DISPATCH',
       threatLevel: 'CODE_RED',
-      location: `${walkOrigin} → ${walkDest}`,
+      location: `${walkOrigin} â†’ ${walkDest}`,
       latitude: distressLoc?.lat || null,
       longitude: distressLoc?.lng || null,
       accuracy: distressLoc?.accuracy || null,
@@ -910,7 +910,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                 fontSize: '1.4rem',
               }}
             >
-              🚨
+              ðŸš¨
             </div>
             <div>
               <h2 className="cinzel" style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0, color: '#fca5a5' }}>
@@ -937,7 +937,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
               justifyContent: 'center',
             }}
           >
-            ✕
+            âœ•
           </button>
         </div>
 
@@ -957,7 +957,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
               cursor: 'pointer',
             }}
           >
-            🚨 Instant SOS Panic
+            ðŸš¨ Instant SOS Panic
           </button>
 
           <button
@@ -974,7 +974,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
               cursor: 'pointer',
             }}
           >
-            🛡️ Walk With Me (Escort)
+            ðŸ›¡ï¸ Walk With Me (Escort)
           </button>
 
           <button
@@ -991,7 +991,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
               cursor: 'pointer',
             }}
           >
-            📞 Direct Hotlines
+            ðŸ“ž Direct Hotlines
           </button>
         </div>
 
@@ -1003,7 +1003,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                 <div style={{ background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: '8px', padding: '1rem', marginBottom: '1.2rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
                     <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#fca5a5' }}>
-                      📍 Emergency Location &amp; Venue in Ogere:
+                      ðŸ“ Emergency Location &amp; Venue in Ogere:
                     </div>
                     <button
                       type="button"
@@ -1023,7 +1023,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         gap: '4px',
                       }}
                     >
-                      {locationStatus === 'acquiring' ? '⏳ Locking GPS...' : '🎯 Get Exact GPS'}
+                      {locationStatus === 'acquiring' ? 'â³ Locking GPS...' : 'ðŸŽ¯ Get Exact GPS'}
                     </button>
                   </div>
 
@@ -1103,7 +1103,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                             onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(56,189,248,0.15)'}
                             onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                           >
-                            <span style={{ fontWeight: 700, color: '#38bdf8' }}>📍 {item.name}</span>
+                            <span style={{ fontWeight: 700, color: '#38bdf8' }}>ðŸ“ {item.name}</span>
                             <span style={{ color: '#94a3b8', fontSize: '0.68rem' }}>{item.displayName}</span>
                           </div>
                         ))}
@@ -1131,7 +1131,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         justifyContent: 'center',
                       }}
                     >
-                      🗺️ {showMapPicker ? 'Close Map Picker' : 'Pin Location on Map'}
+                      ðŸ—ºï¸ {showMapPicker ? 'Close Map Picker' : 'Pin Location on Map'}
                     </button>
                     {showMapPicker && (
                       <GoogleMapPinAdjuster
@@ -1139,7 +1139,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         initialLng={pinnedLocation?.lng || deviceLocation?.lng || 3.6437}
                         title="Adjust Emergency Distress Pin (Google Map)"
                         pinColor="#ef4444"
-                        pinIconChar="🚨"
+                        pinIconChar="ðŸš¨"
                         height="240px"
                         autoLocate={true}
                         onLocationChange={(loc) => {
@@ -1187,7 +1187,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         gap: '4px',
                       }}
                     >
-                      🗺️ {showMapPicker ? 'Hide Map Preview' : 'View / Adjust Pin on Map'}
+                      ðŸ—ºï¸ {showMapPicker ? 'Hide Map Preview' : 'View / Adjust Pin on Map'}
                     </button>
 
                     <button
@@ -1222,7 +1222,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         gap: '4px',
                       }}
                     >
-                      🎯 {locationStatus === 'acquiring' ? 'Locking GPS...' : 'Locate My Current GPS'}
+                      ðŸŽ¯ {locationStatus === 'acquiring' ? 'Locking GPS...' : 'Locate My Current GPS'}
                     </button>
                   </div>
 
@@ -1250,7 +1250,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                   </div>
                 </div>
 
-                {/* ── LIVE CAMERA & AMBIENT AUDIO SURVEILLANCE EVIDENCE TOGGLES ── */}
+                {/* â”€â”€ LIVE CAMERA & AMBIENT AUDIO SURVEILLANCE EVIDENCE TOGGLES â”€â”€ */}
                 <div
                   style={{
                     background: 'rgba(255, 255, 255, 0.03)',
@@ -1262,7 +1262,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
                     <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#fca5a5', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <span>📡</span>
+                      <span>ðŸ“¡</span>
                       <span>LIVE SURVEILLANCE EVIDENCE (TACTICAL FEED)</span>
                     </div>
                     <span style={{ fontSize: '0.65rem', background: 'rgba(239,68,68,0.2)', color: '#f87171', padding: '2px 6px', borderRadius: '4px', fontWeight: 700 }}>
@@ -1297,7 +1297,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         transition: 'all 0.2s ease',
                       }}
                     >
-                      <span>📹</span>
+                      <span>ðŸ“¹</span>
                       <span>{cameraEnabled ? 'Live Camera: ON' : 'Share Camera Feed'}</span>
                     </button>
 
@@ -1323,7 +1323,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         transition: 'all 0.2s ease',
                       }}
                     >
-                      <span>🎙️</span>
+                      <span>ðŸŽ™ï¸</span>
                       <span>{audioEnabled ? 'Ambient Mic: ON' : 'Share Ambient Audio'}</span>
                     </button>
                   </div>
@@ -1331,7 +1331,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                   {/* Permission / Hardware Error Notice */}
                   {mediaError && (
                     <div style={{ marginTop: '0.6rem', padding: '0.5rem', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid #ef4444', borderRadius: '6px', fontSize: '0.7rem', color: '#fca5a5' }}>
-                      ⚠️ {mediaError}
+                      âš ï¸ {mediaError}
                     </div>
                   )}
 
@@ -1369,7 +1369,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         }}
                       >
                         <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444', display: 'inline-block', animation: 'pulseGlow 1s infinite' }} />
-                        🔴 LIVE TO POLICE COMMAND
+                        ðŸ”´ LIVE TO POLICE COMMAND
                       </div>
 
                       {/* Flip Camera Button */}
@@ -1390,7 +1390,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                           cursor: 'pointer',
                         }}
                       >
-                        🔄 {facingMode === 'environment' ? 'Selfie Cam' : 'Rear Cam'}
+                        ðŸ”„ {facingMode === 'environment' ? 'Selfie Cam' : 'Rear Cam'}
                       </button>
                     </div>
                   )}
@@ -1400,7 +1400,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     <div style={{ marginTop: '0.8rem', background: 'rgba(5, 46, 22, 0.5)', border: '1px solid #22c55e', borderRadius: '6px', padding: '0.6rem' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem', fontSize: '0.7rem' }}>
                         <span style={{ color: '#4ade80', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <span>🎙️</span> Ambient Sound Broadcast Active
+                          <span>ðŸŽ™ï¸</span> Ambient Sound Broadcast Active
                         </span>
                         <span style={{ color: '#86efac', fontSize: '0.65rem', fontFamily: 'monospace' }}>
                           Level: {audioLevel}%
@@ -1417,13 +1417,13 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                         />
                       </div>
                       <div style={{ fontSize: '0.62rem', color: '#94a3b8', marginTop: '0.3rem' }}>
-                        🤫 Silently monitoring room and background noise for emergency responders.
+                        ðŸ¤« Silently monitoring room and background noise for emergency responders.
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* ═══ Real GPS & IP Telemetry Status Banner ═══ */}
+                {/* â•â•â• Real GPS & IP Telemetry Status Banner â•â•â• */}
                 <div style={{ margin: '0.8rem 0', border: '1px solid', borderRadius: '8px', padding: '0.8rem',
                   borderColor: locationStatus === 'acquired' ? '#22c55e' : locationStatus === 'acquired_ip' ? '#f59e0b' : locationStatus === 'acquiring' ? '#38bdf8' : 'rgba(239,68,68,0.5)',
                   background: locationStatus === 'acquired' ? 'rgba(5,46,22,0.6)' : locationStatus === 'acquiring' ? 'rgba(15,23,42,0.8)' : 'rgba(15,23,42,0.8)',
@@ -1432,11 +1432,11 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     <span style={{ fontSize: '0.72rem', fontWeight: 800,
                       color: locationStatus === 'acquired' ? '#4ade80' : locationStatus === 'acquired_ip' ? '#fde047' : locationStatus === 'acquiring' ? '#38bdf8' : '#f87171'
                     }}>
-                      🛰️ {locationStatus === 'acquired' ? 'EXACT GPS LOCKED' : locationStatus === 'acquired_ip' ? 'IP-BASED LOCATION ESTIMATED' : locationStatus === 'acquiring' ? 'ACQUIRING SATELLITE LOCK...' : 'LOCATION NOT DETECTED'}
+                      ðŸ›°ï¸ {locationStatus === 'acquired' ? 'EXACT GPS LOCKED' : locationStatus === 'acquired_ip' ? 'IP-BASED LOCATION ESTIMATED' : locationStatus === 'acquiring' ? 'ACQUIRING SATELLITE LOCK...' : 'LOCATION NOT DETECTED'}
                     </span>
                     {locationStatus !== 'acquiring' && (
                       <button onClick={acquireExactLocation} style={{ background: 'rgba(56,189,248,0.15)', border: '1px solid #38bdf8', borderRadius: '4px', padding: '2px 8px', color: '#38bdf8', fontSize: '0.65rem', fontWeight: 800, cursor: 'pointer' }}>
-                        🔄 Refresh
+                        ðŸ”„ Refresh
                       </button>
                     )}
                   </div>
@@ -1464,13 +1464,13 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       marginBottom: '0.6rem',
                     }}
                   >
-                    <span style={{ fontSize: '1rem' }}>📍</span>
+                    <span style={{ fontSize: '1rem' }}>ðŸ“</span>
                     <span>
                       {locationStatus === 'acquiring'
                         ? 'Acquiring Satellite Lock & GPS Coordinates...'
                         : locationStatus === 'acquired'
-                        ? '📍 Re-acquire My Exact Current Location'
-                        : '📍 Get My Actual Current Location (GPS & IP)'}
+                        ? 'ðŸ“ Re-acquire My Exact Current Location'
+                        : 'ðŸ“ Get My Actual Current Location (GPS & IP)'}
                     </span>
                   </button>
 
@@ -1478,26 +1478,26 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem', fontSize: '0.7rem' }}>
                       {deviceLocation.ogereLoc && (
                         <div style={{ gridColumn: '1 / -1', background: '#0f172a', border: '1px solid #38bdf8', padding: '0.4rem 0.6rem', borderRadius: '4px' }}>
-                          <div style={{ color: '#38bdf8', fontWeight: 900, fontSize: '0.65rem' }}>📍 OGERE REMO SECTOR & LANDMARK:</div>
+                          <div style={{ color: '#38bdf8', fontWeight: 900, fontSize: '0.65rem' }}>ðŸ“ OGERE REMO SECTOR & LANDMARK:</div>
                           <div style={{ color: '#ffffff', fontWeight: 800, marginTop: '2px' }}>{deviceLocation.ogereLoc.formattedText}</div>
                           <div style={{ color: '#94a3b8', fontSize: '0.58rem', marginTop: '2px' }}>
-                            Sector: {deviceLocation.ogereLoc.sector} · 🚓 ~{deviceLocation.ogereLoc.distanceToPolice}m to Ogere Police HQ
+                            Sector: {deviceLocation.ogereLoc.sector} Â· ðŸš“ ~{deviceLocation.ogereLoc.distanceToPolice}m to Ogere Police HQ
                           </div>
                         </div>
                       )}
                       {!deviceLocation.isInsideOgere && (
                         <div style={{ gridColumn: '1 / -1', background: 'rgba(234, 88, 12, 0.15)', border: '1px solid #f97316', padding: '0.35rem 0.6rem', borderRadius: '4px', color: '#fdba74', fontSize: '0.62rem' }}>
-                          ⚠️ <strong>Network Location Outside Ogere Remo:</strong> Your network/IP gateway is located outside town. Your chosen Ogere sector will be used for rapid local dispatch.
+                          âš ï¸ <strong>Network Location Outside Ogere Remo:</strong> Your network/IP gateway is located outside town. Your chosen Ogere sector will be used for rapid local dispatch.
                         </div>
                       )}
                       <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
                         <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>COORDINATES</div>
-                        <div style={{ color: '#ffffff', fontWeight: 800, fontFamily: 'monospace' }}>{deviceLocation.lat.toFixed(5)}°N, {deviceLocation.lng.toFixed(5)}°E</div>
+                        <div style={{ color: '#ffffff', fontWeight: 800, fontFamily: 'monospace' }}>{deviceLocation.lat.toFixed(5)}Â°N, {deviceLocation.lng.toFixed(5)}Â°E</div>
                       </div>
                       <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
                         <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>ACCURACY</div>
                         <div style={{ color: locationStatus === 'acquired' ? '#4ade80' : '#fde047', fontWeight: 800 }}>
-                          {deviceLocation.accuracy ? `±${Math.round(deviceLocation.accuracy)}m` : 'Est.'} ({locationStatus === 'acquired' ? 'Precise GPS' : 'Cell/IP'})
+                          {deviceLocation.accuracy ? `Â±${Math.round(deviceLocation.accuracy)}m` : 'Est.'} ({locationStatus === 'acquired' ? 'Precise GPS' : 'Cell/IP'})
                         </div>
                       </div>
                       <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
@@ -1507,44 +1507,44 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       {deviceLocation.networkType && (
                         <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
                           <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>NETWORK</div>
-                          <div style={{ color: '#38bdf8', fontWeight: 700 }}>📶 {deviceLocation.networkType.toUpperCase()}{deviceLocation.networkDownlink ? ` · ${deviceLocation.networkDownlink}` : ''}</div>
+                          <div style={{ color: '#38bdf8', fontWeight: 700 }}>ðŸ“¶ {deviceLocation.networkType.toUpperCase()}{deviceLocation.networkDownlink ? ` Â· ${deviceLocation.networkDownlink}` : ''}</div>
                         </div>
                       )}
                       {deviceLocation.batteryLevel != null && (
                         <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
                           <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>BATTERY</div>
-                          <div style={{ color: deviceLocation.batteryLevel > 20 ? '#4ade80' : '#ef4444', fontWeight: 800 }}>🔋 {deviceLocation.batteryLevel}%</div>
+                          <div style={{ color: deviceLocation.batteryLevel > 20 ? '#4ade80' : '#ef4444', fontWeight: 800 }}>ðŸ”‹ {deviceLocation.batteryLevel}%</div>
                         </div>
                       )}
                       {deviceLocation.screenResolution && (
                         <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
                           <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>SCREEN</div>
-                          <div style={{ color: '#94a3b8', fontWeight: 700 }}>🖥️ {deviceLocation.screenResolution}</div>
+                          <div style={{ color: '#94a3b8', fontWeight: 700 }}>ðŸ–¥ï¸ {deviceLocation.screenResolution}</div>
                         </div>
                       )}
                       {deviceLocation.timezone && (
                         <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.35rem 0.5rem', borderRadius: '4px' }}>
                           <div style={{ color: '#64748b', fontSize: '0.6rem', fontWeight: 900, marginBottom: '1px' }}>TIMEZONE</div>
-                          <div style={{ color: '#94a3b8', fontWeight: 700, fontSize: '0.65rem' }}>🕒 {deviceLocation.timezone}</div>
+                          <div style={{ color: '#94a3b8', fontWeight: 700, fontSize: '0.65rem' }}>ðŸ•’ {deviceLocation.timezone}</div>
                         </div>
                       )}
                       {deviceLocation.mapsUrl && (
                         <a href={deviceLocation.mapsUrl} target="_blank" rel="noopener noreferrer"
                           style={{ background: 'rgba(22,163,74,0.2)', border: '1px solid #22c55e', padding: '0.35rem 0.5rem', borderRadius: '4px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', color: '#4ade80', fontWeight: 800, fontSize: '0.7rem' }}>
-                          🗺️ Preview on Google Maps
+                          ðŸ—ºï¸ Preview on Google Maps
                         </a>
                       )}
                       {deviceLocation.directionsUrl && (
                         <a href={deviceLocation.directionsUrl} target="_blank" rel="noopener noreferrer"
                           style={{ background: 'rgba(56,189,248,0.2)', border: '1px solid #38bdf8', padding: '0.35rem 0.5rem', borderRadius: '4px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', color: '#38bdf8', fontWeight: 800, fontSize: '0.7rem' }}>
-                          🚗 Directions to Venue
+                          ðŸš— Directions to Venue
                         </a>
                       )}
                     </div>
                   ) : (
                     <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
-                      {locationStatus === 'acquiring' ? '⏳ Contacting GPS satellites and IP geolocation services...' :
-                       'ℹ️ Allow location access when prompted to help police find you faster.'}
+                      {locationStatus === 'acquiring' ? 'â³ Contacting GPS satellites and IP geolocation services...' :
+                       'â„¹ï¸ Allow location access when prompted to help police find you faster.'}
                     </div>
                   )}
                 </div>
@@ -1574,12 +1574,12 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
                     onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
                   >
-                    <span style={{ fontSize: '2.4rem' }}>🚨</span>
+                    <span style={{ fontSize: '2.4rem' }}>ðŸš¨</span>
                     <span>PRESS SOS</span>
                     <span style={{ fontSize: '0.65rem', letterSpacing: '0.1em', opacity: 0.9 }}>DISPATCH AUTHORITIES</span>
                   </button>
                   <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.8rem' }}>
-                    🤫 <strong>100% Silent Transmission on Your Device:</strong> Makes no sound on your phone to keep you safe from assailants, while instantly triggering live audio sirens at Police Command &amp; Patrol outposts.
+                    ðŸ¤« <strong>100% Silent Transmission on Your Device:</strong> Makes no sound on your phone to keep you safe from assailants, while instantly triggering live audio sirens at Police Command &amp; Patrol outposts.
                   </p>
                 </div>
               </div>
@@ -1588,7 +1588,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
             {sosState === 'triggering' && (
               <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
                 <div style={{ fontSize: '1.2rem', color: '#f87171', fontWeight: 800, marginBottom: '0.5rem' }}>
-                  🚨 TRANSMITTING CRITICAL EMERGENCY SIGNAL IN:
+                  ðŸš¨ TRANSMITTING CRITICAL EMERGENCY SIGNAL IN:
                 </div>
                 <div style={{ fontSize: '4.5rem', fontWeight: 900, color: '#ef4444', margin: '0.5rem 0', fontFamily: 'monospace' }}>
                   {countdown}
@@ -1609,14 +1609,14 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     cursor: 'pointer',
                   }}
                 >
-                  ✕ CANCEL / FALSE ALARM
+                  âœ• CANCEL / FALSE ALARM
                 </button>
               </div>
             )}
 
             {sosState === 'dispatched' && dispatchedData && (
               <div style={{ background: 'rgba(34, 197, 94, 0.1)', border: '2px solid #22c55e', borderRadius: '12px', padding: '1.5rem', textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.4rem' }}>✅</div>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.4rem' }}>âœ…</div>
                 <h3 className="cinzel" style={{ color: '#4ade80', fontSize: '1.4rem', margin: '0 0 0.4rem 0' }}>
                   EMERGENCY DISPATCH TRANSMITTED!
                 </h3>
@@ -1625,49 +1625,49 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                 </p>
 
                 <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: '8px', padding: '1rem', textAlign: 'left', marginBottom: '1.2rem', fontSize: '0.8rem', display: 'grid', gap: '0.4rem' }}>
-                  <div>📍 <strong>Location / Sector:</strong> {dispatchedData.location}</div>
+                  <div>ðŸ“ <strong>Location / Sector:</strong> {dispatchedData.location}</div>
                   {dispatchedData.fullAddress && (
-                    <div>🏠 <strong>Full Address / Venue:</strong> <span style={{ color: '#fef08a', fontWeight: 600 }}>{dispatchedData.fullAddress}</span></div>
+                    <div>ðŸ  <strong>Full Address / Venue:</strong> <span style={{ color: '#fef08a', fontWeight: 600 }}>{dispatchedData.fullAddress}</span></div>
                   )}
                   {dispatchedData.latitude && dispatchedData.longitude && (
-                    <div>🎯 <strong>GPS Coordinates:</strong> <span style={{ fontFamily: 'monospace', color: '#38bdf8' }}>{Number(dispatchedData.latitude).toFixed(5)}°N, {Number(dispatchedData.longitude).toFixed(5)}°E {dispatchedData.accuracy ? `(±${Math.round(dispatchedData.accuracy)}m)` : ''}</span></div>
+                    <div>ðŸŽ¯ <strong>GPS Coordinates:</strong> <span style={{ fontFamily: 'monospace', color: '#38bdf8' }}>{Number(dispatchedData.latitude).toFixed(5)}Â°N, {Number(dispatchedData.longitude).toFixed(5)}Â°E {dispatchedData.accuracy ? `(Â±${Math.round(dispatchedData.accuracy)}m)` : ''}</span></div>
                   )}
                   {dispatchedData.ipAddress && (
-                    <div>🌐 <strong>Reporter IP:</strong> <span style={{ fontFamily: 'monospace', color: '#94a3b8' }}>{dispatchedData.ipAddress}</span></div>
+                    <div>ðŸŒ <strong>Reporter IP:</strong> <span style={{ fontFamily: 'monospace', color: '#94a3b8' }}>{dispatchedData.ipAddress}</span></div>
                   )}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '0.3rem' }}>
                     {dispatchedData.googleMapsUrl && (
                       <a href={dispatchedData.googleMapsUrl} target="_blank" rel="noopener noreferrer"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(22,163,74,0.2)', border: '1px solid #22c55e', borderRadius: '4px', padding: '4px 10px', color: '#4ade80', fontWeight: 800, textDecoration: 'none', fontSize: '0.75rem' }}>
-                        🗺️ Pin on Google Maps →
+                        ðŸ—ºï¸ Pin on Google Maps â†’
                       </a>
                     )}
                     {dispatchedData.directionsUrl && (
                       <a href={dispatchedData.directionsUrl} target="_blank" rel="noopener noreferrer"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(56,189,248,0.2)', border: '1px solid #38bdf8', borderRadius: '4px', padding: '4px 10px', color: '#38bdf8', fontWeight: 800, textDecoration: 'none', fontSize: '0.75rem' }}>
-                        🚗 Directions to Venue →
+                        ðŸš— Directions to Venue â†’
                       </a>
                     )}
                   </div>
-                  <div>🚨 <strong>Status:</strong> <span style={{ color: '#ef4444', fontWeight: 800 }}>CODE RED — TACTICAL UNITS ALERTED</span></div>
-                  <div>🛡️ <strong>Agencies Notified:</strong> Ogere Police Command, So-Safe / Amotekun Corps, Palace Rapid Vigilante</div>
+                  <div>ðŸš¨ <strong>Status:</strong> <span style={{ color: '#ef4444', fontWeight: 800 }}>CODE RED â€” TACTICAL UNITS ALERTED</span></div>
+                  <div>ðŸ›¡ï¸ <strong>Agencies Notified:</strong> Ogere Police Command, So-Safe / Amotekun Corps, Palace Rapid Vigilante</div>
                   {(cameraEnabled || audioEnabled) && (
                     <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                      <span style={{ color: '#86efac', fontWeight: 800 }}>📡 Live Feeds Transmitting: </span>
-                      {cameraEnabled && <span style={{ background: '#ef4444', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700, marginRight: '4px' }}>📹 Camera Snapshots</span>}
-                      {audioEnabled && <span style={{ background: '#059669', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700 }}>🎙️ Ambient Audio</span>}
+                      <span style={{ color: '#86efac', fontWeight: 800 }}>ðŸ“¡ Live Feeds Transmitting: </span>
+                      {cameraEnabled && <span style={{ background: '#ef4444', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700, marginRight: '4px' }}>ðŸ“¹ Camera Snapshots</span>}
+                      {audioEnabled && <span style={{ background: '#059669', color: '#fff', padding: '1px 5px', borderRadius: '3px', fontSize: '0.7rem', fontWeight: 700 }}>ðŸŽ™ï¸ Ambient Audio</span>}
                     </div>
                   )}
                   {/* Device Intelligence row */}
                   {dispatchedData.deviceModel && (
                     <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                       <span style={{ background: 'rgba(56,189,248,0.15)', border: '1px solid rgba(56,189,248,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#38bdf8', fontSize: '0.65rem', fontWeight: 700 }}>
-                        📱 {dispatchedData.deviceModel} · {dispatchedData.deviceOs}
+                        ðŸ“± {dispatchedData.deviceModel} Â· {dispatchedData.deviceOs}
                       </span>
-                      {dispatchedData.networkType && <span style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#4ade80', fontSize: '0.65rem', fontWeight: 700 }}>📶 {dispatchedData.networkType}</span>}
-                      {dispatchedData.batteryLevel != null && <span style={{ background: dispatchedData.batteryLevel > 20 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)', border: `1px solid ${dispatchedData.batteryLevel > 20 ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: '4px', padding: '2px 6px', color: dispatchedData.batteryLevel > 20 ? '#4ade80' : '#f87171', fontSize: '0.65rem', fontWeight: 700 }}>🔋 {dispatchedData.batteryLevel}%</span>}
-                      {dispatchedData.screenResolution && <span style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#94a3b8', fontSize: '0.65rem' }}>🖥️ {dispatchedData.screenResolution}</span>}
-                      {dispatchedData.timezone && <span style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#94a3b8', fontSize: '0.65rem' }}>🕒 {dispatchedData.timezone}</span>}
+                      {dispatchedData.networkType && <span style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#4ade80', fontSize: '0.65rem', fontWeight: 700 }}>ðŸ“¶ {dispatchedData.networkType}</span>}
+                      {dispatchedData.batteryLevel != null && <span style={{ background: dispatchedData.batteryLevel > 20 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)', border: `1px solid ${dispatchedData.batteryLevel > 20 ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: '4px', padding: '2px 6px', color: dispatchedData.batteryLevel > 20 ? '#4ade80' : '#f87171', fontSize: '0.65rem', fontWeight: 700 }}>ðŸ”‹ {dispatchedData.batteryLevel}%</span>}
+                      {dispatchedData.screenResolution && <span style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#94a3b8', fontSize: '0.65rem' }}>ðŸ–¥ï¸ {dispatchedData.screenResolution}</span>}
+                      {dispatchedData.timezone && <span style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 6px', color: '#94a3b8', fontSize: '0.65rem' }}>ðŸ•’ {dispatchedData.timezone}</span>}
                     </div>
                   )}
                 </div>
@@ -1689,7 +1689,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       }}
                     />
                     <div style={{ position: 'absolute', top: '6px', left: '8px', background: 'rgba(0,0,0,0.7)', padding: '2px 6px', borderRadius: '4px', fontSize: '0.65rem', fontWeight: 800, color: '#4ade80' }}>
-                      🟢 BROADCASTING LIVE VIDEO EVIDENCE TO DISPATCH DESK
+                      ðŸŸ¢ BROADCASTING LIVE VIDEO EVIDENCE TO DISPATCH DESK
                     </div>
                   </div>
                 )}
@@ -1711,7 +1711,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       cursor: 'pointer',
                     }}
                   >
-                    🛰️ View on Live Security Console →
+                    ðŸ›°ï¸ View on Live Security Console â†’
                   </button>
 
                   <button
@@ -1742,7 +1742,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
               <div>
                 <div style={{ background: 'rgba(2, 132, 199, 0.1)', border: '1px solid rgba(2, 132, 199, 0.3)', borderRadius: '8px', padding: '1rem', marginBottom: '1.2rem' }}>
                   <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#38bdf8', marginBottom: '0.6rem' }}>
-                    🛡️ Virtual Guardian & Escort Journey
+                    ðŸ›¡ï¸ Virtual Guardian & Escort Journey
                   </div>
                   <p style={{ fontSize: '0.75rem', color: '#cbd5e1', margin: '0 0 1rem 0' }}>
                     Walking at night or through quiet sectors in Ogere? Activate Virtual Escort. If you do not check in before the timer expires, an alert is automatically dispatched to Community Security.
@@ -1819,17 +1819,17 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     boxShadow: '0 4px 15px rgba(2, 132, 199, 0.4)',
                   }}
                 >
-                  <span>🚀</span>
+                  <span>ðŸš€</span>
                   <span>ACTIVATE VIRTUAL ESCORT</span>
                 </button>
               </div>
             ) : (
               <div style={{ background: 'rgba(2, 132, 199, 0.15)', border: '2px solid #0284c7', borderRadius: '12px', padding: '1.5rem', textAlign: 'center' }}>
                 <div style={{ fontSize: '0.8rem', color: '#38bdf8', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  🛡️ VIRTUAL ESCORT ACTIVATED
+                  ðŸ›¡ï¸ VIRTUAL ESCORT ACTIVATED
                 </div>
                 <div style={{ fontSize: '0.85rem', color: '#f8fafc', margin: '0.3rem 0' }}>
-                  {walkOrigin} ➔ {walkDest}
+                  {walkOrigin} âž” {walkDest}
                 </div>
 
                 {/* Big Countdown Timer */}
@@ -1838,7 +1838,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                 </div>
 
                 <p style={{ fontSize: '0.75rem', color: '#94a3b8', margin: '0 0 1.2rem 0' }}>
-                  🛰️ GPS Breadcrumbs active. If you feel unsafe, tap Distress Panic immediately.
+                  ðŸ›°ï¸ GPS Breadcrumbs active. If you feel unsafe, tap Distress Panic immediately.
                 </p>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem' }}>
@@ -1855,7 +1855,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       cursor: 'pointer',
                     }}
                   >
-                    ✅ I Have Arrived Safely
+                    âœ… I Have Arrived Safely
                   </button>
 
                   <button
@@ -1872,7 +1872,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                       animation: 'pulseGlow 1.5s infinite',
                     }}
                   >
-                    🚨 DISTRESS PANIC!
+                    ðŸš¨ DISTRESS PANIC!
                   </button>
                 </div>
               </div>
@@ -1931,7 +1931,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
                     borderRadius: '6px',
                   }}
                 >
-                  📞 Call
+                  ðŸ“ž Call
                 </div>
               </a>
             ))}
@@ -1947,7 +1947,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
             }}
             style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline' }}
           >
-            📋 File Detailed Incident Report
+            ðŸ“‹ File Detailed Incident Report
           </button>
 
           <button
@@ -1957,7 +1957,7 @@ export default function SosHeaderModal({ isOpen, onClose }) {
             }}
             style={{ background: 'none', border: 'none', color: '#fde047', fontSize: '0.75rem', cursor: 'pointer', fontWeight: 700, textDecoration: 'underline' }}
           >
-            🛡️ Open Security Command Console →
+            ðŸ›¡ï¸ Open Security Command Console â†’
           </button>
         </div>
       </div>

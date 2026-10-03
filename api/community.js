@@ -1,7 +1,9 @@
 import { sqlQuery } from './lib/db.js';
+import crypto from 'crypto';
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -62,7 +64,7 @@ export default async function handler(req, res) {
   if (isForum) {
     if (req.method === 'POST') {
       const body = req.body || {};
-      const postId = Date.now();
+      const postId = 'FRM-' + crypto.randomUUID();
 
       try {
         await sqlQuery(
@@ -96,16 +98,16 @@ export default async function handler(req, res) {
         author_name: 'HRH Ologere Palace Secretariat',
         author_role: 'Royal Court Protocol',
         author_quarter: 'Oke-Ogere',
-        author_avatar: '👑',
-        content_text: 'E ku odun, e ku iye dun! 🌟 Preparations for the 50th Golden Jubilee Lipakala Festival are in full gear at Aafin Ologere. Youth cultural troupes and age-grade groups are invited for ceremonial auditions this Saturday. Let us celebrate our royal heritage with dignity and harmony! #OgereRemo #LipakalaJubilee #Heritage',
+        author_avatar: 'ðŸ‘‘',
+        content_text: 'E ku odun, e ku iye dun! ðŸŒŸ Preparations for the 50th Golden Jubilee Lipakala Festival are in full gear at Aafin Ologere. Youth cultural troupes and age-grade groups are invited for ceremonial auditions this Saturday. Let us celebrate our royal heritage with dignity and harmony! #OgereRemo #LipakalaJubilee #Heritage',
         image_url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80',
         audience: 'Public Feed',
         likes_count: 64,
         liked_by: ['usr_cit_001', 'usr_admin_001'],
         comments_count: 2,
         comments: [
-          { id: 'c1', author_name: 'Chief Olatunji Orowa', author_avatar: '🏛️', comment_text: 'Kabiyeesi o! The elders of Kankanbina are fully ready with the ancestral masquerade troupe.', created_at: new Date(Date.now() - 3600000 * 3).toISOString() },
-          { id: 'c2', author_name: 'Segun Adebayo (Youth President)', author_avatar: '🦅', comment_text: 'The youth wing has registered over 120 volunteers for crowd marshaling and logistics!', created_at: new Date(Date.now() - 3600000 * 2).toISOString() }
+          { id: 'c1', author_name: 'Chief Olatunji Orowa', author_avatar: 'ðŸ›ï¸', comment_text: 'Kabiyeesi o! The elders of Kankanbina are fully ready with the ancestral masquerade troupe.', created_at: new Date(Date.now() - 3600000 * 3).toISOString() },
+          { id: 'c2', author_name: 'Segun Adebayo (Youth President)', author_avatar: 'ðŸ¦…', comment_text: 'The youth wing has registered over 120 volunteers for crowd marshaling and logistics!', created_at: new Date(Date.now() - 3600000 * 2).toISOString() }
         ],
         created_at: new Date(Date.now() - 3600000 * 4).toISOString()
       },
@@ -114,15 +116,15 @@ export default async function handler(req, res) {
         author_name: 'Engr. Dapo Saliu',
         author_role: 'Civic Infrastructure Taskforce',
         author_quarter: 'Wasimi Quarter',
-        author_avatar: '⚡',
-        content_text: 'Proud to share that Phase 2 of our Community Solar Streetlights project along the Wasimi-Ijana market corridor is officially completed! Over 45 high-lumen solar lamps are now active, keeping our night traders safe and vibrant. Big thanks to OCDA and our diaspora donors! 💡✨ #CivicProgress #LightUpOgere',
+        author_avatar: 'âš¡',
+        content_text: 'Proud to share that Phase 2 of our Community Solar Streetlights project along the Wasimi-Ijana market corridor is officially completed! Over 45 high-lumen solar lamps are now active, keeping our night traders safe and vibrant. Big thanks to OCDA and our diaspora donors! ðŸ’¡âœ¨ #CivicProgress #LightUpOgere',
         image_url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
         audience: 'Public Feed',
         likes_count: 92,
         liked_by: ['usr_admin_001'],
         comments_count: 1,
         comments: [
-          { id: 'c3', author_name: 'Iya Oloja Wasimi', author_avatar: '🧺', comment_text: 'Thank you Engr. Dapo! We can now sell our fresh farm produce till 9 PM with complete peace of mind.', created_at: new Date(Date.now() - 3600000 * 5).toISOString() }
+          { id: 'c3', author_name: 'Iya Oloja Wasimi', author_avatar: 'ðŸ§º', comment_text: 'Thank you Engr. Dapo! We can now sell our fresh farm produce till 9 PM with complete peace of mind.', created_at: new Date(Date.now() - 3600000 * 5).toISOString() }
         ],
         created_at: new Date(Date.now() - 3600000 * 8).toISOString()
       },
@@ -131,15 +133,15 @@ export default async function handler(req, res) {
         author_name: 'Mrs. Folashade Adeleke',
         author_role: 'Wasimi Adire Artisans Hub',
         author_quarter: 'Ijana Quarter',
-        author_avatar: '🎨',
-        content_text: 'Fresh batch of genuine Ogere Adire Eleko and indigo-dyed fabrics ready for the upcoming trade exhibition! Our young women apprentices spent 3 weeks perfecting these traditional patterns. Preserving our ancestral craft while creating sustainable livelihoods! 🧵💙 #MadeInOgere #AdireHeritage #Empowerment',
+        author_avatar: 'ðŸŽ¨',
+        content_text: 'Fresh batch of genuine Ogere Adire Eleko and indigo-dyed fabrics ready for the upcoming trade exhibition! Our young women apprentices spent 3 weeks perfecting these traditional patterns. Preserving our ancestral craft while creating sustainable livelihoods! ðŸ§µðŸ’™ #MadeInOgere #AdireHeritage #Empowerment',
         image_url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80',
         audience: 'Public Feed',
         likes_count: 51,
         liked_by: [],
         comments_count: 1,
         comments: [
-          { id: 'c4', author_name: 'Dr. Folashade Adeyemi-Clark (London)', author_avatar: '✈️', comment_text: 'Can we order batches shipped to the UK diaspora chapter for our cultural gala next month?', created_at: new Date(Date.now() - 3600000 * 10).toISOString() }
+          { id: 'c4', author_name: 'Dr. Folashade Adeyemi-Clark (London)', author_avatar: 'âœˆï¸', comment_text: 'Can we order batches shipped to the UK diaspora chapter for our cultural gala next month?', created_at: new Date(Date.now() - 3600000 * 10).toISOString() }
         ],
         created_at: new Date(Date.now() - 3600000 * 16).toISOString()
       },
@@ -148,8 +150,8 @@ export default async function handler(req, res) {
         author_name: 'Commander Kayode Adeleke',
         author_role: 'Joint Patrol Commander',
         author_quarter: 'Expressway Axis',
-        author_avatar: '🛡️',
-        content_text: 'Security Advisory: Routine night patrols across the Sagamu-Benin Expressway interchange and inner ring-road corridors have been intensified. Please keep emergency speed dials handy in your Ogere Mobile App. If you notice any suspicious gathering, use the SOS beacon or Whistleblower hotline immediately. We remain on 24/7 guard! 🚓🚨 #OgereSafety #Vigilance',
+        author_avatar: 'ðŸ›¡ï¸',
+        content_text: 'Security Advisory: Routine night patrols across the Sagamu-Benin Expressway interchange and inner ring-road corridors have been intensified. Please keep emergency speed dials handy in your Ogere Mobile App. If you notice any suspicious gathering, use the SOS beacon or Whistleblower hotline immediately. We remain on 24/7 guard! ðŸš“ðŸš¨ #OgereSafety #Vigilance',
         image_url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80',
         audience: 'Public Feed',
         likes_count: 78,
@@ -234,7 +236,7 @@ export default async function handler(req, res) {
           const newComment = {
             id: `cmt_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
             author_name: author_name || 'Verified Citizen',
-            author_avatar: author_avatar || '👤',
+            author_avatar: author_avatar || 'ðŸ‘¤',
             comment_text: comment_text.trim(),
             created_at: new Date().toISOString()
           };
@@ -280,7 +282,7 @@ export default async function handler(req, res) {
           isFollowing = false;
         } else {
           global._memorySocialConnections.push({
-            id: `SOC-${Date.now()}`,
+            id: `SOC-${crypto.randomUUID()}`,
             user_name: current_user,
             target_user_name: target_user,
             relationship_type: 'follow',
@@ -294,7 +296,7 @@ export default async function handler(req, res) {
           if (isFollowing) {
             await sqlQuery(
               `INSERT INTO community_social_connections (id, user_name, target_user_name, relationship_type, status) VALUES ($1, $2, $3, $4, $5)`,
-              [`SOC-${Date.now()}`, current_user, target_user, 'follow', 'active']
+              [`SOC-${crypto.randomUUID()}`, current_user, target_user, 'follow', 'active']
             ).catch(() => {});
           } else {
             await sqlQuery(
@@ -330,7 +332,7 @@ export default async function handler(req, res) {
           friendStatus = 'none';
         } else {
           global._memorySocialConnections.push({
-            id: `FRD-${Date.now()}`,
+            id: `FRD-${crypto.randomUUID()}`,
             user_name: current_user,
             target_user_name: target_user,
             relationship_type: 'friend',
@@ -344,7 +346,7 @@ export default async function handler(req, res) {
           if (friendStatus === 'friends') {
             await sqlQuery(
               `INSERT INTO community_social_connections (id, user_name, target_user_name, relationship_type, status) VALUES ($1, $2, $3, $4, $5)`,
-              [`FRD-${Date.now()}`, current_user, target_user, 'friend', 'accepted']
+              [`FRD-${crypto.randomUUID()}`, current_user, target_user, 'friend', 'accepted']
             ).catch(() => {});
           } else {
             await sqlQuery(
@@ -379,13 +381,13 @@ export default async function handler(req, res) {
         });
       }
 
-      const newPostId = `POST-${Date.now()}`;
+      const newPostId = `POST-${crypto.randomUUID()}`;
       const newPost = {
         id: newPostId,
         author_name: author_name?.trim() || 'Verified Citizen',
         author_role: author_role || 'Resident',
         author_quarter: author_quarter || 'Oke-Ogere',
-        author_avatar: author_avatar || '👤',
+        author_avatar: author_avatar || 'ðŸ‘¤',
         content_text: content_text?.trim() || '',
         image_url: image_url?.trim() || '',
         audience: audience || 'Public Feed',
@@ -498,7 +500,7 @@ export default async function handler(req, res) {
       const body = req.body || {};
       if (body.action === 'add') {
         const newContact = {
-          id: `ec_${Date.now()}`,
+          id: `ec_${crypto.randomUUID()}`,
           user_id: body.userId || 'default_user',
           name: body.name || 'Guardian',
           phone: body.phone || '',
@@ -582,7 +584,7 @@ export default async function handler(req, res) {
     // Send Message
     if (req.method === 'POST') {
       const body = req.body || {};
-      const msgId = `MSG-${Date.now()}-${Math.floor(100 + Math.random() * 900)}`;
+      const msgId = `MSG-${crypto.randomUUID()}`;
       const channelId = body.channelId || 'general';
       const senderName = body.senderName || 'Ogere Citizen';
       const senderPhone = body.senderPhone || '';

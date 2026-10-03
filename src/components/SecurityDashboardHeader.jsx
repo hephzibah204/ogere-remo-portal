@@ -30,7 +30,7 @@ export default function SecurityDashboardHeader({
           animation: codeRedCount > 0 ? 'sirenPulse 0.7s ease-in-out infinite' : 'none',
           display: 'inline-block',
         }}>
-          {codeRedCount > 0 ? '🚨' : '🛡️'}
+          {codeRedCount > 0 ? 'ðŸš¨' : 'ðŸ›¡ï¸'}
         </span>
         <div>
           <div className="cinzel" style={{ fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', color: '#ffffff' }}>
@@ -39,7 +39,7 @@ export default function SecurityDashboardHeader({
               : 'OGERE REMO SECURITY SECTOR STATUS: NORMAL SURVEILLANCE PATROL'}
           </div>
           <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.8)' }}>
-            Lagos-Ibadan Expressway Corridor · Palace Joint Taskforce Unified Dispatch
+            Lagos-Ibadan Expressway Corridor Â· Palace Joint Taskforce Unified Dispatch
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@ export default function SecurityDashboardHeader({
               letterSpacing: '0.04em',
             }}
           >
-            🔕 SILENCE ALARM
+            ðŸ”• SILENCE ALARM
           </button>
         )}
 
@@ -88,7 +88,7 @@ export default function SecurityDashboardHeader({
             gap: '0.4rem',
           }}
         >
-          <span>{audioEnabled ? '🔔 Siren Armed' : '🔕 Siren Muted'}</span>
+          <span>{audioEnabled ? 'ðŸ”” Siren Armed' : 'ðŸ”• Siren Muted'}</span>
         </button>
 
         <button
@@ -107,7 +107,7 @@ export default function SecurityDashboardHeader({
             gap: '0.3rem',
           }}
         >
-          📢 Palace Amber Alert / Curfew
+          ðŸ“¢ Palace Amber Alert / Curfew
         </button>
 
         <button
@@ -126,7 +126,7 @@ export default function SecurityDashboardHeader({
             gap: '0.3rem',
           }}
         >
-          🕵️ Intel Tips ({tips ? tips.length : 0})
+          ðŸ•µï¸ Intel Tips ({tips ? tips.length : 0})
         </button>
 
         <button
@@ -145,7 +145,7 @@ export default function SecurityDashboardHeader({
             gap: '0.3rem',
           }}
         >
-          🛡️ Night Patrol Roster
+          ðŸ›¡ï¸ Night Patrol Roster
         </button>
 
         <button

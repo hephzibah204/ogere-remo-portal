@@ -25,7 +25,7 @@ export default function NewsDetailPage() {
         <SEO title="Article Not Found" description="The requested news article could not be found on the Ogere Remo Portal." />
         <Section bg="#0D0704" py="5rem">
           <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto' }}>
-            <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>📰</div>
+            <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>ðŸ“°</div>
             <h1 className="playfair" style={{ fontSize: '2rem', color: '#F5EDD8', marginBottom: '1rem' }}>
               Dispatch Not Found
             </h1>
@@ -33,7 +33,7 @@ export default function NewsDetailPage() {
               We could not find the community dispatch you were looking for. It may have been relocated or updated in our editorial archives.
             </p>
             <Link to="/news" className="btn-p" style={{ display: 'inline-flex', alignItems: 'center', gap: '.5rem' }}>
-              ← Return to News Dispatches
+              â† Return to News Dispatches
             </Link>
           </div>
         </Section>
@@ -44,7 +44,7 @@ export default function NewsDetailPage() {
 
   const catColor = newsCatColor[article.cat] || '#C9963A';
   const shareUrl = typeof window !== 'undefined' ? window.location.href : `https://ogere-remo-portal.vercel.app/news/${article.id}`;
-  const shareText = `${article.headline} — Ogere Remo Kingdom News`;
+  const shareText = `${article.headline} â€” Ogere Remo Kingdom News`;
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {
@@ -108,7 +108,7 @@ export default function NewsDetailPage() {
                 transition: 'all .2s ease',
               }}
             >
-              ← All Dispatches
+              â† All Dispatches
             </Link>
             <span style={{ color: 'rgba(245,237,216,0.3)' }}>/</span>
             <span
@@ -175,7 +175,7 @@ export default function NewsDetailPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
               {article.author && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
-                  <span style={{ fontSize: '1rem' }}>✍️</span>
+                  <span style={{ fontSize: '1rem' }}>âœï¸</span>
                   <span className="cinzel" style={{ fontSize: '.68rem', letterSpacing: '.06em', color: 'var(--gold)' }}>
                     {article.author}
                   </span>
@@ -183,7 +183,7 @@ export default function NewsDetailPage() {
               )}
               {article.location && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '.3rem' }}>
-                  <span style={{ fontSize: '.9rem' }}>📍</span>
+                  <span style={{ fontSize: '.9rem' }}>ðŸ“</span>
                   <span className="cinzel" style={{ fontSize: '.65rem', color: 'rgba(245,237,216,0.6)' }}>
                     {article.location}
                   </span>
@@ -194,11 +194,11 @@ export default function NewsDetailPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               {article.readTime && (
                 <span className="cinzel" style={{ fontSize: '.62rem', color: 'rgba(201,150,58,0.7)' }}>
-                  ⏱️ {article.readTime}
+                  â±ï¸ {article.readTime}
                 </span>
               )}
               <span className="cinzel" style={{ fontSize: '.68rem', letterSpacing: '.08em', color: 'var(--cream)', fontWeight: 600 }}>
-                🗓️ {article.date}
+                ðŸ—“ï¸ {article.date}
               </span>
             </div>
           </div>
@@ -242,7 +242,7 @@ export default function NewsDetailPage() {
                     lineHeight: 1.5,
                   }}
                 >
-                  📸 {article.imageCaption}
+                  ðŸ“¸ {article.imageCaption}
                 </div>
               )}
             </div>
@@ -283,7 +283,7 @@ export default function NewsDetailPage() {
                   gap: '.4rem',
                 }}
               >
-                💬 WhatsApp
+                ðŸ’¬ WhatsApp
               </button>
               <button
                 onClick={handleShareTwitter}
@@ -301,7 +301,7 @@ export default function NewsDetailPage() {
                   gap: '.4rem',
                 }}
               >
-                𝕏 Post
+                ð• Post
               </button>
               <button
                 onClick={handleShareFacebook}
@@ -319,14 +319,14 @@ export default function NewsDetailPage() {
                   gap: '.4rem',
                 }}
               >
-                📘 Facebook
+                ðŸ“˜ Facebook
               </button>
               <button
                 onClick={handleCopyLink}
                 className="btn-o"
                 style={{ fontSize: '.68rem', padding: '.35rem .8rem' }}
               >
-                {copied ? '✓ Link Copied!' : '🔗 Copy Link'}
+                {copied ? 'âœ“ Link Copied!' : 'ðŸ”— Copy Link'}
               </button>
             </div>
           </div>
@@ -376,7 +376,7 @@ export default function NewsDetailPage() {
                 boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
               }}
             >
-              <div style={{ fontSize: '2.5rem', color: 'var(--gold)', lineHeight: 1, marginBottom: '.5rem' }}>“</div>
+              <div style={{ fontSize: '2.5rem', color: 'var(--gold)', lineHeight: 1, marginBottom: '.5rem' }}>â€œ</div>
               <p
                 className="playfair"
                 style={{
@@ -390,7 +390,7 @@ export default function NewsDetailPage() {
                 {article.quote.text}
               </p>
               <div className="cinzel" style={{ fontSize: '.72rem', letterSpacing: '.1em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 600 }}>
-                — {article.quote.author}
+                â€” {article.quote.author}
               </div>
             </div>
           )}
@@ -408,7 +408,7 @@ export default function NewsDetailPage() {
               }}
             >
               <div className="cinzel" style={{ fontSize: '.75rem', letterSpacing: '.12em', color: '#a8d88e', textTransform: 'uppercase', marginBottom: '1rem', fontWeight: 700 }}>
-                📌 Key Takeaways & Impact
+                ðŸ“Œ Key Takeaways & Impact
               </div>
               <ul style={{ margin: 0, paddingLeft: '1.2rem', display: 'grid', gap: '.8rem' }}>
                 {article.highlights.map((h, i) => (
@@ -444,7 +444,7 @@ export default function NewsDetailPage() {
                 Official Kingdom Press Release
               </div>
               <div style={{ fontSize: '.82rem', color: 'rgba(245,237,216,0.65)' }}>
-                Dispatch ID: <strong style={{ color: '#F5EDD8' }}>{article.id}</strong> • Published by Ogere Remo Media & Communications Bureau
+                Dispatch ID: <strong style={{ color: '#F5EDD8' }}>{article.id}</strong> â€¢ Published by Ogere Remo Media & Communications Bureau
               </div>
             </div>
             <button
@@ -455,7 +455,7 @@ export default function NewsDetailPage() {
               className="btn-p"
               style={{ fontSize: '.72rem', padding: '.45rem 1rem' }}
             >
-              💛 Support Kingdom Media
+              ðŸ’› Support Kingdom Media
             </button>
           </div>
 
@@ -467,7 +467,7 @@ export default function NewsDetailPage() {
                   More News from Ogere Remo
                 </h3>
                 <Link to="/news" className="cinzel" style={{ fontSize: '.68rem', color: 'var(--gold)', textDecoration: 'none' }}>
-                  View All News Feed →
+                  View All News Feed â†’
                 </Link>
               </div>
 
@@ -533,7 +533,7 @@ export default function NewsDetailPage() {
                           </h4>
                         </div>
                         <span className="cinzel" style={{ fontSize: '.62rem', color: 'var(--gold)', fontWeight: 600, marginTop: '.8rem' }}>
-                          Read Dispatch →
+                          Read Dispatch â†’
                         </span>
                       </div>
                     </Link>

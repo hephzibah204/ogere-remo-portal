@@ -26,6 +26,10 @@ module.exports = ({ config }) => {
         ...config.extra,
         appVariant: "officer",
       },
+      plugins: [
+        "expo-font",
+        "expo-asset"
+      ]
     };
   }
 
@@ -53,5 +57,9 @@ module.exports = ({ config }) => {
       ...config.extra,
       appVariant: "citizen",
     },
+    plugins: [
+      "expo-font",
+      "expo-asset"
+    ]
   };
 };

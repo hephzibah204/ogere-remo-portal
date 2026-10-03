@@ -39,12 +39,12 @@ export interface StreetIssue {
 }
 
 export const ISSUE_CATEGORIES: IssueCategory[] = [
-  { id: 'pothole_road', label: 'Road Damage & Potholes', icon: '🚧', color: '#f59e0b' },
-  { id: 'power_transformer', label: 'IBEDC Transformer / Blackout', icon: '⚡', color: '#eab308' },
-  { id: 'drainage_flooding', label: 'Clogged Drainage & Flooding', icon: '🌊', color: '#38bdf8' },
-  { id: 'streetlight_fault', label: 'Solar Streetlight Malfunction', icon: '💡', color: '#a855f7' },
-  { id: 'water_pipe_leak', label: 'Public Borehole / Pipe Burst', icon: '🚰', color: '#06b6d4' },
-  { id: 'waste_dump', label: 'Illegal Waste Dump & Sanitation', icon: '🗑️', color: '#ef4444' },
+  { id: 'pothole_road', label: 'Road Damage & Potholes', icon: 'ðŸš§', color: '#f59e0b' },
+  { id: 'power_transformer', label: 'IBEDC Transformer / Blackout', icon: 'âš¡', color: '#eab308' },
+  { id: 'drainage_flooding', label: 'Clogged Drainage & Flooding', icon: 'ðŸŒŠ', color: '#38bdf8' },
+  { id: 'streetlight_fault', label: 'Solar Streetlight Malfunction', icon: 'ðŸ’¡', color: '#a855f7' },
+  { id: 'water_pipe_leak', label: 'Public Borehole / Pipe Burst', icon: 'ðŸš°', color: '#06b6d4' },
+  { id: 'waste_dump', label: 'Illegal Waste Dump & Sanitation', icon: 'ðŸ—‘ï¸', color: '#ef4444' },
 ];
 
 export const OGERE_QUARTERS: QuarterPowerStatus[] = [
@@ -115,7 +115,7 @@ const SEED_ISSUES: StreetIssue[] = [
 const STORAGE_KEY = 'ogere_fix_my_street_v1';
 
 import Constants from 'expo-constants';
-const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://192.168.1.100:3000';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'https://ogereremo.org';
 
 export async function getStreetIssues(): Promise<StreetIssue[]> {
   try {

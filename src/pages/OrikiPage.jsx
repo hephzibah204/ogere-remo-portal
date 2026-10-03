@@ -21,7 +21,7 @@ const KINGS_ORIKI = [
   {
     id: 'alfred',
     name: 'Oba Alfred Obafuwa Babington-Ashaye',
-    title: 'Legunsen III (r. 1945–1982)',
+    title: 'Legunsen III (r. 1945â€“1982)',
     img: '/images/Babington Ashaye The Brave King.jpg',
     desc: 'The legendary, highly educated monarch who reigned for 37 years. Famous for his diplomatic bearing and meeting Queen Elizabeth II in 1956.',
     oriki: [
@@ -50,7 +50,7 @@ const KINGS_ORIKI = [
   {
     id: 'moshood',
     name: 'Oba Oladele Moshood Ogunbade',
-    title: 'Agbejoye II (r. 1983–2022)',
+    title: 'Agbejoye II (r. 1983â€“2022)',
     img: '/images/OLOGERE-OF-OGERE-OBA OGUNBADE.jpg',
     desc: 'The longest-reigning modern monarch of Ogere Remo who shepherded the town through 38 years of immense growth, and documented the Ologere Palace Archives (2008).',
     oriki: [
@@ -63,7 +63,7 @@ const KINGS_ORIKI = [
   {
     id: 'james',
     name: 'Oba James Obafemi Saliu',
-    title: 'Kankanbiina II (r. 2023–Present)',
+    title: 'Kankanbiina II (r. 2023â€“Present)',
     img: '/images/Ologere-Oba-James-Obafemi1.jpg',
     desc: 'The currently reigning Ologere, under whose royal vision the permanent royal palace and the Lipakala Cultural Centre were commissioned in 2025.',
     oriki: [
@@ -189,7 +189,7 @@ export default function OrikiPage() {
   return (
     <div>
       <SEO title="Interactive Oriki Player" description="Experience the interactive Yoruba Oriki (Praise Poetry) of the Ologere ruling dynasties with real-time synchronized English translation." />
-      <Hero ey="Yoruba Praise Poetry" ti="Traditional Oriki Player" sub="Experience the interactive, synchronized chanting of the Ologere Kings of Ogere Remo — connecting you to Yoruba royal roots." />
+      <Hero ey="Yoruba Praise Poetry" ti="Traditional Oriki Player" sub="Experience the interactive, synchronized chanting of the Ologere Kings of Ogere Remo â€” connecting you to Yoruba royal roots." />
       <AdireDivider />
 
       <Section bg="#1a0d06" py="3rem">
@@ -255,7 +255,7 @@ export default function OrikiPage() {
             {/* Visualizer Box */}
             <div style={{ padding: '1rem', background: '#0d0704', border: '1px solid rgba(201,150,58,.15)', borderRadius: 4, marginBottom: '1.5rem', textAlign: 'center', boxShadow: 'inset 0 4px 30px rgba(0,0,0,0.8)' }}>
               <div className="cinzel" style={{ fontSize: '0.55rem', letterSpacing: '.2em', color: 'rgba(201,150,58,.8)', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                {playing ? '🎙️ Royal Lineage Chants Playing — Synchronized Yoruba Audio' : '🔇 Audio Visualizer (Standby)'}
+                {playing ? 'ðŸŽ™ï¸ Royal Lineage Chants Playing â€” Synchronized Yoruba Audio' : 'ðŸ”‡ Audio Visualizer (Standby)'}
               </div>
               
               {/* Dynamic waveform visualizer equalizer */}
@@ -296,7 +296,7 @@ export default function OrikiPage() {
                   onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
                   onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
                 >
-                  {playing ? '⏸' : '▶'}
+                  {playing ? 'â¸' : 'â–¶'}
                 </button>
                 <div style={{ textAlign: 'left' }}>
                   <div className="cinzel" style={{ fontSize: '.5rem', letterSpacing: '.12em', color: 'rgba(245,237,216,.45)' }}>Progress Timeline</div>
@@ -368,7 +368,7 @@ export default function OrikiPage() {
                             cursor: 'help'
                           }}
                         >
-                          📜 View Translation Footnote
+                          ðŸ“œ View Translation Footnote
                         </div>
                       )}
                     </div>

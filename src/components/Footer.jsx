@@ -7,7 +7,7 @@ const SECTIONS = [
       { to: '/history', l: 'History' },
       { to: '/monarchy', l: 'Monarchy' },
       { to: '/families', l: 'Families' },
-      { to: '/disputes', l: '⚖️ Customary Court' },
+      { to: '/disputes', l: 'âš–ï¸ Customary Court' },
       { to: '/faith', l: 'Faith & Culture' },
     ],
   },
@@ -17,7 +17,7 @@ const SECTIONS = [
       { to: '/associations', l: 'Associations' },
       { to: '/education', l: 'Education' },
       { to: '/diaspora', l: 'Diaspora Network' },
-      { to: '/diaspora-escrow', l: '🌍 Diaspora Escrow' },
+      { to: '/diaspora-escrow', l: 'ðŸŒ Diaspora Escrow' },
       { to: '/forum', l: 'Forum' },
     ],
   },
@@ -33,22 +33,22 @@ const SECTIONS = [
   {
     heading: 'Explore',
     links: [
-      { to: '/marketplace', l: '🛒 Marketplace' },
-      { to: '/fix-my-street', l: '🚧 Fix My Street' },
+      { to: '/marketplace', l: 'ðŸ›’ Marketplace' },
+      { to: '/fix-my-street', l: 'ðŸš§ Fix My Street' },
       { to: '/tourism', l: 'Tourism' },
       { to: '/business', l: 'Directory' },
-      { to: '/map', l: '🗺 Map' },
-      { to: '/alerts', l: '⚠ Alerts' },
+      { to: '/map', l: 'ðŸ—º Map' },
+      { to: '/alerts', l: 'âš  Alerts' },
     ],
   },
   {
     heading: 'More',
     links: [
-      { to: '/miss-olipakala', l: '👑 Miss Olipakala' },
-      { to: '/security-dashboard', l: '🚨 Security Command' },
+      { to: '/miss-olipakala', l: 'ðŸ‘‘ Miss Olipakala' },
+      { to: '/security-dashboard', l: 'ðŸš¨ Security Command' },
       { to: '/contact', l: 'Contact' },
-      { to: '/signin', l: '🔑 Sign In' },
-      { to: '/admin', l: '⚙ Admin' },
+      { to: '/signin', l: 'ðŸ”‘ Sign In' },
+      { to: '/admin', l: 'âš™ Admin' },
     ],
   },
 ];
@@ -84,7 +84,7 @@ export default function Footer() {
             margin: '.3rem 0 1.5rem',
           }}
         >
-          &ldquo;A town upon the hills — Ancient, Proud, Enduring.&rdquo;
+          &ldquo;A town upon the hills â€” Ancient, Proud, Enduring.&rdquo;
         </div>
         <div
           style={{
@@ -160,16 +160,16 @@ export default function Footer() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.2rem' }}>
             <div style={{ flex: 1, minWidth: 'min(280px, 100%)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
-                <span style={{ fontSize: '1.4rem' }}>🌟</span>
+                <span style={{ fontSize: '1.4rem' }}>ðŸŒŸ</span>
                 <span className="cinzel" style={{ fontSize: '0.68rem', fontWeight: 900, color: 'var(--gold)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  Make Ogere Nigeria's 1st Digital Town · Support This Project
+                  Make Ogere Nigeria's 1st Digital Town Â· Support This Project
                 </span>
               </div>
               <p style={{ fontSize: '0.82rem', lineHeight: 1.65, color: 'rgba(245,237,216,0.85)', margin: '0 0 0.6rem 0' }}>
                 By supporting this initiative, you are helping Ogere Remo pioneer history as the <strong>first fully digitalized town in Nigeria</strong>. Continuous funding empowers our dedicated <strong>developers, designers, project managers, cloud hosting, domain web hosting, and 24/7 maintenance</strong>.
               </p>
               <div style={{ fontSize: '0.78rem', color: 'rgba(245,237,216,0.9)' }}>
-                🏦 <strong>Opay:</strong> <span style={{ color: 'var(--gold)', fontWeight: 700 }}>6101307590</span> · <em>Hephtech Multimedia & Innovations</em>
+                ðŸ¦ <strong>Opay:</strong> <span style={{ color: 'var(--gold)', fontWeight: 700 }}>6101307590</span> Â· <em>Hephtech Multimedia & Innovations</em>
               </div>
             </div>
 
@@ -184,12 +184,11 @@ export default function Footer() {
                   boxShadow: '0 4px 15px rgba(201,150,58,0.25)',
                 }}
               >
-                💛 Donate Now
+                ðŸ’› Donate Now
               </button>
               <a
                 href="https://wa.me/2349077780156?text=Hello%20Hephtech%20Multimedia%2C%20I%20would%20like%20to%20support/donate%20to%20the%20Ogere%20Remo%20Community%20Portal."
-                target="_blank"
-                rel="noopener noreferrer"
+                target="_blank" rel="noopener noreferrer"
                 className="btn-o"
                 style={{
                   fontSize: '0.75rem',
@@ -200,7 +199,7 @@ export default function Footer() {
                   gap: '0.4rem',
                 }}
               >
-                💬 09077780156
+                ðŸ’¬ 09077780156
               </a>
             </div>
           </div>
@@ -219,7 +218,7 @@ export default function Footer() {
             color: 'rgba(245,237,216,.25)',
           }}
         >
-          © 2026 Ogere Remo Community Portal · Built & Maintained by Hephtech Multimedia & Innovations · Est. circa 1401 A.D.
+          Â© 2026 Ogere Remo Community Portal Â· Built & Maintained by Hephtech Multimedia & Innovations Â· Est. circa 1401 A.D.
         </div>
       </div>
     </footer>

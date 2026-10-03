@@ -5,15 +5,15 @@ import Section from '../components/Section';
 import SEO from '../components/SEO';
 
 const schools = [
-  { name: 'Ositelu Memorial College', tag: 'Secondary School', tagClass: 'tag-blue', ic: '🏫', founded: 'Named after Prophet Josiah Olunowo Ositelu (born 1902, Ogere Remo)', desc: 'Ogere Remo\'s flagship secondary school. The college has produced generations of distinguished Nigerians.', motto: '"We Shall Be Giant, and Therefore We Shall Work, and Work, and Work"', alumni: 'OMCOOSA — President: Arc. Kunle Awobajo · 08037136954', address: 'Awomosu Agbato Drive, Ogere 121107', facts: ['OMCOOSA celebrated 40th Anniversary in 2025', 'Annual dues: ₦5,000 per member'], img: '/images/ositelu-memorial-college-building.jpg' },
-  { name: 'Christ Church School', tag: 'Primary School · Est. 1913+', tagClass: 'tag-terra', ic: '⛪', founded: 'Oldest school in Ogere Remo — attended by Josiah Ositelu 1913–1919', desc: 'The oldest educational institution in Ogere Remo. Recently rehabilitated by Ogun State Government in 2025.', motto: 'Building foundations for over a century', alumni: 'Includes the late Prophet Josiah Olunowo Ositelu', address: 'Ogere Remo, Ogun State', facts: ['Over 100 years of history', 'Rehabilitated by Ogun State Government in 2025'], img: '/images/church-of-the-lord-aladura.jpg' },
-  { name: 'Emmanuel Narrow-Way Academy (ENAWAC)', tag: 'Nursery & Primary', tagClass: 'tag-green', ic: '🌱', founded: 'Proprietor: Rev\'d Emmanuel Ola Shofuyi', desc: 'A leading nursery and primary institution in Ogere Remo, known for its annual Philanthropy Awards.', motto: 'Narrow is the way — wide is the excellence', alumni: 'ENAWAC Philanthropy Awards Alumni Network', address: 'Ogere Remo, Ogun State', facts: ['Hosts annual Philanthropy Awards at Ogere Town Hall', 'Growing nursery and primary enrolment'], img: '/images/EmmanuelNarroway Academy.jpg' },
+  { name: 'Ositelu Memorial College', tag: 'Secondary School', tagClass: 'tag-blue', ic: 'ðŸ«', founded: 'Named after Prophet Josiah Olunowo Ositelu (born 1902, Ogere Remo)', desc: 'Ogere Remo\'s flagship secondary school. The college has produced generations of distinguished Nigerians.', motto: '"We Shall Be Giant, and Therefore We Shall Work, and Work, and Work"', alumni: 'OMCOOSA â€” President: Arc. Kunle Awobajo Â· 08037136954', address: 'Awomosu Agbato Drive, Ogere 121107', facts: ['OMCOOSA celebrated 40th Anniversary in 2025', 'Annual dues: â‚¦5,000 per member'], img: '/images/ositelu-memorial-college-building.jpg' },
+  { name: 'Christ Church School', tag: 'Primary School Â· Est. 1913+', tagClass: 'tag-terra', ic: 'â›ª', founded: 'Oldest school in Ogere Remo â€” attended by Josiah Ositelu 1913â€“1919', desc: 'The oldest educational institution in Ogere Remo. Recently rehabilitated by Ogun State Government in 2025.', motto: 'Building foundations for over a century', alumni: 'Includes the late Prophet Josiah Olunowo Ositelu', address: 'Ogere Remo, Ogun State', facts: ['Over 100 years of history', 'Rehabilitated by Ogun State Government in 2025'], img: '/images/church-of-the-lord-aladura.jpg' },
+  { name: 'Emmanuel Narrow-Way Academy (ENAWAC)', tag: 'Nursery & Primary', tagClass: 'tag-green', ic: 'ðŸŒ±', founded: 'Proprietor: Rev\'d Emmanuel Ola Shofuyi', desc: 'A leading nursery and primary institution in Ogere Remo, known for its annual Philanthropy Awards.', motto: 'Narrow is the way â€” wide is the excellence', alumni: 'ENAWAC Philanthropy Awards Alumni Network', address: 'Ogere Remo, Ogun State', facts: ['Hosts annual Philanthropy Awards at Ogere Town Hall', 'Growing nursery and primary enrolment'], img: '/images/EmmanuelNarroway Academy.jpg' },
 ];
 
 const notable = [
-  { n: 'Prophet Josiah Olunowo Ositelu', y: '1902 – 1966', tag: 'Spiritual Founder · Global Legacy', ic: '✝️', desc: 'Born in Ogere Remo in 1902, he attended Christ Church School before founding the Church of the Lord (Aladura) Worldwide on July 27, 1930.', img: '/images/Josiah Ositelu.jpg' },
-  { n: 'Oba Oladele Moshood Ogunbade', y: 'c.1937 – April 10, 2022', tag: 'Agbejoye II · Ologere 1983–2022', ic: '👑', desc: 'Reigned for over 38 years. His palace archives (2008) remain the primary historical source for Ogere Remo.', img: '/images/OLOGERE-OF-OGERE-OBA OGUNBADE.jpg' },
-  { n: 'Dr. Shola Mos-Shogbamimu', y: 'Contemporary', tag: 'Lawyer · Author · Political Commentator', ic: '🌟', desc: 'Granddaughter of Oba Alfred Babington-Ashaye. PhD (Birkbeck), LLM (LSE), Exec MBA (Cambridge). New York Attorney.' },
+  { n: 'Prophet Josiah Olunowo Ositelu', y: '1902 â€“ 1966', tag: 'Spiritual Founder Â· Global Legacy', ic: 'âœï¸', desc: 'Born in Ogere Remo in 1902, he attended Christ Church School before founding the Church of the Lord (Aladura) Worldwide on July 27, 1930.', img: '/images/Josiah Ositelu.jpg' },
+  { n: 'Oba Oladele Moshood Ogunbade', y: 'c.1937 â€“ April 10, 2022', tag: 'Agbejoye II Â· Ologere 1983â€“2022', ic: 'ðŸ‘‘', desc: 'Reigned for over 38 years. His palace archives (2008) remain the primary historical source for Ogere Remo.', img: '/images/OLOGERE-OF-OGERE-OBA OGUNBADE.jpg' },
+  { n: 'Dr. Shola Mos-Shogbamimu', y: 'Contemporary', tag: 'Lawyer Â· Author Â· Political Commentator', ic: 'ðŸŒŸ', desc: 'Granddaughter of Oba Alfred Babington-Ashaye. PhD (Birkbeck), LLM (LSE), Exec MBA (Cambridge). New York Attorney.' },
 ];
 
 export default function EducationPage() {
@@ -22,11 +22,11 @@ export default function EducationPage() {
   return (
     <div>
       <SEO title="Education" description="Educational institutions in Ogere Remo including Ositelu Memorial College, Christ Church School, and Emmanuel Narrow-Way Academy." />
-      <Hero ey="Knowledge & Legacy" ti="Education in Ogere Remo" sub="From the oldest mission school to Ositelu Memorial College — the institutions that built Ogere's brilliant minds." />
+      <Hero ey="Knowledge & Legacy" ti="Education in Ogere Remo" sub="From the oldest mission school to Ositelu Memorial College â€” the institutions that built Ogere's brilliant minds." />
       <AdireDivider />
       <Section bg="#1a0d06" py="2rem">
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {[['schools', '🏫 Schools'], ['notable', '🌟 Notable People']].map(([id, l]) => (
+          {[['schools', 'ðŸ« Schools'], ['notable', 'ðŸŒŸ Notable People']].map(([id, l]) => (
             <button key={id} className={tab === id ? 'btn-p' : 'btn-o'} onClick={() => setTab(id)}>{l}</button>
           ))}
         </div>
@@ -56,13 +56,13 @@ export default function EducationPage() {
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(140px, 100%), 1fr))', gap: '.5rem', marginBottom: '1rem' }}>
                     {s.facts.map((fact, fi) => (
                       <div key={fi} style={{ display: 'flex', gap: '.5rem', fontSize: '.78rem', color: 'rgba(245,237,216,.6)' }}>
-                        <span style={{ color: '#C9963A', flexShrink: 0 }}>›</span><span>{fact}</span>
+                        <span style={{ color: '#C9963A', flexShrink: 0 }}>â€º</span><span>{fact}</span>
                       </div>
                     ))}
                   </div>
                   <div style={{ borderTop: '1px solid rgba(201,150,58,.1)', paddingTop: '.8rem' }}>
-                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.4)' }}>🎓 {s.alumni}</div>
-                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.4)', marginTop: '.25rem' }}>📍 {s.address}</div>
+                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.4)' }}>ðŸŽ“ {s.alumni}</div>
+                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.4)', marginTop: '.25rem' }}>ðŸ“ {s.address}</div>
                   </div>
                 </div>
                 {s.img && (

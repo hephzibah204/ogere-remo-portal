@@ -58,7 +58,7 @@ export default function VerifyIdPage() {
 
       <div style={{ background: 'linear-gradient(135deg, #7A2E0E, #B5451B)', padding: '0.65rem 2rem', textAlign: 'center' }}>
         <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'white', textTransform: 'uppercase' }}>
-          👑 OFFICIAL PALACE VERIFICATION DATABASE · SECURE & TRANSPARENT
+          ðŸ‘‘ OFFICIAL PALACE VERIFICATION DATABASE Â· SECURE & TRANSPARENT
         </span>
       </div>
 
@@ -75,7 +75,7 @@ export default function VerifyIdPage() {
                 style={{ flex: 1, minWidth: 'min(240px, 100%)', textTransform: 'uppercase', letterSpacing: '0.05em' }}
               />
               <button type="submit" className="btn-p" disabled={loading} style={{ minWidth: '140px' }}>
-                {loading ? 'Verifying…' : '🔍 Verify ID'}
+                {loading ? 'Verifyingâ€¦' : 'ðŸ” Verify ID'}
               </button>
             </div>
           </form>
@@ -100,7 +100,7 @@ export default function VerifyIdPage() {
                 }}
               >
                 <div style={{ fontSize: '2.5rem', marginBottom: '0.4rem' }}>
-                  {record.status === 'approved' ? '✅' : '⚠️'}
+                  {record.status === 'approved' ? 'âœ…' : 'âš ï¸'}
                 </div>
                 <div
                   className="cinzel"
@@ -136,7 +136,7 @@ export default function VerifyIdPage() {
                   </div>
                   <div>
                     <div className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Ancestral Compound</div>
-                    <div style={{ fontSize: '0.9rem', color: 'rgba(245,237,216,0.85)', marginTop: '0.2rem' }}>{record.compound || '—'}</div>
+                    <div style={{ fontSize: '0.9rem', color: 'rgba(245,237,216,0.85)', marginTop: '0.2rem' }}>{record.compound || 'â€”'}</div>
                   </div>
                   <div>
                     <div className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Date Issued</div>
@@ -160,7 +160,7 @@ export default function VerifyIdPage() {
                     lineHeight: 1.7,
                   }}
                 >
-                  👑 <strong>Authorised Authority:</strong> {record.verifiedBy || 'HRH Ologere Palace Office · Ogere Community Development Association (OCDA)'}. This digital record verifies that the holder has registered with the official kingdom registry.
+                  ðŸ‘‘ <strong>Authorised Authority:</strong> {record.verifiedBy || 'HRH Ologere Palace Office Â· Ogere Community Development Association (OCDA)'}. This digital record verifies that the holder has registered with the official kingdom registry.
                 </div>
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function VerifyIdPage() {
                 animation: 'fadeUp 0.4s ease both',
               }}
             >
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>❌</div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>âŒ</div>
               <h3 className="playfair" style={{ fontSize: '1.6rem', color: '#fca5a5', marginBottom: '0.6rem' }}>
                 No Matching ID Record Found
               </h3>
@@ -186,7 +186,7 @@ export default function VerifyIdPage() {
               </p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Link to="/id-card" className="btn-p" style={{ textDecoration: 'none' }}>
-                  Apply for Digital ID →
+                  Apply for Digital ID â†’
                 </Link>
                 <Link to="/contact" className="btn-o" style={{ textDecoration: 'none' }}>
                   Contact Palace Secretariat

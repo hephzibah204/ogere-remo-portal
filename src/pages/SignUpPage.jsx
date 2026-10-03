@@ -54,7 +54,7 @@ export default function SignUpPage() {
 
   return (
     <div>
-      <SEO title="Create Account" description="Join the Ogere Remo community — sign up for a free account to participate in the forum, submit business listings, and more." />
+      <SEO title="Create Account" description="Join the Ogere Remo community â€” sign up for a free account to participate in the forum, submit business listings, and more." />
       <Hero ey="Community" ti="Create Account" sub="Join the Ogere Remo online community." />
       <AdireDivider />
       <Section bg="#1a0d06" mw={460}>
@@ -88,7 +88,7 @@ export default function SignUpPage() {
               <input type="password" className="inp" value={form.confirm} onChange={e => setForm(f => ({ ...f, confirm: e.target.value }))} placeholder="Repeat password" required />
             </div>
           </div>
-          <button type="submit" className="btn-p" disabled={loading} style={{ marginTop: '.5rem' }}>{loading ? 'Creating account...' : 'Create Account →'}</button>
+          <button type="submit" className="btn-p" disabled={loading} style={{ marginTop: '.5rem' }}>{loading ? 'Creating account...' : 'Create Account â†’'}</button>
         </form>
         <p style={{ textAlign: 'center', marginTop: '1.2rem', fontSize: '.78rem', color: 'rgba(245,237,216,.55)' }}>
           Already have an account? <Link to="/signin" style={{ color: '#C9963A', fontWeight: 700 }}>Sign in</Link>

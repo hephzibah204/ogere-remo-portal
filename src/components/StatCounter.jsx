@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from 'react';
  * Animates a number from 0 to `value` when it enters the viewport.
  *
  * Props:
- *   value      – target number
- *   prefix     – string before number (e.g. "₦")
- *   suffix     – string after number (e.g. "+", "k")
- *   label      – descriptive text below the number
- *   duration   – animation duration in ms (default 1200)
- *   color      – number color (default var(--gold))
+ *   value      â€“ target number
+ *   prefix     â€“ string before number (e.g. "â‚¦")
+ *   suffix     â€“ string after number (e.g. "+", "k")
+ *   label      â€“ descriptive text below the number
+ *   duration   â€“ animation duration in ms (default 1200)
+ *   color      â€“ number color (default var(--gold))
  */
 export default function StatCounter({
   value = 0,
@@ -26,7 +26,7 @@ export default function StatCounter({
   const ref = useRef(null);
   const rafRef = useRef(null);
 
-  // IntersectionObserver – start animation when visible
+  // IntersectionObserver â€“ start animation when visible
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },

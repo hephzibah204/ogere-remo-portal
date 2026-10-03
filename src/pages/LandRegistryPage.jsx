@@ -43,7 +43,7 @@ export default function LandRegistryPage() {
       use: form.use,
       status: 'Pending Survey',
       date: new Date().toISOString().split('T')[0],
-      coord: form.coord || '6.9800° N, 3.6500° E',
+      coord: form.coord || '6.9800Â° N, 3.6500Â° E',
       disputes: 0,
       documents: form.documents || 'Application filed online',
       contact: form.contact,
@@ -62,7 +62,7 @@ export default function LandRegistryPage() {
 
       <div style={{ background: '#0d0704', padding: '1rem 2rem', textAlign: 'center', borderBottom: '1px solid rgba(201,150,58,0.2)' }}>
          <span className="cinzel" style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(245,237,216,0.7)', textTransform: 'uppercase' }}>
-            📜 SECURING THE LAND OF OUR FATHERS FOR FUTURE GENERATIONS
+            ðŸ“œ SECURING THE LAND OF OUR FATHERS FOR FUTURE GENERATIONS
          </span>
       </div>
 
@@ -101,7 +101,7 @@ export default function LandRegistryPage() {
                   <tr key={r.id} style={{ borderBottom: '1px solid rgba(201,150,58,0.05)', fontSize: '0.85rem' }}>
                     <td style={{ padding: '1rem', color: 'var(--cream)', fontWeight: 'bold' }}>{r.id}</td>
                     <td style={{ padding: '1rem', color: 'rgba(245,237,216,0.8)' }}>{r.owner}</td>
-                    <td style={{ padding: '1rem', color: 'rgba(245,237,216,0.6)' }}>📍 {r.area}</td>
+                    <td style={{ padding: '1rem', color: 'rgba(245,237,216,0.6)' }}>ðŸ“ {r.area}</td>
                     <td style={{ padding: '1rem', color: 'rgba(245,237,216,0.6)' }}>{r.size} <br/><span style={{ fontSize: '0.7rem', color: 'rgba(245,237,216,0.4)' }}>{r.use}</span></td>
                     <td style={{ padding: '1rem' }}>
                       <span style={{ 
@@ -137,12 +137,12 @@ export default function LandRegistryPage() {
           
           {!showForm && !submitted && (
             <div className="glass" style={{ textAlign: 'center', padding: 'clamp(1.5rem, 4vw, 3rem)', borderRadius: '12px' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📝</div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ðŸ“</div>
               <h3 className="playfair" style={{ fontSize: '2rem', color: 'var(--cream)', marginBottom: '1rem' }}>Register Your Land</h3>
               <p style={{ color: 'rgba(245,237,216,0.6)', marginBottom: '2rem', lineHeight: 1.6 }}>
                 Secure your family land or acquired property by registering it on the community database. Registration helps prevent encroachment, alerts the community to ownership, and assists in boundary dispute resolution.
               </p>
-              <button className="btn-p" onClick={() => setShowForm(true)}>Begin Registration →</button>
+              <button className="btn-p" onClick={() => setShowForm(true)}>Begin Registration â†’</button>
             </div>
           )}
 
@@ -180,20 +180,20 @@ export default function LandRegistryPage() {
                   </div>
                   <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'rgba(201,150,58,0.05)', borderRadius: '6px', border: '1px solid rgba(201,150,58,0.2)' }}>
                     <p style={{ fontSize: '0.75rem', color: 'rgba(245,237,216,0.6)', margin: 0 }}>
-                      ℹ️ After submission, you will be required to present physical copies of your survey plan or family receipt to the OCDA Land Committee for verification before your listing becomes public.
+                      â„¹ï¸ After submission, you will be required to present physical copies of your survey plan or family receipt to the OCDA Land Committee for verification before your listing becomes public.
                     </p>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.5rem' }}>
                   <button type="button" className="btn-o" onClick={() => setShowForm(false)}>Cancel</button>
-                  <button type="submit" className="btn-p">Submit for Verification →</button>
+                  <button type="submit" className="btn-p">Submit for Verification â†’</button>
                 </div>
              </form>
           )}
 
           {submitted && (
              <div style={{ textAlign: 'center', padding: '3rem', animation: 'fadeUp 0.4s ease both' }}>
-               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
+               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>âœ…</div>
                <div className="playfair" style={{ fontSize: '1.5rem', color: 'var(--cream)' }}>Registration Submitted</div>
                <p style={{ color: 'rgba(245,237,216,0.6)', marginTop: '0.5rem' }}>The Land Committee will contact you shortly to verify your documents.</p>
              </div>

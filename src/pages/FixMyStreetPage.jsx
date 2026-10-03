@@ -1,5 +1,5 @@
 // src/pages/FixMyStreetPage.jsx
-// Fix My Street — Civic Infrastructure & Public Works Issue Tracker for Ogere Remo
+// Fix My Street â€” Civic Infrastructure & Public Works Issue Tracker for Ogere Remo
 
 import React, { useState, useEffect } from 'react';
 import SEO from '../components/SEO';
@@ -132,14 +132,14 @@ export default function FixMyStreetPage() {
   return (
     <div>
       <SEO
-        title="Fix My Street & Power Grid Tracker — Ogere Remo Kingdom"
+        title="Fix My Street & Power Grid Tracker â€” Ogere Remo Kingdom"
         description="Crowdsourced civic public works issue tracker, road repairs, and live IBEDC power grid uptime monitor for Ogere Remo."
       />
 
       <PageHero
         title="Fix My Street & Public Works Tracker"
         subtitle="Crowdsourced Civic Reporting, Road Pothole Triage & Live Quarter Power Grid Monitor for Ogere Remo"
-        badge="🚧 CIVIC INFRASTRUCTURE"
+        badge="ðŸš§ CIVIC INFRASTRUCTURE"
         badgeColor="#f59e0b"
       />
 
@@ -148,7 +148,7 @@ export default function FixMyStreetPage() {
         <div style={{ background: 'rgba(15, 23, 42, 0.9)', border: '1px solid #334155', borderRadius: '10px', padding: '1.25rem', marginBottom: '2rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '1.4rem' }}>⚡</span>
+              <span style={{ fontSize: '1.4rem' }}>âš¡</span>
               <div>
                 <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#fde047' }}>
                   OGERE REMO ELECTRICITY GRID (IBEDC) LIVE MONITOR
@@ -159,7 +159,7 @@ export default function FixMyStreetPage() {
               </div>
             </div>
             <span style={{ fontSize: '0.65rem', background: '#16a34a', color: '#fff', padding: '3px 8px', borderRadius: '4px', fontWeight: 800 }}>
-              🟢 GRID ACTIVE
+              ðŸŸ¢ GRID ACTIVE
             </span>
           </div>
 
@@ -183,12 +183,12 @@ export default function FixMyStreetPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
                       <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#f8fafc' }}>{qtr.name}</span>
                       <span style={{ fontSize: '0.65rem', fontWeight: 900, color: isOn ? '#4ade80' : '#f87171' }}>
-                        ● {qtr.powerStatus}
+                        â— {qtr.powerStatus}
                       </span>
                     </div>
                     <div style={{ fontSize: '0.65rem', color: '#cbd5e1' }}>{qtr.transformer}</div>
                     <div style={{ fontSize: '0.58rem', color: '#94a3b8', marginTop: '2px' }}>
-                      Load: {qtr.loadRating} · Changed {qtr.lastPowerChange}
+                      Load: {qtr.loadRating} Â· Changed {qtr.lastPowerChange}
                     </div>
                   </div>
 
@@ -207,7 +207,7 @@ export default function FixMyStreetPage() {
                       cursor: 'pointer',
                     }}
                   >
-                    {isOn ? '⚡ Report Outage' : '✓ Report Power Restored'}
+                    {isOn ? 'âš¡ Report Outage' : 'âœ“ Report Power Restored'}
                   </button>
                 </div>
               );
@@ -218,9 +218,9 @@ export default function FixMyStreetPage() {
         {/* Tab Navigation */}
         <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid rgba(245, 158, 11, 0.3)', paddingBottom: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
           {[
-            { id: 'issues', label: '🚧 Public Works Issue Feed', icon: '📋' },
-            { id: 'report', label: '📸 Report a Civic Issue', icon: '✍️' },
-            { id: 'leaderboard', label: '🔥 Top Community Priorities', icon: '🏆' },
+            { id: 'issues', label: 'ðŸš§ Public Works Issue Feed', icon: 'ðŸ“‹' },
+            { id: 'report', label: 'ðŸ“¸ Report a Civic Issue', icon: 'âœï¸' },
+            { id: 'leaderboard', label: 'ðŸ”¥ Top Community Priorities', icon: 'ðŸ†' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -300,7 +300,7 @@ export default function FixMyStreetPage() {
             <div style={{ display: 'grid', gap: '1.2rem' }}>
               {filteredIssues.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '3rem', background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>✨</div>
+                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>âœ¨</div>
                   <div style={{ fontSize: '1.1rem', color: '#f59e0b', fontWeight: 800 }}>No Reported Issues in this Filter</div>
                 </div>
               ) : (
@@ -328,7 +328,7 @@ export default function FixMyStreetPage() {
                               {issue.id}
                             </span>
                             <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
-                              Reported by {issue.reporterName} · {new Date(issue.reportedAt).toLocaleDateString()}
+                              Reported by {issue.reporterName} Â· {new Date(issue.reportedAt).toLocaleDateString()}
                             </span>
                           </div>
                           <h3 style={{ fontSize: '1.1rem', color: '#ffffff', fontWeight: 800, margin: 0 }}>
@@ -348,13 +348,13 @@ export default function FixMyStreetPage() {
                               border: `1px solid ${isResolved ? '#22c55e' : inProgress ? '#38bdf8' : '#f59e0b'}`,
                             }}
                           >
-                            ● {issue.status.replace(/_/g, ' ')}
+                            â— {issue.status.replace(/_/g, ' ')}
                           </span>
                         </div>
                       </div>
 
                       <div style={{ fontSize: '0.8rem', color: 'var(--gold-light)', marginBottom: '0.6rem', fontWeight: 700 }}>
-                        📍 {issue.location} ({issue.quarter})
+                        ðŸ“ {issue.location} ({issue.quarter})
                       </div>
 
                       <p style={{ fontSize: '0.82rem', color: '#e2e8f0', lineHeight: 1.5, marginBottom: '0.75rem' }}>
@@ -365,7 +365,7 @@ export default function FixMyStreetPage() {
                       {issue.assignedContractor && (
                         <div style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '6px', padding: '0.6rem 0.8rem', marginBottom: '0.75rem', fontSize: '0.75rem' }}>
                           <div style={{ color: '#38bdf8', fontWeight: 800 }}>
-                            🛠️ Assigned Unit: {issue.assignedContractor}
+                            ðŸ› ï¸ Assigned Unit: {issue.assignedContractor}
                           </div>
                           <div style={{ color: '#cbd5e1', marginTop: '2px' }}>
                             Status Note: {issue.contractorEta}
@@ -392,7 +392,7 @@ export default function FixMyStreetPage() {
                             gap: '0.4rem',
                           }}
                         >
-                          <span>👍 Endorse / Me Too</span>
+                          <span>ðŸ‘ Endorse / Me Too</span>
                           <span style={{ background: '#f59e0b', color: '#000', padding: '1px 6px', borderRadius: '10px', fontSize: '0.7rem' }}>
                             {issue.upvotes}
                           </span>
@@ -400,7 +400,7 @@ export default function FixMyStreetPage() {
 
                         <a
                           href={mapUrls.googleMapsUrl}
-                          target="_blank"
+                          target="_blank" rel="noopener noreferrer"
                           rel="noreferrer"
                           style={{
                             background: '#0284c7',
@@ -412,7 +412,7 @@ export default function FixMyStreetPage() {
                             fontWeight: 800,
                           }}
                         >
-                          🗺️ View Exact GPS Location ↗
+                          ðŸ—ºï¸ View Exact GPS Location â†—
                         </a>
                       </div>
                     </div>
@@ -427,7 +427,7 @@ export default function FixMyStreetPage() {
         {activeTab === 'report' && (
           <div style={{ maxWidth: '750px', margin: '0 auto', background: 'rgba(20, 10, 5, 0.85)', border: '1px solid rgba(245,158,11,0.4)', borderRadius: '10px', padding: '2rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <div style={{ fontSize: '2rem' }}>📸</div>
+              <div style={{ fontSize: '2rem' }}>ðŸ“¸</div>
               <h2 style={{ fontSize: '1.4rem', color: '#f59e0b', margin: '0.4rem 0' }}>
                 Report a Civic Infrastructure Issue
               </h2>
@@ -439,7 +439,7 @@ export default function FixMyStreetPage() {
             {submitSuccess && (
               <div style={{ background: 'rgba(34, 197, 94, 0.15)', border: '1px solid #22c55e', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', textAlign: 'center' }}>
                 <div style={{ fontSize: '1.2rem', color: '#4ade80', fontWeight: 900 }}>
-                  ✓ Issue Reported Successfully! Ticket #{submitSuccess.id}
+                  âœ“ Issue Reported Successfully! Ticket #{submitSuccess.id}
                 </div>
                 <div style={{ fontSize: '0.85rem', color: '#f8fafc', marginTop: '0.3rem' }}>
                   Public works engineers have been notified. Citizens can now upvote your ticket.
@@ -518,7 +518,7 @@ export default function FixMyStreetPage() {
                       cursor: 'pointer',
                     }}
                   >
-                    {isDetectingGps ? '🛰️ Detecting...' : '🎯 Auto-Detect GPS Location'}
+                    {isDetectingGps ? 'ðŸ›°ï¸ Detecting...' : 'ðŸŽ¯ Auto-Detect GPS Location'}
                   </button>
                 </div>
                 <input
@@ -589,7 +589,7 @@ export default function FixMyStreetPage() {
                   letterSpacing: '0.04em',
                 }}
               >
-                🚀 Submit Report to OCDA Works
+                ðŸš€ Submit Report to OCDA Works
               </button>
             </form>
           </div>
@@ -600,7 +600,7 @@ export default function FixMyStreetPage() {
           <div>
             <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
               <h2 style={{ fontSize: '1.3rem', color: '#f59e0b', margin: '0 0 0.3rem' }}>
-                🔥 Most Upvoted Public Works Issues
+                ðŸ”¥ Most Upvoted Public Works Issues
               </h2>
               <p style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
                 Issues prioritized automatically by citizen endorsements for immediate municipal budgeting.
@@ -645,7 +645,7 @@ export default function FixMyStreetPage() {
                         {item.title}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                        📍 {item.location} ({item.quarter}) · Status: {item.status.replace(/_/g, ' ')}
+                        ðŸ“ {item.location} ({item.quarter}) Â· Status: {item.status.replace(/_/g, ' ')}
                       </div>
                     </div>
                   </div>

@@ -8,8 +8,8 @@ import { getSafePin, getDuressPin, setSafePin as persistSafePin, setDuressPin as
  * that they are not the same.
  *
  * Props:
- *  - onClose: () => void — called when the user taps the close/back button
- *  - onSave: (safePin, duressPin) => void — optional callback after successful save
+ *  - onClose: () => void â€” called when the user taps the close/back button
+ *  - onSave: (safePin, duressPin) => void â€” optional callback after successful save
  */
 export default function DuressPinSettings({ onClose, onSave }) {
   const [safePin, setSafePin] = useState('');
@@ -53,7 +53,7 @@ export default function DuressPinSettings({ onClose, onSave }) {
     <div style={{ display: 'grid', gap: '12px' }}>
       {/* Header */}
       <div style={{ background: '#0f172a', padding: '14px', borderRadius: '14px', color: '#fff', textAlign: 'center' }}>
-        <div style={{ fontSize: '1.8rem', marginBottom: '4px' }}>🔐</div>
+        <div style={{ fontSize: '1.8rem', marginBottom: '4px' }}>ðŸ”</div>
         <div style={{ fontSize: '0.88rem', fontWeight: 900 }}>Security PIN Configuration</div>
         <div style={{ fontSize: '0.62rem', color: '#94a3b8', marginTop: '2px' }}>
           Set your Safe Arrival & Covert Duress PINs
@@ -71,7 +71,7 @@ export default function DuressPinSettings({ onClose, onSave }) {
           color: '#991b1b',
           fontWeight: 700,
         }}>
-          ⚠️ {error}
+          âš ï¸ {error}
         </div>
       )}
       {saved && (
@@ -84,14 +84,14 @@ export default function DuressPinSettings({ onClose, onSave }) {
           color: '#065f46',
           fontWeight: 700,
         }}>
-          ✅ PINs saved successfully. Changes take effect immediately.
+          âœ… PINs saved successfully. Changes take effect immediately.
         </div>
       )}
 
       {/* Safe PIN */}
       <div style={{ background: '#fff', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
         <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#064e3b', marginBottom: '4px' }}>
-          🛡️ Safe Arrival PIN
+          ðŸ›¡ï¸ Safe Arrival PIN
         </div>
         <div style={{ fontSize: '0.6rem', color: '#64748b', marginBottom: '6px' }}>
           Enter this PIN to confirm you arrived safely. Your escort session will end normally.
@@ -127,7 +127,7 @@ export default function DuressPinSettings({ onClose, onSave }) {
       {/* Duress PIN */}
       <div style={{ background: '#fff', padding: '12px', borderRadius: '10px', border: '1px solid #fca5a5' }}>
         <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#991b1b', marginBottom: '4px' }}>
-          🚨 Covert Duress PIN
+          ðŸš¨ Covert Duress PIN
         </div>
         <div style={{ fontSize: '0.6rem', color: '#64748b', marginBottom: '6px' }}>
           If forced by an attacker to cancel your escort, enter this PIN instead. It will
@@ -171,7 +171,7 @@ export default function DuressPinSettings({ onClose, onSave }) {
         color: '#78350f',
         lineHeight: 1.5,
       }}>
-        <strong>🔑 Rules:</strong>
+        <strong>ðŸ”‘ Rules:</strong>
         <ul style={{ margin: '4px 0 0', paddingLeft: '16px' }}>
           <li>Both PINs must be exactly <strong>4 digits</strong>.</li>
           <li>Safe PIN and Duress PIN <strong>must be different</strong>.</li>
@@ -196,7 +196,7 @@ export default function DuressPinSettings({ onClose, onSave }) {
             cursor: 'pointer',
           }}
         >
-          💾 Save PINs
+          ðŸ’¾ Save PINs
         </button>
         <button
           onClick={onClose}
@@ -211,7 +211,7 @@ export default function DuressPinSettings({ onClose, onSave }) {
             cursor: 'pointer',
           }}
         >
-          ← Back
+          â† Back
         </button>
       </div>
     </div>

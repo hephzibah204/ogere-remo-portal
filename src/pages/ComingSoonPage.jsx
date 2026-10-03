@@ -10,15 +10,15 @@ const ENV_PINS = typeof import.meta !== 'undefined' && import.meta.env?.VITE_ACC
   : null;
 const VALID_PINS = ENV_PINS || [];
 
-/* ── Constants ─────────────────────────────────── */
-const FUNDRAISING_TARGET = 10_000_000; // ₦10,000,000
+/* â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+const FUNDRAISING_TARGET = 10_000_000; // â‚¦10,000,000
 const LAUNCH_DATE = new Date('2026-11-04T00:00:00'); // November 4th 2026
 
-/* ── Helpers ───────────────────────────────────── */
+/* â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function formatNaira(n) {
-  if (n >= 1_000_000) return `₦${(n / 1_000_000).toFixed(2)}M`;
-  if (n >= 1_000) return `₦${(n / 1_000).toFixed(0)}k`;
-  return `₦${n.toLocaleString()}`;
+  if (n >= 1_000_000) return `â‚¦${(n / 1_000_000).toFixed(2)}M`;
+  if (n >= 1_000) return `â‚¦${(n / 1_000).toFixed(0)}k`;
+  return `â‚¦${n.toLocaleString()}`;
 }
 
 function getCountdown() {
@@ -42,14 +42,14 @@ export default function ComingSoonPage({ onUnlock }) {
   const [unlockSuccess, setUnlockSuccess] = useState(false);
   const [selectedTier, setSelectedTier] = useState('gold');
 
-  // ── Countdown ──────────────────────────────────
+  // â”€â”€ Countdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [countdown, setCountdown] = useState(getCountdown());
   useEffect(() => {
     const t = setInterval(() => setCountdown(getCountdown()), 1000);
     return () => clearInterval(t);
   }, []);
 
-  // ── Real-time donor/fundraising stats from Neon ─
+  // â”€â”€ Real-time donor/fundraising stats from Neon â”€
   const [stats, setStats] = useState({ raised: 0, donors: 0, loading: true });
   const fetchStats = useCallback(async () => {
     try {
@@ -105,15 +105,15 @@ export default function ComingSoonPage({ onUnlock }) {
   const DONATION_TIERS = [
     {
       id: 'platinum',
-      icon: '👑',
+      icon: 'ðŸ‘‘',
       name: 'Platinum Founding Visionary',
-      amount: '₦1,000,000+ / $1,000+',
+      amount: 'â‚¦1,000,000+ / $1,000+',
       desc: 'For businesses, diaspora patrons, and visionary investors.',
       perks: [
-        '🌐 FREE 5-Page Custom Website / Online Store built by Hephtech Multimedia (Free 1-Yr Domain & Hosting setup included)',
-        '📢 1-Year FREE Premium Top-Banner Advertisement across all pages of the Ogere Portal',
-        '🏛️ Permanent Top-Tier Feature on the Portal "Founding Benefactors & Wall of Heroes"',
-        '📰 Dedicated Spotlight Article & Business Showcase published on the portal news desk',
+        'ðŸŒ FREE 5-Page Custom Website / Online Store built by Hephtech Multimedia (Free 1-Yr Domain & Hosting setup included)',
+        'ðŸ“¢ 1-Year FREE Premium Top-Banner Advertisement across all pages of the Ogere Portal',
+        'ðŸ›ï¸ Permanent Top-Tier Feature on the Portal "Founding Benefactors & Wall of Heroes"',
+        'ðŸ“° Dedicated Spotlight Article & Business Showcase published on the portal news desk',
       ],
       color: '#E5C158',
       bg: 'rgba(229,193,88,0.12)',
@@ -121,16 +121,16 @@ export default function ComingSoonPage({ onUnlock }) {
     },
     {
       id: 'gold',
-      icon: '🥇',
+      icon: 'ðŸ¥‡',
       name: 'Gold Civic Partner',
-      amount: '₦250,000 – ₦999,999 / $250+',
+      amount: 'â‚¦250,000 â€“ â‚¦999,999 / $250+',
       popular: true,
       desc: 'For local enterprises, diaspora professionals, and family compounds.',
       perks: [
-        '🌐 FREE Professional 1-Page Business Website / Portfolio built by Hephtech Multimedia',
-        '📢 6-Months FREE Featured Business Advertising in the Ogere Yellow Pages & Marketplace',
-        '🏛️ Permanent listing in the "Founding Donors Hall of Honor" on the portal',
-        '🎖️ Official Founding Patron Digital Certificate from Hephtech Multimedia & Innovations',
+        'ðŸŒ FREE Professional 1-Page Business Website / Portfolio built by Hephtech Multimedia',
+        'ðŸ“¢ 6-Months FREE Featured Business Advertising in the Ogere Yellow Pages & Marketplace',
+        'ðŸ›ï¸ Permanent listing in the "Founding Donors Hall of Honor" on the portal',
+        'ðŸŽ–ï¸ Official Founding Patron Digital Certificate from Hephtech Multimedia & Innovations',
       ],
       color: '#C9963A',
       bg: 'rgba(201,150,58,0.15)',
@@ -138,15 +138,15 @@ export default function ComingSoonPage({ onUnlock }) {
     },
     {
       id: 'silver',
-      icon: '🥈',
+      icon: 'ðŸ¥ˆ',
       name: 'Silver Heritage Supporter',
-      amount: '₦50,000 – ₦249,999 / $50+',
+      amount: 'â‚¦50,000 â€“ â‚¦249,999 / $50+',
       desc: 'For indigenes, artisans, traders, and youth professionals.',
       perks: [
-        '📢 3-Months FREE Featured Business Listing in the Ogere Directory',
-        '🏛️ Name & Business permanently listed on the Portal Benefactors Honor Roll',
-        '🎖️ Official Digital Supporter Certificate from Hephtech Multimedia',
-        '💬 Verified Contributor Badge across all portal community forums',
+        'ðŸ“¢ 3-Months FREE Featured Business Listing in the Ogere Directory',
+        'ðŸ›ï¸ Name & Business permanently listed on the Portal Benefactors Honor Roll',
+        'ðŸŽ–ï¸ Official Digital Supporter Certificate from Hephtech Multimedia',
+        'ðŸ’¬ Verified Contributor Badge across all portal community forums',
       ],
       color: '#E0E0E0',
       bg: 'rgba(255,255,255,0.06)',
@@ -154,14 +154,14 @@ export default function ComingSoonPage({ onUnlock }) {
     },
     {
       id: 'patriot',
-      icon: '🤝',
+      icon: 'ðŸ¤',
       name: 'Community Backer',
-      amount: '₦5,000 – ₦49,999 / $5+',
+      amount: 'â‚¦5,000 â€“ â‚¦49,999 / $5+',
       desc: 'Every single naira directly pays our developers and covers server infrastructure.',
       perks: [
-        '🏛️ Name listed on the Community Supporters Honor Roll on the website',
-        '💬 Verified Community Supporter status on the platform',
-        '📱 Instant official WhatsApp donation receipt & public acknowledgment',
+        'ðŸ›ï¸ Name listed on the Community Supporters Honor Roll on the website',
+        'ðŸ’¬ Verified Community Supporter status on the platform',
+        'ðŸ“± Instant official WhatsApp donation receipt & public acknowledgment',
       ],
       color: '#4ade80',
       bg: 'rgba(74,222,128,0.08)',
@@ -171,67 +171,67 @@ export default function ComingSoonPage({ onUnlock }) {
 
   const FEATURES = [
     {
-      icon: '🚨',
+      icon: 'ðŸš¨',
       title: 'Emergency SOS Radar & Blood Donors Bank',
       tag: 'Security & Rapid Response',
       desc: '24/7 one-tap emergency panic dispatch linked to Ogere Police, FRSC Highway Patrol, So-Safe Corps, and instant life-saving blood donor matching registry.',
     },
     {
-      icon: '🪪',
+      icon: 'ðŸªª',
       title: 'Digital Citizen & Diaspora ID Cards',
       tag: 'Identity & Civic',
       desc: 'Smart, QR-verifiable digital identity cards for native indigenes, town residents, and global diaspora members.',
     },
     {
-      icon: '👑',
+      icon: 'ðŸ‘‘',
       title: 'Royal Heritage & Monarchical History',
       tag: 'Heritage',
       desc: 'Documenting the recorded history, lineage, and 600+ year reign of the Ologere ruling dynasty since 1401 A.D.',
     },
     {
-      icon: '🗺️',
+      icon: 'ðŸ—ºï¸',
       title: 'Google Maps Street & Landmark Digitization',
       tag: 'GIS & Mapping',
       desc: 'Surveying and mapping every unlisted street, ancestral compound lane, shop, and landmark in Ogere Remo directly onto Google Maps with exact GPS coordinates.',
     },
     {
-      icon: '📜',
+      icon: 'ðŸ“œ',
       title: 'Digital Land Registry & Verification',
       tag: 'Governance',
       desc: 'Transparent digital land boundary tracking, title verification, and survey documentation to eliminate property disputes.',
     },
     {
-      icon: '🛍️',
+      icon: 'ðŸ›ï¸',
       title: 'Marketplace & Yellow Pages Directory',
       tag: 'Commerce',
       desc: 'Connecting Ogere yam farmers, Adire craftsmen, local caterers, and corporate businesses directly to buyers in Lagos, Ibadan, and the diaspora.',
     },
     {
-      icon: '🎓',
+      icon: 'ðŸŽ“',
       title: 'Schools & Educational Directory',
       tag: 'Education',
       desc: 'Centralized directory of historic community schools, academic resources, alumni networks, and educational bursary announcements.',
     },
     {
-      icon: '👸',
+      icon: 'ðŸ‘¸',
       title: 'Miss Olipakala Pageant Registration',
       tag: 'Culture',
       desc: 'Official registration portal for the annual cultural ambassador competition celebrating the beauty and heritage of Ogere daughters.',
     },
     {
-      icon: '🕊️',
+      icon: 'ðŸ•Šï¸',
       title: 'Mount Tabieorar & Faith Heritage',
       tag: 'Faith & History',
       desc: 'Digital historical archives commemorating the birthplace of The Church of the Lord (Aladura) Worldwide and annual spiritual convocation.',
     },
     {
-      icon: '💛',
+      icon: 'ðŸ’›',
       title: 'Diaspora Projects & Capital Tracker',
       tag: 'Development',
       desc: 'Real-time transparent public tracking for community capital projects, street paving, solar lighting, and voluntary diaspora contributions.',
     },
     {
-      icon: '📰',
+      icon: 'ðŸ“°',
       title: 'Kingdom News & Gazette Dispatches',
       tag: 'Media',
       desc: 'Dedicated news dispatches, cultural events coverage, and community achievements published by the Ogere Remo Media Bureau.',
@@ -241,12 +241,12 @@ export default function ComingSoonPage({ onUnlock }) {
   return (
     <div style={{ minHeight: '100vh', background: '#0D0704', color: '#F5EDD8', overflowX: 'hidden' }}>
       <SEO
-        title="Coming Soon — Ogere Remo: Nigeria's 1st Digital Town"
+        title="Coming Soon â€” Ogere Remo: Nigeria's 1st Digital Town"
         description="Support Hephtech Multimedia in building Nigeria's first digital town platform for Ogere Remo. Donors receive free business promotion and free custom websites."
         image="/images/Ogere Town.jpg"
       />
 
-      {/* ── Top Announcement Banner ── */}
+      {/* â”€â”€ Top Announcement Banner â”€â”€ */}
       <div
         style={{
           background: 'linear-gradient(90deg, #7A2E0E 0%, #C9963A 50%, #7A2E0E 100%)',
@@ -259,10 +259,10 @@ export default function ComingSoonPage({ onUnlock }) {
         }}
         className="cinzel"
       >
-        🌟 PIONEERING NIGERIA'S 1ST DIGITAL TOWN • DONATE &amp; GET FREE BUSINESS ADVERTISING OR A FREE WEBSITE!
+        ðŸŒŸ PIONEERING NIGERIA'S 1ST DIGITAL TOWN â€¢ DONATE &amp; GET FREE BUSINESS ADVERTISING OR A FREE WEBSITE!
       </div>
 
-      {/* ── Hero Section ── */}
+      {/* â”€â”€ Hero Section â”€â”€ */}
       <section
         style={{
           position: 'relative',
@@ -279,17 +279,17 @@ export default function ComingSoonPage({ onUnlock }) {
 
           {/* Royal Crest */}
           <div className="anim-scale-in" style={{ fontSize: '3.8rem', marginBottom: '1rem', filter: 'drop-shadow(0 6px 16px rgba(201,150,58,0.5))' }}>
-            👑
+            ðŸ‘‘
           </div>
 
           {/* EST. badge */}
           <div className="anim-fade-in-down delay-1" style={{ display: 'inline-flex', alignItems: 'center', gap: '.5rem', background: 'rgba(201,150,58,0.18)', border: '1px solid var(--gold)', borderRadius: '25px', padding: '.45rem 1.4rem', marginBottom: '1rem', boxShadow: '0 4px 15px rgba(0,0,0,0.4)' }}>
             <span style={{ color: 'var(--gold)', fontSize: '.78rem', fontWeight: 700 }} className="cinzel">
-              EST. 1401 A.D. • OGERE REMO CIVIC TECHNOLOGY INITIATIVE
+              EST. 1401 A.D. â€¢ OGERE REMO CIVIC TECHNOLOGY INITIATIVE
             </span>
           </div>
 
-          {/* 🏛️ FOUNDING LAUNCH PHASE badge */}
+          {/* ðŸ›ï¸ FOUNDING LAUNCH PHASE badge */}
           <div className="anim-fade-in delay-2" style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.2rem' }}>
             <span className="cinzel" style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
@@ -298,7 +298,7 @@ export default function ComingSoonPage({ onUnlock }) {
               fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em',
               color: 'var(--gold)', textTransform: 'uppercase',
             }}>
-              🏛️ CIVIC TECHNOLOGY INITIATIVE — FOUNDING LAUNCH PHASE
+              ðŸ›ï¸ CIVIC TECHNOLOGY INITIATIVE â€” FOUNDING LAUNCH PHASE
             </span>
           </div>
 
@@ -314,7 +314,7 @@ export default function ComingSoonPage({ onUnlock }) {
             An independent civic-tech initiative by <strong>Hephtech Multimedia &amp; Innovations</strong> to digitize our 625-year-old heritage, empower local businesses, verify land records, issue digital identity cards, and connect our worldwide diaspora.
           </p>
 
-          {/* ── FUNDRAISING PROGRESS ── */}
+          {/* â”€â”€ FUNDRAISING PROGRESS â”€â”€ */}
           <div className="anim-fade-in-up delay-3" style={{
             background: 'linear-gradient(135deg, rgba(13,7,4,0.9) 0%, rgba(26,13,6,0.95) 100%)',
             border: '1px solid rgba(201,150,58,0.35)',
@@ -328,19 +328,19 @@ export default function ComingSoonPage({ onUnlock }) {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1rem', marginBottom: '1.2rem', textAlign: 'center' }}>
               <div>
                 <div className="cinzel" style={{ fontSize: 'clamp(1.3rem,3vw,1.9rem)', fontWeight: 900, color: 'var(--gold)' }}>
-                  {stats.loading ? '—' : formatNaira(stats.raised)}
+                  {stats.loading ? 'â€”' : formatNaira(stats.raised)}
                 </div>
                 <div className="baskerville" style={{ fontSize: '0.72rem', color: 'var(--cream-muted)', marginTop: '0.2rem' }}>raised so far</div>
               </div>
               <div>
                 <div className="cinzel" style={{ fontSize: 'clamp(1.3rem,3vw,1.9rem)', fontWeight: 900, color: '#fff' }}>
-                  {stats.loading ? '—' : stats.donors.toLocaleString()}
+                  {stats.loading ? 'â€”' : stats.donors.toLocaleString()}
                 </div>
                 <div className="baskerville" style={{ fontSize: '0.72rem', color: 'var(--cream-muted)', marginTop: '0.2rem' }}>founding donors</div>
               </div>
               <div>
                 <div className="cinzel" style={{ fontSize: 'clamp(1.3rem,3vw,1.9rem)', fontWeight: 900, color: 'var(--gold)' }}>
-                  ₦10M
+                  â‚¦10M
                 </div>
                 <div className="baskerville" style={{ fontSize: '0.72rem', color: 'var(--cream-muted)', marginTop: '0.2rem' }}>funding target</div>
               </div>
@@ -350,15 +350,15 @@ export default function ComingSoonPage({ onUnlock }) {
               value={stats.raised}
               max={FUNDRAISING_TARGET}
               label="Fundraising Progress"
-              showAmount={`${formatNaira(stats.raised)} raised of ₦10,000,000 target`}
+              showAmount={`${formatNaira(stats.raised)} raised of â‚¦10,000,000 target`}
               height={12}
             />
           </div>
 
-          {/* ── COUNTDOWN TO NOVEMBER 4th ── */}
+          {/* â”€â”€ COUNTDOWN TO NOVEMBER 4th â”€â”€ */}
           <div className="anim-fade-in-up delay-4" style={{ marginBottom: '2rem' }}>
             <div className="cinzel" style={{ fontSize: '0.68rem', letterSpacing: '0.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '0.8rem', opacity: 0.8 }}>
-              🚀 Target Launch Date — November 4th, 2026
+              ðŸš€ Target Launch Date â€” November 4th, 2026
             </div>
             <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               {[
@@ -386,46 +386,46 @@ export default function ComingSoonPage({ onUnlock }) {
             </div>
           </div>
 
-          {/* ── DONOR PROMISE ── */}
+          {/* â”€â”€ DONOR PROMISE â”€â”€ */}
           <div className="anim-fade-in-up delay-4" style={{ background: 'linear-gradient(135deg, rgba(201,150,58,0.15) 0%, rgba(122,46,14,0.25) 100%)', border: '1px solid var(--gold)', borderRadius: '14px', padding: '1.4rem 1.8rem', maxWidth: '740px', margin: '0 auto 2rem', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}>
             <div style={{ fontSize: '1.1rem', color: 'var(--gold)', fontWeight: 700, marginBottom: '.4rem' }} className="cinzel">
-              🎁 Our Promise to You as a Donor:
+              ðŸŽ Our Promise to You as a Donor:
             </div>
             <p className="baskerville" style={{ fontSize: '1.02rem', color: '#F5EDD8', margin: 0, lineHeight: 1.7 }}>
               Your name and photo will be permanently placed on the <strong>Wall of Heroes</strong> on our website, your business will be <strong>advertised for free</strong> across the portal, and major donors receive a <strong>FREE custom website built by Hephtech Multimedia</strong>!
             </p>
           </div>
 
-          {/* ── CTAs ── */}
+          {/* â”€â”€ CTAs â”€â”€ */}
           <div className="anim-fade-in-up delay-5" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center', marginBottom: '1.8rem' }}>
             <a href="#donate-section" className="btn-p" style={{ fontSize: 'clamp(.88rem,2vw,1.05rem)', padding: '1rem 2.2rem', display: 'inline-flex', alignItems: 'center', gap: '.6rem', boxShadow: '0 6px 25px rgba(201,150,58,0.5)', textDecoration: 'none', fontWeight: 700 }}>
-              💛 Donate Now &amp; Get Rewarded
+              ðŸ’› Donate Now &amp; Get Rewarded
             </a>
             <button onClick={() => setPinModalOpen(true)} className="btn-o" style={{ fontSize: 'clamp(.88rem,2vw,1.05rem)', padding: '1rem 1.8rem', display: 'inline-flex', alignItems: 'center', gap: '.5rem', background: 'rgba(201,150,58,0.12)' }}>
-              🔑 Enter PIN for Live Demo
+              ðŸ”‘ Enter PIN for Live Demo
             </button>
           </div>
 
-          {/* ── SOCIAL SHARE ── */}
+          {/* â”€â”€ SOCIAL SHARE â”€â”€ */}
           <div className="anim-fade-in delay-6" style={{ display: 'flex', gap: '0.6rem', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="cinzel" style={{ fontSize: '0.62rem', color: 'var(--cream-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Share:</span>
             {/* WhatsApp */}
             <a
-              href={`https://wa.me/?text=${encodeURIComponent('🌟 Help build Nigeria\'s first Digital Town — Ogere Remo! Donate and get FREE business advertising or a FREE website. See the project: https://ogere-remo-portal.vercel.app')}`}
+              href={`https://wa.me/?text=${encodeURIComponent('ðŸŒŸ Help build Nigeria\'s first Digital Town â€” Ogere Remo! Donate and get FREE business advertising or a FREE website. See the project: https://ogere-remo-portal.vercel.app')}`}
               target="_blank" rel="noopener noreferrer"
               aria-label="Share on WhatsApp"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(37,211,102,0.12)', border: '1px solid rgba(37,211,102,0.4)', borderRadius: '8px', padding: '0.45rem 0.9rem', color: '#4ade80', fontSize: '0.78rem', fontWeight: 600, textDecoration: 'none', transition: 'var(--transition)' }}
             >
-              💬 WhatsApp
+              ðŸ’¬ WhatsApp
             </a>
             {/* Twitter/X */}
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('🌟 Nigeria\'s first Digital Town is being built — Ogere Remo! Donate and get FREE business promo. #OgereRemo #NigeriaDigital')}&url=${encodeURIComponent('https://ogere-remo-portal.vercel.app')}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('ðŸŒŸ Nigeria\'s first Digital Town is being built â€” Ogere Remo! Donate and get FREE business promo. #OgereRemo #NigeriaDigital')}&url=${encodeURIComponent('https://ogere-remo-portal.vercel.app')}`}
               target="_blank" rel="noopener noreferrer"
               aria-label="Share on X / Twitter"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', padding: '0.45rem 0.9rem', color: '#fff', fontSize: '0.78rem', fontWeight: 600, textDecoration: 'none', transition: 'var(--transition)' }}
             >
-              𝕏 Share
+              ð• Share
             </a>
             {/* Copy link */}
             <button
@@ -437,7 +437,7 @@ export default function ComingSoonPage({ onUnlock }) {
               aria-label="Copy link to clipboard"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(201,150,58,0.1)', border: '1px solid rgba(201,150,58,0.3)', borderRadius: '8px', padding: '0.45rem 0.9rem', color: 'var(--gold)', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', transition: 'var(--transition)' }}
             >
-              {linkCopied ? '✅ Copied!' : '🔗 Copy Link'}
+              {linkCopied ? 'âœ… Copied!' : 'ðŸ”— Copy Link'}
             </button>
           </div>
 
@@ -539,7 +539,7 @@ export default function ComingSoonPage({ onUnlock }) {
 
                 <div style={{ marginTop: '1.2rem', paddingTop: '.8rem', borderTop: '1px solid rgba(201,150,58,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span className="cinzel" style={{ fontSize: '.6rem', color: idx === 0 ? '#ef4444' : 'rgba(245,237,216,0.45)', fontWeight: idx === 0 ? 800 : 500 }}>
-                    {idx === 0 ? '🔴 LIVE RADAR' : 'STATUS: ACTIVE PREVIEW'}
+                    {idx === 0 ? 'ðŸ”´ LIVE RADAR' : 'STATUS: ACTIVE PREVIEW'}
                   </span>
                   <button
                     onClick={() => {
@@ -561,7 +561,7 @@ export default function ComingSoonPage({ onUnlock }) {
                     }}
                     className="cinzel"
                   >
-                    {idx === 0 ? '🚨 Test SOS Dispatch →' : 'Demo Preview →'}
+                    {idx === 0 ? 'ðŸš¨ Test SOS Dispatch â†’' : 'Demo Preview â†’'}
                   </button>
                 </div>
               </div>
@@ -618,7 +618,7 @@ export default function ComingSoonPage({ onUnlock }) {
           >
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.8rem' }}>
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '2rem' }}>💻</span>
+                <span style={{ fontSize: '2rem' }}>ðŸ’»</span>
                 <div>
                   <strong style={{ color: '#F5EDD8', fontSize: '1.02rem' }}>Software Engineering & UI/UX Design</strong>
                   <div style={{ fontSize: '.84rem', color: 'rgba(245,237,216,0.72)', lineHeight: 1.65, marginTop: '.3rem' }}>
@@ -628,7 +628,7 @@ export default function ComingSoonPage({ onUnlock }) {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '2rem' }}>☁️</span>
+                <span style={{ fontSize: '2rem' }}>â˜ï¸</span>
                 <div>
                   <strong style={{ color: '#F5EDD8', fontSize: '1.02rem' }}>Cloud Infrastructure & Managed PostgreSQL</strong>
                   <div style={{ fontSize: '.84rem', color: 'rgba(245,237,216,0.72)', lineHeight: 1.65, marginTop: '.3rem' }}>
@@ -638,7 +638,7 @@ export default function ComingSoonPage({ onUnlock }) {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '2rem' }}>🗺️</span>
+                <span style={{ fontSize: '2rem' }}>ðŸ—ºï¸</span>
                 <div>
                   <strong style={{ color: '#F5EDD8', fontSize: '1.02rem' }}>Town-Wide Google Maps & Street Mapping</strong>
                   <div style={{ fontSize: '.84rem', color: 'rgba(245,237,216,0.72)', lineHeight: 1.65, marginTop: '.3rem' }}>
@@ -648,7 +648,7 @@ export default function ComingSoonPage({ onUnlock }) {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '2rem' }}>🪪</span>
+                <span style={{ fontSize: '2rem' }}>ðŸªª</span>
                 <div>
                   <strong style={{ color: '#F5EDD8', fontSize: '1.02rem' }}>Digital ID Verification & QR Architecture</strong>
                   <div style={{ fontSize: '.84rem', color: 'rgba(245,237,216,0.72)', lineHeight: 1.65, marginTop: '.3rem' }}>
@@ -658,7 +658,7 @@ export default function ComingSoonPage({ onUnlock }) {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '2rem' }}>🔒</span>
+                <span style={{ fontSize: '2rem' }}>ðŸ”’</span>
                 <div>
                   <strong style={{ color: '#F5EDD8', fontSize: '1.02rem' }}>Data Security & 24/7 Automated Backups</strong>
                   <div style={{ fontSize: '.84rem', color: 'rgba(245,237,216,0.72)', lineHeight: 1.65, marginTop: '.3rem' }}>
@@ -779,7 +779,7 @@ export default function ComingSoonPage({ onUnlock }) {
                         }}
                         className="cinzel"
                       >
-                        ★ Most Popular
+                        â˜… Most Popular
                       </div>
                     )}
 
@@ -803,7 +803,7 @@ export default function ComingSoonPage({ onUnlock }) {
 
                     <div style={{ marginTop: '1.2rem', paddingTop: '.8rem', borderTop: '1px solid rgba(201,150,58,0.15)', textAlign: 'center' }}>
                       <span className="cinzel" style={{ fontSize: '.65rem', color: tier.color, fontWeight: 700 }}>
-                        {isSelected ? '✓ ACTIVE SELECTION' : '👉 Click to Select'}
+                        {isSelected ? 'âœ“ ACTIVE SELECTION' : 'ðŸ‘‰ Click to Select'}
                       </span>
                     </div>
                   </div>
@@ -863,12 +863,11 @@ export default function ComingSoonPage({ onUnlock }) {
                         fontWeight: 700,
                       }}
                     >
-                      💳 View Bank Details
+                      ðŸ’³ View Bank Details
                     </a>
                     <a
                       href={tierWhatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target="_blank" rel="noopener noreferrer"
                       className="btn-o"
                       style={{
                         fontSize: '.82rem',
@@ -883,7 +882,7 @@ export default function ComingSoonPage({ onUnlock }) {
                         fontWeight: 700,
                       }}
                     >
-                      💬 Claim on WhatsApp →
+                      ðŸ’¬ Claim on WhatsApp â†’
                     </a>
                   </div>
                 </div>
@@ -946,12 +945,11 @@ export default function ComingSoonPage({ onUnlock }) {
                   boxShadow: '0 4px 20px rgba(201,150,58,0.4)',
                 }}
               >
-                {copied ? '✓ Opay Account Number Copied!' : '📋 Copy Opay Account (6101307590)'}
+                {copied ? 'âœ“ Opay Account Number Copied!' : 'ðŸ“‹ Copy Opay Account (6101307590)'}
               </button>
               <a
                 href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                target="_blank" rel="noopener noreferrer"
                 className="btn-o"
                 style={{
                   fontSize: '.92rem',
@@ -966,7 +964,7 @@ export default function ComingSoonPage({ onUnlock }) {
                   fontWeight: 700,
                 }}
               >
-                💬 Claim Free Website / Send Transfer Receipt
+                ðŸ’¬ Claim Free Website / Send Transfer Receipt
               </a>
               <a
                 href="tel:09077780156"
@@ -980,7 +978,7 @@ export default function ComingSoonPage({ onUnlock }) {
                   gap: '.5rem',
                 }}
               >
-                📞 Call 09077780156
+                ðŸ“ž Call 09077780156
               </a>
             </div>
 
@@ -999,7 +997,7 @@ export default function ComingSoonPage({ onUnlock }) {
               }}
               className="baskerville"
             >
-              🌍 <strong>Diaspora Donors (UK, USA, Canada, Europe):</strong><br />
+              ðŸŒ <strong>Diaspora Donors (UK, USA, Canada, Europe):</strong><br />
               For international wire, Remitly, WorldRemit, Zelle, or PayPal options, please contact Hephtech Multimedia directly on WhatsApp at <strong style={{ color: 'var(--gold)' }}>+2349077780156</strong>.
             </div>
           </div>
@@ -1011,7 +1009,7 @@ export default function ComingSoonPage({ onUnlock }) {
       {/* LIVE DEMO PIN UNLOCK SECTION */}
       <Section bg="#140A05" py="4.5rem">
         <div style={{ maxWidth: '650px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontSize: '3.2rem', marginBottom: '.8rem' }}>🔑</div>
+          <div style={{ fontSize: '3.2rem', marginBottom: '.8rem' }}>ðŸ”‘</div>
           <div
             style={{
               display: 'inline-block',
@@ -1069,13 +1067,13 @@ export default function ComingSoonPage({ onUnlock }) {
 
             {error && (
               <div style={{ color: '#f87171', fontSize: '.84rem', marginBottom: '1rem', fontStyle: 'italic' }}>
-                ⚠️ {error}
+                âš ï¸ {error}
               </div>
             )}
 
             {unlockSuccess && (
               <div style={{ color: '#4ade80', fontSize: '.92rem', marginBottom: '1rem', fontWeight: 600 }}>
-                🎉 Access Granted! Launching Live Demo Portal…
+                ðŸŽ‰ Access Granted! Launching Live Demo Portalâ€¦
               </div>
             )}
 
@@ -1095,7 +1093,7 @@ export default function ComingSoonPage({ onUnlock }) {
                 fontWeight: 700,
               }}
             >
-              {unlockSuccess ? 'Unlocking Demo Portal…' : 'Unlock Live Portal Demo →'}
+              {unlockSuccess ? 'Unlocking Demo Portalâ€¦' : 'Unlock Live Portal Demo â†’'}
             </button>
           </form>
         </div>
@@ -1147,10 +1145,10 @@ export default function ComingSoonPage({ onUnlock }) {
                 cursor: 'pointer',
               }}
             >
-              ✕
+              âœ•
             </button>
 
-            <div style={{ fontSize: '2.5rem', marginBottom: '.5rem' }}>🔑</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '.5rem' }}>ðŸ”‘</div>
             <h3 className="playfair" style={{ fontSize: '1.6rem', color: '#F5EDD8', marginBottom: '.5rem' }}>
               Enter Live Demo PIN
             </h3>
@@ -1180,13 +1178,13 @@ export default function ComingSoonPage({ onUnlock }) {
 
               {error && (
                 <div style={{ color: '#f87171', fontSize: '.82rem', marginBottom: '1rem', fontStyle: 'italic' }}>
-                  ⚠️ {error}
+                  âš ï¸ {error}
                 </div>
               )}
 
               {unlockSuccess && (
                 <div style={{ color: '#4ade80', fontSize: '.9rem', marginBottom: '1rem', fontWeight: 600 }}>
-                  🎉 Verified! Opening demo…
+                  ðŸŽ‰ Verified! Opening demoâ€¦
                 </div>
               )}
 
@@ -1196,7 +1194,7 @@ export default function ComingSoonPage({ onUnlock }) {
                 disabled={!pin || unlockSuccess}
                 style={{ width: '100%', padding: '.85rem', fontWeight: 700 }}
               >
-                {unlockSuccess ? 'Unlocking…' : 'Access Live Demo →'}
+                {unlockSuccess ? 'Unlockingâ€¦' : 'Access Live Demo â†’'}
               </button>
             </form>
           </div>
@@ -1214,7 +1212,7 @@ export default function ComingSoonPage({ onUnlock }) {
       >
         <div style={{ maxWidth: '750px', margin: '0 auto' }}>
           <div className="cinzel" style={{ fontSize: '.85rem', color: 'var(--gold)', letterSpacing: '.12em', marginBottom: '.6rem', fontWeight: 700 }}>
-            OGERE REMO CIVIC TECHNOLOGY PROJECT • EST. 1401 A.D.
+            OGERE REMO CIVIC TECHNOLOGY PROJECT â€¢ EST. 1401 A.D.
           </div>
           <div style={{ fontSize: '.84rem', color: 'rgba(245,237,216,0.6)', lineHeight: 1.8, marginBottom: '1.2rem' }}>
             Powered & Developed by Hephtech Multimedia & Innovations.<br />
@@ -1222,18 +1220,18 @@ export default function ComingSoonPage({ onUnlock }) {
           </div>
           <div style={{ display: 'flex', gap: '1.2rem', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
             <a href="tel:09077780156" style={{ color: 'var(--gold)', fontSize: '.78rem', textDecoration: 'none', fontWeight: 600 }}>
-              📞 09077780156
+              ðŸ“ž 09077780156
             </a>
-            <span style={{ color: 'rgba(201,150,58,0.3)' }}>•</span>
+            <span style={{ color: 'rgba(201,150,58,0.3)' }}>â€¢</span>
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', fontSize: '.78rem', textDecoration: 'none', fontWeight: 600 }}>
-              💬 WhatsApp Us
+              ðŸ’¬ WhatsApp Us
             </a>
-            <span style={{ color: 'rgba(201,150,58,0.3)' }}>•</span>
+            <span style={{ color: 'rgba(201,150,58,0.3)' }}>â€¢</span>
             <button
               onClick={() => setPinModalOpen(true)}
               style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '.78rem', cursor: 'pointer', textDecoration: 'underline' }}
             >
-              🔑 Stakeholder PIN Login
+              ðŸ”‘ Stakeholder PIN Login
             </button>
           </div>
         </div>

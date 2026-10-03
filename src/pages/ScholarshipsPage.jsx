@@ -6,10 +6,10 @@ import SEO from '../components/SEO';
 import { dbInsert } from '../services/db';
 
 const SCHOLARSHIPS = [
-  { id: 1, title: 'Kankanbina University Bursary', sponsor: 'HRH The Ologere', level: 'Undergraduate', amount: '₦100,000', deadline: 'Aug 30, 2026', desc: 'Annual bursary for Ogere indigenes in any Federal University in Nigeria. Must maintain a 3.5 CGPA.' },
-  { id: 2, title: 'OCDA UK Diaspora Tech Grant', sponsor: 'Ogere Diaspora (UK)', level: 'Vocational / Tech', amount: 'Laptop + ₦50k', deadline: 'Jul 15, 2026', desc: 'Providing laptops and data grants to young people in Ogere learning programming or digital skills.' },
+  { id: 1, title: 'Kankanbina University Bursary', sponsor: 'HRH The Ologere', level: 'Undergraduate', amount: 'â‚¦100,000', deadline: 'Aug 30, 2026', desc: 'Annual bursary for Ogere indigenes in any Federal University in Nigeria. Must maintain a 3.5 CGPA.' },
+  { id: 2, title: 'OCDA UK Diaspora Tech Grant', sponsor: 'Ogere Diaspora (UK)', level: 'Vocational / Tech', amount: 'Laptop + â‚¦50k', deadline: 'Jul 15, 2026', desc: 'Providing laptops and data grants to young people in Ogere learning programming or digital skills.' },
   { id: 3, title: 'Ogere Market Women Guild Fund', sponsor: 'Market Women Association', level: 'Secondary School', amount: 'Full Tuition', deadline: 'Sep 05, 2026', desc: 'For children of active Ogere market women attending Remo Secondary School or similar public schools.' },
-  { id: 4, title: 'Afolabi Medical Scholarship', sponsor: 'Dr. Tunde Afolabi', level: 'Medical Students', amount: '₦250,000', deadline: 'Oct 01, 2026', desc: 'Exclusive to Ogere indigenes studying Medicine, Nursing, or Pharmacy at any accredited Nigerian institution.' },
+  { id: 4, title: 'Afolabi Medical Scholarship', sponsor: 'Dr. Tunde Afolabi', level: 'Medical Students', amount: 'â‚¦250,000', deadline: 'Oct 01, 2026', desc: 'Exclusive to Ogere indigenes studying Medicine, Nursing, or Pharmacy at any accredited Nigerian institution.' },
 ];
 
 const PAST_RECIPIENTS = [
@@ -89,7 +89,7 @@ export default function ScholarshipsPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1.5rem' }}>
           {PAST_RECIPIENTS.map(r => (
             <div key={r.name} style={{ background: 'rgba(201,150,58,0.03)', border: '1px solid rgba(201,150,58,0.1)', padding: '1.5rem', borderRadius: '8px', textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🎓</div>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>ðŸŽ“</div>
               <h4 className="cinzel" style={{ fontSize: '1.1rem', color: 'var(--gold)', marginBottom: '0.3rem' }}>{r.name}</h4>
               <p style={{ fontSize: '0.7rem', color: 'rgba(245,237,216,0.5)', marginBottom: '1rem' }}>{r.award}</p>
               <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.8)', fontStyle: 'italic' }}>"{r.bio}"</p>
@@ -115,7 +115,7 @@ export default function ScholarshipsPage() {
               </div>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
                 <button type="button" className="btn-o" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="btn-p" disabled={loading}>{loading ? 'Submitting…' : 'Submit Application →'}</button>
+                <button type="submit" className="btn-p" disabled={loading}>{loading ? 'Submittingâ€¦' : 'Submit Application â†’'}</button>
               </div>
             </div>
           </form>
@@ -125,7 +125,7 @@ export default function ScholarshipsPage() {
       {submitted && (
         <Section bg="var(--dark)" py="4rem">
           <div style={{ textAlign: 'center', padding: '3rem', animation: 'fadeUp 0.4s ease both' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>âœ…</div>
             <div className="playfair" style={{ fontSize: '1.5rem', color: 'var(--cream)' }}>Application Received</div>
             <p style={{ color: 'rgba(245,237,216,0.6)', marginTop: '0.5rem' }}>The Education Committee will review your application and contact you if shortlisted.</p>
           </div>

@@ -177,23 +177,6 @@ export async function signIn(identifier, password) {
 
   let user = null; // Removed insecure local plaintext password fallback
 
-  // Admin fallback support for website
-  if (!user && (ident === 'admin' || ident === 'admin@ogereremo.org') && password === 'ogere2026') {
-    user = {
-      id: 'u_admin',
-      name: 'Ogere Administrator',
-      fullName: 'Ogere Administrator',
-      email: 'admin@ogereremo.org',
-      username: 'admin',
-      phone: '08033334455',
-      role: 'admin',
-      created: new Date().toISOString(),
-      avatar: '',
-      bio: 'Ogere Remo Civic Portal Administrator',
-      location: 'Ogere Remo, Ogun State',
-    };
-  }
-
   if (!user) {
     return { ok: false, error: 'Invalid username/email or password.' };
   }
@@ -230,21 +213,6 @@ export async function getSession() {
   }
   const users = await getUsers();
   let user = users.find(u => u.id === session.userId);
-  if (!user && session.userId === 'u_admin') {
-    user = {
-      id: 'u_admin',
-      name: 'Ogere Administrator',
-      fullName: 'Ogere Administrator',
-      email: 'admin@ogereremo.org',
-      username: 'admin',
-      phone: '08033334455',
-      role: 'admin',
-      created: new Date().toISOString(),
-      avatar: '',
-      bio: 'Ogere Remo Civic Portal Administrator',
-      location: 'Ogere Remo, Ogun State',
-    };
-  }
   if (user) {
     try {
       localStorage.setItem(OGERE_USER_KEY, JSON.stringify(user));
@@ -257,14 +225,6 @@ export async function updateProfile(userId, updates) {
   const users = await getUsers();
   const idx = users.findIndex(u => u.id === userId);
   if (idx < 0) {
-    if (userId === 'u_admin') {
-      const updatedAdmin = { id: 'u_admin', role: 'admin', ...updates };
-      try {
-        localStorage.setItem(OGERE_USER_KEY, JSON.stringify(updatedAdmin));
-      } catch (_) {}
-      window.dispatchEvent(new CustomEvent('ogere-auth-changed', { detail: updatedAdmin }));
-      return { ok: true, user: updatedAdmin };
-    }
     return { ok: false, error: 'User not found.' };
   }
   users[idx] = { ...users[idx], ...updates, fullName: updates.name || users[idx].name };

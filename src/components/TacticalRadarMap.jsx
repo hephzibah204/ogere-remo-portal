@@ -71,9 +71,9 @@ const STATIC_CCTV = [
 ];
 
 const PATROL_UNITS = [
-  { id: 'UNIT-04', name: 'NPF Patrol 4 Delta', agency: 'Police', lat: 6.9392, lng: 3.6430, status: 'intercepting', speed: '54 km/h', icon: '🚔' },
-  { id: 'VIG-02', name: 'Palace Night Watch 2', agency: 'Vigilante', lat: 6.9355, lng: 3.6325, status: 'patrolling', speed: '22 km/h', icon: '🛡️' },
-  { id: 'FRSC-01', name: 'FRSC Rapid Rescue 1', agency: 'FRSC', lat: 6.9410, lng: 3.6450, status: 'standby', speed: '0 km/h', icon: '🚦' },
+  { id: 'UNIT-04', name: 'NPF Patrol 4 Delta', agency: 'Police', lat: 6.9392, lng: 3.6430, status: 'intercepting', speed: '54 km/h', icon: 'ðŸš”' },
+  { id: 'VIG-02', name: 'Palace Night Watch 2', agency: 'Vigilante', lat: 6.9355, lng: 3.6325, status: 'patrolling', speed: '22 km/h', icon: 'ðŸ›¡ï¸' },
+  { id: 'FRSC-01', name: 'FRSC Rapid Rescue 1', agency: 'FRSC', lat: 6.9410, lng: 3.6450, status: 'standby', speed: '0 km/h', icon: 'ðŸš¦' },
 ];
 
 export default function TacticalRadarMap({
@@ -133,11 +133,11 @@ export default function TacticalRadarMap({
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
             <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', animation: 'pulse 1.2s infinite' }} />
             <span style={{ fontWeight: 900, color: '#86efac', letterSpacing: '0.08em' }}>
-              TACTICAL RADAR · GIS SECTOR SWEEP ACTIVE
+              TACTICAL RADAR Â· GIS SECTOR SWEEP ACTIVE
             </span>
           </div>
           <span style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>
-            GRID: 6.9388° N, 3.6437° E · AZ: 042°
+            GRID: 6.9388Â° N, 3.6437Â° E Â· AZ: 042Â°
           </span>
         </div>
 
@@ -156,7 +156,7 @@ export default function TacticalRadarMap({
               cursor: 'pointer',
             }}
           >
-            🗺️ Sectors
+            ðŸ—ºï¸ Sectors
           </button>
           <button
             onClick={() => setShowUnits(!showUnits)}
@@ -171,7 +171,7 @@ export default function TacticalRadarMap({
               cursor: 'pointer',
             }}
           >
-            🚔 Patrols ({PATROL_UNITS.length})
+            ðŸš” Patrols ({PATROL_UNITS.length})
           </button>
           <button
             onClick={() => setShowCctv(!showCctv)}
@@ -186,7 +186,7 @@ export default function TacticalRadarMap({
               cursor: 'pointer',
             }}
           >
-            📹 CCTV ({STATIC_CCTV.length})
+            ðŸ“¹ CCTV ({STATIC_CCTV.length})
           </button>
           <button
             onClick={() => setZoom(z => (z === 1 ? 1.3 : 1))}
@@ -201,7 +201,7 @@ export default function TacticalRadarMap({
               cursor: 'pointer',
             }}
           >
-            {zoom > 1 ? '🔍 Reset' : '🔍 Zoom'}
+            {zoom > 1 ? 'ðŸ” Reset' : 'ðŸ” Zoom'}
           </button>
         </div>
       </div>
@@ -320,7 +320,7 @@ export default function TacticalRadarMap({
               >
                 <circle cx={pos.x} cy={pos.y} r="5" fill="#3b82f6" opacity="0.9" />
                 <text x={pos.x + 8} y={pos.y + 4} fill="#93c5fd" fontSize="9" fontWeight="700">
-                  📹 {cam.id}
+                  ðŸ“¹ {cam.id}
                 </text>
               </g>
             );
@@ -446,7 +446,7 @@ export default function TacticalRadarMap({
               {hoveredTarget.description || hoveredTarget.category || hoveredTarget.agency}
             </div>
             <div style={{ fontSize: '0.65rem', color: '#86efac', marginTop: '4px', fontFamily: 'monospace' }}>
-              LAT: {hoveredTarget.latitude || hoveredTarget.lat} · LNG: {hoveredTarget.longitude || hoveredTarget.lng}
+              LAT: {hoveredTarget.latitude || hoveredTarget.lat} Â· LNG: {hoveredTarget.longitude || hoveredTarget.lng}
             </div>
           </div>
         )}
@@ -464,7 +464,7 @@ export default function TacticalRadarMap({
         color: 'rgba(245, 237, 216, 0.7)',
       }}>
         <div>
-          <span>POLICE & VIGILANTE SECTOR RADAR · </span>
+          <span>POLICE & VIGILANTE SECTOR RADAR Â· </span>
           <span style={{ color: '#22c55e', fontWeight: 800 }}>REMO COMMAND SECURE SATELLITE FEED</span>
         </div>
         <div style={{ fontFamily: 'monospace', color: '#94a3b8' }}>

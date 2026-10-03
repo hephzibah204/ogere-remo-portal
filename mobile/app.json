@@ -45,6 +45,12 @@
           "faceIDPermission": "Allow Ogere Remo Civic App to use Face ID."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "appVariant": "citizen",
+      "eas": {
+        "projectId": "3f8dbc5a-7522-4fd1-a62e-d85aa3f0c724"
+      }
+    }
   }
 }

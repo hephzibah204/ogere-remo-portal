@@ -87,12 +87,12 @@ export default function DonateModal({ isOpen, onClose }) {
           }}
           aria-label="Close modal"
         >
-          ✕
+          âœ•
         </button>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.4rem' }}>🌟</div>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.4rem' }}>ðŸŒŸ</div>
           <div
             style={{
               display: 'inline-block',
@@ -104,7 +104,7 @@ export default function DonateModal({ isOpen, onClose }) {
             }}
           >
             <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'var(--gold)', fontWeight: 700, textTransform: 'uppercase' }}>
-              🇳🇬 Pioneering Nigeria's 1st Digital Town
+              ðŸ‡³ðŸ‡¬ Pioneering Nigeria's 1st Digital Town
             </span>
           </div>
           <h2 className="playfair" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.1rem)', color: 'var(--cream)', margin: 0, fontWeight: 700 }}>
@@ -133,12 +133,12 @@ export default function DonateModal({ isOpen, onClose }) {
             To bring this historic vision to life and build a sustainable, world-class municipal digital ecosystem for Ogere Remo, continuous funding is vital to support:
           </p>
           <ul style={{ margin: 0, paddingLeft: '1.2rem', display: 'grid', gap: '0.35rem', fontSize: '0.84rem' }}>
-            <li>💻 <strong>Software Developers & Technical Engineers</strong></li>
-            <li>🎨 <strong>UI/UX Designers & Cultural Content Illustrators</strong></li>
-            <li>📋 <strong>Project Managers & Community Coordinators</strong></li>
-            <li>☁️ <strong>Cloud Server Infrastructure & App Hosting</strong></li>
-            <li>🌐 <strong>Enterprise Domain, Web Hosting & Database Systems</strong></li>
-            <li>🔒 <strong>Security Updates, Data Backups & 24/7 Uptime</strong></li>
+            <li>ðŸ’» <strong>Software Developers & Technical Engineers</strong></li>
+            <li>ðŸŽ¨ <strong>UI/UX Designers & Cultural Content Illustrators</strong></li>
+            <li>ðŸ“‹ <strong>Project Managers & Community Coordinators</strong></li>
+            <li>â˜ï¸ <strong>Cloud Server Infrastructure & App Hosting</strong></li>
+            <li>ðŸŒ <strong>Enterprise Domain, Web Hosting & Database Systems</strong></li>
+            <li>ðŸ”’ <strong>Security Updates, Data Backups & 24/7 Uptime</strong></li>
           </ul>
         </div>
 
@@ -184,7 +184,7 @@ export default function DonateModal({ isOpen, onClose }) {
               gap: '0.5rem',
             }}
           >
-            {copied ? '✓ Account Number Copied to Clipboard!' : '📋 Copy Opay Account (6101307590)'}
+            {copied ? 'âœ“ Account Number Copied to Clipboard!' : 'ðŸ“‹ Copy Opay Account (6101307590)'}
           </button>
         </div>
 
@@ -216,12 +216,11 @@ export default function DonateModal({ isOpen, onClose }) {
                 gap: '0.4rem',
               }}
             >
-              📞 Call 09077780156
+              ðŸ“ž Call 09077780156
             </a>
             <a
               href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              target="_blank" rel="noopener noreferrer"
               className="btn-p"
               style={{
                 fontSize: '0.75rem',
@@ -235,7 +234,7 @@ export default function DonateModal({ isOpen, onClose }) {
                 gap: '0.4rem',
               }}
             >
-              💬 WhatsApp Us
+              ðŸ’¬ WhatsApp Us
             </a>
           </div>
         </div>
@@ -255,13 +254,13 @@ export default function DonateModal({ isOpen, onClose }) {
           }}
           className="baskerville"
         >
-          🌍 <strong>Diaspora Donors (UK, USA, Canada, Europe):</strong><br />
+          ðŸŒ <strong>Diaspora Donors (UK, USA, Canada, Europe):</strong><br />
           For international wire, Remitly, WorldRemit, Zelle, or PayPal options, please contact our diaspora finance desk on WhatsApp at <strong style={{ color: 'var(--gold)' }}>+2349077780156</strong>.
         </div>
 
         {/* Footer Note */}
         <div style={{ textAlign: 'center', fontSize: '0.78rem', color: 'rgba(245,237,216,0.5)', fontStyle: 'italic' }}>
-          &ldquo;Àjọṣe wa kò ní bàjẹ́! Thank you for empowering the preservation and digital advancement of Ogere Remo.&rdquo;
+          &ldquo;Ã€já»á¹£e wa kÃ² nÃ­ bÃ jáº¹Ì! Thank you for empowering the preservation and digital advancement of Ogere Remo.&rdquo;
         </div>
       </div>
     </div>

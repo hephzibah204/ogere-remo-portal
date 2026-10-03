@@ -9,19 +9,19 @@ import Spinner from '../components/Spinner';
 import SEO from '../components/SEO';
 
 const orgs = [
-  { name: 'OCDA', full: 'Ogere Community Development Association', tag: 'Apex Body', tagClass: 'tag-gold', ic: '🏛️', est: 'Founded ~1977 · Renamed from OCDC in 2023', desc: 'The apex community body of Ogere Remo, responsible for civic development, cultural preservation, and liaison with government. Organises the annual Lipakala Day.', contact: 'info@ogereremo.ng', venue: 'OCDA HQ, Ogere Town Hall', bullets: ['Organiser of Lipakala Day', 'Formally renamed from OCDC in 2023', 'Coordinates empowerment programmes and government partnerships'], img: '/images/Cross-section-of-attendance-at-the-Ologere-Empowerment-Programme.jpg' },
-  { name: 'OYDA', full: 'Ogere Youth Development Association', tag: 'Youth', tagClass: 'tag-green', ic: '🌱', est: 'Active — Town Hall, Oja Ale', desc: 'The youth wing of Ogere Remo\'s civic infrastructure. Coordinates youth-focused development, skills training, and community engagement.', contact: 'oydaogere@gmail.com', venue: 'Town Hall, Oja Ale', bullets: ['Active social media presence', 'Regular youth empowerment programmes', 'Works closely with OCDA'], img: '/images/Olipakala Ogere Indigines.jpg' },
-  { name: 'Lagos Forum', full: 'Lagos Forum of Ogere Indigenes', tag: 'Diaspora', tagClass: 'tag-blue', ic: '🌍', est: 'Active — Lagos', desc: 'The principal diaspora group for Ogere indigenes based in Lagos. Organises the \'Evening with the Ologere\' at Ikeja Business Club.', contact: 'info@ogereremo.ng', venue: 'Lagos', bullets: ['Organised \'Evening with the Ologere\'', 'Fundraising for community infrastructure', 'Bridge between Lagos diaspora and Ogere'], img: '/images/From-Left-Princess-Omolara-Solarin-HRH-Oba-Oladele-Ogunbade-Ologere-of-Ogere-the-awardee-Omooba-Sunday-Solarin-and-Princess-Temitope-Solarin.jpeg' },
-  { name: 'OMCOOSA', full: 'Ositelu Memorial College Old Students Association', tag: 'Alumni', tagClass: 'tag-terra', ic: '🎓', est: '40th Anniversary (2025)', desc: 'The alumni body of Ositelu Memorial College, connecting generations of graduates. Organises reunions and school development.', contact: 'awobajoolakunle@gmail.com · 08037136954', venue: 'Ositelu Memorial College', bullets: ['President: Arc. Kunle Awobajo', 'Annual dues: ₦5,000 per member', '40th Anniversary Chair: Prince Yomi Ogunsowo'], img: '/images/Omcoosa.jpg' },
+  { name: 'OCDA', full: 'Ogere Community Development Association', tag: 'Apex Body', tagClass: 'tag-gold', ic: 'ðŸ›ï¸', est: 'Founded ~1977 Â· Renamed from OCDC in 2023', desc: 'The apex community body of Ogere Remo, responsible for civic development, cultural preservation, and liaison with government. Organises the annual Lipakala Day.', contact: 'info@ogereremo.ng', venue: 'OCDA HQ, Ogere Town Hall', bullets: ['Organiser of Lipakala Day', 'Formally renamed from OCDC in 2023', 'Coordinates empowerment programmes and government partnerships'], img: '/images/Cross-section-of-attendance-at-the-Ologere-Empowerment-Programme.jpg' },
+  { name: 'OYDA', full: 'Ogere Youth Development Association', tag: 'Youth', tagClass: 'tag-green', ic: 'ðŸŒ±', est: 'Active â€” Town Hall, Oja Ale', desc: 'The youth wing of Ogere Remo\'s civic infrastructure. Coordinates youth-focused development, skills training, and community engagement.', contact: 'oydaogere@gmail.com', venue: 'Town Hall, Oja Ale', bullets: ['Active social media presence', 'Regular youth empowerment programmes', 'Works closely with OCDA'], img: '/images/Olipakala Ogere Indigines.jpg' },
+  { name: 'Lagos Forum', full: 'Lagos Forum of Ogere Indigenes', tag: 'Diaspora', tagClass: 'tag-blue', ic: 'ðŸŒ', est: 'Active â€” Lagos', desc: 'The principal diaspora group for Ogere indigenes based in Lagos. Organises the \'Evening with the Ologere\' at Ikeja Business Club.', contact: 'info@ogereremo.ng', venue: 'Lagos', bullets: ['Organised \'Evening with the Ologere\'', 'Fundraising for community infrastructure', 'Bridge between Lagos diaspora and Ogere'], img: '/images/From-Left-Princess-Omolara-Solarin-HRH-Oba-Oladele-Ogunbade-Ologere-of-Ogere-the-awardee-Omooba-Sunday-Solarin-and-Princess-Temitope-Solarin.jpeg' },
+  { name: 'OMCOOSA', full: 'Ositelu Memorial College Old Students Association', tag: 'Alumni', tagClass: 'tag-terra', ic: 'ðŸŽ“', est: '40th Anniversary (2025)', desc: 'The alumni body of Ositelu Memorial College, connecting generations of graduates. Organises reunions and school development.', contact: 'awobajoolakunle@gmail.com Â· 08037136954', venue: 'Ositelu Memorial College', bullets: ['President: Arc. Kunle Awobajo', 'Annual dues: â‚¦5,000 per member', '40th Anniversary Chair: Prince Yomi Ogunsowo'], img: '/images/Omcoosa.jpg' },
 ];
 
 const trad = [
-  { n: 'Osugbo / Ogboni Society', d: 'The most senior traditional governance society. Deliberates on matters of justice, land, and community welfare.', ic: '⚖️' },
-  { n: 'Olopere (Balogun\'s Corps)', d: 'The traditional military society, historically the Balogun\'s fighting corps.', ic: '⚔️' },
-  { n: 'Pampa Society', d: 'A respected masquerade and ceremony society integral to festival calendar.', ic: '🎭' },
-  { n: 'Oro Society', d: 'Patriarchal society governing the annual Oro Festival. Women and non-initiates observe movement restrictions.', ic: '🌙' },
-  { n: 'Eluku Society', d: 'Traditional society with ceremonial and spiritual functions.', ic: '🌿' },
-  { n: 'Egbe Age Groups', d: 'The age-grade system binding residents in mutual responsibility and civic identity.', ic: '🤝' },
+  { n: 'Osugbo / Ogboni Society', d: 'The most senior traditional governance society. Deliberates on matters of justice, land, and community welfare.', ic: 'âš–ï¸' },
+  { n: 'Olopere (Balogun\'s Corps)', d: 'The traditional military society, historically the Balogun\'s fighting corps.', ic: 'âš”ï¸' },
+  { n: 'Pampa Society', d: 'A respected masquerade and ceremony society integral to festival calendar.', ic: 'ðŸŽ­' },
+  { n: 'Oro Society', d: 'Patriarchal society governing the annual Oro Festival. Women and non-initiates observe movement restrictions.', ic: 'ðŸŒ™' },
+  { n: 'Eluku Society', d: 'Traditional society with ceremonial and spiritual functions.', ic: 'ðŸŒ¿' },
+  { n: 'Egbe Age Groups', d: 'The age-grade system binding residents in mutual responsibility and civic identity.', ic: 'ðŸ¤' },
 ];
 
 export default function AssociationsPage() {
@@ -41,7 +41,7 @@ export default function AssociationsPage() {
       'You are the Ogere Remo portal assistant. An association just registered. Write a warm 3-4 sentence welcome. End with a Yoruba phrase.',
       `Association: ${f.name}, Type: ${f.type}`
     );
-    setAiMsg(msg || 'Welcome! Your association has been registered. Ẹ káàbọ̀ sí ilẹ̀ wa!');
+    setAiMsg(msg || 'Welcome! Your association has been registered. áº¸ kÃ¡Ã bá»Ì€ sÃ­ iláº¹Ì€ wa!');
     const session = await getSession();
     const entry = { ...f, date: new Date().toLocaleDateString('en-NG'), status: 'pending', userId: session?.id || '' };
     const updated = [...regs, entry];
@@ -54,11 +54,11 @@ export default function AssociationsPage() {
   return (
     <div>
       <SEO title="Associations" description="Community associations, traditional societies, and civic organizations of Ogere Remo." />
-      <Hero ey="Community Life" ti="Associations & Societies" sub="The civic heartbeat of Ogere Remo — from apex bodies to traditional fraternities." />
+      <Hero ey="Community Life" ti="Associations & Societies" sub="The civic heartbeat of Ogere Remo â€” from apex bodies to traditional fraternities." />
       <AdireDivider />
       <Section bg="#1a0d06" py="2rem">
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {[['orgs', '🏛️ Civic Associations'], ['trad', '🎭 Traditional Societies'], ['register', '+ Register Your Association']].map(([id, l]) => (
+          {[['orgs', 'ðŸ›ï¸ Civic Associations'], ['trad', 'ðŸŽ­ Traditional Societies'], ['register', '+ Register Your Association']].map(([id, l]) => (
             <button key={id} className={tab === id ? 'btn-p' : 'btn-o'} onClick={() => setTab(id)}>{l}</button>
           ))}
         </div>
@@ -84,13 +84,13 @@ export default function AssociationsPage() {
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(140px, 100%), 1fr))', gap: '.5rem', marginBottom: '1.2rem' }}>
                     {o.bullets.map((b, bi) => (
                       <div key={bi} style={{ display: 'flex', gap: '.5rem', fontSize: '.8rem', color: 'rgba(245,237,216,.62)' }}>
-                        <span style={{ color: '#C9963A', flexShrink: 0 }}>›</span><span>{b}</span>
+                        <span style={{ color: '#C9963A', flexShrink: 0 }}>â€º</span><span>{b}</span>
                       </div>
                     ))}
                   </div>
                   <div style={{ borderTop: '1px solid rgba(201,150,58,.12)', paddingTop: '.8rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.45)' }}>📧 {o.contact}</div>
-                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.45)' }}>📍 {o.venue}</div>
+                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.45)' }}>ðŸ“§ {o.contact}</div>
+                    <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.45)' }}>ðŸ“ {o.venue}</div>
                   </div>
                 </div>
                 {o.img && (
@@ -108,7 +108,7 @@ export default function AssociationsPage() {
         <Section bg="#1a0d06">
           <p className="sl">Traditional Institutions</p>
           <h2 className="st" style={{ marginBottom: '.6rem' }}>Sacred Societies & Age-Grades</h2>
-          <p className="si" style={{ marginBottom: '2.5rem' }}>Ogere's traditional societies form the invisible architecture of community life — governing rites of passage, ancestral ceremonies, and collective identity.</p>
+          <p className="si" style={{ marginBottom: '2.5rem' }}>Ogere's traditional societies form the invisible architecture of community life â€” governing rites of passage, ancestral ceremonies, and collective identity.</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))', gap: '1.2rem' }}>
             {trad.map((t, i) => (
               <div key={i} style={{ padding: '1.8rem', background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.16)', borderTop: '3px solid #7A2E0E' }}>
@@ -128,10 +128,10 @@ export default function AssociationsPage() {
           <p className="si" style={{ marginBottom: '2rem' }}>Register free to be added to the official Ogere Remo directory.</p>
           {done ? (
             <div style={{ background: 'rgba(45,74,34,.15)', border: '1px solid rgba(45,74,34,.4)', borderLeft: '4px solid #2D4A22', padding: '2.5rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '.8rem' }}>✅</div>
+              <div style={{ fontSize: '2.5rem', marginBottom: '.8rem' }}>âœ…</div>
               <div className="cinzel" style={{ fontSize: '.68rem', letterSpacing: '.18em', color: '#a8d88e', textTransform: 'uppercase', marginBottom: '.8rem' }}>Registration Received</div>
               <div style={{ fontSize: '.88rem', lineHeight: 1.85, color: 'rgba(245,237,216,.72)', fontStyle: 'italic', marginBottom: '1.5rem' }}>{aiMsg}</div>
-              <button className="btn-o" onClick={() => { setDone(false); setTab('orgs'); }}>View Associations →</button>
+              <button className="btn-o" onClick={() => { setDone(false); setTab('orgs'); }}>View Associations â†’</button>
             </div>
           ) : (
             <div style={{ display: 'grid', gap: '1.1rem' }}>
@@ -146,7 +146,7 @@ export default function AssociationsPage() {
                 <textarea className="inp" value={f.desc} onChange={e => setF({ ...f, desc: e.target.value })} placeholder="What does your association do?" style={{ minHeight: 90, resize: 'vertical' }} />
               </div>
               <button className="btn-p" onClick={register} disabled={busy} style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                {busy ? <><Spinner />Registering…</> : 'Register Association →'}
+                {busy ? <><Spinner />Registeringâ€¦</> : 'Register Association â†’'}
               </button>
             </div>
           )}

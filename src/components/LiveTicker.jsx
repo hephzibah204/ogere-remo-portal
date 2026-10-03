@@ -1,18 +1,18 @@
 /**
- * LiveTicker — horizontally scrolling ticker strip for alerts/news/updates.
+ * LiveTicker â€” horizontally scrolling ticker strip for alerts/news/updates.
  * Props:
- *   items   – array of strings to display
- *   speed   – scroll speed (default 35s for full loop)
- *   color   – text color (default var(--gold))
- *   bg      – background color
- *   label   – prefix label e.g. "🔴 LIVE"
+ *   items   â€“ array of strings to display
+ *   speed   â€“ scroll speed (default 35s for full loop)
+ *   color   â€“ text color (default var(--gold))
+ *   bg      â€“ background color
+ *   label   â€“ prefix label e.g. "ðŸ”´ LIVE"
  */
 export default function LiveTicker({
   items = [],
   speed = 35,
   color = 'var(--cream)',
   bg = 'rgba(122,46,14,0.85)',
-  label = '🔴 LIVE',
+  label = 'ðŸ”´ LIVE',
 }) {
   if (!items.length) return null;
 
@@ -71,7 +71,7 @@ export default function LiveTicker({
               className="baskerville"
               style={{ fontSize: '0.78rem', color, flexShrink: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
             >
-              <span style={{ color: 'var(--gold)', opacity: 0.6 }}>◆</span>
+              <span style={{ color: 'var(--gold)', opacity: 0.6 }}>â—†</span>
               {item}
             </span>
           ))}

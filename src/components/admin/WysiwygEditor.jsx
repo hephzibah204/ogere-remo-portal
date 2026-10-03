@@ -68,7 +68,7 @@ export default function WysiwygEditor({ value, onChange, onOpenMedia, placeholde
     if (url && url.trim()) {
       const text = prompt('Enter link text:', url);
       if (text) {
-        exec('insertHTML', `<a href="${url.trim()}" target="_blank">${text}</a>`);
+        exec('insertHTML', `<a href="${url.trim()}" target="_blank" rel="noopener noreferrer">${text}</a>`);
       } else {
         exec('createLink', url.trim());
       }
@@ -105,21 +105,21 @@ export default function WysiwygEditor({ value, onChange, onOpenMedia, placeholde
     { type: 'sep' },
     { html: 'H2', cmd: 'formatBlock', val: 'h2', title: 'Heading 2' },
     { html: 'H3', cmd: 'formatBlock', val: 'h3', title: 'Heading 3' },
-    { html: '❝', cmd: 'formatBlock', val: 'blockquote', title: 'Blockquote' },
+    { html: 'â', cmd: 'formatBlock', val: 'blockquote', title: 'Blockquote' },
     { html: '<code>&lt;/&gt;</code>', cmd: 'formatBlock', val: 'pre', title: 'Code Block' },
     { type: 'sep' },
-    { html: '• List', cmd: 'insertUnorderedList', title: 'Bullet List' },
+    { html: 'â€¢ List', cmd: 'insertUnorderedList', title: 'Bullet List' },
     { html: '1. List', cmd: 'insertOrderedList', title: 'Numbered List' },
-    { html: '—', cmd: 'insertHorizontalRule', title: 'Horizontal Rule' },
+    { html: 'â€”', cmd: 'insertHorizontalRule', title: 'Horizontal Rule' },
     { type: 'sep' },
-    { html: '🔗', cmd: 'link', title: 'Insert Link' },
-    { html: '🔗✕', cmd: 'unlink', title: 'Remove Link' },
+    { html: 'ðŸ”—', cmd: 'link', title: 'Insert Link' },
+    { html: 'ðŸ”—âœ•', cmd: 'unlink', title: 'Remove Link' },
     { type: 'sep' },
-    { html: '🖼️', cmd: 'image', title: 'Insert Image' },
-    { html: '📁', cmd: 'media', title: 'Media Library' },
+    { html: 'ðŸ–¼ï¸', cmd: 'image', title: 'Insert Image' },
+    { html: 'ðŸ“', cmd: 'media', title: 'Media Library' },
     { type: 'sep' },
-    { html: '◀', cmd: 'undo', title: 'Undo (Ctrl+Z)' },
-    { html: '▶', cmd: 'redo', title: 'Redo (Ctrl+Shift+Z)' },
+    { html: 'â—€', cmd: 'undo', title: 'Undo (Ctrl+Z)' },
+    { html: 'â–¶', cmd: 'redo', title: 'Redo (Ctrl+Shift+Z)' },
   ];
 
   const handleToolbarAction = (item) => {
@@ -158,7 +158,7 @@ export default function WysiwygEditor({ value, onChange, onOpenMedia, placeholde
           />
           <button className="abtn abtn-p" onClick={() => insertImage(imgUrl)} style={{ fontSize: '.55rem', padding: '.3rem .6rem' }}>Insert</button>
           {onOpenMedia && (
-            <button className="abtn abtn-o" onClick={() => onOpenMedia('body')} style={{ fontSize: '.55rem', padding: '.3rem .6rem' }}>📁 Media</button>
+            <button className="abtn abtn-o" onClick={() => onOpenMedia('body')} style={{ fontSize: '.55rem', padding: '.3rem .6rem' }}>ðŸ“ Media</button>
           )}
         </div>
       )}
@@ -184,7 +184,7 @@ export default function WysiwygEditor({ value, onChange, onOpenMedia, placeholde
       <div className="wysiwyg-st">
         <span className="wysiwyg-wc">{wordCount} words</span>
         <button className="wysiwyg-toggle" onClick={toggleSource}>
-          {showSource ? '👁️ Visual' : '📝 HTML'}
+          {showSource ? 'ðŸ‘ï¸ Visual' : 'ðŸ“ HTML'}
         </button>
       </div>
     </div>

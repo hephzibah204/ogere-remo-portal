@@ -25,12 +25,12 @@ export default function SuggestionBox() {
   if (done) {
     return (
       <div className="glass" style={{ padding: '3rem', borderRadius: '12px', textAlign: 'center', animation: 'fadeUp 0.5s ease' }}>
-        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💡</div>
+        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ðŸ’¡</div>
         <h3 className="playfair" style={{ fontSize: '1.5rem', color: 'var(--gold)', marginBottom: '1rem' }}>Thank You for Your Suggestion!</h3>
         <p className="baskerville" style={{ color: 'rgba(245, 237, 216, 0.7)', marginBottom: '2rem' }}>
           Your feedback helps us build a better Ogere Remo portal. The community team will review your contribution shortly.
         </p>
-        <button className="btn-o" onClick={() => setDone(false)}>Submit Another →</button>
+        <button className="btn-o" onClick={() => setDone(false)}>Submit Another â†’</button>
       </div>
     );
   }
@@ -82,7 +82,7 @@ export default function SuggestionBox() {
         </div>
 
         <button className="btn-p" type="submit" disabled={busy} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem' }}>
-          {busy ? <><Spinner /> Sending...</> : 'Submit Suggestion →'}
+          {busy ? <><Spinner /> Sending...</> : 'Submit Suggestion â†’'}
         </button>
       </form>
     </div>

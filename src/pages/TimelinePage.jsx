@@ -8,7 +8,7 @@ export default function TimelinePage() {
   return (
     <div>
       <SEO
-        title="Civic Timeline — What's on your mind?"
+        title="Civic Timeline â€” What's on your mind?"
         description="Share status updates, photos, stories, and connect with Ogere Remo citizens, indigenes, and diaspora in real-time."
       />
       <Hero

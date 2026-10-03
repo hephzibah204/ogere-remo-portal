@@ -1,4 +1,5 @@
 import pg from 'pg';
+import { verifyToken } from './jwt.js';
 const { Pool } = pg;
 
 let pool = null;
@@ -178,7 +179,7 @@ if (!globalThis._ogereFallbackStore) {
       land_use: 'Agricultural',
       status: 'Verified',
       registration_date: '2023-04-12',
-      coordinates: '6.9854° N, 3.6521° E',
+      coordinates: '6.9854Â° N, 3.6521Â° E',
       disputes_count: 0,
       documents_ref: 'Gazette No. OG/2023/44, Survey Plan No. OG/LND/891',
     },
@@ -190,7 +191,7 @@ if (!globalThis._ogereFallbackStore) {
       land_use: 'Residential',
       status: 'Verified',
       registration_date: '2024-01-05',
-      coordinates: '6.9812° N, 3.6589° E',
+      coordinates: '6.9812Â° N, 3.6589Â° E',
       disputes_count: 0,
       documents_ref: 'Approved Family Conveyance Deed 2024',
     },
@@ -202,7 +203,7 @@ if (!globalThis._ogereFallbackStore) {
       land_use: 'Commercial / Hospitality',
       status: 'Pending Survey',
       registration_date: '2024-05-20',
-      coordinates: '6.9740° N, 3.6480° E',
+      coordinates: '6.9740Â° N, 3.6480Â° E',
       disputes_count: 1,
       documents_ref: 'Interim Survey Filing #492',
     },
@@ -214,7 +215,7 @@ if (!globalThis._ogereFallbackStore) {
       land_use: 'Residential',
       status: 'Verified',
       registration_date: '2019-11-08',
-      coordinates: '6.9890° N, 3.6540° E',
+      coordinates: '6.9890Â° N, 3.6540Â° E',
       disputes_count: 0,
       documents_ref: 'Deed of Gift & Allocation Certificate',
     },
@@ -226,7 +227,7 @@ if (!globalThis._ogereFallbackStore) {
       land_use: 'Mixed Use / Cultural Heritage',
       status: 'Verified',
       registration_date: '2015-08-30',
-      coordinates: '6.9780° N, 3.6610° E',
+      coordinates: '6.9780Â° N, 3.6610Â° E',
       disputes_count: 0,
       documents_ref: 'Crown Demarcation Certificate 2015',
     }
@@ -235,14 +236,14 @@ if (!globalThis._ogereFallbackStore) {
     {
       id: 'MKT-000',
       category: 'Services',
-      title: 'Hephzibah Edutech — Software Dev, AI & Cloud Bootcamp',
+      title: 'Hephzibah Edutech â€” Software Dev, AI & Cloud Bootcamp',
       description: '12-week intensive digital bootcamp for Ogere youth & professionals. Learn Fullstack Web, Python AI, and Cloud Architecture. Certificate & internship placement included.',
-      price: '₦35,000 / Cohort',
+      price: 'â‚¦35,000 / Cohort',
       seller_name: 'Hephzibah Edutech & Innovation Hub',
       quarter: 'Oke-Ogere',
       phone: '08038920110',
       whatsapp: '2348038920110',
-      icon: '🚀',
+      icon: 'ðŸš€',
       badge: 'featured',
       is_verified: true,
       status: 'active',
@@ -251,14 +252,14 @@ if (!globalThis._ogereFallbackStore) {
     {
       id: 'MKT-001',
       category: 'Farm Produce',
-      title: 'Fresh Ogere Yam — Grade A (Tuber & Bulk Bags)',
+      title: 'Fresh Ogere Yam â€” Grade A (Tuber & Bulk Bags)',
       description: 'Premium white yam harvested from Ogere hills farms. Free delivery within Ogere town. 50kg bags available for diaspora and Lagos orders.',
-      price: '₦4,500 / tuber',
+      price: 'â‚¦4,500 / tuber',
       seller_name: 'Baba Adewale Farms',
       quarter: 'Oke-Ogere',
       phone: '08034512345',
       whatsapp: '2348034512345',
-      icon: '🌾',
+      icon: 'ðŸŒ¾',
       badge: 'organic',
       is_verified: true,
       status: 'active',
@@ -269,12 +270,12 @@ if (!globalThis._ogereFallbackStore) {
       category: 'Crafts & Adire',
       title: 'Handcrafted Adire Aso-Oke Ceremony Set (6 Yards)',
       description: 'Authentic hand-dyed Adire fabric sets made by master artisans using traditional indigo technique. Ideal for weddings and Lipakala Day.',
-      price: '₦18,000 / set',
+      price: 'â‚¦18,000 / set',
       seller_name: 'Mama Kike Crafts & Fabrics',
       quarter: 'Isale-Ogere',
       phone: '08056781234',
       whatsapp: '2348056781234',
-      icon: '🪡',
+      icon: 'ðŸª¡',
       badge: 'handmade',
       is_verified: true,
       status: 'active',
@@ -285,12 +286,12 @@ if (!globalThis._ogereFallbackStore) {
       category: 'Food & Catering',
       title: 'Ogere Traditional Event Catering (Yoruba Delicacies)',
       description: 'Full catering for ceremonies, funerals, and coronations. Remo jollof, amala, egusi, and fresh palm wine. Minimum 50 guests.',
-      price: 'From ₦2,500 / head',
+      price: 'From â‚¦2,500 / head',
       seller_name: 'Iya Seun Kitchen',
       quarter: 'Ago-Ogere',
       phone: '08067893456',
       whatsapp: '2348067893456',
-      icon: '🍲',
+      icon: 'ðŸ²',
       badge: 'popular',
       is_verified: true,
       status: 'active',
@@ -324,13 +325,13 @@ if (!globalThis._ogereFallbackStore) {
   incident_reports: [
     {
       id: 'INC-2026-901',
-      category: '🚨 Armed Robbery / Banditry',
+      category: 'ðŸš¨ Armed Robbery / Banditry',
       severity: 'Critical',
       threat_level: 'CODE_RED',
       is_silent_panic: false,
       is_live_tracking: true,
       assigned_agency: 'Nigeria Police Force (NPF)',
-      responding_unit: 'Patrol Unit 4 — Highway Delta',
+      responding_unit: 'Patrol Unit 4 â€” Highway Delta',
       agency_notes: 'Officer Kayode Adeleke dispatched to KM 67 axis.',
       location: 'KM 67 Tollgate Expressway Corridor, Ogere Remo',
       latitude: 6.9388,
@@ -695,8 +696,7 @@ export async function verifyAdminAuth(req) {
   }
 
   try {
-    const raw = Buffer.from(token, 'base64').toString('utf8');
-    const parsed = JSON.parse(raw);
+    const parsed = verifyToken(token);
     if (!parsed || !parsed.id) {
       return { ok: false, error: 'Invalid token structure.' };
     }
@@ -736,8 +736,7 @@ export async function verifyUserAuth(req) {
   }
 
   try {
-    const raw = Buffer.from(token, 'base64').toString('utf8');
-    const parsed = JSON.parse(raw);
+    const parsed = verifyToken(token);
     if (!parsed || !parsed.id) {
       return { ok: false, error: 'Invalid token structure.' };
     }

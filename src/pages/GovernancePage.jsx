@@ -53,34 +53,34 @@ export default function GovernancePage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
            <div className="glass card" style={{ padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
              <div>
-               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>⚖️</div>
+               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>âš–ï¸</div>
                <h3 className="playfair" style={{ fontSize: '1.4rem', color: 'var(--gold)', marginBottom: '0.75rem' }}>Palace Customary Court (Kootu Oba)</h3>
                <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>File traditional petitions, schedule hearings with High Chiefs & Baales, and obtain binding Royal Decrees.</p>
              </div>
              <div>
-               <a href="/disputes" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>Access Dispute Portal →</a>
+               <a href="/disputes" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>Access Dispute Portal â†’</a>
              </div>
            </div>
            
            <div className="glass card" style={{ padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
              <div>
-               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🚧</div>
+               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>ðŸš§</div>
                <h3 className="playfair" style={{ fontSize: '1.4rem', color: '#38bdf8', marginBottom: '0.75rem' }}>Fix My Street Civic Tracker</h3>
                <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>Report potholes, broken transformers, and drainage clogs with GPS coordinates & track IBEDC quarter power grid uptime.</p>
              </div>
              <div>
-               <a href="/fix-my-street" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', background: 'rgba(56,189,248,0.2)', border: '1px solid #38bdf8', color: '#e0f2fe' }}>Open Street Tracker →</a>
+               <a href="/fix-my-street" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', background: 'rgba(56,189,248,0.2)', border: '1px solid #38bdf8', color: '#e0f2fe' }}>Open Street Tracker â†’</a>
              </div>
            </div>
 
            <div className="glass card" style={{ padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
              <div>
-               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🌍</div>
+               <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>ðŸŒ</div>
                <h3 className="playfair" style={{ fontSize: '1.4rem', color: '#4ade80', marginBottom: '0.75rem' }}>Diaspora Escrow Grants</h3>
                <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.7)', marginBottom: '1rem' }}>Fund community capital projects with transparent milestone-locked escrow releases and transparent donor ledgers.</p>
              </div>
              <div>
-               <a href="/diaspora-escrow" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', background: 'rgba(74,222,128,0.2)', border: '1px solid #4ade80', color: '#dcfce7' }}>View Escrow Projects →</a>
+               <a href="/diaspora-escrow" className="btn-gold" style={{ display: 'inline-block', padding: '0.6rem 1.2rem', textDecoration: 'none', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', background: 'rgba(74,222,128,0.2)', border: '1px solid #4ade80', color: '#dcfce7' }}>View Escrow Projects â†’</a>
              </div>
            </div>
         </div>

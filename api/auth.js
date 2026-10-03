@@ -1,5 +1,6 @@
 import { checkRateLimit } from './lib/rateLimit.js';
 import { sqlQuery } from './lib/db.js';
+import { signToken, verifyToken } from './lib/jwt.js';
 import crypto from 'crypto';
 
 function hashPassword(password, salt = null) {
@@ -208,15 +209,15 @@ export default async function handler(req, res) {
         if (indigeneResidency === 'diaspora') {
           cardPrefix = 'OGR-IND-INT';
           locationSummary = `Diaspora (${diasporaCity ? diasporaCity + ', ' : ''}${diasporaCountry || 'International'})`;
-          subCategoryLabel = 'Indigene · Diaspora';
+          subCategoryLabel = 'Indigene Â· Diaspora';
         } else if (indigeneResidency === 'nigeria') {
           cardPrefix = 'OGR-IND-NG';
           locationSummary = `Nigeria (${nigeriaCity ? nigeriaCity + ', ' : ''}${nigeriaState || 'Interstate'})`;
-          subCategoryLabel = 'Indigene · In Nigeria';
+          subCategoryLabel = 'Indigene Â· In Nigeria';
         } else {
           cardPrefix = 'OGR-IND-OG';
           locationSummary = `Resident in Ogere Remo (${quarter || 'Oke-Ogere'})`;
-          subCategoryLabel = 'Indigene · Resident in Ogere';
+          subCategoryLabel = 'Indigene Â· Resident in Ogere';
         }
       } else if (citizenType === 'non-indigene' || citizenType === 'resident') {
         cardPrefix = 'OGR-RES';
@@ -284,7 +285,7 @@ export default async function handler(req, res) {
         console.warn('[API Auth] Warning inserting to id_cards table:', err.message);
       });
 
-      const token = Buffer.from(JSON.stringify({ id: userId, exp: Date.now() + 30 * 24 * 3600 * 1000 })).toString('base64');
+      const token = signToken({ id: userId, exp: Date.now() + 30 * 24 * 3600 * 1000 });
 
       const idCardObj = {
         id: cardId,
@@ -378,7 +379,7 @@ export default async function handler(req, res) {
       // Update last login
       await sqlQuery('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = $1', [user.id]);
 
-      const token = Buffer.from(JSON.stringify({ id: user.id, exp: Date.now() + 30 * 24 * 3600 * 1000 })).toString('base64');
+      const token = signToken({ id: user.id, exp: Date.now() + 30 * 24 * 3600 * 1000 });
 
       let idCardData = null;
       if (user.id_card_number) {
@@ -450,9 +451,9 @@ export default async function handler(req, res) {
     }
 
     try {
-      const payload = JSON.parse(Buffer.from(token, 'base64').toString('utf8'));
-      if (!payload.id || payload.exp < Date.now()) {
-        return res.status(401).json({ success: false, error: 'Session expired or invalid.' });
+      const payload = verifyToken(token);
+      if (!payload || !payload.id || payload.exp < Date.now()) {
+        return res.status(401).json({ success: false, error: 'Session expired or invalid token.' });
       }
 
       const rows = await sqlQuery('SELECT * FROM users WHERE id = $1', [payload.id]);
@@ -527,7 +528,7 @@ export default async function handler(req, res) {
     let targetId = userId;
     if (token) {
       try {
-        const payload = JSON.parse(Buffer.from(token, 'base64').toString('utf8'));
+        const payload = verifyToken(token);
         if (payload?.id) targetId = payload.id;
       } catch (_) {}
     }

@@ -26,7 +26,8 @@ function normalizePlot(row) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogereremo.org';
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -56,7 +57,7 @@ export default async function handler(req, res) {
           body.size || body.size_description || '1 Plot',
           body.use || body.land_use || 'Residential',
           body.status || 'Pending Survey',
-          body.coord || body.coordinates || '6.9800° N, 3.6500° E',
+          body.coord || body.coordinates || '6.9800Â° N, 3.6500Â° E',
           parseInt(body.disputes || body.disputes_count || '0', 10),
           body.documents || body.documents_ref || 'Application filed online',
         ]
@@ -70,7 +71,7 @@ export default async function handler(req, res) {
         use: body.use || body.land_use || 'Residential',
         status: body.status || 'Pending Survey',
         date: new Date().toISOString().split('T')[0],
-        coord: body.coord || body.coordinates || '6.9800° N, 3.6500° E',
+        coord: body.coord || body.coordinates || '6.9800Â° N, 3.6500Â° E',
         disputes: parseInt(body.disputes || body.disputes_count || '0', 10),
         documents: body.documents || body.documents_ref || 'Application filed online',
       });

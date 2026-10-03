@@ -107,7 +107,7 @@ export default function AiSearch() {
         style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '.2rem .3rem', color: 'rgba(245,237,216,.6)', transition: 'color .2s' }}
         aria-label="Search"
       >
-        🔍
+        ðŸ”
       </button>
       {open && (
         <div style={{
@@ -138,7 +138,7 @@ export default function AiSearch() {
                     onMouseEnter={e => e.currentTarget.style.background = 'rgba(201,150,58,.1)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                   >
-                    <span style={{ fontSize: '.8rem', color: '#C9963A' }}>📄</span>
+                    <span style={{ fontSize: '.8rem', color: '#C9963A' }}>ðŸ“„</span>
                     <div>
                       <div style={{ fontSize: '.8rem', color: '#F5EDD8' }}>{r.label}</div>
                       <div style={{ fontSize: '.6rem', color: 'rgba(245,237,216,.35)' }}>{r.path}</div>

@@ -1,13 +1,13 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-/* ─── Toast types ─────────────────────────────────── */
+/* â”€â”€â”€ Toast types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 // type: 'success' | 'error' | 'warning' | 'info'
 
 const ICONS = {
-  success: '✅',
-  error:   '🚨',
-  warning: '⚠️',
-  info:    'ℹ️',
+  success: 'âœ…',
+  error:   'ðŸš¨',
+  warning: 'âš ï¸',
+  info:    'â„¹ï¸',
 };
 
 const COLORS = {
@@ -27,7 +27,7 @@ export const toast = {
   info:    (msg, duration) => _addToast?.({ type: 'info',    msg, duration }),
 };
 
-/* ─── Single Toast Item ───────────────────────────── */
+/* â”€â”€â”€ Single Toast Item â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function ToastItem({ id, type = 'info', msg, onDismiss, duration = 4000 }) {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
@@ -94,13 +94,13 @@ function ToastItem({ id, type = 'info', msg, onDismiss, duration = 4000 }) {
           lineHeight: 1,
         }}
       >
-        ×
+        Ã—
       </button>
     </div>
   );
 }
 
-/* ─── Provider ────────────────────────────────────── */
+/* â”€â”€â”€ Provider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   const idRef = useRef(0);

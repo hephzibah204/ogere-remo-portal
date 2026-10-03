@@ -7,14 +7,14 @@ import SEO from '../components/SEO';
 import { dbInsert } from '../services/db';
 
 const APPOINTMENT_TYPES = [
-  { id: 'community', icon: '👥', label: 'Community / Family Matter', desc: 'Family disputes, community concerns, or representation requests', duration: '30 min', color: '#C9963A' },
-  { id: 'development', icon: '🏗️', label: 'Development Project', desc: 'Present a development proposal or infrastructure project for Ogere', duration: '45 min', color: '#4A90D9' },
-  { id: 'land', icon: '📜', label: 'Land & Boundary Matter', desc: 'Land registration, boundary disputes, or property verification', duration: '45 min', color: '#e87400' },
-  { id: 'chieftaincy', icon: '🎖️', label: 'Chieftaincy / Royal Recognition', desc: 'Requests for title, recognition, or royal endorsement', duration: '60 min', color: '#9B59B6' },
-  { id: 'business', icon: '💼', label: 'Business & Investment Proposal', desc: 'Present investment opportunities or business partnerships', duration: '45 min', color: '#22c55e' },
-  { id: 'diaspora', icon: '🌍', label: 'Diaspora Delegation Visit', desc: 'Formal visit from Ogere diaspora groups or associations', duration: '60 min', color: '#06b6d4' },
-  { id: 'media', icon: '📸', label: 'Media / Photography Request', desc: 'Interviews, documentary, or official photography sessions', duration: '30 min', color: '#f43f5e' },
-  { id: 'other', icon: '📋', label: 'Other Matters', desc: 'Other matters requiring royal audience or guidance', duration: '30 min', color: '#78716c' },
+  { id: 'community', icon: 'ðŸ‘¥', label: 'Community / Family Matter', desc: 'Family disputes, community concerns, or representation requests', duration: '30 min', color: '#C9963A' },
+  { id: 'development', icon: 'ðŸ—ï¸', label: 'Development Project', desc: 'Present a development proposal or infrastructure project for Ogere', duration: '45 min', color: '#4A90D9' },
+  { id: 'land', icon: 'ðŸ“œ', label: 'Land & Boundary Matter', desc: 'Land registration, boundary disputes, or property verification', duration: '45 min', color: '#e87400' },
+  { id: 'chieftaincy', icon: 'ðŸŽ–ï¸', label: 'Chieftaincy / Royal Recognition', desc: 'Requests for title, recognition, or royal endorsement', duration: '60 min', color: '#9B59B6' },
+  { id: 'business', icon: 'ðŸ’¼', label: 'Business & Investment Proposal', desc: 'Present investment opportunities or business partnerships', duration: '45 min', color: '#22c55e' },
+  { id: 'diaspora', icon: 'ðŸŒ', label: 'Diaspora Delegation Visit', desc: 'Formal visit from Ogere diaspora groups or associations', duration: '60 min', color: '#06b6d4' },
+  { id: 'media', icon: 'ðŸ“¸', label: 'Media / Photography Request', desc: 'Interviews, documentary, or official photography sessions', duration: '30 min', color: '#f43f5e' },
+  { id: 'other', icon: 'ðŸ“‹', label: 'Other Matters', desc: 'Other matters requiring royal audience or guidance', duration: '30 min', color: '#78716c' },
 ];
 
 const TIME_SLOTS = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
@@ -140,11 +140,11 @@ export default function RoyalAudiencePage() {
 
   return (
     <div>
-      <SEO title="Royal Audience — Book Appointment" description="Book a formal appointment with HRH Oba James Obafemi Saliu, the Ologere of Ogere Remo, through the official Ogere Community Portal." />
+      <SEO title="Royal Audience â€” Book Appointment" description="Book a formal appointment with HRH Oba James Obafemi Saliu, the Ologere of Ogere Remo, through the official Ogere Community Portal." />
       <Hero
         ey="Royal Palace"
         ti="Book a Royal Audience"
-        sub="Request a formal appointment with HRH Oba James Obafemi Saliu — Kankanbiina II, the Ologere of Ogere Remo."
+        sub="Request a formal appointment with HRH Oba James Obafemi Saliu â€” Kankanbiina II, the Ologere of Ogere Remo."
         dark
       />
 
@@ -159,11 +159,11 @@ export default function RoyalAudiencePage() {
           />
           <div>
             <div className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Receiving Audiences</div>
-            <div className="playfair" style={{ fontSize: '1rem', color: 'var(--cream)' }}>HRH Oba James Obafemi Saliu — Kankanbiina II · Ologere of Ogere Remo</div>
+            <div className="playfair" style={{ fontSize: '1rem', color: 'var(--cream)' }}>HRH Oba James Obafemi Saliu â€” Kankanbiina II Â· Ologere of Ogere Remo</div>
           </div>
           <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
             <div style={{ fontSize: '0.7rem', color: 'rgba(245,237,216,0.5)' }}>Palace Hours</div>
-            <div className="cinzel" style={{ fontSize: '0.65rem', color: 'var(--gold)' }}>Mon – Sat · 9AM – 5PM</div>
+            <div className="cinzel" style={{ fontSize: '0.65rem', color: 'var(--gold)' }}>Mon â€“ Sat Â· 9AM â€“ 5PM</div>
           </div>
         </div>
       </div>
@@ -190,7 +190,7 @@ export default function RoyalAudiencePage() {
               transition: 'all 0.2s ease',
             }}
           >
-            <span>👑</span> Request Royal Audience
+            <span>ðŸ‘‘</span> Request Royal Audience
           </button>
           <button
             onClick={() => setViewMode('track')}
@@ -211,7 +211,7 @@ export default function RoyalAudiencePage() {
               transition: 'all 0.2s ease',
             }}
           >
-            <span>🔍</span> Track Appointment Status
+            <span>ðŸ”</span> Track Appointment Status
           </button>
         </div>
       </div>
@@ -242,7 +242,7 @@ export default function RoyalAudiencePage() {
                 disabled={trackingLoading}
                 style={{ padding: '0.9rem 2rem', opacity: trackingLoading ? 0.7 : 1 }}
               >
-                {trackingLoading ? 'Searching...' : '🔍 Check Status'}
+                {trackingLoading ? 'Searching...' : 'ðŸ” Check Status'}
               </button>
             </form>
 
@@ -262,22 +262,22 @@ export default function RoyalAudiencePage() {
                   <div>
                     {trackedBooking.status === 'confirmed' && (
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(34,197,94,0.15)', border: '1px solid #22c55e', color: '#86efac', padding: '0.4rem 1rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 600 }}>
-                        ● Audience Confirmed
+                        â— Audience Confirmed
                       </span>
                     )}
                     {trackedBooking.status === 'postponed' && (
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(245,158,11,0.15)', border: '1px solid #f59e0b', color: '#fcd34d', padding: '0.4rem 1rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 600 }}>
-                        ● Rescheduled / Postponed
+                        â— Rescheduled / Postponed
                       </span>
                     )}
                     {trackedBooking.status === 'declined' && (
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(239,68,68,0.15)', border: '1px solid #ef4444', color: '#fca5a5', padding: '0.4rem 1rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 600 }}>
-                        ● Respectfully Declined
+                        â— Respectfully Declined
                       </span>
                     )}
                     {(!trackedBooking.status || trackedBooking.status === 'pending') && (
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(201,150,58,0.15)', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '0.4rem 1rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 600 }}>
-                        ⏳ Under Palace Review
+                        â³ Under Palace Review
                       </span>
                     )}
                   </div>
@@ -308,7 +308,7 @@ export default function RoyalAudiencePage() {
 
                 {trackedBooking.status === 'confirmed' && (
                   <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: '8px', padding: '1rem 1.2rem', marginBottom: '1.5rem' }}>
-                    <div className="cinzel" style={{ fontSize: '0.58rem', color: '#86efac', letterSpacing: '0.1em', marginBottom: '0.4rem', textTransform: 'uppercase' }}>👑 Palace Official Instructions</div>
+                    <div className="cinzel" style={{ fontSize: '0.58rem', color: '#86efac', letterSpacing: '0.1em', marginBottom: '0.4rem', textTransform: 'uppercase' }}>ðŸ‘‘ Palace Official Instructions</div>
                     <p style={{ color: 'rgba(245,237,216,0.85)', fontSize: '0.82rem', lineHeight: 1.6 }}>
                       {trackedBooking.notes || 'Please arrive 15 minutes ahead of scheduled time in formal traditional Yoruba attire. Present this digital screen or your confirmation reference at the Inner Palace Gate.'}
                     </p>
@@ -317,7 +317,7 @@ export default function RoyalAudiencePage() {
 
                 {trackedBooking.status === 'postponed' && (
                   <div style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '8px', padding: '1rem 1.2rem', marginBottom: '1.5rem' }}>
-                    <div className="cinzel" style={{ fontSize: '0.58rem', color: '#fcd34d', letterSpacing: '0.1em', marginBottom: '0.4rem', textTransform: 'uppercase' }}>⚠️ Rescheduling Notice</div>
+                    <div className="cinzel" style={{ fontSize: '0.58rem', color: '#fcd34d', letterSpacing: '0.1em', marginBottom: '0.4rem', textTransform: 'uppercase' }}>âš ï¸ Rescheduling Notice</div>
                     <p style={{ color: 'rgba(245,237,216,0.85)', fontSize: '0.82rem', lineHeight: 1.6 }}>
                       {trackedBooking.postponed_reason || 'Due to urgent traditional state matters, your audience has been shifted to the revised date above.'}
                     </p>
@@ -335,7 +335,7 @@ export default function RoyalAudiencePage() {
 
                 <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                   <button onClick={() => window.print()} className="btn-o" style={{ fontSize: '0.75rem', padding: '0.5rem 1.2rem' }}>
-                    🖨️ Print Pass
+                    ðŸ–¨ï¸ Print Pass
                   </button>
                   <button onClick={() => setViewMode('book')} className="btn-p" style={{ fontSize: '0.75rem', padding: '0.5rem 1.2rem' }}>
                     Book Another Audience
@@ -363,7 +363,7 @@ export default function RoyalAudiencePage() {
                         fontFamily: 'var(--font-display)', color: done || active ? '#fff' : 'rgba(245,237,216,0.4)',
                         fontWeight: 700, transition: 'all 0.3s ease',
                       }}>
-                        {done ? '✓' : n}
+                        {done ? 'âœ“' : n}
                       </div>
                       <div className="cinzel" style={{ fontSize: '0.5rem', letterSpacing: '0.12em', color: active ? 'var(--gold)' : 'rgba(245,237,216,0.4)', textTransform: 'uppercase' }}>{l}</div>
                     </div>
@@ -373,7 +373,7 @@ export default function RoyalAudiencePage() {
               })}
             </div>
 
-            {/* STEP 1 — Select purpose */}
+            {/* STEP 1 â€” Select purpose */}
             {step === 1 && (
               <div style={{ maxWidth: '900px', margin: '0 auto', animation: 'fadeUp 0.5s ease both' }}>
                 <p className="cinzel" style={{ textAlign: 'center', color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.7rem', marginBottom: '1rem' }}>STEP 1 OF 3</p>
@@ -401,7 +401,7 @@ export default function RoyalAudiencePage() {
                         {apt.label}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: 'rgba(245,237,216,0.5)', lineHeight: 1.6, marginBottom: '0.8rem' }}>{apt.desc}</div>
-                      <div className="cinzel" style={{ fontSize: '0.48rem', color: 'rgba(201,150,58,0.5)', letterSpacing: '0.1em' }}>⏱ {apt.duration}</div>
+                      <div className="cinzel" style={{ fontSize: '0.48rem', color: 'rgba(201,150,58,0.5)', letterSpacing: '0.1em' }}>â± {apt.duration}</div>
                       {selectedType === apt.id && (
                         <div style={{ marginTop: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                           <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: apt.color }} />
@@ -418,13 +418,13 @@ export default function RoyalAudiencePage() {
                     onClick={() => setStep(2)}
                     style={{ opacity: selectedType ? 1 : 0.4, fontSize: '0.75rem', padding: '1rem 3rem' }}
                   >
-                    Choose Date & Time →
+                    Choose Date & Time â†’
                   </button>
                 </div>
               </div>
             )}
 
-            {/* STEP 2 — Date & Time */}
+            {/* STEP 2 â€” Date & Time */}
             {step === 2 && (
               <div style={{ maxWidth: '800px', margin: '0 auto', animation: 'fadeUp 0.5s ease both' }}>
                 <p className="cinzel" style={{ textAlign: 'center', color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.7rem', marginBottom: '1rem' }}>STEP 2 OF 3</p>
@@ -498,20 +498,20 @@ export default function RoyalAudiencePage() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                  <button className="btn-o" onClick={() => setStep(1)}>← Back</button>
+                  <button className="btn-o" onClick={() => setStep(1)}>â† Back</button>
                   <button
                     className="btn-p"
                     disabled={!selectedDate || !selectedTime}
                     onClick={() => setStep(3)}
                     style={{ opacity: (selectedDate && selectedTime) ? 1 : 0.4 }}
                   >
-                    Enter Your Details →
+                    Enter Your Details â†’
                   </button>
                 </div>
               </div>
             )}
 
-            {/* STEP 3 — Personal details */}
+            {/* STEP 3 â€” Personal details */}
             {step === 3 && (
               <div style={{ maxWidth: '700px', margin: '0 auto', animation: 'fadeUp 0.5s ease both' }}>
                 <p className="cinzel" style={{ textAlign: 'center', color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.7rem', marginBottom: '1rem' }}>STEP 3 OF 3</p>
@@ -522,9 +522,9 @@ export default function RoyalAudiencePage() {
                   <div className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.15em', marginBottom: '1rem', textTransform: 'uppercase' }}>Booking Summary</div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '1rem' }}>
                     {[
-                      ['Purpose', apt?.label || '—'],
-                      ['Date', selectedDate ? new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) : '—'],
-                      ['Time', selectedTime || '—'],
+                      ['Purpose', apt?.label || 'â€”'],
+                      ['Date', selectedDate ? new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) : 'â€”'],
+                      ['Time', selectedTime || 'â€”'],
                     ].map(([k, v]) => (
                       <div key={k}>
                         <div className="cinzel" style={{ fontSize: '0.45rem', color: 'rgba(201,150,58,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{k}</div>
@@ -579,26 +579,26 @@ export default function RoyalAudiencePage() {
 
                   <div className="glass" style={{ padding: '1.2rem 1.5rem', borderRadius: '8px', marginBottom: '2rem', background: 'rgba(181,69,27,0.08)', borderColor: 'rgba(181,69,27,0.3)' }}>
                     <p style={{ fontSize: '0.78rem', color: 'rgba(245,237,216,0.6)', lineHeight: 1.8 }}>
-                      <strong style={{ color: 'var(--gold)' }}>Palace Protocol:</strong> Please arrive 15 minutes before your scheduled time. Dress respectfully — traditional attire is encouraged. Official confirmation or rescheduling updates will be sent directly to your email address and accessible via the Palace Tracker above.
+                      <strong style={{ color: 'var(--gold)' }}>Palace Protocol:</strong> Please arrive 15 minutes before your scheduled time. Dress respectfully â€” traditional attire is encouraged. Official confirmation or rescheduling updates will be sent directly to your email address and accessible via the Palace Tracker above.
                     </p>
                   </div>
 
                   <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <button type="button" className="btn-o" onClick={() => setStep(2)}>← Back</button>
+                    <button type="button" className="btn-o" onClick={() => setStep(2)}>â† Back</button>
                     <button type="submit" className="btn-p" disabled={loading} style={{ minWidth: 'min(220px, 100%)', opacity: loading ? 0.7 : 1 }}>
-                      {loading ? 'Submitting Request…' : '👑 Submit Booking Request'}
+                      {loading ? 'Submitting Requestâ€¦' : 'ðŸ‘‘ Submit Booking Request'}
                     </button>
                   </div>
                 </form>
               </div>
             )}
 
-            {/* STEP 4 — Confirmation */}
+            {/* STEP 4 â€” Confirmation */}
             {step === 4 && (
               <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', animation: 'fadeUp 0.5s ease both' }}>
-                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>👑</div>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>ðŸ‘‘</div>
                 <div style={{ display: 'inline-block', background: 'rgba(22,163,74,0.1)', border: '1px solid rgba(22,163,74,0.3)', borderRadius: '50px', padding: '0.5rem 1.5rem', marginBottom: '2rem' }}>
-                  <span style={{ fontSize: '0.7rem', color: '#86efac' }}>✅ REQUEST SUBMITTED TO PALACE SECRETARIAT</span>
+                  <span style={{ fontSize: '0.7rem', color: '#86efac' }}>âœ… REQUEST SUBMITTED TO PALACE SECRETARIAT</span>
                 </div>
                 <h2 className="playfair" style={{ fontSize: '2.5rem', color: 'var(--cream)', marginBottom: '1rem' }}>Request Received</h2>
                 <p style={{ color: 'rgba(245,237,216,0.6)', fontSize: '0.9rem', lineHeight: 1.8, marginBottom: '2.5rem' }}>
@@ -613,10 +613,10 @@ export default function RoyalAudiencePage() {
                       ['Applicant', form.fullName],
                       ['Email', form.email],
                       ['Address', form.address],
-                      ['Purpose', apt?.label || '—'],
-                      ['Requested Date', selectedDate ? new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '—'],
+                      ['Purpose', apt?.label || 'â€”'],
+                      ['Requested Date', selectedDate ? new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : 'â€”'],
                       ['Requested Time', selectedTime],
-                      ['Status', '⏳ Pending Palace Review & Confirmation'],
+                      ['Status', 'â³ Pending Palace Review & Confirmation'],
                     ].map(([k, v]) => (
                       <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.6rem', borderBottom: '1px solid rgba(201,150,58,0.1)' }}>
                         <span className="cinzel" style={{ fontSize: '0.55rem', color: 'rgba(245,237,216,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{k}</span>
@@ -627,7 +627,7 @@ export default function RoyalAudiencePage() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                  <button className="btn-o" onClick={() => window.print()}>🖨️ Print Reference</button>
+                  <button className="btn-o" onClick={() => window.print()}>ðŸ–¨ï¸ Print Reference</button>
                   <button
                     className="btn-p"
                     onClick={() => {
@@ -640,7 +640,7 @@ export default function RoyalAudiencePage() {
                       setTrackQuery(refNum);
                     }}
                   >
-                    Track This Appointment →
+                    Track This Appointment â†’
                   </button>
                 </div>
               </div>
@@ -658,12 +658,12 @@ export default function RoyalAudiencePage() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
           {[
-            ['👔', 'Dress Code', 'Traditional Yoruba attire is strongly encouraged and shows respect for the throne. Business formal is acceptable.'],
-            ['⏰', 'Arrive Early', 'Please arrive at least 15 minutes before your appointment. Late arrivals may forfeit their slot.'],
-            ['📵', 'Protocol', 'Phones must be silenced. Greet the Oba in the traditional Yoruba manner — men prostrate, women kneel.'],
-            ['🎁', 'Kolanut Tradition', 'Bringing kolanut is a respected traditional gesture when seeking an audience with the Ologere.'],
-            ['👥', 'Delegations', 'For group visits of 4 or more, please notify the secretariat in advance so arrangements can be made.'],
-            ['📞', 'Contact Palace', 'For urgent matters, contact the OCDA team via the Contact page before submitting this form.'],
+            ['ðŸ‘”', 'Dress Code', 'Traditional Yoruba attire is strongly encouraged and shows respect for the throne. Business formal is acceptable.'],
+            ['â°', 'Arrive Early', 'Please arrive at least 15 minutes before your appointment. Late arrivals may forfeit their slot.'],
+            ['ðŸ“µ', 'Protocol', 'Phones must be silenced. Greet the Oba in the traditional Yoruba manner â€” men prostrate, women kneel.'],
+            ['ðŸŽ', 'Kolanut Tradition', 'Bringing kolanut is a respected traditional gesture when seeking an audience with the Ologere.'],
+            ['ðŸ‘¥', 'Delegations', 'For group visits of 4 or more, please notify the secretariat in advance so arrangements can be made.'],
+            ['ðŸ“ž', 'Contact Palace', 'For urgent matters, contact the OCDA team via the Contact page before submitting this form.'],
           ].map(([ic, t, d]) => (
             <div key={t} className="glass card" style={{ padding: '2rem', borderRadius: '12px' }}>
               <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{ic}</div>

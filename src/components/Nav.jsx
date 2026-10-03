@@ -18,7 +18,7 @@ const MENU_GROUPS = [
       { id: 'families', label: 'Families & Compounds' },
       { id: 'associations', label: 'Associations' },
       { id: 'gallery', label: 'Media Gallery' },
-      { id: 'live', label: '🎥 Live TV' },
+      { id: 'live', label: 'ðŸŽ¥ Live TV' },
     ],
   },
   {
@@ -26,16 +26,16 @@ const MENU_GROUPS = [
     label: 'Community',
     items: [
       { id: 'education', label: 'Education' },
-      { id: 'scholarships', label: '🎓 Scholarships' },
-      { id: 'health', label: '🏥 Health & Blood Bank' },
+      { id: 'scholarships', label: 'ðŸŽ“ Scholarships' },
+      { id: 'health', label: 'ðŸ¥ Health & Blood Bank' },
       { id: 'faith', label: 'Faith & Religion' },
       { id: 'events', label: 'Events' },
       { id: 'news', label: 'News' },
-      { id: 'messages', label: '💬 Town Chat & Messages' },
-      { id: 'timeline', label: '📰 Civic Feed (Timeline)' },
+      { id: 'messages', label: 'ðŸ’¬ Town Chat & Messages' },
+      { id: 'timeline', label: 'ðŸ“° Civic Feed (Timeline)' },
       { id: 'forum', label: 'Forum' },
       { id: 'diaspora', label: 'Diaspora Network' },
-      { id: 'diaspora-escrow', label: '🌍 Diaspora Escrow Grants' },
+      { id: 'diaspora-escrow', label: 'ðŸŒ Diaspora Escrow Grants' },
       { id: 'miss-olipakala', label: 'Miss Olipakala' },
     ],
   },
@@ -43,38 +43,38 @@ const MENU_GROUPS = [
     id: 'explore',
     label: 'Explore',
     items: [
-      { id: 'marketplace', label: '🛒 Marketplace' },
-      { id: 'fix-my-street', label: '🚧 Fix My Street' },
+      { id: 'marketplace', label: 'ðŸ›’ Marketplace' },
+      { id: 'fix-my-street', label: 'ðŸš§ Fix My Street' },
       { id: 'tourism', label: 'Tourism' },
       { id: 'business', label: 'Directory' },
-      { id: 'map', label: '🗺 Map' },
-      { id: 'alerts', label: '⚠ Alerts' },
+      { id: 'map', label: 'ðŸ—º Map' },
+      { id: 'alerts', label: 'âš  Alerts' },
     ],
   },
   {
     id: 'governance',
     label: 'Governance',
     items: [
-      { id: 'governance', label: '📊 Dashboard' },
-      { id: 'security-dashboard', label: '🚨 Security Command' },
-      { id: 'admin-mobile', label: '🛡️ Officer Terminal' },
-      { id: 'disputes', label: '⚖️ Customary Disputes (Kootu Oba)' },
-      { id: 'land-registry', label: '📋 Land Registry' },
-      { id: 'royal-audience', label: '👑 Book Royal Audience' },
-      { id: 'id-card', label: '🪪 Digital ID Card' },
-      { id: 'verify-id', label: '🔍 Verify Digital ID' },
-      { id: 'contact', label: '📬 Contact OCDA' },
+      { id: 'governance', label: 'ðŸ“Š Dashboard' },
+      { id: 'security-dashboard', label: 'ðŸš¨ Security Command' },
+      { id: 'admin-mobile', label: 'ðŸ›¡ï¸ Officer Terminal' },
+      { id: 'disputes', label: 'âš–ï¸ Customary Disputes (Kootu Oba)' },
+      { id: 'land-registry', label: 'ðŸ“‹ Land Registry' },
+      { id: 'royal-audience', label: 'ðŸ‘‘ Book Royal Audience' },
+      { id: 'id-card', label: 'ðŸªª Digital ID Card' },
+      { id: 'verify-id', label: 'ðŸ” Verify Digital ID' },
+      { id: 'contact', label: 'ðŸ“¬ Contact OCDA' },
     ],
   },
 ];
 
 const STANDALONE_PAGES = [
-  { id: 'mobile-preview', label: '📱 Mobile App' },
-  { id: 'quiz', label: '🧠 Heritage Quiz' },
-  { id: 'miss-olipakala', label: '👑 Miss Olipakala' },
+  { id: 'mobile-preview', label: 'ðŸ“± Mobile App' },
+  { id: 'quiz', label: 'ðŸ§  Heritage Quiz' },
+  { id: 'miss-olipakala', label: 'ðŸ‘‘ Miss Olipakala' },
   { id: 'contact', label: 'Contact' },
-  { id: 'signin', label: '🔑 Sign In' },
-  { id: 'admin', label: '⚙ Admin' },
+  { id: 'signin', label: 'ðŸ”‘ Sign In' },
+  { id: 'admin', label: 'âš™ Admin' },
 ];
 
 export default function Nav() {
@@ -88,14 +88,14 @@ export default function Nav() {
   const currentPage = location.pathname.replace('/', '') || 'home';
 
   const standalonePages = [
-    { id: 'mobile-preview', label: '📱 Mobile App' },
-    { id: 'quiz', label: '🧠 Heritage Quiz' },
-    { id: 'miss-olipakala', label: '👑 Miss Olipakala' },
+    { id: 'mobile-preview', label: 'ðŸ“± Mobile App' },
+    { id: 'quiz', label: 'ðŸ§  Heritage Quiz' },
+    { id: 'miss-olipakala', label: 'ðŸ‘‘ Miss Olipakala' },
     { id: 'contact', label: 'Contact' },
     authUser
-      ? { id: 'dashboard', label: `👤 ${authUser.name ? authUser.name.split(' ')[0] : 'Dashboard'}` }
-      : { id: 'signin', label: '🔑 Sign In' },
-    { id: 'admin', label: '⚙ Admin' },
+      ? { id: 'dashboard', label: `ðŸ‘¤ ${authUser.name ? authUser.name.split(' ')[0] : 'Dashboard'}` }
+      : { id: 'signin', label: 'ðŸ”‘ Sign In' },
+    { id: 'admin', label: 'âš™ Admin' },
   ];
 
   useEffect(() => {
@@ -166,7 +166,7 @@ export default function Nav() {
             color: '#F5EDD8',
           }}
         >
-          <span>{broadcast.type === 'royal' ? '👑' : broadcast.type === 'festival' ? '🎉' : broadcast.type === 'alert' ? '🚨' : 'ℹ️'}</span>
+          <span>{broadcast.type === 'royal' ? 'ðŸ‘‘' : broadcast.type === 'festival' ? 'ðŸŽ‰' : broadcast.type === 'alert' ? 'ðŸš¨' : 'â„¹ï¸'}</span>
           <span>{broadcast.message}</span>
           {broadcast.ctaLabel && broadcast.ctaLink && (
             <Link
@@ -179,7 +179,7 @@ export default function Nav() {
                 fontSize: '0.7rem',
               }}
             >
-              {broadcast.ctaLabel} →
+              {broadcast.ctaLabel} â†’
             </Link>
           )}
         </div>
@@ -205,7 +205,7 @@ export default function Nav() {
           {/* Logo */}
           <Link to="/" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             <span className="cinzel" style={{ fontSize: '1.1rem', fontWeight: 900, color: 'var(--gold)', letterSpacing: '0.1em' }}>OGERE REMO</span>
-            <span className="cinzel" style={{ fontSize: '0.5rem', color: 'rgba(245, 237, 216, 0.5)', letterSpacing: '0.2em' }}>EST. 1401 · OGUN STATE</span>
+            <span className="cinzel" style={{ fontSize: '0.5rem', color: 'rgba(245, 237, 216, 0.5)', letterSpacing: '0.2em' }}>EST. 1401 Â· OGUN STATE</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -233,7 +233,7 @@ export default function Nav() {
                   color: isGroupActive(group) ? 'var(--gold)' : 'var(--cream)',
                   display: 'flex', alignItems: 'center', gap: '4px'
                 }}>
-                  {group.label} <span style={{ fontSize: '0.6rem' }}>▼</span>
+                  {group.label} <span style={{ fontSize: '0.6rem' }}>â–¼</span>
                 </button>
 
                 {openGroup === group.id && (
@@ -286,7 +286,7 @@ export default function Nav() {
                 animation: 'pulseGlow 2.5s infinite',
               }}
             >
-              <span>🚨</span>
+              <span>ðŸš¨</span>
               <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.08em', fontWeight: 900 }}>SOS Emergency</span>
             </button>
 
@@ -308,7 +308,7 @@ export default function Nav() {
                 boxShadow: '0 2px 10px rgba(201,150,58,0.3)',
               }}
             >
-              <span>💛</span>
+              <span>ðŸ’›</span>
               <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.08em' }}>Donate</span>
             </button>
 
@@ -327,7 +327,7 @@ export default function Nav() {
                 color: 'var(--gold-light)',
               }}
             >
-              <span>🔍</span>
+              <span>ðŸ”</span>
               <span className="cinzel" style={{ fontSize: '0.52rem' }}>Search (Ctrl+K)</span>
             </button>
 
@@ -340,7 +340,7 @@ export default function Nav() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             style={{ color: 'var(--gold)', fontSize: '1.5rem' }}
           >
-            {isMobileMenuOpen ? '✕' : '☰'}
+            {isMobileMenuOpen ? 'âœ•' : 'â˜°'}
           </button>
         </div>
       </nav>
@@ -373,7 +373,7 @@ export default function Nav() {
                     boxShadow: '0 4px 12px rgba(220, 38, 38, 0.4)',
                   }}
                 >
-                  <span>🚨</span>
+                  <span>ðŸš¨</span>
                   <span className="cinzel" style={{ letterSpacing: '0.1em', fontWeight: 900 }}>SOS Emergency</span>
                 </button>
 
@@ -395,7 +395,7 @@ export default function Nav() {
                     gap: '0.4rem',
                   }}
                 >
-                  <span>💛</span>
+                  <span>ðŸ’›</span>
                   <span className="cinzel" style={{ letterSpacing: '0.1em' }}>Donate</span>
                 </button>
               </div>

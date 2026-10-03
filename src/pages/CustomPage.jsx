@@ -43,7 +43,7 @@ export default function CustomPage() {
       <div style={{ padding: '100px 20px', textAlign: 'center' }}>
         <h1 style={{ fontFamily: "'Playfair Display', serif", color: '#F5EDD8' }}>{error}</h1>
         <p style={{ marginTop: '20px' }}>
-          <Link to="/" style={{ color: '#C9963A', textDecoration: 'none' }}>← Back to Home</Link>
+          <Link to="/" style={{ color: '#C9963A', textDecoration: 'none' }}>â† Back to Home</Link>
         </p>
       </div>
     );

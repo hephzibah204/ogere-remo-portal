@@ -8,7 +8,7 @@ const DIRECT_CONTACTS = [
     name: 'Chief Adebisi Adeleke',
     role: 'Palace Protocol & Secretary',
     title: 'Aafin Ologere Secretariat',
-    avatar: '👑',
+    avatar: 'ðŸ‘‘',
     color: '#d97706',
     online: true,
     lastSeen: 'Online',
@@ -19,7 +19,7 @@ const DIRECT_CONTACTS = [
     name: 'ASP Babatunde Oladipo',
     role: 'Divisional Police Officer',
     title: 'Nigeria Police Force (Ogere Post)',
-    avatar: '👮‍♂️',
+    avatar: 'ðŸ‘®â€â™‚ï¸',
     color: '#3b82f6',
     online: true,
     lastSeen: 'Online',
@@ -30,7 +30,7 @@ const DIRECT_CONTACTS = [
     name: 'Engr. Olufemi Balogun',
     role: 'Community Admin & Works',
     title: 'Ogere Community Development Assoc. (OCDA)',
-    avatar: '🏛️',
+    avatar: 'ðŸ›ï¸',
     color: '#10b981',
     online: true,
     lastSeen: 'Online',
@@ -41,7 +41,7 @@ const DIRECT_CONTACTS = [
     name: 'Dr. Folashade Adeyemi-Clark',
     role: 'Diaspora Liaison',
     title: 'UK & Global Indigenes Alliance',
-    avatar: '🌍',
+    avatar: 'ðŸŒ',
     color: '#8b5cf6',
     online: false,
     lastSeen: 'Today at 02:15 PM',
@@ -52,7 +52,7 @@ const DIRECT_CONTACTS = [
     name: 'Alhaja Sikirat (Iya Oloja)',
     role: 'Market Leader',
     title: 'Oke-Ogere Central Market & Crafts',
-    avatar: '🛍️',
+    avatar: 'ðŸ›ï¸',
     color: '#f59e0b',
     online: true,
     lastSeen: 'Online',
@@ -66,7 +66,7 @@ const GROUP_CHANNELS = [
     id: 'grp_general',
     name: 'Ogere Remo Community Square',
     desc: 'Public town hub for civic notices, news & general discussion',
-    avatar: '🏛️',
+    avatar: 'ðŸ›ï¸',
     color: '#10b981',
     isGroup: true,
     membersCount: 428,
@@ -75,7 +75,7 @@ const GROUP_CHANNELS = [
     id: 'grp_diaspora',
     name: 'Global Diaspora Network',
     desc: 'Indigenes connecting from UK, USA, Canada, and worldwide',
-    avatar: '🌍',
+    avatar: 'ðŸŒ',
     color: '#3b82f6',
     isGroup: true,
     membersCount: 156,
@@ -84,7 +84,7 @@ const GROUP_CHANNELS = [
     id: 'grp_security',
     name: 'Neighborhood Vigilante Watch',
     desc: 'Safety monitoring, expressway road alerts & night patrol reports',
-    avatar: '🛡️',
+    avatar: 'ðŸ›¡ï¸',
     color: '#ef4444',
     isGroup: true,
     membersCount: 312,
@@ -148,9 +148,9 @@ export default function MessagesPage() {
           .map(u => ({
             id: `usr_${u.id}`,
             name: u.full_name,
-            role: u.agency_name ? `${u.agency_name} (${u.role || 'Officer'})` : (u.role === 'palace_protocol' ? 'Palace Protocol & Secretariat' : (u.citizen_type === 'indigene' ? `Indigene · ${u.quarter || 'Oke-Ogere'}` : `${u.citizen_type || 'Resident'}`)),
+            role: u.agency_name ? `${u.agency_name} (${u.role || 'Officer'})` : (u.role === 'palace_protocol' ? 'Palace Protocol & Secretariat' : (u.citizen_type === 'indigene' ? `Indigene Â· ${u.quarter || 'Oke-Ogere'}` : `${u.citizen_type || 'Resident'}`)),
             title: u.compound || u.agency_name || u.quarter || 'Ogere Remo Community',
-            avatar: u.role === 'palace_protocol' || u.role === 'super_admin' ? '👑' : u.role === 'security_officer' ? '👮‍♂️' : u.role === 'ocda_admin' ? '🏛️' : '👤',
+            avatar: u.role === 'palace_protocol' || u.role === 'super_admin' ? 'ðŸ‘‘' : u.role === 'security_officer' ? 'ðŸ‘®â€â™‚ï¸' : u.role === 'ocda_admin' ? 'ðŸ›ï¸' : 'ðŸ‘¤',
             color: u.role === 'security_officer' ? '#3b82f6' : u.role === 'palace_protocol' ? '#d97706' : '#059669',
             online: true,
             lastSeen: 'Active',
@@ -293,7 +293,7 @@ export default function MessagesPage() {
       name: customContactName.trim(),
       role: 'Citizen / Community Member',
       title: customContactTitle.trim() || 'Ogere Indigene',
-      avatar: '👤',
+      avatar: 'ðŸ‘¤',
       color: '#059669',
       online: true,
       lastSeen: 'Online',
@@ -344,14 +344,14 @@ export default function MessagesPage() {
   return (
     <div style={{ background: '#0b141a', minHeight: '100vh', color: '#e9edef', paddingTop: '75px' }}>
       <SEO
-        title="Direct Private Messenger — Ogere Remo Portal"
+        title="Direct Private Messenger â€” Ogere Remo Portal"
         description="Encrypted private 1-on-1 messaging between citizens, community leaders, and palace administration."
       />
 
       <div style={{ maxWidth: 1400, margin: '0 auto', height: 'calc(100vh - 75px)', display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden', background: '#111b21', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           
-          {/* ── LEFT SIDEBAR: CONVERSATION THREADS ── */}
+          {/* â”€â”€ LEFT SIDEBAR: CONVERSATION THREADS â”€â”€ */}
           <div style={{
             width: '390px',
             borderRight: '1px solid #222d34',
@@ -373,11 +373,11 @@ export default function MessagesPage() {
                   justifyContent: 'center',
                   fontSize: '1.2rem',
                 }}>
-                  💬
+                  ðŸ’¬
                 </div>
                 <div>
                   <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#e9edef' }}>Direct Chat</div>
-                  <div style={{ fontSize: '0.68rem', color: '#25d366', fontWeight: 600 }}>● Connected as {senderName}</div>
+                  <div style={{ fontSize: '0.68rem', color: '#25d366', fontWeight: 600 }}>â— Connected as {senderName}</div>
                 </div>
               </div>
 
@@ -415,7 +415,7 @@ export default function MessagesPage() {
                   </div>
                 ) : (
                   <div onClick={() => setIsEditingName(true)} title="Click to rename yourself" style={{ background: '#2a3942', padding: '3px 8px', borderRadius: '16px', fontSize: '0.68rem', color: '#8696a0', cursor: 'pointer' }}>
-                    ✏️ Name
+                    âœï¸ Name
                   </div>
                 )}
               </div>
@@ -441,7 +441,7 @@ export default function MessagesPage() {
                   gap: '6px',
                 }}
               >
-                <span>👤 Private (1-on-1)</span>
+                <span>ðŸ‘¤ Private (1-on-1)</span>
                 <span style={{ background: '#00a884', color: '#fff', fontSize: '0.62rem', padding: '1px 6px', borderRadius: '10px' }}>
                   {allDirectContacts.length}
                 </span>
@@ -465,14 +465,14 @@ export default function MessagesPage() {
                   gap: '6px',
                 }}
               >
-                <span>👥 Community Rooms</span>
+                <span>ðŸ‘¥ Community Rooms</span>
               </button>
             </div>
 
             {/* Search Bar */}
             <div style={{ padding: '8px 12px', background: '#111b21', borderBottom: '1px solid #222d34' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#202c33', padding: '6px 12px', borderRadius: '8px' }}>
-                <span style={{ fontSize: '0.85rem', color: '#8696a0' }}>🔍</span>
+                <span style={{ fontSize: '0.85rem', color: '#8696a0' }}>ðŸ”</span>
                 <input
                   type="text"
                   placeholder={activeTab === 'direct' ? 'Search contacts, leaders, or officers' : 'Search town rooms'}
@@ -567,7 +567,7 @@ export default function MessagesPage() {
             </div>
           </div>
 
-          {/* ── RIGHT CHAT PANE: PRIVATE 1-ON-1 CONVERSATION ── */}
+          {/* â”€â”€ RIGHT CHAT PANE: PRIVATE 1-ON-1 CONVERSATION â”€â”€ */}
           <div style={{
             flex: 1,
             display: mobileView === 'list' && window.innerWidth < 768 ? 'none' : 'flex',
@@ -602,7 +602,7 @@ export default function MessagesPage() {
                   onClick={() => setMobileView('list')}
                   style={{ background: 'transparent', border: 'none', color: '#00a884', fontSize: '1.3rem', cursor: 'pointer', display: 'none', '@media (max-width: 768px)': { display: 'block' } }}
                 >
-                  ←
+                  â†
                 </button>
                 <div style={{
                   width: '42px',
@@ -622,8 +622,8 @@ export default function MessagesPage() {
                     {activeChat.name}
                   </div>
                   <div style={{ fontSize: '0.68rem', color: activeChat.online ? '#25d366' : '#8696a0' }}>
-                    {activeChat.isGroup ? `${activeChat.membersCount} members` : (activeChat.online ? '● Online' : activeChat.lastSeen)}
-                    {activeChat.title && <span style={{ color: '#8696a0' }}> · {activeChat.title}</span>}
+                    {activeChat.isGroup ? `${activeChat.membersCount} members` : (activeChat.online ? 'â— Online' : activeChat.lastSeen)}
+                    {activeChat.title && <span style={{ color: '#8696a0' }}> Â· {activeChat.title}</span>}
                   </div>
                 </div>
               </div>
@@ -641,7 +641,7 @@ export default function MessagesPage() {
                   alignItems: 'center',
                   gap: '4px',
                 }}>
-                  <span>🔒</span>
+                  <span>ðŸ”’</span>
                   <span>{activeChat.isGroup ? 'Verified Group' : 'Private Direct Message'}</span>
                 </span>
               </div>
@@ -671,7 +671,7 @@ export default function MessagesPage() {
                   maxWidth: '480px',
                   lineHeight: 1.4,
                 }}>
-                  🔒 End-to-end encrypted private session between <strong>{senderName}</strong> and <strong>{activeChat.name}</strong>. No third parties or unauthorized operators can read these messages.
+                  ðŸ”’ End-to-end encrypted private session between <strong>{senderName}</strong> and <strong>{activeChat.name}</strong>. No third parties or unauthorized operators can read these messages.
                 </div>
               </div>
 
@@ -723,7 +723,7 @@ export default function MessagesPage() {
                         <span>{formatTime(msg.created_at)}</span>
                         {isMe && (
                           <span style={{ color: msg.status === 'read' ? '#53bdeb' : '#8696a0', fontSize: '0.72rem' }}>
-                            ✓✓
+                            âœ“âœ“
                           </span>
                         )}
                       </div>
@@ -782,7 +782,7 @@ export default function MessagesPage() {
                   transition: 'background 0.2s ease',
                 }}
               >
-                ➤
+                âž¤
               </button>
             </form>
 
@@ -790,7 +790,7 @@ export default function MessagesPage() {
         </div>
       </div>
 
-      {/* ── MODAL: START NEW PRIVATE 1-ON-1 CHAT ── */}
+      {/* â”€â”€ MODAL: START NEW PRIVATE 1-ON-1 CHAT â”€â”€ */}
       {showNewChatModal && (
         <div style={{
           position: 'fixed',
@@ -818,7 +818,7 @@ export default function MessagesPage() {
                 onClick={() => setShowNewChatModal(false)}
                 style={{ background: 'none', border: 'none', color: '#8696a0', fontSize: '1.2rem', cursor: 'pointer' }}
               >
-                ✕
+                âœ•
               </button>
             </div>
 
@@ -842,9 +842,9 @@ export default function MessagesPage() {
                           const contactObj = {
                             id: `usr_${u.id}`,
                             name: u.full_name,
-                            role: u.agency_name ? `${u.agency_name} (${u.role || 'Officer'})` : (u.role === 'palace_protocol' ? 'Palace Protocol' : (u.citizen_type === 'indigene' ? `Indigene · ${u.quarter || 'Oke-Ogere'}` : 'Resident')),
+                            role: u.agency_name ? `${u.agency_name} (${u.role || 'Officer'})` : (u.role === 'palace_protocol' ? 'Palace Protocol' : (u.citizen_type === 'indigene' ? `Indigene Â· ${u.quarter || 'Oke-Ogere'}` : 'Resident')),
                             title: u.compound || u.agency_name || u.quarter || 'Ogere Remo',
-                            avatar: u.role === 'palace_protocol' || u.role === 'super_admin' ? '👑' : u.role === 'security_officer' ? '👮‍♂️' : '👤',
+                            avatar: u.role === 'palace_protocol' || u.role === 'super_admin' ? 'ðŸ‘‘' : u.role === 'security_officer' ? 'ðŸ‘®â€â™‚ï¸' : 'ðŸ‘¤',
                             color: u.role === 'security_officer' ? '#3b82f6' : u.role === 'palace_protocol' ? '#d97706' : '#059669',
                             online: true,
                             lastSeen: 'Active',
@@ -872,7 +872,7 @@ export default function MessagesPage() {
                           <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#e9edef' }}>{u.full_name}</div>
                           <div style={{ fontSize: '0.65rem', color: '#8696a0' }}>{u.quarter || u.agency_name || u.citizen_type || 'Indigene'}</div>
                         </div>
-                        <span style={{ fontSize: '0.7rem', color: '#00a884', fontWeight: 700 }}>Chat →</span>
+                        <span style={{ fontSize: '0.7rem', color: '#00a884', fontWeight: 700 }}>Chat â†’</span>
                       </div>
                     ))}
                 </div>

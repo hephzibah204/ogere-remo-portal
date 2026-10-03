@@ -17,38 +17,38 @@ import { exportToCSV } from '../services/db';
 const PAGE_SIZE = 20;
 
 const SIDEBAR_SECTIONS = [
-  { label: 'SaaS Superadmin', icon: '⚡', id: 'superadmin' },
-  { label: 'Dashboard', icon: '📊', id: 'dashboard' },
-  { label: 'Community Operations', icon: '🏛️', id: 'operations', children: [
-    { id: 'idCards', label: 'ID Cards Queue', icon: '🪪' },
-    { id: 'royalAudiences', label: 'Royal Audiences', icon: '👑' },
-    { id: 'landRegistry', label: 'Land Registry & Disputes', icon: '📜' },
-    { id: 'scholarships', label: 'Scholarships Review', icon: '🎓' },
-    { id: 'bloodDonors', label: 'Blood Donors', icon: '🩸' },
-    { id: 'marketplaceAdmin', label: 'Marketplace Listings', icon: '🛒' },
-    { id: 'incidentReports', label: 'Incident Reports', icon: '🚨' },
-    { id: 'pageantRegistrations', label: 'Miss Olipakala Contestants', icon: '👑' },
+  { label: 'SaaS Superadmin', icon: 'âš¡', id: 'superadmin' },
+  { label: 'Dashboard', icon: 'ðŸ“Š', id: 'dashboard' },
+  { label: 'Community Operations', icon: 'ðŸ›ï¸', id: 'operations', children: [
+    { id: 'idCards', label: 'ID Cards Queue', icon: 'ðŸªª' },
+    { id: 'royalAudiences', label: 'Royal Audiences', icon: 'ðŸ‘‘' },
+    { id: 'landRegistry', label: 'Land Registry & Disputes', icon: 'ðŸ“œ' },
+    { id: 'scholarships', label: 'Scholarships Review', icon: 'ðŸŽ“' },
+    { id: 'bloodDonors', label: 'Blood Donors', icon: 'ðŸ©¸' },
+    { id: 'marketplaceAdmin', label: 'Marketplace Listings', icon: 'ðŸ›’' },
+    { id: 'incidentReports', label: 'Incident Reports', icon: 'ðŸš¨' },
+    { id: 'pageantRegistrations', label: 'Miss Olipakala Contestants', icon: 'ðŸ‘‘' },
   ]},
-  { label: 'Site Content', icon: '📝', id: 'content', children: [
-    { id: 'kings', label: 'Kings', icon: '👑' },
-    { id: 'gallery', label: 'Gallery', icon: '🖼️' },
-    { id: 'news', label: 'News', icon: '📰' },
-    { id: 'events', label: 'Events', icon: '📅' },
-    { id: 'eventCalendar', label: 'Calendar View', icon: '🗓️' },
-    { id: 'blog', label: 'Blog Posts', icon: '📝' },
-    { id: 'diasporaNotable', label: 'Notable Diaspora', icon: '🌟' },
-    { id: 'diasporaGroups', label: 'Diaspora Groups', icon: '🤝' },
-    { id: 'mapLocations', label: 'Map Locations', icon: '🗺️' },
+  { label: 'Site Content', icon: 'ðŸ“', id: 'content', children: [
+    { id: 'kings', label: 'Kings', icon: 'ðŸ‘‘' },
+    { id: 'gallery', label: 'Gallery', icon: 'ðŸ–¼ï¸' },
+    { id: 'news', label: 'News', icon: 'ðŸ“°' },
+    { id: 'events', label: 'Events', icon: 'ðŸ“…' },
+    { id: 'eventCalendar', label: 'Calendar View', icon: 'ðŸ—“ï¸' },
+    { id: 'blog', label: 'Blog Posts', icon: 'ðŸ“' },
+    { id: 'diasporaNotable', label: 'Notable Diaspora', icon: 'ðŸŒŸ' },
+    { id: 'diasporaGroups', label: 'Diaspora Groups', icon: 'ðŸ¤' },
+    { id: 'mapLocations', label: 'Map Locations', icon: 'ðŸ—ºï¸' },
   ]},
-  { label: 'Submissions', icon: '📋', id: 'submissions', children: [
-    { id: 'biz', label: 'Business Listings', icon: '🏪' },
-    { id: 'suggestions', label: 'Suggestions', icon: '💡' },
-    { id: 'msgs', label: 'Contact Messages', icon: '✉️' },
-    { id: 'forum', label: 'Forum Posts', icon: '💬' },
-    { id: 'assoc', label: 'Association Regs', icon: '📋' },
+  { label: 'Submissions', icon: 'ðŸ“‹', id: 'submissions', children: [
+    { id: 'biz', label: 'Business Listings', icon: 'ðŸª' },
+    { id: 'suggestions', label: 'Suggestions', icon: 'ðŸ’¡' },
+    { id: 'msgs', label: 'Contact Messages', icon: 'âœ‰ï¸' },
+    { id: 'forum', label: 'Forum Posts', icon: 'ðŸ’¬' },
+    { id: 'assoc', label: 'Association Regs', icon: 'ðŸ“‹' },
   ]},
-  { label: 'Media Library', icon: '🖼️', id: 'media' },
-  { label: 'Settings', icon: '⚙️', id: 'settings' },
+  { label: 'Media Library', icon: 'ðŸ–¼ï¸', id: 'media' },
+  { label: 'Settings', icon: 'âš™ï¸', id: 'settings' },
 ];
 
 function Toast({ toast, onDismiss }) {
@@ -64,7 +64,7 @@ function Toast({ toast, onDismiss }) {
       maxWidth: 400,
     }}>
       <span style={{ flex: 1 }}>{toast.message}</span>
-      <button onClick={onDismiss} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,.5)', cursor: 'pointer', fontSize: '.7rem', padding: 0 }}>✕</button>
+      <button onClick={onDismiss} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,.5)', cursor: 'pointer', fontSize: '.7rem', padding: 0 }}>âœ•</button>
     </div>
   );
 }
@@ -109,13 +109,13 @@ function RichTextarea({ value, onChange, placeholder, rows }) {
           <button type="button" className="art-btn" onClick={() => wrap('<u>', '</u>')} title="Underline"><u>U</u></button>
           <button type="button" className="art-btn" onClick={() => wrap('<strong>', '</strong>')} title="Strong">S</button>
           <span style={{ color: 'rgba(201,150,58,.2)', padding: '0 .15rem' }}>|</span>
-          <button type="button" className="art-btn" onClick={() => wrap('\n• ', '')} title="Bullet List">• List</button>
+          <button type="button" className="art-btn" onClick={() => wrap('\nâ€¢ ', '')} title="Bullet List">â€¢ List</button>
           <button type="button" className="art-btn" onClick={() => wrap('\n1. ', '')} title="Numbered List">1. List</button>
-          <button type="button" className="art-btn" onClick={() => wrap('[', '](url)')} title="Link">🔗</button>
+          <button type="button" className="art-btn" onClick={() => wrap('[', '](url)')} title="Link">ðŸ”—</button>
           <span style={{ color: 'rgba(201,150,58,.2)', padding: '0 .15rem' }}>|</span>
-          <button type="button" className="art-btn" onClick={() => wrap('<blockquote>', '</blockquote>')} title="Blockquote">❝</button>
+          <button type="button" className="art-btn" onClick={() => wrap('<blockquote>', '</blockquote>')} title="Blockquote">â</button>
           <button type="button" className="art-btn" onClick={() => wrap('<h3>', '</h3>')} title="Heading">H3</button>
-          <button type="button" className="art-btn" onClick={() => wrap('<hr />', '')} title="Divider">—</button>
+          <button type="button" className="art-btn" onClick={() => wrap('<hr />', '')} title="Divider">â€”</button>
         </div>
       )}
       <textarea ref={textRef} className="ainp" rows={rows || 4} value={value || ''}
@@ -148,7 +148,7 @@ function FieldInput({ field, value, onChange, onOpenMedia }) {
   if (field.t === 'select') {
     return (
       <select id={id} className="ainp" value={value || ''} onChange={e => onChange(field.k, e.target.value)}>
-        <option value="">— Select —</option>
+        <option value="">â€” Select â€”</option>
         {(field.o || []).map(o => <option key={o} value={o}>{o}</option>)}
       </select>
     );
@@ -165,8 +165,8 @@ function FieldInput({ field, value, onChange, onOpenMedia }) {
     return (
       <div style={{ display: 'flex', gap: '.3rem' }}>
         <input type="url" className="ainp" value={value || ''} onChange={e => onChange(field.k, e.target.value)} placeholder="https://..." style={{ flex: 1 }} />
-        {onOpenMedia && <button type="button" className="abtn abtn-o" onClick={onOpenMedia} style={{ padding: '.4rem .5rem', fontSize: '.6rem' }} title="Media Library">📁</button>}
-        {value && <button type="button" className="abtn abtn-o" onClick={() => window.open(value, '_blank')} style={{ padding: '.4rem .5rem', fontSize: '.6rem' }} title="Preview">👁️</button>}
+        {onOpenMedia && <button type="button" className="abtn abtn-o" onClick={onOpenMedia} style={{ padding: '.4rem .5rem', fontSize: '.6rem' }} title="Media Library">ðŸ“</button>}
+        {value && <button type="button" className="abtn abtn-o" onClick={() => window.open(value, '_blank')} style={{ padding: '.4rem .5rem', fontSize: '.6rem' }} title="Preview">ðŸ‘ï¸</button>}
       </div>
     );
   }
@@ -176,9 +176,9 @@ function FieldInput({ field, value, onChange, onOpenMedia }) {
   if (field.t === 'emoji') {
     return (
       <div style={{ display: 'flex', gap: '.3rem', alignItems: 'center', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: '1.5rem', minWidth: 30, textAlign: 'center' }}>{value || '📝'}</span>
+        <span style={{ fontSize: '1.5rem', minWidth: 30, textAlign: 'center' }}>{value || 'ðŸ“'}</span>
         <input className="ainp" value={value || ''} onChange={e => onChange(field.k, e.target.value)} placeholder="Paste emoji..." style={{ flex: 1 }} />
-        {['👑','🏛️','🎉','🎊','💰','🚦','⛽','🛣️','🌍','🌟','⚽','🏪','📰','📅','🗺️','🏨','🏫','⛪','🚔','🛖','🚛'].map(e => (
+        {['ðŸ‘‘','ðŸ›ï¸','ðŸŽ‰','ðŸŽŠ','ðŸ’°','ðŸš¦','â›½','ðŸ›£ï¸','ðŸŒ','ðŸŒŸ','âš½','ðŸª','ðŸ“°','ðŸ“…','ðŸ—ºï¸','ðŸ¨','ðŸ«','â›ª','ðŸš”','ðŸ›–','ðŸš›'].map(e => (
           <button key={e} type="button" className="art-btn" onClick={() => onChange(field.k, e)} style={{ fontSize: '1rem', padding: '.1rem .25rem' }}>{e}</button>
         ))}
       </div>
@@ -198,7 +198,7 @@ function FieldInput({ field, value, onChange, onOpenMedia }) {
         {arr.map((item, i) => (
           <div key={i} style={{ display: 'flex', gap: '.3rem', alignItems: 'center', marginBottom: '.15rem', padding: '.2rem .4rem', background: 'rgba(201,150,58,.06)', borderRadius: 3 }}>
             <span style={{ flex: 1, fontSize: '.78rem', color: '#F5EDD8' }}>{item}</span>
-            <button className="abtn abtn-d" onClick={() => onChange(field.k, arr.filter((_, j) => j !== i))} type="button" style={{ padding: '.1rem .3rem', fontSize: '.55rem' }}>✕</button>
+            <button className="abtn abtn-d" onClick={() => onChange(field.k, arr.filter((_, j) => j !== i))} type="button" style={{ padding: '.1rem .3rem', fontSize: '.55rem' }}>âœ•</button>
           </div>
         ))}
       </div>
@@ -253,16 +253,16 @@ function ContentForm({ type, def, item, index, onSave, onClose, addToast, onOpen
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
           <div>
             <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.85rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>
-              {index >= 0 ? '✏️ Edit' : '➕ Add'} {def.label}
+              {index >= 0 ? 'âœï¸ Edit' : 'âž• Add'} {def.label}
             </h3>
-            <p style={{ fontSize: '.65rem', color: 'rgba(245,237,216,.35)', marginTop: '.15rem' }}>Press Ctrl+S to save · Esc to close</p>
+            <p style={{ fontSize: '.65rem', color: 'rgba(245,237,216,.35)', marginTop: '.15rem' }}>Press Ctrl+S to save Â· Esc to close</p>
           </div>
           <div style={{ display: 'flex', gap: '.3rem' }}>
             {type === 'pages' && index >= 0 && (
-              <button onClick={() => onOpenPuck(form)} className="abtn abtn-p" style={{ fontSize: '.55rem', padding: '.3rem .5rem' }}>✨ Visual Editor</button>
+              <button onClick={() => onOpenPuck(form)} className="abtn abtn-p" style={{ fontSize: '.55rem', padding: '.3rem .5rem' }}>âœ¨ Visual Editor</button>
             )}
-            {index >= 0 && <button onClick={() => setShowPreview(!showPreview)} className="abtn abtn-o" style={{ fontSize: '.55rem', padding: '.3rem .5rem' }}>{showPreview ? '✏️ Edit' : '👁️ Preview'}</button>}
-            <button onClick={onClose} className="abtn abtn-d" style={{ padding: '.3rem .5rem' }}>✕</button>
+            {index >= 0 && <button onClick={() => setShowPreview(!showPreview)} className="abtn abtn-o" style={{ fontSize: '.55rem', padding: '.3rem .5rem' }}>{showPreview ? 'âœï¸ Edit' : 'ðŸ‘ï¸ Preview'}</button>}
+            <button onClick={onClose} className="abtn abtn-d" style={{ padding: '.3rem .5rem' }}>âœ•</button>
           </div>
         </div>
 
@@ -272,7 +272,7 @@ function ContentForm({ type, def, item, index, onSave, onClose, addToast, onOpen
             <div style={{ fontSize: '1.2rem', color: '#F5EDD8', fontFamily: "'Playfair Display',serif", marginBottom: '.3rem', fontWeight: 700 }}>
               {form.name || form.title || form.topic || form.n || form.headline || form.t || 'Untitled'}
             </div>
-            {form.date && <div style={{ fontSize: '.7rem', color: 'rgba(201,150,58,.6)', marginBottom: '.5rem' }}>📅 {form.date}</div>}
+            {form.date && <div style={{ fontSize: '.7rem', color: 'rgba(201,150,58,.6)', marginBottom: '.5rem' }}>ðŸ“… {form.date}</div>}
             {form.cat && <span className="atag atag-gold" style={{ marginBottom: '.5rem' }}>{form.cat}</span>}
             {form.desc && <div style={{ fontSize: '.85rem', lineHeight: 1.7, color: 'rgba(245,237,216,.68)', marginTop: '.5rem' }}>{form.desc}</div>}
             {form.body && <div style={{ fontSize: '.85rem', lineHeight: 1.7, color: 'rgba(245,237,216,.68)', marginTop: '.5rem' }}>{form.body}</div>}
@@ -280,9 +280,9 @@ function ContentForm({ type, def, item, index, onSave, onClose, addToast, onOpen
             {form.message && <div style={{ fontSize: '.85rem', lineHeight: 1.7, color: 'rgba(245,237,216,.68)', marginTop: '.5rem' }}>{form.message}</div>}
             {form.oriki && <div style={{ fontSize: '.85rem', lineHeight: 1.7, color: 'rgba(201,150,58,.7)', fontStyle: 'italic', marginTop: '.5rem' }}>{form.oriki}</div>}
             {form.src && <div style={{ marginTop: '.5rem' }}><img src={form.src} alt="" style={{ maxWidth: '100%', maxHeight: 200, borderRadius: 4 }} /></div>}
-            {form.venue && <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.45)', marginTop: '.3rem' }}>📍 {form.venue}</div>}
-            {form.address && <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.45)', marginTop: '.3rem' }}>📍 {form.address}</div>}
-            {form.phone && <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.45)', marginTop: '.3rem' }}>📞 {form.phone}</div>}
+            {form.venue && <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.45)', marginTop: '.3rem' }}>ðŸ“ {form.venue}</div>}
+            {form.address && <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.45)', marginTop: '.3rem' }}>ðŸ“ {form.address}</div>}
+            {form.phone && <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,.45)', marginTop: '.3rem' }}>ðŸ“ž {form.phone}</div>}
           </div>
         ) : (
           <div style={{ display: 'grid', gap: '.8rem' }}>
@@ -301,8 +301,8 @@ function ContentForm({ type, def, item, index, onSave, onClose, addToast, onOpen
 
         <div style={{ display: 'flex', gap: '.6rem', justifyContent: 'flex-end', marginTop: '1.2rem' }}>
           <button onClick={onClose} className="abtn abtn-o">Cancel</button>
-          {showPreview && <button onClick={() => setShowPreview(false)} className="abtn abtn-o">✏️ Back to Edit</button>}
-          <button onClick={handleSave} className="abtn abtn-p" disabled={saving}>{saving ? '⏳ Saving...' : index >= 0 ? '💾 Update' : '➕ Create'}</button>
+          {showPreview && <button onClick={() => setShowPreview(false)} className="abtn abtn-o">âœï¸ Back to Edit</button>}
+          <button onClick={handleSave} className="abtn abtn-p" disabled={saving}>{saving ? 'â³ Saving...' : index >= 0 ? 'ðŸ’¾ Update' : 'âž• Create'}</button>
         </div>
       </div>
     </div>
@@ -390,7 +390,7 @@ function ContentListView({ type, def, items, onRefresh, onEdit, onAdd, addToast,
     <div>
       <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center', flexWrap: 'wrap', marginBottom: '.8rem' }}>
         <div style={{ flex: 1, minWidth: 160, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: '.5rem', top: '50%', transform: 'translateY(-50%)', fontSize: '.7rem', opacity: .35 }}>🔍</span>
+          <span style={{ position: 'absolute', left: '.5rem', top: '50%', transform: 'translateY(-50%)', fontSize: '.7rem', opacity: .35 }}>ðŸ”</span>
           <input className="ainp" style={{ paddingLeft: '1.6rem', fontSize: '.75rem' }} placeholder={`Search ${def.label}...`} value={search} onChange={e => setSearch(e.target.value)} />
         </div>
         <button className="abtn abtn-p" onClick={onAdd}>+ Add</button>
@@ -403,7 +403,7 @@ function ContentListView({ type, def, items, onRefresh, onEdit, onAdd, addToast,
         <div style={{ display: 'flex', gap: '.4rem', alignItems: 'center', flexWrap: 'wrap', marginBottom: '.8rem', padding: '.6rem', background: 'rgba(201,150,58,.06)', borderRadius: 4, border: '1px solid rgba(201,150,58,.12)' }}>
           <span style={{ fontSize: '.7rem', color: '#C9963A', fontFamily: "'Cinzel',serif" }}>Bulk: {selected.size} selected</span>
           <select className="ainp" style={{ width: 'auto', minWidth: 120, fontSize: '.65rem', padding: '.3rem .5rem' }} value={bulkField} onChange={e => setBulkField(e.target.value)}>
-            <option value="">— Field —</option>
+            <option value="">â€” Field â€”</option>
             {def.fields.filter(f => f.t !== 'bool' && f.t !== 'list').map(f => (
               <option key={f.k} value={f.k}>{f.l}</option>
             ))}
@@ -452,23 +452,23 @@ function ContentListView({ type, def, items, onRefresh, onEdit, onAdd, addToast,
                 )}
                 {def.list.map(col => (
                   <div key={col} style={{ flex: 1, fontSize: '.72rem', color: '#F5EDD8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {col === 'cur' ? (item[col] ? '👑 Yes' : '—')
-                    : col === 'status' ? <span className={`atag ${item[col] === 'approved' ? 'atag-green' : item[col] === 'pending' ? 'atag-gold' : ''}`}>{item[col] || '—'}</span>
+                    {col === 'cur' ? (item[col] ? 'ðŸ‘‘ Yes' : 'â€”')
+                    : col === 'status' ? <span className={`atag ${item[col] === 'approved' ? 'atag-green' : item[col] === 'pending' ? 'atag-gold' : ''}`}>{item[col] || 'â€”'}</span>
                     : col === 'cat' ? <span style={{ color: 'rgba(201,150,58,.7)' }}>{item[col]}</span>
-                    : col === 'date' ? <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.65rem' }}>{item[col] || '—'}</span>
-                    : String(item[col] || '—').substring(0, 50)}
+                    : col === 'date' ? <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.65rem' }}>{item[col] || 'â€”'}</span>
+                    : String(item[col] || 'â€”').substring(0, 50)}
                   </div>
                 ))}
                 <div style={{ width: 130, display: 'flex', gap: '.15rem', justifyContent: 'flex-end' }}>
-                  <button className="abtn abtn-o" onClick={() => onEdit(realIdx)} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Edit">✏️</button>
-                  <button className="abtn abtn-o" onClick={() => handleCopy(realIdx)} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Duplicate">📋</button>
+                  <button className="abtn abtn-o" onClick={() => onEdit(realIdx)} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Edit">âœï¸</button>
+                  <button className="abtn abtn-o" onClick={() => handleCopy(realIdx)} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Duplicate">ðŸ“‹</button>
                   {!isSubmission && (
                     <>
-                      <button className="abtn abtn-o" onClick={() => handleMove(realIdx, -1)} disabled={realIdx === 0} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Up">↑</button>
-                      <button className="abtn abtn-o" onClick={() => handleMove(realIdx, 1)} disabled={realIdx === items.length - 1} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Down">↓</button>
+                      <button className="abtn abtn-o" onClick={() => handleMove(realIdx, -1)} disabled={realIdx === 0} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Up">â†‘</button>
+                      <button className="abtn abtn-o" onClick={() => handleMove(realIdx, 1)} disabled={realIdx === items.length - 1} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Down">â†“</button>
                     </>
                   )}
-                  <button className="abtn abtn-d" onClick={() => handleDelete(realIdx)} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Delete">🗑️</button>
+                  <button className="abtn abtn-d" onClick={() => handleDelete(realIdx)} style={{ padding: '.15rem .35rem', fontSize: '.5rem' }} title="Delete">ðŸ—‘ï¸</button>
                 </div>
               </div>
             );
@@ -478,7 +478,7 @@ function ContentListView({ type, def, items, onRefresh, onEdit, onAdd, addToast,
 
       {totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', gap: '.3rem', marginTop: '1rem' }}>
-          <button className="abtn abtn-o" disabled={page === 0} onClick={() => setPage(p => Math.max(0, p - 1))} style={{ padding: '.3rem .6rem', fontSize: '.55rem' }}>← Prev</button>
+          <button className="abtn abtn-o" disabled={page === 0} onClick={() => setPage(p => Math.max(0, p - 1))} style={{ padding: '.3rem .6rem', fontSize: '.55rem' }}>â† Prev</button>
           {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
             let pageNum;
             if (totalPages <= 7) pageNum = i;
@@ -491,7 +491,7 @@ function ContentListView({ type, def, items, onRefresh, onEdit, onAdd, addToast,
               </button>
             );
           })}
-          <button className="abtn abtn-o" disabled={page >= totalPages - 1} onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} style={{ padding: '.3rem .6rem', fontSize: '.55rem' }}>Next →</button>
+          <button className="abtn abtn-o" disabled={page >= totalPages - 1} onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} style={{ padding: '.3rem .6rem', fontSize: '.55rem' }}>Next â†’</button>
         </div>
       )}
     </div>
@@ -536,11 +536,11 @@ function SubmissionListView({ type, def, items, onRefresh, addToast }) {
     <div>
       <div style={{ display: 'flex', gap: '.4rem', alignItems: 'center', flexWrap: 'wrap', marginBottom: '.8rem' }}>
         <div style={{ flex: 1, minWidth: 160, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: '.5rem', top: '50%', transform: 'translateY(-50%)', fontSize: '.7rem', opacity: .35 }}>🔍</span>
+          <span style={{ position: 'absolute', left: '.5rem', top: '50%', transform: 'translateY(-50%)', fontSize: '.7rem', opacity: .35 }}>ðŸ”</span>
           <input className="ainp" style={{ paddingLeft: '1.6rem', fontSize: '.75rem' }} placeholder={`Search ${def.label}...`} value={search} onChange={e => setSearch(e.target.value)} />
         </div>
         <div style={{ display: 'flex', gap: '.3rem', alignItems: 'center' }}>
-          {[{ id: 'all', label: `All (${items.length})` }, { id: 'pending', label: `⏳ Pending (${pending})` }, { id: 'approved', label: `✓ Approved (${approved})` }].map(f => (
+          {[{ id: 'all', label: `All (${items.length})` }, { id: 'pending', label: `â³ Pending (${pending})` }, { id: 'approved', label: `âœ“ Approved (${approved})` }].map(f => (
             <button key={f.id} className={`abtn ${filter === f.id ? 'abtn-p' : 'abtn-o'}`} onClick={() => setFilter(f.id)} style={{ fontSize: '.5rem', padding: '.3rem .5rem' }}>{f.label}</button>
           ))}
           <button
@@ -556,7 +556,7 @@ function SubmissionListView({ type, def, items, onRefresh, addToast }) {
             style={{ fontSize: '.5rem', padding: '.3rem .5rem', background: 'rgba(34,197,94,0.1)', borderColor: 'rgba(34,197,94,0.4)', color: '#86efac' }}
             title="Download CSV spreadsheet"
           >
-            📥 Export CSV
+            ðŸ“¥ Export CSV
           </button>
         </div>
       </div>
@@ -582,16 +582,16 @@ function SubmissionListView({ type, def, items, onRefresh, addToast }) {
                   </div>
                   <div style={{ display: 'flex', gap: '.3rem', alignItems: 'center' }}>
                     <span className={`atag ${isApproved ? 'atag-green' : isPending ? 'atag-gold' : ''}`}>
-                      {isApproved ? 'Approved' : isPending ? 'Pending' : item.status || '—'}
+                      {isApproved ? 'Approved' : isPending ? 'Pending' : item.status || 'â€”'}
                     </span>
                   </div>
                 </div>
                 <div style={{ fontSize: '.68rem', color: 'rgba(245,237,216,.45)', marginBottom: '.2rem' }}>
-                  {item.email && <span>✉️ {item.email} </span>}
-                  {item.phone && <span>📞 {item.phone} </span>}
-                  {item.date && <span>📅 {item.date}</span>}
-                  {item.category && <span>🏷️ {item.category}</span>}
-                  {item.venue && <span>📍 {item.venue}</span>}
+                  {item.email && <span>âœ‰ï¸ {item.email} </span>}
+                  {item.phone && <span>ðŸ“ž {item.phone} </span>}
+                  {item.date && <span>ðŸ“… {item.date}</span>}
+                  {item.category && <span>ðŸ·ï¸ {item.category}</span>}
+                  {item.venue && <span>ðŸ“ {item.venue}</span>}
                 </div>
                 {item.subject && <div style={{ fontSize: '.6rem', color: 'rgba(201,150,58,.55)', fontFamily: "'Cinzel',serif", letterSpacing: '.05em', marginBottom: '.2rem' }}>{item.subject}</div>}
                 {(item.desc || item.message || item.body) && (
@@ -601,8 +601,8 @@ function SubmissionListView({ type, def, items, onRefresh, addToast }) {
                   </div>
                 )}
                 <div style={{ display: 'flex', gap: '.3rem', marginTop: '.4rem', flexWrap: 'wrap' }}>
-                  {isPending && <button className="abtn abtn-p" onClick={() => handleApprove(realIdx)} style={{ fontSize: '.5rem', padding: '.25rem .6rem' }}>✓ Approve</button>}
-                  <button className="abtn abtn-d" onClick={() => handleDelete(realIdx)} style={{ fontSize: '.5rem', padding: '.25rem .6rem' }}>🗑️ Delete</button>
+                  {isPending && <button className="abtn abtn-p" onClick={() => handleApprove(realIdx)} style={{ fontSize: '.5rem', padding: '.25rem .6rem' }}>âœ“ Approve</button>}
+                  <button className="abtn abtn-d" onClick={() => handleDelete(realIdx)} style={{ fontSize: '.5rem', padding: '.25rem .6rem' }}>ðŸ—‘ï¸ Delete</button>
                 </div>
               </div>
             );
@@ -728,13 +728,13 @@ function RoyalAudiencesAdminView({ addToast }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.2rem', flexWrap: 'wrap', gap: '.6rem' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '1.6rem' }}>👑</span>
+            <span style={{ fontSize: '1.6rem' }}>ðŸ‘‘</span>
             <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', margin: 0 }}>
               Royal Audiences & Palace Secretariat
             </h2>
           </div>
           <p style={{ color: 'rgba(245,237,216,.45)', fontSize: '.72rem', marginTop: '.2rem' }}>
-            Aafin Ologere of Ogere Remo · Audience Registry, Protocol Confirmation & Automated Royal Letters
+            Aafin Ologere of Ogere Remo Â· Audience Registry, Protocol Confirmation & Automated Royal Letters
           </p>
         </div>
         <button
@@ -742,18 +742,18 @@ function RoyalAudiencesAdminView({ addToast }) {
           className="abtn abtn-o"
           style={{ fontSize: '.65rem', padding: '.4rem .8rem' }}
         >
-          🔄 Refresh Queue
+          ðŸ”„ Refresh Queue
         </button>
       </div>
 
       {/* Metrics Ribbon */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '.6rem', marginBottom: '1.2rem' }}>
         {[
-          { label: 'Total Requests', val: items.length, icon: '📋', color: '#C9963A' },
-          { label: 'Pending Review', val: items.filter(i => (i.status || 'pending') === 'pending').length, icon: '⏳', color: '#fbbf24' },
-          { label: 'Confirmed & Scheduled', val: items.filter(i => i.status === 'confirmed').length, icon: '✓', color: '#4ade80' },
-          { label: 'Postponed / Rescheduled', val: items.filter(i => i.status === 'postponed').length, icon: '⚠️', color: '#f59e0b' },
-          { label: 'Declined / Referred', val: items.filter(i => i.status === 'declined').length, icon: '✕', color: '#f87171' },
+          { label: 'Total Requests', val: items.length, icon: 'ðŸ“‹', color: '#C9963A' },
+          { label: 'Pending Review', val: items.filter(i => (i.status || 'pending') === 'pending').length, icon: 'â³', color: '#fbbf24' },
+          { label: 'Confirmed & Scheduled', val: items.filter(i => i.status === 'confirmed').length, icon: 'âœ“', color: '#4ade80' },
+          { label: 'Postponed / Rescheduled', val: items.filter(i => i.status === 'postponed').length, icon: 'âš ï¸', color: '#f59e0b' },
+          { label: 'Declined / Referred', val: items.filter(i => i.status === 'declined').length, icon: 'âœ•', color: '#f87171' },
         ].map(m => (
           <div key={m.label} style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '.8rem', textAlign: 'center' }}>
             <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{m.icon}</div>
@@ -766,7 +766,7 @@ function RoyalAudiencesAdminView({ addToast }) {
       {/* Filter & Search Bar */}
       <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center', flexWrap: 'wrap', marginBottom: '1rem', background: 'rgba(0,0,0,.25)', padding: '.6rem', borderRadius: 6, border: '1px solid rgba(201,150,58,.1)' }}>
         <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: '.6rem', top: '50%', transform: 'translateY(-50%)', opacity: .4 }}>🔍</span>
+          <span style={{ position: 'absolute', left: '.6rem', top: '50%', transform: 'translateY(-50%)', opacity: .4 }}>ðŸ”</span>
           <input
             className="ainp"
             style={{ paddingLeft: '1.8rem', fontSize: '.75rem', width: '100%' }}
@@ -778,10 +778,10 @@ function RoyalAudiencesAdminView({ addToast }) {
         <div style={{ display: 'flex', gap: '.3rem', flexWrap: 'wrap' }}>
           {[
             { id: 'all', label: 'All' },
-            { id: 'pending', label: '⏳ Pending' },
-            { id: 'confirmed', label: '🟢 Confirmed' },
-            { id: 'postponed', label: '🟡 Postponed' },
-            { id: 'declined', label: '🔴 Declined' },
+            { id: 'pending', label: 'â³ Pending' },
+            { id: 'confirmed', label: 'ðŸŸ¢ Confirmed' },
+            { id: 'postponed', label: 'ðŸŸ¡ Postponed' },
+            { id: 'declined', label: 'ðŸ”´ Declined' },
           ].map(tab => (
             <button
               key={tab.id}
@@ -797,10 +797,10 @@ function RoyalAudiencesAdminView({ addToast }) {
 
       {/* Audience Cards Table / List */}
       {loading ? (
-        <div style={{ padding: '3rem', textAlign: 'center', color: 'rgba(245,237,216,.3)' }}>⏳ Loading Palace Queue...</div>
+        <div style={{ padding: '3rem', textAlign: 'center', color: 'rgba(245,237,216,.3)' }}>â³ Loading Palace Queue...</div>
       ) : filtered.length === 0 ? (
         <div style={{ padding: '3rem', textAlign: 'center', background: 'rgba(201,150,58,.03)', border: '1px dashed rgba(201,150,58,.2)', borderRadius: 8 }}>
-          <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>👑</div>
+          <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>ðŸ‘‘</div>
           <div style={{ fontSize: '.85rem', color: '#C9963A', fontWeight: 700 }}>No royal audience records found.</div>
           <div style={{ fontSize: '.7rem', color: 'rgba(245,237,216,.4)', marginTop: '4px' }}>Incoming requests submitted online or via the mobile app will appear here.</div>
         </div>
@@ -840,7 +840,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                       </span>
                     </div>
                     <div style={{ fontSize: '.65rem', color: '#C9963A', fontFamily: 'monospace', marginTop: '2px' }}>
-                      Ref: {b.id} · Submitted: {b.created_at ? new Date(b.created_at).toLocaleDateString() : 'Online'}
+                      Ref: {b.id} Â· Submitted: {b.created_at ? new Date(b.created_at).toLocaleDateString() : 'Online'}
                     </div>
                   </div>
 
@@ -850,7 +850,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                       className="abtn abtn-p"
                       style={{ fontSize: '.6rem', padding: '.35rem .75rem', background: '#064e3b', borderColor: '#C9963A' }}
                     >
-                      👑 Review & Decide
+                      ðŸ‘‘ Review & Decide
                     </button>
                     {isConfirmed && (
                       <button
@@ -858,7 +858,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                         className="abtn abtn-o"
                         style={{ fontSize: '.6rem', padding: '.35rem .6rem', color: '#86efac', borderColor: '#166534' }}
                       >
-                        🖨️ Entry Pass
+                        ðŸ–¨ï¸ Entry Pass
                       </button>
                     )}
                   </div>
@@ -868,12 +868,12 @@ function RoyalAudiencesAdminView({ addToast }) {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '.6rem', background: 'rgba(0,0,0,.2)', padding: '.6rem .8rem', borderRadius: 6, fontSize: '.72rem', marginBottom: '.6rem' }}>
                   <div>
                     <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>CONTACT</span>
-                    <div style={{ color: '#F5EDD8' }}>📞 {b.phone || '—'}</div>
-                    <div style={{ color: '#F5EDD8' }}>✉️ {b.email || '—'}</div>
+                    <div style={{ color: '#F5EDD8' }}>ðŸ“ž {b.phone || 'â€”'}</div>
+                    <div style={{ color: '#F5EDD8' }}>âœ‰ï¸ {b.email || 'â€”'}</div>
                   </div>
                   <div>
                     <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>RESIDENTIAL / ORIGIN ADDRESS</span>
-                    <div style={{ color: '#F5EDD8' }}>📍 {b.address || 'Not specified'}</div>
+                    <div style={{ color: '#F5EDD8' }}>ðŸ“ {b.address || 'Not specified'}</div>
                   </div>
                   <div>
                     <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>PURPOSE & PARTY SIZE</span>
@@ -883,10 +883,10 @@ function RoyalAudiencesAdminView({ addToast }) {
                   <div>
                     <span style={{ color: 'rgba(245,237,216,.4)', fontSize: '.58rem', textTransform: 'uppercase', display: 'block' }}>SCHEDULE & VENUE</span>
                     <div style={{ color: isConfirmed ? '#86efac' : isPostponed ? '#fde047' : '#F5EDD8', fontWeight: 700 }}>
-                      📅 {b.confirmed_date || b.booking_date || b.date || '—'} @ {b.confirmed_time || b.time_slot || b.time || '—'}
+                      ðŸ“… {b.confirmed_date || b.booking_date || b.date || 'â€”'} @ {b.confirmed_time || b.time_slot || b.time || 'â€”'}
                     </div>
                     <div style={{ color: '#C9963A', fontSize: '.62rem' }}>
-                      🏛️ {b.palace_chamber || 'Palace Chambers'}
+                      ðŸ›ï¸ {b.palace_chamber || 'Palace Chambers'}
                     </div>
                   </div>
                 </div>
@@ -910,7 +910,7 @@ function RoyalAudiencesAdminView({ addToast }) {
         </div>
       )}
 
-      {/* ── PALACE DECISION & OFFICIAL ACTION MODAL ── */}
+      {/* â”€â”€ PALACE DECISION & OFFICIAL ACTION MODAL â”€â”€ */}
       {selectedBooking && (
         <div className="amodal-overlay" onClick={e => { if (e.target === e.currentTarget) setSelectedBooking(null); }}>
           <div className="amodal" style={{ maxWidth: 680, background: '#140a05', border: '2px solid #C9963A', borderRadius: 12, padding: '1.5rem', color: '#F5EDD8' }}>
@@ -923,24 +923,24 @@ function RoyalAudiencesAdminView({ addToast }) {
                   Review Audience: {selectedBooking.full_name || selectedBooking.fullName}
                 </h3>
               </div>
-              <button onClick={() => setSelectedBooking(null)} className="abtn abtn-d">✕</button>
+              <button onClick={() => setSelectedBooking(null)} className="abtn abtn-d">âœ•</button>
             </div>
 
             {/* Applicant Summary */}
             <div style={{ background: 'rgba(201,150,58,.06)', border: '1px solid rgba(201,150,58,.2)', padding: '.8rem', borderRadius: 6, fontSize: '.72rem', marginBottom: '1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.4rem' }}>
               <div><strong>Reference:</strong> <span style={{ color: '#C9963A' }}>{selectedBooking.id}</span></div>
-              <div><strong>Email:</strong> {selectedBooking.email || '—'}</div>
-              <div><strong>Phone:</strong> {selectedBooking.phone || '—'}</div>
-              <div><strong>Address:</strong> {selectedBooking.address || '—'}</div>
+              <div><strong>Email:</strong> {selectedBooking.email || 'â€”'}</div>
+              <div><strong>Phone:</strong> {selectedBooking.phone || 'â€”'}</div>
+              <div><strong>Address:</strong> {selectedBooking.address || 'â€”'}</div>
               <div style={{ gridColumn: '1/-1' }}><strong>Purpose:</strong> {selectedBooking.purpose}</div>
             </div>
 
             {/* Action Selection Tabs */}
             <div style={{ display: 'flex', gap: '.4rem', marginBottom: '1.2rem' }}>
               {[
-                { id: 'confirm', label: '🟢 Confirm & Schedule', bg: '#064e3b', col: '#86efac' },
-                { id: 'postpone', label: '🟡 Postpone / Reschedule', bg: '#78350f', col: '#fde047' },
-                { id: 'decline', label: '🔴 Decline / Regrets', bg: '#7f1d1d', col: '#fca5a5' },
+                { id: 'confirm', label: 'ðŸŸ¢ Confirm & Schedule', bg: '#064e3b', col: '#86efac' },
+                { id: 'postpone', label: 'ðŸŸ¡ Postpone / Reschedule', bg: '#78350f', col: '#fde047' },
+                { id: 'decline', label: 'ðŸ”´ Decline / Regrets', bg: '#7f1d1d', col: '#fca5a5' },
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -1005,7 +1005,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                 </div>
 
                 <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid #166534', padding: '.6rem', borderRadius: 6, fontSize: '.65rem', color: '#86efac' }}>
-                  ✉️ <strong>Automated Royal Email:</strong> Confirming this appointment will immediately generate and dispatch a formal royal letter with the seal of the Ologere to <strong>{selectedBooking.email}</strong>.
+                  âœ‰ï¸ <strong>Automated Royal Email:</strong> Confirming this appointment will immediately generate and dispatch a formal royal letter with the seal of the Ologere to <strong>{selectedBooking.email}</strong>.
                 </div>
 
                 <button
@@ -1014,7 +1014,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                   className="abtn abtn-p"
                   style={{ background: '#166534', borderColor: '#86efac', marginTop: '.4rem', padding: '.6rem' }}
                 >
-                  {isProcessing ? 'Dispatching...' : '👑 Confirm Appointment & Send Royal Letter'}
+                  {isProcessing ? 'Dispatching...' : 'ðŸ‘‘ Confirm Appointment & Send Royal Letter'}
                 </button>
               </div>
             )}
@@ -1051,7 +1051,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                 </div>
 
                 <div style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid #78350f', padding: '.6rem', borderRadius: 6, fontSize: '.65rem', color: '#fde047' }}>
-                  ✉️ <strong>Automated Reschedule Notice:</strong> A polite royal postponement letter with the revised date will be emailed to <strong>{selectedBooking.email}</strong>.
+                  âœ‰ï¸ <strong>Automated Reschedule Notice:</strong> A polite royal postponement letter with the revised date will be emailed to <strong>{selectedBooking.email}</strong>.
                 </div>
 
                 <button
@@ -1060,7 +1060,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                   className="abtn abtn-p"
                   style={{ background: '#78350f', borderColor: '#fde047', marginTop: '.4rem', padding: '.6rem' }}
                 >
-                  {isProcessing ? 'Updating...' : '⚠️ Postpone & Dispatch Reschedule Notice'}
+                  {isProcessing ? 'Updating...' : 'âš ï¸ Postpone & Dispatch Reschedule Notice'}
                 </button>
               </div>
             )}
@@ -1081,7 +1081,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                 </div>
 
                 <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid #7f1d1d', padding: '.6rem', borderRadius: 6, fontSize: '.65rem', color: '#fca5a5' }}>
-                  ✉️ <strong>Formal Regrets Notice:</strong> A dignified letter from the Palace Secretariat explaining the reason will be emailed to <strong>{selectedBooking.email}</strong>.
+                  âœ‰ï¸ <strong>Formal Regrets Notice:</strong> A dignified letter from the Palace Secretariat explaining the reason will be emailed to <strong>{selectedBooking.email}</strong>.
                 </div>
 
                 <button
@@ -1090,7 +1090,7 @@ function RoyalAudiencesAdminView({ addToast }) {
                   className="abtn abtn-d"
                   style={{ marginTop: '.4rem', padding: '.6rem' }}
                 >
-                  {isProcessing ? 'Dispatching...' : '🔴 Decline Request & Send Formal Notice'}
+                  {isProcessing ? 'Dispatching...' : 'ðŸ”´ Decline Request & Send Formal Notice'}
                 </button>
               </div>
             )}
@@ -1098,13 +1098,13 @@ function RoyalAudiencesAdminView({ addToast }) {
         </div>
       )}
 
-      {/* ── PRINTABLE GATE ENTRY PASS MODAL ── */}
+      {/* â”€â”€ PRINTABLE GATE ENTRY PASS MODAL â”€â”€ */}
       {passBooking && (
         <div className="amodal-overlay" onClick={e => { if (e.target === e.currentTarget) setPassBooking(null); }}>
           <div className="amodal" style={{ maxWidth: 540, background: '#ffffff', color: '#0f172a', padding: '2rem', borderRadius: 12, border: '3px solid #C9963A' }}>
             {/* Printable Pass Container */}
             <div style={{ textAlign: 'center', borderBottom: '2px solid #C9963A', paddingBottom: '12px', marginBottom: '14px' }}>
-              <div style={{ fontSize: '2.5rem' }}>👑</div>
+              <div style={{ fontSize: '2.5rem' }}>ðŸ‘‘</div>
               <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 900, fontSize: '1rem', color: '#064e3b', letterSpacing: '1px' }}>
                 PALACE OF THE OLOGERE OF OGERE REMO
               </div>
@@ -1151,7 +1151,7 @@ function RoyalAudiencesAdminView({ addToast }) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
               <button onClick={() => setPassBooking(null)} className="abtn abtn-o" style={{ color: '#334155' }}>Close</button>
-              <button onClick={() => window.print()} className="abtn abtn-p" style={{ background: '#064e3b' }}>🖨️ Print Voucher</button>
+              <button onClick={() => window.print()} className="abtn abtn-p" style={{ background: '#064e3b' }}>ðŸ–¨ï¸ Print Voucher</button>
             </div>
           </div>
         </div>
@@ -1184,8 +1184,8 @@ function MediaLibrary({ onClose, addToast, onSelect, standalone }) {
 
   const content = (
     <><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.8rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>🖼️ Media Library</h3>
-          {!standalone && <button onClick={onClose} className="abtn abtn-d" style={{ padding: '.2rem .5rem' }}>✕</button>}
+          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.8rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>ðŸ–¼ï¸ Media Library</h3>
+          {!standalone && <button onClick={onClose} className="abtn abtn-d" style={{ padding: '.2rem .5rem' }}>âœ•</button>}
         </div>
 
         <div style={{ display: 'flex', gap: '.3rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
@@ -1201,13 +1201,13 @@ function MediaLibrary({ onClose, addToast, onSelect, standalone }) {
             {media.map(m => (
               <div key={m.id} style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.1)', borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ height: 80, background: `url(${m.url}) center/cover`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  onError={e => { e.target.style.background = 'rgba(201,150,58,.1)'; e.target.innerHTML = '❌'; }}>
+                  onError={e => { e.target.style.background = 'rgba(201,150,58,.1)'; e.target.innerHTML = 'âŒ'; }}>
                 </div>
                 <div style={{ padding: '.3rem' }}>
                   <div style={{ fontSize: '.58rem', color: 'rgba(245,237,216,.5)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.label}</div>
                   <div style={{ display: 'flex', gap: '.15rem', marginTop: '.2rem' }}>
                     <button className="abtn abtn-o" onClick={() => { if (onSelect) onSelect(m.url); onClose(); }} style={{ padding: '.1rem .3rem', fontSize: '.45rem', flex: 1 }}>Use</button>
-                    <button className="abtn abtn-d" onClick={() => handleDelete(m.id)} style={{ padding: '.1rem .3rem', fontSize: '.45rem' }}>✕</button>
+                    <button className="abtn abtn-d" onClick={() => handleDelete(m.id)} style={{ padding: '.1rem .3rem', fontSize: '.45rem' }}>âœ•</button>
                   </div>
                 </div>
               </div>
@@ -1254,7 +1254,7 @@ function GlobalSearch({ onClose, onNavigate, addToast }) {
     <div className="amodal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="amodal" style={{ maxWidth: 600, padding: '1rem' }}>
         <div style={{ position: 'relative', marginBottom: '1rem' }}>
-          <span style={{ position: 'absolute', left: '.6rem', top: '50%', transform: 'translateY(-50%)', fontSize: '.9rem', opacity: .5 }}>🔍</span>
+          <span style={{ position: 'absolute', left: '.6rem', top: '50%', transform: 'translateY(-50%)', fontSize: '.9rem', opacity: .5 }}>ðŸ”</span>
           <input className="ainp" style={{ paddingLeft: '2rem', fontSize: '.9rem', padding: '.6rem .7rem .6rem 2rem' }}
             placeholder="Search all content..." value={query} onChange={e => setQuery(e.target.value)} autoFocus
             onKeyDown={e => e.key === 'Escape' && onClose()}
@@ -1299,39 +1299,39 @@ function DashboardHome({ stats, onNavigate, addToast }) {
 
   return (
     <div>
-      <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.2rem' }}>📊 Dashboard</h2>
-      <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.75rem', marginBottom: '1.2rem' }}>Welcome to the Ogere Remo CMS — manage all site content from one place.</p>
+      <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.2rem' }}>ðŸ“Š Dashboard</h2>
+      <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.75rem', marginBottom: '1.2rem' }}>Welcome to the Ogere Remo CMS â€” manage all site content from one place.</p>
 
       <div className="astats">
-        <div className="astat-card"><div className="astat-num">{totalContent}</div><div className="astat-label">📄 Content Items</div></div>
-        <div className="astat-card"><div className="astat-num">{totalSubmissions}</div><div className="astat-label">📋 Submissions</div></div>
-        <div className="astat-card"><div className="astat-num">{stats.biz?.count || 0}</div><div className="astat-label">🏪 Businesses</div></div>
-        <div className="astat-card"><div className="astat-num">{stats.suggestions?.count || 0}</div><div className="astat-label">💡 Suggestions</div></div>
+        <div className="astat-card"><div className="astat-num">{totalContent}</div><div className="astat-label">ðŸ“„ Content Items</div></div>
+        <div className="astat-card"><div className="astat-num">{totalSubmissions}</div><div className="astat-label">ðŸ“‹ Submissions</div></div>
+        <div className="astat-card"><div className="astat-num">{stats.biz?.count || 0}</div><div className="astat-label">ðŸª Businesses</div></div>
+        <div className="astat-card"><div className="astat-num">{stats.suggestions?.count || 0}</div><div className="astat-label">ðŸ’¡ Suggestions</div></div>
       </div>
 
       <div style={{ marginTop: '1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1rem' }}>
         <div style={{ background: 'rgba(201,150,58,0.03)', border: '1px solid rgba(201,150,58,0.1)', borderRadius: 6, padding: '1rem' }}>
-          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.8rem' }}>⚡ Quick Create</h3>
+          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.8rem' }}>âš¡ Quick Create</h3>
           <div style={{ display: 'grid', gap: '0.5rem' }}>
             <button 
               onClick={() => { onNavigate('news'); setTimeout(() => window.dispatchEvent(new CustomEvent('cms-quick-add')), 50); }}
               className="abtn abtn-p" 
               style={{ width: '100%', justifyContent: 'center', fontSize: '0.65rem', padding: '0.6rem' }}
             >
-              📰 Add News Article
+              ðŸ“° Add News Article
             </button>
             <button 
               onClick={() => { onNavigate('blog'); setTimeout(() => window.dispatchEvent(new CustomEvent('cms-quick-add')), 50); }}
               className="abtn abtn-o" 
               style={{ width: '100%', justifyContent: 'center', fontSize: '0.65rem', padding: '0.6rem' }}
             >
-              📝 Add Blog Post
+              ðŸ“ Add Blog Post
             </button>
           </div>
         </div>
 
         <div style={{ background: 'rgba(201,150,58,0.03)', border: '1px solid rgba(201,150,58,0.1)', borderRadius: 6, padding: '1rem' }}>
-          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.8rem' }}>📈 Distribution</h3>
+          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.8rem' }}>ðŸ“ˆ Distribution</h3>
           <div style={{ display: 'grid', gap: '0.35rem' }}>
             {chartTypes.map(([k, v]) => (
               <div key={k} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
@@ -1346,7 +1346,7 @@ function DashboardHome({ stats, onNavigate, addToast }) {
         </div>
 
         <div style={{ background: 'rgba(201,150,58,0.03)', border: '1px solid rgba(201,150,58,0.1)', borderRadius: 6, padding: '1rem' }}>
-          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.8rem' }}>🔔 Pending Items</h3>
+          <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.8rem' }}>ðŸ”” Pending Items</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
             {Object.entries(stats).filter(([k]) => isSubmissionType(k)).map(([k, v]) => (
               <button key={k} className="abtn abtn-o" onClick={() => onNavigate(k)} style={{ justifyContent: 'space-between', fontSize: '.55rem', padding: '.4rem .6rem' }}>
@@ -1366,13 +1366,13 @@ function DashboardHome({ stats, onNavigate, addToast }) {
         <div style={{ padding: '.7rem', background: 'rgba(201,150,58,.03)', border: '1px solid rgba(201,150,58,.08)', borderRadius: 4 }}>
           <div style={{ fontSize: '.55rem', color: 'rgba(201,150,58,.5)', fontFamily: "'Cinzel',serif", textTransform: 'uppercase', letterSpacing: '.08em' }}>Admin Password</div>
           <div style={{ fontSize: '.78rem', color: '#F5EDD8', marginTop: '.15rem' }}>
-            <span style={{ color: '#10b981' }}>✓ Secured in Backend</span>
+            <span style={{ color: '#10b981' }}>âœ“ Secured in Backend</span>
           </div>
         </div>
         <div style={{ padding: '.7rem', background: 'rgba(201,150,58,.03)', border: '1px solid rgba(201,150,58,.08)', borderRadius: 4 }}>
           <div style={{ fontSize: '.55rem', color: 'rgba(201,150,58,.5)', fontFamily: "'Cinzel',serif", textTransform: 'uppercase', letterSpacing: '.08em' }}>Anthropic API</div>
           <div style={{ fontSize: '.78rem', color: '#F5EDD8', marginTop: '.15rem' }}>
-            {import.meta.env.VITE_ANTHROPIC_API_KEY ? '✓ Configured' : <span style={{ color: '#666' }}>— Not set</span>}
+            {import.meta.env.VITE_ANTHROPIC_API_KEY ? 'âœ“ Configured' : <span style={{ color: '#666' }}>â€” Not set</span>}
           </div>
         </div>
       </div>
@@ -1394,7 +1394,7 @@ function AuditLogPanel() {
   return (
     <div style={{ marginTop: '1.5rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '.5rem' }}>
-        <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>📋 Activity Log ({log.length})</h3>
+        <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>ðŸ“‹ Activity Log ({log.length})</h3>
         <button className="abtn abtn-d" onClick={handleClear} style={{ fontSize: '.5rem', padding: '.2rem .5rem' }}>Clear Log</button>
       </div>
       <div style={{ maxHeight: 300, overflow: 'auto', border: '1px solid rgba(201,150,58,.08)', borderRadius: 4 }}>
@@ -1444,9 +1444,9 @@ function UserManager({ addToast }) {
   return (
     <div className="asection">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '.8rem' }}>
-        <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>👥 User Management</h3>
+        <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>ðŸ‘¥ User Management</h3>
         <button className="abtn abtn-p" onClick={() => setShowForm(!showForm)} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>
-          {showForm ? '✕ Cancel' : '+ Add Editor'}
+          {showForm ? 'âœ• Cancel' : '+ Add Editor'}
         </button>
       </div>
 
@@ -1475,7 +1475,7 @@ function UserManager({ addToast }) {
               <span style={{ color: 'rgba(245,237,216,.3)', fontSize: '.6rem' }}>@{u.username}</span>
             </div>
             {u.id !== 'admin' && (
-              <button className="abtn abtn-d" onClick={() => handleDelete(u.id, u.username)} style={{ fontSize: '.45rem', padding: '.15rem .4rem' }}>🗑️</button>
+              <button className="abtn abtn-d" onClick={() => handleDelete(u.id, u.username)} style={{ fontSize: '.45rem', padding: '.15rem .4rem' }}>ðŸ—‘ï¸</button>
             )}
           </div>
         ))}
@@ -1502,7 +1502,7 @@ function SettingsPanel({ addToast, user }) {
   };
 
   const handleClearAll = async () => {
-    if (!confirm('⚠ Delete ALL CMS data? This cannot be undone.')) return;
+    if (!confirm('âš  Delete ALL CMS data? This cannot be undone.')) return;
     if (!confirm('Absolutely sure?')) return;
     for (const [, def] of Object.entries(getContentTypes())) {
       await dbDelete(def.key);
@@ -1514,10 +1514,10 @@ function SettingsPanel({ addToast, user }) {
   if (!isAdmin) {
     return (
       <div>
-        <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.2rem' }}>⚙️ Settings</h2>
+        <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.2rem' }}>âš™ï¸ Settings</h2>
         <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.75rem', marginBottom: '1.2rem' }}>System configuration, data import/export, and maintenance.</p>
         <div className="asection" style={{ textAlign: 'center', padding: '2rem' }}>
-          <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>🔒</div>
+          <div style={{ fontSize: '2rem', marginBottom: '.5rem' }}>ðŸ”’</div>
           <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.78rem' }}>Settings are restricted to administrators only.</p>
         </div>
         <AuditLogPanel />
@@ -1527,7 +1527,7 @@ function SettingsPanel({ addToast, user }) {
 
   return (
     <div>
-      <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.2rem' }}>⚙️ Settings</h2>
+      <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.2rem' }}>âš™ï¸ Settings</h2>
       <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.75rem', marginBottom: '1.2rem' }}>System configuration, user management, data import/export.</p>
 
       <UserManager addToast={addToast} />
@@ -1554,7 +1554,7 @@ function SettingsPanel({ addToast, user }) {
             <button key={key} className="abtn abtn-o" onClick={async () => {
               const done = await importDefaults(key, data);
               addToast(done ? `Default data imported for ${label}.` : `${label} already has data.`, done ? 'success' : 'warning');
-            }} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>📥 {label}</button>
+            }} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>ðŸ“¥ {label}</button>
           ))}
         </div>
       </div>
@@ -1562,13 +1562,13 @@ function SettingsPanel({ addToast, user }) {
       <div className="asection">
         <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.3rem' }}>Export / Backup</h3>
         <p style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.5)', marginBottom: '.5rem' }}>Download all CMS data as a JSON file.</p>
-        <button className="abtn abtn-p" onClick={handleExportAll}>📥 Export All Data</button>
+        <button className="abtn abtn-p" onClick={handleExportAll}>ðŸ“¥ Export All Data</button>
       </div>
 
       <div className="asection" style={{ borderColor: 'rgba(181,69,27,.2)' }}>
-        <h3 style={{ color: '#f87171', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.3rem' }}>⚠ Danger Zone</h3>
-        <p style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.5)', marginBottom: '.5rem' }}>Clear all CMS data. Irreversible — export first!</p>
-        <button className="abtn abtn-d" onClick={handleClearAll}>🗑️ Clear All CMS Data</button>
+        <h3 style={{ color: '#f87171', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.3rem' }}>âš  Danger Zone</h3>
+        <p style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.5)', marginBottom: '.5rem' }}>Clear all CMS data. Irreversible â€” export first!</p>
+        <button className="abtn abtn-d" onClick={handleClearAll}>ðŸ—‘ï¸ Clear All CMS Data</button>
       </div>
 
       <AuditLogPanel />
@@ -1668,13 +1668,13 @@ export default function AdminPage() {
       }}>
         <div style={{ maxWidth: 380, width: '100%' }}>
           <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '.3rem' }}>🏛️</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '.3rem' }}>ðŸ›ï¸</div>
             <div className="cinzel" style={{ fontSize: '.5rem', letterSpacing: '.3em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.1rem' }}>Ogere Remo</div>
             <h1 className="playfair" style={{ fontSize: '1.5rem', color: '#F5EDD8', fontWeight: 700 }}>Content Management</h1>
             <p style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.35)', marginTop: '.2rem' }}>OCDA Administration Portal</p>
           </div>
           <div style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.5rem' }}>
-            <div className="cinzel" style={{ fontSize: '.5rem', letterSpacing: '.12em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.5rem' }}>🔐 Account Login</div>
+            <div className="cinzel" style={{ fontSize: '.5rem', letterSpacing: '.12em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.5rem' }}>ðŸ” Account Login</div>
             {loginError && <div style={{ fontSize: '.68rem', color: '#f87171', marginBottom: '.5rem', padding: '.3rem .5rem', background: 'rgba(220,38,38,.1)', borderRadius: 3 }}>{loginError}</div>}
             <div style={{ display: 'grid', gap: '.5rem' }}>
               <input className="ainp" value={loginUser} onChange={e => setLoginUser(e.target.value)}
@@ -1685,7 +1685,7 @@ export default function AdminPage() {
             </div>
             <button className="abtn abtn-p" style={{ width: '100%', marginTop: '.8rem' }}
               onClick={async () => { const u = await authenticateUser(loginUser, loginPw); if (u) { setUser(u); setAuth(true); setLoginError(''); } else { setLoginError('Invalid username or password.'); } }}>
-              Login →
+              Login â†’
             </button>
           </div>
         </div>
@@ -1707,17 +1707,17 @@ export default function AdminPage() {
         padding: '0 .8rem', flexShrink: 0,
       }}>
         <div className="cinzel" style={{ fontSize: '.65rem', color: '#C9963A', letterSpacing: '.1em', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '.4rem' }}>
-          🏛️ OGERE REMO CMS
+          ðŸ›ï¸ OGERE REMO CMS
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
           <button className="abtn abtn-o" onClick={() => setShowGlobalSearch(true)} style={{ fontSize: '.5rem', padding: '.25rem .5rem', display: 'flex', alignItems: 'center', gap: '.3rem' }}>
-            🔍 Search <span style={{ color: 'rgba(255,255,255,.2)', fontSize: '.45rem', border: '1px solid rgba(255,255,255,.15)', borderRadius: 2, padding: '.05rem .25rem' }}>Ctrl+K</span>
+            ðŸ” Search <span style={{ color: 'rgba(255,255,255,.2)', fontSize: '.45rem', border: '1px solid rgba(255,255,255,.15)', borderRadius: 2, padding: '.05rem .25rem' }}>Ctrl+K</span>
           </button>
-          <button className="abtn abtn-o" onClick={() => { setShowMediaLib(true); setMediaFieldKey(null); }} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>🖼️ Media</button>
+          <button className="abtn abtn-o" onClick={() => { setShowMediaLib(true); setMediaFieldKey(null); }} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>ðŸ–¼ï¸ Media</button>
           <a href="/admin-mobile" target="_blank" rel="noopener noreferrer" className="abtn abtn-p" style={{ fontSize: '.5rem', padding: '.25rem .6rem', textDecoration: 'none', background: '#C9963A', color: '#000', fontWeight: 800 }}>
-            🛡️ Officer Mobile App
+            ðŸ›¡ï¸ Officer Mobile App
           </a>
-          <a href="/" className="abtn abtn-o" style={{ fontSize: '.5rem', padding: '.25rem .5rem', textDecoration: 'none' }}>← Site</a>
+          <a href="/" className="abtn abtn-o" style={{ fontSize: '.5rem', padding: '.25rem .5rem', textDecoration: 'none' }}>â† Site</a>
           {user && (
             <span style={{ fontSize: '.6rem', color: 'rgba(245,237,216,.45)', display: 'flex', alignItems: 'center', gap: '.3rem' }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: user.role === 'admin' ? '#C9963A' : '#4ade80', display: 'inline-block' }} />
@@ -1746,7 +1746,7 @@ export default function AdminPage() {
                       borderBottom: '1px solid rgba(201,150,58,.05)',
                     }}>
                     <span>{section.icon} {section.label}</span>
-                    <span style={{ fontSize: '.45rem', transition: 'transform .2s', transform: expandedMenus.includes(section.id) ? 'rotate(90deg)' : '' }}>▶</span>
+                    <span style={{ fontSize: '.45rem', transition: 'transform .2s', transform: expandedMenus.includes(section.id) ? 'rotate(90deg)' : '' }}>â–¶</span>
                   </div>
                   {expandedMenus.includes(section.id) && section.children.map(child => (
                     <div key={child.id} onClick={() => setActiveSection(child.id)}
@@ -1786,15 +1786,15 @@ export default function AdminPage() {
 
           {activeSection === 'eventCalendar' && (
             <div>
-              <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.3rem' }}>🗓️ Event Calendar</h2>
-              <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.72rem', marginBottom: '1rem' }}>Visual calendar view — click a day to add, click an event to edit.</p>
+              <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.3rem' }}>ðŸ—“ï¸ Event Calendar</h2>
+              <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.72rem', marginBottom: '1rem' }}>Visual calendar view â€” click a day to add, click an event to edit.</p>
               <EventCalendar addToast={addToast} onListView={() => setActiveSection('events')} />
             </div>
           )}
 
           {activeSection === 'media' && (
             <div>
-              <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.3rem' }}>🖼️ Media Library</h2>
+              <h2 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.5rem', marginBottom: '.3rem' }}>ðŸ–¼ï¸ Media Library</h2>
               <p style={{ color: 'rgba(245,237,216,.4)', fontSize: '.72rem', marginBottom: '1rem' }}>Manage reusable image URLs for your content.</p>
               <MediaLibrary standalone onClose={() => window.location.reload()} addToast={addToast} onSelect={() => {}} />
             </div>
@@ -1814,14 +1814,14 @@ export default function AdminPage() {
                     {currentDef.icon} {currentDef.label}
                   </h2>
                   <p style={{ color: 'rgba(245,237,216,.35)', fontSize: '.68rem' }}>
-                    {isSub ? 'User-submitted content' : `Key: ${currentDef.key}`} · {items.length} items
-                    {!isSub && ' · Edits reflect on frontend after refresh'}
+                    {isSub ? 'User-submitted content' : `Key: ${currentDef.key}`} Â· {items.length} items
+                    {!isSub && ' Â· Edits reflect on frontend after refresh'}
                   </p>
                 </div>
               </div>
 
               {loading ? (
-                <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(245,237,216,.25)' }}>⏳ Loading...</div>
+                <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(245,237,216,.25)' }}>â³ Loading...</div>
               ) : isSub ? (
                 <SubmissionListView type={activeSection} def={currentDef} items={items} onRefresh={refreshItems} addToast={addToast} />
               ) : (
@@ -1848,8 +1848,8 @@ export default function AdminPage() {
       {showPuck && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 100000, background: '#000' }}>
           <div style={{ height: 44, background: '#1a0d06', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1rem', borderBottom: '1px solid rgba(201,150,58,.2)' }}>
-            <div style={{ fontSize: '.7rem', color: '#C9963A', fontFamily: "'Cinzel',serif" }}>✨ Visual Editor: {items[editIndex]?.title}</div>
-            <button className="abtn abtn-d" onClick={() => setShowPuck(false)} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>✕ Close without saving</button>
+            <div style={{ fontSize: '.7rem', color: '#C9963A', fontFamily: "'Cinzel',serif" }}>âœ¨ Visual Editor: {items[editIndex]?.title}</div>
+            <button className="abtn abtn-d" onClick={() => setShowPuck(false)} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>âœ• Close without saving</button>
           </div>
           <PuckEditor data={items[editIndex]?.data} onSave={handlePuckSave} />
         </div>

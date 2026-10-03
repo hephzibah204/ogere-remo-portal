@@ -112,7 +112,7 @@ function Layout({ children, onLockDemo, showDemoBanner }) {
           className="cinzel"
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '.4rem', fontWeight: 600 }}>
-            <span style={{ fontSize: '.8rem' }}>🟢</span> STAKEHOLDER REVIEW SESSION (AUTHENTICATED PREVIEW)
+            <span style={{ fontSize: '.8rem' }}>ðŸŸ¢</span> STAKEHOLDER REVIEW SESSION (AUTHENTICATED PREVIEW)
           </span>
           <button
             onClick={onLockDemo}
@@ -129,7 +129,7 @@ function Layout({ children, onLockDemo, showDemoBanner }) {
             }}
             title="Return to Coming Soon landing view"
           >
-            🔒 Exit Session / Return to Landing
+            ðŸ”’ Exit Session / Return to Landing
           </button>
         </div>
       )}

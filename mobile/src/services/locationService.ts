@@ -1,6 +1,6 @@
 /**
  * locationService.ts
- * Ogere Remo Civic Portal — High-Precision Device Intelligence & Location Engine
+ * Ogere Remo Civic Portal â€” High-Precision Device Intelligence & Location Engine
  *
  * Captures for every SOS / incident report:
  *  1. Exact GPS coordinates (multi-sample satellite lock: lat, lng, accuracy)
@@ -27,7 +27,7 @@ import {
 } from './ogereGeoEngine';
 import { reverseGeocodeMobile, getStandardMapUrls } from './liveLocationEngine';
 
-// ─── Interfaces ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Interfaces â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface DeviceIntelligence {
   platform: 'android' | 'ios' | 'unknown';
@@ -40,7 +40,7 @@ export interface DeviceIntelligence {
   screenHeight: number;
   locale: string;
   timezone: string;
-  batteryLevel: number | null; // 0–100% or null
+  batteryLevel: number | null; // 0â€“100% or null
   isCharging: boolean;
   appVersion: string;
 }
@@ -66,7 +66,7 @@ export interface DeviceLocationData {
   device: DeviceIntelligence;
 }
 
-// ─── Constants ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const LAST_KNOWN_IP_KEY = '@ogere_last_known_ip';
 const LAST_KNOWN_LOC_KEY = '@ogere_last_known_location';
@@ -74,7 +74,7 @@ const OGERE_CENTER_LAT = 6.9388;
 const OGERE_CENTER_LNG = 3.6437;
 const APP_VERSION = '2.1.0';
 
-// ─── Hardware Battery Engine ───────────────────────────────────────────────────
+// â”€â”€â”€ Hardware Battery Engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * Read physical hardware battery level from Android BatteryManager or Web Battery API
@@ -107,7 +107,7 @@ export async function getHardwareBattery(): Promise<{ level: number | null; isCh
   return { level: null, isCharging: false };
 }
 
-// ─── Device Intelligence ────────────────────────────────────────────────────────
+// â”€â”€â”€ Device Intelligence â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function getDeviceIntelligence(): Promise<DeviceIntelligence> {
   const { width, height } = Dimensions.get('screen');
@@ -171,7 +171,7 @@ export async function getDeviceIntelligence(): Promise<DeviceIntelligence> {
   };
 }
 
-// ─── IP Address ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ IP Address â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function getDevicePublicIp(): Promise<string> {
   try {
@@ -206,7 +206,7 @@ export async function getDevicePublicIp(): Promise<string> {
   return cachedIp || '127.0.0.1';
 }
 
-// ─── High-Precision GPS Lock ───────────────────────────────────────────────────
+// â”€â”€â”€ High-Precision GPS Lock â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function ensureLocationPermission(): Promise<boolean> {
   if (Platform.OS !== 'android') return true;
@@ -220,10 +220,10 @@ async function ensureLocationPermission(): Promise<boolean> {
     const result = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
-        title: '📍 Precise GPS Location Required',
+        title: 'ðŸ“ Precise GPS Location Required',
         message:
           'Ogere Emergency Portal requires satellite GPS to pinpoint your exact compound, street, or expressway position for responders in Ogere Remo.\n\nAllowing this gives officers precision navigation.',
-        buttonPositive: '✅ Allow Precise Location',
+        buttonPositive: 'âœ… Allow Precise Location',
         buttonNegative: 'Deny',
         buttonNeutral: 'Ask Later',
       }
@@ -339,7 +339,7 @@ export function acquireHighPrecisionGps(maxWaitMs = 6000, targetAccuracyMeters =
   });
 }
 
-// ─── Main Export ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Export â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * Get complete device location + Ogere landmark resolution + hardware telemetry
@@ -348,7 +348,7 @@ export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
   const permissionGranted = await ensureLocationPermission();
   if (!permissionGranted) {
     Alert.alert(
-      '📍 Precise Location Disabled',
+      'ðŸ“ Precise Location Disabled',
       'Please allow GPS access in device settings for pinpoint accuracy in Ogere Remo.',
       [
         { text: 'Cancel', style: 'cancel' },
