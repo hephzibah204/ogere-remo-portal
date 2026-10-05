@@ -37,6 +37,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/admin-auth",
+      "destination": "/api/auth?action=admin_login"
+    },
+    {
       "source": "/api/verify-id",
       "destination": "/api/id-cards"
     },

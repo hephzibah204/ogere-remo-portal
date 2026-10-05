@@ -552,6 +552,18 @@ export default async function handler(req, res) {
     }
   }
 
+  // --- 5. SUPERADMIN SIMPLE AUTH ---
+  if (req.method === 'POST' && (action === 'admin_login' || action === 'superadmin')) {
+    const { password } = req.body || {};
+    const ADMIN_PW = process.env.ADMIN_PASSWORD || 'ogere2026';
+    if (password === ADMIN_PW) {
+      const adminToken = Buffer.from(JSON.stringify({ role: 'superadmin', exp: Date.now() + 86400000 })).toString('base64');
+      return res.status(200).json({ success: true, token: adminToken });
+    } else {
+      return res.status(401).json({ success: false, error: 'Invalid admin credentials.' });
+    }
+  }
+
   return res.status(400).json({ success: false, error: 'Unknown action.' });
 }
 
