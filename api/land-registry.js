@@ -1,4 +1,4 @@
-import { sqlQuery } from './lib/db.js';
+import { sqlQuery } from './_lib/db.js';
 
 function normalizePlot(row) {
   if (!row) return null;

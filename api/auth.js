@@ -1,6 +1,6 @@
-import { checkRateLimit } from './lib/rateLimit.js';
-import { sqlQuery } from './lib/db.js';
-import { signToken, verifyToken } from './lib/jwt.js';
+import { checkRateLimit } from './_lib/rateLimit.js';
+import { sqlQuery } from './_lib/db.js';
+import { signToken, verifyToken } from './_lib/jwt.js';
 import crypto from 'crypto';
 
 function hashPassword(password, salt = null) {

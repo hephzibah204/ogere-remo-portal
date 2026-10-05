@@ -1,4 +1,4 @@
-import { sqlQuery } from './lib/db.js';
+import { sqlQuery } from './_lib/db.js';
 
 export default async function handler(req, res) {
   try {

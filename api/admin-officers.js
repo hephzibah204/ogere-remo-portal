@@ -1,4 +1,4 @@
-import { sqlQuery, verifyAdminAuth } from './lib/db.js';
+import { sqlQuery, verifyAdminAuth } from './_lib/db.js';
 
 export default async function handler(req, res) {
   const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://ogere-remo-portal.vercel.app';

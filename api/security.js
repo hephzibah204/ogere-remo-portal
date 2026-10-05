@@ -1,4 +1,4 @@
-import { sqlQuery, verifyAdminAuth } from './lib/db.js';
+import { sqlQuery, verifyAdminAuth } from './_lib/db.js';
 
 // In-memory fallback buffers if database connection is in mock/offline mode
 let memoryIncidents = [

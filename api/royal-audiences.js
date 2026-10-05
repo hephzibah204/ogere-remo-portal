@@ -1,4 +1,4 @@
-import { sqlQuery, verifyAdminAuth } from './lib/db.js';
+import { sqlQuery, verifyAdminAuth } from './_lib/db.js';
 
 /**
  * Royal Email Generator Ã¢â‚¬â€ Produces formal royal letterhead emails
