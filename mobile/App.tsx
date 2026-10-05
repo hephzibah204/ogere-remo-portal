@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useRef, Component, ErrorInfo } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 import { AuthProvider } from './src/services/authContext';
@@ -126,14 +127,16 @@ function AppContent() {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <AuthProvider>
-        <AdminAuthProvider>
-          <StatusBar style="light" />
-          <RootNavigator ref={navigationRef} />
-        </AdminAuthProvider>
-      </AuthProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <AuthProvider>
+          <AdminAuthProvider>
+            <StatusBar style="light" />
+            <RootNavigator ref={navigationRef} />
+          </AdminAuthProvider>
+        </AuthProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
