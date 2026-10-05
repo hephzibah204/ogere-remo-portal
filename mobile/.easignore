@@ -1,4 +1,4 @@
-﻿node_modules/
+node_modules/
 .expo/
 dist/
 npm-debug.*
@@ -12,14 +12,17 @@ expo-debug.log
 .idea/
 .vscode/
 
-
 ../node_modules/
 ../release-apks/
 ../dist/
 ../public/
-
 ../.git/
 ../.next/
 ../assets/
 ../cypress/
 ../playwright-report/
+../.agents/
+../.claude/
+../.paperclip/
+../agent/
+../skills-lock.json
