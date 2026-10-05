@@ -142,64 +142,76 @@ export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
   const appVariant = Constants.expoConfig?.extra?.appVariant || (appId.includes('officer') ? 'officer' : 'citizen');
   const isOfficerApp = appVariant === 'officer' || appId.includes('officer');
 
-  // Display Splash Screen until splash timer finishes AND auth/registry is ready
-  if (!splashTimerDone || isLoading) {
-    return (
-      <SplashScreen
-        isOfficerApp={isOfficerApp}
-        onFinish={() => setSplashTimerDone(true)}
-      />
-    );
-  }
+  // If still loading or splash is running, keep splash active (with a hard 4s safety ceiling)
+  const [authTimeoutDone, setAuthTimeoutDone] = React.useState(false);
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setAuthTimeoutDone(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const showSplash = !splashTimerDone || (isLoading && !authTimeoutDone);
 
   const initialRoute = isOfficerApp 
     ? 'AdminLogin' 
     : (user || isGuest ? 'Main' : 'Welcome');
 
   return (
-    <NavigationContainer ref={ref}>
-      <Stack.Navigator
-        initialRouteName={initialRoute}
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="Main" component={MainTabs} />
-        <Stack.Screen name="NewsDetail" component={NewsDetailScreen} />
-        <Stack.Screen name="VerifyId" component={VerifyIdScreen} />
-        <Stack.Screen name="RoyalAudience" component={RoyalAudienceScreen} />
-        <Stack.Screen name="IncidentReport" component={IncidentReportScreen} />
-        <Stack.Screen name="SecurityDashboard" component={SecurityDashboardScreen} />
-        <Stack.Screen name="WalkWithMe" component={WalkWithMeScreen} />
-        <Stack.Screen name="EmergencyContacts" component={EmergencyContactsScreen} />
-        <Stack.Screen name="Whistleblower" component={WhistleblowerScreen} />
-        <Stack.Screen name="Directory" component={DirectoryScreen} />
-        <Stack.Screen name="Messages" component={MessagesScreen} />
-        <Stack.Screen name="Map" component={MapScreen} />
-        <Stack.Screen name="Donation" component={DonationScreen} />
-        <Stack.Screen name="Marketplace" component={MarketplaceScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="LandRegistry" component={LandRegistryScreen} />
-        <Stack.Screen name="Events" component={EventsScreen} />
-        <Stack.Screen name="TrackIncident" component={TrackIncidentScreen} />
-        <Stack.Screen name="Forum" component={ForumScreen} />
-        <Stack.Screen name="CustomaryDispute" component={CustomaryDisputeScreen} />
-        <Stack.Screen name="FixMyStreet" component={FixMyStreetScreen} />
-        <Stack.Screen name="DiasporaEscrow" component={DiasporaEscrowScreen} />
-        <Stack.Screen name="Quiz" component={QuizScreen} />
+    <View style={{ flex: 1 }}>
+      <NavigationContainer ref={ref}>
+        <Stack.Navigator
+          initialRouteName={initialRoute}
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Main" component={MainTabs} />
+          <Stack.Screen name="NewsDetail" component={NewsDetailScreen} />
+          <Stack.Screen name="VerifyId" component={VerifyIdScreen} />
+          <Stack.Screen name="RoyalAudience" component={RoyalAudienceScreen} />
+          <Stack.Screen name="IncidentReport" component={IncidentReportScreen} />
+          <Stack.Screen name="SecurityDashboard" component={SecurityDashboardScreen} />
+          <Stack.Screen name="WalkWithMe" component={WalkWithMeScreen} />
+          <Stack.Screen name="EmergencyContacts" component={EmergencyContactsScreen} />
+          <Stack.Screen name="Whistleblower" component={WhistleblowerScreen} />
+          <Stack.Screen name="Directory" component={DirectoryScreen} />
+          <Stack.Screen name="Messages" component={MessagesScreen} />
+          <Stack.Screen name="Map" component={MapScreen} />
+          <Stack.Screen name="Donation" component={DonationScreen} />
+          <Stack.Screen name="Marketplace" component={MarketplaceScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="LandRegistry" component={LandRegistryScreen} />
+          <Stack.Screen name="Events" component={EventsScreen} />
+          <Stack.Screen name="TrackIncident" component={TrackIncidentScreen} />
+          <Stack.Screen name="Forum" component={ForumScreen} />
+          <Stack.Screen name="CustomaryDispute" component={CustomaryDisputeScreen} />
+          <Stack.Screen name="FixMyStreet" component={FixMyStreetScreen} />
+          <Stack.Screen name="DiasporaEscrow" component={DiasporaEscrowScreen} />
+          <Stack.Screen name="Quiz" component={QuizScreen} />
 
-        {/* Admin & Field Officer Terminal Screens */}
-        <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
-        <Stack.Screen name="AdminRegister" component={AdminRegisterScreen} />
-        <Stack.Screen name="AdminDashboard" component={AdminDashboardScreen} />
-        <Stack.Screen name="AdminAudienceManager" component={AdminAudienceManagerScreen} />
-        <Stack.Screen name="AdminIdApproval" component={AdminIdApprovalScreen} />
-        <Stack.Screen name="SosIntercept" component={SosInterceptScreen} />
-        <Stack.Screen name="WalkWithMeMonitor" component={WalkWithMeMonitorScreen} />
-        <Stack.Screen name="CctvCameraFeed" component={CctvCameraFeedScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+          {/* Admin & Field Officer Terminal Screens */}
+          <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
+          <Stack.Screen name="AdminRegister" component={AdminRegisterScreen} />
+          <Stack.Screen name="AdminDashboard" component={AdminDashboardScreen} />
+          <Stack.Screen name="AdminAudienceManager" component={AdminAudienceManagerScreen} />
+          <Stack.Screen name="AdminIdApproval" component={AdminIdApprovalScreen} />
+          <Stack.Screen name="SosIntercept" component={SosInterceptScreen} />
+          <Stack.Screen name="WalkWithMeMonitor" component={WalkWithMeMonitorScreen} />
+          <Stack.Screen name="CctvCameraFeed" component={CctvCameraFeedScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+
+      {showSplash && (
+        <View style={StyleSheet.absoluteFill}>
+          <SplashScreen
+            isOfficerApp={isOfficerApp}
+            onFinish={() => setSplashTimerDone(true)}
+          />
+        </View>
+      )}
+    </View>
   );
 });
 

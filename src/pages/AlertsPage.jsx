@@ -5,38 +5,38 @@ import Section from '../components/Section';
 import SEO from '../components/SEO';
 import { dbInsert } from '../services/db';
 
-/* â”€â”€â”€ Alert Data â”€â”€â”€ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Alert Data ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 const alerts = [
-  { id: 1, lv: 'critical', ti: 'Armed Robbery Attempt â€” Expressway Bypass', bo: 'Two suspects on a motorcycle attempted robbery near the Ogere bypass tollgate. Suspects fled northward. Avoid the bypass after 9 PM. Report any sighting to Ogere DPO immediately.', dt: 'June 15, 2026, 06:32 AM', loc: 'Expressway Bypass', reporter: 'Ogere Police Station', views: 241 },
+  { id: 1, lv: 'critical', ti: 'Armed Robbery Attempt ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Expressway Bypass', bo: 'Two suspects on a motorcycle attempted robbery near the Ogere bypass tollgate. Suspects fled northward. Avoid the bypass after 9 PM. Report any sighting to Ogere DPO immediately.', dt: 'June 15, 2026, 06:32 AM', loc: 'Expressway Bypass', reporter: 'Ogere Police Station', views: 241 },
   { id: 2, lv: 'high', ti: 'Increased Night Travel Vigilance', bo: 'Reports of suspicious activity near Ogere junction between 10 PM and 4 AM. Travel in groups. Call 112 immediately if you observe anything unusual.', dt: 'May 20, 2026', loc: 'Ogere Junction', reporter: 'OCDA Security Committee', views: 188 },
   { id: 3, lv: 'high', ti: 'Community Security Meeting', bo: 'Mandatory meeting for all household heads. Ogere Town Hall. Saturday 31 May 2026. Absence must be explained to compound heads.', dt: 'May 25, 2026', loc: 'Town Hall, Ogere', reporter: 'OCDA Secretariat', views: 156 },
-  { id: 4, lv: 'medium', ti: 'Farm Land Encroachment â€” Northern Zone', bo: 'Boundary disputes reported near Ajura border. All affected farmers must document their borders with the Ogere Land Registry within 30 days to protect their claims.', dt: 'May 10, 2026', loc: 'Northern Zone / Ajura Border', reporter: 'Community Tip', views: 89 },
+  { id: 4, lv: 'medium', ti: 'Farm Land Encroachment ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Northern Zone', bo: 'Boundary disputes reported near Ajura border. All affected farmers must document their borders with the Ogere Land Registry within 30 days to protect their claims.', dt: 'May 10, 2026', loc: 'Northern Zone / Ajura Border', reporter: 'Community Tip', views: 89 },
   { id: 5, lv: 'medium', ti: 'Flood Risk Advisory', bo: 'Heavy rainfall forecasted. Please clear drainage channels around your property. A community clean-up exercise is scheduled for June 7, 2026. All quarters should participate.', dt: 'May 1, 2026', loc: 'All Quarters', reporter: 'OCDA Team', views: 134 },
   { id: 6, lv: 'low', ti: 'Stray Livestock on Market Road', bo: 'Farmers are advised to secure all livestock, particularly on market days. The town council will impound unattended animals from July 1, 2026.', dt: 'April 28, 2026', loc: 'Market Road, Ogere', reporter: 'Community Report', views: 67 },
-  { id: 7, lv: 'resolved', ti: 'Water Supply Disruption â€” Resolved', bo: 'The water supply disruption affecting Oke-Ogere and Idi-Iroko quarters has been fully resolved. Normal supply was restored on April 15, 2026. Thank you for your patience.', dt: 'Resolved: April 15, 2026', loc: 'Oke-Ogere / Idi-Iroko', reporter: 'OCDA Works', views: 203 },
+  { id: 7, lv: 'resolved', ti: 'Water Supply Disruption ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Resolved', bo: 'The water supply disruption affecting Oke-Ogere and Idi-Iroko quarters has been fully resolved. Normal supply was restored on April 15, 2026. Thank you for your patience.', dt: 'Resolved: April 15, 2026', loc: 'Oke-Ogere / Idi-Iroko', reporter: 'OCDA Works', views: 203 },
 ];
 
 const EM = [
   {
-    cat: 'ðŸš” Nigeria Police Force', col: '#1a2e6e', bdr: 'rgba(100,140,255,.4)',
+    cat: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Â Nigeria Police Force', col: '#1a2e6e', bdr: 'rgba(100,140,255,.4)',
     list: [
-      { n: 'DPO â€” Ogere Station', p: '08081762371', v: true, note: 'Direct line to Ogere DPO' },
+      { n: 'DPO ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Station', p: '08081762371', v: true, note: 'Direct line to Ogere DPO' },
       { n: 'O/C Trailer Park Ogere', p: '08035864696', v: true, note: 'Expressway/trailer park' },
-      { n: 'DPO â€” Ikenne', p: '08037159221', v: true, note: 'LGA Headquarters' },
-      { n: 'DPO â€” Sagamu Area Command', p: '08038122121', v: true, note: 'Area Command, Ogun State' },
-      { n: 'Police Emergency', p: '112', v: true, note: 'Free Â· 24 hours Â· National' },
+      { n: 'DPO ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ikenne', p: '08037159221', v: true, note: 'LGA Headquarters' },
+      { n: 'DPO ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Sagamu Area Command', p: '08038122121', v: true, note: 'Area Command, Ogun State' },
+      { n: 'Police Emergency', p: '112', v: true, note: 'Free Ãƒâ€šÃ‚Â· 24 hours Ãƒâ€šÃ‚Â· National' },
     ],
   },
   {
-    cat: 'ðŸš¦ FRSC â€” Road Safety', col: '#1a4a1a', bdr: 'rgba(100,200,100,.4)',
+    cat: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¦ FRSC ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Road Safety', col: '#1a4a1a', bdr: 'rgba(100,200,100,.4)',
     list: [
-      { n: 'FRSC Ogere Unit', p: 'â€”', v: false, note: 'New office April 2026 â€” awaiting number' },
-      { n: 'FRSC National', p: '122', v: true, note: 'Free Â· nationwide' },
-      { n: 'TRACE â€” Road Accidents', p: '07066942555', v: true, note: 'Ogun State Traffic Command' },
+      { n: 'FRSC Ogere Unit', p: 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â', v: false, note: 'New office April 2026 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â awaiting number' },
+      { n: 'FRSC National', p: '122', v: true, note: 'Free Ãƒâ€šÃ‚Â· nationwide' },
+      { n: 'TRACE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Road Accidents', p: '07066942555', v: true, note: 'Ogun State Traffic Command' },
     ],
   },
   {
-    cat: 'ðŸ›¡ï¸ So-Safe Corps', col: '#4a2000', bdr: 'rgba(200,100,50,.4)',
+    cat: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â So-Safe Corps', col: '#4a2000', bdr: 'rgba(200,100,50,.4)',
     list: [
       { n: 'So-Safe Emergency 1', p: '08034681687', v: true, note: 'State Commander Line' },
       { n: 'So-Safe Emergency 2', p: '09009069392064', v: true, note: 'Alternative Line' },
@@ -44,17 +44,17 @@ const EM = [
     ],
   },
   {
-    cat: 'ðŸš‘ Ambulance & Medical', col: '#5a1010', bdr: 'rgba(220,80,80,.4)',
+    cat: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Ëœ Ambulance & Medical', col: '#5a1010', bdr: 'rgba(220,80,80,.4)',
     list: [
-      { n: 'National Emergency', p: '112', v: true, note: 'Free Â· 24 hours Â· Police/Ambulance/Fire' },
+      { n: 'National Emergency', p: '112', v: true, note: 'Free Ãƒâ€šÃ‚Â· 24 hours Ãƒâ€šÃ‚Â· Police/Ambulance/Fire' },
       { n: 'Ogun State Ambulance', p: '08112000033', v: true, note: 'Dedicated ambulance line' },
     ],
   },
   {
-    cat: 'ðŸ”¥ Fire Service', col: '#7a1500', bdr: 'rgba(255,100,30,.4)',
+    cat: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Fire Service', col: '#7a1500', bdr: 'rgba(255,100,30,.4)',
     list: [
       { n: 'Ogun State Fire Service', p: '08134680660', v: true, note: 'Sagamu station' },
-      { n: 'National Emergency', p: '112', v: true, note: 'Free Â· 24 hours' },
+      { n: 'National Emergency', p: '112', v: true, note: 'Free Ãƒâ€šÃ‚Â· 24 hours' },
     ],
   },
 ];
@@ -68,14 +68,14 @@ const SEVERITY = {
 };
 
 const QUICK_DIAL = [
-  { ic: 'ðŸš”', l: 'Police',     n: '112',          s: 'Free Â· National' },
-  { ic: 'ðŸš‘', l: 'Ambulance',  n: '08112000033',  s: 'Ogun State' },
-  { ic: 'ðŸš¦', l: 'Road Safety',n: '122',          s: 'FRSC' },
-  { ic: 'ðŸ›¡ï¸', l: 'So-Safe',   n: '08034681687',  s: 'Ogun State' },
-  { ic: 'ðŸš—', l: 'Accidents',  n: '07066942555',  s: 'TRACE' },
-  { ic: 'ðŸ‘®', l: 'Ogere DPO',  n: '08081762371',  s: 'Ogere Station' },
-  { ic: 'ðŸ”¥', l: 'Fire',       n: '08134680660',  s: 'Sagamu' },
-  { ic: 'ðŸ’Š', l: 'Emergency',  n: '112',          s: 'All Services' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Â', l: 'Police',     n: '112',          s: 'Free Ãƒâ€šÃ‚Â· National' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Ëœ', l: 'Ambulance',  n: '08112000033',  s: 'Ogun State' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¦', l: 'Road Safety',n: '122',          s: 'FRSC' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â', l: 'So-Safe',   n: '08034681687',  s: 'Ogun State' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬â€', l: 'Accidents',  n: '07066942555',  s: 'TRACE' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â®', l: 'Ogere DPO',  n: '08081762371',  s: 'Ogere Station' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥', l: 'Fire',       n: '08134680660',  s: 'Sagamu' },
+  { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã…Â ', l: 'Emergency',  n: '112',          s: 'All Services' },
 ];
 
 export default function AlertsPage() {
@@ -126,9 +126,9 @@ export default function AlertsPage() {
       }}>
         <style>{`@keyframes bannerScroll { 0% { background-position: 0% 0%; } 100% { background-position: 200% 0%; } }`}</style>
         <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'white', textTransform: 'uppercase' }}>
-          {criticalCount > 0 && <span style={{ background: '#ef4444', padding: '2px 8px', borderRadius: '3px', marginRight: '0.8rem' }}>ðŸ”´ {criticalCount} CRITICAL</span>}
-          {highCount > 0 && <span style={{ marginRight: '0.8rem' }}>âš  {highCount} HIGH PRIORITY</span>}
-          DIAL 112 FOR ANY EMERGENCY Â· SAVE ALL NUMBERS BELOW
+          {criticalCount > 0 && <span style={{ background: '#ef4444', padding: '2px 8px', borderRadius: '3px', marginRight: '0.8rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ {criticalCount} CRITICAL</span>}
+          {highCount > 0 && <span style={{ marginRight: '0.8rem' }}>ÃƒÂ¢Ã…Â¡Ã‚Â  {highCount} HIGH PRIORITY</span>}
+          DIAL 112 FOR ANY EMERGENCY Ãƒâ€šÃ‚Â· SAVE ALL NUMBERS BELOW
         </span>
       </div>
 
@@ -152,7 +152,7 @@ export default function AlertsPage() {
               boxShadow: '0 4px 15px rgba(220, 38, 38, 0.4)',
             }}
           >
-            <span>ðŸš¨</span>
+            <span>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</span>
             <span>TRIGGER SOS EMERGENCY PANIC</span>
           </button>
 
@@ -172,7 +172,7 @@ export default function AlertsPage() {
               gap: '0.5rem',
             }}
           >
-            <span>ðŸ›¡ï¸</span>
+            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
             <span>ACTIVATE "WALK WITH ME" ESCORT</span>
           </button>
 
@@ -192,8 +192,8 @@ export default function AlertsPage() {
               gap: '0.5rem',
             }}
           >
-            <span>ðŸ›°ï¸</span>
-            <span>LIVE SECURITY CONSOLE â†’</span>
+            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
+            <span>LIVE SECURITY CONSOLE ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</span>
           </a>
         </div>
       </div>
@@ -240,7 +240,7 @@ export default function AlertsPage() {
               <div className="cinzel" style={{ fontSize: '0.48rem', letterSpacing: '0.1em', color: 'rgba(245,237,216,0.45)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>{l}</div>
               <div className="cinzel" style={{ fontSize: n.length > 10 ? '0.75rem' : '1rem', fontWeight: 700, color: '#F5EDD8', marginBottom: '0.15rem', letterSpacing: '0.02em' }}>{n}</div>
               <div style={{ fontSize: '0.62rem', color: 'rgba(245,237,216,0.35)' }}>{s}</div>
-              <div style={{ marginTop: '0.5rem', fontSize: '0.6rem', color: '#B5451B' }}>ðŸ“ž TAP TO CALL</div>
+              <div style={{ marginTop: '0.5rem', fontSize: '0.6rem', color: '#B5451B' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ TAP TO CALL</div>
             </a>
           ))}
         </div>
@@ -260,7 +260,7 @@ export default function AlertsPage() {
                 }}>
                   <div style={{ flex: 1, minWidth: 'min(180px, 100%)' }}>
                     <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', marginBottom: '0.1rem' }}>
-                      <span style={{ fontSize: '0.6rem', color: c.v ? '#86efac' : 'rgba(255,200,80,.6)' }}>{c.v ? 'âœ…' : 'â³'}</span>
+                      <span style={{ fontSize: '0.6rem', color: c.v ? '#86efac' : 'rgba(255,200,80,.6)' }}>{c.v ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦' : 'ÃƒÂ¢Ã‚ÂÃ‚Â³'}</span>
                       <span style={{ fontSize: '0.85rem', color: '#F5EDD8' }}>{c.n}</span>
                     </div>
                     <div style={{ fontSize: '0.7rem', color: 'rgba(245,237,216,0.35)', paddingLeft: '1.2rem' }}>{c.note}</div>
@@ -327,15 +327,15 @@ export default function AlertsPage() {
                     {a.lv !== 'critical' && <div style={{ width: 7, height: 7, borderRadius: '50%', background: sv.dot }} />}
                     <div className="cinzel" style={{ fontSize: '0.52rem', letterSpacing: '0.12em', color: sv.color, textTransform: 'uppercase' }}>{sv.label}</div>
                   </div>
-                  <div className="cinzel" style={{ fontSize: '0.48rem', color: 'rgba(245,237,216,0.3)' }}>ðŸ‘ {a.views}</div>
+                  <div className="cinzel" style={{ fontSize: '0.48rem', color: 'rgba(245,237,216,0.3)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â {a.views}</div>
                 </div>
                 <div className="playfair" style={{ fontSize: '0.97rem', color: '#F5EDD8', marginBottom: '0.4rem', lineHeight: 1.3 }}>{a.ti}</div>
                 <div style={{ fontSize: '0.78rem', lineHeight: 1.7, color: 'rgba(245,237,216,0.62)', marginBottom: isExp ? '1rem' : '0.6rem' }}>
-                  {isExp ? a.bo : a.bo.substring(0, 90) + (a.bo.length > 90 ? 'â€¦' : '')}
+                  {isExp ? a.bo : a.bo.substring(0, 90) + (a.bo.length > 90 ? 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦' : '')}
                 </div>
                 {isExp && (
                   <div style={{ borderTop: `1px solid ${sv.color}30`, paddingTop: '0.8rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(120px, 100%), 1fr))', gap: '0.5rem' }}>
-                    {[['ðŸ“ Location', a.loc], ['ðŸ‘¤ Source', a.reporter], ['ðŸ“… Date', a.dt]].map(([k, v]) => (
+                    {[['ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Location', a.loc], ['ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ Source', a.reporter], ['ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ Date', a.dt]].map(([k, v]) => (
                       <div key={k}>
                         <div className="cinzel" style={{ fontSize: '0.45rem', color: 'rgba(245,237,216,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{k}</div>
                         <div style={{ fontSize: '0.72rem', color: 'rgba(245,237,216,0.7)' }}>{v}</div>
@@ -345,7 +345,7 @@ export default function AlertsPage() {
                 )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.6rem' }}>
                   <div className="cinzel" style={{ fontSize: '0.48rem', letterSpacing: '0.1em', color: 'rgba(245,237,216,0.28)', textTransform: 'uppercase' }}>{a.dt}</div>
-                  <span className="cinzel" style={{ fontSize: '0.48rem', color: sv.color }}>{isExp ? 'â–² Less' : 'â–¼ Details'}</span>
+                  <span className="cinzel" style={{ fontSize: '0.48rem', color: sv.color }}>{isExp ? 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â² Less' : 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼ Details'}</span>
                 </div>
               </div>
             );
@@ -354,11 +354,11 @@ export default function AlertsPage() {
 
         {/* Emergency block */}
         <div style={{ background: 'rgba(181,69,27,0.1)', border: '1px solid rgba(181,69,27,0.3)', padding: '2rem', textAlign: 'center', borderRadius: '8px' }}>
-          <div className="cinzel" style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: '#C9963A', textTransform: 'uppercase' }}>Emergency â€” Call Free, 24 Hours</div>
+          <div className="cinzel" style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: '#C9963A', textTransform: 'uppercase' }}>Emergency ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Call Free, 24 Hours</div>
           <div className="cinzel" style={{ fontSize: '2.5rem', fontWeight: 900, color: '#F5EDD8', letterSpacing: '0.1em', margin: '0.5rem 0' }}>112</div>
-          <div style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.5)' }}>Free Â· 24 Hours Â· Police Â· Ambulance Â· Fire Â· All Services</div>
+          <div style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.5)' }}>Free Ãƒâ€šÃ‚Â· 24 Hours Ãƒâ€šÃ‚Â· Police Ãƒâ€šÃ‚Â· Ambulance Ãƒâ€šÃ‚Â· Fire Ãƒâ€šÃ‚Â· All Services</div>
           <a href="tel:112" className="btn-p" style={{ display: 'inline-block', marginTop: '1.5rem', fontSize: '0.75rem', padding: '0.8rem 3rem', textDecoration: 'none' }}>
-            ðŸ“ž Call 112 Now
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Call 112 Now
           </a>
         </div>
       </Section>
@@ -380,10 +380,10 @@ export default function AlertsPage() {
             <div style={{ textAlign: 'center' }}>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
                 <button className="btn-p" onClick={() => setShowReport(true)} style={{ fontSize: '0.75rem', padding: '1rem 2.5rem' }}>
-                  ðŸš¨ Submit a Community Report
+                  ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Submit a Community Report
                 </button>
                 <a href="/security-dashboard" className="btn-o" style={{ fontSize: '0.75rem', padding: '1rem 2rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <span>ðŸ›¡ï¸</span> Security Agencies Dispatch Console â†’
+                  <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span> Security Agencies Dispatch Console ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
                 </a>
               </div>
               <p style={{ fontSize: '0.75rem', color: 'rgba(245,237,216,0.35)' }}>
@@ -423,26 +423,26 @@ export default function AlertsPage() {
                     <textarea required className="inp" rows={5} value={report.description} onChange={e => setR('description', e.target.value)} placeholder="Describe what happened, when, and any details about the parties involved..." style={{ resize: 'vertical' }} />
                   </div>
                   <div>
-                    <label className="cinzel" style={{ display: 'block', fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.15em', marginBottom: '0.5rem', textTransform: 'uppercase' }}>Your Contact (Optional â€” kept confidential)</label>
-                    <input className="inp" value={report.contact} onChange={e => setR('contact', e.target.value)} placeholder="Phone or email â€” so we can follow up if needed" />
+                    <label className="cinzel" style={{ display: 'block', fontSize: '0.55rem', color: 'var(--gold)', letterSpacing: '0.15em', marginBottom: '0.5rem', textTransform: 'uppercase' }}>Your Contact (Optional ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â kept confidential)</label>
+                    <input className="inp" value={report.contact} onChange={e => setR('contact', e.target.value)} placeholder="Phone or email ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â so we can follow up if needed" />
                   </div>
                 </div>
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.5rem' }}>
                 <button type="button" className="btn-o" onClick={() => setShowReport(false)}>Cancel</button>
-                <button type="submit" className="btn-p">Submit Report â†’</button>
+                <button type="submit" className="btn-p">Submit Report ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</button>
               </div>
 
               <p style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.72rem', color: 'rgba(245,237,216,0.35)', lineHeight: 1.8 }}>
-                Reports are reviewed within 2â€“4 hours. Your identity is kept confidential. False reports undermine community safety â€” please report honestly.
+                Reports are reviewed within 2ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“4 hours. Your identity is kept confidential. False reports undermine community safety ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â please report honestly.
               </p>
             </form>
           )}
 
           {reportSubmitted && (
             <div style={{ textAlign: 'center', animation: 'fadeUp 0.4s ease both' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>âœ…</div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦</div>
               <div className="playfair" style={{ fontSize: '1.5rem', color: 'var(--cream)', marginBottom: '0.5rem' }}>Report Received</div>
               <p style={{ color: 'rgba(245,237,216,0.6)', fontSize: '0.85rem' }}>Thank you. Your report has been submitted to the OCDA security committee and will be reviewed shortly.</p>
             </div>

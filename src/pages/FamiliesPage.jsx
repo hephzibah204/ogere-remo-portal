@@ -5,10 +5,10 @@ import Section from '../components/Section';
 import SEO from '../components/SEO';
 
 const families = [
-  { id: 'agbato', ic: 'ðŸ¡', name: 'The Agbato Family', compound: 'Awomosu Compound', ward: 'Itajiren Ward', tag: 'Community Patriarchs Â· Education', tagClass: 'tag-green', accent: '#2D4A22', summary: 'A venerated landed family whose name is permanently inscribed in Ogere\'s geography â€” Awomosu Agbato Drive, home of the town\'s flagship secondary school.', desc: 'One of Ogere Remo\'s most deeply rooted landed families, the Agbato family is based in the Awomosu quarter of the Itajiren ward. Their most enduring legacy is geographical: the principal road connecting Ogere\'s residential and educational zones â€” Awomosu Agbato Drive â€” bears the family name.', members: [{ n: 'Awomosu Agbato Drive', r: 'Road named in family honour â€” principal axis of Ogere\'s educational zone' }, { n: 'Ositelu Memorial College', r: 'Located on Awomosu Agbato Drive; Ogere\'s premier secondary school' }], img: '/images/Dr AGBATO.jpg' },
-  { id: 'babington', ic: 'ðŸ‘‘', name: 'The Babington-Ashaye Family', compound: 'Legunsen Royal House', ward: 'Royal Lineage', tag: 'Royal Â· Political Â· Diaspora', tagClass: 'tag-gold', accent: '#8B6914', summary: 'The most politically prominent dynasty in documented Ogere history.', desc: 'The Babington-Ashaye family stands as the most extensively documented royal dynasty in Ogere Remo\'s recorded history. Oba Alfred Obafuwa Babington-Ashaye (Legunsen III) reigned from c.1945 to December 4, 1982.', members: [{ n: 'Oba Alfred Obafuwa Babington-Ashaye', r: 'Legunsen III Â· r. c.1945 â€“ December 4, 1982' }, { n: 'Prince Olumuyiwa Adewunmi Babington-Ashaye', r: 'Firstborn son Â· Founder of Ashaye Far East Line (AFEL)' }, { n: 'Dr. Shola Mos-Shogbamimu', r: 'Granddaughter Â· PhD (Birkbeck) Â· LLM (LSE) Â· Author & political commentator' }], img: '/images/Oba-BabingtonAshaye.jpg' },
-  { id: 'ositelu', ic: 'â›ª', name: 'The Ositelu Family', compound: 'Lisa Chieftaincy House', ward: 'Lisa Compound', tag: 'Spiritual Â· Global Church Founders', tagClass: 'tag-blue', accent: '#1a2e5e', summary: 'Founders of one of Africa\'s most globally significant Pentecostal churches.', desc: 'Prophet Josiah Olunowo Ositelu was born on 15 May 1900 at Ogere Remo. On July 27, 1930 he formally inaugurated the Church of the Lord (Aladura) Worldwide at the Lisa Compound.', members: [{ n: 'Prophet Josiah Olunowo Ositelu', r: 'Founder, Church of the Lord (Aladura) Worldwide Â· Born 15 May 1900' }, { n: 'Archbishop Dr. Rufus Okikiola Olubiyi Ositelu', r: 'Current Primate Â· Leads the worldwide church' }], img: '/images/Josiah Ositelu.jpg' },
-  { id: 'ogunbade', ic: 'ðŸº', name: 'The Ogunbade Family', compound: 'Gbenlokun Compound', ward: 'Agbejoye / Fadagbuwa Ruling House', tag: 'Royal Â· 38-Year Reign', tagClass: 'tag-terra', accent: '#7A2E0E', summary: 'Producers of Ogere Remo\'s longest-serving modern monarch â€” Oba Oladele Ogunbade.', desc: 'Oba Oladele Ogunbade reigned for over 38 years â€” the longest modern reign in Ogere\'s recorded history â€” until his passing on April 10, 2022, at age 85.', members: [{ n: 'Oba Oladele Moshood Ogunbade', r: 'Agbejoye II Â· r. December 3, 1983 â€“ April 10, 2022' }, { n: 'Palace Archives (2008)', r: 'Primary historical source on Ogere Remo\'s ancient history' }], img: '/images/OLOGERE-OF-OGERE-OBA OGUNBADE.jpg' },
+  { id: 'agbato', ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¡', name: 'The Agbato Family', compound: 'Awomosu Compound', ward: 'Itajiren Ward', tag: 'Community Patriarchs Ãƒâ€šÃ‚Â· Education', tagClass: 'tag-green', accent: '#2D4A22', summary: 'A venerated landed family whose name is permanently inscribed in Ogere\'s geography ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Awomosu Agbato Drive, home of the town\'s flagship secondary school.', desc: 'One of Ogere Remo\'s most deeply rooted landed families, the Agbato family is based in the Awomosu quarter of the Itajiren ward. Their most enduring legacy is geographical: the principal road connecting Ogere\'s residential and educational zones ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Awomosu Agbato Drive ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â bears the family name.', members: [{ n: 'Awomosu Agbato Drive', r: 'Road named in family honour ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â principal axis of Ogere\'s educational zone' }, { n: 'Ositelu Memorial College', r: 'Located on Awomosu Agbato Drive; Ogere\'s premier secondary school' }], img: '/images/Dr AGBATO.jpg' },
+  { id: 'babington', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', name: 'The Babington-Ashaye Family', compound: 'Legunsen Royal House', ward: 'Royal Lineage', tag: 'Royal Ãƒâ€šÃ‚Â· Political Ãƒâ€šÃ‚Â· Diaspora', tagClass: 'tag-gold', accent: '#8B6914', summary: 'The most politically prominent dynasty in documented Ogere history.', desc: 'The Babington-Ashaye family stands as the most extensively documented royal dynasty in Ogere Remo\'s recorded history. Oba Alfred Obafuwa Babington-Ashaye (Legunsen III) reigned from c.1945 to December 4, 1982.', members: [{ n: 'Oba Alfred Obafuwa Babington-Ashaye', r: 'Legunsen III Ãƒâ€šÃ‚Â· r. c.1945 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ December 4, 1982' }, { n: 'Prince Olumuyiwa Adewunmi Babington-Ashaye', r: 'Firstborn son Ãƒâ€šÃ‚Â· Founder of Ashaye Far East Line (AFEL)' }, { n: 'Dr. Shola Mos-Shogbamimu', r: 'Granddaughter Ãƒâ€šÃ‚Â· PhD (Birkbeck) Ãƒâ€šÃ‚Â· LLM (LSE) Ãƒâ€šÃ‚Â· Author & political commentator' }], img: '/images/Oba-BabingtonAshaye.jpg' },
+  { id: 'ositelu', ic: 'ÃƒÂ¢Ã¢â‚¬ÂºÃ‚Âª', name: 'The Ositelu Family', compound: 'Lisa Chieftaincy House', ward: 'Lisa Compound', tag: 'Spiritual Ãƒâ€šÃ‚Â· Global Church Founders', tagClass: 'tag-blue', accent: '#1a2e5e', summary: 'Founders of one of Africa\'s most globally significant Pentecostal churches.', desc: 'Prophet Josiah Olunowo Ositelu was born on 15 May 1900 at Ogere Remo. On July 27, 1930 he formally inaugurated the Church of the Lord (Aladura) Worldwide at the Lisa Compound.', members: [{ n: 'Prophet Josiah Olunowo Ositelu', r: 'Founder, Church of the Lord (Aladura) Worldwide Ãƒâ€šÃ‚Â· Born 15 May 1900' }, { n: 'Archbishop Dr. Rufus Okikiola Olubiyi Ositelu', r: 'Current Primate Ãƒâ€šÃ‚Â· Leads the worldwide church' }], img: '/images/Josiah Ositelu.jpg' },
+  { id: 'ogunbade', ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âº', name: 'The Ogunbade Family', compound: 'Gbenlokun Compound', ward: 'Agbejoye / Fadagbuwa Ruling House', tag: 'Royal Ãƒâ€šÃ‚Â· 38-Year Reign', tagClass: 'tag-terra', accent: '#7A2E0E', summary: 'Producers of Ogere Remo\'s longest-serving modern monarch ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Oba Oladele Ogunbade.', desc: 'Oba Oladele Ogunbade reigned for over 38 years ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the longest modern reign in Ogere\'s recorded history ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â until his passing on April 10, 2022, at age 85.', members: [{ n: 'Oba Oladele Moshood Ogunbade', r: 'Agbejoye II Ãƒâ€šÃ‚Â· r. December 3, 1983 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ April 10, 2022' }, { n: 'Palace Archives (2008)', r: 'Primary historical source on Ogere Remo\'s ancient history' }], img: '/images/OLOGERE-OF-OGERE-OBA OGUNBADE.jpg' },
 ];
 
 export default function FamiliesPage() {
@@ -17,7 +17,7 @@ export default function FamiliesPage() {
   return (
     <div>
       <SEO title="Notable Families" description="The founding and notable families of Ogere Remo including the Agbato, Babington-Ashaye, Ositelu, and Ogunbade families." />
-      <Hero ey="Lineage & Legacy" ti="Notable Families of Ogere Remo" sub="The great houses â€” royal, spiritual, civic â€” whose names are woven into the very streets, institutions, and soul of Ogereland." />
+      <Hero ey="Lineage & Legacy" ti="Notable Families of Ogere Remo" sub="The great houses ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â royal, spiritual, civic ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â whose names are woven into the very streets, institutions, and soul of Ogereland." />
       <AdireDivider />
       <Section bg="#1a0d06" py="3rem">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: '1rem' }}>
@@ -42,7 +42,7 @@ export default function FamiliesPage() {
                 <div style={{ flex: 1 }}>
                   <span className={`tag ${f.tagClass}`} style={{ marginBottom: '.5rem', display: 'inline-block' }}>{f.tag}</span>
                   <div className="playfair" style={{ fontSize: '1.6rem', color: '#F5EDD8', lineHeight: 1.15, marginBottom: '.25rem' }}>{f.name}</div>
-                  <div className="cinzel" style={{ fontSize: '.55rem', letterSpacing: '.12em', color: 'rgba(201,150,58,.6)', textTransform: 'uppercase' }}>{f.compound} Â· {f.ward}</div>
+                  <div className="cinzel" style={{ fontSize: '.55rem', letterSpacing: '.12em', color: 'rgba(201,150,58,.6)', textTransform: 'uppercase' }}>{f.compound} Ãƒâ€šÃ‚Â· {f.ward}</div>
                 </div>
               </div>
               {f.img && (
@@ -57,7 +57,7 @@ export default function FamiliesPage() {
             <div style={{ display: 'grid', gap: '.7rem' }}>
               {f.members.map((m, mi) => (
                 <div key={mi} style={{ display: 'flex', gap: '1rem', padding: '1rem 1.2rem', background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.12)', borderLeft: `3px solid ${f.accent}`, alignItems: 'flex-start' }}>
-                  <span style={{ color: f.accent, fontSize: '1rem', flexShrink: 0, marginTop: '.1rem' }}>â€º</span>
+                  <span style={{ color: f.accent, fontSize: '1rem', flexShrink: 0, marginTop: '.1rem' }}>ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº</span>
                   <div>
                     <div style={{ fontSize: '.88rem', color: '#F5EDD8', marginBottom: '.2rem' }}>{m.n}</div>
                     <div style={{ fontSize: '.76rem', color: 'rgba(245,237,216,.48)', lineHeight: 1.6 }}>{m.r}</div>
@@ -66,7 +66,7 @@ export default function FamiliesPage() {
               ))}
             </div>
             <div style={{ marginTop: '1.5rem', textAlign: 'right' }}>
-              <button className="btn-o" onClick={() => setActive(null)}>Close âœ•</button>
+              <button className="btn-o" onClick={() => setActive(null)}>Close ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
             </div>
           </div>
         </Section>

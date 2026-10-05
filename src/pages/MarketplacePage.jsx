@@ -6,14 +6,14 @@ import SEO from '../components/SEO';
 import { dbGetAll, dbInsert, SEED_DATA } from '../services/db';
 
 const CATEGORIES = [
-  { id: 'All', label: 'All Items', icon: 'ðŸ›ï¸' },
-  { id: 'Farm Produce', label: 'Farm Produce', icon: 'ðŸŒ¾' },
-  { id: 'Crafts & Adire', label: 'Crafts & Adire', icon: 'ðŸª¡' },
-  { id: 'Food & Catering', label: 'Food & Catering', icon: 'ðŸ²' },
-  { id: 'Services', label: 'Artisan Services', icon: 'âš¡' },
-  { id: 'Trade & Retail', label: 'Trade & Building', icon: 'ðŸ—ï¸' },
-  { id: 'Fashion & Beads', label: 'Fashion & Beads', icon: 'ðŸ“¿' },
-  { id: 'Property', label: 'Land & Property', icon: 'ðŸ¡' },
+  { id: 'All', label: 'All Items', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â' },
+  { id: 'Farm Produce', label: 'Farm Produce', icon: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¾' },
+  { id: 'Crafts & Adire', label: 'Crafts & Adire', icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Â¡' },
+  { id: 'Food & Catering', label: 'Food & Catering', icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â²' },
+  { id: 'Services', label: 'Artisan Services', icon: 'ÃƒÂ¢Ã…Â¡Ã‚Â¡' },
+  { id: 'Trade & Retail', label: 'Trade & Building', icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬â€ÃƒÂ¯Ã‚Â¸Ã‚Â' },
+  { id: 'Fashion & Beads', label: 'Fashion & Beads', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¿' },
+  { id: 'Property', label: 'Land & Property', icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¡' },
 ];
 
 const QUARTERS = [
@@ -166,8 +166,8 @@ export default function MarketplacePage() {
     const cleanWhatsApp = (newForm.whatsapp || newForm.phone || '').replace(/\D/g, '');
 
     let formattedPrice = newForm.priceNumber;
-    if (formattedPrice && !formattedPrice.toLowerCase().includes('quote') && !formattedPrice.includes('â‚¦')) {
-      formattedPrice = `â‚¦${Number(formattedPrice.replace(/,/g, '')).toLocaleString()} ${newForm.priceUnit ? `/ ${newForm.priceUnit}` : ''}`;
+    if (formattedPrice && !formattedPrice.toLowerCase().includes('quote') && !formattedPrice.includes('ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦')) {
+      formattedPrice = `ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦${Number(formattedPrice.replace(/,/g, '')).toLocaleString()} ${newForm.priceUnit ? `/ ${newForm.priceUnit}` : ''}`;
     }
 
     const newItem = {
@@ -187,18 +187,18 @@ export default function MarketplacePage() {
       imageUrl: newForm.imageUrl,
       icon:
         newForm.category === 'Farm Produce'
-          ? 'ðŸŒ¾'
+          ? 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¾'
           : newForm.category === 'Crafts & Adire'
-          ? 'ðŸª¡'
+          ? 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Â¡'
           : newForm.category === 'Food & Catering'
-          ? 'ðŸ²'
+          ? 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â²'
           : newForm.category === 'Services'
-          ? 'âš¡'
+          ? 'ÃƒÂ¢Ã…Â¡Ã‚Â¡'
           : newForm.category === 'Fashion & Beads'
-          ? 'ðŸ“¿'
+          ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¿'
           : newForm.category === 'Property'
-          ? 'ðŸ¡'
-          : 'ðŸª',
+          ? 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¡'
+          : 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª',
       badge: newForm.isFeatured ? 'featured' : newForm.category === 'Farm Produce' ? 'organic' : 'fresh',
       verified: true,
       status: 'active',
@@ -275,16 +275,16 @@ export default function MarketplacePage() {
   const sendWhatsAppOrder = (item, formDetails) => {
     const cleanWhatsApp = (item.whatsapp || item.phone || '').replace(/\D/g, '');
     const phoneTarget = cleanWhatsApp.startsWith('0') ? '234' + cleanWhatsApp.slice(1) : cleanWhatsApp;
-    const msg = `ðŸ‘‘ *OGERE REMO MARKETPLACE ORDER* ðŸ‘‘\n\n` +
+    const msg = `ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ *OGERE REMO MARKETPLACE ORDER* ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ\n\n` +
       `Hello *${item.seller}*,\n` +
       `I would like to place an order for your listing on the Ogere Community Portal:\n\n` +
-      `ðŸ“¦ *Item:* ${item.title}\n` +
-      `ðŸ’° *Listed Price:* ${item.price}\n` +
-      `ðŸ”¢ *Quantity / Units:* ${formDetails.quantity}\n` +
-      `ðŸ‘¤ *Buyer Name:* ${formDetails.buyerName}\n` +
-      `ðŸ“ *Delivery / Pickup in Ogere:* ${formDetails.address}\n` +
-      (formDetails.note ? `ðŸ“ *Note:* ${formDetails.note}\n\n` : `\n`) +
-      `Please confirm availability and bank details for payment. áº¸ á¹£Ã©un!`;
+      `ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¦ *Item:* ${item.title}\n` +
+      `ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â° *Listed Price:* ${item.price}\n` +
+      `ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¢ *Quantity / Units:* ${formDetails.quantity}\n` +
+      `ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ *Buyer Name:* ${formDetails.buyerName}\n` +
+      `ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â *Delivery / Pickup in Ogere:* ${formDetails.address}\n` +
+      (formDetails.note ? `ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â *Note:* ${formDetails.note}\n\n` : `\n`) +
+      `Please confirm availability and bank details for payment. ÃƒÂ¡Ã‚ÂºÃ‚Â¸ ÃƒÂ¡Ã‚Â¹Ã‚Â£ÃƒÆ’Ã‚Â©un!`;
 
     const url = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
@@ -295,10 +295,10 @@ export default function MarketplacePage() {
   const sendWhatsAppOffer = (item, amount) => {
     const cleanWhatsApp = (item.whatsapp || item.phone || '').replace(/\D/g, '');
     const phoneTarget = cleanWhatsApp.startsWith('0') ? '234' + cleanWhatsApp.slice(1) : cleanWhatsApp;
-    const msg = `ðŸ‘‘ *OGERE MARKETPLACE PRICE OFFER* ðŸ‘‘\n\n` +
+    const msg = `ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ *OGERE MARKETPLACE PRICE OFFER* ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ\n\n` +
       `Hello *${item.seller}*,\n` +
       `I saw your listing for *"${item.title}"* (${item.price}) on the Ogere Portal.\n\n` +
-      `ðŸ¤ *My Proposed Price Offer:* â‚¦${Number(amount.replace(/,/g, '')).toLocaleString()}\n\n` +
+      `ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â *My Proposed Price Offer:* ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦${Number(amount.replace(/,/g, '')).toLocaleString()}\n\n` +
       `Can we agree on this price? I am ready for immediate pickup/order. Thank you!`;
 
     const url = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(msg)}`;
@@ -322,7 +322,7 @@ export default function MarketplacePage() {
       {/* Community Banner */}
       <div style={{ background: 'linear-gradient(90deg, #1a0d06, #2c1500, #1a0d06)', padding: '0.7rem 2rem', textAlign: 'center', borderBottom: '1px solid rgba(201,150,58,0.2)' }}>
         <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'rgba(245,237,216,0.85)', textTransform: 'uppercase' }}>
-          ðŸ›’ {listings.length} VERIFIED COMMUNITY LISTINGS Â· 100% DIRECT SELLER CONTACT Â· ZERO INTERMEDIARY COMMISSIONS
+          ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ¢â‚¬â„¢ {listings.length} VERIFIED COMMUNITY LISTINGS Ãƒâ€šÃ‚Â· 100% DIRECT SELLER CONTACT Ãƒâ€šÃ‚Â· ZERO INTERMEDIARY COMMISSIONS
         </span>
       </div>
 
@@ -330,12 +330,12 @@ export default function MarketplacePage() {
         {/* Marketplace Summary Metrics */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1rem', marginBottom: '2.5rem', textAlign: 'center' }}>
           {[
-            { ic: 'ðŸŒ¾', l: 'Farm Produce', n: listings.filter(l => l.cat === 'Farm Produce').length },
-            { ic: 'ðŸª¡', l: 'Crafts & Adire', n: listings.filter(l => l.cat === 'Crafts & Adire').length },
-            { ic: 'ðŸ²', l: 'Food & Catering', n: listings.filter(l => l.cat === 'Food & Catering').length },
-            { ic: 'âš¡', l: 'Artisan Services', n: listings.filter(l => l.cat === 'Services').length },
-            { ic: 'ðŸ—ï¸', l: 'Trade & Retail', n: listings.filter(l => l.cat === 'Trade & Retail').length },
-            { ic: 'ðŸ›¡ï¸', l: 'Verified Sellers', n: listings.filter(l => l.verified).length },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¾', l: 'Farm Produce', n: listings.filter(l => l.cat === 'Farm Produce').length },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Â¡', l: 'Crafts & Adire', n: listings.filter(l => l.cat === 'Crafts & Adire').length },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â²', l: 'Food & Catering', n: listings.filter(l => l.cat === 'Food & Catering').length },
+            { ic: 'ÃƒÂ¢Ã…Â¡Ã‚Â¡', l: 'Artisan Services', n: listings.filter(l => l.cat === 'Services').length },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬â€ÃƒÂ¯Ã‚Â¸Ã‚Â', l: 'Trade & Retail', n: listings.filter(l => l.cat === 'Trade & Retail').length },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â', l: 'Verified Sellers', n: listings.filter(l => l.verified).length },
           ].map(stat => (
             <div key={stat.l} className="glass" style={{ padding: '1rem', borderRadius: '10px', border: '1px solid rgba(201,150,58,0.15)' }}>
               <div style={{ fontSize: '1.6rem', marginBottom: '0.2rem' }}>{stat.ic}</div>
@@ -358,7 +358,7 @@ export default function MarketplacePage() {
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
             {/* Keyword search input */}
             <div style={{ flex: 2, minWidth: 'min(240px, 100%)', position: 'relative' }}>
-              <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.9rem', opacity: 0.5 }}>ðŸ”</span>
+              <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.9rem', opacity: 0.5 }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â</span>
               <input
                 className="inp"
                 style={{ paddingLeft: '2.5rem', width: '100%', borderRadius: '30px' }}
@@ -388,8 +388,8 @@ export default function MarketplacePage() {
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
               >
-                <option value="newest">ðŸ“… Newest First</option>
-                <option value="verified">ðŸ›¡ï¸ Verified Sellers First</option>
+                <option value="newest">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ Newest First</option>
+                <option value="verified">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Verified Sellers First</option>
               </select>
             </div>
 
@@ -400,7 +400,7 @@ export default function MarketplacePage() {
                 className={`abtn ${showOnlyFavs ? 'abtn-p' : 'abtn-o'}`}
                 style={{ borderRadius: '30px', padding: '0.6rem 1.2rem', fontSize: '0.65rem' }}
               >
-                â¤ï¸ Saved ({savedFavorites.length})
+                ÃƒÂ¢Ã‚ÂÃ‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â Saved ({savedFavorites.length})
               </button>
 
               <button
@@ -465,7 +465,7 @@ export default function MarketplacePage() {
                 onChange={e => setOnlyVerified(e.target.checked)}
                 style={{ accentColor: 'var(--gold)' }}
               />
-              ðŸ›¡ï¸ Verified sellers only
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Verified sellers only
             </label>
           </div>
         </div>
@@ -482,7 +482,7 @@ export default function MarketplacePage() {
               marginBottom: '3rem',
             }}
           >
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ðŸ“¦</div>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¦</div>
             <h3 className="playfair" style={{ fontSize: '1.8rem', color: 'var(--cream)', marginBottom: '0.6rem' }}>
               No Listings Found Matching Your Criteria
             </h3>
@@ -538,7 +538,7 @@ export default function MarketplacePage() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     ) : (
-                      <div style={{ fontSize: '4.5rem', opacity: 0.9 }}>{item.icon || 'ðŸ›ï¸'}</div>
+                      <div style={{ fontSize: '4.5rem', opacity: 0.9 }}>{item.icon || 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â'}</div>
                     )}
 
                     {/* Floating Badges */}
@@ -575,7 +575,7 @@ export default function MarketplacePage() {
                             backdropFilter: 'blur(4px)',
                           }}
                         >
-                          ðŸ›¡ï¸ Verified
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Verified
                         </span>
                       )}
                     </div>
@@ -599,7 +599,7 @@ export default function MarketplacePage() {
                           fontSize: '0.8rem',
                         }}
                       >
-                        {copiedId === item.id ? 'âœ“' : 'ðŸ”—'}
+                        {copiedId === item.id ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â€'}
                       </button>
 
                       <button
@@ -619,7 +619,7 @@ export default function MarketplacePage() {
                           fontSize: '0.85rem',
                         }}
                       >
-                        {isFav ? 'â¤ï¸' : 'ðŸ¤'}
+                        {isFav ? 'ÃƒÂ¢Ã‚ÂÃ‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â' : 'ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â'}
                       </button>
                     </div>
 
@@ -648,7 +648,7 @@ export default function MarketplacePage() {
                         {item.cat}
                       </span>
                       <span style={{ fontSize: '0.65rem', color: 'rgba(245,237,216,0.45)' }}>
-                        ðŸ“ {item.quarter}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {item.quarter}
                       </span>
                     </div>
 
@@ -667,7 +667,7 @@ export default function MarketplacePage() {
                     </h4>
 
                     <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.65)', lineHeight: 1.6, marginBottom: '1.2rem', flex: 1 }}>
-                      {item.desc?.length > 95 ? item.desc.substring(0, 95) + 'â€¦' : item.desc}
+                      {item.desc?.length > 95 ? item.desc.substring(0, 95) + 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦' : item.desc}
                     </p>
 
                     {/* Price and Negotiable indicator */}
@@ -677,11 +677,11 @@ export default function MarketplacePage() {
                           {item.price}
                         </div>
                         {item.isNegotiable && (
-                          <div style={{ fontSize: '0.6rem', color: '#86efac' }}>ðŸ’¬ Price Negotiable</div>
+                          <div style={{ fontSize: '0.6rem', color: '#86efac' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ Price Negotiable</div>
                         )}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: 'rgba(245,237,216,0.5)', textAlign: 'right' }}>
-                        ðŸ‘¤ {item.seller}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ {item.seller}
                       </div>
                     </div>
 
@@ -699,7 +699,7 @@ export default function MarketplacePage() {
                         }}
                         onClick={() => setOrderModalItem(item)}
                       >
-                        âš¡ Order on WhatsApp
+                        ÃƒÂ¢Ã…Â¡Ã‚Â¡ Order on WhatsApp
                       </button>
 
                       <button
@@ -707,7 +707,7 @@ export default function MarketplacePage() {
                         style={{ fontSize: '0.68rem', padding: '0.6rem' }}
                         onClick={() => setSelectedItem(item)}
                       >
-                        ðŸ” View Details
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â View Details
                       </button>
                     </div>
                   </div>
@@ -729,15 +729,15 @@ export default function MarketplacePage() {
           }}
         >
           <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-            <div style={{ fontSize: '2rem' }}>ðŸ›¡ï¸</div>
+            <div style={{ fontSize: '2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</div>
             <div style={{ flex: 1 }}>
               <div className="cinzel" style={{ fontSize: '0.85rem', color: 'var(--gold)', letterSpacing: '0.1em', marginBottom: '0.3rem', fontWeight: 'bold' }}>
                 OGERE COMMUNITY MARKETPLACE SAFETY GUIDELINES
               </div>
               <p style={{ color: 'rgba(245,237,216,0.7)', fontSize: '0.82rem', lineHeight: 1.7, margin: 0 }}>
-                â€¢ For physical goods, exchange payments only upon physical inspection or pickup at designated central locations such as <strong>Ogere Town Hall</strong>, <strong>Palace Square</strong>, or <strong>Oja Ale Centre</strong>.<br />
-                â€¢ Look for the <strong>ðŸ›¡ï¸ Verified</strong> badge confirming active registration with the Ogere Community Development Association.<br />
-                â€¢ For diaspora bulk orders, communicate directly via WhatsApp to agree on shipping logistics.
+                ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ For physical goods, exchange payments only upon physical inspection or pickup at designated central locations such as <strong>Ogere Town Hall</strong>, <strong>Palace Square</strong>, or <strong>Oja Ale Centre</strong>.<br />
+                ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Look for the <strong>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Verified</strong> badge confirming active registration with the Ogere Community Development Association.<br />
+                ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ For diaspora bulk orders, communicate directly via WhatsApp to agree on shipping logistics.
               </p>
             </div>
           </div>
@@ -777,7 +777,7 @@ export default function MarketplacePage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.2rem' }}>
               <div>
                 <span className="cinzel" style={{ fontSize: '0.62rem', color: 'var(--gold)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  {selectedItem.cat} Â· {selectedItem.quarter}
+                  {selectedItem.cat} Ãƒâ€šÃ‚Â· {selectedItem.quarter}
                 </span>
                 <h3 className="playfair" style={{ fontSize: '1.8rem', color: 'var(--cream)', marginTop: '0.2rem' }}>
                   {selectedItem.title}
@@ -787,7 +787,7 @@ export default function MarketplacePage() {
                 onClick={() => setSelectedItem(null)}
                 style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.5rem', cursor: 'pointer' }}
               >
-                âœ•
+                ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
               </button>
             </div>
 
@@ -812,7 +812,7 @@ export default function MarketplacePage() {
               </div>
               <div>
                 <div className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)' }}>LOCATION</div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--cream)' }}>ðŸ“ {selectedItem.quarter}</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--cream)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {selectedItem.quarter}</div>
               </div>
             </div>
 
@@ -835,7 +835,7 @@ export default function MarketplacePage() {
                   setOrderModalItem(selectedItem);
                 }}
               >
-                âš¡ Place Order via WhatsApp
+                ÃƒÂ¢Ã…Â¡Ã‚Â¡ Place Order via WhatsApp
               </button>
 
               <button
@@ -845,7 +845,7 @@ export default function MarketplacePage() {
                   setOfferModalItem(selectedItem);
                 }}
               >
-                ðŸ’¬ Negotiate Price
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ Negotiate Price
               </button>
 
               <a
@@ -853,7 +853,7 @@ export default function MarketplacePage() {
                 className="btn-o"
                 style={{ textAlign: 'center', textDecoration: 'none' }}
               >
-                ðŸ“ž Call {selectedItem.phone}
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Call {selectedItem.phone}
               </a>
             </div>
           </div>
@@ -890,14 +890,14 @@ export default function MarketplacePage() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
               <h3 className="playfair" style={{ fontSize: '1.5rem', color: 'var(--cream)' }}>
-                âš¡ Quick WhatsApp Order
+                ÃƒÂ¢Ã…Â¡Ã‚Â¡ Quick WhatsApp Order
               </h3>
-              <button onClick={() => setOrderModalItem(null)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.4rem', cursor: 'pointer' }}>âœ•</button>
+              <button onClick={() => setOrderModalItem(null)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.4rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
             </div>
 
             <div style={{ padding: '0.8rem', background: 'rgba(37,211,102,0.08)', borderRadius: '8px', border: '1px solid rgba(37,211,102,0.3)', marginBottom: '1.2rem' }}>
               <div style={{ fontSize: '0.85rem', color: 'var(--cream)', fontWeight: 'bold' }}>{orderModalItem.title}</div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--gold)' }}>Listed at: {orderModalItem.price} Â· Seller: {orderModalItem.seller}</div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--gold)' }}>Listed at: {orderModalItem.price} Ãƒâ€šÃ‚Â· Seller: {orderModalItem.seller}</div>
             </div>
 
             <form
@@ -927,7 +927,7 @@ export default function MarketplacePage() {
               <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'flex-end', marginTop: '1rem' }}>
                 <button type="button" className="btn-o" onClick={() => setOrderModalItem(null)}>Cancel</button>
                 <button type="submit" className="btn-p" style={{ background: '#25D366', borderColor: '#22c55e', color: '#0d0704', fontWeight: 'bold' }}>
-                  ðŸ’¬ Open in WhatsApp â†’
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ Open in WhatsApp ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
                 </button>
               </div>
             </form>
@@ -965,9 +965,9 @@ export default function MarketplacePage() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
               <h3 className="playfair" style={{ fontSize: '1.4rem', color: 'var(--cream)' }}>
-                ðŸ’¬ Make a Price Offer
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ Make a Price Offer
               </h3>
-              <button onClick={() => setOfferModalItem(null)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.4rem', cursor: 'pointer' }}>âœ•</button>
+              <button onClick={() => setOfferModalItem(null)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.4rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
             </div>
 
             <div style={{ padding: '0.8rem', background: 'rgba(201,150,58,0.08)', borderRadius: '8px', marginBottom: '1.2rem' }}>
@@ -983,7 +983,7 @@ export default function MarketplacePage() {
             >
               <div style={{ marginBottom: '1.5rem' }}>
                 <label className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', display: 'block', marginBottom: '0.3rem' }}>
-                  Your Offer Amount (â‚¦) *
+                  Your Offer Amount (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦) *
                 </label>
                 <input
                   required
@@ -998,7 +998,7 @@ export default function MarketplacePage() {
               <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'flex-end' }}>
                 <button type="button" className="btn-o" onClick={() => setOfferModalItem(null)}>Cancel</button>
                 <button type="submit" className="btn-p" style={{ background: '#25D366', borderColor: '#22c55e', color: '#0d0704', fontWeight: 'bold' }}>
-                  ðŸ’¬ Send Offer via WhatsApp
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ Send Offer via WhatsApp
                 </button>
               </div>
             </form>
@@ -1038,7 +1038,7 @@ export default function MarketplacePage() {
           >
             {formSubmitted ? (
               <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-                <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>ðŸŽ‰</div>
+                <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â°</div>
                 <h3 className="playfair" style={{ fontSize: '2rem', color: 'var(--cream)', marginBottom: '0.6rem' }}>
                   Listing Published Successfully!
                 </h3>
@@ -1057,7 +1057,7 @@ export default function MarketplacePage() {
                       Reach local buyers in Ogere and diaspora members worldwide.
                     </p>
                   </div>
-                  <button type="button" onClick={() => setShowForm(false)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.5rem', cursor: 'pointer' }}>âœ•</button>
+                  <button type="button" onClick={() => setShowForm(false)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.5rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: '1.2rem', marginBottom: '1.5rem' }}>
@@ -1081,7 +1081,7 @@ export default function MarketplacePage() {
                   </div>
 
                   <div>
-                    <label className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', display: 'block', marginBottom: '0.3rem' }}>Price (â‚¦) *</label>
+                    <label className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', display: 'block', marginBottom: '0.3rem' }}>Price (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦) *</label>
                     <input required className="inp" value={newForm.priceNumber} onChange={e => setNewForm({ ...newForm, priceNumber: e.target.value })} placeholder="E.g. 4500 or Quote" />
                   </div>
 
@@ -1119,7 +1119,7 @@ export default function MarketplacePage() {
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
                   <button type="button" className="btn-o" onClick={() => setShowForm(false)}>Cancel</button>
                   <button type="submit" className="btn-p" disabled={loading}>
-                    {loading ? 'Publishingâ€¦' : 'ðŸš€ Publish Listing Now'}
+                    {loading ? 'PublishingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦' : 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â€šÂ¬ Publish Listing Now'}
                   </button>
                 </div>
               </form>
@@ -1138,10 +1138,10 @@ export default function MarketplacePage() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1.5rem' }}>
           {[
-            { ic: 'ðŸŒ¾', t: 'Farm-Fresh & Authentic', d: 'Direct farm gate and artisan pricing. No exploitative middle-men taking cuts from Ogere farmers and weavers.' },
-            { ic: 'ðŸŒ', t: 'Diaspora Direct Orders', d: 'Sons and daughters abroad in the UK, US, and Canada can arrange food, catering, and home supplies for family in Ogere.' },
-            { ic: 'ðŸ›¡ï¸', t: 'Verified Community Trust', d: 'All listings are associated with recognized Ogere compounds and quarters, building community accountability.' },
-            { ic: 'âš¡', t: 'Instant WhatsApp Commerce', d: 'Direct one-tap negotiation and order creation directly into the traderâ€™s WhatsApp without payment gateways holding funds.' },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¾', t: 'Farm-Fresh & Authentic', d: 'Direct farm gate and artisan pricing. No exploitative middle-men taking cuts from Ogere farmers and weavers.' },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â', t: 'Diaspora Direct Orders', d: 'Sons and daughters abroad in the UK, US, and Canada can arrange food, catering, and home supplies for family in Ogere.' },
+            { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â', t: 'Verified Community Trust', d: 'All listings are associated with recognized Ogere compounds and quarters, building community accountability.' },
+            { ic: 'ÃƒÂ¢Ã…Â¡Ã‚Â¡', t: 'Instant WhatsApp Commerce', d: 'Direct one-tap negotiation and order creation directly into the traderÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢s WhatsApp without payment gateways holding funds.' },
           ].map(card => (
             <div key={card.t} className="glass card" style={{ padding: '2rem', borderRadius: '14px', borderTop: '3px solid var(--gold)' }}>
               <div style={{ fontSize: '2.2rem', marginBottom: '1rem' }}>{card.ic}</div>

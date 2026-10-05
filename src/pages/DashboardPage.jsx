@@ -42,19 +42,19 @@ export default function DashboardPage() {
   if (loading) return <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Spinner /></div>;
 
   const statCards = [
-    { ic: 'ðŸªª', label: 'Digital ID Cards', count: subs?.idCards?.length || 0, link: '/id-card' },
-    { ic: 'ðŸ‘‘', label: 'Royal Audiences', count: subs?.audiences?.length || 0, link: '/royal-audience' },
-    { ic: 'ðŸŽ“', label: 'Scholarships', count: subs?.scholarships?.length || 0, link: '/scholarships' },
-    { ic: 'ðŸ›’', label: 'Marketplace', count: subs?.marketplace?.length || 0, link: '/marketplace' },
-    { ic: 'ðŸ—£ï¸', label: 'Forum Posts', count: subs?.forum?.length || 0, link: '/forum' },
-    { ic: 'ðŸª', label: 'Businesses', count: subs?.business?.length || 0, link: '/business' },
-    { ic: 'ðŸ“‹', label: 'Associations', count: subs?.associations?.length || 0, link: '/associations' },
-    { ic: 'âœ‰ï¸', label: 'Messages', count: subs?.messages?.length || 0, link: '/contact' },
+    { ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª', label: 'Digital ID Cards', count: subs?.idCards?.length || 0, link: '/id-card' },
+    { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', label: 'Royal Audiences', count: subs?.audiences?.length || 0, link: '/royal-audience' },
+    { ic: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Å“', label: 'Scholarships', count: subs?.scholarships?.length || 0, link: '/scholarships' },
+    { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ¢â‚¬â„¢', label: 'Marketplace', count: subs?.marketplace?.length || 0, link: '/marketplace' },
+    { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚Â£ÃƒÂ¯Ã‚Â¸Ã‚Â', label: 'Forum Posts', count: subs?.forum?.length || 0, link: '/forum' },
+    { ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª', label: 'Businesses', count: subs?.business?.length || 0, link: '/business' },
+    { ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹', label: 'Associations', count: subs?.associations?.length || 0, link: '/associations' },
+    { ic: 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Â°ÃƒÂ¯Ã‚Â¸Ã‚Â', label: 'Messages', count: subs?.messages?.length || 0, link: '/contact' },
   ];
 
   return (
     <div>
-      <SEO title="My Dashboard" description="Your Ogere Remo community dashboard â€” manage your profile and view your activity." />
+      <SEO title="My Dashboard" description="Your Ogere Remo community dashboard ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â manage your profile and view your activity." />
       <Hero ey="Community" ti={`Welcome, ${user.name || user.username}`} sub="Manage your profile and view your community activity." />
       <AdireDivider />
       <Section bg="#1a0d06">
@@ -74,7 +74,7 @@ export default function DashboardPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1.5rem' }}>
           <div className="asection">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '.8rem' }}>
-              <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>ðŸ‘¤ My Profile</h3>
+              <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ My Profile</h3>
               <button className="abtn abtn-o" onClick={() => setEditing(!editing)} style={{ fontSize: '.5rem', padding: '.2rem .5rem' }}>
                 {editing ? 'Cancel' : 'Edit'}
               </button>
@@ -92,15 +92,15 @@ export default function DashboardPage() {
                 <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Name:</span> {user.name}</div>
                 <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Email:</span> {user.email}</div>
                 <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Username:</span> @{user.username}</div>
-                <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Location:</span> {user.location || 'â€”'}</div>
-                <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Bio:</span> {user.bio || 'â€”'}</div>
+                <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Location:</span> {user.location || 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â'}</div>
+                <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Bio:</span> {user.bio || 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â'}</div>
                 <div><span style={{ color: 'rgba(201,150,58,.6)' }}>Joined:</span> {new Date(user.created).toLocaleDateString('en-NG')}</div>
               </div>
             )}
           </div>
 
           <div className="asection">
-            <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.8rem' }}>ðŸ“‹ Recent Civic Activity</h3>
+            <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.6rem', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.8rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ Recent Civic Activity</h3>
             {(!subs || Object.values(subs).every(a => !a || a.length === 0)) ? (
               <div style={{ textAlign: 'center', padding: '1.5rem', color: 'rgba(245,237,216,.3)', fontSize: '.78rem' }}>
                 No activity yet. Explore the community!
@@ -110,19 +110,19 @@ export default function DashboardPage() {
                 {(subs.idCards || []).slice(-2).reverse().map((c, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.06)', borderRadius: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <span style={{ color: 'var(--gold)' }}>ðŸªª ID Card:</span>{' '}
+                      <span style={{ color: 'var(--gold)' }}>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª ID Card:</span>{' '}
                       <span style={{ color: '#F5EDD8' }}>{c.id || c.fullName}</span>
                     </div>
                     <div style={{ display: 'flex', gap: '.4rem', alignItems: 'center' }}>
                       <span className={`atag ${c.status === 'approved' ? 'atag-green' : 'atag-gold'}`} style={{ fontSize: '.45rem' }}>{c.status || 'pending'}</span>
-                      <Link to={`/verify-id/${c.id}`} style={{ color: 'var(--gold)', fontSize: '.6rem', textDecoration: 'none' }}>Verify â†’</Link>
+                      <Link to={`/verify-id/${c.id}`} style={{ color: 'var(--gold)', fontSize: '.6rem', textDecoration: 'none' }}>Verify ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</Link>
                     </div>
                   </div>
                 ))}
                 {(subs.audiences || []).slice(-2).reverse().map((a, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.06)', borderRadius: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <span style={{ color: 'var(--gold)' }}>ðŸ‘‘ Palace Audience:</span>{' '}
+                      <span style={{ color: 'var(--gold)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Palace Audience:</span>{' '}
                       <span style={{ color: '#F5EDD8' }}>{a.purpose}</span>
                     </div>
                     <span className={`atag ${a.status === 'confirmed' ? 'atag-green' : 'atag-gold'}`} style={{ fontSize: '.45rem' }}>{a.status || 'pending'}</span>
@@ -131,7 +131,7 @@ export default function DashboardPage() {
                 {(subs.scholarships || []).slice(-2).reverse().map((s, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.06)', borderRadius: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <span style={{ color: 'var(--gold)' }}>ðŸŽ“ Scholarship:</span>{' '}
+                      <span style={{ color: 'var(--gold)' }}>ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Å“ Scholarship:</span>{' '}
                       <span style={{ color: '#F5EDD8' }}>{s.programTitle}</span>
                     </div>
                     <span className={`atag ${s.status === 'approved' ? 'atag-green' : 'atag-gold'}`} style={{ fontSize: '.45rem' }}>{s.status || 'pending'}</span>
@@ -140,7 +140,7 @@ export default function DashboardPage() {
                 {(subs.marketplace || []).slice(-2).reverse().map((m, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.06)', borderRadius: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <span style={{ color: 'var(--gold)' }}>ðŸ›’ Listing:</span>{' '}
+                      <span style={{ color: 'var(--gold)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ¢â‚¬â„¢ Listing:</span>{' '}
                       <span style={{ color: '#F5EDD8' }}>{m.title}</span>
                     </div>
                     <span className="atag atag-green" style={{ fontSize: '.45rem' }}>{m.price}</span>
@@ -148,28 +148,28 @@ export default function DashboardPage() {
                 ))}
                 {(subs.forum || []).slice(-2).reverse().map((p, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.04)', borderRadius: 4 }}>
-                    <span style={{ color: 'rgba(201,150,58,.6)' }}>ðŸ’¬ Forum:</span>{' '}
+                    <span style={{ color: 'rgba(201,150,58,.6)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ Forum:</span>{' '}
                     <span style={{ color: '#F5EDD8' }}>{p.topic}</span>
                     <span style={{ color: 'rgba(245,237,216,.3)', fontSize: '.6rem', marginLeft: '.3rem' }}>{p.date}</span>
                   </div>
                 ))}
                 {(subs.business || []).slice(-2).reverse().map((b, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.04)', borderRadius: 4 }}>
-                    <span style={{ color: 'rgba(201,150,58,.6)' }}>ðŸª Business:</span>{' '}
+                    <span style={{ color: 'rgba(201,150,58,.6)' }}>ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª Business:</span>{' '}
                     <span style={{ color: '#F5EDD8' }}>{b.name}</span>
                     <span className="atag atag-gold" style={{ fontSize: '.4rem', marginLeft: '.3rem' }}>{b.status || 'pending'}</span>
                   </div>
                 ))}
                 {(subs.associations || []).slice(-2).reverse().map((a, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.04)', borderRadius: 4 }}>
-                    <span style={{ color: 'rgba(201,150,58,.6)' }}>ðŸ“‹ Association:</span>{' '}
+                    <span style={{ color: 'rgba(201,150,58,.6)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ Association:</span>{' '}
                     <span style={{ color: '#F5EDD8' }}>{a.name}</span>
                     <span className="atag atag-gold" style={{ fontSize: '.4rem', marginLeft: '.3rem' }}>{a.status || 'pending'}</span>
                   </div>
                 ))}
                 {(subs.messages || []).slice(-2).reverse().map((m, i) => (
                   <div key={i} style={{ fontSize: '.72rem', padding: '.4rem .5rem', background: 'rgba(201,150,58,.04)', borderRadius: 4 }}>
-                    <span style={{ color: 'rgba(201,150,58,.6)' }}>âœ‰ï¸ Message:</span>{' '}
+                    <span style={{ color: 'rgba(201,150,58,.6)' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Message:</span>{' '}
                     <span style={{ color: '#F5EDD8' }}>{m.subject}</span>
                     <span style={{ color: 'rgba(245,237,216,.3)', fontSize: '.6rem', marginLeft: '.3rem' }}>{m.date}</span>
                   </div>
@@ -180,7 +180,7 @@ export default function DashboardPage() {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-          <button className="abtn abtn-d" onClick={handleLogout} style={{ fontSize: '.55rem' }}>ðŸšª Sign Out</button>
+          <button className="abtn abtn-d" onClick={handleLogout} style={{ fontSize: '.55rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Âª Sign Out</button>
         </div>
       </Section>
       <AdireDivider />

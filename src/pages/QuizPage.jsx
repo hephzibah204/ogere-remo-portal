@@ -27,9 +27,9 @@ const QUESTIONS = [
   },
   {
     question: "What is the correct, respectful Yoruba greeting for elders in the morning?",
-    options: ["áº¸ kÃ¡Ã sÃ¡n", "áº¸ kÃ¡Ã bá»Ì€", "áº¸ kÃ¡Ã rá»Ì€", "BÃ¡wo ni"],
+    options: ["ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚Â¡ÃƒÆ’Ã‚Â sÃƒÆ’Ã‚Â¡n", "ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚Â¡ÃƒÆ’Ã‚Â bÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬", "ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚Â¡ÃƒÆ’Ã‚Â rÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬", "BÃƒÆ’Ã‚Â¡wo ni"],
     answer: 2,
-    insight: "\"áº¸ kÃ¡Ã rá»Ì€\" is the respectful morning greeting, utilizing the plural honorific \"áº¸\" to show deep reverence, a core pillar of Yoruba moral heritage."
+    insight: "\"ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚Â¡ÃƒÆ’Ã‚Â rÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬\" is the respectful morning greeting, utilizing the plural honorific \"ÃƒÂ¡Ã‚ÂºÃ‚Â¸\" to show deep reverence, a core pillar of Yoruba moral heritage."
   },
   {
     question: "Which global spiritual institution was founded in Ogere Remo on July 27, 1930 by Prophet Josiah Ositelu?",
@@ -63,9 +63,9 @@ const QUESTIONS = [
   },
   {
     question: "When greeting the Ologere, what royal praise salute is uttered to show respect to the king's supreme authority?",
-    options: ["áº¸ kÃ¡rá»Ì€!", "KÃ¡bÃ­yÃ¨sÃ­!", "áº¸ kÃºá¹£áº¹Ì!", "Ã“ dÃ Ã¡bá»Ì€!"],
+    options: ["ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚Â¡rÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬!", "KÃƒÆ’Ã‚Â¡bÃƒÆ’Ã‚Â­yÃƒÆ’Ã‚Â¨sÃƒÆ’Ã‚Â­!", "ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚ÂºÃƒÂ¡Ã‚Â¹Ã‚Â£ÃƒÂ¡Ã‚ÂºÃ‚Â¹ÃƒÅ’Ã‚Â!", "ÃƒÆ’Ã¢â‚¬Å“ dÃƒÆ’Ã‚Â ÃƒÆ’Ã‚Â¡bÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬!"],
     answer: 1,
-    insight: "\"KÃ¡bÃ­yÃ¨sÃ­!\" is the supreme royal salute for Yoruba monarchs, meaning \"the king whose authority cannot be questioned.\""
+    insight: "\"KÃƒÆ’Ã‚Â¡bÃƒÆ’Ã‚Â­yÃƒÆ’Ã‚Â¨sÃƒÆ’Ã‚Â­!\" is the supreme royal salute for Yoruba monarchs, meaning \"the king whose authority cannot be questioned.\""
   }
 ];
 
@@ -175,10 +175,10 @@ export default function QuizPage() {
               boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
               animation: 'fadeUp 0.5s ease both'
             }}>
-              <span className="tag tag-gold" style={{ fontSize: '.58rem', marginBottom: '1rem' }}>ðŸ“œ Challenge of the Ancestors</span>
+              <span className="tag tag-gold" style={{ fontSize: '.58rem', marginBottom: '1rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ Challenge of the Ancestors</span>
               <h2 className="playfair" style={{ fontSize: '1.8rem', color: '#F5EDD8', margin: '0 0 1rem' }}>Test Your Heritage Knowledge</h2>
               <p style={{ fontSize: '0.88rem', color: 'rgba(245,237,216,.7)', lineHeight: 1.7, marginBottom: '2rem', maxWidth: '580px', margin: '0 auto 2rem' }}>
-                Embark on a ten-question journey across the centuriesâ€”from the legendary founding in 1401 A.D. by Prince Olipakala, through our global Aladura history, to modern royalty and respectful Yoruba phrases. Score <strong>70% or higher</strong> to claim your personalized virtual <strong>Ogere Remo Heritage Custodian Certificate</strong>.
+                Embark on a ten-question journey across the centuriesÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Âfrom the legendary founding in 1401 A.D. by Prince Olipakala, through our global Aladura history, to modern royalty and respectful Yoruba phrases. Score <strong>70% or higher</strong> to claim your personalized virtual <strong>Ogere Remo Heritage Custodian Certificate</strong>.
               </p>
 
               <form onSubmit={handleStartQuiz} style={{ display: 'grid', gap: '1.2rem', maxWidth: '420px', margin: '0 auto' }}>
@@ -197,13 +197,13 @@ export default function QuizPage() {
                   />
                   {errorMsg && (
                     <div style={{ color: '#E53E3E', fontSize: '0.75rem', marginTop: '0.5rem', fontFamily: 'sans-serif' }}>
-                      âš ï¸ {errorMsg}
+                      ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â {errorMsg}
                     </div>
                   )}
                 </div>
                 
                 <button type="submit" className="btn-p" style={{ padding: '1rem 2rem', borderRadius: 4 }}>
-                  Begin Heritage Quest ðŸ›¡ï¸
+                  Begin Heritage Quest ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â
                 </button>
               </form>
             </div>
@@ -332,8 +332,8 @@ export default function QuizPage() {
                       {/* Diagnostic Status Indicator */}
                       {showExplanation && (
                         <span>
-                          {isCorrect && 'ðŸŸ¢ Correct'}
-                          {!isCorrect && isSelected && 'ðŸ”´ Incorrect'}
+                          {isCorrect && 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢ Correct'}
+                          {!isCorrect && isSelected && 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ Incorrect'}
                         </span>
                       )}
                     </button>
@@ -354,7 +354,7 @@ export default function QuizPage() {
                   animation: 'fadeUp 0.3s ease both'
                 }}>
                   <div className="cinzel" style={{ fontSize: '.55rem', letterSpacing: '.12em', color: '#C9963A', textTransform: 'uppercase', marginBottom: '.4rem' }}>
-                    ðŸ’¡ Cultural Insight
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Cultural Insight
                   </div>
                   <p style={{ fontSize: '0.82rem', lineHeight: 1.7, color: 'rgba(245,237,216,.75)', margin: '0 0 1.2rem' }}>
                     {activeQ.insight}
@@ -362,7 +362,7 @@ export default function QuizPage() {
                   
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button onClick={handleNext} className="btn-p" style={{ padding: '.65rem 1.5rem', fontSize: '.58rem', borderRadius: 3 }}>
-                      {currentIdx + 1 < QUESTIONS.length ? 'Next Question âž”' : 'Complete Quest âž”'}
+                      {currentIdx + 1 < QUESTIONS.length ? 'Next Question ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â' : 'Complete Quest ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â'}
                     </button>
                   </div>
                 </div>
@@ -385,7 +385,7 @@ export default function QuizPage() {
               }}>
                 <span className="tag tag-gold" style={{ fontSize: '.56rem', marginBottom: '0.8rem' }}>Quest Concluded</span>
                 <h2 className="playfair" style={{ fontSize: '1.8rem', color: '#F5EDD8', margin: '0 0 .5rem' }}>
-                  {passed ? 'ðŸŽ‰ Congratulations, Heritage Custodian!' : 'ðŸ“š Keep Learning, Future Custodian!'}
+                  {passed ? 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â° Congratulations, Heritage Custodian!' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¡ Keep Learning, Future Custodian!'}
                 </h2>
                 <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: passed ? '#C9963A' : '#B5451B', margin: '1rem 0' }}>
                   {score} / {QUESTIONS.length}
@@ -417,10 +417,10 @@ export default function QuizPage() {
                     }}
                   >
                     {/* Ornate corner borders */}
-                    <div style={{ position: 'absolute', top: 10, left: 10, fontSize: '1.2rem', color: '#C9963A' }}>âšœï¸</div>
-                    <div style={{ position: 'absolute', top: 10, right: 10, fontSize: '1.2rem', color: '#C9963A' }}>âšœï¸</div>
-                    <div style={{ position: 'absolute', bottom: 10, left: 10, fontSize: '1.2rem', color: '#C9963A' }}>âšœï¸</div>
-                    <div style={{ position: 'absolute', bottom: 10, right: 10, fontSize: '1.2rem', color: '#C9963A' }}>âšœï¸</div>
+                    <div style={{ position: 'absolute', top: 10, left: 10, fontSize: '1.2rem', color: '#C9963A' }}>ÃƒÂ¢Ã…Â¡Ã…â€œÃƒÂ¯Ã‚Â¸Ã‚Â</div>
+                    <div style={{ position: 'absolute', top: 10, right: 10, fontSize: '1.2rem', color: '#C9963A' }}>ÃƒÂ¢Ã…Â¡Ã…â€œÃƒÂ¯Ã‚Â¸Ã‚Â</div>
+                    <div style={{ position: 'absolute', bottom: 10, left: 10, fontSize: '1.2rem', color: '#C9963A' }}>ÃƒÂ¢Ã…Â¡Ã…â€œÃƒÂ¯Ã‚Â¸Ã‚Â</div>
+                    <div style={{ position: 'absolute', bottom: 10, right: 10, fontSize: '1.2rem', color: '#C9963A' }}>ÃƒÂ¢Ã…Â¡Ã…â€œÃƒÂ¯Ã‚Â¸Ã‚Â</div>
 
                     {/* Seal */}
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.2rem' }}>
@@ -471,7 +471,7 @@ export default function QuizPage() {
                       marginBottom: '2.5rem'
                     }}>
                       <span className="cinzel" style={{ fontSize: '0.88rem', fontWeight: 'bold', color: '#7A2E0E', letterSpacing: '0.08em' }}>
-                        ðŸ›¡ï¸ HERITAGE CUSTODIAN
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â HERITAGE CUSTODIAN
                       </span>
                     </div>
 
@@ -500,10 +500,10 @@ export default function QuizPage() {
                       className="btn-p"
                       style={{ fontSize: '.68rem', borderRadius: 4 }}
                     >
-                      ðŸ–¨ï¸ Print / Save Official Certificate
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬â€œÃ‚Â¨ÃƒÂ¯Ã‚Â¸Ã‚Â Print / Save Official Certificate
                     </button>
                     <button onClick={resetQuiz} className="btn-o" style={{ fontSize: '.68rem', borderRadius: 4 }}>
-                      ðŸ”„ Replay Quiz
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Å¾ Replay Quiz
                     </button>
                   </div>
                 </div>
@@ -514,15 +514,15 @@ export default function QuizPage() {
                 <div style={{ display: 'grid', gap: '1.5rem', justifyContent: 'center' }}>
                   <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
                     <Link to="/timeline" className="btn-p" style={{ fontSize: '.58rem', textDecoration: 'none', display: 'flex', alignItems: 'center', borderRadius: 4 }}>
-                      ðŸ‘‘ Study Dynastic Timeline
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Study Dynastic Timeline
                     </Link>
                     <Link to="/oriki" className="btn-p" style={{ fontSize: '.58rem', textDecoration: 'none', display: 'flex', alignItems: 'center', background: '#7A2E0E', borderRadius: 4 }}>
-                      ðŸŽµ Listen to Royal Oriki
+                      ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Âµ Listen to Royal Oriki
                     </Link>
                   </div>
                   <div>
                     <button onClick={resetQuiz} className="btn-o" style={{ fontSize: '.58rem', borderRadius: 4, width: '200px' }}>
-                      ðŸ”„ Try Again
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Å¾ Try Again
                     </button>
                   </div>
                 </div>

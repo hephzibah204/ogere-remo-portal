@@ -8,13 +8,13 @@ const SEED_OFFICERS = [
     role: 'security_officer',
     name: 'Insp. Kayode Adeleke',
     badge: 'NPF-OG-4891',
-    agency: 'Nigeria Police Force â€” Ogere Divisional HQ',
+    agency: 'Nigeria Police Force ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Divisional HQ',
     email: 'police@ogereremo.org',
     passkey: 'OGERE-SEC-2026',
     title: 'Tactical Security & Rapid Intercept',
     themeColor: '#ef4444',
     badgeColor: '#dc2626',
-    icon: 'ðŸ›¡ï¸',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â',
   },
   {
     role: 'palace_protocol',
@@ -26,7 +26,7 @@ const SEED_OFFICERS = [
     title: 'Palace Protocol & Royal Audience Secretariat',
     themeColor: '#C9963A',
     badgeColor: '#d97706',
-    icon: 'ðŸ‘‘',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
   },
   {
     role: 'ocda_admin',
@@ -38,7 +38,7 @@ const SEED_OFFICERS = [
     title: 'OCDA Civic Central Command & ID Certification',
     themeColor: '#10b981',
     badgeColor: '#059669',
-    icon: 'ðŸ›ï¸',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â',
   },
 ];
 
@@ -156,7 +156,7 @@ export default function AdminMobilePreviewPage() {
   const [incidents, setIncidents] = useState([
     {
       id: 'INC-2026-001',
-      category: 'ðŸš¨ Armed Robbery / Banditry',
+      category: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Armed Robbery / Banditry',
       description: 'Suspicious armed suspects sighted along KM 67 boundary.',
       location: 'KM 67 Tollgate Expressway, Ogere',
       severity: 'Critical',
@@ -166,7 +166,7 @@ export default function AdminMobilePreviewPage() {
     },
     {
       id: 'INC-2026-002',
-      category: 'ðŸ”¥ Tanker Fire Precaution',
+      category: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Tanker Fire Precaution',
       description: 'Diesel truck overheating at truck parking depot.',
       location: 'Ogere Trailer Park South Gate',
       severity: 'High',
@@ -229,7 +229,7 @@ export default function AdminMobilePreviewPage() {
     );
 
     showToast(
-      `âœ“ Audience #${selectedAudience.id} marked ${audienceAction.toUpperCase()}. Automated royal letterhead email dispatched to ${selectedAudience.email}!`
+      `ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Audience #${selectedAudience.id} marked ${audienceAction.toUpperCase()}. Automated royal letterhead email dispatched to ${selectedAudience.email}!`
     );
     setSelectedAudience(null);
   };
@@ -238,13 +238,13 @@ export default function AdminMobilePreviewPage() {
     setIdCards((prev) =>
       prev.map((c) => (c.id === cardId ? { ...c, status: decision } : c))
     );
-    showToast(`ðŸªª Digital ID ${cardId} has been marked as ${decision.toUpperCase()}.`);
+    showToast(`ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª Digital ID ${cardId} has been marked as ${decision.toUpperCase()}.`);
   };
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     if (!regForm.accessKey.toUpperCase().includes('OGERE') && !regForm.accessKey.toUpperCase().includes('2026')) {
-      showToast('âš ï¸ Invalid Agency Authorization Key. Must match authorized agency security pass.');
+      showToast('ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Invalid Agency Authorization Key. Must match authorized agency security pass.');
       return;
     }
     const newOfficer = {
@@ -257,12 +257,12 @@ export default function AdminMobilePreviewPage() {
       title: regForm.agency,
       themeColor: regForm.role === 'security_officer' ? '#ef4444' : regForm.role === 'palace_protocol' ? '#C9963A' : '#10b981',
       badgeColor: '#059669',
-      icon: regForm.role === 'security_officer' ? 'ðŸ›¡ï¸' : regForm.role === 'palace_protocol' ? 'ðŸ‘‘' : 'ðŸ›ï¸',
+      icon: regForm.role === 'security_officer' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â' : regForm.role === 'palace_protocol' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ' : 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â',
     };
     setCurrentRole(newOfficer.role);
     setCurrentOfficer(newOfficer);
     setActiveScreen('dashboard');
-    showToast(`ðŸŽ‰ Registration approved! Welcome Officer ${newOfficer.name}.`);
+    showToast(`ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â° Registration approved! Welcome Officer ${newOfficer.name}.`);
   };
 
   // Poll live incidents and listen to real-time SOS transmissions
@@ -297,7 +297,7 @@ export default function AdminMobilePreviewPage() {
           {
             id: sosItem.id,
             threat_level: 'CODE_RED',
-            category: sosItem.category || 'ðŸš¨ SOS Emergency Panic',
+            category: sosItem.category || 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ SOS Emergency Panic',
             location: sosItem.location || 'Ogere Remo Corridor',
             description: sosItem.description || 'Emergency SOS trigger received from citizen mobile app.',
             reporter_name: sosItem.reporterName || 'Citizen Mobile App',
@@ -316,7 +316,7 @@ export default function AdminMobilePreviewPage() {
             dispatched_count: prev.incidents.dispatched_count + 1,
           },
         }));
-        showToast(`ðŸš¨ CODE RED ALARM: ${sosItem.category || 'SOS Emergency'} at ${sosItem.location}! Response team dispatched.`);
+        showToast(`ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ CODE RED ALARM: ${sosItem.category || 'SOS Emergency'} at ${sosItem.location}! Response team dispatched.`);
         sirenSound.startEmergencySiren();
       }
     };
@@ -340,13 +340,13 @@ export default function AdminMobilePreviewPage() {
       <div style={{ maxWidth: 1200, margin: '0 auto 1.5rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', borderBottom: '1px solid rgba(201,150,58,0.2)', paddingBottom: '1rem' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '.6rem' }}>
-            <span style={{ fontSize: '1.8rem' }}>ðŸ›¡ï¸</span>
+            <span style={{ fontSize: '1.8rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
             <div>
               <h1 style={{ margin: 0, fontSize: '1.4rem', color: '#F5EDD8', fontFamily: "'Cinzel', serif" }}>
                 Field Officer & Palace Protocol Mobile App
               </h1>
               <p style={{ margin: '3px 0 0', fontSize: '.78rem', color: '#C9963A' }}>
-                Dedicated Multi-Role Terminal: Security Patrol Â· Royal Protocol Secretariat Â· OCDA Admin Desk
+                Dedicated Multi-Role Terminal: Security Patrol Ãƒâ€šÃ‚Â· Royal Protocol Secretariat Ãƒâ€šÃ‚Â· OCDA Admin Desk
               </p>
             </div>
           </div>
@@ -366,7 +366,7 @@ export default function AdminMobilePreviewPage() {
               textDecoration: 'none',
             }}
           >
-            ðŸ“± Citizen App Preview
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â± Citizen App Preview
           </Link>
           <Link
             to="/admin"
@@ -381,7 +381,7 @@ export default function AdminMobilePreviewPage() {
               textDecoration: 'none',
             }}
           >
-            ðŸ›ï¸ Web CMS Dashboard
+            ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Web CMS Dashboard
           </Link>
         </div>
       </div>
@@ -437,7 +437,7 @@ export default function AdminMobilePreviewPage() {
               gap: '6px',
             }}
           >
-            <span>ðŸ›¡ï¸</span>
+            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
             <span>Replay Officer Splash</span>
           </button>
 
@@ -527,7 +527,7 @@ export default function AdminMobilePreviewPage() {
                     cursor: 'pointer',
                   }}
                 >
-                  Skip âœ•
+                  Skip ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
                 </button>
               </div>
 
@@ -561,7 +561,7 @@ export default function AdminMobilePreviewPage() {
                       boxShadow: '0 0 25px rgba(201, 150, 58, 0.3)',
                     }}
                   >
-                    ðŸ›¡ï¸
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â
                   </div>
                 </div>
 
@@ -609,7 +609,7 @@ export default function AdminMobilePreviewPage() {
                     maxWidth: '250px',
                   }}
                 >
-                  Tactical Response Â· Palace Protocol Â· OCDA Civic Verification
+                  Tactical Response Ãƒâ€šÃ‚Â· Palace Protocol Ãƒâ€šÃ‚Â· OCDA Civic Verification
                 </div>
 
                 <div
@@ -657,7 +657,7 @@ export default function AdminMobilePreviewPage() {
                 </div>
 
                 <div style={{ fontSize: '0.58rem', color: 'rgba(255, 255, 255, 0.4)' }}>
-                  v6.0.0 Â· Field Command Terminal
+                  v6.0.0 Ãƒâ€šÃ‚Â· Field Command Terminal
                 </div>
               </div>
             </div>
@@ -670,8 +670,8 @@ export default function AdminMobilePreviewPage() {
               <div style={{ width: 110, height: 18, background: '#000', borderRadius: 10, margin: '0 auto' }} />
             )}
             <div style={{ display: 'flex', gap: '.3rem', fontSize: '.68rem', color: '#86efac' }}>
-              <span>ðŸ“¶ 5G</span>
-              <span>ðŸ”‹ 98%</span>
+              <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¶ 5G</span>
+              <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ 98%</span>
             </div>
           </div>
 
@@ -721,11 +721,11 @@ export default function AdminMobilePreviewPage() {
           {/* Scrollable Mobile App Body */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '.8rem', display: 'flex', flexDirection: 'column', gap: '.8rem' }}>
             
-            {/* â•â•â•â•â•â•â•â•â•â•â•â• SCREEN 1: LOGIN â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â SCREEN 1: LOGIN ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â */}
             {activeScreen === 'login' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '.9rem', padding: '.4rem 0' }}>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '2.4rem' }}>ðŸ›¡ï¸</div>
+                  <div style={{ fontSize: '2.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</div>
                   <h3 style={{ margin: '4px 0', fontSize: '1.1rem', color: '#F5EDD8', fontFamily: "'Cinzel', serif" }}>
                     Officer & Protocol Terminal
                   </h3>
@@ -763,10 +763,10 @@ export default function AdminMobilePreviewPage() {
                         <span style={{ fontSize: '1.2rem' }}>{off.icon}</span>
                         <div>
                           <div style={{ fontSize: '.72rem', fontWeight: 800, color: '#fff' }}>{off.name}</div>
-                          <div style={{ fontSize: '.6rem', color: 'rgba(245,237,216,0.6)' }}>{off.badge} Â· {off.agency}</div>
+                          <div style={{ fontSize: '.6rem', color: 'rgba(245,237,216,0.6)' }}>{off.badge} Ãƒâ€šÃ‚Â· {off.agency}</div>
                         </div>
                       </div>
-                      <span style={{ color: '#C9963A', fontSize: '.75rem' }}>âž”</span>
+                      <span style={{ color: '#C9963A', fontSize: '.75rem' }}>ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â</span>
                     </button>
                   ))}
                 </div>
@@ -789,7 +789,7 @@ export default function AdminMobilePreviewPage() {
               </div>
             )}
 
-            {/* â•â•â•â•â•â•â•â•â•â•â•â• SCREEN 2: REGISTRATION â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â SCREEN 2: REGISTRATION ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â */}
             {activeScreen === 'register' && (
               <form onSubmit={handleRegisterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '.7rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
@@ -798,7 +798,7 @@ export default function AdminMobilePreviewPage() {
                     onClick={() => setActiveScreen('login')}
                     style={{ background: 'none', border: 'none', color: '#C9963A', cursor: 'pointer', fontSize: '.8rem' }}
                   >
-                    â€¹ Back
+                    ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹ Back
                   </button>
                   <h4 style={{ margin: 0, fontSize: '.9rem', color: '#fff' }}>Register Field Officer</h4>
                 </div>
@@ -821,7 +821,7 @@ export default function AdminMobilePreviewPage() {
                     value={regForm.agency}
                     onChange={(e) => setRegForm({ ...regForm, agency: e.target.value })}
                   >
-                    <option>Nigeria Police Force (NPF) â€” Ogere Station</option>
+                    <option>Nigeria Police Force (NPF) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Station</option>
                     <option>Ogun State So-Safe Corps (Armed Unit)</option>
                     <option>FRSC Corridor Highway Patrol</option>
                     <option>Aafin Ologere Palace Protocol Office</option>
@@ -882,19 +882,19 @@ export default function AdminMobilePreviewPage() {
                     cursor: 'pointer',
                   }}
                 >
-                  Verify & Activate Officer Terminal âž”
+                  Verify & Activate Officer Terminal ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                 </button>
               </form>
             )}
 
-            {/* â•â•â•â•â•â•â•â•â•â•â•â• SCREEN 3: DASHBOARD HUD â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â SCREEN 3: DASHBOARD HUD ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â */}
             {activeScreen === 'dashboard' && (
               <>
                 {/* CODE RED Banner */}
                 {stats.incidents.code_red > 0 && (
                   <div style={{ background: 'linear-gradient(90deg, #7f1d1d 0%, #450a0a 100%)', border: '1px solid #ef4444', borderRadius: 8, padding: '.6rem .8rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                      <span style={{ fontSize: '1.3rem' }}>ðŸš¨</span>
+                      <span style={{ fontSize: '1.3rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</span>
                       <div>
                         <div style={{ fontSize: '.7rem', fontWeight: 900, color: '#fca5a5', letterSpacing: '0.5px' }}>
                           CODE RED ACTIVE INCIDENT
@@ -937,20 +937,20 @@ export default function AdminMobilePreviewPage() {
                   </div>
                 </div>
 
-                {/* â”€â”€ ROLE CONSOLE: 1. SECURITY PATROL â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ROLE CONSOLE: 1. SECURITY PATROL ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {currentRole === 'security_officer' && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
                     <div style={{ fontSize: '.68rem', fontWeight: 800, color: '#f87171', letterSpacing: '0.5px' }}>
-                      ðŸ›¡ï¸ TACTICAL SECURITY FEED & RADAR
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â TACTICAL SECURITY FEED & RADAR
                     </div>
 
                     {/* Quick Tools */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '.4rem' }}>
                       <button
-                        onClick={() => showToast('ðŸ“ Geofenced Check-In: Aafin Gatehouse Outpost (6.9368Â°N, 3.6330Â°E) logged.')}
+                        onClick={() => showToast('ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Geofenced Check-In: Aafin Gatehouse Outpost (6.9368Ãƒâ€šÃ‚Â°N, 3.6330Ãƒâ€šÃ‚Â°E) logged.')}
                         style={{ padding: '.6rem', background: '#1a0b06', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 6, color: '#fff', cursor: 'pointer', textAlign: 'left' }}
                       >
-                        <div style={{ fontSize: '1.2rem' }}>ðŸ“</div>
+                        <div style={{ fontSize: '1.2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â</div>
                         <div style={{ fontSize: '.7rem', fontWeight: 800 }}>Patrol Check-In</div>
                         <div style={{ fontSize: '.55rem', color: 'rgba(245,237,216,0.6)' }}>Log GPS checkpoint</div>
                       </button>
@@ -959,7 +959,7 @@ export default function AdminMobilePreviewPage() {
                         onClick={() => setActiveScreen('idCards')}
                         style={{ padding: '.6rem', background: '#1a0b06', border: '1px solid rgba(201,150,58,0.3)', borderRadius: 6, color: '#fff', cursor: 'pointer', textAlign: 'left' }}
                       >
-                        <div style={{ fontSize: '1.2rem' }}>ðŸªª</div>
+                        <div style={{ fontSize: '1.2rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª</div>
                         <div style={{ fontSize: '.7rem', fontWeight: 800 }}>Gate Pass Scanner</div>
                         <div style={{ fontSize: '.55rem', color: 'rgba(245,237,216,0.6)' }}>Validate visitor IDs</div>
                       </button>
@@ -974,8 +974,8 @@ export default function AdminMobilePreviewPage() {
                         <div key={inc.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '.4rem 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <div>
                             <div style={{ fontSize: '.72rem', fontWeight: 800, color: '#fff' }}>{inc.category}</div>
-                            <div style={{ fontSize: '.6rem', color: 'rgba(245,237,216,0.6)' }}>ðŸ“ {inc.location}</div>
-                            <div style={{ fontSize: '.55rem', color: '#f87171' }}>{inc.status} Â· {inc.time}</div>
+                            <div style={{ fontSize: '.6rem', color: 'rgba(245,237,216,0.6)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {inc.location}</div>
+                            <div style={{ fontSize: '.55rem', color: '#f87171' }}>{inc.status} Ãƒâ€šÃ‚Â· {inc.time}</div>
                           </div>
                           <button
                             onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=6.9368,3.6330`, '_blank')}
@@ -989,18 +989,18 @@ export default function AdminMobilePreviewPage() {
                   </div>
                 )}
 
-                {/* â”€â”€ ROLE CONSOLE: 2. PALACE PROTOCOL â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ROLE CONSOLE: 2. PALACE PROTOCOL ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {currentRole === 'palace_protocol' && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontSize: '.68rem', fontWeight: 800, color: '#C9963A' }}>
-                        ðŸ‘‘ PALACE AUDIENCE APPOINTMENT QUEUE
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ PALACE AUDIENCE APPOINTMENT QUEUE
                       </span>
                       <button
                         onClick={() => setActiveScreen('audiences')}
                         style={{ background: 'none', border: 'none', color: '#fef08a', fontSize: '.62rem', cursor: 'pointer', fontWeight: 700 }}
                       >
-                        Open Full Queue ({audiences.length}) âž”
+                        Open Full Queue ({audiences.length}) ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                       </button>
                     </div>
 
@@ -1032,8 +1032,8 @@ export default function AdminMobilePreviewPage() {
                         </div>
 
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '.58rem', color: 'rgba(245,237,216,0.5)' }}>
-                          <span>ðŸ“… {aud.bookingDate} at {aud.timeSlot}</span>
-                          <span>ðŸ‘¥ {aud.groupSize}</span>
+                          <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ {aud.bookingDate} at {aud.timeSlot}</span>
+                          <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ {aud.groupSize}</span>
                         </div>
 
                         <div style={{ display: 'flex', gap: '.4rem', marginTop: '.2rem' }}>
@@ -1044,7 +1044,7 @@ export default function AdminMobilePreviewPage() {
                             }}
                             style={{ flex: 1, background: '#C9963A', color: '#000', border: 'none', borderRadius: 4, padding: '.35rem', fontSize: '.65rem', fontWeight: 800, cursor: 'pointer' }}
                           >
-                            ðŸ‘‘ Confirm & Chamber
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Confirm & Chamber
                           </button>
                           <button
                             onClick={() => {
@@ -1053,7 +1053,7 @@ export default function AdminMobilePreviewPage() {
                             }}
                             style={{ flex: 1, background: 'rgba(217,119,6,0.2)', border: '1px solid #d97706', color: '#fef08a', borderRadius: 4, padding: '.35rem', fontSize: '.65rem', fontWeight: 700, cursor: 'pointer' }}
                           >
-                            â³ Reschedule
+                            ÃƒÂ¢Ã‚ÂÃ‚Â³ Reschedule
                           </button>
                         </div>
                       </div>
@@ -1061,18 +1061,18 @@ export default function AdminMobilePreviewPage() {
                   </div>
                 )}
 
-                {/* â”€â”€ ROLE CONSOLE: 3. OCDA ADMIN â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ROLE CONSOLE: 3. OCDA ADMIN ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {currentRole === 'ocda_admin' && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontSize: '.68rem', fontWeight: 800, color: '#34d399' }}>
-                        ðŸ›ï¸ OCDA CIVIC ID VERIFICATION DESK
+                        ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â OCDA CIVIC ID VERIFICATION DESK
                       </span>
                       <button
                         onClick={() => setActiveScreen('idCards')}
                         style={{ background: 'none', border: 'none', color: '#86efac', fontSize: '.62rem', cursor: 'pointer', fontWeight: 700 }}
                       >
-                        All Applications âž”
+                        All Applications ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                       </button>
                     </div>
 
@@ -1100,7 +1100,7 @@ export default function AdminMobilePreviewPage() {
                         </div>
 
                         <div style={{ fontSize: '.62rem', color: 'rgba(245,237,216,0.6)' }}>
-                          Quarter: {card.quarter} Â· Compound: {card.compound}
+                          Quarter: {card.quarter} Ãƒâ€šÃ‚Â· Compound: {card.compound}
                         </div>
 
                         {card.status === 'pending' && (
@@ -1109,13 +1109,13 @@ export default function AdminMobilePreviewPage() {
                               onClick={() => handleProcessIdCard(card.id, 'approved')}
                               style={{ flex: 1, background: '#059669', color: '#fff', border: 'none', borderRadius: 4, padding: '.35rem', fontSize: '.65rem', fontWeight: 800, cursor: 'pointer' }}
                             >
-                              âœ“ Approve Card
+                              ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Approve Card
                             </button>
                             <button
                               onClick={() => handleProcessIdCard(card.id, 'rejected')}
                               style={{ flex: 1, background: 'rgba(239,68,68,0.2)', border: '1px solid #ef4444', color: '#fca5a5', borderRadius: 4, padding: '.35rem', fontSize: '.65rem', fontWeight: 700, cursor: 'pointer' }}
                             >
-                              âœ• Flag
+                              ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Flag
                             </button>
                           </div>
                         )}
@@ -1126,7 +1126,7 @@ export default function AdminMobilePreviewPage() {
               </>
             )}
 
-            {/* â•â•â•â•â•â•â•â•â•â•â•â• SCREEN 4: AUDIENCES MANAGER â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â SCREEN 4: AUDIENCES MANAGER ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â */}
             {activeScreen === 'audiences' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '.7rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -1134,7 +1134,7 @@ export default function AdminMobilePreviewPage() {
                     onClick={() => setActiveScreen('dashboard')}
                     style={{ background: 'none', border: 'none', color: '#C9963A', cursor: 'pointer', fontSize: '.8rem' }}
                   >
-                    â€¹ HUD
+                    ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹ HUD
                   </button>
                   <span style={{ fontSize: '.8rem', fontWeight: 800, color: '#fff' }}>Palace Audiences ({audiences.length})</span>
                   <div style={{ width: 24 }} />
@@ -1168,9 +1168,9 @@ export default function AdminMobilePreviewPage() {
                     </div>
 
                     <div style={{ fontSize: '.58rem', color: 'rgba(245,237,216,0.6)', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                      <div>âœ‰ï¸ {aud.email}</div>
-                      <div>ðŸ“ž {aud.phone}</div>
-                      <div>ðŸ“ {aud.address}</div>
+                      <div>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â°ÃƒÂ¯Ã‚Â¸Ã‚Â {aud.email}</div>
+                      <div>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ {aud.phone}</div>
+                      <div>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {aud.address}</div>
                     </div>
 
                     {aud.chamber && (
@@ -1187,7 +1187,7 @@ export default function AdminMobilePreviewPage() {
                         }}
                         style={{ flex: 1, background: '#C9963A', color: '#000', border: 'none', borderRadius: 4, padding: '.35rem', fontSize: '.65rem', fontWeight: 800, cursor: 'pointer' }}
                       >
-                        ðŸ‘‘ Confirm
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Confirm
                       </button>
                       <button
                         onClick={() => {
@@ -1196,7 +1196,7 @@ export default function AdminMobilePreviewPage() {
                         }}
                         style={{ flex: 1, background: 'rgba(217,119,6,0.2)', border: '1px solid #d97706', color: '#fef08a', borderRadius: 4, padding: '.35rem', fontSize: '.65rem', fontWeight: 700, cursor: 'pointer' }}
                       >
-                        â³ Reschedule
+                        ÃƒÂ¢Ã‚ÂÃ‚Â³ Reschedule
                       </button>
                       <button
                         onClick={() => {
@@ -1205,7 +1205,7 @@ export default function AdminMobilePreviewPage() {
                         }}
                         style={{ flex: 1, background: 'rgba(239,68,68,0.2)', border: '1px solid #ef4444', color: '#fca5a5', borderRadius: 4, padding: '.35rem', fontSize: '.65rem', fontWeight: 700, cursor: 'pointer' }}
                       >
-                        âœ• Decline
+                        ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Decline
                       </button>
                     </div>
                   </div>
@@ -1213,7 +1213,7 @@ export default function AdminMobilePreviewPage() {
               </div>
             )}
 
-            {/* â•â•â•â•â•â•â•â•â•â•â•â• SCREEN 5: ID APPROVALS â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â SCREEN 5: ID APPROVALS ÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚ÂÃƒÂ¢Ã¢â‚¬Â¢Ã‚Â */}
             {activeScreen === 'idCards' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '.7rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -1221,7 +1221,7 @@ export default function AdminMobilePreviewPage() {
                     onClick={() => setActiveScreen('dashboard')}
                     style={{ background: 'none', border: 'none', color: '#34d399', cursor: 'pointer', fontSize: '.8rem' }}
                   >
-                    â€¹ HUD
+                    ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹ HUD
                   </button>
                   <span style={{ fontSize: '.8rem', fontWeight: 800, color: '#fff' }}>Digital ID Queue ({idCards.length})</span>
                   <div style={{ width: 24 }} />
@@ -1263,13 +1263,13 @@ export default function AdminMobilePreviewPage() {
                           onClick={() => handleProcessIdCard(card.id, 'approved')}
                           style={{ flex: 1, background: '#059669', color: '#fff', border: 'none', borderRadius: 4, padding: '.4rem', fontSize: '.68rem', fontWeight: 800, cursor: 'pointer' }}
                         >
-                          âœ“ Approve & Issue ID
+                          ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Approve & Issue ID
                         </button>
                         <button
                           onClick={() => handleProcessIdCard(card.id, 'rejected')}
                           style={{ flex: 1, background: 'rgba(239,68,68,0.2)', border: '1px solid #ef4444', color: '#fca5a5', borderRadius: 4, padding: '.4rem', fontSize: '.68rem', fontWeight: 700, cursor: 'pointer' }}
                         >
-                          âœ• Reject
+                          ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Reject
                         </button>
                       </div>
                     )}
@@ -1285,28 +1285,28 @@ export default function AdminMobilePreviewPage() {
               onClick={() => setActiveScreen('dashboard')}
               style={{ background: 'none', border: 'none', color: activeScreen === 'dashboard' ? '#C9963A' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
             >
-              <span style={{ fontSize: '1rem' }}>ðŸ›ï¸</span>
+              <span style={{ fontSize: '1rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â</span>
               <span style={{ fontSize: '.58rem', fontWeight: 700 }}>Command</span>
             </button>
             <button
               onClick={() => setActiveScreen('audiences')}
               style={{ background: 'none', border: 'none', color: activeScreen === 'audiences' ? '#C9963A' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
             >
-              <span style={{ fontSize: '1rem' }}>ðŸ‘‘</span>
+              <span style={{ fontSize: '1rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</span>
               <span style={{ fontSize: '.58rem', fontWeight: 700 }}>Audiences</span>
             </button>
             <button
               onClick={() => setActiveScreen('idCards')}
               style={{ background: 'none', border: 'none', color: activeScreen === 'idCards' ? '#34d399' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
             >
-              <span style={{ fontSize: '1rem' }}>ðŸªª</span>
+              <span style={{ fontSize: '1rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª</span>
               <span style={{ fontSize: '.58rem', fontWeight: 700 }}>ID Desk</span>
             </button>
             <button
               onClick={() => setActiveScreen('register')}
               style={{ background: 'none', border: 'none', color: activeScreen === 'register' ? '#f87171' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
             >
-              <span style={{ fontSize: '1rem' }}>âš™ï¸</span>
+              <span style={{ fontSize: '1rem' }}>ÃƒÂ¢Ã…Â¡Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
               <span style={{ fontSize: '.58rem', fontWeight: 700 }}>Admin</span>
             </button>
           </div>
@@ -1316,7 +1316,7 @@ export default function AdminMobilePreviewPage() {
         <div style={{ maxWidth: 460, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ background: '#120804', border: '1px solid rgba(201,150,58,0.3)', borderRadius: 10, padding: '1.2rem', gap: '.8rem', display: 'flex', flexDirection: 'column' }}>
             <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#F5EDD8', fontFamily: "'Cinzel', serif" }}>
-              âš¡ Field Officer App Capabilities
+              ÃƒÂ¢Ã…Â¡Ã‚Â¡ Field Officer App Capabilities
             </h3>
 
             <div style={{ fontSize: '.78rem', color: 'rgba(245,237,216,0.7)', lineHeight: 1.6 }}>
@@ -1350,10 +1350,10 @@ export default function AdminMobilePreviewPage() {
           <div style={{ background: '#120804', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '1rem' }}>
             <h4 style={{ margin: '0 0 .5rem', fontSize: '.85rem', color: '#fff' }}>Agency Access Authorization Keys</h4>
             <div style={{ fontSize: '.7rem', color: 'rgba(245,237,216,0.6)', lineHeight: 1.6 }}>
-              â€¢ Police / Security: <code style={{ color: '#f87171' }}>OGERE-SEC-2026</code><br />
-              â€¢ Palace Protocol: <code style={{ color: '#C9963A' }}>AAFIN-PROTO-2026</code><br />
-              â€¢ OCDA Admin Desk: <code style={{ color: '#34d399' }}>OCDA-HQ-2026</code><br />
-              â€¢ Universal Bypass: <code style={{ color: '#fff' }}>OGERE2026</code>
+              ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Police / Security: <code style={{ color: '#f87171' }}>OGERE-SEC-2026</code><br />
+              ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Palace Protocol: <code style={{ color: '#C9963A' }}>AAFIN-PROTO-2026</code><br />
+              ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ OCDA Admin Desk: <code style={{ color: '#34d399' }}>OCDA-HQ-2026</code><br />
+              ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Universal Bypass: <code style={{ color: '#fff' }}>OGERE2026</code>
             </div>
           </div>
         </div>
@@ -1366,7 +1366,7 @@ export default function AdminMobilePreviewPage() {
           <form onSubmit={handleConfirmAudience} style={{ background: '#170b06', border: '2px solid #C9963A', borderRadius: 12, padding: '1.5rem', maxWidth: 440, width: '100%', display: 'flex', flexDirection: 'column', gap: '.8rem' }}>
             <div style={{ borderBottom: '1px solid rgba(201,150,58,0.2)', paddingBottom: '.6rem' }}>
               <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#C9963A', fontFamily: "'Cinzel', serif" }}>
-                {audienceAction === 'confirmed' ? 'ðŸ‘‘ Grant Royal Audience' : audienceAction === 'postponed' ? 'â³ Reschedule Appointment' : 'Palace Regret Notice'}
+                {audienceAction === 'confirmed' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Grant Royal Audience' : audienceAction === 'postponed' ? 'ÃƒÂ¢Ã‚ÂÃ‚Â³ Reschedule Appointment' : 'Palace Regret Notice'}
               </h3>
               <p style={{ margin: '3px 0 0', fontSize: '.72rem', color: '#fff' }}>
                 Applicant: {selectedAudience.fullName} ({selectedAudience.id})
@@ -1422,7 +1422,7 @@ export default function AdminMobilePreviewPage() {
             </div>
 
             <div style={{ background: 'rgba(14,165,233,0.15)', border: '1px solid #0284c7', borderRadius: 6, padding: '.6rem', fontSize: '.65rem', color: '#bae6fd' }}>
-              ðŸ“§ Submitting will automatically send an official royal letterhead email bearing the palace seal to: <strong>{selectedAudience.email}</strong>.
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â§ Submitting will automatically send an official royal letterhead email bearing the palace seal to: <strong>{selectedAudience.email}</strong>.
             </div>
 
             <div style={{ display: 'flex', gap: '.6rem', marginTop: '.4rem' }}>
@@ -1437,7 +1437,7 @@ export default function AdminMobilePreviewPage() {
                 type="submit"
                 style={{ flex: 1.5, padding: '.6rem', background: '#C9963A', color: '#000', border: 'none', borderRadius: 6, fontSize: '.75rem', fontWeight: 800, cursor: 'pointer' }}
               >
-                Dispatch Royal Decision âž”
+                Dispatch Royal Decision ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
               </button>
             </div>
           </form>

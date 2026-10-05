@@ -14,38 +14,38 @@ import { autoRouteIncident, claimIncident, reassignIncident, getIncidentClaim } 
 import { RADIO_CHANNELS, getTacticalMessages, sendTacticalMessage, playRadioSquelchSound } from '../services/tacticalComms';
 
 const AGENCIES = [
-  { id: 'all', name: 'All Security Agencies', icon: 'ðŸŒ' },
-  { id: 'Police', name: 'Nigeria Police Force (NPF)', icon: 'ðŸš”', phone: '08081762371' },
-  { id: 'FRSC', name: 'FRSC Expressway Command', icon: 'ðŸš¦', phone: '122' },
-  { id: 'So-Safe', name: 'So-Safe Corps (Ogun State)', icon: 'ðŸ›¡ï¸', phone: '08034681687' },
-  { id: 'Palace Vigilante', name: 'Palace Vigilante & Night Watch', icon: 'ðŸ‘‘', phone: '08023456789' },
-  { id: 'Fire Service', name: 'Ogun State Fire & Rescue', icon: 'ðŸ”¥', phone: '08134680660' },
+  { id: 'all', name: 'All Security Agencies', icon: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â' },
+  { id: 'Police', name: 'Nigeria Police Force (NPF)', icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Â', phone: '08081762371' },
+  { id: 'FRSC', name: 'FRSC Expressway Command', icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¦', phone: '122' },
+  { id: 'So-Safe', name: 'So-Safe Corps (Ogun State)', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â', phone: '08034681687' },
+  { id: 'Palace Vigilante', name: 'Palace Vigilante & Night Watch', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', phone: '08023456789' },
+  { id: 'Fire Service', name: 'Ogun State Fire & Rescue', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥', phone: '08134680660' },
 ];
 
 const THREAT_LEVELS = {
   CODE_RED: {
-    label: 'CODE RED â€” ARMED CRITICAL',
+    label: 'CODE RED ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ARMED CRITICAL',
     desc: 'Armed Robbery, Terrorism, Kidnapping, Gunfire, Hostage Crisis',
     color: '#ef4444',
     bg: 'rgba(239, 68, 68, 0.15)',
     border: '#dc2626',
-    badge: 'ðŸš¨ CODE RED'
+    badge: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ CODE RED'
   },
   CODE_ORANGE: {
-    label: 'CODE ORANGE â€” MASS CASUALTY / EXPLOSION',
+    label: 'CODE ORANGE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â MASS CASUALTY / EXPLOSION',
     desc: 'Tanker Explosion, CNG Pipeline Leak, Expressway Multi-Vehicle Crash',
     color: '#f97316',
     bg: 'rgba(249, 115, 22, 0.12)',
     border: '#ea580c',
-    badge: 'ðŸ”¥ CODE ORANGE'
+    badge: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ CODE ORANGE'
   },
   CODE_YELLOW: {
-    label: 'CODE YELLOW â€” GENERAL HAZARD',
+    label: 'CODE YELLOW ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GENERAL HAZARD',
     desc: 'Public Disorder, Road Obstruction, Local Dispute, Suspicious Movement',
     color: '#eab308',
     bg: 'rgba(234, 179, 8, 0.1)',
     border: '#ca8a04',
-    badge: 'âš ï¸ CODE YELLOW'
+    badge: 'ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â CODE YELLOW'
   },
 };
 
@@ -84,7 +84,7 @@ function SlaBadge({ incident }) {
         alignItems: 'center',
         gap: '0.2rem',
       }}>
-        âœ“ SLA MET
+        ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ SLA MET
       </span>
     );
   }
@@ -118,7 +118,7 @@ function SlaBadge({ incident }) {
       alignItems: 'center',
       gap: '0.25rem',
     }}>
-      <span>â±ï¸</span>
+      <span>ÃƒÂ¢Ã‚ÂÃ‚Â±ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
       <span>{isBreached ? `SLA BREACHED (-${formatted})` : `SLA: ${formatted}`}</span>
     </span>
   );
@@ -136,7 +136,7 @@ export default function SecurityDashboardPage() {
   const [dispatchAgency, setDispatchAgency] = useState('Police');
   const [agencyNotes, setAgencyNotes] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
-  const [audioEnabled, setAudioEnabled] = useState(true); // ON by default â€” agents always hear alarms
+  const [audioEnabled, setAudioEnabled] = useState(true); // ON by default ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â agents always hear alarms
   const [lastAlertTime, setLastAlertTime] = useState(null);
   const [fullscreenMedia, setFullscreenMedia] = useState(null);
   const [dashboardMapMode, setDashboardMapMode] = useState('hybrid'); // 'hybrid' (satellite) or 'roadmap'
@@ -226,7 +226,7 @@ export default function SecurityDashboardPage() {
         } else if (hasCodeOrange) {
           triggerAudioAlarm(false);  // 2-cycle alert
         } else {
-          stopAlarm(); // All clear â€” stop any running alarm
+          stopAlarm(); // All clear ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â stop any running alarm
         }
       }
     } catch (err) {
@@ -668,13 +668,13 @@ export default function SecurityDashboardPage() {
           borderBottom: '2px solid #fde047',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-            <span style={{ fontSize: '1.4rem' }}>ðŸ“¢</span>
+            <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¢</span>
             <div>
               <div style={{ fontSize: '0.82rem', fontWeight: 900, letterSpacing: '0.08em' }}>
                 PALACE COMMUNITY BROADCAST [{broadcasts[0].severity}]: {broadcasts[0].title}
               </div>
               <div style={{ fontSize: '0.72rem', color: '#fef3c7', marginTop: '0.1rem' }}>
-                {broadcasts[0].message} Â· Sector: {broadcasts[0].target_sector}
+                {broadcasts[0].message} Ãƒâ€šÃ‚Â· Sector: {broadcasts[0].target_sector}
               </div>
             </div>
           </div>
@@ -691,7 +691,7 @@ export default function SecurityDashboardPage() {
               cursor: 'pointer',
             }}
           >
-            âœ• Dismiss & Archive Broadcast
+            ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Dismiss & Archive Broadcast
           </button>
         </div>
       )}
@@ -800,7 +800,7 @@ export default function SecurityDashboardPage() {
                 boxShadow: liveOnlyFilter ? '0 0 10px rgba(34,197,94,0.4)' : 'none',
               }}
             >
-              <span>{liveOnlyFilter ? 'ðŸŸ¢' : 'âšª'}</span>
+              <span>{liveOnlyFilter ? 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢' : 'ÃƒÂ¢Ã…Â¡Ã‚Âª'}</span>
               <span>LIVE RADARS ONLY ({liveTrackingCount})</span>
             </button>
           </div>
@@ -822,7 +822,7 @@ export default function SecurityDashboardPage() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', flexWrap: 'wrap' }}>
             <span style={{ color: 'var(--gold)', fontWeight: 800, letterSpacing: '0.05em' }}>
-              âŒ¨ï¸ TACTICAL HOTKEYS:
+              ÃƒÂ¢Ã…â€™Ã‚Â¨ÃƒÂ¯Ã‚Â¸Ã‚Â TACTICAL HOTKEYS:
             </span>
             <span style={{ color: 'rgba(255,255,255,0.85)' }}>
               <kbd style={{ background: '#334155', padding: '0.15rem 0.4rem', borderRadius: '3px', color: '#f8fafc', fontWeight: 700, border: '1px solid #475569' }}>SPACE</kbd> Triage
@@ -844,7 +844,7 @@ export default function SecurityDashboardPage() {
             </span>
           </div>
           <div style={{ color: '#86efac', fontSize: '0.68rem', fontWeight: 800 }}>
-            ðŸ›°ï¸ OGERE GIS RADAR ACTIVE Â· LATENCY 24ms
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â OGERE GIS RADAR ACTIVE Ãƒâ€šÃ‚Â· LATENCY 24ms
           </div>
         </div>
 
@@ -875,6 +875,7 @@ export default function SecurityDashboardPage() {
               setAgencyNotes={setAgencyNotes}
               THREAT_LEVELS={THREAT_LEVELS}
               SlaBadge={SlaBadge}
+              claimedIncidents={claimedIncidents}
             />
 
           <ActiveDispatchTerminal
@@ -890,16 +891,23 @@ export default function SecurityDashboardPage() {
             isUpdating={isUpdating}
             handleUpdateStatus={handleUpdateStatus}
             handleScanCctv={handleScanCctv}
-            CCTV_CAMERAS={CCTV_CAMERAS}
             claimedIncidents={claimedIncidents}
             adminSelectedStation={adminSelectedStation}
             setAdminSelectedStation={setAdminSelectedStation}
-            adminRouteToStation={adminRouteToStation}
+            handleAdminReassign={handleAdminReassign}
             SlaBadge={SlaBadge}
+            setFullscreenMedia={setFullscreenMedia}
+            breadcrumbs={breadcrumbs}
+            dashboardMapMode={dashboardMapMode}
+            setDashboardMapMode={setDashboardMapMode}
+            liveRefreshKey={liveRefreshKey}
+            newSitrepText={newSitrepText}
+            setNewSitrepText={setNewSitrepText}
+            handleAddRadioSitrep={handleAddRadioSitrep}
           />
         </div>
 
-        {/* â”€â”€ TACTICAL INTER-AGENCY RADIO COMMS & VOIP COMMAND NET â”€â”€ */}
+        {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ TACTICAL INTER-AGENCY RADIO COMMS & VOIP COMMAND NET ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
         <div style={{
           marginTop: '2rem',
           background: 'rgba(15, 23, 42, 0.9)',
@@ -910,7 +918,7 @@ export default function SecurityDashboardPage() {
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.6rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{ fontSize: '1.4rem' }}>ðŸ“»</span>
+              <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â»</span>
               <div>
                 <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#38bdf8', letterSpacing: '0.04em' }}>
                   OGERE JOINT SECURITY TACTICAL COMMS & INTERCOM NET
@@ -975,7 +983,7 @@ export default function SecurityDashboardPage() {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.65rem', marginBottom: '0.2rem' }}>
                       <span style={{ color: '#38bdf8', fontWeight: 800 }}>
-                        {msg.avatar} {msg.senderName} ({msg.senderBadge} Â· {msg.callsign})
+                        {msg.avatar} {msg.senderName} ({msg.senderBadge} Ãƒâ€šÃ‚Â· {msg.callsign})
                       </span>
                       <span style={{ color: '#94a3b8', fontSize: '0.58rem' }}>
                         {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -1021,7 +1029,7 @@ export default function SecurityDashboardPage() {
                     cursor: 'pointer',
                   }}
                 >
-                  ðŸ“¡ Transmit
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Transmit
                 </button>
               </form>
             </div>
@@ -1036,7 +1044,7 @@ export default function SecurityDashboardPage() {
               overflowY: 'auto',
             }}>
               <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#4ade80', marginBottom: '0.6rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>ðŸ‘¥ ACTIVE ONBOARDED FIELD OFFICERS</span>
+                <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ ACTIVE ONBOARDED FIELD OFFICERS</span>
                 <span style={{ fontSize: '0.6rem', color: '#86efac' }}>6 CONNECTED</span>
               </div>
 
@@ -1059,10 +1067,10 @@ export default function SecurityDashboardPage() {
                         {off.avatar} {off.name}
                       </div>
                       <div style={{ fontSize: '0.6rem', color: '#94a3b8' }}>
-                        {off.agency.split('â€”')[0]} Â· {off.callsign} ({off.badge})
+                        {off.agency.split('ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â')[0]} Ãƒâ€šÃ‚Â· {off.callsign} ({off.badge})
                       </div>
                       <div style={{ fontSize: '0.58rem', color: '#38bdf8', marginTop: '0.1rem' }}>
-                        ðŸ“ {off.location.landmark} Â· ðŸ”‹ {off.battery}%
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {off.location.landmark} Ãƒâ€šÃ‚Â· ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ {off.battery}%
                       </div>
                     </div>
 
@@ -1081,7 +1089,7 @@ export default function SecurityDashboardPage() {
                         gap: '0.25rem',
                       }}
                     >
-                      <span>ðŸ“ž</span> Direct Call
+                      <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾</span> Direct Call
                     </a>
                   </div>
                 ))}
@@ -1113,7 +1121,7 @@ export default function SecurityDashboardPage() {
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '1.5rem' }}>ðŸš¨</span>
+                  <span style={{ fontSize: '1.5rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</span>
                   <div className="cinzel" style={{ fontSize: '1rem', fontWeight: 900, color: '#ef4444' }}>
                     LOG TACTICAL EMERGENCY ALERT
                   </div>
@@ -1122,7 +1130,7 @@ export default function SecurityDashboardPage() {
                   onClick={() => setNewIncidentForm(false)}
                   style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}
                 >
-                  âœ•
+                  ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
                 </button>
               </div>
 
@@ -1154,9 +1162,9 @@ export default function SecurityDashboardPage() {
                     onChange={e => setManualReport({ ...manualReport, threatLevel: e.target.value })}
                     style={{ width: '100%', background: '#25120d', color: '#f5edd8', border: '1px solid rgba(201,150,58,0.3)', padding: '0.6rem', borderRadius: '4px' }}
                   >
-                    <option value="CODE_RED">ðŸ”´ CODE RED (Armed Robbery / Terrorism / Life Threatening)</option>
-                    <option value="CODE_ORANGE">ðŸŸ  CODE ORANGE (Tanker Explosion / Hazard)</option>
-                    <option value="CODE_YELLOW">ðŸŸ¡ CODE YELLOW (Standard Incident)</option>
+                    <option value="CODE_RED">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ CODE RED (Armed Robbery / Terrorism / Life Threatening)</option>
+                    <option value="CODE_ORANGE">ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â  CODE ORANGE (Tanker Explosion / Hazard)</option>
+                    <option value="CODE_YELLOW">ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¡ CODE YELLOW (Standard Incident)</option>
                   </select>
                 </div>
 
@@ -1217,22 +1225,22 @@ export default function SecurityDashboardPage() {
                     disabled={isUpdating}
                     style={{ background: '#b91c1c', border: 'none', color: '#ffffff', padding: '0.6rem 1.4rem', borderRadius: '4px', fontWeight: 800, cursor: 'pointer' }}
                   >
-                    {isUpdating ? 'Transmitting...' : 'Transmit Alert Now â†’'}
+                    {isUpdating ? 'Transmitting...' : 'Transmit Alert Now ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢'}
                   </button>
                 </div>
               </form>
             </div>
           </div>
         )}
-        {/* â”€â”€ MODAL 1: Palace Amber Alert & Curfew Dispatcher â”€â”€ */}
+        {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ MODAL 1: Palace Amber Alert & Curfew Dispatcher ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
         {showBroadcastModal && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
             <div style={{ background: '#1a1008', border: '2px solid #f59e0b', borderRadius: '8px', padding: '1.5rem', width: '100%', maxWidth: '540px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <h3 className="cinzel" style={{ fontSize: '1.1rem', color: '#f59e0b', margin: 0 }}>
-                  ðŸ“¢ DISPATCH PALACE AMBER ALERT / CURFEW
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¢ DISPATCH PALACE AMBER ALERT / CURFEW
                 </h3>
-                <button onClick={() => setShowBroadcastModal(false)} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>âœ•</button>
+                <button onClick={() => setShowBroadcastModal(false)} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
               </div>
 
               <form onSubmit={handleCreateBroadcast} style={{ display: 'grid', gap: '0.9rem' }}>
@@ -1255,9 +1263,9 @@ export default function SecurityDashboardPage() {
                       onChange={e => setBroadcastForm({ ...broadcastForm, severity: e.target.value })}
                       style={{ width: '100%', background: '#25120d', color: '#ffffff', border: '1px solid #f59e0b', padding: '0.6rem', borderRadius: '4px' }}
                     >
-                      <option value="CRITICAL">ðŸ”´ CRITICAL (Hostage/Armed Robbery)</option>
-                      <option value="CURFEW">âš ï¸ TOWN CURFEW (Night Movement Ban)</option>
-                      <option value="ADVISORY">ðŸŸ¡ CIVIC ADVISORY (Weather/Roadblock)</option>
+                      <option value="CRITICAL">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ CRITICAL (Hostage/Armed Robbery)</option>
+                      <option value="CURFEW">ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â TOWN CURFEW (Night Movement Ban)</option>
+                      <option value="ADVISORY">ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¡ CIVIC ADVISORY (Weather/Roadblock)</option>
                     </select>
                   </div>
                   <div>
@@ -1298,7 +1306,7 @@ export default function SecurityDashboardPage() {
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem', marginTop: '0.5rem' }}>
                   <button type="button" onClick={() => setShowBroadcastModal(false)} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#ffffff', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer' }}>Cancel</button>
                   <button type="submit" disabled={isUpdating} style={{ background: '#d97706', border: 'none', color: '#ffffff', padding: '0.5rem 1.2rem', borderRadius: '4px', fontWeight: 900, cursor: 'pointer' }}>
-                    {isUpdating ? 'Publishing...' : 'Broadcast to All Citizen Apps âž”'}
+                    {isUpdating ? 'Publishing...' : 'Broadcast to All Citizen Apps ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â'}
                   </button>
                 </div>
               </form>
@@ -1306,7 +1314,7 @@ export default function SecurityDashboardPage() {
           </div>
         )}
 
-        {/* â”€â”€ MODAL 2: Private CCTV Surveillance Scanner â”€â”€ */}
+        {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ MODAL 2: Private CCTV Surveillance Scanner ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
         {showCctvModal && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
             <div style={{ background: '#111827', border: '2px solid #3b82f6', borderRadius: '8px', padding: '1.5rem', width: '100%', maxWidth: '620px', maxHeight: '85vh', overflowY: 'auto' }}>
@@ -1314,17 +1322,17 @@ export default function SecurityDashboardPage() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <h3 className="cinzel" style={{ fontSize: '1.1rem', color: '#60a5fa', margin: 0 }}>
-                      ðŸ“¹ REGISTERED CCTV CAMERAS SCANNER
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¹ REGISTERED CCTV CAMERAS SCANNER
                     </h3>
                     <span style={{ background: '#f59e0b', color: '#000000', fontSize: '0.62rem', fontWeight: 900, padding: '2px 6px', borderRadius: '3px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                       Live Field Simulation
                     </span>
                   </div>
                   <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)' }}>
-                    Scanning 1km radius around: {activeIncident?.location} ({Number(activeIncident?.latitude).toFixed(4)}Â°N, {Number(activeIncident?.longitude).toFixed(4)}Â°E) Â· Tactical demonstration matrix
+                    Scanning 1km radius around: {activeIncident?.location} ({Number(activeIncident?.latitude).toFixed(4)}Ãƒâ€šÃ‚Â°N, {Number(activeIncident?.longitude).toFixed(4)}Ãƒâ€šÃ‚Â°E) Ãƒâ€šÃ‚Â· Tactical demonstration matrix
                   </div>
                 </div>
-                <button onClick={() => setShowCctvModal(false)} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>âœ•</button>
+                <button onClick={() => setShowCctvModal(false)} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
               </div>
 
               {loadingCctv ? (
@@ -1341,23 +1349,22 @@ export default function SecurityDashboardPage() {
                             {c.name || c.business_name}
                           </div>
                           <div style={{ fontSize: '0.72rem', color: '#93c5fd' }}>
-                            ðŸ“ {c.location} {c.camera_count ? `(${c.camera_count} cameras)` : `Â· ${c.sector || 'Municipal'}`}
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {c.location} {c.camera_count ? `(${c.camera_count} cameras)` : `Ãƒâ€šÃ‚Â· ${c.sector || 'Municipal'}`}
                           </div>
                         </div>
                         <div style={{ display: 'flex', gap: '6px' }}>
                           {c.phone && (
                             <a href={`tel:${c.phone}`} style={{ background: '#2563eb', color: '#ffffff', padding: '0.3rem 0.7rem', borderRadius: '4px', textDecoration: 'none', fontSize: '0.72rem', fontWeight: 800 }}>
-                              ðŸ“ž Call: {c.phone}
+                              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Call: {c.phone}
                             </a>
                           )}
                           {c.latitude && c.longitude && (
                             <a
                               href={`https://www.google.com/maps?q=${c.latitude},${c.longitude}&t=k&z=19`}
                               target="_blank" rel="noopener noreferrer"
-                              rel="noreferrer"
                               style={{ background: '#0284c7', color: '#ffffff', padding: '0.3rem 0.7rem', borderRadius: '4px', textDecoration: 'none', fontSize: '0.72rem', fontWeight: 800 }}
                             >
-                              ðŸ›°ï¸ Sat Pin
+                              ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Sat Pin
                             </a>
                           )}
                         </div>
@@ -1366,7 +1373,7 @@ export default function SecurityDashboardPage() {
                         <div style={{ marginTop: '0.6rem', height: '110px', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
                           <img src={c.thumbnail} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           <div style={{ position: 'absolute', bottom: '4px', left: '6px', background: 'rgba(0,0,0,0.7)', color: '#38bdf8', padding: '2px 6px', borderRadius: '3px', fontSize: '0.62rem', fontFamily: 'monospace', display: 'flex', gap: '6px' }}>
-                            <span>{c.resolution || '1080p 30FPS'} Â· {c.status || 'LIVE'}</span>
+                            <span>{c.resolution || '1080p 30FPS'} Ãƒâ€šÃ‚Â· {c.status || 'LIVE'}</span>
                             <span style={{ color: '#fbbf24', fontWeight: 800 }}>[SIMULATED]</span>
                           </div>
                         </div>
@@ -1389,29 +1396,29 @@ export default function SecurityDashboardPage() {
           </div>
         )}
 
-        {/* â”€â”€ MODAL 3: Cryptographic Whistleblower Intel Queue â”€â”€ */}
+        {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ MODAL 3: Cryptographic Whistleblower Intel Queue ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
         {showTipsModal && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
             <div style={{ background: '#0f172a', border: '2px solid #6366f1', borderRadius: '8px', padding: '1.5rem', width: '100%', maxWidth: '750px', maxHeight: '85vh', overflowY: 'auto' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(99,102,241,0.3)', paddingBottom: '0.6rem' }}>
                 <div>
                   <h3 className="cinzel" style={{ fontSize: '1.1rem', color: '#818cf8', margin: 0 }}>
-                    ðŸ•µï¸ CRYPTOGRAPHIC ANONYMOUS WHISTLEBLOWER INTEL
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã‚ÂµÃƒÂ¯Ã‚Â¸Ã‚Â CRYPTOGRAPHIC ANONYMOUS WHISTLEBLOWER INTEL
                   </h3>
                   <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)' }}>
                     End-to-End Encrypted Citizen Intel ({tips.length} reports logged)
                   </div>
                 </div>
-                <button onClick={() => { setShowTipsModal(false); setSelectedTip(null); }} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>âœ•</button>
+                <button onClick={() => { setShowTipsModal(false); setSelectedTip(null); }} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
               </div>
 
               {selectedTip ? (
                 <div style={{ background: '#1e293b', padding: '1rem', borderRadius: '6px' }}>
                   <button onClick={() => setSelectedTip(null)} style={{ background: 'transparent', border: 'none', color: '#818cf8', cursor: 'pointer', fontSize: '0.75rem', marginBottom: '0.8rem' }}>
-                    â† Back to Tips Queue
+                    ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back to Tips Queue
                   </button>
                   <div style={{ fontSize: '0.75rem', color: 'var(--gold)', fontWeight: 800 }}>TOKEN: {selectedTip.tip_token}</div>
-                  <div style={{ fontSize: '1rem', fontWeight: 900, color: '#ffffff', margin: '0.3rem 0' }}>{selectedTip.category} Â· {selectedTip.sector}</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 900, color: '#ffffff', margin: '0.3rem 0' }}>{selectedTip.category} Ãƒâ€šÃ‚Â· {selectedTip.sector}</div>
                   <p style={{ background: '#0f172a', padding: '0.8rem', borderRadius: '4px', fontSize: '0.8rem', color: '#e2e8f0', lineHeight: 1.5 }}>
                     {selectedTip.description}
                   </p>
@@ -1438,7 +1445,7 @@ export default function SecurityDashboardPage() {
                       style={{ background: '#0f172a', color: '#ffffff', border: '1px solid #6366f1', padding: '0.5rem', borderRadius: '4px' }}
                     />
                     <button type="submit" disabled={isUpdating} style={{ background: '#4f46e5', color: '#ffffff', border: 'none', padding: '0.6rem', borderRadius: '4px', fontWeight: 800, cursor: 'pointer' }}>
-                      {isUpdating ? 'Saving...' : 'Transmit Encrypted SITREP âž”'}
+                      {isUpdating ? 'Saving...' : 'Transmit Encrypted SITREP ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â'}
                     </button>
                   </form>
                 </div>
@@ -1456,7 +1463,7 @@ export default function SecurityDashboardPage() {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <span style={{ fontSize: '0.75rem', fontWeight: 900, color: '#818cf8' }}>{t.tip_token}</span>
                           <span style={{ fontSize: '0.65rem', background: t.status === 'resolved' ? '#166534' : '#1e1b4b', color: '#c7d2fe', padding: '0.15rem 0.5rem', borderRadius: '4px', textTransform: 'uppercase' }}>
-                            â— {t.status}
+                            ÃƒÂ¢Ã¢â‚¬â€Ã‚Â {t.status}
                           </span>
                         </div>
                         <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#ffffff', marginTop: '0.2rem' }}>{t.category} ({t.sector})</div>
@@ -1472,20 +1479,20 @@ export default function SecurityDashboardPage() {
           </div>
         )}
 
-        {/* â”€â”€ MODAL 4: Night Patrol Flashpoints Live Roster â”€â”€ */}
+        {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ MODAL 4: Night Patrol Flashpoints Live Roster ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
         {showPatrolModal && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
             <div style={{ background: '#06281e', border: '2px solid #10b981', borderRadius: '8px', padding: '1.5rem', width: '100%', maxWidth: '640px', maxHeight: '85vh', overflowY: 'auto' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(16,185,129,0.3)', paddingBottom: '0.6rem' }}>
                 <div>
                   <h3 className="cinzel" style={{ fontSize: '1.1rem', color: '#34d399', margin: 0 }}>
-                    ðŸ›¡ï¸ VIGILANTE NIGHT PATROL CHECK-IN ROSTER
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â VIGILANTE NIGHT PATROL CHECK-IN ROSTER
                   </h3>
                   <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)' }}>
                     Geofenced check-in status across 4 strategic night flashpoints
                   </div>
                 </div>
-                <button onClick={() => setShowPatrolModal(false)} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>âœ•</button>
+                <button onClick={() => setShowPatrolModal(false)} style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '1.2rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
               </div>
 
               {/* Strategic Outpost Cards */}
@@ -1497,15 +1504,15 @@ export default function SecurityDashboardPage() {
                       <div>
                         <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#ffffff' }}>{o.name}</div>
                         <div style={{ fontSize: '0.7rem', color: '#a7f3d0' }}>
-                          GPS: {o.lat}Â°N, {o.lng}Â°E
+                          GPS: {o.lat}Ãƒâ€šÃ‚Â°N, {o.lng}Ãƒâ€šÃ‚Â°E
                         </div>
                         {lastCheckin ? (
                           <div style={{ fontSize: '0.68rem', color: '#34d399', marginTop: '0.2rem' }}>
-                            âœ“ Verified Active: {lastCheckin.officer_name} ({lastCheckin.agency}) Â· {new Date(lastCheckin.checked_in_at).toLocaleTimeString()}
+                            ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Verified Active: {lastCheckin.officer_name} ({lastCheckin.agency}) Ãƒâ€šÃ‚Â· {new Date(lastCheckin.checked_in_at).toLocaleTimeString()}
                           </div>
                         ) : (
                           <div style={{ fontSize: '0.68rem', color: '#fca5a5', marginTop: '0.2rem' }}>
-                            âš ï¸ Awaiting next hourly check-in
+                            ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Awaiting next hourly check-in
                           </div>
                         )}
                       </div>
@@ -1523,7 +1530,7 @@ export default function SecurityDashboardPage() {
               <div style={{ maxHeight: '160px', overflowY: 'auto', fontSize: '0.68rem', color: '#d1fae5' }}>
                 {(patrolData.recentCheckins || []).map((rc, idx) => (
                   <div key={rc.id || idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    <span>{rc.officer_name} ({rc.agency}) â€” {rc.outpost_name}</span>
+                    <span>{rc.officer_name} ({rc.agency}) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â {rc.outpost_name}</span>
                     <span style={{ color: '#34d399' }}>{new Date(rc.checked_in_at).toLocaleTimeString()}</span>
                   </div>
                 ))}
@@ -1577,10 +1584,10 @@ export default function SecurityDashboardPage() {
               >
                 <div>
                   <div style={{ color: '#f87171', fontWeight: 900, fontSize: '0.85rem' }}>
-                    ðŸ”´ CITIZEN LIVE EVIDENCE TRANSMISSION
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ CITIZEN LIVE EVIDENCE TRANSMISSION
                   </div>
                   <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.72rem' }}>
-                    Incident ID: {activeIncident?.id} Â· {activeIncident?.location}
+                    Incident ID: {activeIncident?.id} Ãƒâ€šÃ‚Â· {activeIncident?.location}
                   </div>
                 </div>
                 <button
@@ -1597,7 +1604,7 @@ export default function SecurityDashboardPage() {
                     cursor: 'pointer',
                   }}
                 >
-                  âœ• Close View
+                  ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Close View
                 </button>
               </div>
             </div>

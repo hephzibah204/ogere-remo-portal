@@ -41,15 +41,15 @@ const SEED_NEWS = [
     date: '05 SEP 2026',
     author: 'OYDA Secretariat',
     readTime: '4 min read',
-    summary: 'Ogere community endowment board releases â‚¦15M in agricultural grants and software apprenticeships for indigenes.',
+    summary: 'Ogere community endowment board releases ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦15M in agricultural grants and software apprenticeships for indigenes.',
   },
 ];
 
 const EMERGENCY_LINES = [
-  { name: 'Ogere Police Post', tel: '08033456789', desc: 'Ogun State Command', icon: 'ðŸ‘®â€â™‚ï¸' },
-  { name: 'FRSC Expressway Rescue', tel: '122', desc: 'Corridor Crash Patrol', icon: 'ðŸš‘' },
-  { name: 'So-Safe Corps Ogere Area', tel: '08029994433', desc: 'Armed Rapid Response', icon: 'ðŸ›¡ï¸' },
-  { name: 'Aafin Ologere Vigilante', tel: '08145550192', desc: 'Palace Night Watch', icon: 'ðŸ‘‘' },
+  { name: 'Ogere Police Post', tel: '08033456789', desc: 'Ogun State Command', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â®ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€žÂ¢Ã¢â‚¬Å¡ÃƒÂ¯Ã‚Â¸Ã‚Â' },
+  { name: 'FRSC Expressway Rescue', tel: '122', desc: 'Corridor Crash Patrol', icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Ëœ' },
+  { name: 'So-Safe Corps Ogere Area', tel: '08029994433', desc: 'Armed Rapid Response', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â' },
+  { name: 'Aafin Ologere Vigilante', tel: '08145550192', desc: 'Palace Night Watch', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ' },
 ];
 
 const SEED_MOBILE_TIMELINE = [
@@ -57,10 +57,10 @@ const SEED_MOBILE_TIMELINE = [
     id: 'mob-post-1',
     authorName: 'Prince Olawale Babatunde',
     authorRole: 'Palace Protocol & Heritage',
-    authorAvatar: 'ðŸ‘‘',
+    authorAvatar: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
     authorQuarter: 'Oke-Ogere',
     isVerified: true,
-    contentText: 'Royal Proclamation: The 2026 Olipakala Cultural Festival schedule has been approved by Kabiyesi. Agbole delegations should submit their cultural dance troupe rosters by Friday! ðŸ‘‘ðŸŽ‰',
+    contentText: 'Royal Proclamation: The 2026 Olipakala Cultural Festival schedule has been approved by Kabiyesi. Agbole delegations should submit their cultural dance troupe rosters by Friday! ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬ËœÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â°',
     imageUrl: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&q=80',
     likesCount: 28,
     commentsCount: 7,
@@ -71,10 +71,10 @@ const SEED_MOBILE_TIMELINE = [
     id: 'mob-post-2',
     authorName: 'Engr. Folake Sobukonla',
     authorRole: 'OCDA Works Secretary',
-    authorAvatar: 'âš™ï¸',
+    authorAvatar: 'ÃƒÂ¢Ã…Â¡Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â',
     authorQuarter: 'Wasimi Quarter',
     isVerified: true,
-    contentText: 'Inspection update: The new 500kVA transformer at Wasimi Junction has been energized. Voltage stability restored across 140 households. ðŸ’¡âš¡',
+    contentText: 'Inspection update: The new 500kVA transformer at Wasimi Junction has been energized. Voltage stability restored across 140 households. ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ÃƒÂ¢Ã…Â¡Ã‚Â¡',
     imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80',
     likesCount: 42,
     commentsCount: 12,
@@ -85,10 +85,10 @@ const SEED_MOBILE_TIMELINE = [
     id: 'mob-post-3',
     authorName: 'Oluwaseun Adedayo Adeleke',
     authorRole: 'Verified Indigene',
-    authorAvatar: 'ðŸ‘¤',
+    authorAvatar: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤',
     authorQuarter: 'Ijana Quarter',
     isVerified: true,
-    contentText: 'Fresh Adire indigo fabric shipment just arrived at Ijana Market stalls! Supporting our local women weavers. Come through this evening! ðŸ§µâœ¨',
+    contentText: 'Fresh Adire indigo fabric shipment just arrived at Ijana Market stalls! Supporting our local women weavers. Come through this evening! ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚ÂµÃƒÂ¢Ã…â€œÃ‚Â¨',
     imageUrl: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=600&q=80',
     likesCount: 19,
     commentsCount: 4,
@@ -148,7 +148,7 @@ export default function MobilePreviewPage() {
   const [audAddress, setAudAddress] = useState('14 Palace Road, Agbele Quarter, Ogere Remo');
   const [audPurpose, setAudPurpose] = useState('Royal Homage & Courtesy Call');
   const [audDate, setAudDate] = useState('2026-10-15');
-  const [audMessage, setAudMessage] = useState('Seeking Kabiyesiâ€™s royal blessings and submitting proposed community development agenda.');
+  const [audMessage, setAudMessage] = useState('Seeking KabiyesiÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢s royal blessings and submitting proposed community development agenda.');
   const [audTrackingCode, setAudTrackingCode] = useState('');
   const [audTrackedData, setAudTrackedData] = useState(null);
   const [audTrackingLoading, setAudTrackingLoading] = useState(false);
@@ -156,7 +156,7 @@ export default function MobilePreviewPage() {
   const [audSubmittedRef, setAudSubmittedRef] = useState(null);
 
   // SOS & Incident Report Simulator state
-  const [sosCategory, setSosCategory] = useState('ðŸš¨ Armed Robbery / Banditry');
+  const [sosCategory, setSosCategory] = useState('ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Armed Robbery / Banditry');
   const [sosSeverity, setSosSeverity] = useState('Critical');
   const [sosLandmark, setSosLandmark] = useState('KM 66-68 Expressway Axis');
   const [sosCustomLandmark, setSosCustomLandmark] = useState('');
@@ -223,11 +223,11 @@ export default function MobilePreviewPage() {
       setSosLandmark(rev.sector || 'KM 66-68 Expressway Axis');
       setSosDirectionsUrl(fix.directionsUrl);
       const landmarkText = rev.nearestLandmark || rev.fullAddress;
-      setSosGpsFeedback(`âœ… GPS Locked: ${landmarkText} (Â±${Math.round(fix.accuracy || 20)}m)`);
+      setSosGpsFeedback(`ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ GPS Locked: ${landmarkText} (Ãƒâ€šÃ‚Â±${Math.round(fix.accuracy || 20)}m)`);
       setTimeout(() => setSosGpsFeedback(''), 6000);
     } catch (err) {
       console.warn('GPS lock error in mobile preview:', err);
-      setSosGpsFeedback('âš ï¸ Could not acquire GPS; defaulted to Ogere sector.');
+      setSosGpsFeedback('ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Could not acquire GPS; defaulted to Ogere sector.');
       setTimeout(() => setSosGpsFeedback(''), 4000);
     } finally {
       setIsLockingSosGps(false);
@@ -246,7 +246,7 @@ export default function MobilePreviewPage() {
     if (loc.directionsUrl) {
       setSosDirectionsUrl(loc.directionsUrl);
     }
-    setSosGpsFeedback(`ðŸŽ¯ SOS Pin Adjusted: ${loc.nearestLandmark || loc.fullAddress}`);
+    setSosGpsFeedback(`ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ SOS Pin Adjusted: ${loc.nearestLandmark || loc.fullAddress}`);
   };
 
   // Walk With Me custom destination and contact state
@@ -267,19 +267,19 @@ export default function MobilePreviewPage() {
 
       const destinationText = rev.nearestLandmark
         ? `${rev.nearestLandmark}, ${rev.sector || 'Ogere Remo'}`
-        : (rev.fullAddress || `${Number(fix.latitude).toFixed(4)}Â°N, ${Number(fix.longitude).toFixed(4)}Â°E`);
+        : (rev.fullAddress || `${Number(fix.latitude).toFixed(4)}Ãƒâ€šÃ‚Â°N, ${Number(fix.longitude).toFixed(4)}Ãƒâ€šÃ‚Â°E`);
       setEscortCustomDestination(destinationText);
       setSosFullAddress(rev.fullAddress || destinationText);
       setSosCustomLandmark(rev.nearestLandmark || '');
       setSosLandmark(rev.sector || 'Oke-Ogere Central Market Axis');
       setSosDirectionsUrl(fix.directionsUrl);
-      setEscortGpsFeedback(`âœ… Pinned: ${destinationText} (Â±${Math.round(fix.accuracy || 20)}m)`);
+      setEscortGpsFeedback(`ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Pinned: ${destinationText} (Ãƒâ€šÃ‚Â±${Math.round(fix.accuracy || 20)}m)`);
       setTimeout(() => setEscortGpsFeedback(''), 6000);
     } catch (err) {
       console.warn('GPS lookup error in Walk With Me:', err);
       const fallback = 'Oke-Ogere Central Market Axis, Ogere Remo';
       setEscortCustomDestination(fallback);
-      setEscortGpsFeedback(`ðŸ“ Defaulted to ${fallback}`);
+      setEscortGpsFeedback(`ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Defaulted to ${fallback}`);
       setTimeout(() => setEscortGpsFeedback(''), 5000);
     } finally {
       setIsLocatingEscortGps(false);
@@ -292,7 +292,7 @@ export default function MobilePreviewPage() {
     if (loc.directionsUrl) {
       setSosDirectionsUrl(loc.directionsUrl);
     }
-    setEscortGpsFeedback(`ðŸŽ¯ Destination Pinned: ${loc.nearestLandmark || loc.fullAddress}`);
+    setEscortGpsFeedback(`ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Destination Pinned: ${loc.nearestLandmark || loc.fullAddress}`);
   };
 
   const generateSmsDispatchUrl = (landmark, details, lat, lng) => {
@@ -420,7 +420,7 @@ export default function MobilePreviewPage() {
       battery_level: batteryLevel,
       networkType,
       network_type: networkType,
-      description: `EMERGENCY SOS: ${ogereLoc.formattedText}. Sector: ${ogereLoc.sector}. Address: ${finalFullAddress}. Direct: ${finalPhone}${finalBackup ? ` | Backup: ${finalBackup}` : ''}. GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)} (Â±${accuracy}m - ${ogereLoc.accuracyRating}). IP: ${ip}. Battery: ${batteryLevel}%${isCharging ? ' âš¡' : ''}. Details: ${sosDetails || 'Rapid armed patrol intercept required.'}`,
+      description: `EMERGENCY SOS: ${ogereLoc.formattedText}. Sector: ${ogereLoc.sector}. Address: ${finalFullAddress}. Direct: ${finalPhone}${finalBackup ? ` | Backup: ${finalBackup}` : ''}. GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)} (Ãƒâ€šÃ‚Â±${accuracy}m - ${ogereLoc.accuracyRating}). IP: ${ip}. Battery: ${batteryLevel}%${isCharging ? ' ÃƒÂ¢Ã…Â¡Ã‚Â¡' : ''}. Details: ${sosDetails || 'Rapid armed patrol intercept required.'}`,
       reporterName: citizen.name,
       reporterPhone: finalPhone,
       backupPhone: finalBackup,
@@ -516,11 +516,11 @@ export default function MobilePreviewPage() {
     const granted = await requestNotificationPermission();
     setNotifPermission(getNotificationPermission());
     if (granted) {
-      sendEscortNotification('ðŸ”” Ogere Arrival Alerts Enabled', {
+      sendEscortNotification('ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â Ogere Arrival Alerts Enabled', {
         body: 'You will receive route tracking updates, safe arrival reminders, and emergency check-in alerts.',
         tag: 'ogere-notif-welcome',
       });
-      alert('âœ… Notifications Enabled! You will receive escort arrival reminders and countdown alerts.');
+      alert('ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Notifications Enabled! You will receive escort arrival reminders and countdown alerts.');
     } else {
       alert('Notification permission was not granted. In-app alerts will still function normally.');
     }
@@ -623,7 +623,7 @@ export default function MobilePreviewPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...escortPayload,
-          category: 'ðŸ›¡ï¸ Virtual Escort Patrol Watch',
+          category: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Virtual Escort Patrol Watch',
           severity: 'Low',
         }),
       });
@@ -633,7 +633,7 @@ export default function MobilePreviewPage() {
     window.dispatchEvent(new CustomEvent('ogere-escort-started', { detail: escortPayload }));
 
     // 5. Send push notification to citizen device
-    sendEscortNotification(`ðŸ›¡ï¸ Escort Watch Active (${escortDurationMins} min)`, {
+    sendEscortNotification(`ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Escort Watch Active (${escortDurationMins} min)`, {
       body: `Patrol Unit 4 is monitoring your transit to ${finalDestination}. Enter PIN on safe arrival.`,
       tag: 'ogere-escort-active',
     });
@@ -701,13 +701,13 @@ export default function MobilePreviewPage() {
       // 5-min and 1-min reminders
       if (remaining <= 300 && remaining > 295 && !fired5min) {
         fired5min = true;
-        sendEscortNotification('âš ï¸ Escort Check-in Reminder (5 min left)', {
+        sendEscortNotification('ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Escort Check-in Reminder (5 min left)', {
           body: `You are approaching ${escortDestination}. Prepare to enter your 4-digit safe PIN.`,
           tag: 'ogere-escort-reminder',
         });
       } else if (remaining <= 60 && remaining > 55 && !fired1min) {
         fired1min = true;
-        sendEscortNotification('âš ï¸ Escort Check-in Alert (1 min left)', {
+        sendEscortNotification('ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Escort Check-in Alert (1 min left)', {
           body: 'Only 1 minute remaining before emergency teams are alerted. Confirm safe arrival now.',
           tag: 'ogere-escort-urgent',
         });
@@ -722,7 +722,7 @@ export default function MobilePreviewPage() {
 
         const overduePayload = {
           id: 'OVERDUE-' + Math.floor(1000 + Math.random() * 9000),
-          category: 'ðŸš¨ Overdue Virtual Escort (Missed Check-in)',
+          category: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Overdue Virtual Escort (Missed Check-in)',
           severity: 'Critical',
           threatLevel: 'CODE_RED',
           location: escortDestination,
@@ -743,7 +743,7 @@ export default function MobilePreviewPage() {
           })
         );
 
-        sendEscortNotification('ðŸš¨ ESCORT OVERDUE â€” EMERGENCY DISPATCHED!', {
+        sendEscortNotification('ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ ESCORT OVERDUE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â EMERGENCY DISPATCHED!', {
           body: 'Check-in deadline missed. Tactical intercept teams have been alerted to your route!',
           tag: 'ogere-escort-overdue',
         });
@@ -789,7 +789,7 @@ export default function MobilePreviewPage() {
       });
     } catch (_) {}
 
-    // â”€â”€ DURESS PIN MATCH â”€â”€
+    // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ DURESS PIN MATCH ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
     if (escortPin === storedDuressPin) {
       escortEndTimeRef.current = null;
       setDuressTriggered(true);
@@ -833,7 +833,7 @@ export default function MobilePreviewPage() {
       return;
     }
 
-    // â”€â”€ SAFE ARRIVAL PIN MATCH â”€â”€
+    // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SAFE ARRIVAL PIN MATCH ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
     escortEndTimeRef.current = null;
     setIsEscortActive(false);
     setIsEscortOverdue(false);
@@ -850,18 +850,18 @@ export default function MobilePreviewPage() {
       })
     );
 
-    sendEscortNotification('âœ… Safe Arrival Confirmed', {
+    sendEscortNotification('ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Safe Arrival Confirmed', {
       body: 'Your escort session has ended safely. Palace Security Patrol has logged your safe arrival.',
       tag: 'ogere-escort-safe',
     });
 
-    alert('Safe Arrival Confirmed! ðŸ›¡ï¸ Virtual Escort session successfully concluded and logged with Palace Watch.');
+    alert('Safe Arrival Confirmed! ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Virtual Escort session successfully concluded and logged with Palace Watch.');
   };
 
   return (
     <div style={{ background: '#090403', minHeight: '100vh', color: '#f5edd8', padding: '5rem 1.5rem 4rem' }}>
       <SEO
-        title="Mobile App Interactive Previewer â€” Ogere Remo Civic Portal"
+        title="Mobile App Interactive Previewer ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Remo Civic Portal"
         description="Preview and interact with the Ogere Remo Civic Mobile App directly inside your browser. Test Virtual Escort, Emergency Dispatch, and Heritage Archives."
       />
 
@@ -893,7 +893,7 @@ export default function MobilePreviewPage() {
                   cursor: 'pointer',
                 }}
               >
-                ðŸ“± Dual View (Both)
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â± Dual View (Both)
               </button>
               <button
                 type="button"
@@ -909,7 +909,7 @@ export default function MobilePreviewPage() {
                   cursor: 'pointer',
                 }}
               >
-                ðŸ‘¤ Citizen App
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ Citizen App
               </button>
               <button
                 type="button"
@@ -925,7 +925,7 @@ export default function MobilePreviewPage() {
                   cursor: 'pointer',
                 }}
               >
-                ðŸ›¡ï¸ Officer Terminal
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Officer Terminal
               </button>
             </div>
 
@@ -998,7 +998,7 @@ export default function MobilePreviewPage() {
                 gap: '5px',
               }}
             >
-              ðŸ‘‘ Replay Splash
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Replay Splash
             </button>
 
               {sirenActive ? (
@@ -1020,7 +1020,7 @@ export default function MobilePreviewPage() {
                     boxShadow: '0 0 15px rgba(239,68,68,0.7)',
                   }}
                 >
-                  ðŸš¨ Mute Siren
+                  ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Mute Siren
                 </button>
               ) : (
                 <button
@@ -1041,7 +1041,7 @@ export default function MobilePreviewPage() {
                     gap: '6px',
                   }}
                 >
-                  ðŸ”Š Test Siren
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ…Â  Test Siren
                 </button>
               )}
             </div>
@@ -1049,11 +1049,11 @@ export default function MobilePreviewPage() {
 
         {/* Distraction-Free Display: Only Citizen & Officer Previews */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '2.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-          {/* â”€â”€ 1. CITIZEN PHONE PREVIEW â”€â”€ */}
+          {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ 1. CITIZEN PHONE PREVIEW ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
           {(previewMode === 'dual' || previewMode === 'citizen') && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                <span style={{ fontSize: '1.2rem' }}>ðŸ‘¤</span>
+                <span style={{ fontSize: '1.2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤</span>
                 <span style={{ fontWeight: 800, fontSize: '0.85rem', color: '#86efac', letterSpacing: '0.05em' }}>
                   CITIZEN MOBILE APP
                 </span>
@@ -1097,7 +1097,7 @@ export default function MobilePreviewPage() {
                 </div>
               )}
 
-              {/* â”€â”€ SPLASH SCREEN OVERLAY (Simulated Native App Splash) â”€â”€ */}
+              {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SPLASH SCREEN OVERLAY (Simulated Native App Splash) ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
               {showSplashScreen && (
                 <div style={{
                   position: 'absolute',
@@ -1140,7 +1140,7 @@ export default function MobilePreviewPage() {
                         cursor: 'pointer',
                       }}
                     >
-                      Skip âž”
+                      Skip ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                     </button>
                   </div>
 
@@ -1161,7 +1161,7 @@ export default function MobilePreviewPage() {
                       marginBottom: '20px',
                       position: 'relative',
                     }}>
-                      ðŸ‘‘
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ
                       <div style={{
                         position: 'absolute',
                         inset: '3px',
@@ -1219,7 +1219,7 @@ export default function MobilePreviewPage() {
                       fontWeight: 800,
                       letterSpacing: '1px',
                     }}>
-                      REMO TRADITIONAL COUNCIL Â· OGUN STATE
+                      REMO TRADITIONAL COUNCIL Ãƒâ€šÃ‚Â· OGUN STATE
                     </div>
                   </div>
 
@@ -1247,7 +1247,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div style={{ fontSize: '0.58rem', color: 'rgba(255, 255, 255, 0.4)' }}>
-                      v6.0.0 Â· 100% Offline Capable
+                      v6.0.0 Ãƒâ€šÃ‚Â· 100% Offline Capable
                     </div>
                   </div>
                 </div>
@@ -1270,7 +1270,7 @@ export default function MobilePreviewPage() {
                 <span>12:35</span>
                 <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                   <span>5G</span>
-                  <span>100% ðŸ”‹</span>
+                  <span>100% ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹</span>
                 </div>
               </div>
 
@@ -1290,12 +1290,12 @@ export default function MobilePreviewPage() {
                       onClick={() => setActiveServiceScreen(null)}
                       style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer', paddingRight: '4px' }}
                     >
-                      â†
+                      ÃƒÂ¢Ã¢â‚¬Â Ã‚Â
                     </button>
                   )}
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <span style={{ fontSize: '1rem' }}>ðŸ‘‘</span>
+                      <span style={{ fontSize: '1rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</span>
                       <span className="cinzel" style={{ fontSize: '0.92rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.05em' }}>
                         OGERE REMO
                       </span>
@@ -1323,29 +1323,29 @@ export default function MobilePreviewPage() {
                     animation: 'pulseGlow 2s infinite',
                   }}
                 >
-                  SOS ðŸš¨
+                  SOS ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨
                 </button>
               </div>
 
-              {/* â”€â”€ SCROLLABLE APP BODY â”€â”€ */}
+              {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SCROLLABLE APP BODY ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
               <div style={{ flex: 1, overflowY: 'auto', background: '#f8fafc', color: '#0f172a', padding: '14px' }}>
                 
-                {/* â”€â”€ SCREEN 1: HOME TAB â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SCREEN 1: HOME TAB ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeTab === 'home' && !activeServiceScreen && (
                   <div style={{ display: 'grid', gap: '12px' }}>
                     {/* Welcome Banner */}
                     <div style={{ background: '#ffffff', padding: '12px', borderRadius: '12px', borderLeft: '4px solid #d97706', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <div style={{ width: '40px', height: '40px', borderRadius: '20px', background: '#064e3b', border: '1.5px solid #d97706', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 900 }}>
-                          ðŸ‘‘
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ
                         </div>
                         <div>
-                          <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0f172a' }}>áº¸ kÃ¡Ã bá»Ì€, Adebayo!</div>
+                          <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0f172a' }}>ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚Â¡ÃƒÆ’Ã‚Â bÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬, Adebayo!</div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
                             <span style={{ fontSize: '0.58rem', fontWeight: 800, background: '#ecfdf5', color: '#059669', padding: '2px 6px', borderRadius: '10px' }}>
-                              âœ“ CERTIFIED INDIGENE
+                              ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ CERTIFIED INDIGENE
                             </span>
-                            <span style={{ fontSize: '0.65rem', color: '#64748b' }}>Â· Agbele</span>
+                            <span style={{ fontSize: '0.65rem', color: '#64748b' }}>Ãƒâ€šÃ‚Â· Agbele</span>
                           </div>
                         </div>
                       </div>
@@ -1368,7 +1368,7 @@ export default function MobilePreviewPage() {
                         boxShadow: '0 4px 12px rgba(185, 28, 28, 0.25)',
                       }}
                     >
-                      <span style={{ fontSize: '1.4rem' }}>ðŸš¨</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</span>
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                           <span style={{ color: '#ffffff', fontSize: '0.78rem', fontWeight: 900 }}>24/7 Security & Police</span>
@@ -1386,12 +1386,12 @@ export default function MobilePreviewPage() {
                     {/* 6-Card Quick Action Grid */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                       {[
-                        { icon: 'ðŸš¶â€â™‚ï¸', title: 'Walk With Me', sub: 'Safe Escort', action: () => { setActiveTab('services'); setActiveServiceScreen('walk'); } },
-                        { icon: 'ðŸš¨', title: 'Report SOS', sub: 'Armed Alert', action: () => { setActiveTab('services'); setActiveServiceScreen('report'); } },
-                        { icon: 'ðŸªª', title: 'ID Wallet', sub: 'Digital Card', action: () => { setActiveTab('services'); setActiveServiceScreen('id'); } },
-                        { icon: 'ðŸ›ï¸', title: 'Audience', sub: 'With Kabiyesi', action: () => { setActiveTab('services'); setActiveServiceScreen('audience'); } },
-                        { icon: 'ðŸ“°', title: 'Town News', sub: 'Bulletins', action: () => setActiveTab('news') },
-                        { icon: 'ðŸ‘‘', title: 'Kings Lineage', sub: 'Obas History', action: () => setActiveTab('heritage') },
+                        { icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¶ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€žÂ¢Ã¢â‚¬Å¡ÃƒÂ¯Ã‚Â¸Ã‚Â', title: 'Walk With Me', sub: 'Safe Escort', action: () => { setActiveTab('services'); setActiveServiceScreen('walk'); } },
+                        { icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨', title: 'Report SOS', sub: 'Armed Alert', action: () => { setActiveTab('services'); setActiveServiceScreen('report'); } },
+                        { icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª', title: 'ID Wallet', sub: 'Digital Card', action: () => { setActiveTab('services'); setActiveServiceScreen('id'); } },
+                        { icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â', title: 'Audience', sub: 'With Kabiyesi', action: () => { setActiveTab('services'); setActiveServiceScreen('audience'); } },
+                        { icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â°', title: 'Town News', sub: 'Bulletins', action: () => setActiveTab('news') },
+                        { icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', title: 'Kings Lineage', sub: 'Obas History', action: () => setActiveTab('heritage') },
                       ].map((item, idx) => (
                         <div
                           key={idx}
@@ -1413,11 +1413,11 @@ export default function MobilePreviewPage() {
                       ))}
                     </div>
 
-                    {/* â”€â”€ "WHAT'S ON YOUR MIND?" MOBILE STATUS COMPOSER â”€â”€ */}
+                    {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ "WHAT'S ON YOUR MIND?" MOBILE STATUS COMPOSER ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                     <div style={{ background: '#ffffff', borderRadius: '12px', padding: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <div style={{ width: '34px', height: '34px', borderRadius: '17px', background: '#064e3b', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 900, flexShrink: 0 }}>
-                          ðŸ‘‘
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ
                         </div>
                         <div
                           onClick={() => setIsStatusComposerOpen(prev => !prev)}
@@ -1432,7 +1432,7 @@ export default function MobilePreviewPage() {
                             border: '1px solid #e2e8f0',
                           }}
                         >
-                          {statusInputText ? statusInputText.slice(0, 30) + '...' : "What's on your mind, Adebayo? âœï¸"}
+                          {statusInputText ? statusInputText.slice(0, 30) + '...' : "What's on your mind, Adebayo? ÃƒÂ¢Ã…â€œÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â"}
                         </div>
                       </div>
 
@@ -1471,19 +1471,19 @@ export default function MobilePreviewPage() {
                                 background: '#f8fafc',
                               }}
                             >
-                              <option value="Oke-Ogere">ðŸ“ Oke-Ogere</option>
-                              <option value="Wasimi Quarter">ðŸ“ Wasimi</option>
-                              <option value="Ijana Quarter">ðŸ“ Ijana</option>
-                              <option value="Orile-Ogere">ðŸ“ Orile-Ogere</option>
-                              <option value="Expressway Axis">ðŸ“ Expressway</option>
-                              <option value="Diaspora">ðŸ“ Diaspora</option>
+                              <option value="Oke-Ogere">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Oke-Ogere</option>
+                              <option value="Wasimi Quarter">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Wasimi</option>
+                              <option value="Ijana Quarter">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Ijana</option>
+                              <option value="Orile-Ogere">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Orile-Ogere</option>
+                              <option value="Expressway Axis">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Expressway</option>
+                              <option value="Diaspora">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Diaspora</option>
                             </select>
 
                             <div style={{ display: 'flex', gap: '4px' }}>
                               {[
-                                { label: 'ðŸ‘‘ Festival', url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&q=80' },
-                                { label: 'ðŸ’¡ Solar', url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' },
-                                { label: 'ðŸ§µ Adire', url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=600&q=80' },
+                                { label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Festival', url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&q=80' },
+                                { label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Solar', url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80' },
+                                { label: 'ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Âµ Adire', url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=600&q=80' },
                               ].map(p => (
                                 <button
                                   key={p.label}
@@ -1536,7 +1536,7 @@ export default function MobilePreviewPage() {
                                   id: `mob-${Date.now()}`,
                                   authorName: 'Adebayo Adeleke',
                                   authorRole: 'Verified Indigene',
-                                  authorAvatar: 'ðŸ‘‘',
+                                  authorAvatar: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
                                   authorQuarter: statusSelectedQuarter,
                                   isVerified: true,
                                   contentText: statusInputText.trim(),
@@ -1562,7 +1562,7 @@ export default function MobilePreviewPage() {
                                 cursor: (!statusInputText.trim() && !statusSelectedPhoto) ? 'not-allowed' : 'pointer',
                               }}
                             >
-                              Post Update ðŸš€
+                              Post Update ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â€šÂ¬
                             </button>
                           </div>
                         </div>
@@ -1578,25 +1578,25 @@ export default function MobilePreviewPage() {
                             }}
                             style={{ background: 'none', border: 'none', fontSize: '0.65rem', color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
                           >
-                            <span>ðŸ–¼ï¸ Photo</span>
+                            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬â€œÃ‚Â¼ÃƒÂ¯Ã‚Â¸Ã‚Â Photo</span>
                           </button>
                           <button
                             onClick={() => setIsStatusComposerOpen(true)}
                             style={{ background: 'none', border: 'none', fontSize: '0.65rem', color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
                           >
-                            <span>ðŸ“ Quarter Check-in</span>
+                            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Quarter Check-in</span>
                           </button>
                           <button
                             onClick={() => setIsStatusComposerOpen(true)}
                             style={{ background: 'none', border: 'none', fontSize: '0.65rem', color: '#475569', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
                           >
-                            <span>ðŸ’¡ Thought</span>
+                            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Thought</span>
                           </button>
                         </div>
                       )}
                     </div>
 
-                    {/* â”€â”€ CIVIC STATUS TIMELINE STREAM â”€â”€ */}
+                    {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ CIVIC STATUS TIMELINE STREAM ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -1604,7 +1604,7 @@ export default function MobilePreviewPage() {
                           <span style={{ fontSize: '0.55rem', background: '#ecfdf5', color: '#059669', padding: '1px 5px', borderRadius: '4px', fontWeight: 800 }}>LIVE</span>
                         </div>
                         <Link to="/timeline" style={{ fontSize: '0.62rem', color: '#064e3b', fontWeight: 700, textDecoration: 'none' }}>
-                          Full Web Feed âž”
+                          Full Web Feed ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                         </Link>
                       </div>
 
@@ -1627,7 +1627,7 @@ export default function MobilePreviewPage() {
                               whiteSpace: 'nowrap',
                             }}
                           >
-                            {q === 'All' ? 'ðŸŒ All' : q.replace(' Quarter', '')}
+                            {q === 'All' ? 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â All' : q.replace(' Quarter', '')}
                           </button>
                         ))}
                       </div>
@@ -1648,10 +1648,10 @@ export default function MobilePreviewPage() {
                                   <div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                       <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>{post.authorName}</span>
-                                      {post.isVerified && <span style={{ color: '#1877F2', fontSize: '0.62rem', fontWeight: 900 }}>âœ“</span>}
+                                      {post.isVerified && <span style={{ color: '#1877F2', fontSize: '0.62rem', fontWeight: 900 }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“</span>}
                                     </div>
                                     <div style={{ fontSize: '0.55rem', color: '#64748b' }}>
-                                      <span>ðŸ“ {post.authorQuarter}</span> Â· <span>{post.timeAgo}</span>
+                                      <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {post.authorQuarter}</span> Ãƒâ€šÃ‚Â· <span>{post.timeAgo}</span>
                                     </div>
                                   </div>
                                 </div>
@@ -1697,16 +1697,16 @@ export default function MobilePreviewPage() {
                                     gap: '3px',
                                   }}
                                 >
-                                  <span>{post.isLiked ? 'ðŸ‘' : 'ðŸ¤'}</span>
+                                  <span>{post.isLiked ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â' : 'ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â'}</span>
                                   <span>{post.likesCount}</span>
                                 </button>
 
                                 <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                                  <span>ðŸ’¬</span> {post.commentsCount} comments
+                                  <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬</span> {post.commentsCount} comments
                                 </span>
 
                                 <span style={{ cursor: 'pointer' }} onClick={() => alert('Post link copied!')}>
-                                  â†—ï¸ Share
+                                  ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€ÃƒÂ¯Ã‚Â¸Ã‚Â Share
                                 </span>
                               </div>
                             </div>
@@ -1717,7 +1717,7 @@ export default function MobilePreviewPage() {
                     {/* Reigning Monarch Spotlight */}
                     <div style={{ background: '#064e3b', border: '1px solid #d97706', borderRadius: '12px', padding: '12px', color: '#ffffff' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                        <span style={{ fontSize: '1.2rem' }}>ðŸ‘‘</span>
+                        <span style={{ fontSize: '1.2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</span>
                         <div>
                           <div style={{ fontSize: '0.58rem', color: '#fef3c7', fontWeight: 800 }}>CURRENT REIGNING MONARCH</div>
                           <div style={{ fontSize: '0.88rem', fontWeight: 900 }}>Oba James Obafemi Saliu</div>
@@ -1725,7 +1725,7 @@ export default function MobilePreviewPage() {
                         </div>
                       </div>
                       <div style={{ fontStyle: 'italic', fontSize: '0.68rem', color: '#e2e8f0', lineHeight: 1.4, background: 'rgba(0,0,0,0.2)', padding: '6px', borderRadius: '6px' }}>
-                        "Omo Olipakala a ji fâ€™oriki bo... Custodian of ancient peace and progressive modernity."
+                        "Omo Olipakala a ji fÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢oriki bo... Custodian of ancient peace and progressive modernity."
                       </div>
                     </div>
 
@@ -1733,7 +1733,7 @@ export default function MobilePreviewPage() {
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                         <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Town News & Decrees</span>
-                        <span onClick={() => setActiveTab('news')} style={{ fontSize: '0.65rem', color: '#064e3b', fontWeight: 700, cursor: 'pointer' }}>See All â†’</span>
+                        <span onClick={() => setActiveTab('news')} style={{ fontSize: '0.65rem', color: '#064e3b', fontWeight: 700, cursor: 'pointer' }}>See All ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</span>
                       </div>
                       {SEED_NEWS.slice(0, 2).map((n) => (
                         <div key={n.id} style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '10px', marginBottom: '6px' }}>
@@ -1748,7 +1748,7 @@ export default function MobilePreviewPage() {
                   </div>
                 )}
 
-                {/* â”€â”€ SCREEN 2: NEWS TAB â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SCREEN 2: NEWS TAB ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeTab === 'news' && !activeServiceScreen && (
                   <div style={{ display: 'grid', gap: '10px' }}>
                     <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#0f172a' }}>Town Bulletins & Proclamations</div>
@@ -1760,17 +1760,17 @@ export default function MobilePreviewPage() {
                         </div>
                         <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>{n.title}</div>
                         <div style={{ fontSize: '0.68rem', color: '#64748b', lineHeight: 1.4 }}>{n.summary}</div>
-                        <div style={{ fontSize: '0.6rem', color: '#94a3b8', marginTop: '6px' }}>By {n.author} Â· {n.readTime}</div>
+                        <div style={{ fontSize: '0.6rem', color: '#94a3b8', marginTop: '6px' }}>By {n.author} Ãƒâ€šÃ‚Â· {n.readTime}</div>
                       </div>
                     ))}
                   </div>
                 )}
 
-                {/* â”€â”€ SCREEN 3: HERITAGE TAB â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SCREEN 3: HERITAGE TAB ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeTab === 'heritage' && !activeServiceScreen && (
                   <div style={{ display: 'grid', gap: '12px' }}>
                     <div style={{ background: '#064e3b', borderRadius: '12px', padding: '12px', color: '#fff' }}>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 900 }}>ðŸ‘‘ Succession of the Obas</div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 900 }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Succession of the Obas</div>
                       <div style={{ fontSize: '0.65rem', color: '#a7f3d0', marginTop: '2px' }}>600+ Years Dynastic Royal Lineage of Ogere Remo</div>
                     </div>
 
@@ -1790,7 +1790,7 @@ export default function MobilePreviewPage() {
                   </div>
                 )}
 
-                {/* â”€â”€ SCREEN 4: DIRECTORY TAB â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SCREEN 4: DIRECTORY TAB ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeTab === 'directory' && !activeServiceScreen && (
                   <div style={{ display: 'grid', gap: '10px' }}>
                     <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#0f172a' }}>24/7 Rapid Emergency Speed Dial</div>
@@ -1804,20 +1804,20 @@ export default function MobilePreviewPage() {
                           </div>
                         </div>
                         <a href={`tel:${serv.tel}`} style={{ background: '#22c55e', color: '#fff', fontSize: '0.65rem', fontWeight: 800, padding: '4px 8px', borderRadius: '6px', textDecoration: 'none' }}>
-                          ðŸ“ž Dial
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Dial
                         </a>
                       </div>
                     ))}
                   </div>
                 )}
 
-                {/* â”€â”€ SCREEN 5: SERVICES TAB MENU â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SCREEN 5: SERVICES TAB MENU ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeTab === 'services' && !activeServiceScreen && (
                   <div style={{ display: 'grid', gap: '12px' }}>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#dc2626' }}>ðŸš¨ TACTICAL SAFETY & RESPONSE</div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#dc2626' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ TACTICAL SAFETY & RESPONSE</div>
                     
                     <div onClick={() => setActiveServiceScreen('walk')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸš¶â€â™‚ï¸</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¶ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€žÂ¢Ã¢â‚¬Å¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Virtual Safe Escort ("Walk With Me")</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Arrival countdown timer + Covert Duress PIN protection</div>
@@ -1825,7 +1825,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div onClick={() => setActiveServiceScreen('pin-settings')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ”</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Security PIN Settings</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Configure Safe Arrival & Covert Duress PINs</div>
@@ -1833,7 +1833,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div onClick={() => setActiveServiceScreen('report')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸš¨</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Report Emergency / Armed Hazard</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Immediate Police, FRSC & Vigilante dispatch</div>
@@ -1841,7 +1841,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div onClick={() => setActiveServiceScreen('guardians')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¨ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â©ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â§ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¦</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Guardian Circles (Emergency Contacts)</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Auto-SMS live tracking radar link to 3 family members</div>
@@ -1849,17 +1849,17 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div onClick={() => setActiveServiceScreen('whistle')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ”’</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Anonymous Whistleblower Line</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>100% zero-trace cryptographic token tracking</div>
                       </div>
                     </div>
 
-                    <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#d97706', marginTop: '6px' }}>ðŸ‘‘ ROYAL & CIVIC OPERATIONS</div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#d97706', marginTop: '6px' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ ROYAL & CIVIC OPERATIONS</div>
 
                     <div onClick={() => setActiveServiceScreen('audience')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ›ï¸</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Book Royal Audience with Kabiyesi</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Private appointment schedule at Aafin Ologere</div>
@@ -1867,7 +1867,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div onClick={() => setActiveServiceScreen('id')} style={{ background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸªª</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800 }}>Digital Community ID Wallet</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Certified indigene badge with QR security seal</div>
@@ -1875,17 +1875,17 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <a href="/land-registry" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ“œ</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#b45309' }}>Digital Land & Property Registry</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Cadastral parcel search, C-of-O & boundary dispute clearance</div>
                       </div>
                     </a>
 
-                    <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#059669', marginTop: '6px' }}>ðŸ’¬ COMMUNITY CONNECT</div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#059669', marginTop: '6px' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ COMMUNITY CONNECT</div>
 
                     <a href="/messages" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ’¬</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#059669' }}>Town Chat & Resident Messaging</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Real-time civic rooms: Public Square, Diaspora, Trade & Security</div>
@@ -1893,7 +1893,7 @@ export default function MobilePreviewPage() {
                     </a>
 
                     <a href="/events" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ“…</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#047857' }}>Community Events & Festivals</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Olipakala Festival, Royal Anniversaries & meetings calendar</div>
@@ -1901,7 +1901,7 @@ export default function MobilePreviewPage() {
                     </a>
 
                     <a href="/forum" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ—£ï¸</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚Â£ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#4338ca' }}>Town Hall Discussion Forum</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Civic proposals, public deliberation & community voting</div>
@@ -1909,7 +1909,7 @@ export default function MobilePreviewPage() {
                     </a>
 
                     <a href="/track/OGR-SOS-8419" style={{ textDecoration: 'none', color: 'inherit', background: '#ffffff', padding: '10px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.4rem' }}>ðŸ“¡</span>
+                      <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡</span>
                       <div>
                         <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#dc2626' }}>Live Radar Incident Tracker</div>
                         <div style={{ fontSize: '0.62rem', color: '#64748b' }}>Track live police & vigilante intercept status by ID</div>
@@ -1918,7 +1918,7 @@ export default function MobilePreviewPage() {
                   </div>
                 )}
 
-                {/* â”€â”€ SUB-SCREEN: WALK WITH ME â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SUB-SCREEN: WALK WITH ME ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeServiceScreen === 'walk' && (
                   <div style={{ display: 'grid', gap: '12px' }}>
                     {/* Notification Permission Banner */}
@@ -1935,7 +1935,7 @@ export default function MobilePreviewPage() {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '1.1rem' }}>{notifPermission === 'granted' ? 'ðŸ””' : 'âš ï¸'}</span>
+                        <span style={{ fontSize: '1.1rem' }}>{notifPermission === 'granted' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â' : 'ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â'}</span>
                         <div>
                           <div style={{ fontSize: '0.72rem', fontWeight: 800, color: notifPermission === 'granted' ? '#166534' : '#854d0e' }}>
                             {notifPermission === 'granted' ? 'Arrival Notifications Active' : 'Enable Arrival Alerts'}
@@ -1968,7 +1968,7 @@ export default function MobilePreviewPage() {
                         </button>
                       ) : (
                         <span style={{ fontSize: '0.62rem', background: '#dcfce7', color: '#15803d', padding: '3px 8px', borderRadius: '12px', fontWeight: 900 }}>
-                          âœ“ Enabled
+                          ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Enabled
                         </span>
                       )}
                     </div>
@@ -1995,10 +1995,10 @@ export default function MobilePreviewPage() {
                         }}
                       >
                         {isEscortOverdue
-                          ? 'ðŸš¨ CHECK-IN OVERDUE â€” DISPATCH ALERTED'
+                          ? 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ CHECK-IN OVERDUE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â DISPATCH ALERTED'
                           : isEscortActive
-                          ? 'â— ESCORT WATCH ACTIVE (PATROL NOTIFIED)'
-                          : 'â—‹ ESCORT READY TO LAUNCH'}
+                          ? 'ÃƒÂ¢Ã¢â‚¬â€Ã‚Â ESCORT WATCH ACTIVE (PATROL NOTIFIED)'
+                          : 'ÃƒÂ¢Ã¢â‚¬â€Ã¢â‚¬Â¹ ESCORT READY TO LAUNCH'}
                       </div>
 
                       <div
@@ -2015,7 +2015,7 @@ export default function MobilePreviewPage() {
                       </div>
 
                       <div style={{ fontSize: '0.65rem', color: '#cbd5e1', marginBottom: '8px' }}>
-                        ðŸ“ <strong>Destination:</strong> {escortDestination}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â <strong>Destination:</strong> {escortDestination}
                       </div>
 
                       {!isEscortActive && !isEscortOverdue ? (
@@ -2088,7 +2088,7 @@ export default function MobilePreviewPage() {
                                 boxShadow: '0 3px 10px rgba(2, 132, 199, 0.4)',
                               }}
                             >
-                              <span style={{ fontSize: '1.05rem' }}>ðŸ“</span>
+                              <span style={{ fontSize: '1.05rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â</span>
                               <span>{isLocatingEscortGps ? 'Locking GPS Satellites & Centering Map...' : 'SEE MY LOCATION ON MAP (Auto-Find)'}</span>
                             </button>
 
@@ -2107,7 +2107,7 @@ export default function MobilePreviewPage() {
                                   textDecoration: 'underline',
                                 }}
                               >
-                                {showEscortMapAdjuster ? 'â–¼ Hide Map View' : 'â–¶ Show Google Map'}
+                                {showEscortMapAdjuster ? 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼ Hide Map View' : 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¶ Show Google Map'}
                               </button>
 
                               {escortGpsFeedback && (
@@ -2124,7 +2124,7 @@ export default function MobilePreviewPage() {
                                 initialLng={escortPinCoords.lng}
                                 title="Your Live Location & Destination Pin"
                                 pinColor="#0284c7"
-                                pinIconChar="ðŸš¶â€â™‚ï¸"
+                                pinIconChar="ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¶ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€žÂ¢Ã¢â‚¬Å¡ÃƒÂ¯Ã‚Â¸Ã‚Â"
                                 height="240px"
                                 autoLocate={true}
                                 onLocationChange={handleEscortLocationAdjust}
@@ -2157,14 +2157,14 @@ export default function MobilePreviewPage() {
                               <option value={20}>20 Minutes (Standard Walk)</option>
                               <option value={10}>10 Minutes (Short Walk)</option>
                               <option value={30}>30 Minutes (Extended Route)</option>
-                              <option value={0.166}>10 Seconds (âš¡ Fast Radar Test)</option>
+                              <option value={0.166}>10 Seconds (ÃƒÂ¢Ã…Â¡Ã‚Â¡ Fast Radar Test)</option>
                             </select>
                           </div>
 
                           {/* Emergency Contact Numbers */}
                           <div style={{ textAlign: 'left', background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '6px', border: '1px solid #334155' }}>
                             <label style={{ fontSize: '0.58rem', color: '#34d399', fontWeight: 900, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
-                              ðŸ“ž Emergency Contact Numbers
+                              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Emergency Contact Numbers
                             </label>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
                               <div>
@@ -2210,7 +2210,7 @@ export default function MobilePreviewPage() {
                               boxShadow: '0 4px 12px rgba(5, 150, 105, 0.4)',
                             }}
                           >
-                            <span>ðŸ›¡ï¸</span>
+                            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
                             <span>Start Escort Watch & Notify Patrol</span>
                           </button>
                         </div>
@@ -2218,7 +2218,7 @@ export default function MobilePreviewPage() {
                         <div style={{ marginTop: '12px', background: 'rgba(255,255,255,0.06)', padding: '10px', borderRadius: '8px' }}>
                           {isEscortOverdue ? (
                             <div style={{ color: '#fca5a5', fontSize: '0.68rem', fontWeight: 900, marginBottom: '8px' }}>
-                              âš ï¸ DEADLINE MISSED â€” POLICE DISPATCH ACTIVE
+                              ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â DEADLINE MISSED ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â POLICE DISPATCH ACTIVE
                             </div>
                           ) : (
                             <div style={{ fontSize: '0.65rem', color: '#cbd5e1', marginBottom: '6px' }}>
@@ -2229,7 +2229,7 @@ export default function MobilePreviewPage() {
                           <input
                             type="password"
                             maxLength={4}
-                            placeholder="â€¢â€¢â€¢â€¢"
+                            placeholder="ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢"
                             value={escortPin}
                             onChange={(e) => setEscortPin(e.target.value)}
                             style={{
@@ -2268,7 +2268,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', padding: '10px', borderRadius: '8px', fontSize: '0.65rem', color: '#7f1d1d' }}>
-                      <span style={{ fontWeight: 900 }}>âš ï¸ Covert Duress PIN:</span> If forced or held at gunpoint to cancel this escort, entering your duress PIN pretends to exit peacefully while silently alerting SWAT and Police!
+                      <span style={{ fontWeight: 900 }}>ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Covert Duress PIN:</span> If forced or held at gunpoint to cancel this escort, entering your duress PIN pretends to exit peacefully while silently alerting SWAT and Police!
                     </div>
 
                     <button
@@ -2287,7 +2287,7 @@ export default function MobilePreviewPage() {
                         textAlign: 'left',
                       }}
                     >
-                      <span style={{ fontSize: '1.2rem' }}>ðŸ”</span>
+                      <span style={{ fontSize: '1.2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â</span>
                       <div>
                         <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Configure Security PINs</div>
                         <div style={{ fontSize: '0.58rem', color: '#64748b' }}>Set your Safe Arrival & Covert Duress PINs</div>
@@ -2296,7 +2296,7 @@ export default function MobilePreviewPage() {
                   </div>
                 )}
 
-                {/* â”€â”€ SUB-SCREEN: SECURITY PIN SETTINGS â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SUB-SCREEN: SECURITY PIN SETTINGS ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeServiceScreen === 'pin-settings' && (
                   <DuressPinSettings
                     onClose={() => setActiveServiceScreen('walk')}
@@ -2307,11 +2307,11 @@ export default function MobilePreviewPage() {
                   />
                 )}
 
-                {/* â”€â”€ SUB-SCREEN: WHISTLEBLOWER LINE â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SUB-SCREEN: WHISTLEBLOWER LINE ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeServiceScreen === 'whistle' && (
                   <div style={{ display: 'grid', gap: '10px' }}>
                     <div style={{ background: '#1e293b', color: '#fff', padding: '12px', borderRadius: '10px' }}>
-                      <div style={{ fontSize: '0.78rem', fontWeight: 800 }}>ðŸ”’ 100% Cryptographic Anonymity</div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 800 }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ 100% Cryptographic Anonymity</div>
                       <div style={{ fontSize: '0.65rem', color: '#cbd5e1', marginTop: '2px' }}>Zero IP address or personal identity logged.</div>
                     </div>
 
@@ -2336,7 +2336,7 @@ export default function MobilePreviewPage() {
                       </div>
                     ) : (
                       <div style={{ background: '#064e3b', color: '#fff', padding: '16px', borderRadius: '10px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '1.8rem' }}>ðŸ›¡ï¸</div>
+                        <div style={{ fontSize: '1.8rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</div>
                         <div style={{ fontSize: '0.88rem', fontWeight: 900, marginTop: '4px' }}>Intel Transmitted Safely</div>
                         <div style={{ fontSize: '0.65rem', color: '#d1fae5', marginTop: '2px' }}>Save your secret tracking token:</div>
                         <div style={{ background: '#022c22', border: '1px solid #d97706', padding: '8px 16px', borderRadius: '6px', margin: '10px auto', fontSize: '1.2rem', fontWeight: 900, color: '#f59e0b', letterSpacing: '2px' }}>
@@ -2353,7 +2353,7 @@ export default function MobilePreviewPage() {
                   </div>
                 )}
 
-                {/* â”€â”€ SUB-SCREEN: DIGITAL ID WALLET â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SUB-SCREEN: DIGITAL ID WALLET ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeServiceScreen === 'id' && (
                   <div style={{ display: 'grid', gap: '12px' }}>
                     <div style={{ background: 'linear-gradient(135deg, #064e3b 0%, #042f24 100%)', border: '2px solid #d97706', borderRadius: '14px', padding: '16px', color: '#ffffff', boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
@@ -2362,29 +2362,29 @@ export default function MobilePreviewPage() {
                           <div className="cinzel" style={{ fontSize: '0.72rem', fontWeight: 900, color: '#fef3c7' }}>KINGDOM OF OGERE REMO</div>
                           <div style={{ fontSize: '0.55rem', color: '#a7f3d0' }}>OFFICIAL DIGITAL CITIZEN BADGE</div>
                         </div>
-                        <span style={{ fontSize: '1.2rem' }}>ðŸ‘‘</span>
+                        <span style={{ fontSize: '1.2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '14px 0' }}>
                         <div style={{ width: '50px', height: '50px', borderRadius: '25px', background: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>
-                          ðŸ‘¤
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤
                         </div>
                         <div>
                           <div style={{ fontSize: '0.92rem', fontWeight: 900 }}>Adebayo Adeleke</div>
-                          <div style={{ fontSize: '0.68rem', color: '#fef3c7' }}>Agbele Compound Â· Indigene</div>
+                          <div style={{ fontSize: '0.68rem', color: '#fef3c7' }}>Agbele Compound Ãƒâ€šÃ‚Â· Indigene</div>
                           <div style={{ fontSize: '0.6rem', color: '#a7f3d0' }}>ID: OGR-2026-IND-0829</div>
                         </div>
                       </div>
 
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '8px', fontSize: '0.6rem' }}>
-                        <span style={{ color: '#86efac' }}>âœ“ Certified by Palace Registry</span>
+                        <span style={{ color: '#86efac' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Certified by Palace Registry</span>
                         <span style={{ background: '#ffffff', color: '#000', padding: '2px 6px', borderRadius: '4px', fontWeight: 900 }}>QR SEAL</span>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* â”€â”€ SUB-SCREEN: ROYAL AUDIENCE â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SUB-SCREEN: ROYAL AUDIENCE ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeServiceScreen === 'audience' && (
                   <div style={{ display: 'grid', gap: '10px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -2392,10 +2392,10 @@ export default function MobilePreviewPage() {
                         onClick={() => setActiveServiceScreen(null)}
                         style={{ background: '#f1f5f9', border: 'none', padding: '4px 8px', borderRadius: '6px', fontSize: '0.65rem', fontWeight: 800, color: '#334155', cursor: 'pointer' }}
                       >
-                        â† Back to Services
+                        ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back to Services
                       </button>
                       <span style={{ fontSize: '0.65rem', fontWeight: 900, color: '#d97706' }}>
-                        ðŸ‘‘ AAFIN OLOGERE
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ AAFIN OLOGERE
                       </span>
                     </div>
 
@@ -2410,7 +2410,7 @@ export default function MobilePreviewPage() {
                           fontSize: '0.68rem', fontWeight: 800,
                         }}
                       >
-                        ðŸ‘‘ Request Audience
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Request Audience
                       </button>
                       <button
                         onClick={() => setAudienceTab('track')}
@@ -2421,7 +2421,7 @@ export default function MobilePreviewPage() {
                           fontSize: '0.68rem', fontWeight: 800,
                         }}
                       >
-                        ðŸ” Track Status
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Track Status
                       </button>
                     </div>
 
@@ -2458,7 +2458,7 @@ export default function MobilePreviewPage() {
                           }}
                           style={{ background: '#064e3b', color: '#fff', padding: '8px', borderRadius: '6px', fontWeight: 800, fontSize: '0.75rem', border: 'none', cursor: 'pointer' }}
                         >
-                          {audTrackingLoading ? 'Checking Palace Logâ€¦' : 'ðŸ” Verify Status'}
+                          {audTrackingLoading ? 'Checking Palace LogÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Verify Status'}
                         </button>
 
                         {audTrackingError && (
@@ -2506,7 +2506,7 @@ export default function MobilePreviewPage() {
                       </div>
                     ) : audSubmittedRef ? (
                       <div style={{ background: '#064e3b', color: '#fff', padding: '16px', borderRadius: '10px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '2rem' }}>ðŸ‘‘</div>
+                        <div style={{ fontSize: '2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</div>
                         <div style={{ fontSize: '0.88rem', fontWeight: 900, marginTop: '4px' }}>Audience Request Transmitted</div>
                         <div style={{ fontSize: '0.65rem', color: '#d1fae5', marginTop: '2px' }}>A receipt email has been sent to {audEmail}</div>
                         <div style={{ background: '#022c22', border: '1px solid #d97706', padding: '8px 16px', borderRadius: '6px', margin: '10px auto', fontSize: '1.1rem', fontWeight: 900, color: '#f59e0b' }}>
@@ -2599,14 +2599,14 @@ export default function MobilePreviewPage() {
                           }}
                           style={{ background: '#d97706', color: '#fff', padding: '8px', borderRadius: '6px', fontWeight: 800, fontSize: '0.75rem', border: 'none', marginTop: '4px', cursor: 'pointer' }}
                         >
-                          ðŸ‘‘ Submit Booking to Palace Registry
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Submit Booking to Palace Registry
                         </button>
                       </div>
                     )}
                   </div>
                 )}
 
-                {/* â”€â”€ SUB-SCREEN: EMERGENCY SOS DISPATCH â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SUB-SCREEN: EMERGENCY SOS DISPATCH ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeServiceScreen === 'report' && (
                   <div style={{ display: 'grid', gap: '10px' }}>
                     {/* Header Action Bar */}
@@ -2615,17 +2615,17 @@ export default function MobilePreviewPage() {
                         onClick={() => setActiveServiceScreen(null)}
                         style={{ background: '#f1f5f9', border: 'none', padding: '4px 8px', borderRadius: '6px', fontSize: '0.65rem', fontWeight: 800, color: '#334155', cursor: 'pointer' }}
                       >
-                        â† Back to Services
+                        ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back to Services
                       </button>
                       <span style={{ fontSize: '0.65rem', fontWeight: 900, color: '#dc2626' }}>
-                        â— 24/7 COMMAND DESK
+                        ÃƒÂ¢Ã¢â‚¬â€Ã‚Â 24/7 COMMAND DESK
                       </span>
                     </div>
 
                     {/* Immediate Speed-Dials */}
                     <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', padding: '10px', borderRadius: '10px' }}>
                       <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#991b1b', marginBottom: '4px' }}>
-                        ðŸš¨ Immediate Life Threat? Dial Direct:
+                        ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Immediate Life Threat? Dial Direct:
                       </div>
                       <div style={{ display: 'flex', gap: '6px' }}>
                         <a href="tel:122" style={{ flex: 1, background: '#dc2626', color: '#fff', textAlign: 'center', padding: '6px 4px', borderRadius: '6px', textDecoration: 'none', fontSize: '0.68rem', fontWeight: 900 }}>
@@ -2643,7 +2643,7 @@ export default function MobilePreviewPage() {
                     {/* Active Beacon Card if Submitted */}
                     {sosActiveBeacon ? (
                       <div style={{ background: '#7f1d1d', border: '2px solid #ef4444', borderRadius: '12px', padding: '14px', color: '#fff', textAlign: 'center' }}>
-                        <div style={{ fontSize: '1.6rem', animation: 'pulseGlow 1.5s infinite' }}>ðŸš¨</div>
+                        <div style={{ fontSize: '1.6rem', animation: 'pulseGlow 1.5s infinite' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</div>
                         <div style={{ fontSize: '0.95rem', fontWeight: 900, marginTop: '4px', letterSpacing: '0.05em' }}>
                           EMERGENCY BEACON TRANSMITTED
                         </div>
@@ -2652,44 +2652,42 @@ export default function MobilePreviewPage() {
                         </div>
 
                         <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px', borderRadius: '8px', margin: '10px 0', textAlign: 'left', fontSize: '0.68rem', lineHeight: 1.5 }}>
-                          <div>ðŸ“ <strong>Sector:</strong> {sosActiveBeacon.landmark}</div>
+                          <div>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â <strong>Sector:</strong> {sosActiveBeacon.landmark}</div>
                           {sosActiveBeacon.fullAddress && (
-                            <div>ðŸ  <strong>Full Address / Venue:</strong> <span style={{ color: '#fef08a' }}>{sosActiveBeacon.fullAddress}</span></div>
+                            <div>ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â  <strong>Full Address / Venue:</strong> <span style={{ color: '#fef08a' }}>{sosActiveBeacon.fullAddress}</span></div>
                           )}
-                          <div>âš¡ <strong>Threat:</strong> {sosActiveBeacon.category} ({sosActiveBeacon.severity})</div>
-                          <div>â±ï¸ <strong>Dispatched:</strong> {sosActiveBeacon.timestamp}</div>
+                          <div>ÃƒÂ¢Ã…Â¡Ã‚Â¡ <strong>Threat:</strong> {sosActiveBeacon.category} ({sosActiveBeacon.severity})</div>
+                          <div>ÃƒÂ¢Ã‚ÂÃ‚Â±ÃƒÂ¯Ã‚Â¸Ã‚Â <strong>Dispatched:</strong> {sosActiveBeacon.timestamp}</div>
                           <div style={{ color: '#86efac', marginTop: '4px', fontWeight: 800 }}>
-                            âœ“ Status: {sosActiveBeacon.status}
+                            ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Status: {sosActiveBeacon.status}
                           </div>
                           <div style={{ color: '#cbd5e1', fontSize: '0.62rem' }}>
-                            ðŸš“ Ogere Police Cruiser #04 &amp; So-Safe Armed Patrol en route.
+                            ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Å“ Ogere Police Cruiser #04 &amp; So-Safe Armed Patrol en route.
                           </div>
 
                           {sosActiveBeacon.latitude && (
                             <div style={{ marginTop: '8px', borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: '6px' }}>
                               <div style={{ color: '#38bdf8', fontWeight: 800 }}>
-                                ðŸ›°ï¸ GPS: {Number(sosActiveBeacon.latitude).toFixed(5)}Â°N, {Number(sosActiveBeacon.longitude).toFixed(5)}Â°E (Â±{sosActiveBeacon.accuracy}m)
+                                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â GPS: {Number(sosActiveBeacon.latitude).toFixed(5)}Ãƒâ€šÃ‚Â°N, {Number(sosActiveBeacon.longitude).toFixed(5)}Ãƒâ€šÃ‚Â°E (Ãƒâ€šÃ‚Â±{sosActiveBeacon.accuracy}m)
                               </div>
                               <div style={{ color: '#94a3b8', fontSize: '0.62rem', marginTop: '2px' }}>
-                                ðŸŒ IP: {sosActiveBeacon.ip} {sosActiveBeacon.batteryLevel ? `Â· ðŸ”‹ ${sosActiveBeacon.batteryLevel}%` : ''}
+                                ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â IP: {sosActiveBeacon.ip} {sosActiveBeacon.batteryLevel ? `Ãƒâ€šÃ‚Â· ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ ${sosActiveBeacon.batteryLevel}%` : ''}
                               </div>
                               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '6px' }}>
                                 <a
                                   href={sosActiveBeacon.googleMapsUrl}
                                   target="_blank" rel="noopener noreferrer"
-                                  rel="noreferrer"
                                   style={{ background: '#16a34a', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem' }}
                                 >
-                                  ðŸ—ºï¸ Pin on Maps âž”
+                                  ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Pin on Maps ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                                 </a>
                                 {sosActiveBeacon.directionsUrl && (
                                   <a
                                     href={sosActiveBeacon.directionsUrl}
                                     target="_blank" rel="noopener noreferrer"
-                                    rel="noreferrer"
                                     style={{ background: '#0284c7', color: '#fff', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem' }}
                                   >
-                                    ðŸš— Directions to Venue âž”
+                                    ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬â€ Directions to Venue ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                                   </a>
                                 )}
                               </div>
@@ -2699,7 +2697,7 @@ export default function MobilePreviewPage() {
 
                         {sosLiveTracking && (
                           <div style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid #22c55e', padding: '6px 10px', borderRadius: '6px', fontSize: '0.62rem', color: '#bbf7d0', marginBottom: '10px' }}>
-                            ðŸ“¡ Perpetual Moving GPS Live Radar Active (Streaming coordinates to Command Desk)
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Perpetual Moving GPS Live Radar Active (Streaming coordinates to Command Desk)
                           </div>
                         )}
 
@@ -2718,7 +2716,7 @@ export default function MobilePreviewPage() {
                               fontSize: '0.65rem',
                             }}
                           >
-                            ðŸ“± Resend as Backup SMS (Zero Data / Dead Zone Fallback)
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â± Resend as Backup SMS (Zero Data / Dead Zone Fallback)
                           </a>
                         </div>
 
@@ -2741,13 +2739,13 @@ export default function MobilePreviewPage() {
                             onChange={(e) => setSosCategory(e.target.value)}
                             style={{ width: '100%', fontSize: '0.72rem', padding: '6px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
                           >
-                            <option>ðŸš¨ Armed Robbery / Banditry</option>
-                            <option>ðŸ’¥ Gunfire / Ambush / Terrorism</option>
-                            <option>ðŸš· Kidnapping / Abduction in Progress</option>
-                            <option>ðŸš— Highway Collision / Entrapment</option>
-                            <option>ðŸ”¥ Fire Outbreak / Tanker Spill</option>
-                            <option>â›½ CNG / Pipeline Gas Leak</option>
-                            <option>ðŸ¥ Medical Crisis / Trauma</option>
+                            <option>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Armed Robbery / Banditry</option>
+                            <option>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¥ Gunfire / Ambush / Terrorism</option>
+                            <option>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â· Kidnapping / Abduction in Progress</option>
+                            <option>ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬â€ Highway Collision / Entrapment</option>
+                            <option>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥ Fire Outbreak / Tanker Spill</option>
+                            <option>ÃƒÂ¢Ã¢â‚¬ÂºÃ‚Â½ CNG / Pipeline Gas Leak</option>
+                            <option>ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¥ Medical Crisis / Trauma</option>
                           </select>
                         </div>
 
@@ -2757,9 +2755,9 @@ export default function MobilePreviewPage() {
                           </div>
                           <div style={{ display: 'flex', gap: '6px' }}>
                             {[
-                              { id: 'Critical', label: 'ðŸ”´ Critical' },
-                              { id: 'High', label: 'ðŸŸ  High' },
-                              { id: 'Medium', label: 'ðŸŸ¡ Medium' },
+                              { id: 'Critical', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ Critical' },
+                              { id: 'High', label: 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â  High' },
+                              { id: 'Medium', label: 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¡ Medium' },
                             ].map((s) => (
                               <button
                                 key={s.id}
@@ -2801,7 +2799,7 @@ export default function MobilePreviewPage() {
                                 cursor: 'pointer',
                               }}
                             >
-                              {isLockingSosGps ? 'â³ Locking GPS...' : 'ðŸŽ¯ Lock Exact GPS'}
+                              {isLockingSosGps ? 'ÃƒÂ¢Ã‚ÂÃ‚Â³ Locking GPS...' : 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Lock Exact GPS'}
                             </button>
                           </div>
 
@@ -2861,7 +2859,7 @@ export default function MobilePreviewPage() {
                                       color: '#0f172a',
                                     }}
                                   >
-                                    <div style={{ fontWeight: 800, color: '#0284c7' }}>ðŸ“ {item.name}</div>
+                                    <div style={{ fontWeight: 800, color: '#0284c7' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {item.name}</div>
                                     <div style={{ color: '#64748b', fontSize: '0.6rem' }}>{item.displayName}</div>
                                   </div>
                                 ))}
@@ -2900,7 +2898,7 @@ export default function MobilePreviewPage() {
                                   boxShadow: '0 3px 10px rgba(220, 38, 38, 0.4)',
                                 }}
                               >
-                                <span style={{ fontSize: '1.05rem' }}>ðŸš¨</span>
+                                <span style={{ fontSize: '1.05rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</span>
                                 <span>{isLockingSosGps ? 'Locking GPS Satellites & Centering SOS Map...' : 'SEE MY LOCATION ON MAP (Auto-Find)'}</span>
                               </button>
 
@@ -2919,11 +2917,11 @@ export default function MobilePreviewPage() {
                                     textDecoration: 'underline',
                                   }}
                                 >
-                                  {showSosMapAdjuster ? 'â–¼ Hide Map View' : 'â–¶ Show Google Map'}
+                                  {showSosMapAdjuster ? 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼ Hide Map View' : 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¶ Show Google Map'}
                                 </button>
 
                                 {sosGpsFeedback && (
-                                  <div style={{ fontSize: '0.6rem', color: sosGpsFeedback.startsWith('âœ…') ? '#16a34a' : '#ea580c', fontWeight: 700, textAlign: 'center' }}>
+                                  <div style={{ fontSize: '0.6rem', color: sosGpsFeedback.startsWith('ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦') ? '#16a34a' : '#ea580c', fontWeight: 700, textAlign: 'center' }}>
                                     {sosGpsFeedback}
                                   </div>
                                 )}
@@ -2936,7 +2934,7 @@ export default function MobilePreviewPage() {
                                   initialLng={sosPinCoords.lng}
                                   title="Your Live Distress Location & Pin"
                                   pinColor="#ef4444"
-                                  pinIconChar="ðŸš¨"
+                                  pinIconChar="ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨"
                                   height="240px"
                                   autoLocate={true}
                                   onLocationChange={handleSosLocationAdjust}
@@ -2995,7 +2993,7 @@ export default function MobilePreviewPage() {
                                     cursor: 'pointer',
                                   }}
                                 >
-                                  ðŸ‘¤ {g.name}
+                                  ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ {g.name}
                                 </button>
                               ))}
                             </div>
@@ -3029,7 +3027,7 @@ export default function MobilePreviewPage() {
                             cursor: 'pointer',
                           }}
                         >
-                          <span style={{ fontSize: '1.2rem' }}>ðŸ“¡</span>
+                          <span style={{ fontSize: '1.2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡</span>
                           <div style={{ flex: 1 }}>
                             <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#065f46' }}>
                               Live Location Radar (Real-Time GPS)
@@ -3039,7 +3037,7 @@ export default function MobilePreviewPage() {
                             </div>
                           </div>
                           <span style={{ fontSize: '0.65rem', fontWeight: 900, color: sosLiveTracking ? '#059669' : '#94a3b8' }}>
-                            {sosLiveTracking ? 'ðŸŸ¢ ACTIVE' : 'OFF'}
+                            {sosLiveTracking ? 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢ ACTIVE' : 'OFF'}
                           </span>
                         </div>
 
@@ -3059,7 +3057,7 @@ export default function MobilePreviewPage() {
                             boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)',
                           }}
                         >
-                          {isSubmittingSos ? 'TRANSMITTING BEACON...' : 'ðŸš¨ TRANSMIT EMERGENCY SOS DISPATCH'}
+                          {isSubmittingSos ? 'TRANSMITTING BEACON...' : 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ TRANSMIT EMERGENCY SOS DISPATCH'}
                         </button>
 
                         <a
@@ -3080,14 +3078,14 @@ export default function MobilePreviewPage() {
                             marginTop: '2px',
                           }}
                         >
-                          <span>ðŸ“±</span> Send Emergency SMS (Zero Data / Offline Fallback)
+                          <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â±</span> Send Emergency SMS (Zero Data / Offline Fallback)
                         </a>
                       </div>
                     )}
                   </div>
                 )}
 
-                {/* â”€â”€ SUB-SCREEN: GUARDIAN CIRCLES â”€â”€ */}
+                {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ SUB-SCREEN: GUARDIAN CIRCLES ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
                 {activeServiceScreen === 'guardians' && (
                   <div style={{ display: 'grid', gap: '10px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -3095,7 +3093,7 @@ export default function MobilePreviewPage() {
                         onClick={() => setActiveServiceScreen(null)}
                         style={{ background: '#f1f5f9', border: 'none', padding: '4px 8px', borderRadius: '6px', fontSize: '0.65rem', fontWeight: 800, color: '#334155', cursor: 'pointer' }}
                       >
-                        â† Back to Services
+                        ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back to Services
                       </button>
                       <span style={{ fontSize: '0.65rem', fontWeight: 900, color: '#064e3b' }}>
                         FAMILY KIN BEACON
@@ -3103,7 +3101,7 @@ export default function MobilePreviewPage() {
                     </div>
 
                     <div style={{ background: '#064e3b', color: '#fff', padding: '10px 12px', borderRadius: '10px' }}>
-                      <div style={{ fontSize: '0.78rem', fontWeight: 900 }}>ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Guardian Circles ({guardiansList.length}/3)</div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 900 }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¨ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â©ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â§ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¦ Guardian Circles ({guardiansList.length}/3)</div>
                       <div style={{ fontSize: '0.62rem', color: '#d1fae5', marginTop: '2px' }}>
                         Trusted family or kin notified immediately via SMS with a direct public live tracking radar link whenever you trigger an SOS.
                       </div>
@@ -3118,15 +3116,15 @@ export default function MobilePreviewPage() {
                               {g.relationship}
                             </span>
                           </div>
-                          <div style={{ fontSize: '0.65rem', color: '#64748b', marginTop: '2px' }}>ðŸ“ž {g.phone}</div>
-                          <div style={{ fontSize: '0.58rem', color: '#059669', fontWeight: 800, marginTop: '2px' }}>âš¡ Auto-SMS Live Radar Link Enabled</div>
+                          <div style={{ fontSize: '0.65rem', color: '#64748b', marginTop: '2px' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ {g.phone}</div>
+                          <div style={{ fontSize: '0.58rem', color: '#059669', fontWeight: 800, marginTop: '2px' }}>ÃƒÂ¢Ã…Â¡Ã‚Â¡ Auto-SMS Live Radar Link Enabled</div>
                         </div>
                         <button
                           onClick={() => handleDeleteGuardian(g.id)}
                           style={{ background: 'transparent', border: 'none', color: '#ef4444', fontSize: '0.9rem', cursor: 'pointer', padding: '4px' }}
                           title="Remove Guardian"
                         >
-                          ðŸ—‘ï¸
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã¢â‚¬ËœÃƒÂ¯Ã‚Â¸Ã‚Â
                         </button>
                       </div>
                     ))}
@@ -3188,7 +3186,7 @@ export default function MobilePreviewPage() {
 
               </div>
 
-              {/* â”€â”€ BOTTOM TAB NAVIGATION BAR â”€â”€ */}
+              {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ BOTTOM TAB NAVIGATION BAR ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
               <div style={{
                 height: '64px',
                 background: '#ffffff',
@@ -3200,11 +3198,11 @@ export default function MobilePreviewPage() {
                 zIndex: 10,
               }}>
                 {[
-                  { id: 'home', label: 'Home', emoji: 'ðŸ›ï¸' },
-                  { id: 'news', label: 'News', emoji: 'ðŸ“°' },
-                  { id: 'sos', label: 'SOS ðŸš¨', emoji: 'ðŸš¨' },
-                  { id: 'heritage', label: 'Heritage', emoji: 'ðŸ‘‘' },
-                  { id: 'services', label: 'Services', emoji: 'âš¡' },
+                  { id: 'home', label: 'Home', emoji: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â' },
+                  { id: 'news', label: 'News', emoji: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â°' },
+                  { id: 'sos', label: 'SOS ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨', emoji: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨' },
+                  { id: 'heritage', label: 'Heritage', emoji: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ' },
+                  { id: 'services', label: 'Services', emoji: 'ÃƒÂ¢Ã…Â¡Ã‚Â¡' },
                 ].map((tab) => {
                   const isFocused = tab.id === 'sos' ? activeServiceScreen === 'report' : (activeTab === tab.id && !activeServiceScreen);
                   return (
@@ -3255,7 +3253,7 @@ export default function MobilePreviewPage() {
           </div>
           )}
 
-          {/* â”€â”€ 2. FIELD OFFICER MOBILE TERMINAL PREVIEW â”€â”€ */}
+          {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ 2. FIELD OFFICER MOBILE TERMINAL PREVIEW ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
           {(previewMode === 'dual' || previewMode === 'officer') && (
             <OfficerMobilePhone deviceFrame={deviceFrame} />
           )}

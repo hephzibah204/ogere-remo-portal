@@ -105,21 +105,21 @@ export default function WysiwygEditor({ value, onChange, onOpenMedia, placeholde
     { type: 'sep' },
     { html: 'H2', cmd: 'formatBlock', val: 'h2', title: 'Heading 2' },
     { html: 'H3', cmd: 'formatBlock', val: 'h3', title: 'Heading 3' },
-    { html: 'â', cmd: 'formatBlock', val: 'blockquote', title: 'Blockquote' },
+    { html: 'ÃƒÂ¢Ã‚ÂÃ‚Â', cmd: 'formatBlock', val: 'blockquote', title: 'Blockquote' },
     { html: '<code>&lt;/&gt;</code>', cmd: 'formatBlock', val: 'pre', title: 'Code Block' },
     { type: 'sep' },
-    { html: 'â€¢ List', cmd: 'insertUnorderedList', title: 'Bullet List' },
+    { html: 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ List', cmd: 'insertUnorderedList', title: 'Bullet List' },
     { html: '1. List', cmd: 'insertOrderedList', title: 'Numbered List' },
-    { html: 'â€”', cmd: 'insertHorizontalRule', title: 'Horizontal Rule' },
+    { html: 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â', cmd: 'insertHorizontalRule', title: 'Horizontal Rule' },
     { type: 'sep' },
-    { html: 'ðŸ”—', cmd: 'link', title: 'Insert Link' },
-    { html: 'ðŸ”—âœ•', cmd: 'unlink', title: 'Remove Link' },
+    { html: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â€', cmd: 'link', title: 'Insert Link' },
+    { html: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â€ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢', cmd: 'unlink', title: 'Remove Link' },
     { type: 'sep' },
-    { html: 'ðŸ–¼ï¸', cmd: 'image', title: 'Insert Image' },
-    { html: 'ðŸ“', cmd: 'media', title: 'Media Library' },
+    { html: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€œÃ‚Â¼ÃƒÂ¯Ã‚Â¸Ã‚Â', cmd: 'image', title: 'Insert Image' },
+    { html: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â', cmd: 'media', title: 'Media Library' },
     { type: 'sep' },
-    { html: 'â—€', cmd: 'undo', title: 'Undo (Ctrl+Z)' },
-    { html: 'â–¶', cmd: 'redo', title: 'Redo (Ctrl+Shift+Z)' },
+    { html: 'ÃƒÂ¢Ã¢â‚¬â€Ã¢â€šÂ¬', cmd: 'undo', title: 'Undo (Ctrl+Z)' },
+    { html: 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¶', cmd: 'redo', title: 'Redo (Ctrl+Shift+Z)' },
   ];
 
   const handleToolbarAction = (item) => {
@@ -158,7 +158,7 @@ export default function WysiwygEditor({ value, onChange, onOpenMedia, placeholde
           />
           <button className="abtn abtn-p" onClick={() => insertImage(imgUrl)} style={{ fontSize: '.55rem', padding: '.3rem .6rem' }}>Insert</button>
           {onOpenMedia && (
-            <button className="abtn abtn-o" onClick={() => onOpenMedia('body')} style={{ fontSize: '.55rem', padding: '.3rem .6rem' }}>ðŸ“ Media</button>
+            <button className="abtn abtn-o" onClick={() => onOpenMedia('body')} style={{ fontSize: '.55rem', padding: '.3rem .6rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Media</button>
           )}
         </div>
       )}
@@ -184,7 +184,7 @@ export default function WysiwygEditor({ value, onChange, onOpenMedia, placeholde
       <div className="wysiwyg-st">
         <span className="wysiwyg-wc">{wordCount} words</span>
         <button className="wysiwyg-toggle" onClick={toggleSource}>
-          {showSource ? 'ðŸ‘ï¸ Visual' : 'ðŸ“ HTML'}
+          {showSource ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â Visual' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â HTML'}
         </button>
       </div>
     </div>

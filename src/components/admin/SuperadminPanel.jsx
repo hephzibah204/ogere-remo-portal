@@ -251,7 +251,7 @@ export default function SuperadminPanel({ addToast, user }) {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ fontSize: '2.5rem' }}>âš¡</div>
+          <div style={{ fontSize: '2.5rem' }}>ÃƒÂ¢Ã…Â¡Ã‚Â¡</div>
           <div>
             <div style={{ fontSize: '.65rem', fontFamily: "'Cinzel',serif", letterSpacing: '.18em', color: '#C9963A', textTransform: 'uppercase' }}>
               Master Platform Control Suite
@@ -267,13 +267,13 @@ export default function SuperadminPanel({ addToast, user }) {
 
         <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
           <button className="abtn abtn-p" onClick={handleSaveConfig} style={{ fontSize: '.72rem', padding: '.45rem .8rem' }}>
-            ðŸ’¾ Save All Changes
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¾ Save All Changes
           </button>
           <button className="abtn abtn-o" onClick={pingDatabase} disabled={dbStatus.checking} style={{ fontSize: '.72rem', padding: '.45rem .8rem' }}>
-            {dbStatus.checking ? 'â³ Testing...' : 'ðŸ“¡ Ping Database'}
+            {dbStatus.checking ? 'ÃƒÂ¢Ã‚ÂÃ‚Â³ Testing...' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Ping Database'}
           </button>
           <button className="abtn abtn-o" onClick={handleExportFullBackup} style={{ fontSize: '.72rem', padding: '.45rem .8rem' }}>
-            ðŸ“¥ Master JSON Backup
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¥ Master JSON Backup
           </button>
         </div>
       </div>
@@ -281,13 +281,13 @@ export default function SuperadminPanel({ addToast, user }) {
       {/* Superadmin Sub-Navigation Bar */}
       <div style={{ display: 'flex', gap: '.3rem', borderBottom: '1px solid rgba(201,150,58,.18)', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         {[
-          { id: 'modules', label: 'ðŸŽ›ï¸ Feature Flags & Modules', icon: 'ðŸŽ›ï¸' },
-          { id: 'identity', label: 'ðŸ‘‘ Branding & Identity', icon: 'ðŸ‘‘' },
-          { id: 'broadcast', label: 'ðŸ“¢ Sitewide Broadcaster', icon: 'ðŸ“¢' },
-          { id: 'monetization', label: 'ðŸ’³ Monetization & Paystack', icon: 'ðŸ’³' },
-          { id: 'rbac', label: 'ðŸ‘¥ Multi-Admin & RBAC', icon: 'ðŸ‘¥' },
-          { id: 'batch', label: 'âš¡ Master Batch Actions', icon: 'âš¡' },
-          { id: 'telemetry', label: 'ðŸ“Š Cloud DB Telemetry', icon: 'ðŸ“Š' },
+          { id: 'modules', label: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Feature Flags & Modules', icon: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â' },
+          { id: 'identity', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Branding & Identity', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ' },
+          { id: 'broadcast', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¢ Sitewide Broadcaster', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¢' },
+          { id: 'monetization', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â³ Monetization & Paystack', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â³' },
+          { id: 'rbac', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ Multi-Admin & RBAC', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥' },
+          { id: 'batch', label: 'ÃƒÂ¢Ã…Â¡Ã‚Â¡ Master Batch Actions', icon: 'ÃƒÂ¢Ã…Â¡Ã‚Â¡' },
+          { id: 'telemetry', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â  Cloud DB Telemetry', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â ' },
         ].map(tab => (
           <button
             key={tab.id}
@@ -318,7 +318,7 @@ export default function SuperadminPanel({ addToast, user }) {
         <div style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.5rem' }}>
           <div style={{ marginBottom: '1.2rem' }}>
             <h3 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.3rem', margin: 0 }}>
-              ðŸŽ›ï¸ Global Module & Feature Flag Switches
+              ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Global Module & Feature Flag Switches
             </h3>
             <p style={{ color: 'rgba(245,237,216,.5)', fontSize: '.78rem', margin: '.3rem 0 0' }}>
               Turn individual subsystems on or off instantly across the entire portal without needing to redeploy code.
@@ -346,7 +346,7 @@ export default function SuperadminPanel({ addToast, user }) {
                       {mod.name}
                     </div>
                     <div style={{ fontSize: '.65rem', color: mod.enabled ? '#4ade80' : '#f87171', marginTop: '.2rem' }}>
-                      {mod.enabled ? 'â— Active across website' : 'â—‹ Disabled (Hidden from public)'}
+                      {mod.enabled ? 'ÃƒÂ¢Ã¢â‚¬â€Ã‚Â Active across website' : 'ÃƒÂ¢Ã¢â‚¬â€Ã¢â‚¬Â¹ Disabled (Hidden from public)'}
                     </div>
                   </div>
                 </div>
@@ -369,7 +369,7 @@ export default function SuperadminPanel({ addToast, user }) {
         <div style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.5rem' }}>
           <div style={{ marginBottom: '1.5rem' }}>
             <h3 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.3rem', margin: 0 }}>
-              ðŸ‘‘ Kingdom & Tenant Identity Settings
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Kingdom & Tenant Identity Settings
             </h3>
             <p style={{ color: 'rgba(245,237,216,.5)', fontSize: '.78rem', margin: '.3rem 0 0' }}>
               Configure municipal title, reigning royal monarch, official contacts, and sitewide color scheme.
@@ -442,7 +442,7 @@ export default function SuperadminPanel({ addToast, user }) {
           </div>
 
           <button className="abtn abtn-p" onClick={handleSaveConfig} style={{ marginTop: '1.5rem' }}>
-            Update Kingdom Identity â†’
+            Update Kingdom Identity ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
           </button>
         </div>
       )}
@@ -452,7 +452,7 @@ export default function SuperadminPanel({ addToast, user }) {
         <div style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.5rem' }}>
           <div style={{ marginBottom: '1.5rem' }}>
             <h3 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.3rem', margin: 0 }}>
-              ðŸ“¢ Sitewide Emergency & Royal Announcement Manager
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¢ Sitewide Emergency & Royal Announcement Manager
             </h3>
             <p style={{ color: 'rgba(245,237,216,.5)', fontSize: '.78rem', margin: '.3rem 0 0' }}>
               Broadcast real-time messages across the top header of every webpage.
@@ -478,10 +478,10 @@ export default function SuperadminPanel({ addToast, user }) {
                 value={saasConfig.broadcast.type}
                 onChange={e => setSaasConfig(prev => ({ ...prev, broadcast: { ...prev.broadcast, type: e.target.value } }))}
               >
-                <option value="royal">ðŸ‘‘ Royal Decree / Palace News (Gold Theme)</option>
-                <option value="festival">ðŸŽ‰ Cultural Festival & Lipakala Day (Emerald Theme)</option>
-                <option value="alert">ðŸš¨ Public Safety / Emergency Advisory (Red Theme)</option>
-                <option value="info">â„¹ï¸ Civic Notice (Navy Blue Theme)</option>
+                <option value="royal">ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Royal Decree / Palace News (Gold Theme)</option>
+                <option value="festival">ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â° Cultural Festival & Lipakala Day (Emerald Theme)</option>
+                <option value="alert">ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Public Safety / Emergency Advisory (Red Theme)</option>
+                <option value="info">ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¹ÃƒÂ¯Ã‚Â¸Ã‚Â Civic Notice (Navy Blue Theme)</option>
               </select>
             </div>
 
@@ -542,19 +542,19 @@ export default function SuperadminPanel({ addToast, user }) {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                  <span>{saasConfig.broadcast.type === 'royal' ? 'ðŸ‘‘' : saasConfig.broadcast.type === 'festival' ? 'ðŸŽ‰' : saasConfig.broadcast.type === 'alert' ? 'ðŸš¨' : 'â„¹ï¸'}</span>
+                  <span>{saasConfig.broadcast.type === 'royal' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ' : saasConfig.broadcast.type === 'festival' ? 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â°' : saasConfig.broadcast.type === 'alert' ? 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨' : 'ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¹ÃƒÂ¯Ã‚Â¸Ã‚Â'}</span>
                   <span>{saasConfig.broadcast.message || 'No announcement message entered.'}</span>
                 </div>
                 {saasConfig.broadcast.ctaLabel && (
                   <span style={{ fontSize: '.7rem', color: '#C9963A', fontWeight: 600, textDecoration: 'underline' }}>
-                    {saasConfig.broadcast.ctaLabel} â†’
+                    {saasConfig.broadcast.ctaLabel} ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
                   </span>
                 )}
               </div>
             </div>
 
             <button className="abtn abtn-p" onClick={handleSaveConfig} style={{ marginTop: '1rem', width: 'fit-content' }}>
-              Publish Announcement Live â†’
+              Publish Announcement Live ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
             </button>
           </div>
         </div>
@@ -565,7 +565,7 @@ export default function SuperadminPanel({ addToast, user }) {
         <div style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.5rem' }}>
           <div style={{ marginBottom: '1.5rem' }}>
             <h3 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.3rem', margin: 0 }}>
-              ðŸ’³ SaaS Monetization & Paystack Payment Gateway
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â³ SaaS Monetization & Paystack Payment Gateway
             </h3>
             <p style={{ color: 'rgba(245,237,216,.5)', fontSize: '.78rem', margin: '.3rem 0 0' }}>
               Configure payment processing keys and municipal service tariffs.
@@ -583,7 +583,7 @@ export default function SuperadminPanel({ addToast, user }) {
             </div>
 
             <div>
-              <label style={{ fontSize: '.75rem', color: '#C9963A', display: 'block', marginBottom: '.3rem' }}>Digital ID Card Processing Fee (â‚¦)</label>
+              <label style={{ fontSize: '.75rem', color: '#C9963A', display: 'block', marginBottom: '.3rem' }}>Digital ID Card Processing Fee (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦)</label>
               <input
                 className="ainp"
                 type="number"
@@ -593,7 +593,7 @@ export default function SuperadminPanel({ addToast, user }) {
             </div>
 
             <div>
-              <label style={{ fontSize: '.75rem', color: '#C9963A', display: 'block', marginBottom: '.3rem' }}>Marketplace Premium Listing Fee (â‚¦)</label>
+              <label style={{ fontSize: '.75rem', color: '#C9963A', display: 'block', marginBottom: '.3rem' }}>Marketplace Premium Listing Fee (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦)</label>
               <input
                 className="ainp"
                 type="number"
@@ -603,7 +603,7 @@ export default function SuperadminPanel({ addToast, user }) {
             </div>
 
             <div>
-              <label style={{ fontSize: '.75rem', color: '#C9963A', display: 'block', marginBottom: '.3rem' }}>Official Land Search Fee (â‚¦)</label>
+              <label style={{ fontSize: '.75rem', color: '#C9963A', display: 'block', marginBottom: '.3rem' }}>Official Land Search Fee (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦)</label>
               <input
                 className="ainp"
                 type="number"
@@ -614,7 +614,7 @@ export default function SuperadminPanel({ addToast, user }) {
           </div>
 
           <button className="abtn abtn-p" onClick={handleSaveConfig} style={{ marginTop: '1.5rem' }}>
-            Save Monetization Rules â†’
+            Save Monetization Rules ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
           </button>
         </div>
       )}
@@ -625,7 +625,7 @@ export default function SuperadminPanel({ addToast, user }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '.8rem' }}>
             <div>
               <h3 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.3rem', margin: 0 }}>
-                ðŸ‘¥ Multi-Admin & Palace Staff Permissions (RBAC)
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ Multi-Admin & Palace Staff Permissions (RBAC)
               </h3>
               <p style={{ color: 'rgba(245,237,216,.5)', fontSize: '.78rem', margin: '.3rem 0 0' }}>
                 Role-Based Access Control for Palace Secretaries, Land Registrars, Security Chiefs, and Treasury Officers.
@@ -654,12 +654,12 @@ export default function SuperadminPanel({ addToast, user }) {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.8rem' }}>
                 <input className="ainp" type="email" placeholder="Official Email" value={newAdmin.email} onChange={e => setNewAdmin(prev => ({ ...prev, email: e.target.value }))} />
                 <select className="ainp" value={newAdmin.role} onChange={e => setNewAdmin(prev => ({ ...prev, role: e.target.value }))}>
-                  <option value="superadmin">ðŸ‘‘ Superadmin (Full Root Access)</option>
-                  <option value="palace_secretary">ðŸ›ï¸ Palace Secretary (Audiences & Kings)</option>
-                  <option value="community_officer">ðŸ“œ Land & ID Card Officer</option>
-                  <option value="security_chief">ðŸš¨ Security & Emergency Dispatch</option>
-                  <option value="financial_auditor">ðŸ’° Financial Auditor (Donations & Treasury)</option>
-                  <option value="moderator">ðŸ›’ Marketplace & Forum Moderator</option>
+                  <option value="superadmin">ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Superadmin (Full Root Access)</option>
+                  <option value="palace_secretary">ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Palace Secretary (Audiences & Kings)</option>
+                  <option value="community_officer">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ Land & ID Card Officer</option>
+                  <option value="security_chief">ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Security & Emergency Dispatch</option>
+                  <option value="financial_auditor">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â° Financial Auditor (Donations & Treasury)</option>
+                  <option value="moderator">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ¢â‚¬â„¢ Marketplace & Forum Moderator</option>
                 </select>
               </div>
               <div style={{ display: 'flex', gap: '.5rem', marginTop: '.4rem' }}>
@@ -696,7 +696,7 @@ export default function SuperadminPanel({ addToast, user }) {
                     <td style={{ padding: '.7rem .8rem', color: 'rgba(245,237,216,.7)' }}>{adm.email}</td>
                     <td style={{ padding: '.7rem .8rem' }}>
                       <span style={{ fontSize: '.68rem', color: adm.active ? '#4ade80' : '#f87171' }}>
-                        {adm.active ? 'â— Active' : 'â—‹ Suspended'}
+                        {adm.active ? 'ÃƒÂ¢Ã¢â‚¬â€Ã‚Â Active' : 'ÃƒÂ¢Ã¢â‚¬â€Ã¢â‚¬Â¹ Suspended'}
                       </span>
                     </td>
                     <td style={{ padding: '.7rem .8rem', textAlign: 'right' }}>
@@ -724,7 +724,7 @@ export default function SuperadminPanel({ addToast, user }) {
         <div style={{ background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.5rem' }}>
           <div style={{ marginBottom: '1.5rem' }}>
             <h3 style={{ color: '#F5EDD8', fontFamily: "'Playfair Display',serif", fontSize: '1.3rem', margin: 0 }}>
-              âš¡ High-Speed Palace Batch Operations
+              ÃƒÂ¢Ã…Â¡Ã‚Â¡ High-Speed Palace Batch Operations
             </h3>
             <p style={{ color: 'rgba(245,237,216,.5)', fontSize: '.78rem', margin: '.3rem 0 0' }}>
               Execute bulk approvals across all municipal subsystems in a single action.
@@ -734,7 +734,7 @@ export default function SuperadminPanel({ addToast, user }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
             <div style={{ border: '1px solid rgba(201,150,58,.15)', borderRadius: 6, padding: '1.2rem', background: 'rgba(0,0,0,.2)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '.6rem', marginBottom: '.6rem' }}>
-                <span style={{ fontSize: '1.4rem' }}>ðŸªª</span>
+                <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª</span>
                 <div style={{ fontSize: '.9rem', fontWeight: 600, color: '#F5EDD8' }}>Approve All Pending ID Cards</div>
               </div>
               <p style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.4)', marginBottom: '1rem' }}>
@@ -746,13 +746,13 @@ export default function SuperadminPanel({ addToast, user }) {
                 disabled={counts.pendingIdCards === 0}
                 style={{ width: '100%', fontSize: '.75rem' }}
               >
-                Approve All Pending ({counts.pendingIdCards}) â†’
+                Approve All Pending ({counts.pendingIdCards}) ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
               </button>
             </div>
 
             <div style={{ border: '1px solid rgba(201,150,58,.15)', borderRadius: 6, padding: '1.2rem', background: 'rgba(0,0,0,.2)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '.6rem', marginBottom: '.6rem' }}>
-                <span style={{ fontSize: '1.4rem' }}>ðŸ‘‘</span>
+                <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</span>
                 <div style={{ fontSize: '.9rem', fontWeight: 600, color: '#F5EDD8' }}>Confirm All Royal Audiences</div>
               </div>
               <p style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.4)', marginBottom: '1rem' }}>
@@ -764,13 +764,13 @@ export default function SuperadminPanel({ addToast, user }) {
                 disabled={counts.pendingAudiences === 0}
                 style={{ width: '100%', fontSize: '.75rem' }}
               >
-                Confirm All Pending ({counts.pendingAudiences}) â†’
+                Confirm All Pending ({counts.pendingAudiences}) ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
               </button>
             </div>
 
             <div style={{ border: '1px solid rgba(201,150,58,.15)', borderRadius: 6, padding: '1.2rem', background: 'rgba(0,0,0,.2)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '.6rem', marginBottom: '.6rem' }}>
-                <span style={{ fontSize: '1.4rem' }}>ðŸ“œ</span>
+                <span style={{ fontSize: '1.4rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ</span>
                 <div style={{ fontSize: '.9rem', fontWeight: 600, color: '#F5EDD8' }}>Verify All Land Parcels</div>
               </div>
               <p style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.4)', marginBottom: '1rem' }}>
@@ -782,7 +782,7 @@ export default function SuperadminPanel({ addToast, user }) {
                 disabled={counts.pendingLand === 0}
                 style={{ width: '100%', fontSize: '.75rem' }}
               >
-                Verify All Pending ({counts.pendingLand}) â†’
+                Verify All Pending ({counts.pendingLand}) ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
               </button>
             </div>
           </div>
@@ -800,7 +800,7 @@ export default function SuperadminPanel({ addToast, user }) {
                   Target Database: <span style={{ color: '#C9963A' }}>{dbStatus.engine}</span>
                 </div>
                 <div style={{ fontSize: '.72rem', color: 'rgba(245,237,216,.45)', marginTop: '.2rem' }}>
-                  Protocol: PostgreSQL SSL Connection Pooling Â· Latency: <code style={{ color: '#4ade80' }}>{dbStatus.latency || 'Tested'}</code>
+                  Protocol: PostgreSQL SSL Connection Pooling Ãƒâ€šÃ‚Â· Latency: <code style={{ color: '#4ade80' }}>{dbStatus.latency || 'Tested'}</code>
                 </div>
               </div>
             </div>
@@ -811,27 +811,27 @@ export default function SuperadminPanel({ addToast, user }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             <div style={{ background: 'rgba(26,13,6,.6)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.2rem' }}>
-              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ðŸªª</div>
+              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª</div>
               <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#F5EDD8' }}>{counts.idCards}</div>
               <div style={{ fontSize: '.7rem', color: '#C9963A', textTransform: 'uppercase' }}>Digital ID Cards</div>
             </div>
 
             <div style={{ background: 'rgba(26,13,6,.6)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.2rem' }}>
-              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ðŸ‘‘</div>
+              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</div>
               <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#F5EDD8' }}>{counts.royalAudiences}</div>
               <div style={{ fontSize: '.7rem', color: '#C9963A', textTransform: 'uppercase' }}>Royal Audiences</div>
             </div>
 
             <div style={{ background: 'rgba(26,13,6,.6)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.2rem' }}>
-              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ðŸ“œ</div>
+              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ</div>
               <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#F5EDD8' }}>{counts.landRegistry}</div>
               <div style={{ fontSize: '.7rem', color: '#C9963A', textTransform: 'uppercase' }}>Land Registry Plots</div>
             </div>
 
             <div style={{ background: 'rgba(26,13,6,.6)', border: '1px solid rgba(201,150,58,.15)', borderRadius: 8, padding: '1.2rem' }}>
-              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ðŸ’°</div>
+              <div style={{ fontSize: '1.4rem', marginBottom: '.3rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â°</div>
               <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#4ade80' }}>
-                â‚¦{Number(counts.donationsTotal || 0).toLocaleString()}
+                ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{Number(counts.donationsTotal || 0).toLocaleString()}
               </div>
               <div style={{ fontSize: '.7rem', color: '#C9963A', textTransform: 'uppercase' }}>Total Diaspora Funds</div>
             </div>

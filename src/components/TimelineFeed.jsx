@@ -13,28 +13,28 @@ import { getSession } from '../services/auth';
 
 const PRESET_PHOTOS = [
   {
-    label: 'ðŸ‘‘ Lipakala Festival',
+    label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Lipakala Festival',
     url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    label: 'ðŸ’¡ Solar Streetlights',
+    label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Solar Streetlights',
     url: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    label: 'ðŸ§µ Adire Indigo Crafts',
+    label: 'ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Âµ Adire Indigo Crafts',
     url: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    label: 'ðŸ›¡ï¸ Joint Security Patrol',
+    label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Joint Security Patrol',
     url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80',
   },
 ];
 
 const QUARTERS = ['Oke-Ogere', 'Wasimi Quarter', 'Ijana Quarter', 'Orile-Ogere', 'Expressway Axis', 'Diaspora'];
 const AUDIENCES = [
-  { id: 'Public Feed', label: 'ðŸŒ Public Feed', desc: 'Visible to everyone' },
-  { id: 'Indigenes Only', label: 'ðŸ›ï¸ Indigenes Only', desc: 'Verified indigenes & agbole' },
-  { id: 'Neighborhood Watch', label: 'ðŸ›¡ï¸ Ward Watch', desc: 'Local security & residents' },
+  { id: 'Public Feed', label: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â Public Feed', desc: 'Visible to everyone' },
+  { id: 'Indigenes Only', label: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Indigenes Only', desc: 'Verified indigenes & agbole' },
+  { id: 'Neighborhood Watch', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Ward Watch', desc: 'Local security & residents' },
 ];
 
 export default function TimelineFeed({
@@ -58,7 +58,7 @@ export default function TimelineFeed({
   const [selectedAudience, setSelectedAudience] = useState('Public Feed');
   const [authorRole, setAuthorRole] = useState('Resident');
   const [authorName, setAuthorName] = useState('');
-  const [authorAvatar, setAuthorAvatar] = useState('ðŸ‘¤');
+  const [authorAvatar, setAuthorAvatar] = useState('ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤');
   const [submitting, setSubmitting] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
@@ -103,12 +103,12 @@ export default function TimelineFeed({
           setAuthorName(currentUserName);
           setSelectedQuarter(curSession.quarter || 'Oke-Ogere');
           setAuthorRole(curSession.role === 'ocda_admin' ? 'OCDA Admin' : curSession.role === 'security_officer' ? 'Security Officer' : 'Verified Indigene');
-          setAuthorAvatar(curSession.role === 'ocda_admin' ? 'âš™ï¸' : curSession.role === 'security_officer' ? 'ðŸ›¡ï¸' : 'ðŸ‘‘');
+          setAuthorAvatar(curSession.role === 'ocda_admin' ? 'ÃƒÂ¢Ã…Â¡Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â' : curSession.role === 'security_officer' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ');
         } else {
           setAuthorName(currentUserName);
           setAuthorRole('Youth & Community Member');
           setSelectedQuarter('Oke-Ogere');
-          setAuthorAvatar('ðŸ‘¤');
+          setAuthorAvatar('ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤');
         }
       } catch (_) {}
       loadPosts(currentUserName);
@@ -191,7 +191,7 @@ export default function TimelineFeed({
         setContentText('');
         setImageUrl('');
         setIsComposerOpen(false);
-        showToast('ðŸŽ‰ Published to Ogere Civic Timeline!');
+        showToast('ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â° Published to Ogere Civic Timeline!');
       } else {
         alert(res?.error || 'Could not publish post. Please check connection.');
       }
@@ -233,7 +233,7 @@ export default function TimelineFeed({
     const currentStatus = !!followingMap[targetUser];
     const newStatus = !currentStatus;
     setFollowingMap((prev) => ({ ...prev, [targetUser]: newStatus }));
-    showToast(newStatus ? `âœ“ Now following ${targetUser}` : `Unfollowed ${targetUser}`);
+    showToast(newStatus ? `ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Now following ${targetUser}` : `Unfollowed ${targetUser}`);
 
     try {
       await followUser(authorName, targetUser);
@@ -251,7 +251,7 @@ export default function TimelineFeed({
     const currentStatus = !!friendsMap[targetUser];
     const newStatus = !currentStatus;
     setFriendsMap((prev) => ({ ...prev, [targetUser]: newStatus }));
-    showToast(newStatus ? `ðŸ¤ You are now friends with ${targetUser}!` : `Removed friend ${targetUser}`);
+    showToast(newStatus ? `ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â You are now friends with ${targetUser}!` : `Removed friend ${targetUser}`);
 
     try {
       await addFriend(authorName, targetUser);
@@ -277,7 +277,7 @@ export default function TimelineFeed({
           {
             id: 'init-1',
             sender_name: targetUser,
-            message_text: `áº¸ ku á»já» oni! Hello ${authorName}, nice connecting on the Ogere Civic Timeline.`,
+            message_text: `ÃƒÂ¡Ã‚ÂºÃ‚Â¸ ku ÃƒÂ¡Ã‚Â»Ã‚ÂjÃƒÂ¡Ã‚Â»Ã‚Â oni! Hello ${authorName}, nice connecting on the Ogere Civic Timeline.`,
             created_at: new Date(Date.now() - 600000).toISOString(),
           },
         ]);
@@ -287,7 +287,7 @@ export default function TimelineFeed({
         {
           id: 'init-1',
           sender_name: targetUser,
-          message_text: `áº¸ ku á»já» oni! Hello ${authorName}, nice connecting on the Ogere Civic Timeline.`,
+          message_text: `ÃƒÂ¡Ã‚ÂºÃ‚Â¸ ku ÃƒÂ¡Ã‚Â»Ã‚ÂjÃƒÂ¡Ã‚Â»Ã‚Â oni! Hello ${authorName}, nice connecting on the Ogere Civic Timeline.`,
           created_at: new Date().toISOString(),
         },
       ]);
@@ -336,7 +336,7 @@ export default function TimelineFeed({
 
     setSubmittingComment((prev) => ({ ...prev, [postId]: true }));
     try {
-      const res = await addTimelineComment(postId, authorName || 'Verified Citizen', authorAvatar || 'ðŸ‘¤', text);
+      const res = await addTimelineComment(postId, authorName || 'Verified Citizen', authorAvatar || 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤', text);
       if (res && res.success && res.data?.comment) {
         setPosts((prevPosts) =>
           prevPosts.map((p) => {
@@ -365,7 +365,7 @@ export default function TimelineFeed({
       } catch (_) {}
     } else {
       navigator.clipboard?.writeText(shareText);
-      showToast('ðŸ“‹ Link and post text copied to clipboard!');
+      showToast('ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ Link and post text copied to clipboard!');
     }
   };
 
@@ -428,7 +428,7 @@ export default function TimelineFeed({
             border: '1px solid #d4af37',
           }}
         >
-          <span>âœ¨</span>
+          <span>ÃƒÂ¢Ã…â€œÃ‚Â¨</span>
           <span>{toastMessage}</span>
         </div>
       )}
@@ -503,7 +503,7 @@ export default function TimelineFeed({
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc', padding: '4px 10px', borderRadius: '20px', border: '1px solid #cbd5e1' }}>
-                <span style={{ fontSize: '12px', color: '#475569' }}>ðŸ“</span>
+                <span style={{ fontSize: '12px', color: '#475569' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â</span>
                 <select
                   value={selectedQuarter}
                   onChange={(e) => setSelectedQuarter(e.target.value)}
@@ -553,7 +553,7 @@ export default function TimelineFeed({
             {/* Emoji Quick Bar */}
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>Add emoji:</span>
-              {['ðŸ‘', 'â¤ï¸', 'ðŸ‘‘', 'ðŸ‘', 'ðŸ”¥', 'ðŸ‡³ðŸ‡¬', 'ðŸ’¡', 'ðŸŽ‰'].map((emoji) => (
+              {['ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â', 'ÃƒÂ¢Ã‚ÂÃ‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â', 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â', 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â¥', 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¡Ã‚Â³ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¡Ã‚Â¬', 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡', 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â°'].map((emoji) => (
                 <button
                   key={emoji}
                   type="button"
@@ -602,7 +602,7 @@ export default function TimelineFeed({
                     fontSize: '16px',
                   }}
                 >
-                  âœ•
+                  ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
                 </button>
               </div>
             )}
@@ -611,7 +611,7 @@ export default function TimelineFeed({
             <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <span style={{ fontSize: '13px', fontWeight: '700', color: '#1e293b' }}>
-                  ðŸ“¸ Attach Photo (Camera / Upload / Presets)
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¸ Attach Photo (Camera / Upload / Presets)
                 </span>
                 <button
                   type="button"
@@ -627,7 +627,7 @@ export default function TimelineFeed({
                     cursor: 'pointer',
                   }}
                 >
-                  ðŸ“ Upload from Device
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Upload from Device
                 </button>
               </div>
 
@@ -690,7 +690,7 @@ export default function TimelineFeed({
                   boxShadow: '0 4px 12px rgba(24, 119, 242, 0.3)',
                 }}
               >
-                {submitting ? 'Publishing...' : 'Post to Timeline ðŸš€'}
+                {submitting ? 'Publishing...' : 'Post to Timeline ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â€šÂ¬'}
               </button>
             </div>
           </div>
@@ -703,7 +703,7 @@ export default function TimelineFeed({
               onClick={() => { setIsComposerOpen(true); setTimeout(() => fileInputRef.current?.click(), 100); }}
               style={{ background: 'transparent', border: 'none', display: 'flex', alignItems: 'center', gap: '8px', color: '#475569', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}
             >
-              <span style={{ fontSize: '18px' }}>ðŸ–¼ï¸</span>
+              <span style={{ fontSize: '18px' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â€œÃ‚Â¼ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
               <span>Photo / Picture</span>
             </button>
 
@@ -711,7 +711,7 @@ export default function TimelineFeed({
               onClick={() => setIsComposerOpen(true)}
               style={{ background: 'transparent', border: 'none', display: 'flex', alignItems: 'center', gap: '8px', color: '#475569', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}
             >
-              <span style={{ fontSize: '18px' }}>ðŸ˜ƒ</span>
+              <span style={{ fontSize: '18px' }}>ÃƒÂ°Ã…Â¸Ã‹Å“Ã†â€™</span>
               <span>Share Thought</span>
             </button>
 
@@ -719,7 +719,7 @@ export default function TimelineFeed({
               onClick={() => setIsComposerOpen(true)}
               style={{ background: 'transparent', border: 'none', display: 'flex', alignItems: 'center', gap: '8px', color: '#475569', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}
             >
-              <span style={{ fontSize: '18px' }}>ðŸ“</span>
+              <span style={{ fontSize: '18px' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â</span>
               <span>Quarter Check-in</span>
             </button>
           </div>
@@ -787,7 +787,7 @@ export default function TimelineFeed({
             cursor: 'pointer',
           }}
         >
-          <span style={{ display: 'inline-block', transform: refreshing ? 'rotate(360deg)' : 'none', transition: 'transform 0.6s linear' }}>ðŸ”„</span>
+          <span style={{ display: 'inline-block', transform: refreshing ? 'rotate(360deg)' : 'none', transition: 'transform 0.6s linear' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Å¾</span>
           {refreshing ? 'Refreshing...' : 'Refresh Feed'}
         </button>
       </div>
@@ -797,12 +797,12 @@ export default function TimelineFeed({
       {/* ========================================================================= */}
       {loading ? (
         <div style={{ textAlign: 'center', padding: '60px 20px', color: '#64748b' }}>
-          <div style={{ fontSize: '32px', marginBottom: '12px' }}>â³</div>
+          <div style={{ fontSize: '32px', marginBottom: '12px' }}>ÃƒÂ¢Ã‚ÂÃ‚Â³</div>
           <div style={{ fontSize: '16px', fontWeight: '600' }}>Loading Ogere Civic Timeline...</div>
         </div>
       ) : filteredPosts.length === 0 ? (
         <div style={{ background: '#ffffff', borderRadius: '16px', padding: '40px 20px', textAlign: 'center', border: '1px solid #e2e8f0', color: '#64748b' }}>
-          <div style={{ fontSize: '36px', marginBottom: '10px' }}>âœï¸</div>
+          <div style={{ fontSize: '36px', marginBottom: '10px' }}>ÃƒÂ¢Ã…â€œÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â</div>
           <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#0f172a', marginBottom: '6px' }}>No updates yet in {filterQuarter}</h3>
           <p style={{ fontSize: '14px', marginBottom: '16px' }}>Be the first citizen to share what is on your mind or post a photo!</p>
           <button
@@ -851,7 +851,7 @@ export default function TimelineFeed({
                         border: '2px solid #f1f5f9',
                       }}
                     >
-                      {post.author_avatar || 'ðŸ‘¤'}
+                      {post.author_avatar || 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤'}
                     </div>
 
                     <div style={{ flex: 1 }}>
@@ -859,21 +859,21 @@ export default function TimelineFeed({
                         <span style={{ fontWeight: '800', fontSize: '15px', color: '#0f172a' }}>{post.author_name}</span>
                         {post.is_verified && (
                           <span title="Verified Indigene / Official" style={{ color: '#1877F2', fontSize: '14px', fontWeight: 'bold' }}>
-                            âœ“
+                            ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“
                           </span>
                         )}
                         <span style={{ fontSize: '11px', background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '12px', fontWeight: '600' }}>
-                          ðŸ“ {post.author_quarter || 'Oke-Ogere'}
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {post.author_quarter || 'Oke-Ogere'}
                         </span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px', fontSize: '12px', color: '#64748b' }}>
                         <span>{post.author_role || 'Resident'}</span>
-                        <span>â€¢</span>
+                        <span>ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢</span>
                         <span>{formatTimestamp(post.created_at)}</span>
-                        <span>â€¢</span>
+                        <span>ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢</span>
                         <span style={{ fontSize: '11px' }}>
-                          {post.audience === 'Indigenes Only' ? 'ðŸ›ï¸ Indigenes' : post.audience === 'Neighborhood Watch' ? 'ðŸ›¡ï¸ Watch' : 'ðŸŒ Public'}
+                          {post.audience === 'Indigenes Only' ? 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Indigenes' : post.audience === 'Neighborhood Watch' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Watch' : 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â Public'}
                         </span>
                       </div>
                     </div>
@@ -895,7 +895,7 @@ export default function TimelineFeed({
                           cursor: 'pointer',
                         }}
                       >
-                        {isFollowingAuthor ? 'âœ“ Following' : '+ Follow'}
+                        {isFollowingAuthor ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Following' : '+ Follow'}
                       </button>
 
                       <button
@@ -912,7 +912,7 @@ export default function TimelineFeed({
                         }}
                         title={isFriendAuthor ? 'Connected Citizen' : 'Connect Citizen'}
                       >
-                        {isFriendAuthor ? 'ðŸ¤ Friend' : 'âž• Friend'}
+                        {isFriendAuthor ? 'ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â Friend' : 'ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â¢ Friend'}
                       </button>
 
                       <button
@@ -931,7 +931,7 @@ export default function TimelineFeed({
                           gap: '4px',
                         }}
                       >
-                        <span>ðŸ’¬</span>
+                        <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬</span>
                         <span>Chat</span>
                       </button>
                     </div>
@@ -972,14 +972,14 @@ export default function TimelineFeed({
                 {/* 4. Stats Bar */}
                 <div style={{ padding: '10px 18px', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', color: '#64748b' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '14px' }}>ðŸ‘â¤ï¸</span>
+                    <span style={{ fontSize: '14px' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚ÂÃƒÂ¢Ã‚ÂÃ‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
                     <span>{post.likes_count || 0} reactions</span>
                   </div>
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <span onClick={() => toggleComments(post.id)} style={{ cursor: 'pointer' }}>
                       {(post.comments || []).length} comments
                     </span>
-                    <span>â€¢</span>
+                    <span>ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢</span>
                     <span onClick={() => handleShare(post)} style={{ cursor: 'pointer' }}>
                       Share
                     </span>
@@ -1006,7 +1006,7 @@ export default function TimelineFeed({
                       borderRadius: '8px',
                     }}
                   >
-                    <span>{isLiked ? 'ðŸ‘' : 'ðŸ‘'}</span>
+                    <span>{isLiked ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â'}</span>
                     <span>{isLiked ? 'Liked' : 'Like'}</span>
                   </button>
 
@@ -1028,7 +1028,7 @@ export default function TimelineFeed({
                       borderRadius: '8px',
                     }}
                   >
-                    <span>ðŸ’¬</span>
+                    <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬</span>
                     <span>Comment</span>
                   </button>
 
@@ -1050,7 +1050,7 @@ export default function TimelineFeed({
                       borderRadius: '8px',
                     }}
                   >
-                    <span>â†—ï¸</span>
+                    <span>ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
                     <span>Share</span>
                   </button>
                 </div>
@@ -1080,7 +1080,7 @@ export default function TimelineFeed({
                                 flexShrink: 0,
                               }}
                             >
-                              {c.author_avatar || 'ðŸ‘¤'}
+                              {c.author_avatar || 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤'}
                             </div>
                             <div style={{ flex: 1, background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '8px 12px' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
@@ -1132,7 +1132,7 @@ export default function TimelineFeed({
                         }}
                         title="Send comment"
                       >
-                        âž¤
+                        ÃƒÂ¢Ã…Â¾Ã‚Â¤
                       </button>
                     </div>
                   </div>
@@ -1162,8 +1162,8 @@ export default function TimelineFeed({
                   transition: 'all 0.2s ease',
                 }}
               >
-                <span>ðŸ“œ View Full Civic Timeline & Town Discussions ({posts.length}+ Updates)</span>
-                <span>âž”</span>
+                <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ View Full Civic Timeline & Town Discussions ({posts.length}+ Updates)</span>
+                <span>ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â</span>
               </a>
             </div>
           )}
@@ -1218,14 +1218,14 @@ export default function TimelineFeed({
                   fontWeight: 'bold',
                 }}
               >
-                ðŸ‘¤
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤
               </div>
               <div>
                 <div style={{ fontSize: '14px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span>{activeDmUser}</span>
-                  <span style={{ fontSize: '8px', color: '#4ade80' }}>â—</span>
+                  <span style={{ fontSize: '8px', color: '#4ade80' }}>ÃƒÂ¢Ã¢â‚¬â€Ã‚Â</span>
                 </div>
-                <div style={{ fontSize: '11px', color: '#94a3b8' }}>Direct Message â€¢ Ogere Civic Network</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8' }}>Direct Message ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Ogere Civic Network</div>
               </div>
             </div>
 
@@ -1233,7 +1233,7 @@ export default function TimelineFeed({
               onClick={() => setActiveDmUser(null)}
               style={{ background: 'transparent', border: 'none', color: '#ffffff', fontSize: '18px', cursor: 'pointer', padding: '4px' }}
             >
-              âœ•
+              ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
             </button>
           </div>
 
@@ -1304,7 +1304,7 @@ export default function TimelineFeed({
                 opacity: !dmInput.trim() || dmSending ? 0.6 : 1,
               }}
             >
-              âž¤
+              ÃƒÂ¢Ã…Â¾Ã‚Â¤
             </button>
           </form>
         </div>
@@ -1348,7 +1348,7 @@ export default function TimelineFeed({
                 boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
               }}
             >
-              âœ•
+              ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
             </button>
           </div>
         </div>

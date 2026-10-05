@@ -3,14 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 /**
  * AnimatedProgressBar
  * Props:
- *   value        â€“ current value (number)
- *   max          â€“ maximum value (number, default 100)
- *   label        â€“ optional text label above the bar
- *   showPercent  â€“ show % text (default true)
- *   color        â€“ bar fill color (default var(--gold))
- *   height       â€“ bar height px (default 10)
- *   animated     â€“ animate on mount (default true)
- *   showAmount   â€“ show "â‚¦X of â‚¦Y" text (optional formatter fn)
+ *   value        ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ current value (number)
+ *   max          ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ maximum value (number, default 100)
+ *   label        ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ optional text label above the bar
+ *   showPercent  ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ show % text (default true)
+ *   color        ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ bar fill color (default var(--gold))
+ *   height       ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ bar height px (default 10)
+ *   animated     ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ animate on mount (default true)
+ *   showAmount   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ show "ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦X of ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦Y" text (optional formatter fn)
  */
 export default function ProgressBar({
   value = 0,
@@ -29,7 +29,7 @@ export default function ProgressBar({
 
   useEffect(() => {
     if (!animated) { setDisplayed(pct); return; }
-    // Animate from 0 â†’ pct over ~900ms
+    // Animate from 0 ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ pct over ~900ms
     const start = performance.now();
     const duration = 900;
     const from = 0;

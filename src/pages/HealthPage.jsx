@@ -55,10 +55,10 @@ export default function HealthPage() {
                 <h3 className="playfair" style={{ fontSize: '1.3rem', color: 'var(--cream)' }}>{f.name}</h3>
                 <span style={{ fontSize: '0.6rem', background: 'rgba(201,150,58,0.1)', color: 'var(--gold)', padding: '4px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>{f.type}</span>
               </div>
-              <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.6)', marginBottom: '0.5rem' }}>ðŸ“ {f.address}</p>
-              <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.6)', marginBottom: '0.5rem' }}>â° {f.hours}</p>
-              <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.6)', marginBottom: '1.5rem' }}>ðŸ©º {f.services}</p>
-              <a href={`tel:${f.phone}`} className="btn-o" style={{ display: 'block', textAlign: 'center', fontSize: '0.75rem', textDecoration: 'none' }}>ðŸ“ž {f.phone}</a>
+              <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.6)', marginBottom: '0.5rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {f.address}</p>
+              <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.6)', marginBottom: '0.5rem' }}>ÃƒÂ¢Ã‚ÂÃ‚Â° {f.hours}</p>
+              <p style={{ fontSize: '0.8rem', color: 'rgba(245,237,216,0.6)', marginBottom: '1.5rem' }}>ÃƒÂ°Ã…Â¸Ã‚Â©Ã‚Âº {f.services}</p>
+              <a href={`tel:${f.phone}`} className="btn-o" style={{ display: 'block', textAlign: 'center', fontSize: '0.75rem', textDecoration: 'none' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ {f.phone}</a>
             </div>
           ))}
         </div>
@@ -68,7 +68,7 @@ export default function HealthPage() {
 
       <Section bg="#1a0d06" py="4rem">
         <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ðŸ©¸</div>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ÃƒÂ°Ã…Â¸Ã‚Â©Ã‚Â¸</div>
           <h2 className="playfair" style={{ fontSize: '2.5rem', color: '#ef4444', marginBottom: '1rem' }}>Blood Donor Registry</h2>
           <p style={{ color: 'rgba(245,237,216,0.7)', fontSize: '1rem', lineHeight: 1.6, marginBottom: '2rem' }}>
             In emergencies, access to blood can be the difference between life and death. 
@@ -108,7 +108,7 @@ export default function HealthPage() {
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
                   <button type="button" className="btn-o" onClick={() => setShowBloodForm(false)}>Cancel</button>
                   <button type="submit" className="btn-p" disabled={loading} style={{ background: '#dc2626', borderColor: '#ef4444', color: 'white' }}>
-                    {loading ? 'Registeringâ€¦' : 'Register'}
+                    {loading ? 'RegisteringÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦' : 'Register'}
                   </button>
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default function HealthPage() {
 
           {submitted && (
             <div style={{ padding: '2rem', background: 'rgba(22,163,74,0.1)', border: '1px solid rgba(22,163,74,0.3)', borderRadius: '8px' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>â¤ï¸</div>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>ÃƒÂ¢Ã‚ÂÃ‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â</div>
               <h3 className="playfair" style={{ color: '#86efac', fontSize: '1.5rem' }}>Thank You, Hero.</h3>
               <p style={{ color: 'rgba(245,237,216,0.7)', fontSize: '0.9rem', marginTop: '0.5rem' }}>You have been added to the confidential donor registry.</p>
             </div>

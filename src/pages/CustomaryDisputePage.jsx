@@ -110,14 +110,14 @@ export default function CustomaryDisputePage() {
   return (
     <div>
       <SEO
-        title="Royal Customary Dispute Arbitration (Kootu Oba) â€” Ogere Remo Kingdom"
+        title="Royal Customary Dispute Arbitration (Kootu Oba) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Remo Kingdom"
         description="Official customary arbitration and peaceful dispute resolution under the authority of HRH Ologere of Ogere and the High Chiefs Council."
       />
 
       <PageHero
         title="Royal Customary Dispute Arbitration"
-        subtitle="Kootu Oba & Peace Tribunal â€” Traditional Justice, Land Boundary & Estate Mediation under HRH Ologere"
-        badge="âš–ï¸ PALACE JUDICIAL BENCH"
+        subtitle="Kootu Oba & Peace Tribunal ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Traditional Justice, Land Boundary & Estate Mediation under HRH Ologere"
+        badge="ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€œÃƒÂ¯Ã‚Â¸Ã‚Â PALACE JUDICIAL BENCH"
         badgeColor="#C9963A"
       />
 
@@ -145,10 +145,10 @@ export default function CustomaryDisputePage() {
         {/* Tab Navigation */}
         <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid rgba(201, 150, 58, 0.3)', paddingBottom: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
           {[
-            { id: 'cases', label: 'ðŸ“‹ Active Dispute Dossiers', icon: 'âš–ï¸' },
-            { id: 'file', label: 'âœï¸ File a Customary Dispute', icon: 'ðŸ“œ' },
-            { id: 'bench', label: 'ðŸ‘‘ Palace Judicial Bench', icon: 'ðŸ›ï¸' },
-            { id: 'charter', label: 'ðŸ“– Customary Law Charter', icon: 'ðŸ•Šï¸' },
+            { id: 'cases', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ Active Dispute Dossiers', icon: 'ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€œÃƒÂ¯Ã‚Â¸Ã‚Â' },
+            { id: 'file', label: 'ÃƒÂ¢Ã…â€œÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â File a Customary Dispute', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ' },
+            { id: 'bench', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Palace Judicial Bench', icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â' },
+            { id: 'charter', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬â€œ Customary Law Charter', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã…Â ÃƒÂ¯Ã‚Â¸Ã‚Â' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -241,7 +241,7 @@ export default function CustomaryDisputePage() {
             <div style={{ display: 'grid', gap: '1.2rem' }}>
               {filteredDisputes.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '3rem', background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>ðŸ•Šï¸</div>
+                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã…Â ÃƒÂ¯Ã‚Â¸Ã‚Â</div>
                   <div style={{ fontSize: '1.1rem', color: 'var(--gold)', fontWeight: 800 }}>No Customary Disputes Found</div>
                   <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>There are no disputes matching your selected criteria.</div>
                 </div>
@@ -287,7 +287,7 @@ export default function CustomaryDisputePage() {
                             border: `1px solid ${isDecree ? '#22c55e' : isScheduled ? '#38bdf8' : '#eab308'}`,
                           }}
                         >
-                          â— {dispute.status.replace(/_/g, ' ')}
+                          ÃƒÂ¢Ã¢â‚¬â€Ã‚Â {dispute.status.replace(/_/g, ' ')}
                         </span>
                       </div>
 
@@ -296,12 +296,12 @@ export default function CustomaryDisputePage() {
                         <div>
                           <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 800 }}>COMPLAINANT (PARTY A)</div>
                           <div style={{ fontSize: '0.85rem', color: '#f8fafc', fontWeight: 700 }}>{dispute.complainant.fullName}</div>
-                          <div style={{ fontSize: '0.7rem', color: '#cbd5e1' }}>{dispute.complainant.compound} Â· {dispute.complainant.quarter}</div>
+                          <div style={{ fontSize: '0.7rem', color: '#cbd5e1' }}>{dispute.complainant.compound} Ãƒâ€šÃ‚Â· {dispute.complainant.quarter}</div>
                         </div>
                         <div>
                           <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 800 }}>RESPONDENT (PARTY B)</div>
                           <div style={{ fontSize: '0.85rem', color: '#f8fafc', fontWeight: 700 }}>{dispute.respondent.fullName}</div>
-                          <div style={{ fontSize: '0.7rem', color: '#cbd5e1' }}>{dispute.respondent.compound} Â· {dispute.respondent.quarter}</div>
+                          <div style={{ fontSize: '0.7rem', color: '#cbd5e1' }}>{dispute.respondent.compound} Ãƒâ€šÃ‚Â· {dispute.respondent.quarter}</div>
                         </div>
                         <div>
                           <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 800 }}>ASSIGNED ARBITRATOR</div>
@@ -321,17 +321,16 @@ export default function CustomaryDisputePage() {
                         <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '6px', padding: '0.75rem', marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                           <div>
                             <div style={{ fontSize: '0.72rem', color: '#38bdf8', fontWeight: 800 }}>
-                              ðŸ“… ARBITRATION HEARING DATE: {dispute.hearingDate} at {dispute.hearingTime}
+                              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ ARBITRATION HEARING DATE: {dispute.hearingDate} at {dispute.hearingTime}
                             </div>
                             <div style={{ fontSize: '0.68rem', color: '#cbd5e1' }}>
-                              ðŸ“ Venue: {dispute.hearingVenue}
+                              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Venue: {dispute.hearingVenue}
                             </div>
                           </div>
                           {dispute.virtualLink && (
                             <a
                               href={dispute.virtualLink}
                               target="_blank" rel="noopener noreferrer"
-                              rel="noreferrer"
                               style={{
                                 background: '#0284c7',
                                 color: '#fff',
@@ -342,7 +341,7 @@ export default function CustomaryDisputePage() {
                                 fontWeight: 800,
                               }}
                             >
-                              ðŸŽ¥ Join Virtual Chamber â†—
+                              ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¥ Join Virtual Chamber ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€
                             </a>
                           )}
                         </div>
@@ -351,7 +350,7 @@ export default function CustomaryDisputePage() {
                       {isDecree && (
                         <div style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '6px', padding: '0.75rem', marginBottom: '0.75rem' }}>
                           <div style={{ fontSize: '0.72rem', color: '#4ade80', fontWeight: 900 }}>
-                            ðŸ“œ ROYAL MEDIATION DECREE FINALIZED (Seal: {dispute.decreeSealNumber})
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ ROYAL MEDIATION DECREE FINALIZED (Seal: {dispute.decreeSealNumber})
                           </div>
                           <div style={{ fontSize: '0.78rem', color: '#f8fafc', marginTop: '0.2rem' }}>
                             "{dispute.decreeSummary}"
@@ -382,7 +381,7 @@ export default function CustomaryDisputePage() {
                               gap: '0.3rem',
                             }}
                           >
-                            <span>ðŸ“œ</span> View & Print Royal Decree
+                            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ</span> View & Print Royal Decree
                           </button>
                         )}
                         <button
@@ -399,7 +398,7 @@ export default function CustomaryDisputePage() {
                             cursor: 'pointer',
                           }}
                         >
-                          ðŸ” Full Case Dossier
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Full Case Dossier
                         </button>
                       </div>
                     </div>
@@ -414,7 +413,7 @@ export default function CustomaryDisputePage() {
         {activeTab === 'file' && (
           <div style={{ maxWidth: '800px', margin: '0 auto', background: 'rgba(20, 10, 5, 0.85)', border: '1px solid rgba(201,150,58,0.4)', borderRadius: '10px', padding: '2rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <div style={{ fontSize: '2rem' }}>âš–ï¸</div>
+              <div style={{ fontSize: '2rem' }}>ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€œÃƒÂ¯Ã‚Â¸Ã‚Â</div>
               <h2 style={{ fontSize: '1.4rem', color: 'var(--gold)', margin: '0.4rem 0' }}>
                 Petition for Royal Customary Arbitration
               </h2>
@@ -426,7 +425,7 @@ export default function CustomaryDisputePage() {
             {submitSuccess && (
               <div style={{ background: 'rgba(34, 197, 94, 0.15)', border: '1px solid #22c55e', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', textAlign: 'center' }}>
                 <div style={{ fontSize: '1.2rem', color: '#4ade80', fontWeight: 900 }}>
-                  âœ“ Petition Registered Successfully!
+                  ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Petition Registered Successfully!
                 </div>
                 <div style={{ fontSize: '0.85rem', color: '#f8fafc', marginTop: '0.3rem' }}>
                   Your case reference is <strong>{submitSuccess.id}</strong>. Assigned to {submitSuccess.assignedArbitrator?.title}.
@@ -460,7 +459,7 @@ export default function CustomaryDisputePage() {
                 >
                   {DISPUTE_CATEGORIES.map((cat) => (
                     <option key={cat.id} value={cat.id}>
-                      {cat.icon} {cat.label} â€” {cat.desc}
+                      {cat.icon} {cat.label} ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â {cat.desc}
                     </option>
                   ))}
                 </select>
@@ -616,7 +615,7 @@ export default function CustomaryDisputePage() {
                   letterSpacing: '0.04em',
                 }}
               >
-                {isSubmitting ? 'Transmitting Petition to Palace Registrar...' : 'âš–ï¸ Submit Petition to Palace Arbitrators'}
+                {isSubmitting ? 'Transmitting Petition to Palace Registrar...' : 'ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€œÃƒÂ¯Ã‚Â¸Ã‚Â Submit Petition to Palace Arbitrators'}
               </button>
             </form>
           </div>
@@ -644,7 +643,7 @@ export default function CustomaryDisputePage() {
                   {arb.title}
                 </div>
                 <div style={{ color: '#94a3b8', fontSize: '0.75rem', marginBottom: '0.8rem' }}>
-                  {arb.rank} Â· Quarter: {arb.quarter}
+                  {arb.rank} Ãƒâ€šÃ‚Â· Quarter: {arb.quarter}
                 </div>
                 <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.6rem', borderRadius: '6px', fontSize: '0.75rem', color: '#cbd5e1' }}>
                   <strong>Specialty Jurisdiction:</strong> {arb.specialty}
@@ -658,14 +657,14 @@ export default function CustomaryDisputePage() {
         {activeTab === 'charter' && (
           <div style={{ maxWidth: '850px', margin: '0 auto', background: 'rgba(20, 10, 5, 0.8)', border: '1px solid rgba(201,150,58,0.3)', borderRadius: '8px', padding: '2rem', lineHeight: 1.6 }}>
             <h2 style={{ color: 'var(--gold)', fontSize: '1.3rem', marginBottom: '1rem' }}>
-              ðŸ“œ Principles of Customary Arbitration in Ogere Remo
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ Principles of Customary Arbitration in Ogere Remo
             </h2>
             <p>
-              Under the ancestral sovereignty of the Ologere of Ogere Remo and the High Chiefs Council, customary arbitration serves as a revered alternative dispute resolution (ADR) system grounded in Yoruba customary jurisprudence (*Ã€wá»n ÃŒlÃ nÃ  Ã€á¹£Ã  Ã ti ÃŒá¹£e*).
+              Under the ancestral sovereignty of the Ologere of Ogere Remo and the High Chiefs Council, customary arbitration serves as a revered alternative dispute resolution (ADR) system grounded in Yoruba customary jurisprudence (*ÃƒÆ’Ã¢â€šÂ¬wÃƒÂ¡Ã‚Â»Ã‚Ân ÃƒÆ’Ã…â€™lÃƒÆ’Ã‚Â nÃƒÆ’Ã‚Â  ÃƒÆ’Ã¢â€šÂ¬ÃƒÂ¡Ã‚Â¹Ã‚Â£ÃƒÆ’Ã‚Â  ÃƒÆ’Ã‚Â ti ÃƒÆ’Ã…â€™ÃƒÂ¡Ã‚Â¹Ã‚Â£e*).
             </p>
             <div style={{ display: 'grid', gap: '1rem', marginTop: '1.5rem' }}>
               <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '6px', borderLeft: '4px solid var(--gold)' }}>
-                <h4 style={{ color: '#ffffff', margin: '0 0 0.3rem' }}>1. Principle of Ancestral Reconciliation (*ÃŒwÃ  Páº¹Ì€láº¹Ì*)</h4>
+                <h4 style={{ color: '#ffffff', margin: '0 0 0.3rem' }}>1. Principle of Ancestral Reconciliation (*ÃƒÆ’Ã…â€™wÃƒÆ’Ã‚Â  PÃƒÂ¡Ã‚ÂºÃ‚Â¹ÃƒÅ’Ã¢â€šÂ¬lÃƒÂ¡Ã‚ÂºÃ‚Â¹ÃƒÅ’Ã‚Â*)</h4>
                 <p style={{ margin: 0, fontSize: '0.85rem', color: '#cbd5e1' }}>Customary arbitration seeks restoration of peace and communal brotherhood rather than punitive isolation.</p>
               </div>
               <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '6px', borderLeft: '4px solid #38bdf8' }}>
@@ -687,12 +686,12 @@ export default function CustomaryDisputePage() {
           <div style={{ background: '#ffffff', color: '#000000', borderRadius: '8px', maxWidth: '650px', width: '100%', padding: '2rem', maxHeight: '90vh', overflowY: 'auto', border: '4px double #C9963A', position: 'relative' }}>
             {/* Seal Watermark Header */}
             <div style={{ textAlign: 'center', borderBottom: '2px solid #C9963A', paddingBottom: '1rem', marginBottom: '1rem' }}>
-              <div style={{ fontSize: '2rem' }}>ðŸ‘‘</div>
+              <div style={{ fontSize: '2rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</div>
               <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#78350f', letterSpacing: '0.05em' }}>
                 AAFIN OLOGERE PALACE COUNCIL OF ARBITRATION
               </div>
               <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#92400e' }}>
-                OGERE REMO KINGDOM Â· OGUN STATE, NIGERIA
+                OGERE REMO KINGDOM Ãƒâ€šÃ‚Â· OGUN STATE, NIGERIA
               </div>
               <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#15803d', marginTop: '0.5rem' }}>
                 OFFICIAL ROYAL MEDIATION CONSENT DECREE
@@ -712,9 +711,9 @@ export default function CustomaryDisputePage() {
                 <strong>IN THE MATTER OF:</strong> {decreeCase.title}
               </p>
               <p>
-                <strong>BETWEEN:</strong> {decreeCase.complainant.fullName} ({decreeCase.complainant.compound}, {decreeCase.complainant.quarter}) â€” <em>Complainant</em>
+                <strong>BETWEEN:</strong> {decreeCase.complainant.fullName} ({decreeCase.complainant.compound}, {decreeCase.complainant.quarter}) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â <em>Complainant</em>
                 <br />
-                <strong>AND:</strong> {decreeCase.respondent.fullName} ({decreeCase.respondent.compound}, {decreeCase.respondent.quarter}) â€” <em>Respondent</em>
+                <strong>AND:</strong> {decreeCase.respondent.fullName} ({decreeCase.respondent.compound}, {decreeCase.respondent.quarter}) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â <em>Respondent</em>
               </p>
 
               <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', padding: '1rem', borderRadius: '6px', margin: '1rem 0' }}>
@@ -754,14 +753,14 @@ export default function CustomaryDisputePage() {
                 onClick={() => window.print()}
                 style={{ flex: 1, background: '#15803d', color: '#fff', border: 'none', borderRadius: '4px', padding: '0.7rem', fontWeight: 900, cursor: 'pointer' }}
               >
-                ðŸ–¨ï¸ Print Official Decree PDF
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬â€œÃ‚Â¨ÃƒÂ¯Ã‚Â¸Ã‚Â Print Official Decree PDF
               </button>
               <button
                 type="button"
                 onClick={() => setShowDecreeModal(false)}
                 style={{ background: '#e2e8f0', color: '#1e293b', border: 'none', borderRadius: '4px', padding: '0.7rem 1.2rem', fontWeight: 800, cursor: 'pointer' }}
               >
-                âœ• Close
+                ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Close
               </button>
             </div>
           </div>

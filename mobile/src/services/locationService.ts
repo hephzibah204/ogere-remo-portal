@@ -250,9 +250,18 @@ export function acquireHighPrecisionGps(maxWaitMs = 6000, targetAccuracyMeters =
   speed: number | null;
 }> {
   return new Promise((resolve, reject) => {
-    const geo = typeof navigator !== 'undefined' ? navigator.geolocation : null;
+    const geo = typeof navigator !== 'undefined' ? (navigator as any).geolocation : null;
     if (!geo || typeof geo.getCurrentPosition !== 'function') {
-      return reject(new Error('Geolocation API not available.'));
+      // Return safe fallback coordinates (Ogere Remo center)
+      return resolve({
+        lat: OGERE_CENTER_LAT,
+        lng: OGERE_CENTER_LNG,
+        accuracy: 100,
+        altitude: null,
+        altitudeAccuracy: null,
+        heading: null,
+        speed: null,
+      });
     }
 
     let bestFix: any = null;
@@ -274,7 +283,15 @@ export function acquireHighPrecisionGps(maxWaitMs = 6000, targetAccuracyMeters =
       if (bestFix) {
         resolve(bestFix);
       } else {
-        reject(new Error('GPS satellite lock timed out.'));
+        resolve({
+          lat: OGERE_CENTER_LAT,
+          lng: OGERE_CENTER_LNG,
+          accuracy: 250,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          speed: null,
+        });
       }
     };
 
@@ -344,9 +361,9 @@ export function acquireHighPrecisionGps(maxWaitMs = 6000, targetAccuracyMeters =
 /**
  * Get complete device location + Ogere landmark resolution + hardware telemetry
  */
-export async function getExactDeviceLocation(): Promise<DeviceLocationData> {
+export async function getExactDeviceLocation(showAlertOnDenied = false): Promise<DeviceLocationData> {
   const permissionGranted = await ensureLocationPermission();
-  if (!permissionGranted) {
+  if (!permissionGranted && showAlertOnDenied) {
     Alert.alert(
       'Ã°Å¸â€œÂ Precise Location Disabled',
       'Please allow GPS access in device settings for pinpoint accuracy in Ogere Remo.',

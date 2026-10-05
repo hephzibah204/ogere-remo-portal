@@ -16,7 +16,7 @@ const CIVIC_PROJECTS = [
     goal: 10000000,
     raised: 6850000,
     desc: 'Roofing renovation, solar installation, and digital acoustics for community gatherings and chieftaincy ceremonies.',
-    icon: 'ðŸ›ï¸',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â',
     organizer: 'OCDA Central Infrastructure Committee',
   },
   {
@@ -25,7 +25,7 @@ const CIVIC_PROJECTS = [
     goal: 5000000,
     raised: 3400000,
     desc: 'High-speed internet workstations, coding bootcamps, and digital skills empowerment for Ogere youth.',
-    icon: 'ðŸ’»',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â»',
     organizer: 'Ogere Diaspora STEM Alumni',
   },
   {
@@ -34,7 +34,7 @@ const CIVIC_PROJECTS = [
     goal: 8000000,
     raised: 5100000,
     desc: 'Grand cultural showcase, documentary filming of royal antiquities, and diaspora home-coming festivities.',
-    icon: 'ðŸ‘‘',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
     organizer: 'Lipakala Golden Jubilee Committee',
   },
   {
@@ -43,7 +43,7 @@ const CIVIC_PROJECTS = [
     goal: 6500000,
     raised: 4200000,
     desc: 'Procurement of delivery beds, solar blood refrigerators, and emergency diagnostic equipment for mothers and newborns.',
-    icon: 'ðŸ¥',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¥',
     organizer: 'Ogere Health Development Council',
   },
 ];
@@ -79,7 +79,7 @@ export default function DiasporaPage() {
       'You are the Ogere Remo community website assistant. A diaspora member just registered. Write a warm 3-4 sentence welcome mentioning their name and location. End with a warm Yoruba phrase.',
       `Name: ${f.name}, Location: ${f.location}, ${f.country}, Profession: ${f.profession}`
     );
-    setAiMsg(msg || 'Welcome to the Ogere Remo Diaspora Network! áº¸ kÃ¡Ã bá»Ì€ sÃ­ iláº¹Ì€ wa!');
+    setAiMsg(msg || 'Welcome to the Ogere Remo Diaspora Network! ÃƒÂ¡Ã‚ÂºÃ‚Â¸ kÃƒÆ’Ã‚Â¡ÃƒÆ’Ã‚Â bÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬ sÃƒÆ’Ã‚Â­ ilÃƒÂ¡Ã‚ÂºÃ‚Â¹ÃƒÅ’Ã¢â€šÂ¬ wa!');
     const entry = { ...f, date: new Date().toLocaleDateString('en-NG') };
     const updated = [...members, entry];
     setMembers(updated);
@@ -127,11 +127,11 @@ export default function DiasporaPage() {
 
   return (
     <div>
-      <SEO title="Diaspora Network & Giving" description="The Ogere Remo diaspora community â€” notable members, regional groups, and global project funding." />
+      <SEO title="Diaspora Network & Giving" description="The Ogere Remo diaspora community ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â notable members, regional groups, and global project funding." />
       <Hero
         ey="Sons & Daughters Abroad"
         ti="Diaspora Network & Giving"
-        sub="Connecting Ogere Remo's global family â€” register in our global directory, support civic projects, and stay connected to your roots."
+        sub="Connecting Ogere Remo's global family ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â register in our global directory, support civic projects, and stay connected to your roots."
         dark
       />
       <AdireDivider />
@@ -139,10 +139,10 @@ export default function DiasporaPage() {
       <Section bg="#1a0d06" py="2.5rem">
         <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           {[
-            ['network', 'ðŸŒ Diaspora Network'],
-            ['giving', 'ðŸŽ Civic Projects & Giving'],
+            ['network', 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â Diaspora Network'],
+            ['giving', 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â Civic Projects & Giving'],
             ['register', '+ Join the Network'],
-            ['notable', 'ðŸŒŸ Notable Diasporans'],
+            ['notable', 'ÃƒÂ°Ã…Â¸Ã…â€™Ã…Â¸ Notable Diasporans'],
           ].map(([id, l]) => (
             <button key={id} className={tab === id ? 'btn-p' : 'btn-o'} onClick={() => setTab(id)}>
               {l}
@@ -193,8 +193,8 @@ export default function DiasporaPage() {
                     {/* Progress Bar */}
                     <div style={{ marginBottom: '1.5rem' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '0.4rem' }}>
-                        <span style={{ color: 'var(--gold)', fontWeight: 'bold' }}>â‚¦{proj.raised.toLocaleString()}</span>
-                        <span style={{ color: 'rgba(245,237,216,0.5)' }}>Goal: â‚¦{proj.goal.toLocaleString()}</span>
+                        <span style={{ color: 'var(--gold)', fontWeight: 'bold' }}>ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{proj.raised.toLocaleString()}</span>
+                        <span style={{ color: 'rgba(245,237,216,0.5)' }}>Goal: ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{proj.goal.toLocaleString()}</span>
                       </div>
                       <div style={{ height: '8px', background: 'rgba(201,150,58,0.15)', borderRadius: '4px', overflow: 'hidden' }}>
                         <div style={{ width: `${pct}%`, height: '100%', background: 'linear-gradient(90deg, var(--gold), #22c55e)', borderRadius: '4px' }}></div>
@@ -214,7 +214,7 @@ export default function DiasporaPage() {
                       style={{ width: '100%', padding: '0.8rem', fontSize: '0.75rem' }}
                       onClick={() => setDonationModal(proj)}
                     >
-                      ðŸ’³ Contribute via Paystack â†’
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â³ Contribute via Paystack ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
                     </button>
                   </div>
                 </div>
@@ -257,7 +257,7 @@ export default function DiasporaPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: '.8rem' }}>
                 {members.slice(-6).map((m, i) => (
                   <div key={i} style={{ padding: '1rem', background: 'rgba(201,150,58,.05)', border: '1px solid rgba(201,150,58,.12)' }}>
-                    <div style={{ fontSize: '1.2rem', marginBottom: '.3rem' }}>ðŸ‘¤</div>
+                    <div style={{ fontSize: '1.2rem', marginBottom: '.3rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤</div>
                     <div style={{ fontSize: '.88rem', color: '#F5EDD8', marginBottom: '.2rem' }}>{m.name}</div>
                     <div style={{ fontSize: '.75rem', color: 'rgba(245,237,216,.5)' }}>{m.location}, {m.country}</div>
                     {m.profession && <div style={{ fontSize: '.72rem', color: 'rgba(201,150,58,.6)', marginTop: '.2rem' }}>{m.profession}</div>}
@@ -276,10 +276,10 @@ export default function DiasporaPage() {
           <p className="si" style={{ marginBottom: '2rem' }}>Connect with your Ogere roots. Free registration.</p>
           {done ? (
             <div style={{ background: 'rgba(45,74,34,.15)', border: '1px solid rgba(45,74,34,.4)', borderLeft: '4px solid #2D4A22', padding: '2.5rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '.8rem' }}>ðŸŒ</div>
+              <div style={{ fontSize: '2.5rem', marginBottom: '.8rem' }}>ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â</div>
               <div className="cinzel" style={{ fontSize: '.68rem', letterSpacing: '.18em', color: '#a8d88e', textTransform: 'uppercase', marginBottom: '.8rem' }}>Welcome to the Network</div>
               <div style={{ fontSize: '.88rem', lineHeight: 1.85, color: 'rgba(245,237,216,.72)', fontStyle: 'italic', marginBottom: '1.5rem' }}>{aiMsg}</div>
-              <button className="btn-o" onClick={() => { setDone(false); setTab('network'); }}>View Network â†’</button>
+              <button className="btn-o" onClick={() => { setDone(false); setTab('network'); }}>View Network ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</button>
             </div>
           ) : (
             <div style={{ display: 'grid', gap: '1.1rem' }}>
@@ -290,7 +290,7 @@ export default function DiasporaPage() {
                 </div>
               ))}
               <button className="btn-p" onClick={register} disabled={busy} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '.5rem', marginTop: '1rem' }}>
-                {busy ? <><Spinner />Connectingâ€¦</> : 'Register in Diaspora Network â†’'}
+                {busy ? <><Spinner />ConnectingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</> : 'Register in Diaspora Network ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢'}
               </button>
             </div>
           )}
@@ -305,10 +305,10 @@ export default function DiasporaPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))', gap: '1.5rem' }}>
             {notable.map(n => (
               <div key={n.n} style={{ padding: '1.5rem', background: 'rgba(201,150,58,.05)', border: '1px solid rgba(201,150,58,.14)', borderTop: '3px solid #C9963A' }}>
-                <div style={{ fontSize: '2rem', marginBottom: '.6rem' }}>ðŸŒŸ</div>
+                <div style={{ fontSize: '2rem', marginBottom: '.6rem' }}>ÃƒÂ°Ã…Â¸Ã…â€™Ã…Â¸</div>
                 <div className="playfair" style={{ fontSize: '1.1rem', color: '#F5EDD8', marginBottom: '.2rem' }}>{n.n}</div>
                 <div className="cinzel" style={{ fontSize: '.56rem', color: '#C9963A', letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: '.3rem' }}>{n.r}</div>
-                <div style={{ fontSize: '.75rem', color: 'rgba(201,150,58,.7)', marginBottom: '.6rem' }}>ðŸ“ {n.l}</div>
+                <div style={{ fontSize: '.75rem', color: 'rgba(201,150,58,.7)', marginBottom: '.6rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {n.l}</div>
                 <div style={{ fontSize: '.8rem', lineHeight: 1.68, color: 'rgba(245,237,216,.6)' }}>{n.d}</div>
               </div>
             ))}
@@ -346,21 +346,21 @@ export default function DiasporaPage() {
           >
             {donationPaid ? (
               <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-                <div style={{ fontSize: '3rem', marginBottom: '0.8rem' }}>ðŸŽ‰</div>
+                <div style={{ fontSize: '3rem', marginBottom: '0.8rem' }}>ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â°</div>
                 <h3 className="playfair" style={{ fontSize: '1.6rem', color: 'var(--cream)', marginBottom: '0.4rem' }}>
-                  áº¸ á¹¢Ã©un PÃºpá»Ì€! (Thank You!)
+                  ÃƒÂ¡Ã‚ÂºÃ‚Â¸ ÃƒÂ¡Ã‚Â¹Ã‚Â¢ÃƒÆ’Ã‚Â©un PÃƒÆ’Ã‚ÂºpÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬! (Thank You!)
                 </h3>
                 <p style={{ color: 'rgba(245,237,216,0.7)', fontSize: '0.85rem' }}>
-                  Your contribution of <strong>â‚¦{Number(donationAmount).toLocaleString()}</strong> to <em>{donationModal.title}</em> has been processed. A receipt has been issued.
+                  Your contribution of <strong>ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{Number(donationAmount).toLocaleString()}</strong> to <em>{donationModal.title}</em> has been processed. A receipt has been issued.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleDonate}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
                   <h3 className="playfair" style={{ fontSize: '1.4rem', color: 'var(--cream)' }}>
-                    ðŸŽ Project Donation
+                    ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â Project Donation
                   </h3>
-                  <button type="button" onClick={() => setDonationModal(null)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.3rem', cursor: 'pointer' }}>âœ•</button>
+                  <button type="button" onClick={() => setDonationModal(null)} style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.6)', fontSize: '1.3rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
                 </div>
 
                 <div style={{ padding: '0.8rem', background: 'rgba(201,150,58,0.08)', borderRadius: '8px', marginBottom: '1.2rem' }}>
@@ -376,7 +376,7 @@ export default function DiasporaPage() {
 
                 {/* Amount presets */}
                 <div style={{ marginBottom: '1.2rem' }}>
-                  <label className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', display: 'block', marginBottom: '0.4rem' }}>Select Contribution Amount (â‚¦)</label>
+                  <label className="cinzel" style={{ fontSize: '0.55rem', color: 'var(--gold)', display: 'block', marginBottom: '0.4rem' }}>Select Contribution Amount (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦)</label>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.4rem', marginBottom: '0.6rem' }}>
                     {['10000', '25000', '50000', '100000'].map(amt => (
                       <button
@@ -394,7 +394,7 @@ export default function DiasporaPage() {
                           cursor: 'pointer',
                         }}
                       >
-                        â‚¦{Number(amt).toLocaleString()}
+                        ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{Number(amt).toLocaleString()}
                       </button>
                     ))}
                   </div>
@@ -422,7 +422,7 @@ export default function DiasporaPage() {
                 <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'flex-end' }}>
                   <button type="button" className="btn-o" onClick={() => setDonationModal(null)}>Cancel</button>
                   <button type="submit" className="btn-p" disabled={donationBusy}>
-                    {donationBusy ? 'Processingâ€¦' : `Pay â‚¦${Number(donationAmount || 0).toLocaleString()} with Paystack`}
+                    {donationBusy ? 'ProcessingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦' : `Pay ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦${Number(donationAmount || 0).toLocaleString()} with Paystack`}
                   </button>
                 </div>
               </form>

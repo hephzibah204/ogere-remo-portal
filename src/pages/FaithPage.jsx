@@ -5,12 +5,12 @@ import Section from '../components/Section';
 import SEO from '../components/SEO';
 
 const festivals = [
-  { n: 'Mount Tabieorar Festival', ic: 'ðŸ•Šï¸', period: 'August 22 (Annual)', origin: 'Est. 1937 by Prophet Josiah Olunowo Ositelu', desc: 'The landmark annual spiritual convocation at Mount Tabieorar, The Church of the Lord (Aladura) World Headquarters in Ogere Remo, drawing tens of thousands of pilgrims and dignitaries worldwide.', sacred: false, img: '/images/news/ogere-tabieorar-2026-crowd.jpg' },
-  { n: 'Lipakala Day', ic: 'ðŸŽŠ', period: 'Octoberâ€“November (Annual)', origin: 'Initiated ~1977 by OCDA', desc: 'The flagship festival of Ogere Remo, held annually at the Wesley School Playground. The 49th edition was celebrated in October 2025.', sacred: false, img: '/images/Olipakala 2025.jpg' },
-  { n: 'Oro Festival (Isemo)', ic: 'ðŸŒ™', period: 'July (Annual, Nocturnal)', origin: 'Pre-colonial ancestral institution', desc: 'Ogere\'s most sacred ancestral festival, observed nocturnally by the Oro Society. Movement restrictions apply for women and non-initiates.', sacred: true },
-  { n: 'Obalufon Festival', ic: 'ðŸŒ¿', period: 'October (Annual)', origin: 'Honours Yemogun â€” guardian mother of Ogere', desc: 'Annual festival honouring Yemogun â€” the deified companion of Olipakala. Ceremonies are held at Yemogun Grove (Igbo Yeye).', sacred: true },
-  { n: 'Coronation Anniversary', ic: 'ðŸ‘‘', period: 'April 25 (Annual)', origin: 'Est. 2023', desc: 'Annual celebration of the installation of Oba James Obafemi Saliu on April 25, 2023.', sacred: false, img: '/images/ologere-coronation.jpg' },
-  { n: 'Masquerade Processions', ic: 'ðŸŽ­', period: 'Seasonal', origin: 'Deep Yoruba tradition', desc: 'Masquerade processions mark major festivals and rites of passage, performed by traditional societies including Pampa.', sacred: false, img: '/images/Miss Lipaka Hero.jpg' },
+  { n: 'Mount Tabieorar Festival', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã…Â ÃƒÂ¯Ã‚Â¸Ã‚Â', period: 'August 22 (Annual)', origin: 'Est. 1937 by Prophet Josiah Olunowo Ositelu', desc: 'The landmark annual spiritual convocation at Mount Tabieorar, The Church of the Lord (Aladura) World Headquarters in Ogere Remo, drawing tens of thousands of pilgrims and dignitaries worldwide.', sacred: false, img: '/images/news/ogere-tabieorar-2026-crowd.jpg' },
+  { n: 'Lipakala Day', ic: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã…Â ', period: 'OctoberÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“November (Annual)', origin: 'Initiated ~1977 by OCDA', desc: 'The flagship festival of Ogere Remo, held annually at the Wesley School Playground. The 49th edition was celebrated in October 2025.', sacred: false, img: '/images/Olipakala 2025.jpg' },
+  { n: 'Oro Festival (Isemo)', ic: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã¢â€žÂ¢', period: 'July (Annual, Nocturnal)', origin: 'Pre-colonial ancestral institution', desc: 'Ogere\'s most sacred ancestral festival, observed nocturnally by the Oro Society. Movement restrictions apply for women and non-initiates.', sacred: true },
+  { n: 'Obalufon Festival', ic: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¿', period: 'October (Annual)', origin: 'Honours Yemogun ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â guardian mother of Ogere', desc: 'Annual festival honouring Yemogun ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the deified companion of Olipakala. Ceremonies are held at Yemogun Grove (Igbo Yeye).', sacred: true },
+  { n: 'Coronation Anniversary', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', period: 'April 25 (Annual)', origin: 'Est. 2023', desc: 'Annual celebration of the installation of Oba James Obafemi Saliu on April 25, 2023.', sacred: false, img: '/images/ologere-coronation.jpg' },
+  { n: 'Masquerade Processions', ic: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â­', period: 'Seasonal', origin: 'Deep Yoruba tradition', desc: 'Masquerade processions mark major festivals and rites of passage, performed by traditional societies including Pampa.', sacred: false, img: '/images/Miss Lipaka Hero.jpg' },
 ];
 
 export default function FaithPage() {
@@ -19,11 +19,11 @@ export default function FaithPage() {
   return (
     <div>
       <SEO title="Faith & Culture" description="The faith, festivals, and cultural traditions of Ogere Remo including Lipakala Day, Oro Festival, and Obalufon Festival." />
-      <Hero ey="Spirituality & Heritage" ti="Faith & Culture" sub="From the birthplace of a global church to sacred groves and festival drums â€” the soul of Ogere Remo." />
+      <Hero ey="Spirituality & Heritage" ti="Faith & Culture" sub="From the birthplace of a global church to sacred groves and festival drums ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the soul of Ogere Remo." />
       <AdireDivider />
       <Section bg="#1a0d06" py="2rem">
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {[['faith', 'â›ª Houses of Faith'], ['festivals', 'ðŸŽŠ Festivals & Ceremonies']].map(([id, l]) => (
+          {[['faith', 'ÃƒÂ¢Ã¢â‚¬ÂºÃ‚Âª Houses of Faith'], ['festivals', 'ÃƒÂ°Ã…Â¸Ã…Â½Ã…Â  Festivals & Ceremonies']].map(([id, l]) => (
             <button key={id} className={tab === id ? 'btn-p' : 'btn-o'} onClick={() => setTab(id)}>{l}</button>
           ))}
         </div>
@@ -36,14 +36,14 @@ export default function FaithPage() {
           <div style={{ padding: '2rem', background: 'rgba(201,150,58,.06)', border: '1px solid rgba(201,150,58,.28)', borderTop: '4px solid #C9963A', marginBottom: '2rem', display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ flex: '1', minWidth: '280px' }}>
               <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'flex-start', flexWrap: 'wrap', marginBottom: '1.2rem' }}>
-                <div style={{ fontSize: '3rem', flexShrink: 0 }}>â›ª</div>
+                <div style={{ fontSize: '3rem', flexShrink: 0 }}>ÃƒÂ¢Ã¢â‚¬ÂºÃ‚Âª</div>
                 <div>
-                  <span className="tag tag-gold">World Headquarters â€” Founded Here</span>
+                  <span className="tag tag-gold">World Headquarters ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Founded Here</span>
                   <div className="playfair" style={{ fontSize: '1.3rem', color: '#F5EDD8', lineHeight: 1.2 }}>Church of the Lord (Aladura) Worldwide</div>
-                  <div className="cinzel" style={{ fontSize: '.55rem', letterSpacing: '.1em', color: 'rgba(245,237,216,.5)', textTransform: 'uppercase', marginTop: '.2rem' }}>Lisa Compound, Ogere Remo Â· Est. July 27, 1930</div>
+                  <div className="cinzel" style={{ fontSize: '.55rem', letterSpacing: '.1em', color: 'rgba(245,237,216,.5)', textTransform: 'uppercase', marginTop: '.2rem' }}>Lisa Compound, Ogere Remo Ãƒâ€šÃ‚Â· Est. July 27, 1930</div>
                 </div>
               </div>
-              <p style={{ fontSize: '.9rem', lineHeight: 1.9, color: 'rgba(245,237,216,.72)' }}>One of Africa's most significant Pentecostal churches was born here â€” in Ogere Remo â€” when Prophet Josiah Olunowo Ositelu founded the Church of the Lord (Aladura) Worldwide at the Lisa Compound on July 27, 1930. The church now has international branches across Nigeria, Ghana, Sierra Leone, and Liberia.</p>
+              <p style={{ fontSize: '.9rem', lineHeight: 1.9, color: 'rgba(245,237,216,.72)' }}>One of Africa's most significant Pentecostal churches was born here ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â in Ogere Remo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â when Prophet Josiah Olunowo Ositelu founded the Church of the Lord (Aladura) Worldwide at the Lisa Compound on July 27, 1930. The church now has international branches across Nigeria, Ghana, Sierra Leone, and Liberia.</p>
             </div>
             <div style={{ width: '100%', maxWidth: '300px', height: '200px', flexShrink: 0, borderRadius: 4, overflow: 'hidden', border: '1px solid rgba(201,150,58,.25)', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
               <img src="/images/The Church Of The Lord Aladuara.jpg" alt="Church of the Lord Aladura World Headquarters" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -52,7 +52,7 @@ export default function FaithPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.2rem' }}>
             <div style={{ padding: '1.5rem', background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderTop: '3px solid #7A2E0E', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '320px' }}>
               <div>
-                <div style={{ fontSize: '2rem', marginBottom: '.6rem' }}>â›ª</div>
+                <div style={{ fontSize: '2rem', marginBottom: '.6rem' }}>ÃƒÂ¢Ã¢â‚¬ÂºÃ‚Âª</div>
                 <span className="tag tag-terra">Historic Mission Church</span>
                 <div className="playfair" style={{ fontSize: '1.05rem', color: '#F5EDD8', marginBottom: '.5rem' }}>Christ Church Anglican</div>
                 <div style={{ fontSize: '.82rem', lineHeight: 1.75, color: 'rgba(245,237,216,.6)', marginBottom: '1rem' }}>The historic Anglican mission church of Ogere Remo and home of the oldest school in the town.</div>
@@ -63,7 +63,7 @@ export default function FaithPage() {
             </div>
             <div style={{ padding: '1.5rem', background: 'rgba(201,150,58,.04)', border: '1px solid rgba(201,150,58,.15)', borderTop: '3px solid #7A2E0E', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '320px' }}>
               <div>
-                <div style={{ fontSize: '2rem', marginBottom: '.6rem' }}>ðŸ•Œ</div>
+                <div style={{ fontSize: '2rem', marginBottom: '.6rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã…â€™</div>
                 <span className="tag tag-terra">Multi-Faith Community</span>
                 <div className="playfair" style={{ fontSize: '1.05rem', color: '#F5EDD8', marginBottom: '.5rem' }}>Islam & Other Faiths</div>
                 <div style={{ fontSize: '.82rem', lineHeight: 1.75, color: 'rgba(245,237,216,.6)', marginBottom: '1rem' }}>Ogere Remo is a multi-faith community. Muslim residents worship at mosques within the town, embracing all ethnic communities.</div>
@@ -94,7 +94,7 @@ export default function FaithPage() {
                     </div>
                     <div style={{ textAlign: 'right' }}>
                       <span className={`tag ${f.sacred ? 'tag-terra' : 'tag-gold'}`}>{f.period}</span>
-                      {f.sacred && <div style={{ fontSize: '.62rem', color: '#f5a4a4', marginTop: '.3rem' }}>âš  Sacred â€” observe advisories</div>}
+                      {f.sacred && <div style={{ fontSize: '.62rem', color: '#f5a4a4', marginTop: '.3rem' }}>ÃƒÂ¢Ã…Â¡Ã‚Â  Sacred ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â observe advisories</div>}
                     </div>
                   </div>
                   <p style={{ fontSize: '.85rem', lineHeight: 1.82, color: 'rgba(245,237,216,.65)', margin: 0 }}>{f.desc}</p>

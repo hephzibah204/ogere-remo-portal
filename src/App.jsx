@@ -58,6 +58,7 @@ import DiasporaEscrowPage from './pages/DiasporaEscrowPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AiChat from './components/AiChat';
 import ToastProvider from './components/ToastProvider';
+import { AuthProvider } from './contexts/AuthContext';
 import './App.css';
 
 function ScrollToTop() {
@@ -112,7 +113,7 @@ function Layout({ children, onLockDemo, showDemoBanner }) {
           className="cinzel"
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '.4rem', fontWeight: 600 }}>
-            <span style={{ fontSize: '.8rem' }}>ðŸŸ¢</span> STAKEHOLDER REVIEW SESSION (AUTHENTICATED PREVIEW)
+            <span style={{ fontSize: '.8rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢</span> STAKEHOLDER REVIEW SESSION (AUTHENTICATED PREVIEW)
           </span>
           <button
             onClick={onLockDemo}
@@ -129,7 +130,7 @@ function Layout({ children, onLockDemo, showDemoBanner }) {
             }}
             title="Return to Coming Soon landing view"
           >
-            ðŸ”’ Exit Session / Return to Landing
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ Exit Session / Return to Landing
           </button>
         </div>
       )}

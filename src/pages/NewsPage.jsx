@@ -47,11 +47,11 @@ export default function NewsPage() {
       'You are the Ogere Remo news editor. A member submitted a story. Write a warm 3-sentence acknowledgement. End with a Yoruba blessing phrase.',
       `Name: ${f.name}, Headline: ${f.headline}`
     );
-    setAiMsg(msg || 'Thank you for submitting your story to the Ogere Remo Community Record! áº¸ á¹£Ã©un pÃºpá»Ì€.');
+    setAiMsg(msg || 'Thank you for submitting your story to the Ogere Remo Community Record! ÃƒÂ¡Ã‚ÂºÃ‚Â¸ ÃƒÂ¡Ã‚Â¹Ã‚Â£ÃƒÆ’Ã‚Â©un pÃƒÆ’Ã‚ÂºpÃƒÂ¡Ã‚Â»Ã‚ÂÃƒÅ’Ã¢â€šÂ¬.');
     const entry = {
       ...f,
       id: `user-${Date.now()}`,
-      ic: 'ðŸ“°',
+      ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â°',
       cat: f.category || 'community',
       date: f.date || 'Recent Submission',
       status: 'pending',
@@ -93,7 +93,7 @@ export default function NewsPage() {
 
   const handleShare = (e, item) => {
     e.stopPropagation();
-    const textToCopy = `${item.headline} â€” Ogere Remo News Portal`;
+    const textToCopy = `${item.headline} ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Remo News Portal`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(textToCopy);
       setCopiedId(item.id);
@@ -116,7 +116,7 @@ export default function NewsPage() {
         {selectedCat === 'all' && !searchQuery && featuredArticle && (
           <div style={{ marginBottom: '3.5rem' }}>
             <div className="cinzel" style={{ fontSize: '.7rem', letterSpacing: '.25em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '.8rem' }}>
-              ðŸŒŸ Featured Community Highlight
+              ÃƒÂ°Ã…Â¸Ã…â€™Ã…Â¸ Featured Community Highlight
             </div>
             <div
               className="glass"
@@ -159,16 +159,16 @@ export default function NewsPage() {
               <div style={{ padding: 'clamp(1.5rem, 3vw, 2.5rem)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '.8rem', flexWrap: 'wrap' }}>
                   <span className="cinzel" style={{ fontSize: '.65rem', color: 'var(--gold-light)' }}>
-                    ðŸ“… {featuredArticle.date}
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ {featuredArticle.date}
                   </span>
                   {featuredArticle.readTime && (
                     <span className="cinzel" style={{ fontSize: '.65rem', color: 'rgba(245,237,216,.5)' }}>
-                      â±ï¸ {featuredArticle.readTime}
+                      ÃƒÂ¢Ã‚ÂÃ‚Â±ÃƒÂ¯Ã‚Â¸Ã‚Â {featuredArticle.readTime}
                     </span>
                   )}
                   {featuredArticle.author && (
                     <span className="cinzel" style={{ fontSize: '.65rem', color: 'rgba(245,237,216,.5)' }}>
-                      âœï¸ {featuredArticle.author}
+                      ÃƒÂ¢Ã…â€œÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â {featuredArticle.author}
                     </span>
                   )}
                 </div>
@@ -184,21 +184,21 @@ export default function NewsPage() {
                     className="btn-p"
                     style={{ fontSize: '.75rem', padding: '.6rem 1.4rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '.4rem' }}
                   >
-                    Read Dedicated Page â†’
+                    Read Dedicated Page ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
                   </Link>
                   <button
                     className="btn-o"
                     onClick={() => setExpand(expand === featuredArticle.id ? null : featuredArticle.id)}
                     style={{ fontSize: '.75rem', padding: '.6rem 1.2rem' }}
                   >
-                    {expand === featuredArticle.id ? 'Quick Collapse â–²' : 'Quick Preview â–¼'}
+                    {expand === featuredArticle.id ? 'Quick Collapse ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â²' : 'Quick Preview ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼'}
                   </button>
                   <button
                     className="btn-o"
                     onClick={(e) => handleShare(e, featuredArticle)}
                     style={{ fontSize: '.75rem', padding: '.6rem 1.2rem' }}
                   >
-                    {copiedId === featuredArticle.id ? 'âœ“ Copied Link' : 'ðŸ”— Share Story'}
+                    {copiedId === featuredArticle.id ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Copied Link' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â€ Share Story'}
                   </button>
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function NewsPage() {
             <h2 className="st" style={{ margin: 0 }}>Latest Dispatches & Archives</h2>
           </div>
           <button className="btn-p" onClick={() => setShowForm(!showForm)} style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-            {showForm ? 'âœ• Close Submission Panel' : '+ Submit a Story'}
+            {showForm ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Close Submission Panel' : '+ Submit a Story'}
           </button>
         </div>
 
@@ -248,7 +248,7 @@ export default function NewsPage() {
                       fontSize: '1rem',
                     }}
                   >
-                    âœ•
+                    ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
                   </button>
                 )}
               </div>
@@ -308,7 +308,7 @@ export default function NewsPage() {
             }}
           >
             <div className="cinzel" style={{ fontSize: '.75rem', letterSpacing: '.18em', color: 'var(--gold)', textTransform: 'uppercase', marginBottom: '1.2rem', fontWeight: 700 }}>
-              âœï¸ Submit a Community News Story
+              ÃƒÂ¢Ã…â€œÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â Submit a Community News Story
             </div>
             <p className="baskerville" style={{ color: 'rgba(245,237,216,.7)', fontSize: '.9rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
               Share local events, developmental milestones, achievements, or reports from your quarter or diaspora group for review and publication in the official portal.
@@ -316,7 +316,7 @@ export default function NewsPage() {
 
             {done ? (
               <div style={{ background: 'rgba(45,74,34,.2)', border: '1px solid rgba(45,74,34,.4)', borderLeft: '4px solid #4ade80', padding: '2rem', textAlign: 'center', borderRadius: '8px' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '.6rem' }}>ðŸŽ‰</div>
+                <div style={{ fontSize: '2.5rem', marginBottom: '.6rem' }}>ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Â°</div>
                 <div className="cinzel" style={{ fontSize: '.75rem', letterSpacing: '.15em', color: '#a8d88e', textTransform: 'uppercase', marginBottom: '.8rem', fontWeight: 700 }}>
                   Story Submitted Successfully
                 </div>
@@ -371,7 +371,7 @@ export default function NewsPage() {
                 <div style={{ gridColumn: '1/-1', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
                   <button className="btn-o" onClick={() => setShowForm(false)}>Cancel</button>
                   <button className="btn-p" onClick={submit} disabled={busy || !f.name || !f.headline || !f.body} style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                    {busy ? <><Spinner /> Submitting to Editorial Teamâ€¦</> : 'Submit Story â†’'}
+                    {busy ? <><Spinner /> Submitting to Editorial TeamÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</> : 'Submit Story ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢'}
                   </button>
                 </div>
               </div>
@@ -382,7 +382,7 @@ export default function NewsPage() {
         {/* Stories List */}
         {filteredNews.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem 1rem', background: 'rgba(201,150,58,.02)', border: '1px dashed rgba(201,150,58,.2)', borderRadius: '10px' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>ðŸ”</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â</div>
             <h3 className="playfair" style={{ color: 'var(--cream)', marginBottom: '.5rem' }}>No Dispatches Found</h3>
             <p className="baskerville" style={{ color: 'rgba(245,237,216,.6)', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
               We could not find any stories matching your current filter or search criteria.
@@ -463,7 +463,7 @@ export default function NewsPage() {
                           border: '1px solid rgba(201,150,58,.15)',
                         }}
                       >
-                        {n.ic || 'ðŸ“°'}
+                        {n.ic || 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â°'}
                       </div>
                     )}
 
@@ -499,7 +499,7 @@ export default function NewsPage() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}>
                           {n.readTime && (
                             <span className="cinzel" style={{ fontSize: '.55rem', color: 'rgba(201,150,58,.65)' }}>
-                              â±ï¸ {n.readTime}
+                              ÃƒÂ¢Ã‚ÂÃ‚Â±ÃƒÂ¯Ã‚Â¸Ã‚Â {n.readTime}
                             </span>
                           )}
                           <span className="cinzel" style={{ fontSize: '.58rem', letterSpacing: '.08em', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -534,7 +534,7 @@ export default function NewsPage() {
                       {!isExpanded && (
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '.6rem' }}>
                           <p className="baskerville" style={{ fontSize: '.92rem', color: 'rgba(245,237,216,.65)', lineHeight: 1.6, margin: 0, flex: 1 }}>
-                            {(n.summary || n.body || '').slice(0, 140)}â€¦
+                            {(n.summary || n.body || '').slice(0, 140)}ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦
                           </p>
                           <Link
                             to={`/news/${n.id}`}
@@ -552,7 +552,7 @@ export default function NewsPage() {
                               whiteSpace: 'nowrap',
                             }}
                           >
-                            Full Page â†—
+                            Full Page ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€
                           </Link>
                         </div>
                       )}
@@ -592,7 +592,7 @@ export default function NewsPage() {
 
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', borderTop: '1px solid rgba(201,150,58,.1)', paddingTop: '1rem' }}>
                         <div className="cinzel" style={{ fontSize: '.6rem', color: 'rgba(245,237,216,.45)' }}>
-                          DISPATCH ID: {n.id} â€¢ PUBLISHED BY OGERE REMO MEDIA BUREAU
+                          DISPATCH ID: {n.id} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ PUBLISHED BY OGERE REMO MEDIA BUREAU
                         </div>
                         <div style={{ display: 'flex', gap: '.8rem', flexWrap: 'wrap' }}>
                           <Link
@@ -600,21 +600,21 @@ export default function NewsPage() {
                             className="btn-p"
                             style={{ fontSize: '.65rem', padding: '.4rem .9rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '.3rem' }}
                           >
-                            Open Full Article Page â†—
+                            Open Full Article Page ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€
                           </Link>
                           <button
                             className="btn-o"
                             onClick={(e) => handleShare(e, n)}
                             style={{ fontSize: '.65rem', padding: '.4rem .9rem' }}
                           >
-                            {copiedId === n.id ? 'âœ“ Copied Link' : 'ðŸ”— Share Story'}
+                            {copiedId === n.id ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Copied Link' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â€ Share Story'}
                           </button>
                           <button
                             className="btn-o"
                             onClick={() => setExpand(null)}
                             style={{ fontSize: '.65rem', padding: '.4rem .9rem' }}
                           >
-                            Collapse â–²
+                            Collapse ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â²
                           </button>
                         </div>
                       </div>

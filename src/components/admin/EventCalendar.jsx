@@ -102,11 +102,11 @@ export default function EventCalendar({ addToast, onListView }) {
     <div>
       <div className="acal">
         <div className="acal-hd">
-          <button className="abtn abtn-o" onClick={cal.goPrev} style={{ fontSize: '.55rem', padding: '.25rem .5rem' }}>â†</button>
+          <button className="abtn abtn-o" onClick={cal.goPrev} style={{ fontSize: '.55rem', padding: '.25rem .5rem' }}>ÃƒÂ¢Ã¢â‚¬Â Ã‚Â</button>
           <h3>{MONTHS[cal.month]} {cal.year}</h3>
           <div style={{ display: 'flex', gap: '.3rem' }}>
             <button className="abtn abtn-o" onClick={cal.goToday} style={{ fontSize: '.5rem', padding: '.25rem .5rem' }}>Today</button>
-            <button className="abtn abtn-o" onClick={cal.goNext} style={{ fontSize: '.55rem', padding: '.25rem .5rem' }}>â†’</button>
+            <button className="abtn abtn-o" onClick={cal.goNext} style={{ fontSize: '.55rem', padding: '.25rem .5rem' }}>ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</button>
           </div>
         </div>
         <div className="acal-grid">
@@ -147,9 +147,9 @@ export default function EventCalendar({ addToast, onListView }) {
           <div className="amodal" style={{ maxWidth: 500 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <h3 style={{ color: '#C9963A', fontFamily: "'Cinzel',serif", fontSize: '.8rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>
-                {editEv ? 'âœï¸ Edit Event' : 'âž• New Event'}
+                {editEv ? 'ÃƒÂ¢Ã…â€œÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â Edit Event' : 'ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â¢ New Event'}
               </h3>
-              <button onClick={() => setShowForm(false)} className="abtn abtn-d" style={{ padding: '.2rem .5rem' }}>âœ•</button>
+              <button onClick={() => setShowForm(false)} className="abtn abtn-d" style={{ padding: '.2rem .5rem' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
             </div>
             <div style={{ display: 'grid', gap: '.7rem' }}>
               {['title','date','time','venue','organiser'].map(field => (
@@ -179,16 +179,16 @@ export default function EventCalendar({ addToast, onListView }) {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '.5rem', justifyContent: 'flex-end', marginTop: '1rem' }}>
-              {editEv && <button className="abtn abtn-d" onClick={handleDelete}>ðŸ—‘ï¸ Delete</button>}
+              {editEv && <button className="abtn abtn-d" onClick={handleDelete}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã¢â‚¬ËœÃƒÂ¯Ã‚Â¸Ã‚Â Delete</button>}
               <button className="abtn abtn-o" onClick={() => setShowForm(false)}>Cancel</button>
-              <button className="abtn abtn-p" onClick={handleSave}>{editEv ? 'ðŸ’¾ Update' : 'âž• Create'}</button>
+              <button className="abtn abtn-p" onClick={handleSave}>{editEv ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¾ Update' : 'ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â¢ Create'}</button>
             </div>
           </div>
         </div>
       )}
 
       <div style={{ marginTop: '1rem', display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
-        {onListView && <button className="abtn abtn-o" onClick={onListView}>ðŸ“‹ List View</button>}
+        {onListView && <button className="abtn abtn-o" onClick={onListView}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ List View</button>}
       </div>
     </div>
   );

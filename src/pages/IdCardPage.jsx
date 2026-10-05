@@ -12,40 +12,40 @@ const CARD_TYPES = [
     label: 'Full Indigene',
     color: '#C9963A',
     bg: 'linear-gradient(135deg, #1a0d06 0%, #2c1500 50%, #1a0d06 100%)',
-    badge: 'ðŸŸ¡ INDIGENE',
+    badge: 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¡ INDIGENE',
     border: '#C9963A',
     desc: 'Born to Ogere parents with registered compound',
-    icon: 'ðŸ‘‘',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
   },
   {
     id: 'resident',
     label: 'Non-Indigene Resident',
     color: '#4A90D9',
     bg: 'linear-gradient(135deg, #0a1929 0%, #0d2240 50%, #0a1929 100%)',
-    badge: 'ðŸ”µ RESIDENT',
+    badge: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Âµ RESIDENT',
     border: '#4A90D9',
     desc: 'Resident in Ogere, contributing community member',
-    icon: 'ðŸ˜ï¸',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‹Å“ÃƒÂ¯Ã‚Â¸Ã‚Â',
   },
   {
     id: 'diaspora',
     label: 'Diaspora Member',
     color: '#22c55e',
     bg: 'linear-gradient(135deg, #071a0e 0%, #0d2e1a 50%, #071a0e 100%)',
-    badge: 'ðŸŸ¢ DIASPORA',
+    badge: 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢ DIASPORA',
     border: '#22c55e',
     desc: 'Ogere son/daughter living outside Nigeria',
-    icon: 'ðŸŒ',
+    icon: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â',
   },
   {
     id: 'honorary',
     label: 'Honorary Citizen',
     color: '#e879f9',
     bg: 'linear-gradient(135deg, #1a071a 0%, #2e0d2e 50%, #1a071a 100%)',
-    badge: 'ðŸ”´ HONORARY',
+    badge: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ HONORARY',
     border: '#e879f9',
-    desc: 'Granted by royal approval â€” distinguished friend of Ogere',
-    icon: 'â­',
+    desc: 'Granted by royal approval ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â distinguished friend of Ogere',
+    icon: 'ÃƒÂ¢Ã‚Â­Ã‚Â',
   },
 ];
 
@@ -97,7 +97,7 @@ function IdCard({ data, cardType, idNumber, photoUrl }) {
             OGERE REMO
           </div>
           <div style={{ fontSize: '0.38rem', letterSpacing: '0.1em', color: 'rgba(245,237,216,0.5)', marginTop: '2px' }}>
-            EST. 1401 A.D Â· OGUN STATE, NIGERIA
+            EST. 1401 A.D Ãƒâ€šÃ‚Â· OGUN STATE, NIGERIA
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
@@ -123,7 +123,7 @@ function IdCard({ data, cardType, idNumber, photoUrl }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '1.5rem',
         }}>
-          {!photoUrl && 'ðŸ‘¤'}
+          {!photoUrl && 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤'}
         </div>
 
         {/* Info */}
@@ -138,8 +138,8 @@ function IdCard({ data, cardType, idNumber, photoUrl }) {
           )}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px' }}>
             {[
-              ['D.O.B', data.dob || 'â€”'],
-              ['Quarter', data.quarter || 'â€”'],
+              ['D.O.B', data.dob || 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â'],
+              ['Quarter', data.quarter || 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â'],
               ['Issued', new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })],
               ['Expires', `${expiry}`],
             ].map(([k, v]) => (
@@ -158,7 +158,7 @@ function IdCard({ data, cardType, idNumber, photoUrl }) {
         <div>
           <div style={{ fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.08em', color: ct.color }}>{idNumber}</div>
           <div style={{ fontSize: '0.34rem', color: 'rgba(245,237,216,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-            Official Community ID Â· Under Authority of the Ologere Throne
+            Official Community ID Ãƒâ€šÃ‚Â· Under Authority of the Ologere Throne
           </div>
         </div>
         {/* QR placeholder */}
@@ -246,12 +246,12 @@ export default function IdCardPage() {
 
   return (
     <div>
-      <SEO title="Digital ID Card" description="Apply for your official Ogere Remo Digital Community Identity Card â€” for indigenes, residents, diaspora, and honorary citizens." />
+      <SEO title="Digital ID Card" description="Apply for your official Ogere Remo Digital Community Identity Card ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â for indigenes, residents, diaspora, and honorary citizens." />
       <Hero ey="Community Identity" ti="Ogere Digital ID Card" sub="Your official proof of belonging to the ancient Kingdom of Ogereland." dark />
 
       <div style={{ background: 'linear-gradient(135deg, #7A2E0E, #B5451B)', padding: '0.65rem 2rem', textAlign: 'center' }}>
         <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'white', textTransform: 'uppercase' }}>
-          ðŸ‘‘ ISSUED UNDER THE AUTHORITY OF HRH OBA JAMES OBAFEMI SALIU â€” KANKANBIINA II Â· OLOGERE OF OGERE REMO
+          ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ ISSUED UNDER THE AUTHORITY OF HRH OBA JAMES OBAFEMI SALIU ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â KANKANBIINA II Ãƒâ€šÃ‚Â· OLOGERE OF OGERE REMO
         </span>
       </div>
 
@@ -273,7 +273,7 @@ export default function IdCardPage() {
                     fontFamily: 'var(--font-display)', color: done || active ? '#fff' : 'rgba(245,237,216,0.4)',
                     transition: 'all 0.3s ease',
                   }}>
-                    {done ? 'âœ“' : n}
+                    {done ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“' : n}
                   </div>
                   <div className="cinzel" style={{ fontSize: '0.5rem', letterSpacing: '0.15em', color: active ? 'var(--gold)' : 'rgba(245,237,216,0.4)', textTransform: 'uppercase' }}>
                     {l}
@@ -285,7 +285,7 @@ export default function IdCardPage() {
           })}
         </div>
 
-        {/* STEP 1 â€” Card Type */}
+        {/* STEP 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Card Type */}
         {step === 1 && (
           <div style={{ maxWidth: '900px', margin: '0 auto', animation: 'fadeUp 0.5s ease both' }}>
             <p className="cinzel" style={{ textAlign: 'center', color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.7rem', marginBottom: '1rem' }}>SELECT YOUR STATUS</p>
@@ -321,13 +321,13 @@ export default function IdCardPage() {
             </div>
             <div style={{ textAlign: 'center' }}>
               <button className="btn-p" onClick={() => setStep(2)} style={{ fontSize: '0.75rem', padding: '1rem 3rem' }}>
-                Continue â†’
+                Continue ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 2 â€” Form */}
+        {/* STEP 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Form */}
         {step === 2 && (
           <div style={{ maxWidth: '700px', margin: '0 auto', animation: 'fadeUp 0.5s ease both' }}>
             <p className="cinzel" style={{ textAlign: 'center', color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.7rem', marginBottom: '1rem' }}>YOUR INFORMATION</p>
@@ -351,7 +351,7 @@ export default function IdCardPage() {
                   >
                     {!photoUrl && (
                       <>
-                        <span style={{ fontSize: '2.5rem' }}>ðŸ“·</span>
+                        <span style={{ fontSize: '2.5rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â·</span>
                         <span className="cinzel" style={{ fontSize: '0.5rem', color: 'rgba(245,237,216,0.4)', letterSpacing: '0.1em' }}>UPLOAD PHOTO</span>
                       </>
                     )}
@@ -404,23 +404,23 @@ export default function IdCardPage() {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <button type="button" className="btn-o" onClick={() => setStep(1)}>â† Back</button>
+                <button type="button" className="btn-o" onClick={() => setStep(1)}>ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back</button>
                 <button type="submit" className="btn-p" disabled={loading} style={{ minWidth: 'min(180px, 100%)', opacity: loading ? 0.7 : 1 }}>
-                  {loading ? 'Generating IDâ€¦' : 'Generate My ID Card â†’'}
+                  {loading ? 'Generating IDÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦' : 'Generate My ID Card ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢'}
                 </button>
               </div>
             </form>
           </div>
         )}
 
-        {/* STEP 3 â€” Card Preview */}
+        {/* STEP 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Card Preview */}
         {step === 3 && (
           <div style={{ textAlign: 'center', animation: 'fadeUp 0.5s ease both' }}>
             <div style={{ display: 'inline-block', background: 'rgba(22,163,74,0.1)', border: '1px solid rgba(22,163,74,0.3)', borderRadius: '50px', padding: '0.5rem 1.5rem', marginBottom: '2rem' }}>
-              <span style={{ fontSize: '0.7rem', color: '#86efac' }}>âœ… APPLICATION SUBMITTED â€” PENDING ADMIN APPROVAL</span>
+              <span style={{ fontSize: '0.7rem', color: '#86efac' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ APPLICATION SUBMITTED ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â PENDING ADMIN APPROVAL</span>
             </div>
             <p className="cinzel" style={{ color: 'var(--gold)', letterSpacing: '0.3em', fontSize: '0.7rem', marginBottom: '1rem' }}>YOUR DIGITAL ID CARD</p>
-            <h2 className="playfair" style={{ fontSize: '2.5rem', color: 'var(--cream)', marginBottom: '2rem' }}>Preview â€” Official Ogere ID</h2>
+            <h2 className="playfair" style={{ fontSize: '2.5rem', color: 'var(--cream)', marginBottom: '2rem' }}>Preview ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Official Ogere ID</h2>
 
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2.5rem' }}>
               <div ref={cardRef}>
@@ -431,10 +431,10 @@ export default function IdCardPage() {
             <div className="glass" style={{ maxWidth: '500px', margin: '0 auto 2rem', padding: '1.5rem', borderRadius: '8px', textAlign: 'left' }}>
               <div className="cinzel" style={{ fontSize: '0.6rem', color: 'var(--gold)', letterSpacing: '0.15em', marginBottom: '1rem' }}>WHAT HAPPENS NEXT</div>
               {[
-                ['ðŸ“‹', 'Your application has been received by the OCDA admin team'],
-                ['ðŸ”', 'Your details will be verified within 5â€“7 working days'],
-                ['ðŸ“±', 'You will be contacted via phone or email when approved'],
-                ['âœ…', 'Upon approval, your card becomes officially valid and can be downloaded'],
+                ['ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹', 'Your application has been received by the OCDA admin team'],
+                ['ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â', 'Your details will be verified within 5ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“7 working days'],
+                ['ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â±', 'You will be contacted via phone or email when approved'],
+                ['ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦', 'Upon approval, your card becomes officially valid and can be downloaded'],
               ].map(([ic, t], i) => (
                 <div key={i} style={{ display: 'flex', gap: '0.8rem', padding: '0.6rem 0', borderBottom: i < 3 ? '1px solid rgba(201,150,58,0.1)' : 'none' }}>
                   <span style={{ fontSize: '1rem', flexShrink: 0 }}>{ic}</span>
@@ -445,9 +445,9 @@ export default function IdCardPage() {
 
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to={`/verify-id/${idNumber}`} className="btn-p" style={{ textDecoration: 'none' }}>
-                ðŸ” Test Verify Online
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Test Verify Online
               </Link>
-              <button className="btn-o" onClick={handlePrint}>ðŸ–¨ï¸ Print / Save as PDF</button>
+              <button className="btn-o" onClick={handlePrint}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â€œÃ‚Â¨ÃƒÂ¯Ã‚Â¸Ã‚Â Print / Save as PDF</button>
               <button className="btn-o" onClick={() => { setStep(1); setForm({ fullName:'',dob:'',compound:'',quarter:'',phone:'',email:'',address:'',occupation:'' }); setPhotoUrl(null); }}>
                 Register Another
               </button>
@@ -466,12 +466,12 @@ export default function IdCardPage() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1.5rem' }}>
           {[
-            ['ðŸ«', 'Scholarship Applications', 'Valid proof of indigeneship for state and community scholarship applications'],
-            ['ðŸ‘‘', 'Royal Audience', 'Identification at palace events and royal audience appointments'],
-            ['ðŸ—ºï¸', 'Land & Property', 'Supporting document for land registration and boundary verification'],
-            ['ðŸŒ', 'Diaspora Connection', 'Formal tie to Ogereland for sons and daughters living abroad'],
-            ['ðŸª', 'Business Directory', 'Verified indigene or resident badge on the Ogere business directory'],
-            ['ðŸ¤', 'Community Trust', 'Builds cohesion between indigenes and non-indigene residents'],
+            ['ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â«', 'Scholarship Applications', 'Valid proof of indigeneship for state and community scholarship applications'],
+            ['ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', 'Royal Audience', 'Identification at palace events and royal audience appointments'],
+            ['ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â', 'Land & Property', 'Supporting document for land registration and boundary verification'],
+            ['ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â', 'Diaspora Connection', 'Formal tie to Ogereland for sons and daughters living abroad'],
+            ['ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª', 'Business Directory', 'Verified indigene or resident badge on the Ogere business directory'],
+            ['ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â', 'Community Trust', 'Builds cohesion between indigenes and non-indigene residents'],
           ].map(([ic, t, d]) => (
             <div key={t} className="glass card" style={{ padding: '2rem', borderRadius: '12px' }}>
               <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{ic}</div>

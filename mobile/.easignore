@@ -12,3 +12,14 @@ expo-debug.log
 .idea/
 .vscode/
 
+
+../node_modules/
+../release-apks/
+../dist/
+../public/
+
+../.git/
+../.next/
+../assets/
+../cypress/
+../playwright-report/

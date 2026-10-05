@@ -1,15 +1,15 @@
 /**
- * PageHero â€” reusable full-width hero banner.
+ * PageHero ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â reusable full-width hero banner.
  * Props:
- *   title      â€“ main headline (string or JSX)
- *   subtitle   â€“ paragraph below title
- *   tag        â€“ small label above title
- *   cta        â€“ array of {label, href, onClick, primary} button descriptors
- *   bg         â€“ CSS background (gradient or image URL)
- *   icon       â€“ emoji or JSX icon
- *   breadcrumb â€“ array of {label, href} for breadcrumb nav
- *   children   â€“ extra content below CTAs
- *   minHeight  â€“ default '420px'
+ *   title      ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ main headline (string or JSX)
+ *   subtitle   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ paragraph below title
+ *   tag        ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ small label above title
+ *   cta        ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ array of {label, href, onClick, primary} button descriptors
+ *   bg         ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ CSS background (gradient or image URL)
+ *   icon       ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ emoji or JSX icon
+ *   breadcrumb ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ array of {label, href} for breadcrumb nav
+ *   children   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ extra content below CTAs
+ *   minHeight  ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ default '420px'
  */
 export default function PageHero({
   title,
@@ -55,7 +55,7 @@ export default function PageHero({
           <nav aria-label="Breadcrumb" style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.5rem', alignItems: 'center', justifyContent: textAlign === 'center' ? 'center' : 'flex-start', flexWrap: 'wrap' }}>
             {breadcrumb.map((crumb, i) => (
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                {i > 0 && <span style={{ color: 'rgba(201,150,58,0.4)', fontSize: '0.75rem' }}>â€º</span>}
+                {i > 0 && <span style={{ color: 'rgba(201,150,58,0.4)', fontSize: '0.75rem' }}>ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº</span>}
                 {crumb.href
                   ? <a href={crumb.href} className="cinzel" style={{ fontSize: '0.65rem', color: i === breadcrumb.length - 1 ? 'var(--gold)' : 'var(--cream-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{crumb.label}</a>
                   : <span className="cinzel" style={{ fontSize: '0.65rem', color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{crumb.label}</span>

@@ -96,15 +96,15 @@ export default function LivePage() {
               boxShadow: '0 10px 40px rgba(0,0,0,0.8)',
             }}
           >
-            <div style={{ fontSize: '4rem', marginBottom: '1rem', opacity: 0.8 }}>ðŸ“¡</div>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem', opacity: 0.8 }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡</div>
             <h3 className="playfair" style={{ fontSize: '2rem', color: 'var(--cream)', marginBottom: '0.5rem' }}>
               Annual Ogere Thanksgiving & Lipakala Broadcast
             </h3>
             <p style={{ color: 'rgba(245,237,216,0.7)', fontSize: '0.95rem', marginBottom: '2rem' }}>
-              Live broadcast from Aafin Ologere Palace Â· Streaming begins in: <strong style={{ color: 'var(--gold)' }}>14 Days, 6 Hours</strong>
+              Live broadcast from Aafin Ologere Palace Ãƒâ€šÃ‚Â· Streaming begins in: <strong style={{ color: 'var(--gold)' }}>14 Days, 6 Hours</strong>
             </p>
             <button className="btn-p" onClick={() => setShowNotifyModal(true)} style={{ fontSize: '0.8rem', padding: '0.8rem 2rem' }}>
-              ðŸ”” Get Broadcast Alert (SMS & Email)
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â Get Broadcast Alert (SMS & Email)
             </button>
           </div>
         </div>
@@ -140,13 +140,13 @@ export default function LivePage() {
                   <div style={{ width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderLeft: '14px solid var(--gold)', marginLeft: '4px' }}></div>
                 </div>
                 <div style={{ position: 'absolute', bottom: '8px', right: '8px', background: 'rgba(0,0,0,0.85)', padding: '2px 8px', borderRadius: '4px', fontSize: '0.65rem', color: '#fff', border: '1px solid rgba(201,150,58,0.3)' }}>
-                  â± {v.duration}
+                  ÃƒÂ¢Ã‚ÂÃ‚Â± {v.duration}
                 </div>
               </div>
               <div style={{ padding: '1.4rem' }}>
                 <h4 className="playfair" style={{ fontSize: '1.15rem', color: 'var(--cream)', marginBottom: '0.4rem', lineHeight: '1.3' }}>{v.title}</h4>
                 <p style={{ fontSize: '0.78rem', color: 'rgba(245,237,216,0.6)', lineHeight: 1.6, marginBottom: '0.8rem' }}>{v.desc}</p>
-                <div style={{ fontSize: '0.72rem', color: 'var(--gold)' }}>ðŸ“… {v.date} Â· Click to Watch â†’</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--gold)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ {v.date} Ãƒâ€šÃ‚Â· Click to Watch ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</div>
               </div>
             </div>
           ))}
@@ -184,7 +184,7 @@ export default function LivePage() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.5rem', borderBottom: '1px solid rgba(201,150,58,0.2)' }}>
               <div className="playfair" style={{ color: 'var(--cream)', fontSize: '1.1rem' }}>{activeVideo.title}</div>
-              <button onClick={() => setActiveVideo(null)} style={{ background: 'none', border: 'none', color: 'var(--gold)', fontSize: '1.2rem', cursor: 'pointer' }}>âœ•</button>
+              <button onClick={() => setActiveVideo(null)} style={{ background: 'none', border: 'none', color: 'var(--gold)', fontSize: '1.2rem', cursor: 'pointer' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
             </div>
             <div style={{ aspectRatio: '16/9', background: '#000' }}>
               <iframe
@@ -232,14 +232,14 @@ export default function LivePage() {
           >
             {notifySaved ? (
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>âœ…</div>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦</div>
                 <h3 className="playfair" style={{ fontSize: '1.6rem', color: 'var(--cream)', marginBottom: '0.5rem' }}>Subscribed to Broadcasts</h3>
                 <p style={{ color: 'rgba(245,237,216,0.65)', fontSize: '0.85rem' }}>You will receive SMS and email notifications 30 minutes before every live palace broadcast.</p>
               </div>
             ) : (
               <form onSubmit={handleSubscribe}>
                 <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                  <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>ðŸ””</div>
+                  <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â</div>
                   <h3 className="playfair" style={{ fontSize: '1.6rem', color: 'var(--cream)', marginBottom: '0.3rem' }}>Palace Broadcast Alerts</h3>
                   <p style={{ color: 'rgba(245,237,216,0.6)', fontSize: '0.8rem' }}>Never miss a royal address or community festival live stream.</p>
                 </div>
@@ -259,7 +259,7 @@ export default function LivePage() {
                 </div>
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
                   <button type="button" className="btn-o" onClick={() => setShowNotifyModal(false)}>Cancel</button>
-                  <button type="submit" className="btn-p">Subscribe â†’</button>
+                  <button type="submit" className="btn-p">Subscribe ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</button>
                 </div>
               </form>
             )}

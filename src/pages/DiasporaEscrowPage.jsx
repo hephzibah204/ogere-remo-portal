@@ -73,7 +73,7 @@ export default function DiasporaEscrowPage() {
       donorName: pledgeForm.donorName,
       donorLocation: pledgeForm.donorLocation,
       amountNgn: amountNgn,
-      currencyString: `${pledgeForm.currency} (${pledgeForm.currency === 'USD' ? '$' : pledgeForm.currency === 'GBP' ? 'Â£' : pledgeForm.currency === 'EUR' ? 'â‚¬' : 'â‚¦'}${Number(pledgeForm.amount).toLocaleString()})`,
+      currencyString: `${pledgeForm.currency} (${pledgeForm.currency === 'USD' ? '$' : pledgeForm.currency === 'GBP' ? 'Ãƒâ€šÃ‚Â£' : pledgeForm.currency === 'EUR' ? 'ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬' : 'ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦'}${Number(pledgeForm.amount).toLocaleString()})`,
     });
 
     if (res.success) {
@@ -87,14 +87,14 @@ export default function DiasporaEscrowPage() {
   return (
     <div>
       <SEO
-        title="Diaspora Homeland Projects & Milestone Escrow Grants â€” Ogere Remo Kingdom"
+        title="Diaspora Homeland Projects & Milestone Escrow Grants ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Remo Kingdom"
         description="Transparent diaspora co-funding of landmark capital projects in Ogere Remo with milestone-based escrow fund releases."
       />
 
       <PageHero
         title="Diaspora Homeland Milestone Escrow"
         subtitle="Transparent Community Capital Projects Funded by Diaspora Sons & Daughters with Milestone Escrow Payouts"
-        badge="ðŸŒ DIASPORA ESCROW VAULT"
+        badge="ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â DIASPORA ESCROW VAULT"
         badgeColor="#10b981"
       />
 
@@ -103,19 +103,19 @@ export default function DiasporaEscrowPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
           <div style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '8px', padding: '1.2rem', textAlign: 'center' }}>
             <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#34d399' }}>
-              â‚¦{(totalRaisedNgn / 1000000).toFixed(1)}M
+              ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(totalRaisedNgn / 1000000).toFixed(1)}M
             </div>
             <div style={{ fontSize: '0.72rem', color: '#a7f3d0', fontWeight: 700 }}>TOTAL FUNDS MOBILIZED</div>
           </div>
           <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '8px', padding: '1.2rem', textAlign: 'center' }}>
             <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#38bdf8' }}>
-              â‚¦{(totalLockedNgn / 1000000).toFixed(1)}M
+              ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(totalLockedNgn / 1000000).toFixed(1)}M
             </div>
             <div style={{ fontSize: '0.72rem', color: '#bae6fd', fontWeight: 700 }}>LOCKED IN ESCROW (UNRELEASED)</div>
           </div>
           <div style={{ background: 'rgba(201, 150, 58, 0.1)', border: '1px solid rgba(201, 150, 58, 0.3)', borderRadius: '8px', padding: '1.2rem', textAlign: 'center' }}>
             <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--gold)' }}>
-              â‚¦{(totalReleasedNgn / 1000000).toFixed(1)}M
+              ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(totalReleasedNgn / 1000000).toFixed(1)}M
             </div>
             <div style={{ fontSize: '0.72rem', color: '#fde68a', fontWeight: 700 }}>VERIFIED MILESTONE PAYOUTS</div>
           </div>
@@ -130,9 +130,9 @@ export default function DiasporaEscrowPage() {
         {/* Tab Navigation */}
         <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid rgba(16, 185, 129, 0.3)', paddingBottom: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
           {[
-            { id: 'projects', label: 'ðŸ—ï¸ Active Homeland Projects', icon: 'ðŸ›ï¸' },
-            { id: 'ledger', label: 'ðŸ“œ Global Donor Wall & Ledger', icon: 'ðŸŒ' },
-            { id: 'governance', label: 'ðŸ›¡ï¸ Escrow Trust Architecture', icon: 'ðŸ”’' },
+            { id: 'projects', label: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬â€ÃƒÂ¯Ã‚Â¸Ã‚Â Active Homeland Projects', icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â' },
+            { id: 'ledger', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ Global Donor Wall & Ledger', icon: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â' },
+            { id: 'governance', label: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Escrow Trust Architecture', icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -186,7 +186,7 @@ export default function DiasporaEscrowPage() {
                         {project.title}
                       </h3>
                       <div style={{ fontSize: '0.8rem', color: '#38bdf8' }}>
-                        ðŸ“ {project.location}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {project.location}
                       </div>
                     </div>
 
@@ -202,7 +202,7 @@ export default function DiasporaEscrowPage() {
                           border: '1px solid #10b981',
                         }}
                       >
-                        â— {project.status.replace(/_/g, ' ')}
+                        ÃƒÂ¢Ã¢â‚¬â€Ã‚Â {project.status.replace(/_/g, ' ')}
                       </span>
                     </div>
                   </div>
@@ -215,10 +215,10 @@ export default function DiasporaEscrowPage() {
                   <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: '8px', padding: '1rem', marginBottom: '1.2rem', border: '1px solid rgba(255,255,255,0.06)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', fontSize: '0.85rem' }}>
                       <span style={{ color: '#f8fafc', fontWeight: 800 }}>
-                        Raised: <strong>â‚¦{(project.raisedNgn / 1000000).toFixed(2)}M</strong> (~${Math.round(project.raisedNgn / 1500).toLocaleString()})
+                        Raised: <strong>ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(project.raisedNgn / 1000000).toFixed(2)}M</strong> (~${Math.round(project.raisedNgn / 1500).toLocaleString()})
                       </span>
                       <span style={{ color: '#94a3b8' }}>
-                        Target: â‚¦{(project.targetBudgetNgn / 1000000).toFixed(2)}M ({fundingPct}%)
+                        Target: ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(project.targetBudgetNgn / 1000000).toFixed(2)}M ({fundingPct}%)
                       </span>
                     </div>
 
@@ -234,16 +234,16 @@ export default function DiasporaEscrowPage() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: '#94a3b8' }}>
-                      <span>ðŸ”’ Locked in Escrow: â‚¦{(project.escrowLockedNgn / 1000000).toFixed(2)}M</span>
-                      <span>âœ“ Released to Date: â‚¦{(project.releasedNgn / 1000000).toFixed(2)}M</span>
-                      <span>ðŸ‘¥ {project.donorsCount} Donors</span>
+                      <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ Locked in Escrow: ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(project.escrowLockedNgn / 1000000).toFixed(2)}M</span>
+                      <span>ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Released to Date: ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(project.releasedNgn / 1000000).toFixed(2)}M</span>
+                      <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ {project.donorsCount} Donors</span>
                     </div>
                   </div>
 
                   {/* Milestone Inspection Stages */}
                   <div style={{ marginBottom: '1.2rem' }}>
                     <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--gold)', marginBottom: '0.5rem' }}>
-                      ðŸŽ¯ VERIFIED MILESTONE ESCROW STAGES:
+                      ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ VERIFIED MILESTONE ESCROW STAGES:
                     </div>
                     <div style={{ display: 'grid', gap: '0.6rem' }}>
                       {project.milestones.map((m, mIdx) => {
@@ -267,7 +267,7 @@ export default function DiasporaEscrowPage() {
                           >
                             <div>
                               <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#f8fafc' }}>
-                                {m.title} ({m.percentage}% Â· â‚¦{(m.amountNgn / 1000000).toFixed(2)}M)
+                                {m.title} ({m.percentage}% Ãƒâ€šÃ‚Â· ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{(m.amountNgn / 1000000).toFixed(2)}M)
                               </div>
                               <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
                                 Proof: {m.evidence}
@@ -284,7 +284,7 @@ export default function DiasporaEscrowPage() {
                                 color: '#ffffff',
                               }}
                             >
-                              {isReleased ? 'âœ“ ESCROW RELEASED' : isPending ? 'â³ PENDING AUDIT' : 'ðŸ”’ LOCKED'}
+                              {isReleased ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ ESCROW RELEASED' : isPending ? 'ÃƒÂ¢Ã‚ÂÃ‚Â³ PENDING AUDIT' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ LOCKED'}
                             </span>
                           </div>
                         );
@@ -321,7 +321,7 @@ export default function DiasporaEscrowPage() {
                         boxShadow: '0 2px 10px rgba(16, 185, 129, 0.4)',
                       }}
                     >
-                      <span>ðŸ¤</span> Pledge / Contribute to Project
+                      <span>ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â</span> Pledge / Contribute to Project
                     </button>
                   </div>
                 </div>
@@ -335,7 +335,7 @@ export default function DiasporaEscrowPage() {
           <div>
             <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
               <h2 style={{ fontSize: '1.3rem', color: '#34d399', margin: '0 0 0.3rem' }}>
-                ðŸŒ Diaspora Homeland Honor Roll & Transparent Ledger
+                ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â Diaspora Homeland Honor Roll & Transparent Ledger
               </h2>
               <p style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
                 Every single dollar, pound, euro, and naira donated is publicly audited and locked into milestone escrow contracts.
@@ -359,13 +359,13 @@ export default function DiasporaEscrowPage() {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                    <div style={{ fontSize: '1.8rem' }}>ðŸ…</div>
+                    <div style={{ fontSize: '1.8rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬Â¦</div>
                     <div>
                       <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#f8fafc' }}>
                         {donor.name}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: '#38bdf8' }}>
-                        ðŸ“ {donor.location} Â· {donor.date}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {donor.location} Ãƒâ€šÃ‚Â· {donor.date}
                       </div>
                       <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px' }}>
                         Funded: <em>{donor.projectTitle}</em>
@@ -378,7 +378,7 @@ export default function DiasporaEscrowPage() {
                       {donor.currency}
                     </div>
                     <div style={{ fontSize: '0.65rem', color: '#86efac' }}>
-                      â‚¦{donor.amountNgn.toLocaleString()} Escrow Credited
+                      ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦{donor.amountNgn.toLocaleString()} Escrow Credited
                     </div>
                   </div>
                 </div>
@@ -391,7 +391,7 @@ export default function DiasporaEscrowPage() {
         {activeTab === 'governance' && (
           <div style={{ maxWidth: '800px', margin: '0 auto', background: 'rgba(15, 23, 42, 0.85)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '10px', padding: '2rem', lineHeight: 1.6 }}>
             <h2 style={{ color: '#34d399', fontSize: '1.3rem', marginBottom: '1rem' }}>
-              ðŸ”’ The Ogere 3-Key Milestone Escrow Model
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ The Ogere 3-Key Milestone Escrow Model
             </h2>
             <p style={{ color: '#cbd5e1' }}>
               To solve the historical problem of abandoned constituency projects and lack of accountability, all diaspora funds donated via this portal are locked into a programmatic escrow vault.
@@ -421,14 +421,14 @@ export default function DiasporaEscrowPage() {
           <div style={{ background: '#120804', border: '2px solid #10b981', borderRadius: '10px', maxWidth: '500px', width: '100%', padding: '1.75rem', color: '#fff' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <div style={{ fontSize: '1.1rem', fontWeight: 900, color: '#34d399' }}>
-                ðŸ¤ Contribute to Escrow Project
+                ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â Contribute to Escrow Project
               </div>
               <button
                 type="button"
                 onClick={() => setShowPledgeModal(false)}
                 style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer' }}
               >
-                âœ•
+                ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
               </button>
             </div>
 
@@ -469,11 +469,11 @@ export default function DiasporaEscrowPage() {
                     onChange={(e) => setPledgeForm({ ...pledgeForm, currency: e.target.value })}
                     style={{ width: '100%', background: '#1c100b', color: '#fff', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '4px', padding: '0.5rem' }}
                   >
-                    <option value="GBP">GBP (Â£)</option>
+                    <option value="GBP">GBP (Ãƒâ€šÃ‚Â£)</option>
                     <option value="USD">USD ($)</option>
-                    <option value="EUR">EUR (â‚¬)</option>
+                    <option value="EUR">EUR (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬)</option>
                     <option value="CAD">CAD ($)</option>
-                    <option value="NGN">NGN (â‚¦)</option>
+                    <option value="NGN">NGN (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦)</option>
                   </select>
                 </div>
                 <div>
@@ -503,7 +503,7 @@ export default function DiasporaEscrowPage() {
                   marginTop: '0.5rem',
                 }}
               >
-                ðŸ”’ Confirm Escrow Contribution
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ Confirm Escrow Contribution
               </button>
             </form>
           </div>

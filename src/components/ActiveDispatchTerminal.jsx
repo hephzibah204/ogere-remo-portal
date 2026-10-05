@@ -1,4 +1,6 @@
 import React from "react";
+import { resolveOgereLocation, getOgereMapUrls } from "../services/ogereGeoEngine";
+import { OGERE_STATIONS } from "../services/securityUnits";
 
 export default function ActiveDispatchTerminal({
   activeIncident,
@@ -13,12 +15,19 @@ export default function ActiveDispatchTerminal({
   isUpdating,
   handleUpdateStatus,
   handleScanCctv,
-  CCTV_CAMERAS,
-  claimedIncidents,
+  claimedIncidents = {},
   adminSelectedStation,
   setAdminSelectedStation,
-  adminRouteToStation,
+  handleAdminReassign,
   SlaBadge,
+  setFullscreenMedia,
+  breadcrumbs = [],
+  dashboardMapMode = "hybrid",
+  setDashboardMapMode,
+  liveRefreshKey = 0,
+  newSitrepText = "",
+  setNewSitrepText,
+  handleAddRadioSitrep,
 }) {
   if (!activeIncident) return null;
   return (
@@ -81,7 +90,7 @@ export default function ActiveDispatchTerminal({
                 cursor: "pointer",
               }}
             >
-              âœ•
+              ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
             </button>
           </div>
 
@@ -109,8 +118,8 @@ export default function ActiveDispatchTerminal({
               }}
             >
               {activeIncident.threat_level === "CODE_RED"
-                ? "ðŸš¨ TACTICAL ARMED INCIDENT"
-                : "âš ï¸ CIVIC SAFETY ALERT"}
+                ? "ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ TACTICAL ARMED INCIDENT"
+                : "ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â CIVIC SAFETY ALERT"}
             </div>
             <div
               style={{
@@ -143,7 +152,7 @@ export default function ActiveDispatchTerminal({
               </span>
             </div>
 
-            {/* â”€â”€ Citizen Live Tactical Camera & Audio Surveillance Feed â”€â”€ */}
+            {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Citizen Live Tactical Camera & Audio Surveillance Feed ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
             {(activeIncident.camera_feed_active ||
               activeIncident.audio_feed_active ||
               activeIncident.media_url) && (
@@ -202,7 +211,7 @@ export default function ActiveDispatchTerminal({
                           fontWeight: 800,
                         }}
                       >
-                        ðŸ“¹ CAM LIVE
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¹ CAM LIVE
                       </span>
                     )}
                     {activeIncident.audio_feed_active && (
@@ -216,7 +225,7 @@ export default function ActiveDispatchTerminal({
                           fontWeight: 800,
                         }}
                       >
-                        ðŸŽ™ï¸ MIC LIVE
+                        ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â MIC LIVE
                       </span>
                     )}
                   </div>
@@ -263,9 +272,9 @@ export default function ActiveDispatchTerminal({
                           gap: "0.4rem",
                         }}
                       >
-                        <span style={{ fontSize: "1.8rem" }}>ðŸ“¡</span>
+                        <span style={{ fontSize: "1.8rem" }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡</span>
                         <span>
-                          Citizen Camera Active Â· Awaiting First Frame Packet...
+                          Citizen Camera Active Ãƒâ€šÃ‚Â· Awaiting First Frame Packet...
                         </span>
                       </div>
                     )}
@@ -283,7 +292,7 @@ export default function ActiveDispatchTerminal({
                         fontWeight: 800,
                       }}
                     >
-                      SECURE TACTICAL UPLINK Â· CITIZEN IN DISTRESS
+                      SECURE TACTICAL UPLINK Ãƒâ€šÃ‚Â· CITIZEN IN DISTRESS
                     </div>
 
                     {activeIncident.media_url && (
@@ -306,7 +315,7 @@ export default function ActiveDispatchTerminal({
                           cursor: "pointer",
                         }}
                       >
-                        ðŸ” Fullscreen View
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Fullscreen View
                       </button>
                     )}
                   </div>
@@ -332,7 +341,7 @@ export default function ActiveDispatchTerminal({
                         gap: "0.5rem",
                       }}
                     >
-                      <span style={{ fontSize: "1.1rem" }}>ðŸŽ™ï¸</span>
+                      <span style={{ fontSize: "1.1rem" }}>ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
                       <div>
                         <div
                           style={{
@@ -381,13 +390,13 @@ export default function ActiveDispatchTerminal({
                     textAlign: "center",
                   }}
                 >
-                  âš¡ Feeds are verified & saved in Palace Command Evidence Log
+                  ÃƒÂ¢Ã…Â¡Ã‚Â¡ Feeds are verified & saved in Palace Command Evidence Log
                   for prosecution.
                 </div>
               </div>
             )}
 
-            {/* â”€â”€ Real-Time Live Radar HUD (When is_live_tracking is active) â”€â”€ */}
+            {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Real-Time Live Radar HUD (When is_live_tracking is active) ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
             {activeIncident.is_live_tracking && (
               <div
                 style={{
@@ -417,7 +426,7 @@ export default function ActiveDispatchTerminal({
                     }}
                   >
                     <span style={{ animation: "liveTargetBeacon 1s infinite" }}>
-                      ðŸŸ¢
+                      ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢
                     </span>{" "}
                     LIVE MOVING TARGET RADAR
                   </span>
@@ -486,7 +495,7 @@ export default function ActiveDispatchTerminal({
                       }}
                     >
                       {activeIncident.heading
-                        ? `${Math.round(activeIncident.heading)}Â°`
+                        ? `${Math.round(activeIncident.heading)}Ãƒâ€šÃ‚Â°`
                         : "Tracked"}
                     </div>
                   </div>
@@ -507,7 +516,7 @@ export default function ActiveDispatchTerminal({
                         color: "#ffffff",
                       }}
                     >
-                      Â±{activeIncident.accuracy || 5}m
+                      Ãƒâ€šÃ‚Â±{activeIncident.accuracy || 5}m
                     </div>
                   </div>
                   <div
@@ -545,7 +554,7 @@ export default function ActiveDispatchTerminal({
               </div>
             )}
 
-            {/* â”€â”€ Google Maps with Satellite Hybrid & Street Toggles â”€â”€ */}
+            {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Google Maps with Satellite Hybrid & Street Toggles ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
             {activeIncident.latitude &&
               activeIncident.longitude &&
               (() => {
@@ -581,7 +590,7 @@ export default function ActiveDispatchTerminal({
                           gap: "6px",
                         }}
                       >
-                        <span>ðŸ“ OGERE REMO PINPOINT:</span>
+                        <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â OGERE REMO PINPOINT:</span>
                         <span style={{ color: "#ffffff" }}>
                           {ogereLoc.formattedText}
                         </span>
@@ -597,7 +606,7 @@ export default function ActiveDispatchTerminal({
                       >
                         <span>Sector: {ogereLoc.sector}</span>
                         <span>
-                          ðŸš“ ~{ogereLoc.distanceToPolice}m from Ogere Police
+                          ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Å“ ~{ogereLoc.distanceToPolice}m from Ogere Police
                           Station (ETA: ~{ogereLoc.policeEtaMinutes} mins)
                         </span>
                       </div>
@@ -632,7 +641,7 @@ export default function ActiveDispatchTerminal({
                             cursor: "pointer",
                           }}
                         >
-                          ðŸ›°ï¸ Satellite View (Rooftops)
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Satellite View (Rooftops)
                         </button>
                         <button
                           type="button"
@@ -654,13 +663,12 @@ export default function ActiveDispatchTerminal({
                             cursor: "pointer",
                           }}
                         >
-                          ðŸ—ºï¸ Street Map
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Street Map
                         </button>
                       </div>
                       <a
                         href={mapUrls.satellitePin}
                         target="_blank" rel="noopener noreferrer"
-                        rel="noreferrer"
                         style={{
                           color: "#38bdf8",
                           fontSize: "0.68rem",
@@ -668,11 +676,11 @@ export default function ActiveDispatchTerminal({
                           fontWeight: 800,
                         }}
                       >
-                        â†— Open Satellite Pin
+                        ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€ Open Satellite Pin
                       </a>
                     </div>
 
-                    {/* Embedded map â€” auto updates when coords change */}
+                    {/* Embedded map ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â auto updates when coords change */}
                     <iframe
                       key={`${activeIncident.latitude}-${activeIncident.longitude}-${dashboardMapMode}-${liveRefreshKey}`}
                       title="incident-map"
@@ -715,8 +723,8 @@ export default function ActiveDispatchTerminal({
                       }}
                     >
                       {activeIncident.is_live_tracking
-                        ? "âš¡ Intercept Moving Target (Turn-by-Turn Navigation) â†’"
-                        : "ðŸ—ºï¸ Open Rooftop Pin on Google Maps â†’"}
+                        ? "ÃƒÂ¢Ã…Â¡Ã‚Â¡ Intercept Moving Target (Turn-by-Turn Navigation) ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢"
+                        : "ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Open Rooftop Pin on Google Maps ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢"}
                     </a>
 
                     <div
@@ -745,7 +753,7 @@ export default function ActiveDispatchTerminal({
                           gap: "0.3rem",
                         }}
                       >
-                        ðŸ“¹ Scan CCTV (1km)
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¹ Scan CCTV (1km)
                       </button>
 
                       {/* Guardian Family Link */}
@@ -772,7 +780,7 @@ export default function ActiveDispatchTerminal({
                           gap: "0.3rem",
                         }}
                       >
-                        ðŸ”— Guardian Link
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â€ Guardian Link
                       </button>
                     </div>
 
@@ -783,10 +791,10 @@ export default function ActiveDispatchTerminal({
                         textAlign: "center",
                       }}
                     >
-                      Live GPS: {Number(activeIncident.latitude).toFixed(5)}Â°N,{" "}
-                      {Number(activeIncident.longitude).toFixed(5)}Â°E
+                      Live GPS: {Number(activeIncident.latitude).toFixed(5)}Ãƒâ€šÃ‚Â°N,{" "}
+                      {Number(activeIncident.longitude).toFixed(5)}Ãƒâ€šÃ‚Â°E
                       {activeIncident.last_ping_at &&
-                        ` Â· Last ping: ${new Date(activeIncident.last_ping_at).toLocaleTimeString()}`}
+                        ` Ãƒâ€šÃ‚Â· Last ping: ${new Date(activeIncident.last_ping_at).toLocaleTimeString()}`}
                     </div>
 
                     {/* Breadcrumbs Route History Trail */}
@@ -808,7 +816,7 @@ export default function ActiveDispatchTerminal({
                             marginBottom: "0.3rem",
                           }}
                         >
-                          ðŸ“ MOVEMENT TRAIL ({breadcrumbs.length} RECORDED
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â MOVEMENT TRAIL ({breadcrumbs.length} RECORDED
                           PINGS)
                         </div>
                         <div
@@ -835,11 +843,11 @@ export default function ActiveDispatchTerminal({
                               >
                                 <span>
                                   #{breadcrumbs.length - idx}:{" "}
-                                  {Number(b.latitude).toFixed(5)}Â°N,{" "}
-                                  {Number(b.longitude).toFixed(5)}Â°E
+                                  {Number(b.latitude).toFixed(5)}Ãƒâ€šÃ‚Â°N,{" "}
+                                  {Number(b.longitude).toFixed(5)}Ãƒâ€šÃ‚Â°E
                                 </span>
                                 <span style={{ color: "#86efac" }}>
-                                  {b.speed ? `${b.speed} km/h` : ""} Â·{" "}
+                                  {b.speed ? `${b.speed} km/h` : ""} Ãƒâ€šÃ‚Â·{" "}
                                   {new Date(b.created_at).toLocaleTimeString(
                                     [],
                                     {
@@ -875,12 +883,12 @@ export default function ActiveDispatchTerminal({
                     fontWeight: 700,
                   }}
                 >
-                  ðŸ“ž Call {activeIncident.reporter_phone}
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Call {activeIncident.reporter_phone}
                 </a>
               )}
             </div>
 
-            {/* â”€â”€ Device & Signal Intelligence Grid â”€â”€ */}
+            {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Device & Signal Intelligence Grid ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
             {(activeIncident.device_model ||
               activeIncident.device_os ||
               activeIncident.network_type ||
@@ -904,7 +912,7 @@ export default function ActiveDispatchTerminal({
                     marginBottom: "0.4rem",
                   }}
                 >
-                  ðŸ“± DEVICE & TELEMETRY INTEL
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â± DEVICE & TELEMETRY INTEL
                 </div>
                 <div
                   style={{
@@ -992,8 +1000,8 @@ export default function ActiveDispatchTerminal({
                           fontWeight: 900,
                         }}
                       >
-                        ðŸ”‹ {activeIncident.battery_level}%{" "}
-                        {activeIncident.battery_level <= 20 ? "âš ï¸ LOW" : ""}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ {activeIncident.battery_level}%{" "}
+                        {activeIncident.battery_level <= 20 ? "ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â LOW" : ""}
                       </div>
                     </div>
                   )}
@@ -1015,9 +1023,9 @@ export default function ActiveDispatchTerminal({
                         NETWORK
                       </div>
                       <div style={{ color: "#38bdf8", fontWeight: 700 }}>
-                        ðŸ“¶ {activeIncident.network_type.toUpperCase()}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¶ {activeIncident.network_type.toUpperCase()}
                         {activeIncident.network_generation
-                          ? ` Â· ${activeIncident.network_generation}`
+                          ? ` Ãƒâ€šÃ‚Â· ${activeIncident.network_generation}`
                           : ""}
                       </div>
                     </div>
@@ -1068,7 +1076,7 @@ export default function ActiveDispatchTerminal({
                         TIMEZONE
                       </div>
                       <div style={{ color: "#cbd5e1", fontWeight: 700 }}>
-                        ðŸ•’ {activeIncident.timezone}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã¢â‚¬â„¢ {activeIncident.timezone}
                       </div>
                     </div>
                   )}
@@ -1140,8 +1148,8 @@ export default function ActiveDispatchTerminal({
                       }}
                     >
                       {isClaimed
-                        ? "âœ… DISPATCH CLAIMED BY FIELD OFFICER"
-                        : "âš¡ AI PROXIMITY AUTO-ROUTER"}
+                        ? "ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ DISPATCH CLAIMED BY FIELD OFFICER"
+                        : "ÃƒÂ¢Ã…Â¡Ã‚Â¡ AI PROXIMITY AUTO-ROUTER"}
                     </span>
                     <span
                       style={{
@@ -1166,7 +1174,7 @@ export default function ActiveDispatchTerminal({
                     >
                       <div>
                         <strong>Officer:</strong> {claim.officerName} (
-                        {claim.badge} Â· {claim.rank || "Officer"})
+                        {claim.badge} Ãƒâ€šÃ‚Â· {claim.rank || "Officer"})
                       </div>
                       <div>
                         <strong>Tactical Unit:</strong>{" "}
@@ -1251,7 +1259,7 @@ export default function ActiveDispatchTerminal({
                           whiteSpace: "nowrap",
                         }}
                       >
-                        ðŸ”„ Re-Route
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Å¾ Re-Route
                       </button>
                     </div>
                   </div>
@@ -1378,7 +1386,7 @@ export default function ActiveDispatchTerminal({
                   cursor: "pointer",
                 }}
               >
-                ðŸš€ Dispatch Unit
+                ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â€šÂ¬ Dispatch Unit
               </button>
 
               <button
@@ -1395,7 +1403,7 @@ export default function ActiveDispatchTerminal({
                   cursor: "pointer",
                 }}
               >
-                ðŸ“ Unit On Scene
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Unit On Scene
               </button>
 
               <button
@@ -1413,11 +1421,11 @@ export default function ActiveDispatchTerminal({
                   gridColumn: "span 2",
                 }}
               >
-                âœ… Mark Situation Secured / Resolved
+                ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Mark Situation Secured / Resolved
               </button>
             </div>
 
-            {/* â”€â”€ Radio SITREPs & Tactical Communications Log â”€â”€ */}
+            {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Radio SITREPs & Tactical Communications Log ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
             <div
               style={{
                 background: "rgba(15, 23, 42, 0.7)",
@@ -1443,7 +1451,7 @@ export default function ActiveDispatchTerminal({
                     letterSpacing: "0.06em",
                   }}
                 >
-                  ðŸ“» RADIO SITREPS & DISPATCH LOG
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â» RADIO SITREPS & DISPATCH LOG
                 </div>
                 <span style={{ fontSize: "0.6rem", color: "#94a3b8" }}>
                   {Array.isArray(activeIncident.sitreps)
@@ -1557,12 +1565,12 @@ export default function ActiveDispatchTerminal({
                     whiteSpace: "nowrap",
                   }}
                 >
-                  ðŸ“¡ Broadcast
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Broadcast
                 </button>
               </div>
             </div>
 
-            {/* â”€â”€ Multi-Modal Evidence Locker â”€â”€ */}
+            {/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Multi-Modal Evidence Locker ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */}
             {(activeIncident.voice_note_url ||
               (Array.isArray(activeIncident.evidence_files) &&
                 activeIncident.evidence_files.length > 0)) && (
@@ -1584,7 +1592,7 @@ export default function ActiveDispatchTerminal({
                     marginBottom: "0.5rem",
                   }}
                 >
-                  ðŸ“‚ MULTI-MODAL EVIDENCE LOCKER
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Å¡ MULTI-MODAL EVIDENCE LOCKER
                 </div>
 
                 {/* Voice Note Player */}
@@ -1605,7 +1613,7 @@ export default function ActiveDispatchTerminal({
                         marginBottom: "0.3rem",
                       }}
                     >
-                      ðŸŽ™ï¸ CITIZEN AUDIO VOICE MEMO
+                      ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â CITIZEN AUDIO VOICE MEMO
                     </div>
                     <audio
                       controls
@@ -1641,7 +1649,7 @@ export default function ActiveDispatchTerminal({
                               maxWidth: "200px",
                             }}
                           >
-                            ðŸ“Ž {file.name || `Evidence Attachment #${fIdx + 1}`}
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â½ {file.name || `Evidence Attachment #${fIdx + 1}`}
                           </span>
                           {file.url && (
                             <a
@@ -1653,7 +1661,7 @@ export default function ActiveDispatchTerminal({
                                 textDecoration: "none",
                               }}
                             >
-                              View / Download â†—
+                              View / Download ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€
                             </a>
                           )}
                         </div>

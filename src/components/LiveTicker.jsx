@@ -1,18 +1,18 @@
 /**
- * LiveTicker â€” horizontally scrolling ticker strip for alerts/news/updates.
+ * LiveTicker ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â horizontally scrolling ticker strip for alerts/news/updates.
  * Props:
- *   items   â€“ array of strings to display
- *   speed   â€“ scroll speed (default 35s for full loop)
- *   color   â€“ text color (default var(--gold))
- *   bg      â€“ background color
- *   label   â€“ prefix label e.g. "ðŸ”´ LIVE"
+ *   items   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ array of strings to display
+ *   speed   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ scroll speed (default 35s for full loop)
+ *   color   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ text color (default var(--gold))
+ *   bg      ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ background color
+ *   label   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ prefix label e.g. "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ LIVE"
  */
 export default function LiveTicker({
   items = [],
   speed = 35,
   color = 'var(--cream)',
   bg = 'rgba(122,46,14,0.85)',
-  label = 'ðŸ”´ LIVE',
+  label = 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´ LIVE',
 }) {
   if (!items.length) return null;
 
@@ -71,7 +71,7 @@ export default function LiveTicker({
               className="baskerville"
               style={{ fontSize: '0.78rem', color, flexShrink: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
             >
-              <span style={{ color: 'var(--gold)', opacity: 0.6 }}>â—†</span>
+              <span style={{ color: 'var(--gold)', opacity: 0.6 }}>ÃƒÂ¢Ã¢â‚¬â€Ã¢â‚¬Â </span>
               {item}
             </span>
           ))}

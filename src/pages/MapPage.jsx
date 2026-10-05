@@ -16,14 +16,14 @@ const KEY_PLACES = [
     id: 'hephzibah_hub',
     name: 'Hephzibah Edutech & Innovation Campus',
     cat: 'Education',
-    icon: 'ðŸš€',
+    icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â€šÂ¬',
     color: '#0891b2',
     address: 'Palace Way / Expressway Corridor, Ogere Remo',
     lat: 6.9378,
     lng: 3.6360,
     zoom: 17,
     note: 'Pioneering digital research, AI bootcamps, full-stack software development, and STEM empowerment for youth across Ogere Remo.',
-    hours: 'Monâ€“Sat: 8:00 AM â€“ 7:00 PM',
+    hours: 'MonÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Sat: 8:00 AM ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 7:00 PM',
     phone: '+234 803 892 0110',
     googleQuery: 'Ogere+Remo+Ogun+State',
     highlight: 'Tech & Digital Innovation Centre',
@@ -32,14 +32,14 @@ const KEY_PLACES = [
     id: 'palace',
     name: 'Aafin Ologere Palace & Royal Court',
     cat: 'Heritage',
-    icon: 'ðŸ‘‘',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
     color: '#C9963A',
     address: 'Palace Way, Oke-Ogere, Ogere Remo, Ogun State',
     lat: 6.9368,
     lng: 3.6330,
     zoom: 17,
     note: 'The historic seat of HRH Oba James Obafemi Saliu (Kankanbiina II), the Ologere of Ogere Remo. Houses the royal archives, ancestral shrines, and chieftaincy hall.',
-    hours: 'Palace Secretariat: Monâ€“Fri 9 AM â€“ 5 PM',
+    hours: 'Palace Secretariat: MonÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Fri 9 AM ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 5 PM',
     phone: '+234 803 451 2345',
     googleQuery: 'Ologere+Palace+Ogere+Remo+Ogun+State',
     highlight: 'Royal Seat & Palace Grounds',
@@ -48,16 +48,16 @@ const KEY_PLACES = [
     id: 'townhall',
     name: 'Ogere Town Hall & Civic Centre (OCDA HQ)',
     cat: 'Governance',
-    icon: 'ðŸ›ï¸',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â',
     color: '#2D4A22',
     address: 'WJPJ+GP4, Town Centre, Ogere Remo 121107',
     lat: 6.9363,
     lng: 3.6318,
     zoom: 17,
     note: 'Headquarters of the Ogere Community Development Association (OCDA). Community meetings, public hearings, and cultural events take place here.',
-    hours: 'Monâ€“Sat: 8 AM â€“ 6 PM',
+    hours: 'MonÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Sat: 8 AM ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 6 PM',
     phone: '+234 912 725 6487',
-    rating: '3.7â˜… (15 reviews)',
+    rating: '3.7ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (15 reviews)',
     googleQuery: 'Ogere+Town+Hall+Ogun+State',
     highlight: 'Community Parliament',
   },
@@ -65,16 +65,16 @@ const KEY_PLACES = [
     id: 'resort',
     name: 'Ogere Resort & International Convention Centre',
     cat: 'Hospitality',
-    icon: 'ðŸ¨',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¨',
     color: '#B5451B',
-    address: 'KM 67, Lagosâ€“Ibadan Expressway, Ogere 121107',
+    address: 'KM 67, LagosÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ibadan Expressway, Ogere 121107',
     lat: 6.9388,
     lng: 3.6437,
     zoom: 16,
     note: "West Africa's premier retreat and hospitality destination with over 140 luxury chalets, conference amphitheatres, swimming pools, and landscaped golf tracks.",
     hours: '24 Hours / Daily',
     phone: '+234 906 247 0474',
-    rating: '4.4â˜… (558 reviews)',
+    rating: '4.4ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (558 reviews)',
     website: 'https://ogereresort.com',
     googleQuery: 'Ogere+Resort+Lagos+Ibadan+Expressway',
     highlight: 'Premier Hospitality Destination',
@@ -83,16 +83,16 @@ const KEY_PLACES = [
     id: 'market',
     name: 'Ogere Central Market & Oja Ale',
     cat: 'Commerce',
-    icon: 'ðŸ›–',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ¢â‚¬â€œ',
     color: '#8B6914',
     address: 'Market Road, Ogere Remo 121107, Ogun State',
     lat: 6.9354,
     lng: 3.6338,
     zoom: 17,
     note: 'The 600-year-old commercial heart of Ogereland. Known for daily farm-fresh harvests (Ogere yams, palm oil, plantains) and traditional night trading.',
-    hours: 'Daily: 6:00 AM â€“ 10:00 PM',
+    hours: 'Daily: 6:00 AM ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 10:00 PM',
     phone: '+234 704 957 0510',
-    rating: '4.4â˜… (8 reviews)',
+    rating: '4.4ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (8 reviews)',
     googleQuery: 'Ogere+Central+Market+Ogun+State',
     highlight: 'Historic Trade Centre',
   },
@@ -100,7 +100,7 @@ const KEY_PLACES = [
     id: 'aladura',
     name: 'The Church of the Lord (Aladura) Worldwide HQ',
     cat: 'Heritage',
-    icon: 'â›ª',
+    icon: 'ÃƒÂ¢Ã¢â‚¬ÂºÃ‚Âª',
     color: '#1a2e5e',
     address: 'WJPR+9QQ, Lisa Quarter, Ogere Remo 121107',
     lat: 6.9360,
@@ -108,7 +108,7 @@ const KEY_PLACES = [
     zoom: 17,
     note: 'Global headquarters and birthplace of the indigenous Christian movement founded on July 27, 1930 by Prophet Josiah Olunowo Ositelu.',
     hours: 'Open for pilgrimage and worship',
-    rating: '4.1â˜… (32 reviews)',
+    rating: '4.1ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (32 reviews)',
     website: 'https://tclpfw.org',
     googleQuery: 'The+Church+of+the+Lord+Aladura+Ogere+Remo',
     highlight: 'Global Spiritual Heritage',
@@ -117,14 +117,14 @@ const KEY_PLACES = [
     id: 'college',
     name: 'Ositelu Memorial College (OMCOOSA)',
     cat: 'Education',
-    icon: 'ðŸ«',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â«',
     color: '#1a2e5e',
     address: 'Awomosu Agbato Drive, Ogere Remo 121107',
     lat: 6.9405,
     lng: 3.6397,
     zoom: 16,
     note: 'The premier secondary educational institution of Ogere Remo, producing generations of distinguished global alumni, scientists, and public leaders.',
-    hours: 'Monâ€“Fri: 8:00 AM â€“ 4:30 PM',
+    hours: 'MonÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Fri: 8:00 AM ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 4:30 PM',
     phone: '+234 806 215 8840',
     googleQuery: 'Ositelu+Memorial+College+Ogere',
     highlight: 'Educational Beacon',
@@ -133,7 +133,7 @@ const KEY_PLACES = [
     id: 'health',
     name: 'Ogere Primary Health Centre & Maternity',
     cat: 'Emergency',
-    icon: 'ðŸ¥',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¥',
     color: '#dc2626',
     address: 'Health Centre Road, Ogere Remo, Ogun State',
     lat: 6.9350,
@@ -149,7 +149,7 @@ const KEY_PLACES = [
     id: 'police',
     name: 'Ogere Police Divisional Headquarters',
     cat: 'Emergency',
-    icon: 'ðŸš”',
+    icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Â',
     color: '#dc2626',
     address: 'WJMP+W64, Station Road, Ogere Remo 121107',
     lat: 6.9348,
@@ -165,7 +165,7 @@ const KEY_PLACES = [
     id: 'hills',
     name: 'Agbele Heights & Ancient Defensive Hills',
     cat: 'Heritage',
-    icon: 'ðŸŒ¿',
+    icon: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¿',
     color: '#059669',
     address: 'Agbele Ridge, Ogere Remo North Axis',
     lat: 6.9440,
@@ -180,16 +180,16 @@ const KEY_PLACES = [
     id: 'trailer',
     name: 'Ogere Logistics & Interchange Corridor',
     cat: 'Transport',
-    icon: 'ðŸš›',
+    icon: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Âº',
     color: '#5C3317',
-    address: 'WJPM+JQP, Lagosâ€“Ibadan Expressway Axis, Ogere',
+    address: 'WJPM+JQP, LagosÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ibadan Expressway Axis, Ogere',
     lat: 6.9366,
     lng: 3.6344,
     zoom: 16,
     note: 'Key transport node connecting Ogun State, Lagos, and the Northern commerce corridors across Nigeria.',
     hours: '24 Hours',
     phone: '+234 912 413 0304',
-    rating: '3.7â˜… (106 reviews)',
+    rating: '3.7ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (106 reviews)',
     googleQuery: 'Ogere+Remo+Interchange+Ogun+State',
     highlight: 'Regional Commerce Hub',
   },
@@ -248,13 +248,13 @@ export default function MapPage() {
         id: 'user_exact_gps',
         name: 'My Exact GPS Location',
         cat: 'Emergency',
-        icon: 'ðŸŽ¯',
+        icon: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯',
         color: '#ef4444',
         address: rev.fullAddress,
         lat: fix.latitude,
         lng: fix.longitude,
         zoom: 18,
-        note: `Precision Satellite Lock (Â±${fix.accuracy ? Math.round(fix.accuracy) : '?'}m). Nearest Ogere landmark: ${rev.landmarkFormatted}.`,
+        note: `Precision Satellite Lock (Ãƒâ€šÃ‚Â±${fix.accuracy ? Math.round(fix.accuracy) : '?'}m). Nearest Ogere landmark: ${rev.landmarkFormatted}.`,
         googleQuery: `${fix.latitude},${fix.longitude}`,
         googleMapsUrl: fix.googleMapsUrl,
         directionsUrl: fix.directionsUrl,
@@ -268,8 +268,8 @@ export default function MapPage() {
         address: rev.fullAddress,
         isPrecise: fix.isGpsPrecise,
         message: fix.isGpsPrecise
-          ? `ðŸ›°ï¸ Exact GPS Locked: Â±${Math.round(fix.accuracy)}m accuracy`
-          : `ðŸ“¶ Position Acquired: Â±${Math.round(fix.accuracy || 100)}m (Refining...)`,
+          ? `ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Exact GPS Locked: Ãƒâ€šÃ‚Â±${Math.round(fix.accuracy)}m accuracy`
+          : `ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¶ Position Acquired: Ãƒâ€šÃ‚Â±${Math.round(fix.accuracy || 100)}m (Refining...)`,
       });
     } catch (err) {
       setGpsStatus({
@@ -320,7 +320,7 @@ export default function MapPage() {
     <div>
       <SEO
         title="Interactive Google Map & Landmarks"
-        description="Explore Ogere Remo on Google Maps â€” find Aafin Ologere Palace, Ogere Resort, Central Market, schools, health facilities, and historic landmarks."
+        description="Explore Ogere Remo on Google Maps ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â find Aafin Ologere Palace, Ogere Resort, Central Market, schools, health facilities, and historic landmarks."
       />
       <Hero
         ey="Geography & Landmarks"
@@ -331,7 +331,7 @@ export default function MapPage() {
 
       <div style={{ background: 'linear-gradient(90deg, #1a0d06, #2c1500, #1a0d06)', padding: '0.65rem 2rem', textAlign: 'center', borderBottom: '1px solid rgba(201,150,58,0.2)' }}>
         <span className="cinzel" style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'rgba(245,237,216,0.8)', textTransform: 'uppercase' }}>
-          ðŸ“ OGERE REMO Â· IKENNE LOCAL GOVERNMENT AREA Â· 6Â°47â€²N, 3Â°34â€²E Â· ELEVATION 94M
+          ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â OGERE REMO Ãƒâ€šÃ‚Â· IKENNE LOCAL GOVERNMENT AREA Ãƒâ€šÃ‚Â· 6Ãƒâ€šÃ‚Â°47ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â²N, 3Ãƒâ€šÃ‚Â°34ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â²E Ãƒâ€šÃ‚Â· ELEVATION 94M
         </span>
       </div>
 
@@ -354,7 +354,7 @@ export default function MapPage() {
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
               {/* Search bar with Real-Time Address Lookup */}
               <div style={{ flex: 1, minWidth: 'min(280px, 100%)', position: 'relative' }}>
-                <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', opacity: 0.5 }}>ðŸ”</span>
+                <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', opacity: 0.5 }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â</span>
                 <input
                   className="inp"
                   style={{ paddingLeft: '2.5rem', borderRadius: '30px' }}
@@ -379,7 +379,7 @@ export default function MapPage() {
                     overflowY: 'auto',
                   }}>
                     <div style={{ padding: '0.4rem 0.8rem', background: 'rgba(201,150,58,0.15)', fontSize: '0.62rem', fontWeight: 800, color: 'var(--gold)' }}>
-                      ðŸ“ REAL-TIME ADDRESS MATCHES (CLICK TO DROP PIN):
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â REAL-TIME ADDRESS MATCHES (CLICK TO DROP PIN):
                     </div>
                     {addressSuggestions.map(item => (
                       <div
@@ -397,9 +397,9 @@ export default function MapPage() {
                             googleMapsUrl: item.googleMapsUrl,
                             satelliteMapsUrl: item.satelliteMapsUrl,
                             color: '#38bdf8',
-                            icon: 'ðŸ“',
+                            icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â',
                             highlight: item.isLocal ? 'Ogere Remo Landmark' : 'Live Geocoded Address',
-                            note: `Address: ${item.address}. Coordinates: ${item.latitude.toFixed(6)}Â°N, ${item.longitude.toFixed(6)}Â°E.`,
+                            note: `Address: ${item.address}. Coordinates: ${item.latitude.toFixed(6)}Ãƒâ€šÃ‚Â°N, ${item.longitude.toFixed(6)}Ãƒâ€šÃ‚Â°E.`,
                           });
                           setAddressSuggestions([]);
                         }}
@@ -413,7 +413,7 @@ export default function MapPage() {
                         onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                       >
                         <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#f8fafc' }}>
-                          {item.isLocal ? 'ðŸ‘‘ ' : 'ðŸ“ '} {item.name}
+                          {item.isLocal ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ ' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â '} {item.name}
                         </div>
                         <div style={{ fontSize: '0.65rem', color: 'rgba(245,237,216,0.6)', marginTop: '2px' }}>
                           {item.address}
@@ -440,7 +440,7 @@ export default function MapPage() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                <span>{isLocatingGps ? 'ðŸ›°ï¸' : 'ðŸŽ¯'}</span>
+                <span>{isLocatingGps ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â' : 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯'}</span>
                 <span>{isLocatingGps ? 'Locking Satellites...' : 'Get My Exact Location'}</span>
               </button>
 
@@ -452,14 +452,14 @@ export default function MapPage() {
                   className={`abtn ${mapType === 'm' ? 'abtn-p' : 'abtn-o'}`}
                   style={{ fontSize: '0.55rem', padding: '0.4rem 0.8rem', borderRadius: '20px' }}
                 >
-                  ðŸ—ºï¸ Standard Map
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Standard Map
                 </button>
                 <button
                   onClick={() => setMapType('k')}
                   className={`abtn ${mapType === 'k' ? 'abtn-p' : 'abtn-o'}`}
                   style={{ fontSize: '0.55rem', padding: '0.4rem 0.8rem', borderRadius: '20px' }}
                 >
-                  ðŸ›°ï¸ Satellite / Terrain
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Satellite / Terrain
                 </button>
               </div>
             </div>
@@ -479,7 +479,7 @@ export default function MapPage() {
                 fontSize: '0.72rem',
               }}>
                 <div style={{ color: gpsStatus.error ? '#fca5a5' : '#86efac', fontWeight: 700 }}>
-                  {gpsStatus.message} {gpsStatus.address ? `Â· ${gpsStatus.address}` : ''}
+                  {gpsStatus.message} {gpsStatus.address ? `Ãƒâ€šÃ‚Â· ${gpsStatus.address}` : ''}
                 </div>
                 {selectedPlace?.lat && (
                   <button
@@ -499,7 +499,7 @@ export default function MapPage() {
                       cursor: 'pointer',
                     }}
                   >
-                    ðŸŽ¯ Centered on Exact GPS Pin
+                    ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Centered on Exact GPS Pin
                   </button>
                 )}
               </div>
@@ -562,7 +562,7 @@ export default function MapPage() {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ fontSize: '1.2rem' }}>{selectedPlace ? selectedPlace.icon : 'ðŸ“'}</span>
+                    <span style={{ fontSize: '1.2rem' }}>{selectedPlace ? selectedPlace.icon : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â'}</span>
                     <span className="cinzel" style={{ fontSize: '0.7rem', color: 'var(--cream)', fontWeight: 'bold' }}>
                       {selectedPlace ? selectedPlace.name : 'Ogere Remo Overview'}
                     </span>
@@ -578,7 +578,7 @@ export default function MapPage() {
                       fontFamily: "'Cinzel', serif",
                     }}
                   >
-                    â— Google Maps Live
+                    ÃƒÂ¢Ã¢â‚¬â€Ã‚Â Google Maps Live
                   </span>
                 </div>
 
@@ -607,7 +607,7 @@ export default function MapPage() {
                   }}
                 >
                   <div style={{ fontSize: '0.72rem', color: 'rgba(245,237,216,0.6)' }}>
-                    ðŸ“ Coordinates: <strong>{selectedPlace ? `${selectedPlace.lat}Â° N, ${selectedPlace.lng}Â° E` : '6.9371Â° N, 3.6335Â° E'}</strong>
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Coordinates: <strong>{selectedPlace ? `${selectedPlace.lat}Ãƒâ€šÃ‚Â° N, ${selectedPlace.lng}Ãƒâ€šÃ‚Â° E` : '6.9371Ãƒâ€šÃ‚Â° N, 3.6335Ãƒâ€šÃ‚Â° E'}</strong>
                   </div>
 
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -626,7 +626,7 @@ export default function MapPage() {
                         borderRadius: '20px',
                       }}
                     >
-                      <span>ðŸŽ¯</span>
+                      <span>ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯</span>
                       <span>{isLocatingGps ? 'Acquiring GPS...' : 'Locate My Current GPS'}</span>
                     </button>
                     <button
@@ -640,7 +640,7 @@ export default function MapPage() {
                         borderRadius: '20px',
                       }}
                     >
-                      {mapType === 'm' ? 'ðŸ›°ï¸ Switch to Satellite' : 'ðŸ—ºï¸ Switch to Standard'}
+                      {mapType === 'm' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Switch to Satellite' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Switch to Standard'}
                     </button>
                   </div>
                 </div>
@@ -671,7 +671,7 @@ export default function MapPage() {
                         fontWeight: 'bold',
                       }}
                     >
-                      {selectedPlace.cat} Â· {selectedPlace.highlight}
+                      {selectedPlace.cat} Ãƒâ€šÃ‚Â· {selectedPlace.highlight}
                     </span>
                     {selectedPlace.rating && (
                       <span style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>{selectedPlace.rating}</span>
@@ -682,7 +682,7 @@ export default function MapPage() {
                     {selectedPlace.name}
                   </h3>
                   <div style={{ fontSize: '0.78rem', color: 'rgba(245,237,216,0.55)', marginBottom: '0.8rem' }}>
-                    ðŸ“ {selectedPlace.address}
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {selectedPlace.address}
                   </div>
                   <p style={{ fontSize: '0.85rem', color: 'rgba(245,237,216,0.8)', lineHeight: 1.7, marginBottom: '1rem' }}>
                     {selectedPlace.note}
@@ -690,19 +690,19 @@ export default function MapPage() {
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.6rem', borderTop: '1px solid rgba(201,150,58,0.15)', paddingTop: '0.8rem', fontSize: '0.75rem' }}>
                     {selectedPlace.hours && (
-                      <div style={{ color: 'rgba(245,237,216,0.65)' }}>ðŸ• {selectedPlace.hours}</div>
+                      <div style={{ color: 'rgba(245,237,216,0.65)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã‚Â {selectedPlace.hours}</div>
                     )}
                     {selectedPlace.phone && (
                       <div style={{ color: 'var(--gold)' }}>
                         <a href={`tel:${selectedPlace.phone.split('/')[0].trim()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                          ðŸ“ž {selectedPlace.phone}
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ {selectedPlace.phone}
                         </a>
                       </div>
                     )}
                     {selectedPlace.website && (
                       <div>
                         <a href={selectedPlace.website} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold-light)' }}>
-                          ðŸŒ Official Website â†—
+                          ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â Official Website ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€
                         </a>
                       </div>
                     )}
@@ -715,7 +715,7 @@ export default function MapPage() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <h3 className="cinzel" style={{ fontSize: '0.75rem', color: 'var(--gold)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                  â­ Featured Key Places ({filteredPlaces.length})
+                  ÃƒÂ¢Ã‚Â­Ã‚Â Featured Key Places ({filteredPlaces.length})
                 </h3>
                 <span style={{ fontSize: '0.68rem', color: 'rgba(245,237,216,0.45)' }}>Click to view on map</span>
               </div>
@@ -745,10 +745,10 @@ export default function MapPage() {
                             <h4 className="playfair" style={{ fontSize: '1rem', color: isSelected ? 'var(--gold)' : 'var(--cream)', margin: 0 }}>
                               {place.name}
                             </h4>
-                            {isSelected && <span style={{ fontSize: '0.65rem', color: 'var(--gold)' }}>ðŸ“ Active</span>}
+                            {isSelected && <span style={{ fontSize: '0.65rem', color: 'var(--gold)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Active</span>}
                           </div>
                           <div className="cinzel" style={{ fontSize: '0.52rem', color: place.color, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-                            {place.cat} Â· {place.highlight}
+                            {place.cat} Ãƒâ€šÃ‚Â· {place.highlight}
                           </div>
                           <p style={{ fontSize: '0.75rem', color: 'rgba(245,237,216,0.6)', lineHeight: 1.5, margin: 0 }}>
                             {place.address}

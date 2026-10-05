@@ -16,12 +16,12 @@ const STATIC = [
     id: 'biz_hephzibah',
     name: 'Hephzibah Edutech & Innovation Hub',
     cat: 'Technology',
-    ic: 'ðŸš€',
+    ic: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â€šÂ¬',
     desc: 'Premier digital innovation and education hub empowering Ogere Remo youth and diaspora with cutting-edge software engineering bootcamps, AI research, cloud architecture, and STEM certification.',
     phone: '+234 803 892 0110',
     website: 'https://hephzibahedutech.com',
     address: 'Innovation Campus, Palace Way / Expressway Axis, Ogere Remo',
-    rating: '5.0â˜… (Featured)',
+    rating: '5.0ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (Featured)',
     tier: 'Premium',
     image: '/images/Ogere%20Resort.png',
   },
@@ -29,12 +29,12 @@ const STATIC = [
     id: 'biz1',
     name: 'Ogere Resort & International Convention Centre',
     cat: 'Hospitality',
-    ic: 'ðŸ¨',
-    desc: 'Nigeriaâ€™s premier retreat destination with 140+ luxury chalets, swimming pools, tennis courts, and conference auditoriums.',
+    ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¨',
+    desc: 'NigeriaÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢s premier retreat destination with 140+ luxury chalets, swimming pools, tennis courts, and conference auditoriums.',
     phone: '+234 906 247 0474',
     website: 'https://ogereresort.com',
-    address: 'KM 67, Lagosâ€“Ibadan Expressway, Ogere 121107',
-    rating: '4.4â˜… (558 reviews)',
+    address: 'KM 67, LagosÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ibadan Expressway, Ogere 121107',
+    rating: '4.4ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (558 reviews)',
     tier: 'Premium',
     image: '/images/Ogere%20Resort.png',
   },
@@ -42,11 +42,11 @@ const STATIC = [
     id: 'biz2',
     name: 'Ositelu Memorial College (OMCOOSA)',
     cat: 'Education',
-    ic: 'ðŸ«',
+    ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â«',
     desc: 'The iconic secondary school of Ogere Remo, providing high academic standard and technical foundations since establishment.',
     phone: '+234 806 215 8840',
     address: 'Awomosu Agbato Drive, Ogere 121107',
-    rating: '4.8â˜…',
+    rating: '4.8ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Premium',
     image: '/images/Ositelu%20Memorial%20School%20Gate.jpg',
   },
@@ -54,11 +54,11 @@ const STATIC = [
     id: 'biz3',
     name: 'Ogere Central Market Merchants Association',
     cat: 'Trade',
-    ic: 'ðŸ›–',
+    ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ¢â‚¬â€œ',
     desc: 'Centuries-old commercial market hosting hundreds of commodity traders, yam farmers, fabric sellers, and daily evening trade.',
     phone: '+234 704 957 0510',
     address: 'Market Road / Oja Ale, Ogere 121107',
-    rating: '4.4â˜… (8 reviews)',
+    rating: '4.4ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (8 reviews)',
     tier: 'Standard',
     image: '/images/Ogere%20Central%20Market.webp',
   },
@@ -66,34 +66,34 @@ const STATIC = [
     id: 'biz4',
     name: 'Ogere Palm Oil & Agro-Allied Producers Cooperative',
     cat: 'Agriculture',
-    ic: 'ðŸŒ¾',
+    ic: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¾',
     desc: 'Producers of 100% pure cold-pressed unadulterated red palm oil, cassava flakes, and fresh farm yam tubers.',
     phone: '+234 803 451 9088',
     address: 'Agbele Ridge Plantation Corridor, Ogere Remo',
-    rating: '4.9â˜…',
+    rating: '4.9ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Premium',
   },
   {
     id: 'biz5',
     name: 'Ogere Specialist Medical & Maternity Centre',
     cat: 'Health',
-    ic: 'ðŸ¥',
+    ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¥',
     desc: 'Comprehensive community healthcare facility providing 24/7 maternity diagnostics, pediatric care, and surgical care.',
     phone: '+234 802 345 6789',
     address: 'Hospital Road, Oke-Ogere, Ogere Remo',
-    rating: '4.6â˜…',
+    rating: '4.6ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Premium',
   },
   {
     id: 'biz6',
     name: 'The Church of the Lord (Aladura) Worldwide HQ',
     cat: 'Faith',
-    ic: 'â›ª',
+    ic: 'ÃƒÂ¢Ã¢â‚¬ÂºÃ‚Âª',
     desc: 'Global spiritual headquarters and pilgrimage center founded in Ogere Remo on July 27, 1930 by Prophet Josiah Olunowo Ositelu.',
     phone: '+234 805 123 4567',
     address: 'Lisa Compound, Ogere Remo',
     website: 'https://tclpfw.org',
-    rating: '4.8â˜… (32 reviews)',
+    rating: '4.8ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (32 reviews)',
     tier: 'Premium',
     image: '/images/The%20Church%20Of%20The%20Lord%20Aladuara.jpg',
   },
@@ -101,88 +101,88 @@ const STATIC = [
     id: 'biz7',
     name: 'Ogere Transport Logistics & Haulage Terminal',
     cat: 'Transport',
-    ic: 'ðŸš›',
+    ic: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Âº',
     desc: 'Interstate logistics management, vehicle diagnostics, cold chain storage, and transport corridor services along Lagos-Ibadan axis.',
     phone: '+234 912 413 0304',
     address: 'WJPM+JQP, Expressway Interchange Corridor, Ogere',
-    rating: '4.2â˜…',
+    rating: '4.2ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Standard',
   },
   {
     id: 'biz8',
     name: 'Olipakala Adire & Heritage Textile Weavers',
     cat: 'Trade',
-    ic: 'ðŸª¡',
+    ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Â¡',
     desc: 'Authentic handmade indigo Adire Eleko, batik fabrics, and custom Yoruba traditional ceremonial attires for weddings and coronations.',
     phone: '+234 805 778 9911',
     address: '14 Isale-Ogere Road, Ogere Remo',
-    rating: '5.0â˜… (42 reviews)',
+    rating: '5.0ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦ (42 reviews)',
     tier: 'Premium',
   },
   {
     id: 'biz9',
     name: 'Kankanbiina Solar & Electrical Engineering',
     cat: 'Technology',
-    ic: 'âš¡',
+    ic: 'ÃƒÂ¢Ã…Â¡Ã‚Â¡',
     desc: 'Solar inverter installations, lithium battery setups, and commercial electrical wiring for homes and agricultural farms in Remo.',
     phone: '+234 803 998 7766',
     address: 'Palace Way, Oke-Ogere, Ogere Remo',
-    rating: '4.7â˜…',
+    rating: '4.7ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Standard',
   },
   {
     id: 'biz10',
     name: 'Remo-North Concrete & Civil Building Supplies',
     cat: 'Infrastructure',
-    ic: 'ðŸ—ï¸',
+    ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬â€ÃƒÂ¯Ã‚Â¸Ã‚Â',
     desc: 'Suppliers of certified 42.5R Dangote cement, sharp sand, machine-crushed gravel granite, and vibrated building blocks.',
     phone: '+234 802 887 6655',
     address: 'Plot 8 Idi-Iroko Sector, Ogere Remo',
-    rating: '4.5â˜…',
+    rating: '4.5ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Standard',
   },
   {
     id: 'biz11',
     name: 'Oluwaseun Royal Buka & Catering Services',
     cat: 'Food & Dining',
-    ic: 'ðŸ²',
+    ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â²',
     desc: 'Traditional Ogere pounded yam, fresh catfish pepper soup, bush meat, and outdoor event party catering across Ogun State.',
     phone: '+234 813 445 6677',
     address: 'Town Hall Commercial Arcade, Ogere Remo',
-    rating: '4.6â˜…',
+    rating: '4.6ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Standard',
   },
   {
     id: 'biz12',
     name: 'Ogere Heritage Cyber Hub & Tech Training Centre',
     cat: 'Technology',
-    ic: 'ðŸ’»',
+    ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â»',
     desc: 'High-speed internet workstations, computer repairs, graphic design, NIN/BVN services, and student programming bootcamps.',
     phone: '+234 809 112 3344',
     address: 'Express Bypass Junction, Ogere Remo',
-    rating: '4.9â˜…',
+    rating: '4.9ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Standard',
   },
   {
     id: 'biz13',
     name: 'Idera Oluwa Community Pharmacy & Stores',
     cat: 'Health',
-    ic: 'ðŸ’Š',
+    ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã…Â ',
     desc: 'Prescription dispensing, free blood pressure checks, diabetes screening, and authentic medical supplies for family health.',
     phone: '+234 803 223 4455',
     address: 'Station Road, Ogere Remo',
-    rating: '4.7â˜…',
+    rating: '4.7ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Standard',
   },
   {
     id: 'biz14',
     name: 'Ogere Royal Stool Woodworks & Cabinetry',
     cat: 'Services',
-    ic: 'ðŸªš',
+    ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ…Â¡',
     desc: 'Master woodcarvers producing handcrafted mahogany dining sets, royal traditional palace thrones, and durable roof trusses.',
     phone: '+234 807 665 4433',
     address: 'Idi-Iroko Workshop Strip, Ogere Remo',
-    rating: '4.8â˜…',
+    rating: '4.8ÃƒÂ¢Ã‹Å“Ã¢â‚¬Â¦',
     tier: 'Standard',
   },
 ];
@@ -213,7 +213,7 @@ export default function BusinessPage() {
           email: f.email || 'business@ogereremo.ng',
           amount: 15000,
           title: `Premium Listing: ${f.name}`,
-          purpose: 'Ogere Remo Business Directory â€” Pro Plan Listing',
+          purpose: 'Ogere Remo Business Directory ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Pro Plan Listing',
           metadata: { businessName: f.name, category: f.category },
         });
       } catch (paymentErr) {
@@ -228,9 +228,9 @@ export default function BusinessPage() {
       'You are the Ogere Remo business directory assistant. A business just registered. Write a warm 3-sentence welcome. End with a Yoruba phrase.',
       `Business: ${f.name}, Category: ${f.category}, Tier: ${f.tier}`
     );
-    setAiMsg(msg || 'Welcome to the Ogere Remo Business Directory! áº¸ á¹£Ã©un!');
+    setAiMsg(msg || 'Welcome to the Ogere Remo Business Directory! ÃƒÂ¡Ã‚ÂºÃ‚Â¸ ÃƒÂ¡Ã‚Â¹Ã‚Â£ÃƒÆ’Ã‚Â©un!');
     const session = await getSession();
-    const entry = { ...f, id: Date.now(), status: 'pending', submitted: new Date().toLocaleDateString('en-NG'), ic: 'ðŸª', userId: session?.id || '' };
+    const entry = { ...f, id: Date.now(), status: 'pending', submitted: new Date().toLocaleDateString('en-NG'), ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª', userId: session?.id || '' };
     const updated = [...stored, entry];
     setStored(updated);
     await dbSet('biz', updated);
@@ -248,13 +248,13 @@ export default function BusinessPage() {
 
   return (
     <div style={{ background: 'var(--darker)' }}>
-      <SEO title="Business Directory" description="Business directory for Ogere Remo â€” find local businesses, services, and enterprises in the community." />
-      <Hero ey="Commerce & Enterprise" ti="Ogere Business Directory" sub="Find businesses in Ogere Remo â€” or register yours to reach the global diaspora." />
+      <SEO title="Business Directory" description="Business directory for Ogere Remo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â find local businesses, services, and enterprises in the community." />
+      <Hero ey="Commerce & Enterprise" ti="Ogere Business Directory" sub="Find businesses in Ogere Remo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â or register yours to reach the global diaspora." />
       <AdireDivider />
       
       <Section py="2rem">
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {[['directory', 'ðŸª Browse Directory'], ['register', '+ Register Business']].map(([id, l]) => (
+          {[['directory', 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª Browse Directory'], ['register', '+ Register Business']].map(([id, l]) => (
             <button key={id} className={tab === id ? 'btn-p' : 'btn-o'} onClick={() => setTab(id)}>{l}</button>
           ))}
         </div>
@@ -314,18 +314,18 @@ export default function BusinessPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))', gap: '1rem' }}>
                       {b.phone && (
                         <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                          <span style={{ fontSize: '0.8rem', color: 'rgba(245, 237, 216, 0.5)' }}>ðŸ“ž {b.phone}</span>
+                          <span style={{ fontSize: '0.8rem', color: 'rgba(245, 237, 216, 0.5)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ {b.phone}</span>
                           <a
                             href={`https://wa.me/${b.phone.replace(/\D/g, '')}?text=Hello%20${encodeURIComponent(b.name)},%20I%20found%20your%20business%20on%20the%20Ogere%20Remo%20Directory.`}
                             target="_blank" rel="noopener noreferrer"
                             style={{ fontSize: '0.72rem', color: '#25D366', textDecoration: 'none', fontWeight: 'bold' }}
                           >
-                            ðŸ’¬ WhatsApp
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ WhatsApp
                           </a>
                         </div>
                       )}
-                      {b.address && <div style={{ fontSize: '0.8rem', color: 'rgba(245, 237, 216, 0.5)' }}>ðŸ“ {b.address}</div>}
-                      {b.website && <div style={{ fontSize: '0.8rem', color: 'rgba(245, 237, 216, 0.5)' }}>ðŸŒ <a href={b.website.startsWith('http') ? b.website : `https://${b.website}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)' }}>{b.website}</a></div>}
+                      {b.address && <div style={{ fontSize: '0.8rem', color: 'rgba(245, 237, 216, 0.5)' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {b.address}</div>}
+                      {b.website && <div style={{ fontSize: '0.8rem', color: 'rgba(245, 237, 216, 0.5)' }}>ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â <a href={b.website.startsWith('http') ? b.website : `https://${b.website}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)' }}>{b.website}</a></div>}
                     </div>
                   </div>
                 </div>
@@ -345,10 +345,10 @@ export default function BusinessPage() {
 
           {done ? (
             <div className="glass" style={{ padding: 'clamp(1.5rem, 4vw, 4rem)', textAlign: 'center', borderRadius: '12px' }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>âœ¨</div>
+              <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>ÃƒÂ¢Ã…â€œÃ‚Â¨</div>
               <h3 className="playfair" style={{ fontSize: '2rem', color: 'var(--gold)', marginBottom: '1rem' }}>Application Submitted</h3>
               <p className="baskerville" style={{ color: 'var(--cream)', fontStyle: 'italic', marginBottom: '2.5rem' }}>"{aiMsg}"</p>
-              <button className="btn-p" onClick={() => { setDone(false); setTab('directory'); }}>Back to Directory â†’</button>
+              <button className="btn-p" onClick={() => { setDone(false); setTab('directory'); }}>Back to Directory ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢</button>
             </div>
           ) : (
             <div className="glass" style={{ padding: 'clamp(1.2rem, 4vw, 3rem)', borderRadius: '12px' }}>
@@ -425,7 +425,7 @@ export default function BusinessPage() {
               </div>
 
               <button className="btn-p" onClick={register} disabled={busy} style={{ width: '100%', marginTop: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem' }}>
-                {busy ? <><Spinner /> Registering...</> : 'Complete Registration â†’'}
+                {busy ? <><Spinner /> Registering...</> : 'Complete Registration ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢'}
               </button>
             </div>
           )}

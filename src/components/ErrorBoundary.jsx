@@ -47,7 +47,7 @@ export default class ErrorBoundary extends Component {
               boxShadow: '0 20px 60px rgba(0,0,0,0.8)',
             }}
           >
-            <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>ðŸ›ï¸</div>
+            <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â</div>
             <h1
               style={{
                 fontSize: '1.8rem',
@@ -56,7 +56,7 @@ export default class ErrorBoundary extends Component {
                 marginBottom: '0.8rem',
               }}
             >
-              Ã€bÃ¹kÃ¹ KÃ² SÃ­ (No Disgrace Found)
+              ÃƒÆ’Ã¢â€šÂ¬bÃƒÆ’Ã‚Â¹kÃƒÆ’Ã‚Â¹ KÃƒÆ’Ã‚Â² SÃƒÆ’Ã‚Â­ (No Disgrace Found)
             </h1>
             <p
               style={{
@@ -76,14 +76,14 @@ export default class ErrorBoundary extends Component {
                 className="btn-p"
                 style={{ fontSize: '0.75rem', padding: '0.8rem 1.8rem' }}
               >
-                ðŸ”„ Try Refreshing View
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Å¾ Try Refreshing View
               </button>
               <button
                 onClick={this.handleReset}
                 className="btn-o"
                 style={{ fontSize: '0.75rem', padding: '0.8rem 1.8rem' }}
               >
-                ðŸ  Return to Town Square (Home)
+                ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â  Return to Town Square (Home)
               </button>
             </div>
 

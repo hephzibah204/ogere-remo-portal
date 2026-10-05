@@ -28,9 +28,16 @@ class SyncManager {
   private listeners: Set<SyncListener> = new Set();
 
   constructor() {
-    // Listen for network connectivity changes â€” wrapped in try/catch
+    // Listen for network connectivity changes — wrapped in try/catch
     // because the native NetInfo module may not be ready on first launch
     try {
+      NetInfo.fetch()
+        .then((state: NetInfoState) => {
+          this.isOnline = Boolean(state.isConnected && state.isInternetReachable !== false);
+          this.notify();
+        })
+        .catch(() => {});
+
       NetInfo.addEventListener((state: NetInfoState) => {
         try {
           const online = Boolean(state.isConnected && state.isInternetReachable !== false);

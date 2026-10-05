@@ -19,13 +19,13 @@ const SEED_OFFICERS = [
     role: 'security_officer',
     name: 'Insp. Babatunde Alabi',
     badge: 'NPF-8842',
-    agency: 'Nigeria Police Force â€” Ogere Divisional HQ',
+    agency: 'Nigeria Police Force ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Ogere Divisional HQ',
     email: 'police@ogereremo.org',
     passkey: 'OGERE-SEC-2026',
     title: 'Tactical Security & Rapid Intercept',
     themeColor: '#ef4444',
     badgeColor: '#dc2626',
-    icon: 'ðŸ›¡ï¸',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â',
   },
   {
     role: 'palace_protocol',
@@ -37,7 +37,7 @@ const SEED_OFFICERS = [
     title: 'Palace Protocol & Royal Audience Secretariat',
     themeColor: '#C9963A',
     badgeColor: '#d97706',
-    icon: 'ðŸ‘‘',
+    icon: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
   },
   {
     role: 'ocda_admin',
@@ -49,7 +49,7 @@ const SEED_OFFICERS = [
     title: 'OCDA Civic Central Command & ID Certification',
     themeColor: '#10b981',
     badgeColor: '#059669',
-    icon: 'ðŸ›ï¸',
+    icon: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â',
   },
 ];
 
@@ -64,12 +64,12 @@ const OGERE_CCTV_CAMERAS = [
   {
     id: 'CAM-01',
     name: 'Ogere Tollgate North ANPR (Lagos-Ibadan Exp.)',
-    sector: 'Sector 1 â€” Highway Corridor',
+    sector: 'Sector 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Highway Corridor',
     location: 'KM 66.8 Lagos-Ibadan Expressway Intercept',
     latitude: 6.9388,
     longitude: 3.6437,
     agency: 'FRSC Expressway Command',
-    resolution: '4K UHD Â· 60 FPS',
+    resolution: '4K UHD Ãƒâ€šÃ‚Â· 60 FPS',
     status: 'LIVE_HD',
     anpr: true,
     thumbnail: 'https://images.unsplash.com/photo-1545459720-aac8509eb02c?w=600&auto=format&fit=crop&q=60',
@@ -77,13 +77,13 @@ const OGERE_CCTV_CAMERAS = [
   },
   {
     id: 'CAM-02',
-    name: 'Aafin Ologere Palace Square (PTZ 360Â° Dome)',
-    sector: 'Sector 2 â€” Central Heritage Core',
+    name: 'Aafin Ologere Palace Square (PTZ 360Ãƒâ€šÃ‚Â° Dome)',
+    sector: 'Sector 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Central Heritage Core',
     location: 'Palace Way / Oba Council Chamber',
     latitude: 6.9372,
     longitude: 3.6335,
     agency: 'Palace Royal Guard / Vigilante',
-    resolution: '1080p Â· 30 FPS',
+    resolution: '1080p Ãƒâ€šÃ‚Â· 30 FPS',
     status: 'LIVE_HD',
     anpr: false,
     thumbnail: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=600&auto=format&fit=crop&q=60',
@@ -92,12 +92,12 @@ const OGERE_CCTV_CAMERAS = [
   {
     id: 'CAM-03',
     name: 'Ogere Trailer Park Weighbridge & Haulage Hub',
-    sector: 'Sector 1 â€” Highway Corridor',
+    sector: 'Sector 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Highway Corridor',
     location: 'Trailer Park Bypass South Gate',
     latitude: 6.9366,
     longitude: 3.6344,
     agency: 'So-Safe Corps / Fire Precaution',
-    resolution: '1080p Â· 30 FPS',
+    resolution: '1080p Ãƒâ€šÃ‚Â· 30 FPS',
     status: 'MOTION_DETECTED',
     anpr: true,
     thumbnail: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&auto=format&fit=crop&q=60',
@@ -106,12 +106,12 @@ const OGERE_CCTV_CAMERAS = [
   {
     id: 'CAM-04',
     name: 'Oja Ogere Central Market & Commercial Ring',
-    sector: 'Sector 2 â€” Central Heritage Core',
+    sector: 'Sector 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Central Heritage Core',
     location: 'Market Road / Civic Center',
     latitude: 6.9354,
     longitude: 3.6338,
     agency: 'Joint Vigilante Command',
-    resolution: '1080p Â· 30 FPS',
+    resolution: '1080p Ãƒâ€šÃ‚Â· 30 FPS',
     status: 'LIVE_HD',
     anpr: false,
     thumbnail: 'https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?w=600&auto=format&fit=crop&q=60',
@@ -120,12 +120,12 @@ const OGERE_CCTV_CAMERAS = [
   {
     id: 'CAM-05',
     name: 'Isale-Ogere Hospital Junction & Emergency Axis',
-    sector: 'Sector 4 â€” Medical & Social',
+    sector: 'Sector 4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Medical & Social',
     location: 'Isale-Ogere Hospital Road',
     latitude: 6.9325,
     longitude: 3.6310,
     agency: 'Civil Defence (NSCDC)',
-    resolution: '1080p Â· 30 FPS',
+    resolution: '1080p Ãƒâ€šÃ‚Â· 30 FPS',
     status: 'LIVE_HD',
     anpr: false,
     thumbnail: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&auto=format&fit=crop&q=60',
@@ -134,12 +134,12 @@ const OGERE_CCTV_CAMERAS = [
   {
     id: 'CAM-06',
     name: 'Ositelu Memorial / Awomosu Academic Axis',
-    sector: 'Sector 5 â€” Academic Belt',
+    sector: 'Sector 5 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Academic Belt',
     location: 'Awomosu Agbato Drive',
     latitude: 6.9405,
     longitude: 3.6397,
     agency: 'Community Watch',
-    resolution: '1080p Â· 30 FPS',
+    resolution: '1080p Ãƒâ€šÃ‚Â· 30 FPS',
     status: 'LIVE_HD',
     anpr: false,
     thumbnail: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&auto=format&fit=crop&q=60',
@@ -148,12 +148,12 @@ const OGERE_CCTV_CAMERAS = [
   {
     id: 'CAM-07',
     name: 'Saapade Junction / Remo North Axis Gateway',
-    sector: 'Sector 7 â€” Northern Gateway',
+    sector: 'Sector 7 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Northern Gateway',
     location: 'Ibadan-Remo Arterial Junction',
     latitude: 6.9550,
     longitude: 3.6480,
     agency: 'Joint Border Command',
-    resolution: '4K UHD Â· 60 FPS',
+    resolution: '4K UHD Ãƒâ€šÃ‚Â· 60 FPS',
     status: 'LIVE_HD',
     anpr: true,
     thumbnail: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=60',
@@ -267,7 +267,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
   const [incidents, setIncidents] = useState([
     {
       id: 'INC-2026-001',
-      category: 'ðŸš¨ Armed Robbery / Banditry',
+      category: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Armed Robbery / Banditry',
       description: 'Suspicious armed suspects sighted along KM 67 boundary.',
       location: 'KM 67 Tollgate Expressway, Ogere',
       latitude: 6.9388,
@@ -277,7 +277,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
       device_model: 'Samsung Galaxy A54',
       device_os: 'Android 14',
       battery_level: 68,
-      network_type: '4G Â· MTN',
+      network_type: '4G Ãƒâ€šÃ‚Â· MTN',
       is_live_tracking: true,
       severity: 'Critical',
       threat_level: 'CODE_RED',
@@ -433,7 +433,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         const newInc = {
           id: sosItem.id || `INC-${Date.now().toString().slice(-4)}`,
           threat_level: 'CODE_RED',
-          category: sosItem.category || 'ðŸš¨ SOS Emergency Panic',
+          category: sosItem.category || 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ SOS Emergency Panic',
           location: sosItem.location || 'Ogere Remo Corridor',
           latitude: sosItem.latitude || 6.9388,
           longitude: sosItem.longitude || 3.6437,
@@ -744,7 +744,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         <span>09:41</span>
         <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
           <span>5G</span>
-          <span>ðŸ›¡ï¸</span>
+          <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
           <span>100%</span>
         </div>
       </div>
@@ -765,7 +765,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1.05rem' }}>ðŸš¨</span>
+            <span style={{ fontSize: '1.05rem' }}>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨</span>
             <div>
               <div style={{ fontSize: '0.72rem', fontWeight: 900, letterSpacing: '0.04em' }}>
                 CODE RED SIREN ACTIVE!
@@ -790,7 +790,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               boxShadow: '0 2px 5px rgba(0,0,0,0.3)',
             }}
           >
-            ðŸ”‡ Silence
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¡ Silence
           </button>
         </div>
       ) : (
@@ -807,7 +807,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#fca5a5' }}>
-            <span>ðŸ”Š</span>
+            <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ…Â </span>
             <span style={{ fontWeight: 800 }}>SECURITY SIREN ARMED</span>
           </div>
           <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
@@ -826,7 +826,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 cursor: 'pointer',
               }}
             >
-              â–¶ Test Siren
+              ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¶ Test Siren
             </button>
             <button
               type="button"
@@ -841,7 +841,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 cursor: 'pointer',
               }}
             >
-              {isSirenMuted ? 'ðŸ”• Muted' : 'ðŸ”” Mute'}
+              {isSirenMuted ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¢ Muted' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â Mute'}
             </button>
           </div>
         </div>
@@ -859,13 +859,13 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '1.2rem' }}>{currentRole === 'security_officer' ? (getOfficerById(activeOfficerId)?.avatar || 'ðŸ‘®â€â™‚ï¸') : currentOfficer.icon}</span>
+          <span style={{ fontSize: '1.2rem' }}>{currentRole === 'security_officer' ? (getOfficerById(activeOfficerId)?.avatar || 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â®ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€žÂ¢Ã¢â‚¬Å¡ÃƒÂ¯Ã‚Â¸Ã‚Â') : currentOfficer.icon}</span>
           <div>
             <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#F5EDD8' }}>
               {currentRole === 'security_officer' ? getOfficerById(activeOfficerId)?.name : currentOfficer.name}
             </div>
             <div style={{ fontSize: '0.62rem', color: currentOfficer.themeColor, fontWeight: 700 }}>
-              {currentRole === 'security_officer' ? `${getOfficerById(activeOfficerId)?.badge} Â· ${getOfficerById(activeOfficerId)?.callsign}` : `${currentOfficer.badge} Â· ${currentRole === 'palace_protocol' ? 'Palace Protocol' : 'OCDA Admin'}`}
+              {currentRole === 'security_officer' ? `${getOfficerById(activeOfficerId)?.badge} Ãƒâ€šÃ‚Â· ${getOfficerById(activeOfficerId)?.callsign}` : `${currentOfficer.badge} Ãƒâ€šÃ‚Â· ${currentRole === 'palace_protocol' ? 'Palace Protocol' : 'OCDA Admin'}`}
             </div>
           </div>
         </div>
@@ -908,9 +908,9 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               cursor: 'pointer',
             }}
           >
-            <option value="security_officer">ðŸ›¡ï¸ Police</option>
-            <option value="palace_protocol">ðŸ‘‘ Protocol</option>
-            <option value="ocda_admin">ðŸ›ï¸ OCDA</option>
+            <option value="security_officer">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Police</option>
+            <option value="palace_protocol">ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Protocol</option>
+            <option value="ocda_admin">ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â OCDA</option>
           </select>
         </div>
       </div>
@@ -945,10 +945,10 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                     onClick={() => setSelectedIncident(null)}
                     style={{ background: '#334155', color: '#fff', border: 'none', padding: '4px 8px', borderRadius: '4px', fontSize: '0.65rem', fontWeight: 800, cursor: 'pointer' }}
                   >
-                    â† Back to Feed
+                    ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back to Feed
                   </button>
                   <span style={{ fontSize: '0.62rem', background: '#dc2626', color: '#fff', padding: '2px 6px', borderRadius: '3px', fontWeight: 900 }}>
-                    ðŸš¨ CODE RED INTERCEPT
+                    ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ CODE RED INTERCEPT
                   </span>
                 </div>
 
@@ -966,19 +966,19 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       {/* Hyper-Local Ogere Landmark Badge */}
                       <div style={{ background: 'linear-gradient(90deg, #1e293b, #0f172a)', border: '1px solid #38bdf8', padding: '6px 8px', borderRadius: '6px', fontSize: '0.62rem' }}>
                         <div style={{ color: '#38bdf8', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <span>ðŸ“ OGERE REMO PINPOINT:</span>
+                          <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â OGERE REMO PINPOINT:</span>
                           <span style={{ color: '#f8fafc' }}>{ogereLoc.formattedText}</span>
                         </div>
                         <div style={{ color: '#94a3b8', fontSize: '0.55rem', marginTop: '2px', display: 'flex', justifyContent: 'space-between' }}>
                           <span>Sector: {ogereLoc.sector}</span>
-                          <span>ðŸš“ ~{ogereLoc.distanceToPolice}m to Police DPO (ETA: ~{ogereLoc.policeEtaMinutes}m)</span>
+                          <span>ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Å“ ~{ogereLoc.distanceToPolice}m to Police DPO (ETA: ~{ogereLoc.policeEtaMinutes}m)</span>
                         </div>
                       </div>
 
                       {/* Critical Low Battery Alert */}
                       {isLowBat && (
                         <div style={{ background: '#7f1d1d', border: '1px solid #ef4444', color: '#fecaca', padding: '4px 8px', borderRadius: '6px', fontSize: '0.58rem', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span>ðŸª« CRITICAL BATTERY:</span>
+                          <span>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Â« CRITICAL BATTERY:</span>
                           <span>Victim phone at {batLvl}%! Risk of signal loss. Intercept immediately!</span>
                         </div>
                       )}
@@ -1000,7 +1000,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                               cursor: 'pointer',
                             }}
                           >
-                            ðŸ›°ï¸ Satellite
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Satellite
                           </button>
                           <button
                             type="button"
@@ -1016,7 +1016,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                               cursor: 'pointer',
                             }}
                           >
-                            ðŸ—ºï¸ Streets
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Streets
                           </button>
                         </div>
                         <div style={{ display: 'flex', gap: '4px' }}>
@@ -1034,7 +1034,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                               cursor: 'pointer',
                             }}
                           >
-                            ðŸ” Z:19 (Rooftop)
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Z:19 (Rooftop)
                           </button>
                           <button
                             type="button"
@@ -1050,7 +1050,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                               cursor: 'pointer',
                             }}
                           >
-                            ðŸ” Z:17 (Sector)
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Z:17 (Sector)
                           </button>
                         </div>
                       </div>
@@ -1066,15 +1066,14 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                           src={`https://maps.google.com/maps?q=${sLat},${sLng}&t=${mapMode === 'hybrid' ? 'k' : 'm'}&z=${mapZoom}&output=embed`}
                         />
                         <div style={{ position: 'absolute', top: '6px', left: '6px', background: 'rgba(5, 46, 22, 0.9)', padding: '2px 6px', borderRadius: '4px', border: '1px solid #22c55e', fontSize: '0.58rem', color: '#4ade80', fontWeight: 800 }}>
-                          ðŸŸ¢ {mapMode === 'hybrid' ? 'ðŸ›°ï¸ HIGH-RES SATELLITE RADAR' : 'ðŸ—ºï¸ PRECISION STREET RADAR'}
+                          ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢ {mapMode === 'hybrid' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â HIGH-RES SATELLITE RADAR' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â PRECISION STREET RADAR'}
                         </div>
                         <a
                           href={mapUrls.satellitePin}
                           target="_blank" rel="noopener noreferrer"
-                          rel="noreferrer"
                           style={{ position: 'absolute', top: '6px', right: '6px', background: 'rgba(15, 23, 42, 0.9)', padding: '2px 6px', borderRadius: '4px', border: '1px solid #38bdf8', fontSize: '0.55rem', color: '#38bdf8', textDecoration: 'none', fontWeight: 800 }}
                         >
-                          â†— Open Satellite Pin
+                          ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€ Open Satellite Pin
                         </a>
                       </div>
 
@@ -1089,13 +1088,13 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                         <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
                           <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>ACCURACY</div>
                           <div style={{ color: (selectedIncident.accuracy || 5) <= 10 ? '#4ade80' : '#fde047', fontWeight: 800 }}>
-                            Â±{selectedIncident.accuracy || 5}m ({ogereLoc.accuracyRating === 'pinpoint_satellite' ? 'ðŸŸ¢ Sat' : 'ðŸŸ¡ GPS'})
+                            Ãƒâ€šÃ‚Â±{selectedIncident.accuracy || 5}m ({ogereLoc.accuracyRating === 'pinpoint_satellite' ? 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢ Sat' : 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¡ GPS'})
                           </div>
                         </div>
                         <div style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 6px', borderRadius: '4px' }}>
                           <div style={{ color: '#94a3b8', fontSize: '0.55rem' }}>BATTERY</div>
                           <div style={{ color: (batLvl ?? 82) > 20 ? '#4ade80' : '#ef4444', fontWeight: 900 }}>
-                            ðŸ”‹ {batLvl !== null ? `${batLvl}%` : '82%'}
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ {batLvl !== null ? `${batLvl}%` : '82%'}
                           </div>
                         </div>
                       </div>
@@ -1115,10 +1114,9 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       <a
                         href={mapUrls.turnByTurnNavigation}
                         target="_blank" rel="noopener noreferrer"
-                        rel="noreferrer"
                         style={{ background: '#16a34a', color: '#fff', textAlign: 'center', padding: '8px', borderRadius: '6px', textDecoration: 'none', fontWeight: 900, fontSize: '0.72rem', display: 'block' }}
                       >
-                        âš¡ Intercept Target (Google Maps Navigation) âž”
+                        ÃƒÂ¢Ã…Â¡Ã‚Â¡ Intercept Target (Google Maps Navigation) ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â
                       </a>
 
                       {/* AI Auto-Routing Match & Case Claiming Action */}
@@ -1132,7 +1130,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                           <div style={{ background: isClaimed ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.15)', border: isClaimed ? '1px solid #22c55e' : '1px solid #eab308', borderRadius: '6px', padding: '7px 9px', fontSize: '0.62rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                               <span style={{ fontWeight: 900, color: isClaimed ? '#4ade80' : '#fde047' }}>
-                                {isClaimed ? 'âœ… DISPATCH CLAIMED' : 'âš¡ AI PROXIMITY ROUTED'}
+                                {isClaimed ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ DISPATCH CLAIMED' : 'ÃƒÂ¢Ã…Â¡Ã‚Â¡ AI PROXIMITY ROUTED'}
                               </span>
                               <span style={{ color: '#94a3b8', fontSize: '0.55rem' }}>
                                 ETA: ~{selectedIncident.eta_minutes || 3} mins
@@ -1142,7 +1140,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                               <strong>Station:</strong> {station.name}
                             </div>
                             <div style={{ color: '#cbd5e1' }}>
-                              <strong>Assigned:</strong> {isClaimed ? `${claim.officerName} (${claim.unitName}) Â· EN ROUTE` : `${officer.name} (${officer.unitName})`}
+                              <strong>Assigned:</strong> {isClaimed ? `${claim.officerName} (${claim.unitName}) Ãƒâ€šÃ‚Â· EN ROUTE` : `${officer.name} (${officer.unitName})`}
                             </div>
                             {!isClaimed ? (
                               <button
@@ -1166,11 +1164,11 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                                   boxShadow: '0 2px 8px rgba(22, 163, 74, 0.4)'
                                 }}
                               >
-                                <span>âš¡</span> Accept & Claim Dispatch (En Route)
+                                <span>ÃƒÂ¢Ã…Â¡Ã‚Â¡</span> Accept & Claim Dispatch (En Route)
                               </button>
                             ) : (
                               <div style={{ marginTop: '5px', color: '#4ade80', fontSize: '0.58rem', fontWeight: 800 }}>
-                                ðŸš“ Status: Broadcasted as CLAIMED by {claim.officerName} ({claim.callsign})
+                                ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Å“ Status: Broadcasted as CLAIMED by {claim.officerName} ({claim.callsign})
                               </div>
                             )}
                           </div>
@@ -1182,12 +1180,12 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
 
                 {/* SITREP Details */}
                 <div style={{ background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '6px', fontSize: '0.65rem', lineHeight: 1.4 }}>
-                  <div>ðŸ“ <strong>Sector / Landmark:</strong> {selectedIncident.location}</div>
-                  <div>ðŸš¨ <strong>Threat:</strong> {selectedIncident.category}</div>
-                  <div>ðŸ‘¤ <strong>Primary Contact:</strong> {selectedIncident.reporter_name || 'Citizen'} ({selectedIncident.reporter_phone || 'Unlisted'})</div>
+                  <div>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â <strong>Sector / Landmark:</strong> {selectedIncident.location}</div>
+                  <div>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ <strong>Threat:</strong> {selectedIncident.category}</div>
+                  <div>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ <strong>Primary Contact:</strong> {selectedIncident.reporter_name || 'Citizen'} ({selectedIncident.reporter_phone || 'Unlisted'})</div>
                   {(selectedIncident.backup_phone || selectedIncident.backupPhone) && (
                     <div style={{ color: '#38bdf8', fontWeight: 800 }}>
-                      ðŸ‘¥ <strong>Next-of-Kin / Backup:</strong> {selectedIncident.backup_phone || selectedIncident.backupPhone}
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ <strong>Next-of-Kin / Backup:</strong> {selectedIncident.backup_phone || selectedIncident.backupPhone}
                     </div>
                   )}
                   <div style={{ marginTop: '4px', color: '#f5edd8' }}>{selectedIncident.description}</div>
@@ -1200,7 +1198,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       href={`tel:${selectedIncident.reporter_phone}`}
                       style={{ flex: 1, background: '#047857', color: '#fff', textAlign: 'center', padding: '6px', borderRadius: '6px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem', display: 'block' }}
                     >
-                      ðŸ“ž Call Primary ({selectedIncident.reporter_phone})
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Call Primary ({selectedIncident.reporter_phone})
                     </a>
                   )}
                   {(selectedIncident.backup_phone || selectedIncident.backupPhone) && (
@@ -1208,7 +1206,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       href={`tel:${selectedIncident.backup_phone || selectedIncident.backupPhone}`}
                       style={{ flex: 1, background: '#0284c7', color: '#fff', textAlign: 'center', padding: '6px', borderRadius: '6px', textDecoration: 'none', fontWeight: 800, fontSize: '0.65rem', display: 'block' }}
                     >
-                      ðŸ‘¥ Call Kin ({selectedIncident.backup_phone || selectedIncident.backupPhone})
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ Call Kin ({selectedIncident.backup_phone || selectedIncident.backupPhone})
                     </a>
                   )}
                 </div>
@@ -1234,7 +1232,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                     marginTop: '2px',
                   }}
                 >
-                  ðŸ“„ Generate Official Police FIR Dossier (Court Evidence)
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Å¾ Generate Official Police FIR Dossier (Court Evidence)
                 </button>
               </div>
             ) : (
@@ -1244,7 +1242,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   <div style={{ marginBottom: '14px' }}>
                     <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#38bdf8', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <span>ðŸš¶â€â™‚ï¸</span> LIVE ESCORT RADAR
+                        <span>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¶ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€žÂ¢Ã¢â‚¬Å¡ÃƒÂ¯Ã‚Â¸Ã‚Â</span> LIVE ESCORT RADAR
                       </span>
                       <span style={{ fontSize: '0.58rem', background: 'rgba(56,189,248,0.2)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.4)', padding: '1px 6px', borderRadius: '4px', fontWeight: 800 }}>
                         {activeEscorts.filter(e => e.status === 'ACTIVE_MONITORING').length} ACTIVE
@@ -1279,14 +1277,14 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                 <span style={{ fontSize: '1.1rem' }}>
-                                  {isOverdue || isDuress ? 'ðŸš¨' : isSafe ? 'âœ…' : 'ðŸš¶â€â™‚ï¸'}
+                                  {isOverdue || isDuress ? 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨' : isSafe ? 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦' : 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¶ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€žÂ¢Ã¢â‚¬Å¡ÃƒÂ¯Ã‚Â¸Ã‚Â'}
                                 </span>
                                 <div>
                                   <div style={{ fontSize: '0.76rem', fontWeight: 800, color: '#ffffff' }}>
                                     {esc.citizenName}
                                   </div>
                                   <div style={{ fontSize: '0.6rem', color: '#94a3b8' }}>
-                                    ðŸ“ž {esc.citizenPhone || '08081762371'} Â· {esc.assignedUnit || 'Patrol Unit 4'}
+                                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ {esc.citizenPhone || '08081762371'} Ãƒâ€šÃ‚Â· {esc.assignedUnit || 'Patrol Unit 4'}
                                   </div>
                                 </div>
                               </div>
@@ -1313,7 +1311,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                             {/* Route & Countdown */}
                             <div style={{ background: 'rgba(0,0,0,0.35)', borderRadius: '6px', padding: '6px', margin: '6px 0', fontSize: '0.64rem' }}>
                               <div style={{ color: '#cbd5e1', marginBottom: '3px' }}>
-                                ðŸ <strong>Route:</strong> {esc.origin || 'Ogere Central'} âž” <strong>{esc.destination}</strong>
+                                ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â <strong>Route:</strong> {esc.origin || 'Ogere Central'} ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â <strong>{esc.destination}</strong>
                               </div>
                               {isMonitoring ? (
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
@@ -1329,16 +1327,16 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                                       borderRadius: '4px',
                                     }}
                                   >
-                                    â³ {formatTimer(esc.remainingSeconds)} left
+                                    ÃƒÂ¢Ã‚ÂÃ‚Â³ {formatTimer(esc.remainingSeconds)} left
                                   </span>
                                 </div>
                               ) : isSafe ? (
                                 <div style={{ color: '#4ade80', fontWeight: 700, fontSize: '0.62rem' }}>
-                                  âœ“ Citizen entered PIN and arrived safely.
+                                  ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Citizen entered PIN and arrived safely.
                                 </div>
                               ) : (
                                 <div style={{ color: '#f87171', fontWeight: 800, fontSize: '0.62rem' }}>
-                                  âš ï¸ Intercept alert active! Location transmitted.
+                                  ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Intercept alert active! Location transmitted.
                                 </div>
                               )}
                             </div>
@@ -1360,7 +1358,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                                     fontWeight: 800,
                                   }}
                                 >
-                                  ðŸ“ž Call Citizen
+                                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Call Citizen
                                 </a>
                               )}
                               <button
@@ -1379,12 +1377,11 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                                   cursor: 'pointer',
                                 }}
                               >
-                                ðŸ›°ï¸ Live Radar
+                                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Live Radar
                               </button>
                               <a
                                 href={`https://www.google.com/maps/dir/?api=1&destination=${esc.latitude || 6.9388},${esc.longitude || 3.6437}`}
                                 target="_blank" rel="noopener noreferrer"
-                                rel="noreferrer"
                                 style={{
                                   flex: 1,
                                   textAlign: 'center',
@@ -1397,7 +1394,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                                   fontWeight: 800,
                                 }}
                               >
-                                ðŸ—ºï¸ Intercept Map
+                                ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Intercept Map
                               </a>
                             </div>
                           </div>
@@ -1408,7 +1405,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 )}
 
                 <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#C9963A', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span>ðŸš¨ ACTIVE EMERGENCY FEED</span>
+                  <span>ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ ACTIVE EMERGENCY FEED</span>
                   <span style={{ fontSize: '0.6rem', color: '#ef4444' }}>LIVE</span>
                 </div>
 
@@ -1433,25 +1430,25 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                         {inc.category}
                       </div>
                       <div style={{ fontSize: '0.68rem', color: '#fca5a5', marginBottom: '4px' }}>
-                        ðŸ“ {inc.location}
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {inc.location}
                       </div>
 
                       {/* Telemetry Badge Strip */}
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', margin: '4px 0 6px' }}>
                         <span style={{ background: 'rgba(56,189,248,0.15)', border: '1px solid rgba(56,189,248,0.3)', borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: '#38bdf8', fontFamily: 'monospace' }}>
-                          ðŸ›°ï¸ {Number(inc.latitude || 6.9388).toFixed(4)}, {Number(inc.longitude || 3.6437).toFixed(4)}
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â {Number(inc.latitude || 6.9388).toFixed(4)}, {Number(inc.longitude || 3.6437).toFixed(4)}
                         </span>
                         <span style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: '#4ade80' }}>
-                          Â±{inc.accuracy || 5}m
+                          Ãƒâ€šÃ‚Â±{inc.accuracy || 5}m
                         </span>
                         {inc.battery_level != null && (
                           <span style={{ background: inc.battery_level > 20 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.2)', border: '1px solid ' + (inc.battery_level > 20 ? 'rgba(34,197,94,0.3)' : '#ef4444'), borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: inc.battery_level > 20 ? '#4ade80' : '#fca5a5', fontWeight: 800 }}>
-                            ðŸ”‹ {inc.battery_level}%
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ {inc.battery_level}%
                           </span>
                         )}
                         {inc.device_model && (
                           <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '3px', padding: '1px 4px', fontSize: '0.58rem', color: '#cbd5e1' }}>
-                            ðŸ“± {inc.device_model}
+                            ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â± {inc.device_model}
                           </span>
                         )}
                       </div>
@@ -1466,18 +1463,18 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                         const station = inc.assigned_station || OGERE_STATIONS[0];
                         return claim ? (
                           <div style={{ background: 'rgba(34, 197, 94, 0.2)', border: '1px solid #22c55e', borderRadius: '4px', padding: '4px 6px', fontSize: '0.58rem', color: '#4ade80', fontWeight: 800, marginBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <span>ðŸš“ Claimed by {claim.officerName} ({claim.callsign})</span>
+                            <span>ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â‚¬Å“ Claimed by {claim.officerName} ({claim.callsign})</span>
                             <span style={{ color: '#86efac' }}>EN ROUTE</span>
                           </div>
                         ) : (
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(234, 179, 8, 0.12)', border: '1px solid rgba(234, 179, 8, 0.3)', borderRadius: '4px', padding: '4px 6px', fontSize: '0.58rem', color: '#fde047', marginBottom: '6px' }}>
-                            <span>âš¡ AI Routed: {station.name.split(' ')[0]} {station.name.split(' ')[1]}</span>
+                            <span>ÃƒÂ¢Ã…Â¡Ã‚Â¡ AI Routed: {station.name.split(' ')[0]} {station.name.split(' ')[1]}</span>
                             <button
                               type="button"
                               onClick={() => handleClaim(inc.id)}
                               style={{ background: '#16a34a', color: '#fff', border: 'none', padding: '3px 8px', borderRadius: '3px', fontWeight: 900, fontSize: '0.58rem', cursor: 'pointer' }}
                             >
-                              âš¡ Claim Case
+                              ÃƒÂ¢Ã…Â¡Ã‚Â¡ Claim Case
                             </button>
                           </div>
                         );
@@ -1488,15 +1485,14 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                           onClick={() => setSelectedIncident(inc)}
                           style={{ flex: 1, background: '#16a34a', color: '#fff', border: 'none', borderRadius: '4px', padding: '6px', fontSize: '0.68rem', fontWeight: 800, cursor: 'pointer' }}
                         >
-                          ðŸ—ºï¸ View Radar & Map
+                          ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â View Radar & Map
                         </button>
                         <a
                           href={`https://www.google.com/maps/dir/?api=1&destination=${inc.latitude || 6.9388},${inc.longitude || 3.6437}`}
                           target="_blank" rel="noopener noreferrer"
-                          rel="noreferrer"
                           style={{ flex: 1, textAlign: 'center', background: '#2563eb', color: '#fff', textDecoration: 'none', borderRadius: '4px', padding: '6px', fontSize: '0.68rem', fontWeight: 800 }}
                         >
-                          âš¡ Intercept GPS
+                          ÃƒÂ¢Ã…Â¡Ã‚Â¡ Intercept GPS
                         </a>
                       </div>
                     </div>
@@ -1511,7 +1507,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         {activeScreen === 'audiences' && (
           <div>
             <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#C9963A', marginBottom: '8px' }}>
-              ðŸ‘‘ ROYAL AUDIENCES DESK
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ ROYAL AUDIENCES DESK
             </div>
             <div style={{ display: 'grid', gap: '8px' }}>
               {audiences.map((aud) => (
@@ -1526,7 +1522,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                     {aud.purpose}
                   </div>
                   <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.6)', marginBottom: '6px' }}>
-                    ðŸ“… {aud.bookingDate} Â· {aud.timeSlot}
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ {aud.bookingDate} Ãƒâ€šÃ‚Â· {aud.timeSlot}
                   </div>
                   {aud.status === 'pending' && (
                     <div style={{ display: 'flex', gap: '6px' }}>
@@ -1554,7 +1550,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
         {activeScreen === 'idCards' && (
           <div>
             <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#34d399', marginBottom: '8px' }}>
-              ðŸªª DIGITAL INDIGENE ID CERTIFICATION
+              ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª DIGITAL INDIGENE ID CERTIFICATION
             </div>
             <div style={{ display: 'grid', gap: '8px' }}>
               {idCards.map((c) => (
@@ -1564,7 +1560,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                     <span style={{ fontSize: '0.6rem', color: '#34d399' }}>{c.id}</span>
                   </div>
                   <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
-                    Quarter: {c.quarter} Â· Compound: {c.compound}
+                    Quarter: {c.quarter} Ãƒâ€šÃ‚Â· Compound: {c.compound}
                   </div>
                   {c.status === 'pending' ? (
                     <div style={{ display: 'flex', gap: '6px' }}>
@@ -1572,17 +1568,17 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                         onClick={() => handleProcessIdCard(c.id, 'approved')}
                         style={{ flex: 1, background: '#059669', color: '#fff', border: 'none', borderRadius: '4px', padding: '4px', fontSize: '0.65rem', fontWeight: 800, cursor: 'pointer' }}
                       >
-                        âœ“ Approve ID
+                        ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Approve ID
                       </button>
                       <button
                         onClick={() => handleProcessIdCard(c.id, 'rejected')}
                         style={{ flex: 1, background: 'rgba(239,68,68,0.2)', color: '#fca5a5', border: '1px solid #ef4444', borderRadius: '4px', padding: '4px', fontSize: '0.65rem', cursor: 'pointer' }}
                       >
-                        âœ• Reject
+                        ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Reject
                       </button>
                     </div>
                   ) : (
-                    <span style={{ fontSize: '0.65rem', color: '#4ade80', fontWeight: 700 }}>âœ“ Verified & Certified</span>
+                    <span style={{ fontSize: '0.65rem', color: '#4ade80', fontWeight: 700 }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Verified & Certified</span>
                   )}
                 </div>
               ))}
@@ -1596,7 +1592,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             {/* Tactical Channel Selector */}
             <div>
               <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#38bdf8', marginBottom: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>ðŸ“» TACTICAL RADIO GRID</span>
+                <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â» TACTICAL RADIO GRID</span>
                 <span style={{ fontSize: '0.55rem', background: '#0369a1', color: '#fff', padding: '1px 5px', borderRadius: '3px' }}>144.800 MHz</span>
               </div>
               <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '4px' }}>
@@ -1702,15 +1698,15 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   cursor: 'pointer',
                 }}
               >
-                ðŸ“¡ Send
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Send
               </button>
             </form>
 
             {/* Onboarded Units VoIP Intercom Directory */}
             <div style={{ marginTop: '6px' }}>
               <div style={{ fontSize: '0.68rem', fontWeight: 900, color: '#4ade80', marginBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>ðŸ‘¥ ONBOARDED ACTIVE UNITS</span>
-                <span style={{ fontSize: '0.55rem', color: '#86efac' }}>ðŸŸ¢ 6 ONLINE</span>
+                <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥ ONBOARDED ACTIVE UNITS</span>
+                <span style={{ fontSize: '0.55rem', color: '#86efac' }}>ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢ 6 ONLINE</span>
               </div>
               <div style={{ display: 'grid', gap: '6px' }}>
                 {ONBOARDED_OFFICERS.map((off) => (
@@ -1731,10 +1727,10 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                         {off.avatar} {off.name}
                       </div>
                       <div style={{ fontSize: '0.55rem', color: '#94a3b8' }}>
-                        {off.agency.split('â€”')[0]} Â· {off.callsign}
+                        {off.agency.split('ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â')[0]} Ãƒâ€šÃ‚Â· {off.callsign}
                       </div>
                       <div style={{ fontSize: '0.52rem', color: '#38bdf8', marginTop: '1px' }}>
-                        ðŸ“ {off.location.landmark} (ðŸ”‹ {off.battery}%)
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {off.location.landmark} (ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ {off.battery}%)
                       </div>
                     </div>
 
@@ -1756,7 +1752,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                         boxShadow: '0 2px 6px rgba(22, 163, 74, 0.4)',
                       }}
                     >
-                      <span>ðŸ“ž</span> Intercom
+                      <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾</span> Intercom
                     </button>
                   </div>
                 ))}
@@ -1774,14 +1770,14 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#ef4444' }}>
-                    ðŸ“¹ MUNICIPAL CCTV SURVEILLANCE
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¹ MUNICIPAL CCTV SURVEILLANCE
                   </div>
                   <div style={{ fontSize: '0.55rem', color: '#94a3b8' }}>
-                    7 Municipal Cameras Â· Live Optical Grid
+                    7 Municipal Cameras Ãƒâ€šÃ‚Â· Live Optical Grid
                   </div>
                 </div>
                 <span style={{ fontSize: '0.55rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', border: '1px solid #ef4444', padding: '1px 5px', borderRadius: '3px', fontWeight: 800 }}>
-                  â— 7 ONLINE
+                  ÃƒÂ¢Ã¢â‚¬â€Ã‚Â 7 ONLINE
                 </span>
               </div>
 
@@ -1824,7 +1820,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               >
                 {/* OSD Header */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(0,0,0,0.7)', fontSize: '0.55rem', fontFamily: 'monospace' }}>
-                  <span style={{ color: '#ef4444', fontWeight: 900 }}>â— REC LIVE WAT</span>
+                  <span style={{ color: '#ef4444', fontWeight: 900 }}>ÃƒÂ¢Ã¢â‚¬â€Ã‚Â REC LIVE WAT</span>
                   <span style={{ color: '#38bdf8' }}>{activeCam.resolution}</span>
                   <span style={{ color: '#4ade80' }}>28ms</span>
                 </div>
@@ -1848,7 +1844,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
 
                   {cctvNightVision && (
                     <div style={{ position: 'absolute', top: '6px', right: '6px', background: 'rgba(5,46,22,0.85)', color: '#4ade80', fontSize: '0.5rem', padding: '2px 4px', borderRadius: '3px', fontWeight: 900 }}>
-                      ðŸ‘ï¸ IR NIGHT
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â IR NIGHT
                     </div>
                   )}
 
@@ -1859,7 +1855,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   )}
 
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.65)', padding: '3px 6px', fontSize: '0.55rem', color: '#fff' }}>
-                    <strong>{activeCam.name}</strong> Â· <span style={{ color: '#cbd5e1' }}>{activeCam.sector}</span>
+                    <strong>{activeCam.name}</strong> Ãƒâ€šÃ‚Â· <span style={{ color: '#cbd5e1' }}>{activeCam.sector}</span>
                   </div>
                 </div>
 
@@ -1870,30 +1866,28 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                     onClick={() => setCctvNightVision(!cctvNightVision)}
                     style={{ background: cctvNightVision ? '#065f46' : '#1e293b', color: '#fff', border: '1px solid #334155', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', cursor: 'pointer' }}
                   >
-                    {cctvNightVision ? 'ðŸ‘ï¸ Day' : 'ðŸŒ™ Night IR'}
+                    {cctvNightVision ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â Day' : 'ÃƒÂ°Ã…Â¸Ã…â€™Ã¢â€žÂ¢ Night IR'}
                   </button>
                   <button
                     type="button"
-                    onClick={() => alert(`ðŸ“¸ Snapshot OGR-${activeCam.id}-${Date.now()} saved to Evidence Vault`)}
+                    onClick={() => alert(`ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¸ Snapshot OGR-${activeCam.id}-${Date.now()} saved to Evidence Vault`)}
                     style={{ background: '#1e293b', color: '#fff', border: '1px solid #334155', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', cursor: 'pointer' }}
                   >
-                    ðŸ“¸ Frame
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¸ Frame
                   </button>
                   <a
                     href={`https://www.google.com/maps?q=${activeCam.latitude},${activeCam.longitude}&t=k&z=19`}
                     target="_blank" rel="noopener noreferrer"
-                    rel="noreferrer"
                     style={{ background: '#1e293b', color: '#38bdf8', border: '1px solid #38bdf8', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', textDecoration: 'none' }}
                   >
-                    ðŸ›°ï¸ Sat Pin
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Sat Pin
                   </a>
                   <a
                     href={`https://www.google.com/maps/dir/?api=1&destination=${activeCam.latitude},${activeCam.longitude}`}
                     target="_blank" rel="noopener noreferrer"
-                    rel="noreferrer"
                     style={{ marginLeft: 'auto', background: '#dc2626', color: '#fff', borderRadius: '3px', padding: '2px 6px', fontSize: '0.55rem', textDecoration: 'none', fontWeight: 800 }}
                   >
-                    ðŸš¨ Dispatch
+                    ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨ Dispatch
                   </a>
                 </div>
               </div>
@@ -1901,7 +1895,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               {/* PTZ D-Pad Controls */}
               <div style={{ background: '#111827', borderRadius: '6px', padding: '6px', border: '1px solid #1f2937' }}>
                 <div style={{ fontSize: '0.58rem', fontWeight: 800, color: '#C9963A', marginBottom: '4px', display: 'flex', justifyContent: 'space-between' }}>
-                  <span>ðŸ•¹ï¸ PTZ 360Â° CONTROLLER</span>
+                  <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã‚Â¹ÃƒÂ¯Ã‚Â¸Ã‚Â PTZ 360Ãƒâ€šÃ‚Â° CONTROLLER</span>
                   <span style={{ color: '#38bdf8' }}>Zoom: {cctvZoom.toFixed(1)}x</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
@@ -1913,7 +1907,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       onClick={() => { setCctvPtzMsg('PTZ: TILT UP'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
                       style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
                     >
-                      â–²
+                      ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â²
                     </button>
                     <div />
                     <button
@@ -1921,21 +1915,21 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       onClick={() => { setCctvPtzMsg('PTZ: PAN LEFT'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
                       style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
                     >
-                      â—„
+                      ÃƒÂ¢Ã¢â‚¬â€Ã¢â‚¬Å¾
                     </button>
                     <button
                       type="button"
                       onClick={() => { setCctvZoom(1); setCctvPtzMsg('PTZ: CENTER'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
                       style={{ width: '24px', height: '24px', background: '#0f172a', color: '#C9963A', border: '1px solid #C9963A', borderRadius: '50%', fontSize: '0.55rem', cursor: 'pointer' }}
                     >
-                      â†º
+                      ÃƒÂ¢Ã¢â‚¬Â Ã‚Âº
                     </button>
                     <button
                       type="button"
                       onClick={() => { setCctvPtzMsg('PTZ: PAN RIGHT'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
                       style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
                     >
-                      â–º
+                      ÃƒÂ¢Ã¢â‚¬â€œÃ‚Âº
                     </button>
                     <div />
                     <button
@@ -1943,7 +1937,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       onClick={() => { setCctvPtzMsg('PTZ: TILT DOWN'); setTimeout(() => setCctvPtzMsg(''), 1000); }}
                       style={{ width: '24px', height: '24px', background: '#1f2937', color: '#fff', border: '1px solid #374151', borderRadius: '3px', fontSize: '0.55rem', cursor: 'pointer' }}
                     >
-                      â–¼
+                      ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼
                     </button>
                     <div />
                   </div>
@@ -1955,14 +1949,14 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                       onClick={() => setCctvZoom(prev => Math.min(3, prev + 0.5))}
                       style={{ background: '#1e293b', color: '#38bdf8', border: '1px solid #38bdf8', borderRadius: '3px', padding: '4px 8px', fontSize: '0.58rem', fontWeight: 800, cursor: 'pointer' }}
                     >
-                      ðŸ” Zoom In +
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Zoom In +
                     </button>
                     <button
                       type="button"
                       onClick={() => setCctvZoom(prev => Math.max(1, prev - 0.5))}
                       style={{ background: '#1e293b', color: '#38bdf8', border: '1px solid #38bdf8', borderRadius: '3px', padding: '4px 8px', fontSize: '0.58rem', fontWeight: 800, cursor: 'pointer' }}
                     >
-                      ðŸ” Zoom Out -
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Zoom Out -
                     </button>
                   </div>
                 </div>
@@ -1972,13 +1966,13 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               {activeCam.anpr && (
                 <div style={{ background: '#111827', borderRadius: '6px', padding: '6px', border: '1px solid #1f2937' }}>
                   <div style={{ fontSize: '0.58rem', fontWeight: 800, color: '#f59e0b', marginBottom: '4px' }}>
-                    ðŸš˜ ANPR HIGHWAY OPTICAL SCANNER
+                    ÃƒÂ°Ã…Â¸Ã…Â¡Ã‹Å“ ANPR HIGHWAY OPTICAL SCANNER
                   </div>
                   {activeCam.plates && activeCam.plates.length > 0 ? (
                     <div style={{ display: 'grid', gap: '3px' }}>
                       {activeCam.plates.map((plate, idx) => (
                         <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#1a2333', padding: '3px 6px', borderRadius: '3px', fontSize: '0.55rem' }}>
-                          <span style={{ color: '#fff', fontFamily: 'monospace', fontWeight: 700 }}>ðŸ·ï¸ {plate}</span>
+                          <span style={{ color: '#fff', fontFamily: 'monospace', fontWeight: 700 }}>ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â·ÃƒÂ¯Ã‚Â¸Ã‚Â {plate}</span>
                           <span style={{ color: '#4ade80', fontSize: '0.5rem', fontWeight: 800 }}>LOGGED</span>
                         </div>
                       ))}
@@ -2011,35 +2005,35 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           onClick={() => setActiveScreen('dashboard')}
           style={{ background: 'none', border: 'none', color: activeScreen === 'dashboard' ? '#C9963A' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
-          <span style={{ fontSize: '0.9rem' }}>ðŸ›ï¸</span>
+          <span style={{ fontSize: '0.9rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â</span>
           <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>Command</span>
         </button>
         <button
           onClick={() => setActiveScreen('cctv')}
           style={{ background: 'none', border: 'none', color: activeScreen === 'cctv' ? '#ef4444' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
-          <span style={{ fontSize: '0.9rem' }}>ðŸ“¹</span>
+          <span style={{ fontSize: '0.9rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¹</span>
           <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>CCTV</span>
         </button>
         <button
           onClick={() => setActiveScreen('tactical')}
           style={{ background: 'none', border: 'none', color: activeScreen === 'tactical' ? '#38bdf8' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
-          <span style={{ fontSize: '0.9rem' }}>ðŸ’¬</span>
+          <span style={{ fontSize: '0.9rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬</span>
           <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>Tactical</span>
         </button>
         <button
           onClick={() => setActiveScreen('audiences')}
           style={{ background: 'none', border: 'none', color: activeScreen === 'audiences' ? '#C9963A' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
-          <span style={{ fontSize: '0.9rem' }}>ðŸ‘‘</span>
+          <span style={{ fontSize: '0.9rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ</span>
           <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>Audiences</span>
         </button>
         <button
           onClick={() => setActiveScreen('idCards')}
           style={{ background: 'none', border: 'none', color: activeScreen === 'idCards' ? '#34d399' : 'rgba(245,237,216,0.5)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
         >
-          <span style={{ fontSize: '0.9rem' }}>ðŸªª</span>
+          <span style={{ fontSize: '0.9rem' }}>ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª</span>
           <span style={{ fontSize: '0.55rem', fontWeight: 700 }}>ID Desk</span>
         </button>
       </div>
@@ -2136,10 +2130,10 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             {/* Header */}
             <div style={{ textAlign: 'center', borderBottom: '2px solid #0f172a', paddingBottom: '6px', marginBottom: '8px' }}>
               <div style={{ fontSize: '0.82rem', fontWeight: 900, letterSpacing: '0.04em' }}>
-                ðŸ‡³ðŸ‡¬ THE NIGERIA POLICE FORCE
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¡Ã‚Â³ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¡Ã‚Â¬ THE NIGERIA POLICE FORCE
               </div>
               <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#475569' }}>
-                OGERE DIVISIONAL POLICE HEADQUARTERS Â· OGUN STATE COMMAND
+                OGERE DIVISIONAL POLICE HEADQUARTERS Ãƒâ€šÃ‚Â· OGUN STATE COMMAND
               </div>
               <div style={{ fontSize: '0.72rem', fontWeight: 900, color: '#dc2626', marginTop: '3px' }}>
                 FIRST INFORMATION REPORT (FIR) & CRIME SITREP DOSSIER
@@ -2150,7 +2144,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', background: '#f8fafc', padding: '6px', borderRadius: '4px', border: '1px solid #e2e8f0', marginBottom: '8px' }}>
               <div><strong>FIR Case Ref:</strong> {selectedIncident.id}</div>
               <div><strong>Threat Category:</strong> {selectedIncident.category}</div>
-              <div><strong>Date / Time Logged:</strong> {new Date().toLocaleDateString()} Â· {new Date().toLocaleTimeString()}</div>
+              <div><strong>Date / Time Logged:</strong> {new Date().toLocaleDateString()} Ãƒâ€šÃ‚Â· {new Date().toLocaleTimeString()}</div>
               <div><strong>Classification:</strong> <span style={{ color: '#dc2626', fontWeight: 900 }}>CRITICAL SOS (CODE RED)</span></div>
             </div>
 
@@ -2172,9 +2166,9 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 2. SCENE GPS TELEMETRY & DIGITAL FOOTPRINT
               </div>
               <div><strong>Landmark / Sector:</strong> {selectedIncident.location}</div>
-              <div><strong>Precise Coordinates:</strong> {Number(selectedIncident.latitude || 6.9388).toFixed(5)}Â°N, {Number(selectedIncident.longitude || 3.6437).toFixed(5)}Â°E (Â±{selectedIncident.accuracy || 5}m)</div>
-              <div><strong>Network Carrier & IP:</strong> {selectedIncident.network_type || '4G'} Â· {selectedIncident.ip_address || selectedIncident.ipAddress || '197.210.54.12'}</div>
-              <div><strong>Device Hardware:</strong> {selectedIncident.device_model || selectedIncident.deviceModel || 'Mobile Web Client'} (ðŸ”‹ {selectedIncident.battery_level ?? selectedIncident.batteryLevel ?? '82'}%)</div>
+              <div><strong>Precise Coordinates:</strong> {Number(selectedIncident.latitude || 6.9388).toFixed(5)}Ãƒâ€šÃ‚Â°N, {Number(selectedIncident.longitude || 3.6437).toFixed(5)}Ãƒâ€šÃ‚Â°E (Ãƒâ€šÃ‚Â±{selectedIncident.accuracy || 5}m)</div>
+              <div><strong>Network Carrier & IP:</strong> {selectedIncident.network_type || '4G'} Ãƒâ€šÃ‚Â· {selectedIncident.ip_address || selectedIncident.ipAddress || '197.210.54.12'}</div>
+              <div><strong>Device Hardware:</strong> {selectedIncident.device_model || selectedIncident.deviceModel || 'Mobile Web Client'} (ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ {selectedIncident.battery_level ?? selectedIncident.batteryLevel ?? '82'}%)</div>
             </div>
 
             {/* Narrative */}
@@ -2196,7 +2190,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div><strong>Official Seal / Timestamp:</strong></div>
-                <div style={{ fontFamily: 'monospace', color: '#059669', fontWeight: 800 }}>CERTIFIED Â· SECURE LOG</div>
+                <div style={{ fontFamily: 'monospace', color: '#059669', fontWeight: 800 }}>CERTIFIED Ãƒâ€šÃ‚Â· SECURE LOG</div>
               </div>
             </div>
 
@@ -2217,7 +2211,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   cursor: 'pointer',
                 }}
               >
-                ðŸ–¨ï¸ Print / Save FIR PDF
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬â€œÃ‚Â¨ÃƒÂ¯Ã‚Â¸Ã‚Â Print / Save FIR PDF
               </button>
               <button
                 type="button"
@@ -2233,7 +2227,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   cursor: 'pointer',
                 }}
               >
-                âœ• Close
+                ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Close
               </button>
             </div>
           </div>
@@ -2260,14 +2254,14 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           {/* Top Encryption Indicator */}
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '0.62rem', color: '#8696a0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-              <span>ðŸ”’</span>
+              <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢</span>
               <span>End-to-end encrypted Tactical Intercom</span>
             </div>
             <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#e9edef', marginTop: '12px' }}>
               {selectedOfficerForCall.name}
             </div>
             <div style={{ fontSize: '0.72rem', color: '#00a884', fontWeight: 600, marginTop: '2px' }}>
-              {selectedOfficerForCall.callsign} Â· {selectedOfficerForCall.badge}
+              {selectedOfficerForCall.callsign} Ãƒâ€šÃ‚Â· {selectedOfficerForCall.badge}
             </div>
             <div style={{ fontSize: '0.65rem', color: '#8696a0', marginTop: '2px' }}>
               {selectedOfficerForCall.agency}
@@ -2298,7 +2292,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '0.85rem', fontWeight: 700, color: callStatus === 'CONNECTED' ? '#25d366' : '#aebac1' }}>
                 {callStatus === 'RINGING' && 'Ringing...'}
-                {callStatus === 'CONNECTED' && `Tactical Audio Â· ${formatTimer(callDuration)}`}
+                {callStatus === 'CONNECTED' && `Tactical Audio Ãƒâ€šÃ‚Â· ${formatTimer(callDuration)}`}
                 {callStatus === 'ENDED' && 'Call Ended'}
               </div>
 
@@ -2343,7 +2337,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 }}
                 title="Speaker"
               >
-                ðŸ”Š
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ…Â 
               </button>
 
               {/* Mute Mic */}
@@ -2365,7 +2359,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 }}
                 title={isCallMuted ? 'Unmute Mic' : 'Mute Mic'}
               >
-                {isCallMuted ? 'ðŸ”‡' : 'ðŸŽ™ï¸'}
+                {isCallMuted ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¡' : 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â'}
               </button>
 
               {/* Radio Roger Beep */}
@@ -2387,7 +2381,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 }}
                 title="PTT Roger Beep"
               >
-                ðŸ“»
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â»
               </button>
             </div>
 
@@ -2412,7 +2406,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
               }}
               title="End Tactical Call"
             >
-              ðŸ“ž
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾
             </button>
           </div>
         </div>
@@ -2436,10 +2430,10 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div style={{ fontSize: '0.74rem', fontWeight: 900, color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span>ðŸ›°ï¸</span> LIVE ESCORT RADAR (GOOGLE MAPS)
+                <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â</span> LIVE ESCORT RADAR (GOOGLE MAPS)
               </div>
               <div style={{ fontSize: '0.58rem', color: '#94a3b8' }}>
-                Citizen: <strong>{selectedEscortForMap.citizenName}</strong> Â· {selectedEscortForMap.id}
+                Citizen: <strong>{selectedEscortForMap.citizenName}</strong> Ãƒâ€šÃ‚Â· {selectedEscortForMap.id}
               </div>
             </div>
             <button
@@ -2456,7 +2450,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 cursor: 'pointer',
               }}
             >
-              âœ• Close
+              ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Close
             </button>
           </div>
 
@@ -2465,26 +2459,26 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             <div>
               <div style={{ color: '#64748b', fontSize: '0.5rem', fontWeight: 700 }}>BATTERY</div>
               <div style={{ color: '#4ade80', fontWeight: 900, fontSize: '0.65rem' }}>
-                ðŸ”‹ {selectedEscortForMap.battery_level || 86}% âš¡
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¹ {selectedEscortForMap.battery_level || 86}% ÃƒÂ¢Ã…Â¡Ã‚Â¡
               </div>
             </div>
             <div>
               <div style={{ color: '#64748b', fontSize: '0.5rem', fontWeight: 700 }}>CHECK-IN TIMER</div>
               <div style={{ color: '#38bdf8', fontWeight: 900, fontSize: '0.65rem' }}>
-                â³ {formatTimer(selectedEscortForMap.remainingSeconds)}
+                ÃƒÂ¢Ã‚ÂÃ‚Â³ {formatTimer(selectedEscortForMap.remainingSeconds)}
               </div>
             </div>
             <div>
               <div style={{ color: '#64748b', fontSize: '0.5rem', fontWeight: 700 }}>ACCURACY</div>
               <div style={{ color: '#facc15', fontWeight: 900, fontSize: '0.65rem' }}>
-                Â±{selectedEscortForMap.accuracy ? Math.round(selectedEscortForMap.accuracy) : 4}m Sat Lock
+                Ãƒâ€šÃ‚Â±{selectedEscortForMap.accuracy ? Math.round(selectedEscortForMap.accuracy) : 4}m Sat Lock
               </div>
             </div>
           </div>
 
           {/* Route Destination Ribbon */}
           <div style={{ background: '#131d31', padding: '5px 8px', borderRadius: '4px', fontSize: '0.58rem', color: '#cbd5e1' }}>
-            ðŸ <strong>Destination:</strong> {selectedEscortForMap.destination}
+            ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â <strong>Destination:</strong> {selectedEscortForMap.destination}
           </div>
 
           {/* Embedded Google Maps Street View Iframe */}
@@ -2497,7 +2491,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
             />
             {/* Live GPS Coordinates Tag */}
             <div style={{ position: 'absolute', bottom: '6px', left: '6px', background: 'rgba(15,23,42,0.85)', padding: '2px 6px', borderRadius: '3px', fontSize: '0.55rem', color: '#38bdf8', fontFamily: 'monospace' }}>
-              ðŸ“ {(selectedEscortForMap.latitude || 6.9388).toFixed(5)}Â°N, {(selectedEscortForMap.longitude || 3.6437).toFixed(5)}Â°E
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â {(selectedEscortForMap.latitude || 6.9388).toFixed(5)}Ãƒâ€šÃ‚Â°N, {(selectedEscortForMap.longitude || 3.6437).toFixed(5)}Ãƒâ€šÃ‚Â°E
             </div>
           </div>
 
@@ -2518,13 +2512,12 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                   fontWeight: 800,
                 }}
               >
-                ðŸ“ž Call Citizen
+                ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â¾ Call Citizen
               </a>
             )}
             <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${selectedEscortForMap.latitude || 6.9388},${selectedEscortForMap.longitude || 3.6437}`}
               target="_blank" rel="noopener noreferrer"
-              rel="noreferrer"
               style={{
                 flex: 1.5,
                 textAlign: 'center',
@@ -2537,7 +2530,7 @@ export default function OfficerMobilePhone({ deviceFrame = 'iphone' }) {
                 fontWeight: 900,
               }}
             >
-              âš¡ Turn-by-Turn Driving Navigation
+              ÃƒÂ¢Ã…Â¡Ã‚Â¡ Turn-by-Turn Driving Navigation
             </a>
           </div>
         </div>

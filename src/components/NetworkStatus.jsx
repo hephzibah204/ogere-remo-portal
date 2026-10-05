@@ -50,11 +50,11 @@ export default function NetworkStatus() {
         border: `1px solid ${isOnline ? '#4ade80' : '#f87171'}`,
       }}
     >
-      <span>{isOnline ? 'ðŸŸ¢' : 'ðŸ“¡'}</span>
+      <span>{isOnline ? 'ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡'}</span>
       <span>
         {isOnline
-          ? 'Network Restored â€” Connected to Ogere Portal'
-          : 'Offline Mode â€” Saved community data remains accessible'}
+          ? 'Network Restored ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Connected to Ogere Portal'
+          : 'Offline Mode ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Saved community data remains accessible'}
       </span>
       {!isOnline && (
         <button
@@ -70,7 +70,7 @@ export default function NetworkStatus() {
             marginLeft: '0.4rem',
           }}
         >
-          Retry â†»
+          Retry ÃƒÂ¢Ã¢â‚¬Â Ã‚Â»
         </button>
       )}
     </div>

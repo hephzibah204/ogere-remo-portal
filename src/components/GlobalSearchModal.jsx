@@ -4,25 +4,25 @@ import { dbGetAll } from '../services/db';
 import { kings } from '../data/kings';
 
 const STATIC_ROUTES = [
-  { ti: 'Home / Town Square', path: '/', cat: 'Pages', ic: 'ðŸ›ï¸', sub: 'Welcome to the official Kingdom of Ogere Remo Portal' },
-  { ti: 'History of Ogere', path: '/history', cat: 'Pages', ic: 'ðŸ“œ', sub: 'Origins of Ogere Remo, Olipakala, and founding ancestors' },
-  { ti: 'The Monarchy & Ologere Palace', path: '/monarchy', cat: 'Monarchy', ic: 'ðŸ‘‘', sub: 'HRH Oba James Obafemi Saliu, ruling houses and kingmakers' },
-  { ti: 'Royal Audience Appointment', path: '/royal-audience', cat: 'Palace', ic: 'ðŸ‘‘', sub: 'Book formal appointment with HRH The Ologere of Ogere' },
-  { ti: 'Digital Community ID Card', path: '/id-card', cat: 'Services', ic: 'ðŸªª', sub: 'Apply for official digital identity card' },
-  { ti: 'Verify Digital ID', path: '/verify-id', cat: 'Services', ic: 'ðŸ”', sub: 'Verify authenticity of an Ogere Community ID' },
-  { ti: 'Community Marketplace', path: '/marketplace', cat: 'Commerce', ic: 'ðŸ›’', sub: 'Produce, crafts, Adire textiles, and local services' },
-  { ti: 'Digital Land Registry', path: '/land-registry', cat: 'Land', ic: 'ðŸ“‹', sub: 'Verify plots, check surveys and boundary disputes' },
-  { ti: 'Business Directory', path: '/business', cat: 'Commerce', ic: 'ðŸª', sub: 'Enterprises and registered commercial ventures' },
-  { ti: 'Scholarships & Grants', path: '/scholarships', cat: 'Empowerment', ic: 'ðŸŽ“', sub: 'Education awards, bursaries, and youth tech grants' },
-  { ti: 'Health & Blood Bank', path: '/health', cat: 'Health', ic: 'ðŸ¥', sub: 'Primary healthcare centers and emergency donor registry' },
-  { ti: 'Security Command & Alerts', path: '/alerts', cat: 'Safety', ic: 'ðŸš¨', sub: 'Community security bulletins and incident reports' },
-  { ti: 'Palace TV & Live Broadcasts', path: '/live', cat: 'Media', ic: 'ðŸŽ¥', sub: 'Watch live festivals, coronations, and video archive' },
-  { ti: 'Heritage Quiz Challenge', path: '/quiz', cat: 'Culture', ic: 'ðŸ§ ', sub: 'Test your knowledge of Ogere Remo history' },
-  { ti: 'Oriki Yoruba Praise Poetry', path: '/oriki', cat: 'Culture', ic: 'ðŸ“¿', sub: 'Ancient royal and compound oriki chants' },
-  { ti: 'Town Map & Landmarks', path: '/map', cat: 'Explore', ic: 'ðŸ—ºï¸', sub: 'Interactive map of Ogere Remo quarters and compounds' },
-  { ti: 'Diaspora Network', path: '/diaspora', cat: 'Community', ic: 'ðŸŒ', sub: 'Connect sons and daughters across the UK, USA, Canada' },
-  { ti: 'Community Forum', path: '/forum', cat: 'Community', ic: 'ðŸ’¬', sub: 'Discussions, notices, and deliberations' },
-  { ti: 'Contact OCDA', path: '/contact', cat: 'Governance', ic: 'ðŸ“¬', sub: 'Official secretariat addresses and inquiry channels' },
+  { ti: 'Home / Town Square', path: '/', cat: 'Pages', ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â', sub: 'Welcome to the official Kingdom of Ogere Remo Portal' },
+  { ti: 'History of Ogere', path: '/history', cat: 'Pages', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ', sub: 'Origins of Ogere Remo, Olipakala, and founding ancestors' },
+  { ti: 'The Monarchy & Ologere Palace', path: '/monarchy', cat: 'Monarchy', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', sub: 'HRH Oba James Obafemi Saliu, ruling houses and kingmakers' },
+  { ti: 'Royal Audience Appointment', path: '/royal-audience', cat: 'Palace', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ', sub: 'Book formal appointment with HRH The Ologere of Ogere' },
+  { ti: 'Digital Community ID Card', path: '/id-card', cat: 'Services', ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂªÃ‚Âª', sub: 'Apply for official digital identity card' },
+  { ti: 'Verify Digital ID', path: '/verify-id', cat: 'Services', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â', sub: 'Verify authenticity of an Ogere Community ID' },
+  { ti: 'Community Marketplace', path: '/marketplace', cat: 'Commerce', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ¢â‚¬â„¢', sub: 'Produce, crafts, Adire textiles, and local services' },
+  { ti: 'Digital Land Registry', path: '/land-registry', cat: 'Land', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹', sub: 'Verify plots, check surveys and boundary disputes' },
+  { ti: 'Business Directory', path: '/business', cat: 'Commerce', ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª', sub: 'Enterprises and registered commercial ventures' },
+  { ti: 'Scholarships & Grants', path: '/scholarships', cat: 'Empowerment', ic: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â‚¬Å“', sub: 'Education awards, bursaries, and youth tech grants' },
+  { ti: 'Health & Blood Bank', path: '/health', cat: 'Health', ic: 'ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¥', sub: 'Primary healthcare centers and emergency donor registry' },
+  { ti: 'Security Command & Alerts', path: '/alerts', cat: 'Safety', ic: 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨', sub: 'Community security bulletins and incident reports' },
+  { ti: 'Palace TV & Live Broadcasts', path: '/live', cat: 'Media', ic: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¥', sub: 'Watch live festivals, coronations, and video archive' },
+  { ti: 'Heritage Quiz Challenge', path: '/quiz', cat: 'Culture', ic: 'ÃƒÂ°Ã…Â¸Ã‚Â§Ã‚Â ', sub: 'Test your knowledge of Ogere Remo history' },
+  { ti: 'Oriki Yoruba Praise Poetry', path: '/oriki', cat: 'Culture', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¿', sub: 'Ancient royal and compound oriki chants' },
+  { ti: 'Town Map & Landmarks', path: '/map', cat: 'Explore', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â', sub: 'Interactive map of Ogere Remo quarters and compounds' },
+  { ti: 'Diaspora Network', path: '/diaspora', cat: 'Community', ic: 'ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â', sub: 'Connect sons and daughters across the UK, USA, Canada' },
+  { ti: 'Community Forum', path: '/forum', cat: 'Community', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬', sub: 'Discussions, notices, and deliberations' },
+  { ti: 'Contact OCDA', path: '/contact', cat: 'Governance', ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¬', sub: 'Official secretariat addresses and inquiry channels' },
 ];
 
 export default function GlobalSearchModal({ isOpen, onClose }) {
@@ -67,8 +67,8 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
         ti: `${k.n} (${k.t || 'Ologere'})`,
         path: '/monarchy',
         cat: 'Kings',
-        ic: 'ðŸ‘‘',
-        sub: `Era: ${k.e || 'Historic'} Â· House: ${k.h || 'Royal'}`,
+        ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ',
+        sub: `Era: ${k.e || 'Historic'} Ãƒâ€šÃ‚Â· House: ${k.h || 'Royal'}`,
       }));
 
     const matchedMarket = (dynamicItems.marketplace || [])
@@ -77,18 +77,18 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
         ti: m.title,
         path: '/marketplace',
         cat: 'Marketplace',
-        ic: m.icon || 'ðŸ›ï¸',
-        sub: `${m.price} Â· Seller: ${m.seller} (${m.quarter})`,
+        ic: m.icon || 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚ÂÃƒÂ¯Ã‚Â¸Ã‚Â',
+        sub: `${m.price} Ãƒâ€šÃ‚Â· Seller: ${m.seller} (${m.quarter})`,
       }));
 
     const matchedLand = (dynamicItems.land || [])
       .filter(l => (l.area || '').toLowerCase().includes(q) || (l.owner || '').toLowerCase().includes(q) || (l.id || '').toLowerCase().includes(q))
       .map(l => ({
-        ti: `Plot ${l.id} â€” ${l.area}`,
+        ti: `Plot ${l.id} ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ${l.area}`,
         path: '/land-registry',
         cat: 'Land',
-        ic: 'ðŸ“œ',
-        sub: `${l.owner} Â· ${l.size} Â· Status: ${l.status}`,
+        ic: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…â€œ',
+        sub: `${l.owner} Ãƒâ€šÃ‚Â· ${l.size} Ãƒâ€šÃ‚Â· Status: ${l.status}`,
       }));
 
     return [...matchedRoutes, ...matchedKings, ...matchedMarket, ...matchedLand].slice(0, 10);
@@ -155,7 +155,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
             background: 'rgba(201,150,58,0.04)',
           }}
         >
-          <span style={{ fontSize: '1.2rem', opacity: 0.8 }}>ðŸ”</span>
+          <span style={{ fontSize: '1.2rem', opacity: 0.8 }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â</span>
           <input
             ref={inputRef}
             className="inp"
@@ -244,7 +244,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
                     </div>
                   </div>
                   <span style={{ fontSize: '0.8rem', color: isSelected ? 'var(--gold)' : 'rgba(245,237,216,0.3)' }}>
-                    â†µ
+                    ÃƒÂ¢Ã¢â‚¬Â Ã‚Âµ
                   </span>
                 </div>
               );
@@ -264,8 +264,8 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
             color: 'rgba(245,237,216,0.45)',
           }}
         >
-          <span>Use <strong>â†‘</strong> <strong>â†“</strong> to navigate Â· <strong>â†µ</strong> to select</span>
-          <span>ðŸ‘‘ Ogere Remo Spotlight</span>
+          <span>Use <strong>ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬Ëœ</strong> <strong>ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬Å“</strong> to navigate Ãƒâ€šÃ‚Â· <strong>ÃƒÂ¢Ã¢â‚¬Â Ã‚Âµ</strong> to select</span>
+          <span>ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Ëœ Ogere Remo Spotlight</span>
         </div>
       </div>
     </div>

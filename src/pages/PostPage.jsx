@@ -29,7 +29,7 @@ export default function PostPage() {
         <Hero ey="Not Found" ti="Post Not Found" sub="The blog post you're looking for doesn't exist." />
         <AdireDivider />
         <Section bg="#1a0d06" style={{ textAlign: 'center' }}>
-          <Link to="/blog" className="btn-p" style={{ textDecoration: 'none', display: 'inline-block' }}>â† Back to Blog</Link>
+          <Link to="/blog" className="btn-p" style={{ textDecoration: 'none', display: 'inline-block' }}>ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back to Blog</Link>
         </Section>
       </div>
     );
@@ -42,7 +42,7 @@ export default function PostPage() {
       <AdireDivider />
       <Section bg="#1a0d06" mw={760}>
         <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-          <Link to="/blog" className="btn-o" style={{ textDecoration: 'none', fontSize: '.55rem', padding: '.3rem .7rem', display: 'inline-block' }}>â† Back</Link>
+          <Link to="/blog" className="btn-o" style={{ textDecoration: 'none', fontSize: '.55rem', padding: '.3rem .7rem', display: 'inline-block' }}>ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Back</Link>
           {(post.categories || []).map(c => (
             <span key={c} className="tag tag-gold" style={{ fontSize: '.48rem' }}>{c}</span>
           ))}
@@ -65,7 +65,7 @@ export default function PostPage() {
         <div className="blog-post-content" dangerouslySetInnerHTML={{ __html: post.body || '' }} />
 
         <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(201,150,58,.12)' }}>
-          <Link to="/blog" className="btn-o" style={{ textDecoration: 'none', display: 'inline-block' }}>â† More Posts</Link>
+          <Link to="/blog" className="btn-o" style={{ textDecoration: 'none', display: 'inline-block' }}>ÃƒÂ¢Ã¢â‚¬Â Ã‚Â More Posts</Link>
         </div>
       </Section>
       <AdireDivider />

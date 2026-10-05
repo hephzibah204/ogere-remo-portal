@@ -37,7 +37,7 @@ if (typeof document !== 'undefined' && !document.getElementById(PIN_STYLE_ID)) {
 }
 
 // Crisp High-Contrast SVG Teardrop Pin that CANNOT fail to render
-function createPinIcon(color = '#ef4444', iconChar = 'ðŸ“') {
+function createPinIcon(color = '#ef4444', iconChar = 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â') {
   return L.divIcon({
     className: 'ogere-interactive-svg-pin',
     html: `
@@ -111,7 +111,7 @@ export default function GoogleMapPinAdjuster({
   onLocationChange = null,
   title = 'Adjust Exact Pin on Google Map',
   pinColor = '#0284c7',
-  pinIconChar = 'ðŸ“',
+  pinIconChar = 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â',
   height = '280px',
   compact = false,
   autoLocate = false,
@@ -174,7 +174,7 @@ export default function GoogleMapPinAdjuster({
       if (typeof onLocationChange === 'function') {
         onLocationChange(res);
       }
-      setStatusNotice(isUserAdjusted ? 'ðŸŽ¯ Pin Dropped & Adjusted' : 'ðŸ“ Location Centered');
+      setStatusNotice(isUserAdjusted ? 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Pin Dropped & Adjusted' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Location Centered');
       setTimeout(() => setStatusNotice(''), 4000);
     } catch (err) {
       console.warn('Geocoding error:', err);
@@ -219,7 +219,7 @@ export default function GoogleMapPinAdjuster({
   // Snap to live hardware GPS & re-center map smoothly
   const handleLocateMe = async () => {
     setIsLocating(true);
-    setStatusNotice('ðŸ“¡ Contacting GPS Satellites & Centering...');
+    setStatusNotice('ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Contacting GPS Satellites & Centering...');
     try {
       const fix = await acquirePreciseGpsLocation({ timeoutMs: 6000, targetAccuracyMeters: 20 });
       const newLat = Number(fix.latitude);
@@ -228,11 +228,11 @@ export default function GoogleMapPinAdjuster({
       setAccuracyRadius(Math.max(15, Math.round(fix.accuracy || 20)));
       setTriggerFly((c) => c + 1);
       await resolveLocation(newLat, newLng, false);
-      setStatusNotice(`âœ… Located: Â±${Math.round(fix.accuracy || 15)}m Sat Lock`);
+      setStatusNotice(`ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Located: Ãƒâ€šÃ‚Â±${Math.round(fix.accuracy || 15)}m Sat Lock`);
       setTimeout(() => setStatusNotice(''), 5000);
     } catch (err) {
       console.warn('Locate me error:', err);
-      setStatusNotice('âš ï¸ Could not acquire GPS; keep current pin.');
+      setStatusNotice('ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â Could not acquire GPS; keep current pin.');
       setTimeout(() => setStatusNotice(''), 4000);
     } finally {
       setIsLocating(false);
@@ -282,7 +282,7 @@ export default function GoogleMapPinAdjuster({
         gap: '6px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '1rem' }}>ðŸ—ºï¸</span>
+          <span style={{ fontSize: '1rem' }}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â</span>
           <span style={{ fontSize: '0.74rem', fontWeight: 800, color: '#f8fafc' }}>
             {title}
           </span>
@@ -314,7 +314,7 @@ export default function GoogleMapPinAdjuster({
               boxShadow: '0 2px 8px rgba(2, 132, 199, 0.4)',
             }}
           >
-            <span>ðŸŽ¯</span>
+            <span>ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯</span>
             <span>{isLocating ? 'Locating...' : 'Auto-Find My Location'}</span>
           </button>
 
@@ -332,7 +332,7 @@ export default function GoogleMapPinAdjuster({
               cursor: 'pointer',
             }}
           >
-            {mapType === 'roadmap' ? 'ðŸ—ºï¸ Street View' : 'ðŸ›°ï¸ Satellite'}
+            {mapType === 'roadmap' ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Street View' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â°ÃƒÂ¯Ã‚Â¸Ã‚Â Satellite'}
           </button>
         </div>
       </div>
@@ -402,7 +402,7 @@ export default function GoogleMapPinAdjuster({
             cursor: isLocating ? 'wait' : 'pointer',
           }}
         >
-          {isLocating ? 'â³' : 'ðŸŽ¯'}
+          {isLocating ? 'ÃƒÂ¢Ã‚ÂÃ‚Â³' : 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯'}
         </button>
 
         {/* Drag Instruction Overlay */}
@@ -423,7 +423,7 @@ export default function GoogleMapPinAdjuster({
           whiteSpace: 'nowrap',
           boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
         }}>
-          ðŸ’¡ Tap map or drag pin to adjust exact doorstep
+          ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Tap map or drag pin to adjust exact doorstep
         </div>
 
         {/* Nudge Micro-Adjustment D-Pad */}
@@ -448,7 +448,7 @@ export default function GoogleMapPinAdjuster({
             onClick={() => handleNudge(0.0001, 0)}
             style={{ width: '22px', height: '22px', background: '#334155', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            â¬†ï¸
+            ÃƒÂ¢Ã‚Â¬Ã¢â‚¬Â ÃƒÂ¯Ã‚Â¸Ã‚Â
           </button>
           <div></div>
 
@@ -458,10 +458,10 @@ export default function GoogleMapPinAdjuster({
             onClick={() => handleNudge(0, -0.0001)}
             style={{ width: '22px', height: '22px', background: '#334155', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            â¬…ï¸
+            ÃƒÂ¢Ã‚Â¬Ã¢â‚¬Â¦ÃƒÂ¯Ã‚Â¸Ã‚Â
           </button>
           <div style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.5rem', color: '#94a3b8' }}>
-            ðŸŽ¯
+            ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯
           </div>
           <button
             type="button"
@@ -469,7 +469,7 @@ export default function GoogleMapPinAdjuster({
             onClick={() => handleNudge(0, 0.0001)}
             style={{ width: '22px', height: '22px', background: '#334155', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            âž¡ï¸
+            ÃƒÂ¢Ã…Â¾Ã‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â
           </button>
 
           <div></div>
@@ -479,7 +479,7 @@ export default function GoogleMapPinAdjuster({
             onClick={() => handleNudge(-0.0001, 0)}
             style={{ width: '22px', height: '22px', background: '#334155', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '0.65rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            â¬‡ï¸
+            ÃƒÂ¢Ã‚Â¬Ã¢â‚¬Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â
           </button>
           <div></div>
         </div>
@@ -495,10 +495,10 @@ export default function GoogleMapPinAdjuster({
         <div style={{ marginBottom: '6px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
             <span style={{ fontSize: '0.62rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase' }}>
-              ðŸ“ Current Pinpoint Location
+              ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Current Pinpoint Location
             </span>
             <span style={{ fontSize: '0.58rem', color: '#38bdf8', fontFamily: 'monospace' }}>
-              {coords.lat.toFixed(5)}Â°N, {coords.lng.toFixed(5)}Â°E
+              {coords.lat.toFixed(5)}Ãƒâ€šÃ‚Â°N, {coords.lng.toFixed(5)}Ãƒâ€šÃ‚Â°E
             </span>
           </div>
 
@@ -513,7 +513,7 @@ export default function GoogleMapPinAdjuster({
 
           {addressData?.nearestLandmark && (
             <div style={{ fontSize: '0.66rem', color: '#4ade80', fontWeight: 700, marginTop: '2px' }}>
-              ðŸ›ï¸ Landmark: {addressData.nearestLandmark} {addressData.sector ? `Â· ${addressData.sector}` : ''}
+              ÃƒÂ°Ã…Â¸Ã‚ÂÃ¢â‚¬ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Landmark: {addressData.nearestLandmark} {addressData.sector ? `Ãƒâ€šÃ‚Â· ${addressData.sector}` : ''}
             </div>
           )}
         </div>
@@ -563,7 +563,7 @@ export default function GoogleMapPinAdjuster({
               gap: '4px',
             }}
           >
-            <span>â†—ï¸</span>
+            <span>ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€ÃƒÂ¯Ã‚Â¸Ã‚Â</span>
             <span>Open in Google Maps App</span>
           </a>
         </div>

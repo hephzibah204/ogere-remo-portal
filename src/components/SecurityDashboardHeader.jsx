@@ -9,6 +9,8 @@ export default function SecurityDashboardHeader({
   setShowBroadcastModal,
   setShowTipsModal,
   setShowPatrolModal,
+  setNewIncidentForm,
+  tips = [],
 }) {
   return (
     <div style={{
@@ -30,7 +32,7 @@ export default function SecurityDashboardHeader({
           animation: codeRedCount > 0 ? 'sirenPulse 0.7s ease-in-out infinite' : 'none',
           display: 'inline-block',
         }}>
-          {codeRedCount > 0 ? 'ðŸš¨' : 'ðŸ›¡ï¸'}
+          {codeRedCount > 0 ? 'ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â¨' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â'}
         </span>
         <div>
           <div className="cinzel" style={{ fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', color: '#ffffff' }}>
@@ -39,7 +41,7 @@ export default function SecurityDashboardHeader({
               : 'OGERE REMO SECURITY SECTOR STATUS: NORMAL SURVEILLANCE PATROL'}
           </div>
           <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.8)' }}>
-            Lagos-Ibadan Expressway Corridor Â· Palace Joint Taskforce Unified Dispatch
+            Lagos-Ibadan Expressway Corridor Ãƒâ€šÃ‚Â· Palace Joint Taskforce Unified Dispatch
           </div>
         </div>
       </div>
@@ -63,7 +65,7 @@ export default function SecurityDashboardHeader({
               letterSpacing: '0.04em',
             }}
           >
-            ðŸ”• SILENCE ALARM
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¢ SILENCE ALARM
           </button>
         )}
 
@@ -88,7 +90,7 @@ export default function SecurityDashboardHeader({
             gap: '0.4rem',
           }}
         >
-          <span>{audioEnabled ? 'ðŸ”” Siren Armed' : 'ðŸ”• Siren Muted'}</span>
+          <span>{audioEnabled ? 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â Siren Armed' : 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Â¢ Siren Muted'}</span>
         </button>
 
         <button
@@ -107,7 +109,7 @@ export default function SecurityDashboardHeader({
             gap: '0.3rem',
           }}
         >
-          ðŸ“¢ Palace Amber Alert / Curfew
+          ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¢ Palace Amber Alert / Curfew
         </button>
 
         <button
@@ -126,7 +128,7 @@ export default function SecurityDashboardHeader({
             gap: '0.3rem',
           }}
         >
-          ðŸ•µï¸ Intel Tips ({tips ? tips.length : 0})
+          ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã‚ÂµÃƒÂ¯Ã‚Â¸Ã‚Â Intel Tips ({tips ? tips.length : 0})
         </button>
 
         <button
@@ -145,7 +147,7 @@ export default function SecurityDashboardHeader({
             gap: '0.3rem',
           }}
         >
-          ðŸ›¡ï¸ Night Patrol Roster
+          ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â Night Patrol Roster
         </button>
 
         <button

@@ -17,6 +17,7 @@ module.exports = ({ config }) => {
         ...config.android,
         versionCode: 1,
         package: "com.ogeremo.fieldofficer",
+        usesCleartextTraffic: true,
         adaptiveIcon: {
           foregroundImage: "./assets/officer-adaptive-icon.png",
           backgroundColor: "#140a08",
@@ -27,6 +28,7 @@ module.exports = ({ config }) => {
         appVariant: "officer",
       },
       plugins: [
+        ...(config.plugins || []),
         "expo-font",
         "expo-asset"
       ]
@@ -48,6 +50,7 @@ module.exports = ({ config }) => {
       ...config.android,
       versionCode: 1,
       package: "com.ogeremo.civicportal",
+      usesCleartextTraffic: true,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#064e3b",
@@ -58,6 +61,7 @@ module.exports = ({ config }) => {
       appVariant: "citizen",
     },
     plugins: [
+      ...(config.plugins || []),
       "expo-font",
       "expo-asset"
     ]

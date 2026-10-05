@@ -10,6 +10,7 @@ export default function IncidentListPanel({
   setAgencyNotes,
   THREAT_LEVELS,
   SlaBadge,
+  claimedIncidents = {},
 }) {
   return (
     <>
@@ -34,7 +35,7 @@ export default function IncidentListPanel({
               borderRadius: "8px",
             }}
           >
-            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>ðŸŸ¢</div>
+            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢</div>
             <div
               className="cinzel"
               style={{ fontSize: "1rem", color: "var(--gold)" }}
@@ -124,7 +125,7 @@ export default function IncidentListPanel({
                           borderRadius: "4px",
                         }}
                       >
-                        ðŸ¤« SILENT PANIC (NO SIREN)
+                        ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â« SILENT PANIC (NO SIREN)
                       </span>
                     )}
 
@@ -147,7 +148,7 @@ export default function IncidentListPanel({
                         <span
                           style={{ animation: "liveTargetBeacon 1s infinite" }}
                         >
-                          ðŸŸ¢
+                          ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢
                         </span>{" "}
                         LIVE RADAR
                       </span>
@@ -168,7 +169,7 @@ export default function IncidentListPanel({
                           gap: "0.2rem",
                         }}
                       >
-                        ðŸ“¹ CAM
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¹ CAM
                       </span>
                     )}
 
@@ -187,7 +188,7 @@ export default function IncidentListPanel({
                           gap: "0.2rem",
                         }}
                       >
-                        ðŸŽ™ï¸ AUDIO
+                        ÃƒÂ°Ã…Â¸Ã…Â½Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â AUDIO
                       </span>
                     )}
 
@@ -223,7 +224,7 @@ export default function IncidentListPanel({
                             : "#fca5a5",
                     }}
                   >
-                    â— {inc.status}
+                    ÃƒÂ¢Ã¢â‚¬â€Ã‚Â {inc.status}
                   </span>
                 </div>
 
@@ -262,7 +263,7 @@ export default function IncidentListPanel({
                   }}
                 >
                   <span style={{ color: "var(--gold-light)" }}>
-                    ðŸ“ <strong>{inc.location}</strong>
+                    ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â <strong>{inc.location}</strong>
                     {inc.latitude && inc.longitude && (
                       <a
                         href={
@@ -282,7 +283,7 @@ export default function IncidentListPanel({
                           borderRadius: "4px",
                         }}
                       >
-                        ðŸ—ºï¸ Map
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã‚ÂºÃƒÂ¯Ã‚Â¸Ã‚Â Map
                       </a>
                     )}
                   </span>
@@ -299,7 +300,7 @@ export default function IncidentListPanel({
                         fontSize: "0.7rem",
                       }}
                     >
-                      âš¡ {inc.speed ? `${inc.speed} km/h` : "Moving"} Â· Pinged{" "}
+                      ÃƒÂ¢Ã…Â¡Ã‚Â¡ {inc.speed ? `${inc.speed} km/h` : "Moving"} Ãƒâ€šÃ‚Â· Pinged{" "}
                       {inc.last_ping_at
                         ? new Date(inc.last_ping_at).toLocaleTimeString([], {
                             hour: "2-digit",
@@ -310,7 +311,7 @@ export default function IncidentListPanel({
                     </span>
                   ) : (
                     <span style={{ color: "rgba(255,255,255,0.4)" }}>
-                      ðŸ•’{" "}
+                      ÃƒÂ°Ã…Â¸Ã¢â‚¬Â¢Ã¢â‚¬â„¢{" "}
                       {new Date(inc.created_at).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -343,8 +344,8 @@ export default function IncidentListPanel({
                           fontWeight: 700,
                         }}
                       >
-                        ðŸŽ¯ {Number(inc.latitude).toFixed(4)}Â°N,{" "}
-                        {Number(inc.longitude).toFixed(4)}Â°E
+                        ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ {Number(inc.latitude).toFixed(4)}Ãƒâ€šÃ‚Â°N,{" "}
+                        {Number(inc.longitude).toFixed(4)}Ãƒâ€šÃ‚Â°E
                       </span>
                     )}
                     {inc.accuracy && (
@@ -358,7 +359,7 @@ export default function IncidentListPanel({
                           fontWeight: 700,
                         }}
                       >
-                        ðŸ“ Â±{Math.round(inc.accuracy)}m
+                        ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Ãƒâ€šÃ‚Â±{Math.round(inc.accuracy)}m
                       </span>
                     )}
                     {inc.ip_address && (
@@ -372,7 +373,7 @@ export default function IncidentListPanel({
                           fontFamily: "monospace",
                         }}
                       >
-                        ðŸŒ IP: {inc.ip_address}
+                        ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â IP: {inc.ip_address}
                       </span>
                     )}
                   </div>
@@ -398,7 +399,7 @@ export default function IncidentListPanel({
                       }}
                     >
                       <span>
-                        âœ… Claimed by {claim.officerName} ({claim.badge}) Â·{" "}
+                        ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Claimed by {claim.officerName} ({claim.badge}) Ãƒâ€šÃ‚Â·{" "}
                         {claim.unitName}
                       </span>
                       <span
@@ -429,7 +430,7 @@ export default function IncidentListPanel({
                       }}
                     >
                       <span>
-                        âš¡ AI Auto-Routed to closest available Ogere Sector Unit
+                        ÃƒÂ¢Ã…Â¡Ã‚Â¡ AI Auto-Routed to closest available Ogere Sector Unit
                       </span>
                       <span>ETA ~3m</span>
                     </div>
