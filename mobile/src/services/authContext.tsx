@@ -148,18 +148,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setToken(savedToken);
         setUser(parsedUser);
 
-        // Live profile synchronization with Neon PostgreSQL backend
+        // Live profile synchronization with Neon PostgreSQL backend (with 3.5s timeout)
+        const syncCtrl = new AbortController();
+        const syncTimeout = setTimeout(() => syncCtrl.abort(), 3500);
+
         fetch(`${API_BASE_URL}/api/auth?action=me`, {
           headers: { Authorization: `Bearer ${savedToken}` },
+          signal: syncCtrl.signal,
         })
           .then((r) => r.json())
           .then(async (data) => {
+            clearTimeout(syncTimeout);
             if (data && data.success && data.user) {
               setUser(data.user);
               await AsyncStorage.setItem(USER_KEY, JSON.stringify(data.user));
             }
           })
-          .catch(() => {});
+          .catch(() => {
+            clearTimeout(syncTimeout);
+          });
       }
 
       syncOfflineRegistrations();

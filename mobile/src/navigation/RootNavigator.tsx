@@ -157,6 +157,25 @@ export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
     ? 'AdminLogin' 
     : (user || isGuest ? 'Main' : 'Welcome');
 
+  // React Navigation v6 does not automatically re-evaluate initialRouteName if state changes after mount.
+  // When auth finishes loading and splash screen ends, ensure we direct authenticated users/guests to Main.
+  const hasNavigatedOnAuth = React.useRef(false);
+  React.useEffect(() => {
+    if (!showSplash && !hasNavigatedOnAuth.current) {
+      if (ref && 'current' in ref && ref.current?.isReady?.()) {
+        const targetRoute = isOfficerApp ? 'AdminLogin' : (user || isGuest ? 'Main' : 'Welcome');
+        const currentRoute = ref.current.getCurrentRoute()?.name;
+        if (currentRoute !== targetRoute) {
+          ref.current.reset({
+            index: 0,
+            routes: [{ name: targetRoute }],
+          });
+        }
+        hasNavigatedOnAuth.current = true;
+      }
+    }
+  }, [showSplash, user, isGuest, isOfficerApp, ref]);
+
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer ref={ref}>
@@ -204,7 +223,7 @@ export const RootNavigator = React.forwardRef<any, any>((props, ref) => {
       </NavigationContainer>
 
       {showSplash && (
-        <View style={StyleSheet.absoluteFill}>
+        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
           <SplashScreen
             isOfficerApp={isOfficerApp}
             onFinish={() => setSplashTimerDone(true)}

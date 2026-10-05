@@ -149,25 +149,8 @@ function Layout({ children, onLockDemo, showDemoBanner }) {
 }
 
 export default function App() {
-  const isComingSoonEnforced = import.meta.env.VITE_COMING_SOON === 'true';
-
-  const [isUnlocked, setIsUnlocked] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    // If coming soon is not explicitly enforced, production portal is fully live
-    if (!isComingSoonEnforced) return true;
-    if (import.meta.env.DEV) return true;
-    if (window.location.pathname.startsWith('/mobile') || window.location.pathname.startsWith('/track')) return true;
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('preview') === 'true' || urlParams.get('pin') === 'ogere2026') {
-      localStorage.setItem('ogere_preview_unlocked', 'true');
-      sessionStorage.setItem('ogere_preview_unlocked', 'true');
-      return true;
-    }
-    return (
-      localStorage.getItem('ogere_preview_unlocked') === 'true' ||
-      sessionStorage.getItem('ogere_preview_unlocked') === 'true'
-    );
-  });
+  const isComingSoonEnforced = false;
+  const [isUnlocked, setIsUnlocked] = useState(true);
 
   const handleUnlock = () => {
     localStorage.setItem('ogere_preview_unlocked', 'true');
@@ -181,7 +164,7 @@ export default function App() {
     setIsUnlocked(false);
   };
 
-  const showDemoBanner = isComingSoonEnforced && isUnlocked;
+  const showDemoBanner = false;
 
   return (
     <AuthProvider>
@@ -189,14 +172,11 @@ export default function App() {
         <ErrorBoundary>
           <BrowserRouter>
           <ScrollToTop />
-          {!isUnlocked ? (
-            <ComingSoonPage onUnlock={handleUnlock} />
-          ) : (
-            <Layout onLockDemo={handleLockDemo} showDemoBanner={showDemoBanner}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/coming-soon" element={<ComingSoonPage onUnlock={handleUnlock} />} />
+          <Layout onLockDemo={handleLockDemo} showDemoBanner={showDemoBanner}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/coming-soon" element={<ComingSoonPage onUnlock={handleUnlock} />} />
                 <Route path="/history" element={<HistoryPage />} />
                 <Route path="/monarchy" element={<MonarchyPage />} />
                 <Route path="/families" element={<FamiliesPage />} />
@@ -264,9 +244,8 @@ export default function App() {
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </Layout>
-          )}
-        </BrowserRouter>
-        </ErrorBoundary>
+          </BrowserRouter>
+          </ErrorBoundary>
       </ToastProvider>
     </AuthProvider>
   );

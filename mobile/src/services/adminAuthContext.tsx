@@ -106,12 +106,17 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setOfficer(parsedOfficer);
         setActiveRole(parsedOfficer.role);
 
-        // Verify and synchronize officer credentials with live PostgreSQL database
+        // Verify and synchronize officer credentials with live PostgreSQL database (with 3.5s timeout)
+        const officerCtrl = new AbortController();
+        const officerTimeout = setTimeout(() => officerCtrl.abort(), 3500);
+
         fetch(`${API_BASE_URL}/api/auth?action=me`, {
           headers: { Authorization: `Bearer ${savedToken}` },
+          signal: officerCtrl.signal,
         })
           .then((r) => r.json())
           .then(async (data) => {
+            clearTimeout(officerTimeout);
             if (data && data.success && data.user) {
               const role = data.user.role === 'admin' ? 'ocda_admin' : data.user.role;
               const syncedOfficer: OfficerUser = {
@@ -130,7 +135,9 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
               await AsyncStorage.setItem(ADMIN_OFFICER_KEY, JSON.stringify(syncedOfficer));
             }
           })
-          .catch(() => {});
+          .catch(() => {
+            clearTimeout(officerTimeout);
+          });
       }
     } catch (err) {
       console.warn('[AdminAuthContext] Bootstrap error:', err);
