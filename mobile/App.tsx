@@ -1,4 +1,5 @@
-﻿import React, { useEffect, useRef, Component, ErrorInfo } from 'react';
+import 'react-native-gesture-handler';
+import React, { useEffect, useRef, Component, ErrorInfo } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
